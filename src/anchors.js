@@ -501,7 +501,7 @@ exports.update_visibility = function() {
         // optimized order
         if (x < 0 || y < 0 || depth < 0 || depth > 1 || m_scenes.is_hidden(obj) ||
                 x >= canvas_cont.clientWidth || y >= canvas_cont.clientHeight ||
-                !is_lod_visible(obj_render, dist))
+                !is_anchor_lod_visible(obj_render, dist))
             var appearance = "out";
         else
             var appearance = "visible";
@@ -679,7 +679,10 @@ function check_anchor_coords(anchor, x, y) {
         return false;
 }
 
-function is_lod_visible(obj_render, dist) {
+function is_anchor_lod_visible(obj_render, dist) {
+    if (!obj_render.is_lod)
+        return true;
+
     var dist_min = obj_render.lod_dist_min;
     var dist_max = obj_render.lod_dist_max;
     if (dist < dist_min)

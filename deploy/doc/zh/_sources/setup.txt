@@ -228,7 +228,8 @@ Blend4Web插件的信息选项卡，然后按 "Remove" 按钮。删除旧版本�
 
 2. 导入您的项目使用 "Import Project(s)" 按钮。
 
-3. 重新导出项目的  ".blend" 文件使用  "re-export scenes" 链接。
+3. Reexport the projects' ".blend" files using the "re-export
+   scenes" link.
 
 4. 对每个导入的项目使用 "check modules" 链接来确保在程序代码中有没
    有缺 少或未使用的模块。如果有，你可以试着使用 "Update Modules" 按钮

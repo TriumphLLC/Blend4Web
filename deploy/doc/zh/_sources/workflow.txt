@@ -8,11 +8,11 @@
 
 * 工作流程
 
-  * Creating a New Project
+  * 创建一个新项目
 
-  * Creating Scenes
+  * 创建场景
 
-  * Preparing a Scene to Use in Blend4Web
+  * 准备一个在Blend4Web中使用的场景
 
     * 在浏览器显示场景
 
@@ -20,9 +20,9 @@
 
   * 应用程序开发
 
-  * Project Building
+  * 构建项目
 
-  * Project Deploying
+  * 项目部署
 
 开发任何产品是一个创造性的过程，需要许多参与者谁拥有不同的技能和经验。
 然而不论事情是多么的复杂，是它总是能够分离出许多生产阶段，其中的大部分
@@ -32,60 +32,54 @@
 
 1. 创建一个新项目
 
-2. Creating Scenes
+2. 创建场景
 
-3. Preparing a Scene to Use in Blend4Web
+3. 准备一个在Blend4Web中使用的场景
 
 4. 导出场景。
 
 5. 应用程序开发
 
-6. Project Building.
+6. 构建项目
 
-7. Project Deploying.
-
-
-Creating a New Project
-======================
-
-The work on a project, of course, should always start with creating
-it.
-
-The easiest way to create a new project is to use the Project Manager.
-To do it, press the Create New Project button at the top of the
-Project Manager’s main window.
-
-The other way is to use the *project.py* command line script, which is
-more versatile. Working with this script is described here.
+7. 项目部署。
 
 
-Creating Scenes
-===============
+创建一个新项目
+==============
 
-Scenes are contained in blend files. Project Manager can automatically
-create a blend file with a basic scene upon creating a new project.
-Additional blend files can be created and attached to a project.
+要在一个项目上工作，首先就是要创建它。
 
-Scenes for Blend4Web are created in the same manner as the scenes for
-Blender itself, with only minor differences. The process of working on
-a scene could be separated into several stages:
+创建一个新项目最简单的方法是使用 项目管理器.  要做到这一点，在项目管理
+器的主窗口顶部按新建项目按钮。
 
-1. Modeling the scene objects
+另一种方法是使用  *project.py*  命令行脚本，这个更通用。这个脚本的工作
+描述 在这里.
 
-2. Setting up materials
 
-3. Animating objects
+创建场景
+========
 
-4. Creating scene logic (this part is exclusive for Blend4Web
-   engine and does not apply to regular Blender scenes)
+场景都包含在blend文件。项目管理器可以在创建新项目时自动创建一个基本的
+blend场景文件。额外的blend文件可以被创建并附加到一个项目。
 
-It should be noted that not every project may require all of these
-stages. More simple scene might not feature any animations or even any
-materials aside from the default ones.
+Blend4Web的场景都跟Blender里创建场景都是以同样的方式，只有轻微的差异。
+处理一个场景的工作过程可以分为几个阶段：
 
-The order of the stages is also not strict and can be interchaged to a
-certain degree (for example, you won't probably animate an object
-before creating it, but you can create a material for it beforehand).
+1. 建模场景中的物体
+
+2. 设置材质
+
+3. 给物体动画
+
+4. 创建场景逻辑 （这部分是Blend4Web引擎独有的，并不适用于普通
+   Blender场 景）
+
+应该注意的是，并不是每一个项目都需要所有这些阶段。更简单的场景可能除了
+默认的功能不会有任何动画甚至任何的材质。
+
+各个阶段的顺序也不是严格的，可以一定程度的互换（例如，你不可能在创建物
+体钱进行动画，但你可以预先为它创建一个材质）。
 
 除了一般的阶段如建模，贴图，动画等，场景应该在做好在引擎中的准备。
 
@@ -107,8 +101,8 @@ before creating it, but you can create a material for it beforehand).
 5. 我们建议您实践从其他文件 （库）来链接组件。
 
 
-Preparing a Scene to Use in Blend4Web
-=====================================
+准备一个在Blend4Web中使用的场景
+===============================
 
 除了一般的阶段如建模，贴图，动画等，场景应该在做好在引擎中的准备。
 
@@ -152,51 +146,40 @@ JSON格式，可用于创建各种项目，但它也提供了许多额外的功�
 应用程序开发
 ============
 
-This section only applies to the project types other than Web Player
-HTML and Web Player JSON.
+本节仅适用于除网络播放器的HTML和网络播放器JSON的其他项目类型。
 
 在此阶段的应用已经被创建。逻辑场景加载和用户交互使用JavaScript编写。应
 用程序开发人员笔记中给出了 相应章节.
 
 
-Project Building
-================
+构建项目
+========
 
-After development of a project is completed, it should be built so it
-can then be used outside of the SDK.
+一个项目的开发完成之后，应当构建以便它以后可以在SDK之外使用。
 
-Project building can be performed by clicking the "build project" link
-in the Project Manager.
+项目构建可以通过点击在  项目管理器 中的 "build project" 链接执行。
 
-Before building a project, you might want to convert media resources
-used in the project, which can help to minimize its size.
+构建项目之前，您可能希望将用在项目中的媒体资源  转换 ，可以最大限度地
+缩减大小。
 
 
-Project Deploying
-=================
+项目部署
+========
 
-After project development is completed, the project can be deployed so
-it can be used outside of the Blend4Web SDK. Project deployment is
-performed by clicking the "deploy project" link that can be found in
-the "Operations" command list on the right side of the project entry
-in the main window of the Project Manager.
+项目开发完成后，该项目可被部署，这样它可以在Blend4Web SDK之外使用。项
+目部署通过点击 项目管理器 主窗口的项目类右边栏中的  "Operations" 命令
+列表里的  "deploy project" 链接来执行。
 
-Clicking this link will cause Project Manager to perform all necessary
-operations and to deploy the project.
+点击这个链接会使得项目管理器执行所有必须的操作和部署项目。
 
-The deployed project has a form of an archive that contains all
-project files. This archive can be saved to any place on your disc
-with the use of a standard Save File dialogue in the web browser you
-are using.
+部署的项目都有一个包含所有项目文件归档的形式。这个档案可以保存在硬盘的
+任何位置，只需通过你使用的浏览器的标准保存文件对话框。
 
-A complete project can be placed on a web server.
+一个完整的项目可以放置在Web服务器上。
 
-To do it, extract the project files from the archive dowloanded from
-the Project Manager and upload them to your web server (while
-retaining inner file structure) by means of FTP, SSH or any other file
-transfer protocol suppored by the server. After doing this, you only
-need to place the project on a web page using, for example, an
-"iframe" container.
+要做到这一点，从项目管理器下载存档然后提取项目文件，并将其上传到Web服
+务器（同时保留内部文件结构）可以通过FTP，SSH或服务器支持的任何其他文件
+传输协议的方式。这样做后，你只需要把这个项目放在一个网页中使用，例如一
+个 "iframe" 容器。
 
-Deploying project to web server is described in a dedicated section of
-the Project Manager chapter.
+部署项目到Web服务器的描述在 项目管理器 章的 相应节  中。

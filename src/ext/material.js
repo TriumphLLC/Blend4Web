@@ -18,7 +18,7 @@
 
 /**
  * Material API.
- * Containts methods to control parameters of materials.
+ * Contains methods to control parameters of materials.
  * @module material
  * @local LineParams
  */
@@ -183,7 +183,7 @@ exports.get_diffuse_color = function(obj, mat_name) {
  * @method module:material.set_diffuse_intensity
  * @param {Object3D} obj Object 3D 
  * @param {string} mat_name Material name
- * @param {number} intensity Diffuse intencity value
+ * @param {number} intensity Diffuse intensity value
  * @example var m_scenes = require("scenes");
  * var m_mat = require("material");
  *
@@ -206,7 +206,7 @@ exports.set_diffuse_intensity = function(obj, mat_name, intensity) {
  * @method module:material.get_diffuse_intensity
  * @param {Object3D} obj Object 3D 
  * @param {string} mat_name Material name
- * @returns {number} Diffuse intencity value
+ * @returns {number} Diffuse intensity value
  * @example var m_scenes = require("scenes");
  * var m_mat = require("material");
  *
@@ -1056,7 +1056,7 @@ exports.set_nodemat_value = function(obj, name_list, value) {
     }
 
     var mat_name = name_list[0];
-    var batch_main = m_batch.find_batch_material(obj, mat_name, "MAIN");
+    var batch_main = m_batch.find_batch_material_any(obj, mat_name, "MAIN");
     if (batch_main === null) {
         m_print.error("Material \"" + mat_name +
                       "\" was not found in the object \"" + obj.name + "\".");
@@ -1097,7 +1097,7 @@ exports.get_nodemat_value = function(obj, name_list) {
     }
 
     var mat_name = name_list[0];
-    var batch_main = m_batch.find_batch_material(obj, mat_name, "MAIN");
+    var batch_main = m_batch.find_batch_material_any(obj, mat_name, "MAIN");
     if (batch_main === null) {
         m_print.error("Material \"" + mat_name +
                       "\" was not found in the object \"" + obj.name + "\".");
@@ -1140,7 +1140,7 @@ exports.set_nodemat_rgb = function(obj, name_list, r, g, b) {
     }
 
     var mat_name = name_list[0];
-    var batch_main = m_batch.find_batch_material(obj, mat_name, "MAIN");
+    var batch_main = m_batch.find_batch_material_any(obj, mat_name, "MAIN");
     if (batch_main === null) {
         m_print.error("Material \"" + mat_name +
                       "\" was not found in the object \"" + obj.name + "\".");
@@ -1182,7 +1182,7 @@ exports.get_nodemat_rgb = function(obj, name_list, dest) {
     }
 
     var mat_name = name_list[0];
-    var batch_main = m_batch.find_batch_material(obj, mat_name, "MAIN");
+    var batch_main = m_batch.find_batch_material_any(obj, mat_name, "MAIN");
     if (batch_main === null) {
         m_print.error("Material \"" + mat_name +
                       "\" was not found in the object \"" + obj.name + "\".");

@@ -120,6 +120,9 @@ function submit_cb() {
         case "no_social":
         case "alpha":
         case "compressed_textures":
+        case "compressed_textures_pvr":
+        case "min_capabilities":
+        case "compressed_gzip":
             if (input.checked)
                 url_params.push(input.name);
             break;
@@ -148,6 +151,8 @@ function set_html_cb(is_checked) {
 
     if (is_checked)
         change_wp_params(is_checked);
+
+    wpp_compressed_gzip.disabled = true;
 }
 
 function change_inputs(e) {
@@ -170,10 +175,10 @@ function change_inputs(e) {
 
     switch (input_id) {
     case "proj_html":
-        set_wp_cb(is_checked);
+        set_html_cb(is_checked);
         break;
     case "proj_json":
-        set_html_cb(is_checked);
+        set_wp_cb(is_checked);
         break;
     case "proj_none":
         sim_lev.disabled = is_checked;
@@ -206,6 +211,9 @@ function change_wp_params(enabled) {
     wpp_no_social.disabled = !enabled;
     wpp_alpha.disabled = !enabled;
     wpp_compressed_textures.disabled = !enabled;
+    wpp_compressed_textures_pvr.disabled = !enabled;
+    wpp_compressed_gzip.disabled = !enabled;
+    wpp_min_capabilities.disabled = !enabled;
 
     if (!enabled) {
         wpp_show_fps.checked = false;
@@ -213,6 +221,9 @@ function change_wp_params(enabled) {
         wpp_no_social.checked = false;
         wpp_alpha.checked = false;
         wpp_compressed_textures.checked = false;
+        wpp_compressed_textures_pvr.checked = false;
+        wpp_compressed_gzip.checked = false;
+        wpp_min_capabilities.checked = false;
     }
 }
 

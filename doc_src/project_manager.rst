@@ -296,7 +296,7 @@ A simple web-based interface for editing project files is available by the ``[ed
 The left part of the editor window contains a list of all ``.html``, ``.css`` and ``.js`` files from the project directory (``projects/my_project``). The right part contains the content of a currently selected project file (no file is selected by default) with highlighted syntax.
 
 .. note::
-    This interface can only be used to edit files from developer version of a project, but not from the builded version.
+    This interface can only be used to edit files from developer version of a project, but not from the built version.
 
 New ``.html``, ``.js`` and ``.css`` files can be added to the project directory by clicking the ``[New File]`` button.
 
@@ -382,7 +382,7 @@ This page include all settings available during project creation along with some
     Path(s) to the assets directory(ies).
 
 *Blender Exec*
-    The path to the Blender exacutable file.
+    The path to the Blender executable file.
 
 *Deployment Path*
     The path to the folder for project final deployment.
@@ -473,7 +473,7 @@ After you have completed your project, select the ``deploy project`` option from
        :align: center
        :width: 100%
 
-After that, this archive can then be downloaded by to the folder where your web browser stores all dowloaded files by pressing the ``Download`` button. It should be noted that the process of downloading can take a significant amount of time depending on the size of the archive.
+After that, this archive can then be downloaded by to the folder where your web browser stores all downloaded files by pressing the ``Download`` button. It should be noted that the process of downloading can take a significant amount of time depending on the size of the archive.
 
 To place the project on a webpage, you have to extract this archive and upload its files to a web server using FTP, SSH or any other protocols supported by the server.
 
@@ -586,7 +586,7 @@ This app consists of 3 different directories.
 
 #. my_project/assets. Contains media files (textures and sounds, as well as the ``.bin`` and ``.json`` files) of project's scenes.
 #. my_project/blender. Contains ``.blend`` files of project's scenes.
-#. my_project/build. Contains files of the builded application.
+#. my_project/build. Contains files of the built application.
 
 Project's main file ``.b4w_project``, as well as the ``.js``, ``.html`` and ``.css`` files, is placed in the root of the ``my_project/`` folder.
 
@@ -662,7 +662,7 @@ Contains project metadata:
 Section ``[paths]``
 ...................
 
-Containts project paths:
+Contains project paths:
 
 *assets_dirs*
     Directories where project's media assets are located.
@@ -824,7 +824,6 @@ Available parameters:
 * ``"-c | --css-ignore"`` (optional) add CSS styles to exceptions in order to not compile them.
 * ``"-j | --js-ignore"`` (optional) add scripts to exceptions in order to not compile them.
 * ``"-o | --optimization"`` (optional) specify the optimization level for JavaScript files: ``whitespace``, ``simple`` (by default) or ``advanced``.
-* ``"-t | --engine-type"`` (optional) define a compilation type for an app. Four variants are available: *external* (by default), *copy*, *compile*, *update*.
 * ``"-v | --version"`` add version to paths of scripts and styles.
 
 Compiler Requirements

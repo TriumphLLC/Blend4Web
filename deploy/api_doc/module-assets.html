@@ -140,6 +140,10 @@
 
         
             
+<li> <a href="#.AT_ARRAYBUFFER_ZIP">AT_ARRAYBUFFER_ZIP</a></li>
+
+        
+            
 <li> <a href="#.AT_AUDIO_ELEMENT">AT_AUDIO_ELEMENT</a></li>
 
         
@@ -156,7 +160,19 @@
 
         
             
+<li> <a href="#.AT_JSON_ZIP">AT_JSON_ZIP</a></li>
+
+        
+            
+<li> <a href="#.AT_SEQ_VIDEO_ELEMENT">AT_SEQ_VIDEO_ELEMENT</a></li>
+
+        
+            
 <li> <a href="#.AT_TEXT">AT_TEXT</a></li>
+
+        
+            
+<li> <a href="#.AT_VIDEO_ELEMENT">AT_VIDEO_ELEMENT</a></li>
 
         
         </ul>
@@ -177,11 +193,15 @@
         <ul>
         
                 
-<li> <a href="#~Asset">Asset</a></li>
+<li> <a href="#~AssetCallback">AssetCallback<span class="signature">(data, id, type, url, opt_param<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
 
             
                 
-<li> <a href="#~AssetCallback">AssetCallback<span class="signature">(data, uri, type, filepath, optional_param<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
+<li> <a href="#~AssetRequest">AssetRequest</a></li>
+
+            
+                
+<li> <a href="#~AssetType">AssetType</a></li>
 
             
                 
@@ -189,7 +209,7 @@
 
             
                 
-<li> <a href="#~ProgressCallback">ProgressCallback<span class="signature">(value)</span><span class="type-signature"></span></a></li>
+<li> <a href="#~ProgressCallback">ProgressCallback<span class="signature">(rate)</span><span class="type-signature"></span></a></li>
 
             
         </ul>
@@ -208,10 +228,21 @@
 <div class="item_description">
 
 <div class="description">
-    Asset type: ArrayBuffer
+    Asset type intended for loading various binary data. The loaded data will be 
+available as an ArrayBuffer object. Supported request methods: "GET".
 </div>
 
 
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><a href="module-assets.html#~AssetType">AssetType</a></span>
+
+
+        </li>
+    </ul>
 
 
 
@@ -246,7 +277,86 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line44">line 44</a>
+        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line70">line 70</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+</div>
+</div>
+
+        
+            
+<div class="item_container">
+<div class="item_name">
+<h4 class="name" id=".AT_ARRAYBUFFER_ZIP">AT_ARRAYBUFFER_ZIP</h4>
+
+</div>
+
+<div class="item_description">
+
+<div class="description">
+    Asset type intended for loading compressed binary data of a GZIP format. The 
+loaded data will be available as an ArrayBuffer object. Supported request 
+methods: "GET".
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><a href="module-assets.html#~AssetType">AssetType</a></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line77">line 77</a>
     </li></ul></dd>
     
 
@@ -275,10 +385,21 @@
 <div class="item_description">
 
 <div class="description">
-    Asset type: HTMLAudioElement
+    Asset type intended for loading common audio files. The loaded data will be 
+available as an HTMLAudioElement object. Supported request methods: "GET".
 </div>
 
 
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><a href="module-assets.html#~AssetType">AssetType</a></span>
+
+
+        </li>
+    </ul>
 
 
 
@@ -313,7 +434,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line74">line 74</a>
+        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line123">line 123</a>
     </li></ul></dd>
     
 
@@ -342,10 +463,22 @@
 <div class="item_description">
 
 <div class="description">
-    Asset type: AudioBuffer
+    Asset type intended for loading audio files (preferably short audio assets). 
+The loaded data will be available as an AudioBuffer object. Supported request 
+methods: "GET".
 </div>
 
 
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><a href="module-assets.html#~AssetType">AssetType</a></span>
+
+
+        </li>
+    </ul>
 
 
 
@@ -380,7 +513,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line62">line 62</a>
+        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line107">line 107</a>
     </li></ul></dd>
     
 
@@ -409,10 +542,22 @@
 <div class="item_description">
 
 <div class="description">
-    Asset type: HTMLImageElement
+    Asset type intended for loading common image files (JPEG, PNG, GIF). The 
+loaded data will be available as an HTMLImageElement object. Supported 
+request methods: "GET".
 </div>
 
 
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><a href="module-assets.html#~AssetType">AssetType</a></span>
+
+
+        </li>
+    </ul>
 
 
 
@@ -447,7 +592,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line68">line 68</a>
+        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line115">line 115</a>
     </li></ul></dd>
     
 
@@ -476,10 +621,21 @@
 <div class="item_description">
 
 <div class="description">
-    Asset type: JSON
+    Asset type intended for loading JSON files. The loaded data will be available 
+as a JSON object. Supported request methods: "GET", "POST".
 </div>
 
 
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><a href="module-assets.html#~AssetType">AssetType</a></span>
+
+
+        </li>
+    </ul>
 
 
 
@@ -514,12 +670,178 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line50">line 50</a>
+        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line85">line 85</a>
     </li></ul></dd>
     
 
     
 
+    
+
+    
+</dl>
+
+
+
+
+
+</div>
+</div>
+
+        
+            
+<div class="item_container">
+<div class="item_name">
+<h4 class="name" id=".AT_JSON_ZIP">AT_JSON_ZIP</h4>
+
+</div>
+
+<div class="item_description">
+
+<div class="description">
+    Asset type intended for loading JSON files compressed in a GZIP format. The 
+loaded data will be available as a JSON object. Supported request methods: 
+"GET".
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><a href="module-assets.html#~AssetType">AssetType</a></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line92">line 92</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+</div>
+</div>
+
+        
+            
+<div class="item_container">
+<div class="item_name">
+<h4 class="name" id=".AT_SEQ_VIDEO_ELEMENT">AT_SEQ_VIDEO_ELEMENT</h4>
+
+</div>
+
+<div class="item_description">
+
+<div class="description">
+    Asset type intended for loading video files of a special ".seq" format. The 
+loaded data will be available as an object of the following structure:
+{ images: [HTMLImageElement, ...], fps: number }. Supported request methods: 
+"GET".
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><a href="module-assets.html#~AssetType">AssetType</a></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line137">line 137</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="https://www.blend4web.com/doc/en/developers.html#seq-video-format">https://www.blend4web.com/doc/en/developers.html#seq-video-format</a></li>
+        </ul>
+    </dd>
     
 
     
@@ -543,10 +865,21 @@
 <div class="item_description">
 
 <div class="description">
-    Asset type: Text
+    Asset type intended for loading files with a plain text. The loaded data will
+be available as a String object. Supported request methods: "GET", "POST".
 </div>
 
 
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><a href="module-assets.html#~AssetType">AssetType</a></span>
+
+
+        </li>
+    </ul>
 
 
 
@@ -581,7 +914,85 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line56">line 56</a>
+        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line100">line 100</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+</div>
+</div>
+
+        
+            
+<div class="item_container">
+<div class="item_name">
+<h4 class="name" id=".AT_VIDEO_ELEMENT">AT_VIDEO_ELEMENT</h4>
+
+</div>
+
+<div class="item_description">
+
+<div class="description">
+    Asset type intended for loading common video files. The loaded data will be 
+available as an HTMLVideoElement object. Supported request methods: "GET".
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><a href="module-assets.html#~AssetType">AssetType</a></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line130">line 130</a>
     </li></ul></dd>
     
 
@@ -663,7 +1074,7 @@
             <td class="type">
             
                 
-<span class="param-type">Array.&lt;Asset></span>
+<span class="param-type">Array.&lt;<a href="module-assets.html#~AssetRequest">module:assets~AssetRequest</a>></span>
 
 
             
@@ -681,7 +1092,7 @@
 
             
 
-            <td class="description last">Array of the loading assets</td>
+            <td class="description last">Array of the asset requests.</td>
         </tr>
 
     
@@ -780,7 +1191,7 @@
 
             
 
-            <td class="description last">Callback for the progress of loading</td>
+            <td class="description last">Callback for the progress of loading.</td>
         </tr>
 
     
@@ -833,7 +1244,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line80">line 80</a>
+        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line148">line 148</a>
     </li></ul></dd>
     
 
@@ -844,6 +1255,28 @@
     
 </dl>
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_assets = require("assets");
+
+var asset_cb = function(data, id, type, url) {
+     console.log("LOADED:", url);
+}
+
+var pack_cb() {
+     console.log("ALL DATA LOADED!");
+}
+
+var progress_cb = function(rate) {
+     console.log(rate * 100 + "% LOADED");
+}
+
+m_assets.enqueue([
+     {id: "my_json001", type: m_assets.AT_JSON, url: "./my_json.json"}, 
+     {id: "my_img001", type: m_assets.AT_IMAGE_ELEMENT, url: "./my_image.jpg"}
+     ], asset_cb, pack_cb, progress_cb);</code></pre>
 
 
 </div>
@@ -858,90 +1291,10 @@
                 
 <div class="item_container">
 <div class="item_name">
-<h4 class="name" id="~Asset">Asset</h4>
-
-</div>
-
-<div class="item_description">
-
-<div class="description">
-    Loading asset.
-Asset has the following structure: [uri, type, filepath, optional_param],
-where uri - asset identifier, type - asset type, filepath - 
-path to resource (URL), optional_param - any param passed to module:assets~AssetCallback
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">Array</span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-<dl class="details">
 
     
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line14">line 14</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-</div>
-</div>
-
-            
-                
-<div class="item_container">
-<div class="item_name">
-
-    
-
-    <h4 class="name" id="~AssetCallback">AssetCallback<span class="signature">(data, uri, type, filepath, optional_param<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~AssetCallback">AssetCallback<span class="signature">(data, id, type, url, opt_param<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 
@@ -1011,20 +1364,20 @@ path to resource (URL), optional_param - any param passed to module:assets~Asset
 
             
 
-            <td class="description last">Loaded data</td>
+            <td class="description last">Loaded data.</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>uri</code></td>
+                <td class="name"><code>id</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">*</span>
 
 
             
@@ -1042,7 +1395,7 @@ path to resource (URL), optional_param - any param passed to module:assets~Asset
 
             
 
-            <td class="description last">Data asset ID</td>
+            <td class="description last">Data asset ID.</td>
         </tr>
 
     
@@ -1055,7 +1408,7 @@ path to resource (URL), optional_param - any param passed to module:assets~Asset
             <td class="type">
             
                 
-<span class="param-type">number</span>
+<span class="param-type"><a href="module-assets.html#~AssetType">AssetType</a></span>
 
 
             
@@ -1073,14 +1426,14 @@ path to resource (URL), optional_param - any param passed to module:assets~Asset
 
             
 
-            <td class="description last">Data type</td>
+            <td class="description last">Data type.</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>filepath</code></td>
+                <td class="name"><code>url</code></td>
             
 
             <td class="type">
@@ -1104,14 +1457,14 @@ path to resource (URL), optional_param - any param passed to module:assets~Asset
 
             
 
-            <td class="description last">Data filepath</td>
+            <td class="description last">URL of a resource.</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>optional_param</code></td>
+                <td class="name"><code>opt_param</code></td>
             
 
             <td class="type">
@@ -1190,7 +1543,7 @@ path to resource (URL), optional_param - any param passed to module:assets~Asset
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line23">line 23</a>
+        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -1205,6 +1558,455 @@ path to resource (URL), optional_param - any param passed to module:assets~Asset
 
 </div>
 </div>
+            
+                
+<div class="item_container">
+<div class="item_name">
+<h4 class="name" id="~AssetRequest">AssetRequest</h4>
+
+</div>
+
+<div class="item_description">
+
+<div class="description">
+    An object that defines how the asset resource should be loaded.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Asset identifier. Passed to the 
+<a href="module-assets.html#~AssetCallback">module:assets~AssetCallback</a> as a parameter. Can be unique to  
+distinguish asset requests if needed.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>type</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="module-assets.html#~AssetType">AssetType</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Asset type.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>url</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">URL of a resource.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>request_method</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    "GET"
+                
+                </td>
+            
+
+            <td class="description last">Request method. Supported are "GET" and "POST".</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>overwrite_header</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">An object containing fields for 
+overwriting request headers. For example: { "Content-Type": "image/png" }.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>post_data</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">The request body that will be sent in a "POST" request.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>param</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">An optional parameter that will be passed to the 
+<a href="module-assets.html#~AssetCallback">module:assets~AssetCallback</a>.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line16">line 16</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+</div>
+</div>
+
+            
+                
+<div class="item_container">
+<div class="item_name">
+<h4 class="name" id="~AssetType">AssetType</h4>
+
+</div>
+
+<div class="item_description">
+
+<div class="description">
+    Asset type. Defines which type of data will be loaded, e.g: json, plain text,
+binary buffer, ...
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">number</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line33">line 33</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="module-assets.html#.AT_ARRAYBUFFER">AT_ARRAYBUFFER</a>,
+<a href="module-assets.html#.AT_ARRAYBUFFER_ZIP">AT_ARRAYBUFFER_ZIP</a>,
+<a href="module-assets.html#.AT_JSON">AT_JSON</a>,
+<a href="module-assets.html#.AT_JSON_ZIP">AT_JSON_ZIP</a>,
+<a href="module-assets.html#.AT_TEXT">AT_TEXT</a>,
+<a href="module-assets.html#.AT_AUDIOBUFFER">AT_AUDIOBUFFER</a>,
+<a href="module-assets.html#.AT_IMAGE_ELEMENT">AT_IMAGE_ELEMENT</a>,
+<a href="module-assets.html#.AT_AUDIO_ELEMENT">AT_AUDIO_ELEMENT</a>,
+<a href="module-assets.html#.AT_VIDEO_ELEMENT">AT_VIDEO_ELEMENT</a>,
+<a href="module-assets.html#.AT_SEQ_VIDEO_ELEMENT">AT_SEQ_VIDEO_ELEMENT</a>,</li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+</div>
+</div>
+
             
                 
 <div class="item_container">
@@ -1276,7 +2078,7 @@ path to resource (URL), optional_param - any param passed to module:assets~Asset
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line33">line 33</a>
+        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line59">line 59</a>
     </li></ul></dd>
     
 
@@ -1298,7 +2100,7 @@ path to resource (URL), optional_param - any param passed to module:assets~Asset
 
     
 
-    <h4 class="name" id="~ProgressCallback">ProgressCallback<span class="signature">(value)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~ProgressCallback">ProgressCallback<span class="signature">(rate)</span><span class="type-signature"></span></h4>
 
     
 
@@ -1342,7 +2144,7 @@ path to resource (URL), optional_param - any param passed to module:assets~Asset
 
         <tr>
             
-                <td class="name"><code>value</code></td>
+                <td class="name"><code>rate</code></td>
             
 
             <td class="type">
@@ -1358,7 +2160,7 @@ path to resource (URL), optional_param - any param passed to module:assets~Asset
 
             
 
-            <td class="description last">Loading percentage</td>
+            <td class="description last">Amount of loaded data: 0 to 1.</td>
         </tr>
 
     
@@ -1411,7 +2213,7 @@ path to resource (URL), optional_param - any param passed to module:assets~Asset
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line38">line 38</a>
+        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line64">line 64</a>
     </li></ul></dd>
     
 
@@ -1446,7 +2248,7 @@ path to resource (URL), optional_param - any param passed to module:assets~Asset
 <br class="clear">
 
 <footer>
-    Blend4Web API Reference (generated by JSDoc 3.4.0 on Tue Mar 07 2017 11:35:18 GMT+0300 (MSK))
+    Blend4Web API Reference (generated by JSDoc 3.4.0 on Wed Apr 26 2017 11:05:09 GMT+0300 (MSK))
     <a href="https://www.blend4web.com">www.blend4web.com</a>
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">

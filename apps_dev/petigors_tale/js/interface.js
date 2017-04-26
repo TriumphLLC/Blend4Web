@@ -12,7 +12,6 @@ var m_main  = require("main");
 var m_time  = require("time");
 var m_data  = require("data");
 var m_cfg   = require("config");
-var m_mouse = require("mouse");
 var m_cont  = require("container");
 
 var ASSETS_PATH = m_cfg.get_std_assets_path() + "petigors_tale/";
@@ -172,8 +171,6 @@ exports.init = function(replay_cb, elapsed_sensor, intro_load_cb,
     }
 
     if (level_name == "under_construction") {
-        var back_to_menu  = document.getElementById("back_to_menu");
-        var under_construction = document.getElementById("under_construct");
         show_elem(back_to_menu);
         show_elem(under_construction);
     } else {
@@ -193,7 +190,6 @@ exports.update_hp_bar = function() {
 
     var green_elem = document.getElementById("life_bar_green");
     var red_elem = document.getElementById("life_bar_red");
-    var mid_elem = document.getElementById("life_bar_mid");
 
     var hp_px_ratio = 100 / m_conf.MAX_CHAR_HP;
     var green_width = Math.max(hp * hp_px_ratio, 0);
@@ -231,7 +227,6 @@ exports.setup_touch_controls = function(right_arrow, up_arrow, left_arrow,
     function touch_start_cb(event) {
         event.preventDefault();
 
-        var h = window.innerHeight;
         var w = window.innerWidth;
 
         var touches = event.changedTouches;
@@ -297,7 +292,6 @@ exports.setup_touch_controls = function(right_arrow, up_arrow, left_arrow,
         m_ctl.set_custom_sensor(left_arrow, 0);
         m_ctl.set_custom_sensor(right_arrow, 0);
 
-        var h = window.innerHeight;
         var w = window.innerWidth;
 
         var touches = event.changedTouches;

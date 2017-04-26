@@ -127,6 +127,7 @@ var _quat4_tmp2 = new Float32Array(4);
 var _quat4_tmp3 = new Float32Array(4);
 var _quat4_tmp4 = new Float32Array(4);
 var _tsr_tmp = m_tsr.create();
+var _tsr_tmp2 = m_tsr.create();
 
 // populated after init_anim()
 var _anim_objs_cache = [];
@@ -483,6 +484,18 @@ function get_bpy_material_actions(bpy_obj) {
     return act_list;
 }
 
+exports.get_bpy_world_material_actions = get_bpy_world_material_actions;
+function get_bpy_world_material_actions(bpy_obj) {
+    var act_list = [];
+
+    var node_tree = bpy_obj["node_tree"];
+
+    if (node_tree)
+        get_node_tree_actions_r(node_tree, act_list, [bpy_obj["name"]]);
+
+    return act_list;
+}
+
 exports.init_action_slot = init_action_slot;
 function init_action_slot(name_list, action) {
     return {
@@ -716,33 +729,28 @@ exports.obj_is_animatable = function(obj) {
     return false;
 }
 
-exports.bpy_obj_is_animatable = function(bpy_obj, obj) {
-
-    if (obj.type == "ARMATURE")
-        return true;
+exports.bpy_mesh_empty_is_animatable = function(bpy_obj) {
 
     var armobj = get_bpy_armobj(bpy_obj);
     if (armobj)
         return true;
 
-    if (obj.type == "WORLD")
+    if (bpy_obj._def_action_slots)
+        for (var i = 0; i < bpy_obj._def_action_slots.length; i++) {
+            var act_slot = bpy_obj._def_action_slots[i];
+            var action = act_slot.action;
+            var act_type = action._render.type;
+
+            if (act_type == OBJ_ANIM_TYPE_OBJECT || 
+                    act_type == OBJ_ANIM_TYPE_MATERIAL && bpy_obj["type"] == "MESH")
+                return true;
+        }
+
+    if (m_particles.bpy_obj_has_particles(bpy_obj) 
+            && m_particles.bpy_obj_has_anim_particles(bpy_obj))
         return true;
 
-    for (var i = 0; i < obj.def_action_slots.length; i++) {
-        var act_slot = obj.def_action_slots[i];
-        var action = act_slot.action;
-        var act_type = action._render.type;
-
-        if (act_type == OBJ_ANIM_TYPE_OBJECT || act_type == OBJ_ANIM_TYPE_ARMATURE
-                || act_type == OBJ_ANIM_TYPE_SOUND && obj.type == "SPEAKER"
-                || act_type == OBJ_ANIM_TYPE_MATERIAL && obj.type == "MESH")
-            return true;
-    }
-
-    if (m_particles.bpy_obj_has_particles(bpy_obj) && m_particles.bpy_obj_has_anim_particles(bpy_obj))
-        return true;
-
-    if (obj.type == "MESH" && bpy_obj["data"]["b4w_vertex_anim"].length)
+    if (bpy_obj["type"] == "MESH" && bpy_obj["data"]["b4w_vertex_anim"].length)
         return true;
 
     return false;
@@ -820,12 +828,14 @@ function apply_action(obj, name_list, action, slot_num) {
         break;
 
     case OBJ_ANIM_TYPE_MATERIAL:
-        if (obj.type == "MESH") {
+        if (obj.type == "MESH" || obj.type == "WORLD") {
             anim_slot.type = OBJ_ANIM_TYPE_MATERIAL;
+
+            var is_world_action = m_obj_util.is_world(obj);
 
             var nodemat_anim_data = get_cached_anim_data(obj, name_list, action);
             if (!nodemat_anim_data) {
-                nodemat_anim_data = calc_nodemat_anim_data(obj, name_list, action);
+                nodemat_anim_data = calc_nodemat_anim_data(obj, name_list, action, is_world_action);
                 cache_anim_data(obj, name_list, action, nodemat_anim_data);
             }
 
@@ -933,7 +943,7 @@ function init_skinned_objs_data(armobj, slot_num, action,
         anim_slot.skinning_data = skinning_data_cache;
 
     if (render.anim_mixing) {
-        var skeletal_slots = render.two_last_skeletal_slots;
+        var skeletal_slots = render.blend_skel_slots;
         if (slot_num > skeletal_slots[1]) {
             var tmp = skeletal_slots[1];
             skeletal_slots[1] = slot_num;
@@ -962,7 +972,7 @@ function cache_skinning_data(render, action, skinning_data) {
 
 function sync_skeletal_animations(armobj) {
 
-    var skeletal_slots = armobj.render.two_last_skeletal_slots;
+    var skeletal_slots = armobj.render.blend_skel_slots;
 
     // one or none skeletal animation applied
     if (skeletal_slots[0] == -1 || skeletal_slots[1] == -1)
@@ -988,7 +998,7 @@ function sync_skeletal_animations(armobj) {
 
 function recalculate_armature_anim_slots(obj, overriden_slot) {
 
-    var skeletal_slots = obj.render.two_last_skeletal_slots;
+    var skeletal_slots = obj.render.blend_skel_slots;
 
     var last_skel_slot = skeletal_slots[1];
 
@@ -1050,7 +1060,7 @@ function node_name_from_param_name(param_name, name_list) {
     return full_name;
 }
 
-function calc_nodemat_anim_data(obj, name_list, action) {
+function calc_nodemat_anim_data(obj, name_list, action, is_world_action) {
 
     var val_inds = [];
     var values = [];
@@ -1069,8 +1079,9 @@ function calc_nodemat_anim_data(obj, name_list, action) {
                 var batch = batches[j];
 
                 // if mat name is not specified, process all suitable materials
-                if (mat_name && batch.material_names.indexOf(mat_name) == -1)
-                    continue;
+                if (!is_world_action)
+                    if (mat_name && batch.material_names.indexOf(mat_name) == -1)
+                        continue;
 
                 var val_ind_pairs = batch.node_value_inds;
                 var rgb_ind_pairs = batch.node_rgb_inds;
@@ -1310,6 +1321,17 @@ function animate(obj, elapsed, slot_num, force_update) {
                 node_batches[j].node_rgbs[3 * ind + 2] = curr[2];
             }
         }
+
+        // force sky redrawing
+        if (m_obj_util.is_world(obj)) {
+            var scenes_data = obj.scenes_data;
+            for (var i = 0; i < scenes_data.length; i++) {
+                var scene = obj.scenes_data[i].scene;
+                var subs_sky = m_scs.get_subs(scene, m_subs.SKY);
+                if (subs_sky)
+                    m_scs.update_sky(scene, subs_sky);
+            }
+        }
         break;
 
     case OBJ_ANIM_TYPE_LIGHT:
@@ -1531,7 +1553,7 @@ function mix_skeletal_animation(obj, elapsed) {
     var render = obj.render;
     var mix_factor = render.anim_mix_factor;
 
-    var skeletal_slots = render.two_last_skeletal_slots;
+    var skeletal_slots = render.blend_skel_slots;
 
     var ind_0 = skeletal_slots[0];
     var ind_1 = skeletal_slots[1];
@@ -1544,7 +1566,7 @@ function mix_skeletal_animation(obj, elapsed) {
         // penult anim
         var skeletal_slot_0 = obj.anim_slots[ind_0];
 
-        if (skeletal_slot_0.play || elapsed == 0) {
+        if (skeletal_slot_0.play || elapsed == 0 || render.mix_with_current) {
 
             var finfo_0 = action_anim_finfo(skeletal_slot_0);
 
@@ -1564,7 +1586,7 @@ function mix_skeletal_animation(obj, elapsed) {
     // last anim
     var skeletal_slot_1 = obj.anim_slots[ind_1];
 
-    if (skeletal_slot_1.play || elapsed == 0) {
+    if (skeletal_slot_1.play || elapsed == 0 || render.mix_with_current) {
 
         var finfo_1 = action_anim_finfo(skeletal_slot_1);
 
@@ -1583,24 +1605,32 @@ function mix_skeletal_animation(obj, elapsed) {
     var quats_next_1 = skeletal_slot_1.quats[frame_next_1];
     var trans_prev_1 = skeletal_slot_1.trans[frame_1];
     var trans_next_1 = skeletal_slot_1.trans[frame_next_1];
-
-    if (mix_factor == 1) {
+    if (mix_factor == 1 && !render.mix_with_current) {
         render.quats_before.set(quats_prev_1);
         render.quats_after.set(quats_next_1);
         render.trans_before.set(trans_prev_1);
         render.trans_after.set(trans_next_1);
-    } else if (mix_factor == 0) {
+    } else if (mix_factor == 0 && !render.mix_with_current) {
         render.quats_before.set(quats_prev_0);
         render.quats_after.set(quats_next_0);
         render.trans_before.set(trans_prev_0);
         render.trans_after.set(trans_next_0);
     } else {
         var bone_pointers = render.bone_pointers;
+        if (render.mix_with_current && !render.trans_curr && !render.quats_curr) {
+            render.trans_curr = new Float32Array(render.trans_before.length);
+            render.quats_curr = new Float32Array(render.quats_before.length);
+            for (var bone_name in bone_pointers) {
+                var bone_pointer = bone_pointers[bone_name];
+                if (!bone_pointer.parent_bone_ptr)
+                    check_mix_with_current(render, bone_pointer);
+            }
+        }
         for (var bone_name in bone_pointers) {
             var bone_pointer = bone_pointers[bone_name];
             if (!bone_pointer.parent_bone_ptr)
                 blend_two_anim(render, bone_pointer, skeletal_slot_0, skeletal_slot_1,
-                        frame_0, frame_next_0, frame_1, frame_next_1)
+                        frame_0, frame_next_0, frame_1, frame_next_1);
         }
     }
     m_trans.update_transform(obj);
@@ -1626,26 +1656,40 @@ function blend_two_anim(render, bone_pointer, slot_0, slot_1, frame_0, frame_nex
 
     var i = bone_pointer.bone_index * 4;
 
-    var b_sp_quats0_frame = slot_0.bone_space_quats[frame_0];
     var b_sp_quats1_frame = slot_1.bone_space_quats[frame_1];
-    var b_sp_trans0_frame = slot_0.bone_space_trans[frame_0];
     var b_sp_trans1_frame = slot_1.bone_space_trans[frame_1];
 
-    var b_sp_quats0_frame_n = slot_0.bone_space_quats[frame_next_0];
     var b_sp_quats1_frame_n = slot_1.bone_space_quats[frame_next_1];
-    var b_sp_trans0_frame_n = slot_0.bone_space_trans[frame_next_0];
     var b_sp_trans1_frame_n = slot_1.bone_space_trans[frame_next_1];
+
+    if (!render.mix_with_current) {
+        var b_sp_quats0_frame = slot_0.bone_space_quats[frame_0];    
+        var b_sp_trans0_frame = slot_0.bone_space_trans[frame_0];
+
+        var b_sp_quats0_frame_n = slot_0.bone_space_quats[frame_next_0];
+        var b_sp_trans0_frame_n = slot_0.bone_space_trans[frame_next_0];
+    }
     // init quats_before and after
     for (var j = 0; j < 4; j++) {
-        quat1_frame[j] = b_sp_quats0_frame[i + j];
         quat2_frame[j] = b_sp_quats1_frame[i + j];
-        trans1_frame[j] = b_sp_trans0_frame[i + j];
         trans2_frame[j] = b_sp_trans1_frame[i + j];
 
-        quat1_frame_n[j] = b_sp_quats0_frame_n[i + j];
         quat2_frame_n[j] = b_sp_quats1_frame_n[i + j];
-        trans1_frame_n[j] = b_sp_trans0_frame_n[i + j];
         trans2_frame_n[j] = b_sp_trans1_frame_n[i + j];
+
+        if (render.mix_with_current) {
+            quat1_frame[j] = render.quats_curr[i + j];
+            trans1_frame[j] = render.trans_curr[i + j];
+
+            quat1_frame_n[j] = render.quats_curr[i + j];
+            trans1_frame_n[j] = render.trans_curr[i + j];
+        } else {
+            quat1_frame[j] = b_sp_quats0_frame[i + j];
+            trans1_frame[j] = b_sp_trans0_frame[i + j];
+
+            quat1_frame_n[j] = b_sp_quats0_frame_n[i + j];
+            trans1_frame_n[j] = b_sp_trans0_frame_n[i + j];
+        }
     }
     // before
     m_quat.slerp(quat1_frame, quat2_frame, mix_factor, quat1_frame);
@@ -1660,6 +1704,7 @@ function blend_two_anim(render, bone_pointer, slot_0, slot_1, frame_0, frame_nex
 
     m_tsr.get_transcale(_tsr_tmp, trans1_frame);
     m_tsr.get_quat(_tsr_tmp, quat1_frame);
+
 
     // after
     m_quat.slerp(quat1_frame_n, quat2_frame_n, mix_factor, quat1_frame_n);
@@ -1690,6 +1735,65 @@ function blend_two_anim(render, bone_pointer, slot_0, slot_1, frame_0, frame_nex
     }
 }
 
+function check_mix_with_current(render, bone_pointer) {
+    var i = bone_pointer.bone_index * 4;
+    var parent_bone_ptr = bone_pointer.parent_bone_ptr;
+    var mix_factor = render.anim_mix_factor;
+
+    var trans_frame_0 = _vec4_tmp;
+    var quat_frame_0 = _quat4_tmp;
+
+    var trans_frame_1 = _vec4_tmp2;
+    var quat_frame_1 = _quat4_tmp2;
+
+    for (var j = 0; j < 4; j++) {
+        trans_frame_0[j] = render.trans_before[i + j];
+        quat_frame_0[j] = render.quats_before[i + j];
+        trans_frame_1[j] = render.trans_after[i + j];
+        quat_frame_1[j] = render.quats_after[i + j];
+    }
+    // before
+    m_tsr.set_transcale(trans_frame_0, _tsr_tmp);
+    m_tsr.set_quat(quat_frame_0, _tsr_tmp);
+
+    m_tsr.multiply(_tsr_tmp, bone_pointer.tsr_local_rest, _tsr_tmp);
+    m_tsr.copy(_tsr_tmp, bone_pointer.tsr_local_pose_b);
+    if (parent_bone_ptr) {
+        m_tsr.invert(parent_bone_ptr.tsr_local_pose_b, _tsr_tmp2);
+        m_tsr.multiply(_tsr_tmp2, _tsr_tmp, _tsr_tmp);
+    }
+    m_tsr.get_transcale(_tsr_tmp, trans_frame_0);
+    m_tsr.get_quat(_tsr_tmp, quat_frame_0);
+
+
+    // after
+    m_tsr.set_transcale(trans_frame_1, _tsr_tmp);
+    m_tsr.set_quat(quat_frame_1, _tsr_tmp);
+
+    m_tsr.multiply(_tsr_tmp, bone_pointer.tsr_local_rest, _tsr_tmp);
+    m_tsr.copy(_tsr_tmp, bone_pointer.tsr_local_pose_a);
+    if (parent_bone_ptr) {
+        m_tsr.invert(parent_bone_ptr.tsr_local_pose_a, _tsr_tmp2);
+        m_tsr.multiply(_tsr_tmp2, _tsr_tmp, _tsr_tmp);
+    }
+    m_tsr.get_transcale(_tsr_tmp, trans_frame_1);
+    m_tsr.get_quat(_tsr_tmp, quat_frame_1);
+
+    m_quat.slerp(quat_frame_0, quat_frame_1, mix_factor, quat_frame_0);
+    m_util.blend_arrays(trans_frame_0, trans_frame_1, mix_factor, trans_frame_0);
+
+    for (var j = 0; j < 4; j++) {
+        render.quats_curr[i + j] = quat_frame_0[j];
+        render.trans_curr[i + j] = trans_frame_0[j];
+
+    }
+    var descend_bones_ptrs = bone_pointer.descend_bones_ptrs;
+    for (var j = 0; j < descend_bones_ptrs.length; j++) {
+        var child_bone_pointer = descend_bones_ptrs[j];
+        check_mix_with_current(render, child_bone_pointer);
+    }
+}
+
 function process_mix_factor(obj, elapsed) {
 
     var render = obj.render;
@@ -1698,6 +1802,9 @@ function process_mix_factor(obj, elapsed) {
     var speed = render.anim_mix_factor_change_speed;
     if (speed == 0)
         return;
+
+    if (render.mix_with_current && !render.trans_curr && !render.quats_curr)
+        cur_mix_factor = render.anim_mix_factor = 0.0;
 
     var dest_mix_factor = render.anim_destination_mix_factor;
 
@@ -1710,6 +1817,15 @@ function process_mix_factor(obj, elapsed) {
     else {
         render.anim_mix_factor = render.anim_destination_mix_factor;
         render.anim_mix_factor_change_speed = 0;
+        if (render.anim_mix_cb) {
+            render.anim_mix_cb();
+            render.anim_mix_cb = null;
+        }
+        if (render.mix_with_current) {
+            render.trans_curr = null;
+            render.quats_curr = null;
+            render.mix_with_current = false;
+        }
     }
 }
 
@@ -2614,12 +2730,33 @@ exports.apply_to_first_empty_slot = function(obj, name) {
     }
 }
 
-exports.set_skel_mix_factor = function(obj, factor, time) {
-    var cur_mix_factor = obj.render.anim_mix_factor;
+exports.set_skel_mix_factor = function(obj, factor, time, mix_cb) {
+    var render = obj.render;
+    var cur_mix_factor = render.anim_mix_factor;
     var speed = (factor - cur_mix_factor) / time;
 
-    obj.render.anim_mix_factor_change_speed = speed;
-    obj.render.anim_destination_mix_factor = factor;
+    render.anim_mix_factor_change_speed = speed;
+    render.anim_destination_mix_factor = factor;
+    if (render.anim_mix_cb)
+        render.anim_mix_cb();
+    render.anim_mix_cb = mix_cb;
+}
+
+exports.mix_from_cur_pos = function(obj, slot, time, mix_cb) {
+    var render = obj.render;
+    render.blend_skel_slots[1] = slot;
+
+    var speed = 1.0 / time;
+    render.anim_mix_factor_change_speed = speed;
+    render.anim_destination_mix_factor = 1.0;
+
+    if (render.anim_mix_cb)
+        render.anim_mix_cb();
+    render.anim_mix_cb = mix_cb;
+
+    render.trans_curr = null;
+    render.quats_curr = null;
+    render.mix_with_current = true;
 }
 
 exports.set_speed = function(obj, speed, slot_num) {

@@ -73,7 +73,7 @@ msgstr ""
 
 #: ../problems_and_solutions.rst:28
 msgid "You also need to have a web browser that supports WebGL technology."
-msgstr "Вам также потребуется веб-браузер с поддержкой технолгии WebGL."
+msgstr "Вам также потребуется веб-браузер с поддержкой технологии WebGL."
 
 #: ../problems_and_solutions.rst:30
 msgid "The following web browsers support WebGL:"
@@ -469,7 +469,7 @@ msgid ""
 " Music\" speakers in case of HTML export. Currently, speaker type is "
 "automatically changed to \"Background Sound\" as a workaround."
 msgstr ""
-"В некторых версиях Google Chrome звук не воспроизводится для источников "
+"В некоторых версиях Google Chrome звук не воспроизводится для источников "
 "звука с типом \"Background Music\", если используется экспорт в HTML. В "
 "качестве решения в настоящий момент тип источника звука автоматически "
 "меняется на \"Background Sound\"."
@@ -553,7 +553,7 @@ msgid ""
 "Alpha blending objects are rendered incorrect on the Mali 400 series GPU "
 "by Google Chrome browser."
 msgstr ""
-"Оъекты с типом прозрачности Alpha Blending некорректно отображаются в "
+"Объекты с типом прозрачности Alpha Blending некорректно отображаются в "
 "браузере Google Chrome на устройствах с GPU Mali серии 400."
 
 #~ msgid ""

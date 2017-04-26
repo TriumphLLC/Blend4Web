@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Просмотрщик сцен &mdash; Руководство пользователя Blend4Web 17.02.1</title>
+  <title>Просмотрщик сцен &mdash; Руководство пользователя Blend4Web 17.04</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 17.02.1" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 17.04" href="index.html"/>
         <link rel="next" title="Веб-плеер" href="web_player.html"/>
         <link rel="prev" title="Управление проектами" href="project_manager.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v17.02.1
+              v17.04
             </div>
           
         
@@ -319,7 +319,7 @@
 <div><p><code class="docutils literal"><span class="pre">NONE</span></code> - стандартный режим визуализации. Используется по умолчанию.</p>
 <p><code class="docutils literal"><span class="pre">OPAQUE</span> <span class="pre">WIREFRAME</span></code> - сцена окрашена плоским белым цветом с тёмной каркасной сеткой. Цвет сетки может быть настроен с помощью параметра <code class="docutils literal"><span class="pre">Wireframe</span> <span class="pre">Edge</span> <span class="pre">Color</span></code>.</p>
 <p><code class="docutils literal"><span class="pre">TRANSPARENT</span> <span class="pre">WIREFRAME</span></code> - сцена визуализируется так же, как в нормальном режиме, но с добавлением каркасной сетки. Как и в предыдущем режиме, цвет сетки может быть настроен с помощью параметра <code class="docutils literal"><span class="pre">Wireframe</span> <span class="pre">Edge</span> <span class="pre">Color</span></code>.</p>
-<p><code class="docutils literal"><span class="pre">FRONT</span> <span class="pre">BACK</span> <span class="pre">VIEW</span></code> - в этом режиме внешние и внутренние стороны полигонов окрашиваюся разными цветами.</p>
+<p><code class="docutils literal"><span class="pre">FRONT</span> <span class="pre">BACK</span> <span class="pre">VIEW</span></code> - в этом режиме внешние и внутренние стороны полигонов окрашиваются разными цветами.</p>
 <p><code class="docutils literal"><span class="pre">BOUNDINGS</span></code> - в этом режиме к изображению добавляются каркасные сферы, окружающие <a class="reference internal" href="objects.html#objects"><span>объекты</span></a> и <a class="reference internal" href="meshes.html#meshes"><span>меши</span></a>. Сферы могут иметь синий (для статических объектов и мешей) или красный (для динамических объектов) цвет.</p>
 <p><code class="docutils literal"><span class="pre">CLUSTER</span> <span class="pre">VIEW</span></code> - в этом режиме каждый объект, принадлежащий к определённому кластеру (используемому для <a class="reference internal" href="scene_settings.html#scene-batching"><span>батчинга</span></a>) окрашивается особым цветом.</p>
 <p><code class="docutils literal"><span class="pre">BATCH</span> <span class="pre">VIEW</span></code> - в этом режиме каждый батч окрашен особым (плоским) цветом. Цвета, используемые для визуализации, могут быть заменены на другие, случайно выбранные, цвета с помощью кнопки <code class="docutils literal"><span class="pre">Change</span> <span class="pre">Colors</span></code>.</p>
@@ -337,7 +337,7 @@
 </dd>
 <dt><em>HUD Info</em></dt>
 <dd><a class="first reference internal image-reference" href="_images/viewer_hud_info.png"><img alt="_images/viewer_hud_info.png" class="align-center" src="_images/viewer_hud_info.png" style="width: 100%;" /></a>
-<p>Показывает список визуализируемых подсцен и их парамеров, таких, как:</p>
+<p>Показывает список визуализируемых подсцен и их параметров, таких, как:</p>
 <blockquote>
 <div><dl class="docutils">
 <dt><em>SCENE</em></dt>
@@ -385,7 +385,7 @@
 <dd><p class="first last">Проигрывает все доступные анимации.</p>
 </dd>
 <dt><em>Stop All</em></dt>
-<dd><p class="first last">Останавливает все анимации, которые воспроизводятся в настроящий момент.</p>
+<dd><p class="first last">Останавливает все анимации, которые воспроизводятся в настоящий момент.</p>
 </dd>
 <dt><em>Object</em></dt>
 <dd><p class="first last">Список присутствующих в сцене объектов, имеющих анимации.</p>
@@ -415,7 +415,7 @@
 <dd><p class="first last">Показывает текущий кадр анимации. Может применяться для задания текущего кадра.</p>
 </dd>
 <dt><em>Skeletal Mix Factor</em></dt>
-<dd><p class="first last">Задаёт степень сvешивания скелетных анимаций. Значение п оумолчанию - 1.0.</p>
+<dd><p class="first last">Задаёт степень сvешивания скелетных анимаций. Значение по умолчанию - 1.0.</p>
 </dd>
 </dl>
 </div>
@@ -437,7 +437,7 @@
 <dd><p class="first last">Останавливает проигрываемую NLA-анимацию.</p>
 </dd>
 <dt><em>Set Frame</em></dt>
-<dd><p class="first last">Если анимация остановлена, этот параметр может примеяться для задания текущего кадра.</p>
+<dd><p class="first last">Если анимация остановлена, этот параметр может применяться для задания текущего кадра.</p>
 </dd>
 </dl>
 </div>
@@ -481,7 +481,7 @@
 <dd><p class="first last">Фактор влияния эффекта рельефа. Значение этого параметра может изменяться от 0 до 0.1, значение по умолчанию - 0.</p>
 </dd>
 <dt><em>Parallax Steps</em></dt>
-<dd><p class="first last">Количество итераций для рассчёта эффекта рельефа. Значение этого параметра может изменяться от 1 до 30, по умолчанию он равен 5.</p>
+<dd><p class="first last">Количество итераций для расчёта эффекта рельефа. Значение этого параметра может изменяться от 1 до 30, по умолчанию он равен 5.</p>
 </dd>
 </dl>
 </div>
@@ -537,7 +537,7 @@
 <dd><p class="first last">Этот параметр задаёт текущее время дня или ночи. По умолчанию равен 12.0.</p>
 </dd>
 <dt><em>Maximum Sun Vertical Angle</em></dt>
-<dd><p class="first last">Этот параметр задаёт макимальный вертикалный угол для источника света типа <code class="docutils literal"><span class="pre">Sun</span></code>. Значение по умолчанию - 60.</p>
+<dd><p class="first last">Этот параметр задаёт максимальный вертикальный угол для источника света типа <code class="docutils literal"><span class="pre">Sun</span></code>. Значение по умолчанию - 60.</p>
 </dd>
 <dt><em>Time Multiplier</em></dt>
 <dd><p class="first last">Значение этого параметра задаёт скорость течения времени. Значение по умолчанию - 1.0 (время в сцене течёт с той же скоростью, что и в действительности.</p>
@@ -736,8 +736,8 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2014-2016, Триумф.
-      Обновлено: 2017-03-07.
+        &copy; Copyright 2014-2017, Триумф.
+      Обновлено: 2017-04-26.
 
     </p>
   </div>
@@ -793,7 +793,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.02.1',
+            VERSION:'v17.04',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

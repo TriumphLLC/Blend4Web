@@ -284,6 +284,9 @@ class B4W_RenderBloom(RenderButtonsPanel, bpy.types.Panel):
         layout = self.layout
         layout.active = getattr(scene, "b4w_enable_bloom")
 
+        layout.prop(bloom, "adaptive", text=_("Use Adaptive"))
+        if not getattr(bloom, "adaptive"):
+            layout.prop(bloom, "average_luminance", text=_("Average Luminance"))
         layout.prop(bloom, "key", text=_("Intensity"))
         layout.prop(bloom, "blur", text=_("Blur"))
         layout.prop(bloom, "edge_lum", text=_("Edge Luminance"))

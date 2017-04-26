@@ -145,6 +145,9 @@
 
 3. 灯光使用 环境贴图 - 所谓的基于图像的照明。
 
+Please note that environment lighting uses a simplified model which
+doesn't take into account mutual shadowing of objects.
+
 
 **激活**
 --------

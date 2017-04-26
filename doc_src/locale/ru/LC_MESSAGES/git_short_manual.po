@@ -140,7 +140,7 @@ msgstr "Индивидуальные настройки"
 
 #: ../git_short_manual.rst:57
 msgid "A new user can set up his name and email using the commands:"
-msgstr "Новый пользователь может устанавить имя и почтовый адрес командами:"
+msgstr "Новый пользователь может установить имя и почтовый адрес командами:"
 
 #: ../git_short_manual.rst:65
 msgid "The set up data will be used in the changelog."

@@ -39,7 +39,7 @@
                                 SHADER INTERFACE
 ==============================================================================*/
 GLSL_IN vec3 a_position;
-GLSL_IN vec4 a_tbn_quat;
+GLSL_IN vec4 a_tbn;
 GLSL_IN float a_polyindex;
 
 #if USE_INSTANCED_PARTCLS
@@ -181,7 +181,8 @@ void main() {
     mat3 view_tsr = u_view_tsr;
 
     vec3 position = a_position;
-    vec3 normal = qrot(a_tbn_quat, vec3(0.0, 1.0, 0.0));
+    vec4 tbn_quat = get_tbn_quat(a_tbn);
+    vec3 normal = qrot(tbn_quat, vec3(0.0, 1.0, 0.0));
 
 # if DEBUG_SPHERE
     vertex world = to_world(position, vec3(0.0), vec3(0.0), vec3(0.0), vec3(0.0),

@@ -70,6 +70,7 @@ exports.from_values = function(r, g, b) {
  * @returns {RGB} Destination RGB vector.
  * @alias module:rgb.set
  * @example var m_rgb = require("rgb");
+ *
  * var new_color = new Float32Array(3);
  * 
  * m_rgb.set(0.7, 0.5, 0.1, new_color);
@@ -89,8 +90,7 @@ exports.set = function(r, g, b, dest) {
  * @param {RGB} [dest=rgb.create()] Destination RGB vector.
  * @returns {RGB} Destination RGB vector.
  * @alias module:rgb.css_to_rgb
- * @example
- * var m_rgb = require("rgb");
+ * @example var m_rgb = require("rgb");
  *
  * // #808080 or rgb(128, 128, 128) converted to [0.219, 0.219, 0.219]
  * var rgb_color = m_rgb.css_to_rgb(128, 128, 128);
@@ -211,6 +211,7 @@ exports.from_values = function(r, g, b, a) {
  * @returns {RGBA} Destination RGBA vector.
  * @alias module:rgba.set
  * @example var m_rgba = require("rgba");
+ *
  * var new_rgba_color = new Float32Array(4);
  *
  * m_rgba.set(0.1, 0.5, 0.3, 1.0, new_rgba_color);
@@ -232,8 +233,7 @@ exports.set = function(r, g, b, a, dest) {
  * @param {RGBA} [dest=rgba.create()] Destination RGB vector.
  * @returns {RGBA} Destination RGB vector.
  * @alias module:rgba.css_to_rgba
- * @example
- * var m_rgba = require("rgba");
+ * @example var m_rgba = require("rgba");
  *
  * // rgba(128, 128, 128, 0.5) converted to [0.219, 0.219, 0.219, 0.5]
  * var rgba_color = m_rgba.css_to_rgba(128, 128, 128, 0.5);
@@ -256,8 +256,7 @@ exports.css_to_rgba = function(css_red, css_green, css_blue, css_alpha, dest) {
  * @param {RGBA} rgba RGBA color vector.
  * @returns {number[]} Array with CSS colors.
  * @alias module:rgba.rgba_to_css
- * @example
- * var m_rgba = require("rgba");
+ * @example var m_rgba = require("rgba");
  *
  * var rgba_color = m_rgba.from_values(0.219, 0.219, 0.219, 0.5);
  * // [0.219, 0.219, 0.219, 0.5] converted to [128, 128, 128, 0.5]

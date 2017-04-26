@@ -190,6 +190,9 @@ function init_texture() {
         need_resize: false,
         scale_fac: 1.0,
 
+        use_mipmap: false,
+        mipmap_count: 0.0,
+
         seq_video: null,
         seq_movie_length: 0,
         seq_fps: 0,
@@ -236,6 +239,7 @@ function clone_texture(texture) {
     var texture_new = init_texture();
 
     texture_new.type = texture.type;
+    texture_new.anisotropic_filtering = texture.anisotropic_filtering;
 
     texture_new.source = texture.source;
     texture_new.source_id = texture.source_id;
@@ -304,6 +308,7 @@ function set_params_by_img_path(texture, path, full_path) {
 
     texture.img_filepath = path;
     texture.img_full_filepath = full_path;
+    texture.img_uuid = m_util.gen_uuid();
     _img_textures_cache.push(texture);
 }
 
@@ -329,11 +334,12 @@ function clone_w_texture(texture, texture_new) {
  * Create empty b4w texture.
  */
 exports.create_texture = create_texture;
-function create_texture(type, use_comparison) {
+function create_texture(type, use_comparison, use_mipmap) {
 
     var texture = init_texture();
     texture.type = type;
     texture.source = "NONE";
+    texture.use_mipmap = use_mipmap;
 
     if (    type == exports.TT_RB_RGBA ||
             type == exports.TT_RB_DEPTH ||
@@ -348,7 +354,10 @@ function create_texture(type, use_comparison) {
 
         // NOTE: standard params suitable for POT and NPOT textures
         _gl.texParameteri(w_target, _gl.TEXTURE_MAG_FILTER, _gl.LINEAR);
-        _gl.texParameteri(w_target, _gl.TEXTURE_MIN_FILTER, _gl.LINEAR);
+        if (use_mipmap)
+            _gl.texParameteri(w_target, _gl.TEXTURE_MIN_FILTER, LEVELS[cfg_def.texture_min_filter]);
+        else
+            _gl.texParameteri(w_target, _gl.TEXTURE_MIN_FILTER, _gl.LINEAR);
         _gl.texParameteri(w_target, _gl.TEXTURE_WRAP_S, _gl.CLAMP_TO_EDGE);
         _gl.texParameteri(w_target, _gl.TEXTURE_WRAP_T, _gl.CLAMP_TO_EDGE);
 
@@ -413,6 +422,30 @@ exports.create_cubemap_texture = function(size) {
 
     return texture;
 }
+
+
+/**
+ * Set cubemap dimensions.
+ */
+exports.set_cubemap_tex_size = function(cube_texture, size) {
+
+    var w_texture = cube_texture.w_texture;
+
+    var w_target = cube_texture.w_target;
+
+    _gl.bindTexture(w_target, w_texture);
+    for (var i = 0; i < 6; i++) {
+        var info = CUBE_MAP_TARGETS[i];
+        _gl.texImage2D(_gl[info], 0, _gl.RGBA,
+            size, size, 0, _gl.RGBA, _gl.UNSIGNED_BYTE, null);
+    }
+
+    _gl.bindTexture(w_target, null);
+
+    cube_texture.width = 3*size;
+    cube_texture.height = 2*size;
+}
+
 /**
  * Set texture MIN/MAG filters (TF_*)
  */
@@ -476,6 +509,16 @@ exports.resize = function(texture, width, height) {
         var format = get_image2d_format(texture);
         var iformat = get_image2d_iformat(texture);
         var type = get_image2d_type(texture);
+
+        if (texture.use_mipmap) {
+            if (!cfg_def.webgl2) {
+                var size = Math.max(width, height);
+                width = calc_pot_size(size);
+                height = calc_pot_size(size);
+            }
+            texture.mipmap_count = Math.round(Math.log(Math.max(width, height)) / Math.log(2.0) + 0.5);
+        }
+
         _gl.texImage2D(w_target, 0, iformat, width, height, 0, format, type, null);
 
         _gl.bindTexture(w_target, null);
@@ -1208,7 +1251,7 @@ function get_image2d_type(texture) {
         type = _gl.FLOAT;
         break;
     case exports.TT_DEPTH:
-        type = cfg_def.amd_depth_hack ? _gl.UNSIGNED_SHORT: _gl.UNSIGNED_INT;
+        type = _gl.UNSIGNED_INT;
         break;
     default:
         m_util.panic("Wrong texture type");
@@ -1913,6 +1956,7 @@ exports.change_image = function(object, texture, texture_name, image, path) {
         var texture_new = texture;
         set_params_by_img_path(texture_new, path, norm_path);
         update_texture(texture_new, image, 0);
+        m_scs.update_cube_sky_dim(object, texture_new);
         m_scs.update_sky_texture(object);
     }
 }

@@ -9,12 +9,10 @@ var m_anim = require("animation");
 var m_sfx = require("sfx");
 var m_trans = require("transform");
 var m_mat = require("material");
-var m_cons = require("constraints");
 
 var m_conf = require("game_config");
 var m_char = require("character");
 var m_enemies = require("enemies");
-var m_env = require("environment");
 var m_interface = require("interface");
 
 var _level_conf = null; // specified during initialization

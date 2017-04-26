@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>逻辑编辑器 &mdash; Blend4Web 17.02.1 用户手册</title>
+  <title>逻辑编辑器 &mdash; Blend4Web 17.04 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.02.1 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 17.04 用户手册" href="index.html"/>
         <link rel="next" title="照明、 阴影和背景" href="lighting.html"/>
         <link rel="prev" title="节点材质" href="node_materials.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v17.02.1
+              v17.04
             </div>
           
         
@@ -274,8 +274,8 @@
 <li class="toctree-l4"><a class="reference internal" href="#id74">输入参数</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id75">输出参数</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id76">内部参数</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#using-json-logic-node-to-encode-json-object">使用JSON逻辑节点编码JSON对象</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#using-json-logic-node-to-decode-json-object">使用JSON逻辑节点解码JSON对象</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#using-json-logic-node-to-encode-json-object">使用JSON逻辑节点编码JSON物体</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#using-json-logic-node-to-decode-json-object">使用JSON逻辑节点解码JSON物体</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#page-param">页面参数</a><ul>
@@ -465,8 +465,7 @@
 <dd><p class="first last">如果用户选择（用鼠标或触摸）一个物体的参数名称被设置关注，这个参数将传递到下一个节点的控制。该 <code class="docutils literal"><span class="pre">Switch</span> <span class="pre">Select</span></code>  节点在默认情况下有一个这样的参数，但可以添加新的和删除现有（节点甚至可以没有这样的参数）。</p>
 </dd>
 <dt><em>未击中</em></dt>
-<dd><p class="first last">如果用户没有选择 <code class="docutils literal"><span class="pre">Switch</span> <span class="pre">Select</span></code> 节点中指定的任何物体，这个参数将把控制传递给下一个节点。</p>
-</dd>
+<dd>This parameter will pass the control to the next node when the user selects any object with the <code class="docutils literal"><span class="pre">Selectable</span></code> property enabled (or used by another <code class="docutils literal"><span class="pre">Switch</span> <span class="pre">Select</span></code> node), but not specified in the <code class="docutils literal"><span class="pre">Switch</span> <span class="pre">Select</span></code> node.</dd>
 </dl>
 </div>
 <div class="section" id="id4">
@@ -536,26 +535,27 @@
 <dt><em>条件</em></dt>
 <dd><p class="first">逻辑条件。可以有以下几种类型：</p>
 <ul class="last simple">
-<li><p class="first"><em>Equal</em> - 第一个操作数等于第二个。</p>
+<li><p class="first"><em>Equal (=)</em> - 第一个操作数等于第二个。</p>
 </li>
-<li><p class="first"><em>Not Equal</em> - 第一个操作数不等于第二个。</p>
+<li><p class="first"><em>Not Equal (!=)</em> - 第一个操作数不等于第二个。</p>
 </li>
-<li><p class="first"><em>Less Than</em> - 第一个操作数小于第二个。</p>
+<li><p class="first"><em>Less Than (&lt;)</em> - 第一个操作数小于第二个。</p>
 </li>
-<li><p class="first"><em>Greater Than</em> - 第一个操作数大于第二个。</p>
+<li><p class="first"><em>Greater Than (&gt;)</em> - 第一个操作数大于第二个。</p>
 </li>
-<li><p class="first"><em>Less Than Or Equal</em> -  第一个操作数小于或等于第二。</p>
+<li><p class="first"><em>Less Than Or Equal (&lt;=)</em> -  第一个操作数小于或等于第二。</p>
 </li>
-<li><p class="first"><em>Greater Than Or Equal</em> - 第一个操作数是大于或等于第二个。</p>
+<li><p class="first"><em>Greater Than Or Equal (=&gt;)</em> - 第一个操作数是大于或等于第二个。</p>
 </li>
 </ul>
 </dd>
 <dt><em>Operand1</em></dt>
-<dd><p class="first last">逻辑条件的第一个操作数。应该有一个数字值。可以在节点中指定或可以是一个链接到一个变量。</p>
-</dd>
+<dd>First operand of the logical condition. Contains a numeric value of a string (if the <code class="docutils literal"><span class="pre">String</span> <span class="pre">Operators</span></code> parameter is enabled). Can be specified in the node or can be a link to one of the variables (if the <code class="docutils literal"><span class="pre">Variable</span></code> parameter at the right of it is enabled).</dd>
 <dt><em>Operand2</em></dt>
 <dd><p class="first last">逻辑条件的第二个操作数。和第一个以同样的方式工作。</p>
 </dd>
+<dt><em>String Operands</em></dt>
+<dd>If this parameter is enabled, first and second operands can use strings (set manually or by a variable) as their values.</dd>
 </dl>
 </div>
 </div>
@@ -837,7 +837,7 @@
 <p>以下参数用于指定目标或相机的轴心点和仅在 <code class="docutils literal"><span class="pre">New</span> <span class="pre">Camera</span> <span class="pre">Move</span> <span class="pre">Style</span></code> 参数设置为 <code class="docutils literal"><span class="pre">Hover</span></code> 或者 <code class="docutils literal"><span class="pre">Target</span></code> 时才可用︰</p>
 <dl class="docutils">
 <dt><em>使用物体</em></dt>
-<dd><p class="first last">此参数启用和禁用使用场景对象作为相机的目标或轴心点 （取决于相机类型）。如果它激活，一个文本字段将显示在指定的物体。此参数默认被禁用的。</p>
+<dd><p class="first last">此参数启用和禁用使用场景物体作为相机的目标或轴心点 （取决于相机类型）。如果它激活，一个文本字段将显示在指定的物体。此参数默认被禁用的。</p>
 </dd>
 </dl>
 <p>如果``使用物体``参数被禁用，以下三个选项可用：</p>
@@ -883,8 +883,9 @@
 <dt><em>物体</em></dt>
 <dd><p class="first last">显示一个物体。</p>
 </dd>
-<dt><em>Process child objects</em></dt>
-<dd>If this parameter is enabled, child objects will be shown as well.</dd>
+<dt><em>处理子物体</em></dt>
+<dd><p class="first last">如果启用此参数，则将显示子物体。</p>
+</dd>
 </dl>
 </div>
 </div>
@@ -914,8 +915,9 @@
 <dt><em>物体</em></dt>
 <dd><p class="first last">一个物体隐藏。</p>
 </dd>
-<dt><em>Process child objects</em></dt>
-<dd>If this parameter is enabled, child objects will be hidden as well.</dd>
+<dt><em>处理子物体</em></dt>
+<dd><p class="first last">如果启用此参数，则将隐藏子物体。</p>
+</dd>
 </dl>
 </div>
 </div>
@@ -1242,18 +1244,30 @@
 </li>
 <li><p class="first"><em>除数</em> 由第二个把第一个操作数除。</p>
 </li>
-<li><em>Sin</em> returns the sine of an angle (measured in radians) defined by the first operand.</li>
-<li><em>Cos</em> returns the cosine of an angle (measured in radians) defined by the first operand</li>
-<li><em>Tan</em> returns the tangent of an angle (measured in radians) defined by the first operand.</li>
-<li><em>ArcSin</em> returns the arcsine value of the first operand.</li>
-<li><em>ArcCos</em> returns the arccosine value of the first operand.</li>
-<li><em>ArcTan</em> returns the arctangent value of the first operand.</li>
-<li><em>Log</em> returns the logarithmic value of the first operand with the second operand used as the base.</li>
-<li><em>Min</em> returns the lesser one of the two operands.</li>
-<li><em>Max</em> returns the greater one of the two operands.</li>
-<li><em>Round</em> rounds the first operator.</li>
-<li><em>Mod</em> returns the remainder after division of the first operand by the second.</li>
-<li><em>Abs</em> returns the absolute value of the first operand.</li>
+<li><p class="first"><em>正弦</em> 返回第一个操作数所定义的角度 （以弧度为单位来衡量） 的正弦值。</p>
+</li>
+<li><p class="first"><em>余弦</em> 返回第一个操作数所定义的角度 （以弧度为单位来衡量） 的余弦值</p>
+</li>
+<li><p class="first"><em>正切</em> 返回第一个操作数所定义的角度 （以弧度为单位来衡量） 的正切值。</p>
+</li>
+<li><p class="first"><em>反正弦</em> 返回第一个操作数的反正弦值。</p>
+</li>
+<li><p class="first"><em>反余弦</em> 返回第一个操作数的反余弦值。</p>
+</li>
+<li><p class="first"><em>反正切</em> 返回第一个操作数的反正切值。</p>
+</li>
+<li><p class="first"><em>对数</em> 返回用第二个操作数用作基底的第一个操作数的对数值。</p>
+</li>
+<li><p class="first"><em>最小</em> 返回一个较小的两个操作数。</p>
+</li>
+<li><p class="first"><em>最大</em> 返回两个操作数的其中大的那个。</p>
+</li>
+<li><p class="first"><em>四舍五入</em> 四舍五入第一个操作数。</p>
+</li>
+<li><p class="first"><em>求余</em> 返回第一个数被第二个数相除后的余数。</p>
+</li>
+<li><p class="first"><em>绝对值</em> 返回第一个操作数的绝对值。</p>
+</li>
 </ul>
 </dd>
 <dt><em>Operand1</em></dt>
@@ -1450,14 +1464,14 @@
 <dd><p class="first last">表示信息内容的媒体类型。一个类型和子类型，例如包括：<code class="docutils literal"><span class="pre">text/plain</span></code>。默认设置为 <code class="docutils literal"><span class="pre">Auto</span></code> 。可以用来重新分配HTTP请求的标题。</p>
 </dd>
 <dt><em>Request Params</em></dt>
-<dd><p class="first last">指定将发送到服务器的包含 JSON 对象的变量。 <code class="docutils literal"><span class="pre">Method</span></code> 参数设置为 <code class="docutils literal"><span class="pre">Method</span></code> 时才可用。默认值为 <code class="docutils literal"><span class="pre">R1</span></code> 。</p>
+<dd><p class="first last">指定将发送到服务器的包含 JSON 物体的变量。 <code class="docutils literal"><span class="pre">Method</span></code> 参数设置为 <code class="docutils literal"><span class="pre">Method</span></code> 时才可用。默认值为 <code class="docutils literal"><span class="pre">R1</span></code> 。</p>
 </dd>
 </dl>
 </div>
 </div>
 <div class="section" id="json">
 <span id="nla-json"></span><h3>JSON<a class="headerlink" href="#json" title="永久链接至标题">¶</a></h3>
-<p>此节点可以用于编码和解码复杂的 JSON 对象。</p>
+<p>此节点可以用于编码和解码复杂的 JSON 物体。</p>
 <a class="reference internal image-reference" href="_images/logic_editor_json.png"><img alt="_images/logic_editor_json.png" class="align-center" src="_images/logic_editor_json.png" style="width: 100%;" /></a>
 <div class="section" id="id74">
 <h4>输入参数<a class="headerlink" href="#id74" title="永久链接至标题">¶</a></h4>
@@ -1479,23 +1493,23 @@
 <h4>内部参数<a class="headerlink" href="#id76" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>JSON</em></dt>
-<dd><p class="first last">链接到一个您需要进行解码或编码的 JSON 对象。默认设置为 <code class="docutils literal"><span class="pre">R1</span></code> 。</p>
+<dd><p class="first last">链接到一个您需要进行解码或编码的 JSON 物体。默认设置为 <code class="docutils literal"><span class="pre">R1</span></code> 。</p>
 </dd>
 <dt><em>JSON 操作</em></dt>
-<dd><p class="first last">需要对 <code class="docutils literal"><span class="pre">JSON</span></code>  参数所指定的 JSON 对象执行的操作。可以有两个值之一: <code class="docutils literal"><span class="pre">ENCODE</span></code> 对  JSON 对象进行编码 和 <code class="docutils literal"><span class="pre">PARSE</span></code> 进行解码。默认设置为 <code class="docutils literal"><span class="pre">ENCODE</span></code> 。</p>
+<dd><p class="first last">需要对 <code class="docutils literal"><span class="pre">JSON</span></code>  参数所指定的 JSON 物体执行的操作。可以有两个值之一: <code class="docutils literal"><span class="pre">ENCODE</span></code> 对  JSON 物体进行编码 和 <code class="docutils literal"><span class="pre">PARSE</span></code> 进行解码。默认设置为 <code class="docutils literal"><span class="pre">ENCODE</span></code> 。</p>
 </dd>
 <dt><em>Paths</em></dt>
-<dd><p class="first last">一个JSON对象内部的变量的路径列表。路径是用来定义一个JSON对象的内部结构。路径应该包括几个标识符（用逗号分隔），作为一个JSON字段路径。如果路径的片段的名称仅由数字组成，则该名称将被解释为数组索引。路径的创建和删除跟变量是同时的（变量列表），和一个路径总是对应于一个变量。这个列表可以用来进行编码和解码的JSON对象。默认情况下，列表是空的。</p>
+<dd><p class="first last">一个JSON物体内部的变量的路径列表。路径是用来定义一个JSON物体的内部结构。路径应该包括几个标识符（用逗号分隔），作为一个JSON字段路径。如果路径的片段的名称仅由数字组成，则该名称将被解释为数组索引。路径的创建和删除跟变量是同时的（变量列表），和一个路径总是对应于一个变量。这个列表可以用来进行编码和解码的JSON物体。默认情况下，列表是空的。</p>
 </dd>
 <dt><em>Variables</em></dt>
-<dd><p class="first last">变量列表，将用于存储数据的解码或编码一个JSON对象（取决于 <code class="docutils literal"><span class="pre">JSON</span> <span class="pre">Operation</span></code> 参数的值）。变量总是有类似 <code class="docutils literal"><span class="pre">var0</span></code>, <code class="docutils literal"><span class="pre">var1</span></code> 等的名字，他们的数量和名称可以调整。默认列表为空。</p>
+<dd><p class="first last">变量列表，将用于存储数据的解码或编码一个JSON物体（取决于 <code class="docutils literal"><span class="pre">JSON</span> <span class="pre">Operation</span></code> 参数的值）。变量总是有类似 <code class="docutils literal"><span class="pre">var0</span></code>, <code class="docutils literal"><span class="pre">var1</span></code> 等的名字，他们的数量和名称可以调整。默认列表为空。</p>
 </dd>
 </dl>
 </div>
 <div class="section" id="using-json-logic-node-to-encode-json-object">
-<h4>使用JSON逻辑节点编码JSON对象<a class="headerlink" href="#using-json-logic-node-to-encode-json-object" title="永久链接至标题">¶</a></h4>
+<h4>使用JSON逻辑节点编码JSON物体<a class="headerlink" href="#using-json-logic-node-to-encode-json-object" title="永久链接至标题">¶</a></h4>
 <a class="reference internal image-reference" href="_images/logic_editor_json_encode_example.png"><img alt="_images/logic_editor_json_encode_example.png" class="align-center" src="_images/logic_editor_json_encode_example.png" style="width: 100%;" /></a>
-<p>在图片的逻辑节点设置在 <code class="docutils literal"><span class="pre">R1</span></code> 可 变编码以上JSON对象，并将其存储。这样的JSON对象如下：</p>
+<p>在图片的逻辑节点设置在 <code class="docutils literal"><span class="pre">R1</span></code> 可 变编码以上JSON物体，并将其存储。这样的JSON物体如下：</p>
 <div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
     <span class="nt">&quot;main&quot;</span><span class="p">:{</span>
         <span class="nt">&quot;part1&quot;</span><span class="p">:</span><span class="mi">7</span><span class="p">,</span>
@@ -1507,9 +1521,9 @@
 </div>
 </div>
 <div class="section" id="using-json-logic-node-to-decode-json-object">
-<h4>使用JSON逻辑节点解码JSON对象<a class="headerlink" href="#using-json-logic-node-to-decode-json-object" title="永久链接至标题">¶</a></h4>
+<h4>使用JSON逻辑节点解码JSON物体<a class="headerlink" href="#using-json-logic-node-to-decode-json-object" title="永久链接至标题">¶</a></h4>
 <a class="reference internal image-reference" href="_images/logic_editor_json_decode_example.png"><img alt="_images/logic_editor_json_decode_example.png" class="align-center" src="_images/logic_editor_json_decode_example.png" style="width: 100%;" /></a>
-<p>上图为逻辑节点的设置，从服务器获取JSON对象，并将其存储在 <code class="docutils literal"><span class="pre">R1</span></code> 变量，然后解码。这样的JSON对象如下：</p>
+<p>上图为逻辑节点的设置，从服务器获取JSON物体，并将其存储在 <code class="docutils literal"><span class="pre">R1</span></code> 变量，然后解码。这样的JSON物体如下：</p>
 <div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
     <span class="nt">&quot;a&quot;</span><span class="p">:</span> <span class="p">{</span>
         <span class="nt">&quot;b&quot;</span><span class="p">:</span> <span class="mi">17</span><span class="p">,</span>
@@ -1518,7 +1532,7 @@
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>这解码JSON对象的 <code class="docutils literal"><span class="pre">JSON</span></code> 逻辑节点 <code class="docutils literal"><span class="pre">var0</span></code>，<code class="docutils literal"><span class="pre">var1</span></code> 和 <code class="docutils literal"><span class="pre">var2</span></code> 三个变量命名的结果（你不必事先创建的变量）将包含JSON对象的各个部分。在这个例子中，<code class="docutils literal"><span class="pre">var1</span></code> 变量的值是17，则 <code class="docutils literal"><span class="pre">var2</span></code> 变量的值是 &#8220;abc&#8221;，而``var0`` 变量包含JSON对象的以下片段：</p>
+<p>这解码JSON物体的 <code class="docutils literal"><span class="pre">JSON</span></code> 逻辑节点 <code class="docutils literal"><span class="pre">var0</span></code>，<code class="docutils literal"><span class="pre">var1</span></code> 和 <code class="docutils literal"><span class="pre">var2</span></code> 三个变量命名的结果（你不必事先创建的变量）将包含JSON物体的各个部分。在这个例子中，<code class="docutils literal"><span class="pre">var1</span></code> 变量的值是17，则 <code class="docutils literal"><span class="pre">var2</span></code> 变量的值是 &#8220;abc&#8221;，而``var0`` 变量包含JSON物体的以下片段：</p>
 <div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
     <span class="nt">&quot;b&quot;</span><span class="p">:</span> <span class="mi">17</span><span class="p">,</span>
     <span class="nt">&quot;c&quot;</span><span class="p">:</span> <span class="s2">&quot;abc&quot;</span>
@@ -1711,8 +1725,8 @@
 
   <div role="contentinfo">
     <p>
-        &copy; 版权所有 2014-2016, Triumph.
-      最后更新于 2017-03-07.
+        &copy; 版权所有 2014-2017, Triumph.
+      最后更新于 2017-04-26.
 
     </p>
   </div>
@@ -1768,7 +1782,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.02.1',
+            VERSION:'v17.04',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

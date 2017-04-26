@@ -5,11 +5,8 @@ b4w.register("gems", function(exports, require) {
 
 var m_ctl = require("controls");
 var m_scs = require("scenes");
-var m_sfx = require("sfx");
 var m_trans = require("transform");
-var m_util  = require("util");
 var m_cons  = require("constraints");
-var m_vec3  = require("vec3");
 
 var m_conf = require("game_config");
 var m_obelisks = require("obelisks");

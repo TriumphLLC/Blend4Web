@@ -214,7 +214,7 @@ Setting up
     This specifies the size of the noise for the shore waves. This parameter can vary from 0 to 1 and is set to 0.05 by default.
 
 *Noise Dir Freq*
-    This describes the fequency of the noise for the shore waves. This parameter can vary from 0 to 1. Default value is 0.07.
+    This describes the frequency of the noise for the shore waves. This parameter can vary from 0 to 1. Default value is 0.07.
 
 *Min Dir Noise Fac*
     This is the noise minimum for the shore waves. This parameter can vary from 0 to 1. Default value is 0.5.
@@ -235,7 +235,7 @@ Settings for Surface Generation
     This describes the number of cascades on the generated surface. This parameter's value can vary from 1 to 20. Default value is 5.
 
 *Subdivisions*
-    This is the number of subdivisions in generated mesh. Default value is 64. The lowes possible value for this parameter is 2, while the highest possible value is 512.
+    This is the number of subdivisions in generated mesh. Default value is 64. The lowest possible value for this parameter is 2, while the highest possible value is 512.
 
 *Detailed Distance*
     This specifies the maximum distance from the camera to the edge of the last cascade. The value of this parameter can vary from 1 to 5000. Default value is 1000.

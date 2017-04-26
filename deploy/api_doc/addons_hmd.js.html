@@ -62,6 +62,7 @@ var _quat_tmp3 = m_quat.create();
 var _quat_tmp4 = m_quat.create();
 
 var _offset_quat = m_quat.create();
+var _offset_pos = m_vec3.create();
 var _empty_params = {pivot: m_vec3.create()};
 
 /**
@@ -90,7 +91,7 @@ var HMD_ALL_AXES_MOUSE_NONE = 1;
 exports.HMD_ALL_AXES_MOUSE_NONE = HMD_ALL_AXES_MOUSE_NONE;
 
 /**
- * HMD behavior: HMD controls roll and ritch rotation,
+ * HMD behavior: HMD controls roll and pitch rotation,
  * mouse controls yaw rotation.
  * @const {HMDBehavior} module:hmd.HMD_ROLL_PITCH_MOUSE_YAW
  */
@@ -134,6 +135,71 @@ exports.check_browser_support = function() {
     return Boolean(m_input.can_use_device(m_input.DEVICE_HMD));
 }
 
+/**
+ * Enable VR controllers.
+ * @method module:hmd.enable_controllers
+ * @param {Object3D} [gamepad_1] Object presenting controller.
+ * @param {Object3D} [gamepad_2] Object presenting controller.
+ * @example
+ * var m_hmd = require("hmd");
+ * var m_scenes = require("scenes");
+ *
+ * var gamepad_1 = m_scenes.get_object_by_name("my_gamepad_1");
+ * var gamepad_2 = m_scenes.get_object_by_name("my_gamepad_2");
+ * m_hmd.enable_controllers(gamepad_1, gamepad_2);
+ */
+exports.enable_controllers = function(gamepad_1, gamepad_2) {
+    // TODO: add default models for gamepad_1, gamepad_2
+    disable_controllers();
+
+    if (!gamepad_1 &amp;&amp; !gamepad_2)
+        return;
+
+    var gamepad_id = m_input.get_vr_controller_id(0);
+    var gm_pos_sensor = m_ctl.create_gamepad_position_sensor(gamepad_id);
+    var gm_ori_sensor = m_ctl.create_gamepad_orientation_sensor(gamepad_id);
+
+    var gamepad_id2 = m_input.get_vr_controller_id(1);
+    var gm_pos_sensor2 = m_ctl.create_gamepad_position_sensor(gamepad_id2);
+    var gm_ori_sensor2 = m_ctl.create_gamepad_orientation_sensor(gamepad_id2);
+
+    function position_cb(obj, id, pulse) {
+        if (gamepad_1) {
+            var gmpos1 = m_ctl.get_sensor_payload(obj, id, 0);
+            var gmori1 = m_ctl.get_sensor_payload(obj, id, 2);
+
+            m_vec3.add(_offset_pos, gmpos1, gmpos1);
+            m_trans.set_translation_v(gamepad_1, gmpos1);
+            m_trans.set_rotation_v(gamepad_1, gmori1);
+        }
+
+        if (gamepad_2) {
+            var gmpos2 = m_ctl.get_sensor_payload(obj, id, 1);
+            var gmori2 = m_ctl.get_sensor_payload(obj, id, 3);
+
+            m_vec3.add(_offset_pos, gmpos2, gmpos2);
+            m_trans.set_translation_v(gamepad_2, gmpos2);
+            m_trans.set_rotation_v(gamepad_2, gmori2);
+        }
+    }
+    m_ctl.create_sensor_manifold(null, "VR_CONTROLLERS", m_ctl.CT_CONTINUOUS,
+            [gm_pos_sensor, gm_pos_sensor2, gm_ori_sensor, gm_ori_sensor2],
+            null, position_cb);
+}
+
+/**
+ * Disable VR controllers.
+ * @method module:hmd.disable_controllers
+ * @example
+ * var m_hmd = require("hmd");
+ *
+ * m_hmd.disable_controllers();
+ */
+exports.disable_controllers = disable_controllers;
+function disable_controllers() {
+    m_ctl.remove_sensor_manifold(null, "VR_CONTROLLERS");
+}
+
 function process_hmd(control_type, sensor) {
     if (!sensor)
         return;
@@ -152,10 +218,11 @@ function process_hmd(control_type, sensor) {
         }
 
         var elapsed = m_ctl.create_elapsed_sensor();
+        var pos_sensor = m_ctl.create_hmd_position_sensor();
 
         _last_cam_quat = m_trans.get_rotation(cam_obj, _last_cam_quat);
         m_ctl.create_sensor_manifold(null, "HMD_ROTATE_CAMERA", m_ctl.CT_CONTINUOUS,
-                [elapsed, sensor], null, move_cam_cb);
+                [elapsed, sensor, pos_sensor], null, move_cam_cb);
     });
 
     function move_cam_cb(obj, id, pulse) {
@@ -168,6 +235,11 @@ function process_hmd(control_type, sensor) {
             // uses _vec3_tmp, _vec3_tmp2, _vec3_tmp3, _quat_tmp, _quat_tmp2
             if (m_cam.is_eye_camera(cam_obj)) {
                 var hmd_quat = m_ctl.get_sensor_payload(obj, id, 1);
+                var hmd_pos = m_ctl.get_sensor_payload(obj, id, 2);
+
+                var position = m_vec3.add(hmd_pos, _offset_pos, _vec3_tmp);
+                m_trans.set_translation_v(cam_obj, position);
+
                 if (hmd_quat) {
                     if (control_type == HMD_ALL_AXES_MOUSE_NONE) {
                         hmd_quat = m_quat.multiply(_offset_quat, hmd_quat, _quat_tmp4);
@@ -273,6 +345,10 @@ exports.disable_hmd = function() {
  * Set hmd initial rotation quat.
  * @method module:hmd.set_rotate_quat
  * @param {Quat} quat Initial rotation quaternion.
+ * @example
+ * var m_hmd = require("hmd");
+ *
+ * m_hmd.set_rotate_quat([0,0,0,1]);
  */
 exports.set_rotate_quat = function(quat) {
     m_quat.copy(quat, _offset_quat);
@@ -282,9 +358,43 @@ exports.set_rotate_quat = function(quat) {
  * @method module:hmd.get_rotate_quat
  * @param {Quat} dest Initial rotation quaternion.
  * @return {Quat} dest.
+ * @example
+ * var m_hmd = require("hmd");
+ * var m_quat = require("quat");
+ * var _quat_tmp = m_quat.create();
+ *
+ * var quat = m_hmd.get_rotate_quat(_quat_tmp);
  */
 exports.get_rotate_quat = function(dest) {
     m_quat.copy(_offset_quat, dest);
+    return dest;
+}
+/**
+ * Set hmd initial position.
+ * @method module:hmd.set_position
+ * @param {Vec3} position Initial position.
+ * @example
+ * var m_hmd = require("hmd");
+ *
+ * m_hmd.set_position([0,0,0]);
+ */
+exports.set_position = function(position) {
+    m_quat.copy(position, _offset_pos);
+}
+/**
+ * Get hmd initial position.
+ * @method module:hmd.get_position
+ * @param {Vec3} dest Initial position.
+ * @return {Vec3} dest.
+ * @example
+ * var m_hmd = require("hmd");
+ * var m_vec3 = require("vec3");
+ * var _vec3_tmp = m_vec3.create();
+ *
+ * var pos = m_hmd.get_position(_vec3_tmp);
+ */
+exports.get_position = function(dest) {
+    m_quat.copy(_offset_pos, dest);
     return dest;
 }
 
@@ -305,7 +415,7 @@ exports.get_rotate_quat = function(dest) {
 <br class="clear">
 
 <footer>
-    Blend4Web API Reference (generated by JSDoc 3.4.0 on Tue Mar 07 2017 11:35:18 GMT+0300 (MSK))
+    Blend4Web API Reference (generated by JSDoc 3.4.0 on Wed Apr 26 2017 11:05:09 GMT+0300 (MSK))
     <a href="https://www.blend4web.com">www.blend4web.com</a>
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">

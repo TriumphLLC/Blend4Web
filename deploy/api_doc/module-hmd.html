@@ -164,7 +164,15 @@ Provides support for HMD/VR devices using <a href="https://w3c.github.io/webvr/"
 
         
             
+<li> <a href="#.disable_controllers">disable_controllers<span class="signature">()</span><span class="type-signature"></span></a></li>
+
+        
+            
 <li> <a href="#.disable_hmd">disable_hmd<span class="signature">()</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.enable_controllers">enable_controllers<span class="signature">(gamepad_1<span class="signature-attributes">opt</span>, gamepad_2<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
 
         
             
@@ -172,7 +180,15 @@ Provides support for HMD/VR devices using <a href="https://w3c.github.io/webvr/"
 
         
             
+<li> <a href="#.get_position">get_position<span class="signature">(dest)</span><span class="type-signature"> &rarr; {Vec3}</span></a></li>
+
+        
+            
 <li> <a href="#.get_rotate_quat">get_rotate_quat<span class="signature">(dest)</span><span class="type-signature"> &rarr; {Quat}</span></a></li>
+
+        
+            
+<li> <a href="#.set_position">set_position<span class="signature">(position)</span><span class="type-signature"></span></a></li>
 
         
             
@@ -255,7 +271,7 @@ mouse does not affect camera orientation.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_hmd.js.html">addons/hmd.js</a>, <a href="addons_hmd.js.html#line56">line 56</a>
+        <a href="addons_hmd.js.html">addons/hmd.js</a>, <a href="addons_hmd.js.html#line57">line 57</a>
     </li></ul></dd>
     
 
@@ -333,7 +349,7 @@ mouse affect yaw rotation.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_hmd.js.html">addons/hmd.js</a>, <a href="addons_hmd.js.html#line72">line 72</a>
+        <a href="addons_hmd.js.html">addons/hmd.js</a>, <a href="addons_hmd.js.html#line73">line 73</a>
     </li></ul></dd>
     
 
@@ -411,7 +427,7 @@ mouse controls camera rotation.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_hmd.js.html">addons/hmd.js</a>, <a href="addons_hmd.js.html#line48">line 48</a>
+        <a href="addons_hmd.js.html">addons/hmd.js</a>, <a href="addons_hmd.js.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -440,7 +456,7 @@ mouse controls camera rotation.
 <div class="item_description">
 
 <div class="description">
-    HMD behavior: HMD controls roll and ritch rotation,
+    HMD behavior: HMD controls roll and pitch rotation,
 mouse controls yaw rotation.
 </div>
 
@@ -489,7 +505,7 @@ mouse controls yaw rotation.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_hmd.js.html">addons/hmd.js</a>, <a href="addons_hmd.js.html#line64">line 64</a>
+        <a href="addons_hmd.js.html">addons/hmd.js</a>, <a href="addons_hmd.js.html#line65">line 65</a>
     </li></ul></dd>
     
 
@@ -605,7 +621,7 @@ mouse controls yaw rotation.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_hmd.js.html">addons/hmd.js</a>, <a href="addons_hmd.js.html#line100">line 100</a>
+        <a href="addons_hmd.js.html">addons/hmd.js</a>, <a href="addons_hmd.js.html#line101">line 101</a>
     </li></ul></dd>
     
 
@@ -616,6 +632,99 @@ mouse controls yaw rotation.
     
 </dl>
 
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".disable_controllers">disable_controllers<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Disable VR controllers.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="addons_hmd.js.html">addons/hmd.js</a>, <a href="addons_hmd.js.html#line162">line 162</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_hmd = require("hmd");
+
+m_hmd.disable_controllers();</code></pre>
 
 
 </div>
@@ -691,7 +800,7 @@ mouse controls yaw rotation.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_hmd.js.html">addons/hmd.js</a>, <a href="addons_hmd.js.html#line217">line 217</a>
+        <a href="addons_hmd.js.html">addons/hmd.js</a>, <a href="addons_hmd.js.html#line289">line 289</a>
     </li></ul></dd>
     
 
@@ -702,6 +811,196 @@ mouse controls yaw rotation.
     
 </dl>
 
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".enable_controllers">enable_controllers<span class="signature">(gamepad_1<span class="signature-attributes">opt</span>, gamepad_2<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Enable VR controllers.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>gamepad_1</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Object presenting controller.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>gamepad_2</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Object presenting controller.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="addons_hmd.js.html">addons/hmd.js</a>, <a href="addons_hmd.js.html#line110">line 110</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_hmd = require("hmd");
+var m_scenes = require("scenes");
+
+var gamepad_1 = m_scenes.get_object_by_name("my_gamepad_1");
+var gamepad_2 = m_scenes.get_object_by_name("my_gamepad_2");
+m_hmd.enable_controllers(gamepad_1, gamepad_2);</code></pre>
 
 
 </div>
@@ -826,7 +1125,7 @@ mouse controls yaw rotation.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_hmd.js.html">addons/hmd.js</a>, <a href="addons_hmd.js.html#line80">line 80</a>
+        <a href="addons_hmd.js.html">addons/hmd.js</a>, <a href="addons_hmd.js.html#line81">line 81</a>
     </li></ul></dd>
     
 
@@ -837,6 +1136,172 @@ mouse controls yaw rotation.
     
 </dl>
 
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".get_position">get_position<span class="signature">(dest)</span><span class="type-signature"> &rarr; {<a href="global.html#Vec3">Vec3</a>}</span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Get hmd initial position.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>dest</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Initial position.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    dest.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="addons_hmd.js.html">addons/hmd.js</a>, <a href="addons_hmd.js.html#line356">line 356</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_hmd = require("hmd");
+var m_vec3 = require("vec3");
+var _vec3_tmp = m_vec3.create();
+
+var pos = m_hmd.get_position(_vec3_tmp);</code></pre>
 
 
 </div>
@@ -983,7 +1448,7 @@ mouse controls yaw rotation.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_hmd.js.html">addons/hmd.js</a>, <a href="addons_hmd.js.html#line252">line 252</a>
+        <a href="addons_hmd.js.html">addons/hmd.js</a>, <a href="addons_hmd.js.html#line328">line 328</a>
     </li></ul></dd>
     
 
@@ -994,6 +1459,157 @@ mouse controls yaw rotation.
     
 </dl>
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_hmd = require("hmd");
+var m_quat = require("quat");
+var _quat_tmp = m_quat.create();
+
+var quat = m_hmd.get_rotate_quat(_quat_tmp);</code></pre>
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".set_position">set_position<span class="signature">(position)</span><span class="type-signature"></span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Set hmd initial position.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>position</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Initial position.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="addons_hmd.js.html">addons/hmd.js</a>, <a href="addons_hmd.js.html#line344">line 344</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_hmd = require("hmd");
+
+m_hmd.set_position([0,0,0]);</code></pre>
 
 
 </div>
@@ -1118,7 +1734,7 @@ mouse controls yaw rotation.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_hmd.js.html">addons/hmd.js</a>, <a href="addons_hmd.js.html#line244">line 244</a>
+        <a href="addons_hmd.js.html">addons/hmd.js</a>, <a href="addons_hmd.js.html#line316">line 316</a>
     </li></ul></dd>
     
 
@@ -1129,6 +1745,13 @@ mouse controls yaw rotation.
     
 </dl>
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_hmd = require("hmd");
+
+m_hmd.set_rotate_quat([0,0,0,1]);</code></pre>
 
 
 </div>
@@ -1198,7 +1821,7 @@ mouse controls yaw rotation.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_hmd.js.html">addons/hmd.js</a>, <a href="addons_hmd.js.html#line39">line 39</a>
+        <a href="addons_hmd.js.html">addons/hmd.js</a>, <a href="addons_hmd.js.html#line40">line 40</a>
     </li></ul></dd>
     
 
@@ -1246,7 +1869,7 @@ mouse controls yaw rotation.
 <br class="clear">
 
 <footer>
-    Blend4Web API Reference (generated by JSDoc 3.4.0 on Tue Mar 07 2017 11:35:19 GMT+0300 (MSK))
+    Blend4Web API Reference (generated by JSDoc 3.4.0 on Wed Apr 26 2017 11:05:10 GMT+0300 (MSK))
     <a href="https://www.blend4web.com">www.blend4web.com</a>
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">

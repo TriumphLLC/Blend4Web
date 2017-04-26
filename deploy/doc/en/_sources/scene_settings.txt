@@ -130,7 +130,7 @@ Anti-Aliasing settings. Described thoroughly in :ref:`its own section<antialiasi
 Anisotropic Filtering
 ---------------------
 
-This parameter can be used to enable or disbale anisotropic filtering and also to set the number of texture samples used for it. By default, anisotropic filtering is disabled.
+This parameter can be used to enable or disable anisotropic filtering and also to set the number of texture samples used for it. By default, anisotropic filtering is disabled.
 
 .. image:: src_images/scene_settings/render_anisotropic_filtering.png
    :align: center
@@ -385,25 +385,38 @@ Physics settings.
 
 .. _scene_batching:
 
-Objects Clustering
-------------------
+Object Clustering & LOD
+-----------------------
 
-The setting for object clustering. It can be used for optimization purposes.
+Settings for object clustering and Levels Of Detail.
 
 .. image:: src_images/scene_settings/scene_object_clustering.png
    :align: center
    :width: 100%
 
 *Cluster Size*
-    The size of the cluster used for batching (in meters). If this parameter is set to zero, the engine will try to combine all objects in the scene. Set to zero by default.
+    The size of the cluster used for batching (in meters). Can be used for optimization purposes. If this parameter is set to zero, the engine will try to combine all objects in the scene. Set to zero by default.
 
 *LOD Cluster Size Multiplier*
-    This parameter is used to subdivide clusters (based on LOD distance specified individually for each object) into smaller ones to make transitions between different levels of detail less noticable. The size of that smaller clusters is defined by object LOD distance multiplied by the value of this parameter. Higher values lead to bigger clusters which increases performance but maked transition between LODs more noticable, while lower values make said transitions less noticable at the cost of decreased performance. Set to 0.5 by default.
+    This parameter is used to subdivide clusters (based on LOD distance specified individually for each object) into smaller ones to make transitions between different levels of detail less noticeable. The size of that smaller clusters is defined by object LOD distance multiplied by the value of this parameter. Higher values lead to bigger clusters which increases performance but makes transition between LODs more noticeable, while lower values make said transitions less noticeable at the cost of decreased performance. Can be used for optimization purposes. Set to 0.5 by default.
+
+*LOD Smooth Transitions* 
+    Defines what objects will use smooth transitions while switching their LOD levels. Has the following options:
+
+    * OFF - smooth transitions are disabled (fastest).
+    * NON-OPAQUE - use smooth transitions for objects with ``Add``, ``Alpha Clip``, ``Alpha Blend``, ``Alpha Sort`` and ``Alpha Anti-Aliasing`` :ref:`materials <alpha_blend>`.
+    * ALL - smooth transitions will be used for all objects (slowest).
+
+    Choosing the "ALL" value can noticeably decrease application performance, so use it with caution. Default value is "NON-OPAQUE".
+
+*Max LOD Hysteresis Interval*
+
+    The length of the interval (in meters) used for switching LOD levels. The half of this value is added/subtracted from the distance threshold in order to make two different thresholds for switching to the lower and to the higher LOD level. This should reduce LOD "popping" effect. Set to 4.0 by default.
 
 .. _scene_objects_selection:
 
-Objects Selection
------------------
+Object Selection
+----------------
 
 Object selection settings. Objects can be selected both with the API function :b4wref:`scenes.pick_object()` and with the :ref:`logic nodes <logic_editor>`.
 
@@ -581,7 +594,7 @@ Environment animation settings.
     * ``Finish Stop`` - the animation will be played once.
     * ``Finish Reset`` - the animation will be played once, and then switched back to the first frame.
 
-    This option is only avaliable if the ``Apply Default Animation`` parameter is enabled.
+    This option is only available if the ``Apply Default Animation`` parameter is enabled.
 
 
 .. _world_export_options:

@@ -44,8 +44,9 @@ var m_quat       = require("__quat");
 var m_scenes     = require("__scenes");
 var m_subs       = require("__subscene");
 var m_sfx        = require("__sfx");
-var m_trans      = require("__transform");
 var m_tex        = require("__textures");
+var m_time       = require("__time");
+var m_trans      = require("__transform");
 var m_tsr        = require("__tsr");
 var m_util       = require("__util");
 var m_vec3       = require("__vec3");
@@ -73,6 +74,9 @@ var _quat4_tmp = new Float32Array(4);
 var COLOR_ID_THRESHOLD = 3.0;
 var DATA_ID_ALL = -1;
 
+var LOD_TRANSITION_TIME = 0.4; //sec
+var LOD_HYST_INTERVAL_LIMIT_COEFF = 0.3;
+
 exports.GET_OBJECT_BY_NAME = 0;
 exports.GET_OBJECT_BY_DUPLI_NAME = 1;
 exports.GET_OBJECT_BY_DUPLI_NAME_LIST = 2;
@@ -89,17 +93,15 @@ exports.update = function(timeline, elapsed) {
     }
 
     var armatures = _all_objects["ARMATURE"];
-    if (!armatures)
-        return;
-
-    // update bone constraints
-    for (var i = 0; i < armatures.length; i++) {
-        var armobj = armatures[i];
-        if (armobj.need_update_transform) {
-            m_trans.update_transform(armobj);
-            armobj.need_update_transform = false;
+    if (armatures)
+        // update bone constraints
+        for (var i = 0; i < armatures.length; i++) {
+            var armobj = armatures[i];
+            if (armobj.need_update_transform) {
+                m_trans.update_transform(armobj);
+                armobj.need_update_transform = false;
+            }
         }
-    }
 }
 
 exports.set_outline_intensity = set_outline_intensity;
@@ -149,21 +151,9 @@ exports.update_object = function(bpy_obj, obj) {
     obj.uuid = bpy_obj["uuid"];
     obj.bpy_origin = true;
 
-    // for material inheritance
-    if (bpy_obj["b4w_dynamic_geometry"]) {
-        obj._bpy_obj = bpy_obj;
-
-        for (var i = 0; i < bpy_obj["data"]["materials"].length; i++) {
-            var bpy_mat = bpy_obj["data"]["materials"][i];
-            obj.mat_inheritance_data.original_mat_names.push(bpy_mat["name"]);
-            obj.mat_inheritance_data.bpy_materials.push(bpy_mat);
-            obj.mat_inheritance_data.is_disabled.push(false);
-        }
-    }
-
-    prepare_default_actions(bpy_obj, obj);
-    bpy_obj._is_dynamic = obj.is_dynamic = calc_is_dynamic(bpy_obj, obj);
-    bpy_obj._is_updated = true;
+    obj.def_action_slots = bpy_obj._def_action_slots;
+    obj.is_dynamic = bpy_obj._is_dynamic;
+    obj.is_hair_dupli = bpy_obj._is_hair_dupli || false;
 
     prepare_physics_settings(bpy_obj, obj);
 
@@ -173,6 +163,7 @@ exports.update_object = function(bpy_obj, obj) {
         var render_type = obj.type;
 
     var render = obj.render = m_obj_util.create_render(render_type);
+
     prepare_parenting_props(bpy_obj, obj);
 
     var pos = bpy_obj["location"];
@@ -203,6 +194,7 @@ exports.update_object = function(bpy_obj, obj) {
         }
 
     render.hide = bpy_obj["b4w_hidden_on_load"];
+    render.hide_children = bpy_obj["b4w_hide_chldr_on_load"];
 
     switch (bpy_obj["type"]) {
     case "ARMATURE":
@@ -238,9 +230,9 @@ exports.update_object = function(bpy_obj, obj) {
         break;
 
     case "MESH":
+        render.bb_original = m_batch.bb_bpy_to_b4w(bpy_obj["data"]["b4w_boundings"]["bb"]);
         obj.is_boundings_overridden = bpy_obj["data"]["is_boundings_overridden"];
         render.do_not_render = bpy_obj["b4w_do_not_render"];
-        render.bb_original = m_batch.bb_bpy_to_b4w(bpy_obj["data"]["b4w_boundings"]["bb"]);
         render.selectable = cfg_out.outlining_overview_mode || bpy_obj["b4w_selectable"];
         render.origin_selectable = bpy_obj["b4w_selectable"];
 
@@ -307,6 +299,18 @@ exports.update_object = function(bpy_obj, obj) {
        
         render.dynamic_geometry = bpy_obj["b4w_dynamic_geometry"];
 
+        // for material inheritance
+        if (render.dynamic_geometry) {
+            obj._bpy_obj = bpy_obj;
+
+            for (var i = 0; i < bpy_obj["data"]["materials"].length; i++) {
+                var bpy_mat = bpy_obj["data"]["materials"][i];
+                obj.mat_inheritance_data.original_mat_names.push(bpy_mat["name"]);
+                obj.mat_inheritance_data.bpy_materials.push(bpy_mat);
+                obj.mat_inheritance_data.is_disabled.push(false);
+            }
+        }
+
         // assign params for object (bounding) physics simulation
         // it seams BGE uses first material to get physics param
         var first_mat = first_mesh_material(bpy_obj);
@@ -315,7 +319,6 @@ exports.update_object = function(bpy_obj, obj) {
 
         render.lod_dist_min = 0;
         render.lod_dist_max = m_obj_util.LOD_DIST_MAX_INFINITY;
-        render.lod_transition_ratio = bpy_obj["b4w_lod_transition"];
 
         render.pass_index = bpy_obj["pass_index"];
         break;
@@ -407,9 +410,8 @@ exports.update_world = function(bpy_world, world) {
     world.uuid = bpy_world["uuid"];
     world.bpy_origin = true;
 
-    prepare_default_actions(bpy_world, world);
-    bpy_world._is_dynamic = world.is_dynamic = calc_is_dynamic(bpy_world, world);
-    bpy_world._is_updated = true;
+    world.def_action_slots = bpy_world._def_action_slots;
+    world.is_dynamic = bpy_world._is_dynamic;
 
     var render_type = world.type;
     world.render = m_obj_util.create_render(render_type);
@@ -696,7 +698,7 @@ exports.update_objects_dynamics = function(objects) {
     }
 }
 
-function calc_is_dynamic(bpy_obj, obj) {
+exports.bpy_obj_is_dynamic = function(bpy_obj) {
     // NOTE: need hierarhical objects structure here
     if (bpy_obj["b4w_hidden_on_load"])
         return true;
@@ -707,10 +709,10 @@ function calc_is_dynamic(bpy_obj, obj) {
 
     switch (bpy_obj["type"]) {
     case "MESH":
-        return calc_mesh_is_dynamic(bpy_obj, obj);
+        return bpy_mesh_is_dynamic(bpy_obj);
         break;
     case "EMPTY":
-        return calc_empty_is_dynamic(bpy_obj, obj);
+        return bpy_empty_is_dynamic(bpy_obj);
         break;
     default:
         return true;
@@ -718,16 +720,8 @@ function calc_is_dynamic(bpy_obj, obj) {
     }
 }
 
-function calc_empty_is_dynamic(bpy_obj, obj) {
-    var is_animated = m_anim.bpy_obj_is_animatable(bpy_obj, obj);
-    var has_nla = m_nla.bpy_obj_has_nla(bpy_obj);
-    var has_do_not_batch = bpy_obj["b4w_do_not_batch"];
-    var anchor = Boolean(bpy_obj["b4w_anchor"]);
-    return is_animated || has_nla || has_do_not_batch || anchor;
-}
-
-function calc_mesh_is_dynamic(bpy_obj, obj) {
-    var is_animated = m_anim.bpy_obj_is_animatable(bpy_obj, obj);
+function bpy_mesh_is_dynamic(bpy_obj) {
+    var is_animated = m_anim.bpy_mesh_empty_is_animatable(bpy_obj);
     var has_do_not_batch = bpy_obj["b4w_do_not_batch"];
     var is_collision = bpy_obj["b4w_collision"];
     var is_vehicle_part = bpy_obj["b4w_vehicle"];
@@ -742,6 +736,14 @@ function calc_mesh_is_dynamic(bpy_obj, obj) {
             || is_collision || is_vehicle_part || has_shape_keys
             || is_floater_part || dyn_grass_emitter || is_character
             || has_nla || has_dynamic_geometry || has_dynamic_mat(bpy_obj);
+}
+
+function bpy_empty_is_dynamic(bpy_obj) {
+    var is_animated = m_anim.bpy_mesh_empty_is_animatable(bpy_obj);
+    var has_nla = m_nla.bpy_obj_has_nla(bpy_obj);
+    var has_do_not_batch = bpy_obj["b4w_do_not_batch"];
+    var anchor = Boolean(bpy_obj["b4w_anchor"]);
+    return is_animated || has_nla || has_do_not_batch || anchor;
 }
 
 function has_dynamic_mat(bpy_obj) {
@@ -913,12 +915,7 @@ exports.copy = function(obj, name, deep_copy) {
     return new_obj;
 }
 
-function copy_object(obj, new_name, deep_copy) {
-
-    var origin_name = new_name;
-    var dg_parent = m_obj_util.get_dg_parent(obj);
-    var name = dg_parent ? m_obj_util.gen_dupli_name(dg_parent.name, new_name) : new_name;
-
+function get_name_suff_unique(name) {
     if (get_object_by_name(name, _all_objects["ALL"], false, DATA_ID_ALL)) {
         var i = 1;
         var num;
@@ -932,9 +929,21 @@ function copy_object(obj, new_name, deep_copy) {
 
         m_print.error("Object \"" + name + "\" already exists. "
                 + "Name was replaced by \"" + name + num + "\".");
-        origin_name += num;
-        name += num;
+        return num;
     }
+
+    return "";
+}
+
+function copy_object(obj, new_name, deep_copy) {
+
+    var origin_name = new_name;
+    var dg_parent = m_obj_util.get_dg_parent(obj);
+    var name = dg_parent ? m_obj_util.gen_dupli_name(dg_parent.name, new_name) : new_name;
+
+    var suff = get_name_suff_unique(name);
+    name += suff;
+    origin_name += suff;
 
     var new_obj = m_obj_util.create_object(name, obj.type, origin_name);
 
@@ -957,6 +966,10 @@ function copy_object(obj, new_name, deep_copy) {
     new_obj.def_action_slots = obj.def_action_slots;
 
     new_obj.render = m_obj_util.clone_render(obj.render);
+
+    // do not preserve LOD functionality for copied objects
+    new_obj.render.is_lod = false;
+
     new_obj.metatags = m_obj_util.copy_object_props_by_value(obj.metatags);
     new_obj.custom_prop = m_obj_util.copy_object_props_by_value(obj.custom_prop);
 
@@ -1029,7 +1042,7 @@ function copy_batches(obj, new_obj, deep_copy) {
                 if (new_batches[j].bufs_data)
                     m_geom.update_gl_buffers(new_batches[j].bufs_data);
 
-                if (cfg_def.allow_vao_ext)
+                if (cfg_def.allow_vao_ext && new_batches[j].bufs_data)
                     m_render.assign_vao(new_batches[j]);
 
                 // to create unique batch ID
@@ -1163,7 +1176,9 @@ function prepare_physics_settings(bpy_obj, obj) {
     }
 }
 
-function prepare_default_actions(bpy_obj, obj) {
+exports.get_bpy_def_action_slots = function(bpy_obj, is_world) {
+    var def_action_slots = [];
+
     var obj_anim_data = bpy_obj["animation_data"];
     var data_anim_data = bpy_obj["data"] ? bpy_obj["data"]["animation_data"] : null;
 
@@ -1171,22 +1186,27 @@ function prepare_default_actions(bpy_obj, obj) {
         var action = obj_anim_data["action"];
 
         if (action._render.type == m_anim.OBJ_ANIM_TYPE_OBJECT ||
-                action._render.type == m_anim.OBJ_ANIM_TYPE_ARMATURE && obj.type == "ARMATURE" ||
-                action._render.type == m_anim.OBJ_ANIM_TYPE_LIGHT && obj.type == "LAMP" ||
-                action._render.type == m_anim.OBJ_ANIM_TYPE_ENVIRONMENT && obj.type == "WORLD")
-            obj.def_action_slots.push(m_anim.init_action_slot(null, action));
+                action._render.type == m_anim.OBJ_ANIM_TYPE_ARMATURE && bpy_obj["type"] == "ARMATURE" ||
+                action._render.type == m_anim.OBJ_ANIM_TYPE_LIGHT && bpy_obj["type"] == "LAMP" ||
+                action._render.type == m_anim.OBJ_ANIM_TYPE_ENVIRONMENT && is_world)
+            def_action_slots.push(m_anim.init_action_slot(null, action));
     }
 
-    if (data_anim_data && data_anim_data["action"] && (obj.type == "SPEAKER"
-                                                    || obj.type == "LAMP"))
-        obj.def_action_slots.push(m_anim.init_action_slot(null,
+    if (data_anim_data && data_anim_data["action"] && (bpy_obj["type"] == "SPEAKER"
+            || bpy_obj["type"] == "LAMP"))
+        def_action_slots.push(m_anim.init_action_slot(null,
                                     data_anim_data["action"]));
 
     // NOTE: nla material tracks are considered during the nla's object updating
     // and aren't present in the def_action_slots property
-    if (obj.type == "MESH")
-        obj.def_action_slots.push.apply(obj.def_action_slots,
-                                    m_anim.get_bpy_material_actions(bpy_obj));
+    if (bpy_obj["type"] == "MESH")
+        def_action_slots.push.apply(def_action_slots,
+                m_anim.get_bpy_material_actions(bpy_obj));
+    if (is_world)
+        def_action_slots.push.apply(def_action_slots,
+                m_anim.get_bpy_world_material_actions(bpy_obj));
+
+    return def_action_slots;
 }
 
 function prepare_vertex_anim(bpy_obj, obj) {
@@ -1300,7 +1320,6 @@ exports.update_boundings = function(obj) {
                 render.world_tsr);
         batch.bs_local = m_bounds.create_bs_by_be(batch.be_local);
         batch.bs_world = m_bounds.create_bs_by_be(batch.be_world);
-
         batch.use_be = m_bounds.is_be_optimized(batch.be_local,
                                                 batch.bs_local);
 
@@ -1450,7 +1469,7 @@ exports.update_boundings = function(obj) {
     }
 
     render.bb_local = bb_local;
-    m_batch.set_local_cylinder_capsule(render, c_rad, c_rad, bb_local);
+    set_local_cylinder_capsule(render, c_rad, c_rad, bb_local);
 
     // bounding sphere
     var bs_local = m_bounds.bs_from_values(s_rad, bs_center);
@@ -1863,6 +1882,110 @@ exports.objects_storage_check = function(obj) {
     return _all_objects[obj.type] && _all_objects[obj.type].indexOf(obj) > -1;
 }
 
+exports.update_lod_scene = function(lod_obj, scene) {
+    var render = lod_obj.render;
+    if (render.is_lod)
+        init_obj_lod_settings(lod_obj, scene);
+}
+
+/**
+ * uses _vec3_tmp
+ * @returns {boolean} Is LOD visible or not.
+ */
+exports.update_lod_visibility = update_lod_visibility;
+function update_lod_visibility(batch, obj_render, eye) {
+    // NOTE: accessing elements from a TypedArray in this function can lead to a 
+    // serious performance drop in Chrome - may be a bug or an unclear 
+    // deoptimization in V8
+
+    if (!obj_render.is_lod)
+        return true;
+
+    var lod_set = batch.lod_settings;
+
+    if (lod_set.dest_coverage != lod_set.coverage) {
+        if (lod_set.use_smoothing) {
+            var sign = m_util.sign(lod_set.dest_coverage - lod_set.coverage);
+            lod_set.coverage += sign * m_time.get_delta() / LOD_TRANSITION_TIME;
+            lod_set.coverage = m_util.clamp(lod_set.coverage, 0, 1);
+        } else 
+            lod_set.coverage = lod_set.dest_coverage;
+    }
+
+    if (obj_render.type == "STATIC")
+        var center = obj_render.lod_center;
+    else {
+        // DYNAMIC objects should use bs_world, because it is constantly 
+        // updated unlike the lod_center property
+        var center = m_vec3.add(obj_render.bs_world.center, 
+                obj_render.main_lod_offset, _vec3_tmp);
+    }
+
+    var dist = m_vec3.dist(center, eye);
+    if (lod_set.hyst_prev_state == 0) {
+        var d_min = Math.max(obj_render.lod_dist_min - lod_set.hyst_interval_min / 2, 0);
+        var d_max = obj_render.lod_dist_max + lod_set.hyst_interval_max / 2;
+    } else if (lod_set.hyst_prev_state == -1) {
+        var d_min = obj_render.lod_dist_min + lod_set.hyst_interval_min / 2;
+        var d_max = obj_render.lod_dist_max + lod_set.hyst_interval_max / 2;
+    } else {
+        var d_min = Math.max(obj_render.lod_dist_min - lod_set.hyst_interval_min / 2, 0);
+        var d_max = Math.max(obj_render.lod_dist_max - lod_set.hyst_interval_max / 2, 0);
+    }
+
+    if (dist < d_min)
+        lod_set.hyst_prev_state = -1;
+    else if (dist < d_max)
+        lod_set.hyst_prev_state = 0;
+    else
+        lod_set.hyst_prev_state = 1;
+
+    lod_set.dest_coverage = (dist < d_min || dist > d_max) ? 0: 1;
+    lod_set.cmp_logic = lod_set.dest_coverage == 0 ? -1: 1;
+
+    if (Math.abs(dist - lod_set.prev_dist) > cfg_def.lod_leap_smooth_threshold 
+            && (lod_set.coverage == 0 || lod_set.coverage == 1))
+        lod_set.coverage = lod_set.dest_coverage;
+
+    lod_set.prev_dist = dist;
+
+    return lod_set.dest_coverage != 0 || lod_set.coverage != 0;
+}
+
+/**
+ * uses _vec3_tmp
+ */
+function init_obj_lod_settings(obj, scene) {
+    var obj_render = obj.render;
+    var sc_render = scene._render;
+
+    if (obj_render.is_lod) {
+        var cam_eye = m_trans.get_translation(scene._camera, _vec3_tmp);
+        for (var i = 0; i < obj.scenes_data.length; i++)
+            if (obj.scenes_data[i].scene == scene)
+                for (var j = 0; j < obj.scenes_data[i].batches.length; j++) {
+                    var batch = obj.scenes_data[i].batches[j]
+                    var lod_set = batch.lod_settings;
+
+                    if (cfg_def.lod_smooth_transitions) {
+                        var sm_type = sc_render.lod_smooth_type;
+                        if (sm_type == "ALL" || sm_type == "NON-OPAQUE" 
+                                && (batch.blend || batch.alpha_clip))
+                            lod_set.use_smoothing = true;
+                    }
+                    
+                    update_lod_visibility(batch, obj_render, cam_eye);
+                    lod_set.coverage = lod_set.dest_coverage;
+
+                    // hysteresis interval limit depends on the lengths of the lod levels
+                    lod_set.hyst_interval_min = Math.min(sc_render.lod_hyst_interval, 
+                            2 * LOD_HYST_INTERVAL_LIMIT_COEFF * obj_render.lod_lower_border_range);
+                    lod_set.hyst_interval_max = Math.min(sc_render.lod_hyst_interval, 
+                            2 * LOD_HYST_INTERVAL_LIMIT_COEFF * obj_render.lod_upper_border_range);
+                }
+    }
+}
+
 exports.set_hair_particles_wind_bend_params = function(obj) {
     var render = obj.render;
     var amp         = render.wind_bending_amp;
@@ -2143,6 +2266,109 @@ function recover_batch_state(obj_to, mat_to_name, obj_from, psys_dict, main_batc
         }
     }
     m_batch.iterate_batches_by_mat(obj_to, mat_to_name, tex_cb);
+}
+
+// CHECK
+exports.create_line = function(name) {
+    name = name || "";
+
+    name += get_name_suff_unique(name);
+
+    var line = m_obj_util.create_object(name, "LINE");
+
+    line.render = m_obj_util.create_render("EMPTY");
+
+    line.is_dynamic = true;
+
+    m_batch.generate_line_batches(m_scenes.get_main(), [line]);
+
+    m_scenes.append_object(m_scenes.get_main(), line);
+
+    objects_storage_add(line);
+
+    return line;
+}
+
+exports.generate_mesh_render_boundings = function(bpy_obj, obj) {
+    var render = obj.render;
+    
+    var b_data = bpy_obj["data"]["b4w_boundings"];
+    var bs_radius = b_data["bs_rad"];
+    var bs_center = b_data["bs_cen"];
+    var cyl_radius = b_data["bc_rad"];
+
+    // use exported covariance axes for dynamic objects
+    var cov_axis_x = b_data["caxis_x"];
+    var cov_axis_y = b_data["caxis_y"];
+    var cov_axis_z = b_data["caxis_z"];
+    var be_axes = b_data["be_ax"];
+    var be_center = b_data["be_cen"];
+
+    var bbr_center = b_data["rbb"]["rbb_c"];
+    var bbr_scale = b_data["rbb"]["rbb_s"];
+
+    var is_dynamic = m_obj_util.is_dynamic(obj);
+    var bb_local = m_bounds.clone_bb(render.bb_original);
+    if (render.billboard) {
+        var x = Math.max(Math.abs(bb_local.max_x), Math.abs(bb_local.min_x));
+        var y = Math.max(Math.abs(bb_local.max_y), Math.abs(bb_local.min_y));
+        var z = Math.max(Math.abs(bb_local.max_z), Math.abs(bb_local.min_z));
+        var sphere_radius = Math.sqrt(x * x + y * y + z * z);
+        var cylinder_radius = Math.sqrt(x * x + y * y);
+
+        bb_local.max_x = bb_local.max_y = bb_local.max_z = sphere_radius;
+        bb_local.min_x = bb_local.min_y = bb_local.min_z = -sphere_radius;
+
+        bs_radius = sphere_radius;
+        bs_center = [0, 0, 0];
+
+        cyl_radius = cylinder_radius;
+
+        cov_axis_x = [1, 0, 0];
+        cov_axis_y = [0, 1, 0];
+        cov_axis_z = [0, 0, 1];
+        be_axes = [sphere_radius, sphere_radius, sphere_radius];
+        be_center = [0, 0, 0];
+
+        bbr_center = [0, 0, 0];
+        bbr_scale = [sphere_radius, sphere_radius, sphere_radius];
+    }
+
+    // box
+    m_bounds.copy_bb(bb_local, render.bb_local);
+    m_bounds.bounding_box_transform(render.bb_local, render.world_tsr, render.bb_world);
+
+    // sphere
+    render.bs_local = m_bounds.bs_from_values(bs_radius, m_util.f32(bs_center));
+    m_bounds.bounding_sphere_transform(render.bs_local, render.world_tsr, render.bs_world);
+
+    // ellipsoid
+    if (is_dynamic)
+        render.be_local = m_bounds.be_from_values(cov_axis_x, cov_axis_y, cov_axis_z, be_center);
+    else
+        render.be_local = m_bounds.be_from_values([1, 0, 0], [0, 1, 0], [0, 0, 1], be_center);
+    m_vec3.scale(render.be_local.axis_x, be_axes[0], render.be_local.axis_x);
+    m_vec3.scale(render.be_local.axis_y, be_axes[1], render.be_local.axis_y);
+    m_vec3.scale(render.be_local.axis_z, be_axes[2], render.be_local.axis_z);
+    m_bounds.bounding_ellipsoid_transform(render.be_local, render.world_tsr, render.be_world);
+
+    if (is_dynamic)
+        set_local_cylinder_capsule(render, cyl_radius, cyl_radius, render.bb_local);
+    else {
+        render.bbr_local = m_bounds.rot_bb_from_values(bbr_center, cov_axis_x, 
+                cov_axis_y, cov_axis_z, bbr_scale);
+        m_bounds.bounding_rot_box_transform(render.bbr_local, render.world_tsr, 
+                render.bbr_world);
+    }
+}
+
+/**
+ * Update local cylinder and capsule boundings
+ */
+function set_local_cylinder_capsule(render, cyl_radius, cap_radius, bb_local) {
+    render.bcyl_local = m_bounds.bcyl_from_values(cyl_radius, bb_local);
+    render.bcap_local = m_bounds.bcap_from_values(cap_radius, bb_local);
+    render.bcon_local = m_bounds.bcon_from_values(cyl_radius, bb_local);
 }
 
 }

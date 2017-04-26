@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Material Library &mdash; Blend4Web 17.02.1 User Manual</title>
+  <title>Material Library &mdash; Blend4Web 17.04 User Manual</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.02.1 User Manual" href="index.html"/>
+    <link rel="top" title="Blend4Web 17.04 User Manual" href="index.html"/>
         <link rel="next" title="Node Materials" href="node_materials.html"/>
         <link rel="prev" title="Materials" href="materials.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v17.02.1
+              v17.04
             </div>
           
         
@@ -107,7 +107,6 @@
 <li class="toctree-l2"><a class="reference internal" href="#adding-material-to-a-scene">Adding Material to a Scene</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#how-to-add-a-whole-material">How to Add a Whole Material</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#how-to-add-only-a-material-core">How to Add Only a Material Core</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#how-to-add-the-material-library-to-a-project">How to Add the Material Library to a Project</a></li>
 </ul>
 </li>
 </ul>
@@ -172,21 +171,20 @@
            <div itemprop="articleBody">
             
   <div class="section" id="material-library">
-<h1><a class="toc-backref" href="#id1">Material Library</a><a class="headerlink" href="#material-library" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1><a class="toc-backref" href="#id4">Material Library</a><a class="headerlink" href="#material-library" title="Permalink to this headline">¶</a></h1>
 <div class="contents topic" id="table-of-contents">
 <p class="topic-title first">Table of Contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#material-library" id="id1">Material Library</a><ul>
-<li><a class="reference internal" href="#library-structure" id="id2">Library Structure</a></li>
-<li><a class="reference internal" href="#material-structure" id="id3">Material Structure</a><ul>
-<li><a class="reference internal" href="#material-core" id="id4">Material Core</a></li>
-<li><a class="reference internal" href="#an-example-of-using-a-material" id="id5">An Example of Using a Material</a></li>
+<li><a class="reference internal" href="#material-library" id="id4">Material Library</a><ul>
+<li><a class="reference internal" href="#library-structure" id="id5">Library Structure</a></li>
+<li><a class="reference internal" href="#material-structure" id="id6">Material Structure</a><ul>
+<li><a class="reference internal" href="#material-core" id="id7">Material Core</a></li>
+<li><a class="reference internal" href="#an-example-of-using-a-material" id="id8">An Example of Using a Material</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#adding-material-to-a-scene" id="id6">Adding Material to a Scene</a><ul>
-<li><a class="reference internal" href="#how-to-add-a-whole-material" id="id7">How to Add a Whole Material</a></li>
-<li><a class="reference internal" href="#how-to-add-only-a-material-core" id="id8">How to Add Only a Material Core</a></li>
-<li><a class="reference internal" href="#how-to-add-the-material-library-to-a-project" id="id9">How to Add the Material Library to a Project</a></li>
+<li><a class="reference internal" href="#adding-material-to-a-scene" id="id9">Adding Material to a Scene</a><ul>
+<li><a class="reference internal" href="#how-to-add-a-whole-material" id="id10">How to Add a Whole Material</a></li>
+<li><a class="reference internal" href="#how-to-add-only-a-material-core" id="id11">How to Add Only a Material Core</a></li>
 </ul>
 </li>
 </ul>
@@ -194,14 +192,24 @@
 </ul>
 </div>
 <p>The material library is a library where a user can find basic and the most commonly used materials to use in his or her projects or create his or her own materials based on these materials.</p>
-<p>The material library can be found in the <code class="docutils literal"><span class="pre">/blender/material_library/</span></code> folder in the SDK root directory.</p>
+<p>When creating a new project, you can plug the material library into it, and then plug in materials directly from there.</p>
+<a class="reference internal image-reference" href="_images/material_library_use.png"><img alt="_images/material_library_use.png" class="align-center" src="_images/material_library_use.png" style="width: 100%;" /></a>
+<p>To do this, check the <code class="docutils literal"><span class="pre">Use</span> <span class="pre">Material</span> <span class="pre">Library</span></code> box when creating the project using the <a class="reference internal" href="project_manager.html#project-management"><span>Project Manager</span></a>. Then, an entire material library will be automatically copied to the <code class="docutils literal"><span class="pre">/assets/material_library/</span></code> folder in the new project’s directory.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">It is also possible to use Material Library in a pre-existing project. All you have to do is copy files from the <code class="docutils literal"><span class="pre">/blender/material_library/</span></code> folder to the <code class="docutils literal"><span class="pre">/assets/</span></code> folder in your project’s directory. Then you can link the files that contain materials you need to your scene file and use them in the scene.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Materials (or any other objects) can be both <em>linked</em> or <em>appended</em> to the scene. The difference is described <a class="reference internal" href="#material-add"><span>here</span></a>.</p>
+</div>
 <div class="section" id="library-structure">
-<h2><a class="toc-backref" href="#id2">Library Structure</a><a class="headerlink" href="#library-structure" title="Permalink to this headline">¶</a></h2>
+<span id="id2"></span><h2><a class="toc-backref" href="#id5">Library Structure</a><a class="headerlink" href="#library-structure" title="Permalink to this headline">¶</a></h2>
 <p>All materials are structured by folder (by categories of materials) and by a separate file (by materials). Every blend file contains one base material and a material for an additional object, that demonstrates the material on an object that can be associated with this material (for example, a gold ingot for a gold material).</p>
 <a class="reference internal image-reference" href="_images/material_library_main.png"><img alt="_images/material_library_main.png" class="align-center" src="_images/material_library_main.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="material-structure">
-<h2><a class="toc-backref" href="#id3">Material Structure</a><a class="headerlink" href="#material-structure" title="Permalink to this headline">¶</a></h2>
+<span id="id3"></span><h2><a class="toc-backref" href="#id6">Material Structure</a><a class="headerlink" href="#material-structure" title="Permalink to this headline">¶</a></h2>
 <a class="reference internal image-reference" href="_images/material_library_structure.png"><img alt="_images/material_library_structure.png" class="align-center" src="_images/material_library_structure.png" style="width: 100%;" /></a>
 <ol class="arabic">
 <li><p class="first">The core of the material</p>
@@ -223,7 +231,7 @@
 </li>
 <li><p class="first">The <code class="docutils literal"><span class="pre">Mapping</span></code> node is used to control the parameters of the UV maps.</p>
 </li>
-<li><p class="first">The <code class="docutils literal"><span class="pre">RGB</span> <span class="pre">Curve</span></code> nodes can be used to correct masks before pulgging them into the material core.</p>
+<li><p class="first">The <code class="docutils literal"><span class="pre">RGB</span> <span class="pre">Curve</span></code> nodes can be used to correct masks before plugging them into the material core.</p>
 </li>
 <li><p class="first">Specific specular map settings are used right after the <code class="docutils literal"><span class="pre">Material</span></code> node to achieve various degrees of specular blur.</p>
 </li>
@@ -233,11 +241,11 @@
 </li>
 </ol>
 <div class="section" id="material-core">
-<h3><a class="toc-backref" href="#id4">Material Core</a><a class="headerlink" href="#material-core" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id7">Material Core</a><a class="headerlink" href="#material-core" title="Permalink to this headline">¶</a></h3>
 <p>This is the main node group containing the node structure that form a shader. Essentially, this is the material itself in its true form, with all complex node interactions packed into one group for convenient use. This node group has certain inputs and outputs, as well as specific input parameters, to set it up.</p>
 </div>
 <div class="section" id="an-example-of-using-a-material">
-<h3><a class="toc-backref" href="#id5">An Example of Using a Material</a><a class="headerlink" href="#an-example-of-using-a-material" title="Permalink to this headline">¶</a></h3>
+<span id="material-example"></span><h3><a class="toc-backref" href="#id8">An Example of Using a Material</a><a class="headerlink" href="#an-example-of-using-a-material" title="Permalink to this headline">¶</a></h3>
 <a class="reference internal image-reference" href="_images/material_library_example.png"><img alt="_images/material_library_example.png" class="align-center" src="_images/material_library_example.png" style="width: 100%;" /></a>
 <p>Here, you can see an example of setting plastic material for a special demo object without using the textures that are plugged into the core of the material.</p>
 <a class="reference internal image-reference" href="_images/material_library_example_demo.png"><img alt="_images/material_library_example_demo.png" class="align-center" src="_images/material_library_example_demo.png" style="width: 100%;" /></a>
@@ -262,9 +270,9 @@
 </div>
 </div>
 <div class="section" id="adding-material-to-a-scene">
-<h2><a class="toc-backref" href="#id6">Adding Material to a Scene</a><a class="headerlink" href="#adding-material-to-a-scene" title="Permalink to this headline">¶</a></h2>
+<span id="material-add"></span><h2><a class="toc-backref" href="#id9">Adding Material to a Scene</a><a class="headerlink" href="#adding-material-to-a-scene" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="how-to-add-a-whole-material">
-<h3><a class="toc-backref" href="#id7">How to Add a Whole Material</a><a class="headerlink" href="#how-to-add-a-whole-material" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id10">How to Add a Whole Material</a><a class="headerlink" href="#how-to-add-a-whole-material" title="Permalink to this headline">¶</a></h3>
 <a class="reference internal image-reference" href="_images/material_library_append.png"><img alt="_images/material_library_append.png" class="align-center" src="_images/material_library_append.png" style="width: 100%;" /></a>
 <p>Select the <code class="docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">Append/Link</span></code> from the menu, depending on what you want to do. If you want to keep the ability to modify the object after it has been added to the scene, use <code class="docutils literal"><span class="pre">Append</span></code>. If you don&#8217;t, use <code class="docutils literal"><span class="pre">Link</span></code>.</p>
 <a class="reference internal image-reference" href="_images/material_library_select_blend_file.png"><img alt="_images/material_library_select_blend_file.png" class="align-center" src="_images/material_library_select_blend_file.png" style="width: 100%;" /></a>
@@ -273,7 +281,7 @@
 <p>Select the material itself from the list of materials, and press <code class="docutils literal"><span class="pre">Append</span> <span class="pre">from</span> <span class="pre">Library</span></code> or <code class="docutils literal"><span class="pre">Link</span> <span class="pre">from</span> <span class="pre">Library</span></code>. Now, the material has been added to your scene and can be used on any object.</p>
 </div>
 <div class="section" id="how-to-add-only-a-material-core">
-<h3><a class="toc-backref" href="#id8">How to Add Only a Material Core</a><a class="headerlink" href="#how-to-add-only-a-material-core" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id11">How to Add Only a Material Core</a><a class="headerlink" href="#how-to-add-only-a-material-core" title="Permalink to this headline">¶</a></h3>
 <p>If you want to add only the core of the material and set everything else yourself, then, instead of selecting material, select <code class="docutils literal"><span class="pre">NodeTree</span></code> while linking/appending, then select the node group you need, and press <code class="docutils literal"><span class="pre">Append</span> <span class="pre">from</span> <span class="pre">Library</span></code> or <code class="docutils literal"><span class="pre">Link</span> <span class="pre">from</span> <span class="pre">Library</span></code>.</p>
 <a class="reference internal image-reference" href="_images/material_library_add_core.png"><img alt="_images/material_library_add_core.png" class="align-center" src="_images/material_library_add_core.png" style="width: 100%;" /></a>
 <p>Now this node group can be found in the list of node groups that you can add to your material by clicking <strong>Add=&gt;Group</strong> in the Node Editor interface.</p>
@@ -282,12 +290,6 @@
 <p class="first admonition-title">Note</p>
 <p class="last">Every material has its own requirements considering not only masks and textures, but also vertex colors and UV maps.</p>
 </div>
-</div>
-<div class="section" id="how-to-add-the-material-library-to-a-project">
-<h3><a class="toc-backref" href="#id9">How to Add the Material Library to a Project</a><a class="headerlink" href="#how-to-add-the-material-library-to-a-project" title="Permalink to this headline">¶</a></h3>
-<p>When creating a new project, you can plug the material library into it, and then plug in materials directly from there.</p>
-<a class="reference internal image-reference" href="_images/material_library_use.png"><img alt="_images/material_library_use.png" class="align-center" src="_images/material_library_use.png" style="width: 100%;" /></a>
-<p>To do this, check the <code class="docutils literal"><span class="pre">Use</span> <span class="pre">Material</span> <span class="pre">Library</span></code> box when creating the project using the <a class="reference internal" href="project_manager.html#project-management"><span>Project Manager</span></a>. Then, an entire material library will be automatically copied to the new project along with all the dependencies.</p>
 </div>
 </div>
 </div>
@@ -311,8 +313,8 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2014-2016, Triumph.
-      Last updated on 2017-03-07.
+        &copy; Copyright 2014-2017, Triumph.
+      Last updated on 2017-04-26.
 
     </p>
   </div>
@@ -368,7 +370,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.02.1',
+            VERSION:'v17.04',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

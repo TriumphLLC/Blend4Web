@@ -23,6 +23,7 @@
 #var USE_TBN_SHADING 0
 #var CAMERA_TYPE CAM_TYPE_PERSP
 #var USE_POSITION_CLIP 0
+#var RGBA_SHADOWS 0
 
 #var NODES 0
 #var ALPHA 0
@@ -51,7 +52,9 @@
 
 #var USE_DERIVATIVES_EXT 0
 
-# if USE_DERIVATIVES_EXT
+#var USE_LOD_SMOOTHING 0
+
+# if GLSL1 && USE_DERIVATIVES_EXT
 #extension GL_OES_standard_derivatives: enable
 # endif
 
@@ -64,10 +67,18 @@
 #include <color_util.glslf>
 #include <math.glslv>
 
+#if USE_LOD_SMOOTHING
+#include <coverage.glslf>
+#endif
+
 #if !SHADELESS
 # if CAUSTICS
 #include <caustics.glslf>
 # endif
+#endif
+
+#if RGBA_SHADOWS
+#include <pack.glslf>
 #endif
 
 
@@ -136,6 +147,11 @@ uniform mat4 u_cube_fog;
 # if USE_FOG
 uniform vec4 u_fog_params; // intensity, depth, start, height
 # endif
+#endif
+
+#if USE_LOD_SMOOTHING
+uniform float u_lod_coverage;
+uniform float u_lod_cmp_logic;
 #endif
 
 /*==============================================================================
@@ -328,6 +344,11 @@ void main(void) {
 #else  // ALPHA
     alpha = 1.0;
 #endif  // ALPHA
+
+#if USE_LOD_SMOOTHING
+    if (!coverage_is_frag_visible(u_lod_coverage, u_lod_cmp_logic))
+        discard;
+#endif
 
 #if !DISABLE_FOG
 # if WATER_EFFECTS

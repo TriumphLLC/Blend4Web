@@ -274,7 +274,7 @@ exports.append_follow = function(obj, target, dist_min, dist_max) {
 }
 
 /**
- * Attach the object to the camera using a stiff vieport constraint, so
+ * Attach the object to the camera using a stiff viewport constraint, so
  * the child object will preserve its orientation in the camera viewport.
  * This constraint is used to create onscreen 2D/3D user interfaces.
  * @method module:constraints.append_stiff_viewport

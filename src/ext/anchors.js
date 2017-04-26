@@ -35,7 +35,7 @@ var m_anchors = require("__anchors");
  * @param {string} appearance Anchor appearance, one of "visible", "out",
  * "covered"
  * @param {Object3D} obj Anchor object.
- * @param {?HtmlElement} anchor Anchor HTML element
+ * @param {?HTMLElement} anchor Anchor HTML element
  */
 
 /**

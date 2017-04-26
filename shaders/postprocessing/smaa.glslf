@@ -34,7 +34,8 @@
 #var SMAA_PASS SMAA_RESOLVE
 #var SMAA_REPROJECTION 0
 #var SMAA_PREDICATION 0
-#var AA_METHOD AA_METHOD_SMAA_LOW
+#var SMAA_DISABLE_CORNER_DETECTION 0
+#var AA_METHOD AA_METHOD_SMAA_ULTRA
 
 /*============================================================================*/
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2016-10-21 15:38+0300\n"
+"POT-Creation-Date: 2017-04-20 16:04+0300\n"
 "PO-Revision-Date: 2015-08-28 10:55+0300\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Russian <info [at] blend4web.com>\n"
@@ -331,7 +331,7 @@ msgstr ""
 "наложения текстур (плоских изображений)"
 
 #: ../about.rst:136
-msgid "texturing - textures are overlayed on the 3D model"
+msgid "texturing - textures are overlaid on the 3D model"
 msgstr "текстурирование - на 3D-модель накладываются текстуры"
 
 #: ../about.rst:137

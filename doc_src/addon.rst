@@ -270,13 +270,13 @@ Engine version is too old as compared to version of the add-on with which the sc
 | JSON version: VER_BIN, required:    | relative to .json file: VER_BIN, .json    |
 | VER_JSON. Couldn't load the scene.  | file version is VER_JSON. The scene will  |
 | Reexport scene to fix it.           | not be loaded. We recommend you to        |
-|                                     | reexport yor scene.                       |
+|                                     | reexport your scene.                      |
 +-------------------------------------+-------------------------------------------+
 | BIN version does not match to       | Version of the .bin file is a bit old     |
 | JSON version: VER_BIN, required:    | relative to .json file: VER_BIN, .json    |
 | VER_JSON. Some compatibility issues | file version is VER_JSON. Some            |
 | can occur. Reexport scene to fix it.| incompatibility errors can arise. We      |
-|                                     | recommend you to reexport yor scene.      |
+|                                     | recommend you to reexport your scene.     |
 +-------------------------------------+-------------------------------------------+
 
 
@@ -418,7 +418,7 @@ In contrast to the above-listed critical export errors, these errors do not proh
 | Wrong group indices                 | non-existing vertex group.                |
 +-------------------------------------+-------------------------------------------+
 | Incorrect mesh NAME;                | Corrupted file: incorrect vertex          |
-| Wrong vertice positions             | coordinate value.                         |
+| Wrong vertex positions              | coordinate value.                         |
 +-------------------------------------+-------------------------------------------+
 | Incorrect mesh NAME;                | Corrupted file: incorrect normal value.   |
 | Wrong normals                       |                                           |

@@ -30,6 +30,7 @@ var m_cont  = require("__container");
 var m_cfg   = require("__config");
 var m_mat4  = require("__mat4");
 var m_print = require("__print");
+var m_tsr   = require("__tsr");
 var m_quat  = require("__quat");
 var m_util  = require("__util");
 var m_vec3  = require("__vec3");
@@ -37,6 +38,9 @@ var m_vec4  = require("__vec4");
 
 var cfg_def = m_cfg.defaults;
 var cfg_hmdp = m_cfg.hmd_params;
+
+var _tsr_tmp = m_tsr.create();
+var _tsr_tmp2 = m_tsr.create();
 
 var DEVICE_GYRO = 10;
 var DEVICE_HMD = 20;
@@ -78,7 +82,7 @@ var HMD_FOV_RIGHT = 22;
 var HMD_EYE_DISTANCE = 23;
 var HMD_DISTORTION = 24;
 var HMD_BASELINE_DIST = 25;
-var HMD_SCREEN_LENSE_DIST = 26;
+var HMD_SCREEN_LENS_DIST = 26;
 var HMD_SCREEN_WIDTH = 27;
 var HMD_SCREEN_HEIGHT = 28;
 var HMD_BEVEL_SIZE = 29;
@@ -107,7 +111,7 @@ exports.HMD_FOV_RIGHT = HMD_FOV_RIGHT;
 exports.HMD_EYE_DISTANCE = HMD_EYE_DISTANCE;
 exports.HMD_DISTORTION = HMD_DISTORTION;
 exports.HMD_BASELINE_DIST = HMD_BASELINE_DIST;
-exports.HMD_SCREEN_LENSE_DIST = HMD_SCREEN_LENSE_DIST;
+exports.HMD_SCREEN_LENS_DIST = HMD_SCREEN_LENS_DIST;
 exports.HMD_SCREEN_WIDTH = HMD_SCREEN_WIDTH;
 exports.HMD_SCREEN_HEIGHT = HMD_SCREEN_HEIGHT;
 exports.HMD_BEVEL_SIZE = HMD_BEVEL_SIZE;
@@ -155,6 +159,11 @@ exports.GMPD_BUTTON_23 = 323;
 exports.GMPD_BUTTON_24 = 324;
 exports.GMPD_BUTTON_25 = 325;
 
+exports.GMPD_TRACKPAD_BUTTON = 300;
+exports.GMPD_TRIGGER_BUTTON = 301;
+exports.GMPD_GRIPS_BUTTON = 302;
+exports.GMPD_MENU_BUTTON = 303;
+
 exports.GMPD_AXIS_0 = 326;
 exports.GMPD_AXIS_1 = 327;
 exports.GMPD_AXIS_2 = 328;
@@ -173,7 +182,6 @@ var GMPD_BTNS_OFFSET = 300;
 
 var _quat_tmp = m_quat.create();
 var _quat_tmp2 = m_quat.create();
-var _mat4_tmp = m_mat4.create();
 var _vec3_tmp = m_vec3.create();
 
 // callbacks buffers
@@ -271,6 +279,7 @@ function init_device(type, element) {
 
         // WebVR 1.1 properties
         frame_data: window.VRFrameData? new VRFrameData(): null,
+        standing_tsr: m_tsr.create(),
 
         // non-WebVR HMD properties
         fov_left                   : new Float32Array(4),
@@ -640,11 +649,8 @@ function get_value_param(device, param) {
             var param_left = webvr_display.getEyeParameters("left");
             var param_right = webvr_display.getEyeParameters("right");
             if (device.webvr_display) {
-                // NOTE: using WebVR 1.0
-                if (device.frame_data) {
-                    return device.inter_lens_dist;
-                } else
-                    return param_right["offset"][0] - param_left["offset"][0];
+                // NOTE: using WebVR 1.*
+                return param_right["offset"][0] - param_left["offset"][0];
             } else {
                 // NOTE: using WebVR
                 return param_right.eyeTranslation["x"] - param_left.eyeTranslation["x"];
@@ -672,7 +678,7 @@ exports.set_config = function(device, config, value) {
             device.base_line_dist = value;
             update_nonwebvr_fov(device);
             break;
-        case HMD_SCREEN_LENSE_DIST:
+        case HMD_SCREEN_LENS_DIST:
             device.screen_to_lens_dist = value;
             update_nonwebvr_fov(device);
             break;
@@ -715,6 +721,16 @@ exports.get_gamepad_axis_value = function(device, btn) {
                 GMPD_AXIS_OFFSET];
     } else
         return 0;
+}
+
+exports.get_gamepad_position = function(device, dest) {
+    dest.set(device.position);
+    return dest;
+}
+
+exports.get_gamepad_orientation = function(device, dest) {
+    dest.set(device.orientation);
+    return dest;
 }
 
 exports.update = function(timeline) {
@@ -763,29 +779,57 @@ function update_hmd(device, timeline) {
             var webvr_pose = display.getPose();
 
         if (webvr_pose) {
-            if (capabilities.hasOrientation && webvr_pose.orientation) {
-                device.orientation[0] = webvr_pose.orientation[0];
-                device.orientation[1] = webvr_pose.orientation[1];
-                device.orientation[2] = webvr_pose.orientation[2];
-                device.orientation[3] = webvr_pose.orientation[3];
+            var rot_X_quat = m_quat.setAxisAngle(m_util.AXIS_X, Math.PI / 2, _quat_tmp);
+
+            if (display["stageParameters"] &&
+                    display["stageParameters"]["sittingToStandingTransform"]) {
+                var standing_tsr = m_tsr.from_mat4(
+                        display["stageParameters"]["sittingToStandingTransform"],
+                        _tsr_tmp);
+
+                m_tsr.identity(_tsr_tmp2);
+                var rot_X_tsr = m_tsr.set_quat(rot_X_quat, _tsr_tmp2);
+
+                standing_tsr = m_tsr.multiply(rot_X_tsr, standing_tsr, device.standing_tsr);
+            } else {
+                m_tsr.identity(_tsr_tmp);
+                var standing_tsr = m_tsr.set_quat(rot_X_quat, device.standing_tsr);
             }
 
-            if (capabilities.hasPosition && webvr_pose.position) {
-                device.position[0] = webvr_pose.position[0];
-                device.position[1] = -webvr_pose.position[2];
-                device.position[2] = webvr_pose.position[1];
-            }
+            if (capabilities.hasOrientation && webvr_pose.orientation)
+                m_tsr.transform_quat(webvr_pose.orientation, standing_tsr,
+                        device.orientation);
+
+            if (capabilities.hasPosition && webvr_pose.position)
+                m_tsr.transform_vec3(webvr_pose.position, standing_tsr,
+                        device.position);
         }
     }
 }
 
 function update_gamepad_device(gamepad, device) {
     if (gamepad) {
-        for (var i = 0; i < gamepad["buttons"].length; i++)
-            device.gamepad_btns[i] = gamepad["buttons"][i]["value"];
+        for (var i = 0; i < gamepad["buttons"].length; i++) {
+            device.gamepad_btns[i] = gamepad["buttons"][i]["value"] ||
+                    +gamepad["buttons"][i]["pressed"];
+        }
+
         if (gamepad["axes"])
             for (var i = 0; i < gamepad["axes"].length; i++)
                 device.gamepad_axes[i] = gamepad["axes"][i];
+
+        var pose = gamepad["pose"];
+        if (pose) {
+            var hmd_device = get_device_by_type_element(DEVICE_HMD);
+            var standing_tsr = hmd_device.standing_tsr;
+            if (pose["position"])
+                m_tsr.transform_vec3(pose["position"], standing_tsr,
+                        device.position);
+
+            if (pose["orientation"])
+                m_tsr.transform_quat(pose["orientation"], standing_tsr,
+                        device.orientation);
+        }
     }
 }
 
@@ -796,6 +840,9 @@ function clear_gamepad_device(device) {
         device.gamepad_prev_axes[i] = device.gamepad_axes[i];
         device.gamepad_axes[i] = 0;
     }
+
+    device.position.set(m_util.VEC3_IDENT);
+    device.orientation.set(m_util.QUAT4_IDENT);
 }
 
 exports.attach_param_cb = function(device, param, cb) {
@@ -1093,10 +1140,7 @@ function get_orientation_quat(device, dest) {
                 }
             }
         }
-        // NOTE: normalize dest, bcz firefox doesn't do this
-        m_quat.normalize(dest, dest);
-        var quat = m_quat.setAxisAngle(m_util.AXIS_X, Math.PI / 2, _quat_tmp2);
-        m_quat.multiply(quat, dest, dest);
+
         return dest;
     default:
         m_print.error("orientation_quat is undefined for device: ", device.type);

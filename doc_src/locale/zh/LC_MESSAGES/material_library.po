@@ -8,15 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web. User Manual v16.06\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-21 16:11+0300\n"
+"POT-Creation-Date: 2017-04-20 16:04+0300\n"
 "PO-Revision-Date: 2016-10-03 15:24+0800\n"
+"Last-Translator: \n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.2.0\n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"Language: zh\n"
+"Generated-By: Babel 2.3.4\n"
 
 #: ../material_library.rst:5
 msgid "Material Library"
@@ -28,280 +27,272 @@ msgstr "目录"
 
 #: ../material_library.rst:11
 msgid ""
-"The material library is a library where a user can find basic and the most "
-"commonly used materials to use in his or her projects or create his or her "
-"own materials based on these materials."
-msgstr ""
-"材质库是用户可以在其中找到基本和最常用的材质，在他或她的项目中使用或创建他或"
-"她自己的基于这些材质的材质库。"
+"The material library is a library where a user can find basic and the "
+"most commonly used materials to use in his or her projects or create his "
+"or her own materials based on these materials."
+msgstr "材质库是用户可以在其中找到基本和最常用的材质，在他或她的项目中使用或创建他或她自己的基于这些材质的材质库。"
 
 #: ../material_library.rst:13
 msgid ""
-"The material library can be found in the ``/blender/material_library/`` "
-"folder in the SDK root directory."
-msgstr ""
-"该材质库可以在  ``/blender/material_library/`` 在SDK根目录文件夹中找到。"
+"When creating a new project, you can plug the material library into it, "
+"and then plug in materials directly from there."
+msgstr "当创建一个新的项目，你可以插入材质库进去，然后直接从那里插入材质。"
 
-#: ../material_library.rst:16
+#: ../material_library.rst:19
+#, fuzzy
+msgid ""
+"To do this, check the ``Use Material Library`` box when creating the "
+"project using the :ref:`Project Manager <project_management>`. Then, an "
+"entire material library will be automatically copied to the "
+"``/assets/material_library/`` folder in the new project’s directory."
+msgstr ""
+"要做到这一点，使用创建项目时使用  :ref:`Project Manager <project_management>` 勾选上 ``Use "
+"Material Library`` ，然后，整个材质库将被自动复制到新的项目，和所有的依赖一起。"
+
+#: ../material_library.rst:23
+msgid ""
+"It is also possible to use Material Library in a pre-existing project. "
+"All you have to do is copy files from the ``/blender/material_library/`` "
+"folder to the ``/assets/`` folder in your project’s directory. Then you "
+"can link the files that contain materials you need to your scene file and"
+" use them in the scene."
+msgstr ""
+
+#: ../material_library.rst:27
+msgid ""
+"Materials (or any other objects) can be both *linked* or *appended* to "
+"the scene. The difference is described :ref:`here <material_add>`."
+msgstr ""
+
+#: ../material_library.rst:32
 msgid "Library Structure"
 msgstr "库结构"
 
-#: ../material_library.rst:18
+#: ../material_library.rst:34
 msgid ""
-"All materials are structured by folder (by categories of materials) and by a "
-"separate file (by materials). Every blend file contains one base material "
-"and a material for an additional object, that demonstrates the material on "
-"an object that can be associated with this material (for example, a gold "
-"ingot for a gold material)."
-msgstr ""
-"所有材质通过文件夹组织结构（由材质类别），并通过一个单独的文件（由材质）。每"
-"共blend文件包含一个基底材质和物体添加该材质，演示该材质可以与该材质相关联的物"
-"体上（例如，元宝为金材质）。"
+"All materials are structured by folder (by categories of materials) and "
+"by a separate file (by materials). Every blend file contains one base "
+"material and a material for an additional object, that demonstrates the "
+"material on an object that can be associated with this material (for "
+"example, a gold ingot for a gold material)."
+msgstr "所有材质通过文件夹组织结构（由材质类别），并通过一个单独的文件（由材质）。每共blend文件包含一个基底材质和物体添加该材质，演示该材质可以与该材质相关联的物体上（例如，元宝为金材质）。"
 
-#: ../material_library.rst:25
+#: ../material_library.rst:43
 msgid "Material Structure"
 msgstr "材质结构"
 
-#: ../material_library.rst:31
+#: ../material_library.rst:49
 msgid "The core of the material"
 msgstr "核心材质"
 
-#: ../material_library.rst:32
+#: ../material_library.rst:50
 msgid ""
-"The ``Material`` node which receives all valuable information from the core."
+"The ``Material`` node which receives all valuable information from the "
+"core."
 msgstr "``Material`` 节点从核心接收任何有价值信息"
 
-#: ../material_library.rst:33
+#: ../material_library.rst:51
 msgid "The normal map that can be plugged into any material core."
 msgstr "法线贴图可以加到任何一个材质核心"
 
-#: ../material_library.rst:34
+#: ../material_library.rst:52
 msgid ""
 "Texture containing additional masks important for the material on the "
-"surface of the object to behave correctly. Most materials use the following "
-"masks:"
-msgstr ""
-"纹理包含额外的遮罩信息给材质给予物体正确显示。大多数材质使用下面的遮罩："
+"surface of the object to behave correctly. Most materials use the "
+"following masks:"
+msgstr "纹理包含额外的遮罩信息给材质给予物体正确显示。大多数材质使用下面的遮罩："
 
-#: ../material_library.rst:36
+#: ../material_library.rst:54
 msgid "Ambient occlusion map"
 msgstr "环境闭塞贴图"
 
-#: ../material_library.rst:37
+#: ../material_library.rst:55
 msgid "Dirt map"
 msgstr "污垢贴图"
 
-#: ../material_library.rst:38
+#: ../material_library.rst:56
 msgid "Worn map"
 msgstr "磨损图"
 
-#: ../material_library.rst:39
+#: ../material_library.rst:57
 msgid "Patina map"
 msgstr "绿锈贴图"
 
-#: ../material_library.rst:41
+#: ../material_library.rst:59
 msgid ""
-"These masks are not used in every material, only when they are needed for "
-"the shader to appear a specific way."
+"These masks are not used in every material, only when they are needed for"
+" the shader to appear a specific way."
 msgstr "这些遮罩不是在每个材质中使用，需要时，才为着色器显示一种特定的方式。"
 
-#: ../material_library.rst:42
+#: ../material_library.rst:60
 msgid "The ``Mapping`` node is used to control the parameters of the UV maps."
 msgstr "在 ``Mapping`` 节点用来控制UV映射的参数。"
 
-#: ../material_library.rst:43
+#: ../material_library.rst:61
 msgid ""
-"The ``RGB Curve`` nodes can be used to correct masks before pulgging them "
-"into the material core."
+"The ``RGB Curve`` nodes can be used to correct masks before plugging them"
+" into the material core."
 msgstr "``RGB Curve`` 节点可以在遮罩插入核心材质之前修正。"
 
-#: ../material_library.rst:44
+#: ../material_library.rst:62
 msgid ""
-"Specific specular map settings are used right after the ``Material`` node to "
-"achieve various degrees of specular blur."
+"Specific specular map settings are used right after the ``Material`` node"
+" to achieve various degrees of specular blur."
 msgstr "具体的高光贴图在 ``Material`` 节点之后，用来实现不同程度的镜面模糊。"
 
-#: ../material_library.rst:45
+#: ../material_library.rst:63
 msgid ""
 "The baked ambient occlusion map is added to the shader right before the "
 "Output node."
 msgstr "烘焙的环境闭塞贴图是在输出节点之前加的着色器。"
 
-#: ../material_library.rst:46
+#: ../material_library.rst:64
 msgid "The ``Output`` node."
 msgstr "``Output`` 节点。"
 
-#: ../material_library.rst:49
+#: ../material_library.rst:67
 msgid "Material Core"
 msgstr "核心材质"
 
-#: ../material_library.rst:51
+#: ../material_library.rst:69
 msgid ""
 "This is the main node group containing the node structure that form a "
-"shader. Essentially, this is the material itself in its true form, with all "
-"complex node interactions packed into one group for convenient use. This "
-"node group has certain inputs and outputs, as well as specific input "
-"parameters, to set it up."
-msgstr ""
-"这是包含节点结构形成一个着色器的主要节点组。本质上，这是材质本身的真实形式，"
-"与所有复杂节点交互包装成一组，方便使用。此节点组具有一定的输入和输出，以及具"
-"体的输入参数，来进行设置。"
+"shader. Essentially, this is the material itself in its true form, with "
+"all complex node interactions packed into one group for convenient use. "
+"This node group has certain inputs and outputs, as well as specific input"
+" parameters, to set it up."
+msgstr "这是包含节点结构形成一个着色器的主要节点组。本质上，这是材质本身的真实形式，与所有复杂节点交互包装成一组，方便使用。此节点组具有一定的输入和输出，以及具体的输入参数，来进行设置。"
 
-#: ../material_library.rst:54
+#: ../material_library.rst:74
 msgid "An Example of Using a Material"
 msgstr "使用材质的一个例子"
 
-#: ../material_library.rst:60
+#: ../material_library.rst:80
 msgid ""
-"Here, you can see an example of setting plastic material for a special demo "
-"object without using the textures that are plugged into the core of the "
-"material."
-msgstr ""
-"在这里，可以看到，设置塑料材质为一种特殊的演示物体的一个例子，而无需使用被插"
-"入核心材质中的纹理。"
+"Here, you can see an example of setting plastic material for a special "
+"demo object without using the textures that are plugged into the core of "
+"the material."
+msgstr "在这里，可以看到，设置塑料材质为一种特殊的演示物体的一个例子，而无需使用被插入核心材质中的纹理。"
 
-#: ../material_library.rst:66
+#: ../material_library.rst:86
 msgid ""
-"The base color is created with a simple ``RGB`` Color node and plugged to "
-"the material core input."
+"The base color is created with a simple ``RGB`` Color node and plugged to"
+" the material core input."
 msgstr "基色用一个简单的``RGB``颜色节点创建并插入到核心材质输入。"
 
-#: ../material_library.rst:67
+#: ../material_library.rst:87
 msgid ""
 "This implementation of the material does not use any normal maps, so "
 "geometry data is plugged to the ``Normal`` input."
 msgstr "材质实现不使用任何法线贴图，所以几何数据插入到 ``Normal`` 输入。"
 
-#: ../material_library.rst:68
+#: ../material_library.rst:88
 msgid ""
-"The core of the material has a certain parameter that controls the amount of "
-"gloss on the material. In this case, the value of this parameter is set to "
-"maximum."
-msgstr ""
-"该核心材质具有控制光泽的材质上的量的某些参数。在这种情况下，这个参数的值设置"
-"为最大。"
+"The core of the material has a certain parameter that controls the amount"
+" of gloss on the material. In this case, the value of this parameter is "
+"set to maximum."
+msgstr "该核心材质具有控制光泽的材质上的量的某些参数。在这种情况下，这个参数的值设置为最大。"
 
-#: ../material_library.rst:69
+#: ../material_library.rst:89
 msgid "The material also uses a baked ambient occlusion map."
 msgstr "该材质还采用了烘焙的环境闭塞贴图。"
 
-#: ../material_library.rst:71
+#: ../material_library.rst:91
 msgid ""
-"Now, let's take a look at a case of using the same material on a different "
-"object — a plastic gamepad."
+"Now, let's take a look at a case of using the same material on a "
+"different object — a plastic gamepad."
 msgstr "现在，让我们来看看使用相同材质在不同物体的情况  - 一个塑料手柄。"
 
-#: ../material_library.rst:77
+#: ../material_library.rst:97
 msgid ""
-"The vertex color from the geometry of the object is used as the base color "
-"here."
+"The vertex color from the geometry of the object is used as the base "
+"color here."
 msgstr "物体的几何形状的顶点的颜色被用作这里的基本颜色。"
 
-#: ../material_library.rst:78
+#: ../material_library.rst:98
 msgid ""
-"A normal map has been baked for the geometry of the gamepad, and connected "
-"to the ``Normal`` input of the material core."
-msgstr ""
-"手柄的几何形状烘焙到了一张法线贴图上，并连接到核心材质的 ``Normal`` 输入。"
+"A normal map has been baked for the geometry of the gamepad, and "
+"connected to the ``Normal`` input of the material core."
+msgstr "手柄的几何形状烘焙到了一张法线贴图上，并连接到核心材质的 ``Normal`` 输入。"
 
-#: ../material_library.rst:79
+#: ../material_library.rst:99
 msgid "The level of gloss is lower."
 msgstr "光泽的程度较低。"
 
-#: ../material_library.rst:80
+#: ../material_library.rst:100
 msgid ""
-"Instead of the masks from the demo model, the masks (ambient occlusion and "
-"dirt) baked specifically for the gamepad model are used."
-msgstr ""
-"替代演示物体的遮罩，专为游戏手柄模型烘焙的遮罩（环境光遮蔽和污垢）被使用。"
+"Instead of the masks from the demo model, the masks (ambient occlusion "
+"and dirt) baked specifically for the gamepad model are used."
+msgstr "替代演示物体的遮罩，专为游戏手柄模型烘焙的遮罩（环境光遮蔽和污垢）被使用。"
 
-#: ../material_library.rst:83
+#: ../material_library.rst:103
 msgid ""
-"It should be noted that the material core hasn't changed and was not altered "
-"to fit different geometry."
+"It should be noted that the material core hasn't changed and was not "
+"altered to fit different geometry."
 msgstr "应当指出的是，核心材质并没有改变以适应不同的几何形状。"
 
-#: ../material_library.rst:86
+#: ../material_library.rst:108
 msgid "Adding Material to a Scene"
 msgstr "添加材质到一个场景"
 
-#: ../material_library.rst:89
+#: ../material_library.rst:111
 msgid "How to Add a Whole Material"
 msgstr "如何添加整个材质"
 
-#: ../material_library.rst:95
+#: ../material_library.rst:117
 msgid ""
-"Select the ``File > Append/Link`` from the menu, depending on what you want "
-"to do. If you want to keep the ability to modify the object after it has "
-"been added to the scene, use ``Append``. If you don't, use ``Link``."
+"Select the ``File > Append/Link`` from the menu, depending on what you "
+"want to do. If you want to keep the ability to modify the object after it"
+" has been added to the scene, use ``Append``. If you don't, use ``Link``."
 msgstr ""
-"选择  ``File > Append/Link`` 从菜单中选择，这取决于你想要做什么。如果你想保留"
-"修改物体的能力，它已被添加到场景后，使用 ``Append`` 。如果你不这样做，用 "
-"``Link`` 。"
+"选择  ``File > Append/Link`` 从菜单中选择，这取决于你想要做什么。如果你想保留修改物体的能力，它已被添加到场景后，使用 "
+"``Append`` 。如果你不这样做，用 ``Link`` 。"
 
-#: ../material_library.rst:101
+#: ../material_library.rst:123
 msgid ""
-"Then select the blend file containing the material you need from the ``/"
-"blend4web/blender/material_library/`` directory."
-msgstr ""
-"然后从 ``/blend4web/blender/material_library/`` 目录中选择包含所需要的材质"
-"blend文件。"
+"Then select the blend file containing the material you need from the "
+"``/blend4web/blender/material_library/`` directory."
+msgstr "然后从 ``/blend4web/blender/material_library/`` 目录中选择包含所需要的材质blend文件。"
 
-#: ../material_library.rst:107
+#: ../material_library.rst:129
 msgid ""
-"Select the material itself from the list of materials, and press ``Append "
-"from Library`` or ``Link from Library``. Now, the material has been added to "
-"your scene and can be used on any object."
+"Select the material itself from the list of materials, and press ``Append"
+" from Library`` or ``Link from Library``. Now, the material has been "
+"added to your scene and can be used on any object."
 msgstr ""
-"从材质列表中选择需要的材质，然后按  ``Append from Library`` 或 ``Link from "
-"Library``. 追加。现在，该材质已经被添加到场景，并可以在任何物体上使用。"
+"从材质列表中选择需要的材质，然后按  ``Append from Library`` 或 ``Link from Library``. "
+"追加。现在，该材质已经被添加到场景，并可以在任何物体上使用。"
 
-#: ../material_library.rst:110
+#: ../material_library.rst:132
 msgid "How to Add Only a Material Core"
 msgstr "如何只添加核心材质"
 
-#: ../material_library.rst:112
+#: ../material_library.rst:134
 msgid ""
 "If you want to add only the core of the material and set everything else "
 "yourself, then, instead of selecting material, select ``NodeTree`` while "
-"linking/appending, then select the node group you need, and press ``Append "
-"from Library`` or ``Link from Library``."
+"linking/appending, then select the node group you need, and press "
+"``Append from Library`` or ``Link from Library``."
 msgstr ""
-"如果你想只添加核心材质，其他一切都自己设置的话，不用选择材质，选择 "
-"``NodeTree`` 同时连接/追加，然后选择从库中您需要的节点组，然后按 ``Append "
-"from Library`` 或者 ``Link from Library`` 。"
+"如果你想只添加核心材质，其他一切都自己设置的话，不用选择材质，选择 ``NodeTree`` 同时连接/追加，然后选择从库中您需要的节点组，然后按"
+" ``Append from Library`` 或者 ``Link from Library`` 。"
 
-#: ../material_library.rst:118
+#: ../material_library.rst:140
 msgid ""
-"Now this node group can be found in the list of node groups that you can add "
-"to your material by clicking **Add=>Group** in the Node Editor interface."
-msgstr ""
-"现在，这个节点组可在节点组列表中找到，您可以通过点击 **Add=>Group** 在节点编"
-"辑器界面添加材质列表中找到。"
+"Now this node group can be found in the list of node groups that you can "
+"add to your material by clicking **Add=>Group** in the Node Editor "
+"interface."
+msgstr "现在，这个节点组可在节点组列表中找到，您可以通过点击 **Add=>Group** 在节点编辑器界面添加材质列表中找到。"
 
-#: ../material_library.rst:125
+#: ../material_library.rst:147
 msgid ""
 "Every material has its own requirements considering not only masks and "
 "textures, but also vertex colors and UV maps."
 msgstr "每一个材质不仅考虑遮罩和纹理，而且顶点颜色和UV贴图也有自己的要求。"
 
-#: ../material_library.rst:128
-msgid "How to Add the Material Library to a Project"
-msgstr "如何将材质库添加到项目"
+#~ msgid "How to Add the Material Library to a Project"
+#~ msgstr "如何将材质库添加到项目"
 
-#: ../material_library.rst:130
-msgid ""
-"When creating a new project, you can plug the material library into it, and "
-"then plug in materials directly from there."
-msgstr "当创建一个新的项目，你可以插入材质库进去，然后直接从那里插入材质。"
+#~ msgid ""
+#~ msgstr ""
 
-#: ../material_library.rst:136
-msgid ""
-"To do this, check the ``Use Material Library`` box when creating the project "
-"using the :ref:`Project Manager <project_management>`. Then, an entire "
-"material library will be automatically copied to the new project along with "
-"all the dependencies."
-msgstr ""
-"要做到这一点，使用创建项目时使用  :ref:`Project Manager "
-"<project_management>` 勾选上 ``Use Material Library`` ，然后，整个材质库将被"
-"自动复制到新的项目，和所有的依赖一起。"

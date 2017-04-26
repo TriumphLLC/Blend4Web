@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2016-09-01 16:56+0300\n"
+"POT-Creation-Date: 2017-04-20 16:04+0300\n"
 "PO-Revision-Date: 2015-08-28 10:55+0300\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Russian <info [at] blend4web.com>\n"
@@ -20,11 +20,11 @@ msgstr ""
 msgid "Engine Features"
 msgstr "Возможности движка"
 
-#: ../engine_features.rst:12
+#: ../engine_features.rst:10
 msgid "**BLENDER INTEGRATION**"
 msgstr "**Интеграция с Blender**"
 
-#: ../engine_features.rst:14
+#: ../engine_features.rst:12
 msgid ""
 "Creating interactive applications has never been easier! You can simply "
 "create a 3D scene in Blender and then use it in Blend4Web with the help "
@@ -34,27 +34,27 @@ msgstr ""
 "Просто создавайте 3D-сцены в Blender и используйте их в Blend4Web с "
 "помощью следующих возможностей:"
 
-#: ../engine_features.rst:18
+#: ../engine_features.rst:16
 msgid "Fast and Convenient Scene Export"
 msgstr "Простой и быстрый экспорт сцен"
 
-#: ../engine_features.rst:19
+#: ../engine_features.rst:17
 msgid "One-Click Scene Preview"
 msgstr "Предварительный просмотр сцены одним кликом"
 
-#: ../engine_features.rst:20
+#: ../engine_features.rst:18
 msgid "Full Support for Blender's Environment and Material Settings"
 msgstr "Полная поддержка настроек материалов и окружения Blender"
 
-#: ../engine_features.rst:21
+#: ../engine_features.rst:19
 msgid "Tools for Creating and Managing Projects"
 msgstr "Средства создания и управления проектами"
 
-#: ../engine_features.rst:27
+#: ../engine_features.rst:25
 msgid "**RENDERING**"
 msgstr "**Рендеринг**"
 
-#: ../engine_features.rst:29
+#: ../engine_features.rst:27
 msgid ""
 "Blend4Web offers a great many features to make your creations look "
 "amazing."
@@ -62,43 +62,43 @@ msgstr ""
 "Blend4Web предлагает большое количество способов сделать Ваши творения "
 "красивыми."
 
-#: ../engine_features.rst:31
+#: ../engine_features.rst:29
 msgid "Some of them include:"
 msgstr "В том числе:"
 
-#: ../engine_features.rst:33
+#: ../engine_features.rst:31
 msgid "3D Scenes of Any Complexity"
 msgstr "3D-сцены любой сложности"
 
-#: ../engine_features.rst:34
+#: ../engine_features.rst:32
 msgid "Cascaded Shadow Mapping"
 msgstr "Каскады теней"
 
-#: ../engine_features.rst:35
+#: ../engine_features.rst:33
 msgid "Dynamic Foliage"
 msgstr "Динамическая растительность"
 
-#: ../engine_features.rst:36
+#: ../engine_features.rst:34
 msgid "Particle Systems"
 msgstr "Системы частиц"
 
-#: ../engine_features.rst:37
+#: ../engine_features.rst:35
 msgid "Level of Detail"
 msgstr "Уровни детализации (LOD)"
 
-#: ../engine_features.rst:38
+#: ../engine_features.rst:36
 msgid "Post-processing Effects"
 msgstr "Постпроцессинговые эффекты"
 
-#: ../engine_features.rst:39
+#: ../engine_features.rst:37
 msgid "VR Support"
 msgstr "Поддержка стереоизображения"
 
-#: ../engine_features.rst:45
+#: ../engine_features.rst:43
 msgid "**MATERIALS**"
 msgstr "**Материалы**"
 
-#: ../engine_features.rst:47
+#: ../engine_features.rst:45
 msgid ""
 "Powerful and easy-to-use material creation system makes it possible to "
 "create any material you might need, from a simple cartoon-like to an "
@@ -107,39 +107,39 @@ msgstr ""
 "Мощная и простая в обращении система создания материалов позволяет "
 "создать любой материал, от самого простого до фотореалистичного."
 
-#: ../engine_features.rst:50
+#: ../engine_features.rst:48
 msgid "Some of the features:"
 msgstr "Некоторые из её возможностей:"
 
-#: ../engine_features.rst:52
+#: ../engine_features.rst:50
 msgid "Node Materials"
 msgstr "Нодовые материалы"
 
-#: ../engine_features.rst:53
+#: ../engine_features.rst:51
 msgid "Parallax Offset Mapping"
 msgstr ""
 
-#: ../engine_features.rst:54
+#: ../engine_features.rst:52
 msgid "Render-To-Texture"
 msgstr "Рендеринг в текстуру"
 
-#: ../engine_features.rst:55
+#: ../engine_features.rst:53
 msgid "Video Textures"
 msgstr "Видеотекстуры"
 
-#: ../engine_features.rst:56
+#: ../engine_features.rst:54
 msgid "Full Support for Blender Material Nodes"
 msgstr "Полная поддержка нод материалов Blender"
 
-#: ../engine_features.rst:57
+#: ../engine_features.rst:55
 msgid "Refractions and Reflections"
 msgstr "Отражения и преломления"
 
-#: ../engine_features.rst:63
+#: ../engine_features.rst:61
 msgid "**ANIMATION**"
 msgstr "**Анимация**"
 
-#: ../engine_features.rst:65
+#: ../engine_features.rst:63
 msgid ""
 "Blend4web supports almost every animation technique available in Blender,"
 " including:"
@@ -147,39 +147,39 @@ msgstr ""
 "Blend4Web поддерживает почти все анимационные техники, доступные в "
 "Blender, в том числе:"
 
-#: ../engine_features.rst:67
+#: ../engine_features.rst:65
 msgid "Skeletal Animation"
 msgstr "Скелетная анимация"
 
-#: ../engine_features.rst:68
+#: ../engine_features.rst:66
 msgid "Vertex Animation"
 msgstr "Вертексная анимация"
 
-#: ../engine_features.rst:69
+#: ../engine_features.rst:67
 msgid "Object Animation"
 msgstr "Объектная анимация"
 
-#: ../engine_features.rst:70
+#: ../engine_features.rst:68
 msgid "Wind Bending"
 msgstr "Процедурная анимация травы и крон деревьев"
 
-#: ../engine_features.rst:71
+#: ../engine_features.rst:69
 msgid "Material Animation"
 msgstr "Анимированные материалы"
 
-#: ../engine_features.rst:72
+#: ../engine_features.rst:70
 msgid "Animation Baking"
 msgstr "Запекание анимации"
 
-#: ../engine_features.rst:73
+#: ../engine_features.rst:71
 msgid "Flow Control Using API or Logic Editor"
 msgstr "Управление анимацией с помощью API или редактора логики"
 
-#: ../engine_features.rst:79
+#: ../engine_features.rst:77
 msgid "**PHYSICS**"
 msgstr "**Физика**"
 
-#: ../engine_features.rst:81
+#: ../engine_features.rst:79
 msgid ""
 "If you are creating a physical simulation or simply want your scene to "
 "behave realistically, then Blend4Web's powerful physics system is at your"
@@ -189,47 +189,47 @@ msgstr ""
 " смотрелась реалистично, мощная физическая система Blend4Web к вашим "
 "услугам."
 
-#: ../engine_features.rst:84
+#: ../engine_features.rst:82
 msgid "Its features include:"
 msgstr "В числе её возможностей:"
 
-#: ../engine_features.rst:86
+#: ../engine_features.rst:84
 msgid "Collisions"
 msgstr "Столкновения"
 
-#: ../engine_features.rst:87
+#: ../engine_features.rst:85
 msgid "Rigid Body Physics"
 msgstr "Физика твёрдого тела"
 
-#: ../engine_features.rst:88
+#: ../engine_features.rst:86
 msgid "Joint System"
 msgstr "Система шарниров"
 
-#: ../engine_features.rst:89
+#: ../engine_features.rst:87
 msgid "Ray Casting"
 msgstr "Трассировка лучей"
 
-#: ../engine_features.rst:90
+#: ../engine_features.rst:88
 msgid "Floating Objects"
 msgstr "Плавающие объекты"
 
-#: ../engine_features.rst:91
+#: ../engine_features.rst:89
 msgid "Vehicles"
-msgstr "Транспортные срества"
+msgstr "Транспортные средства"
 
-#: ../engine_features.rst:97
+#: ../engine_features.rst:95
 msgid "**SOUND**"
 msgstr "**Звук**"
 
-#: ../engine_features.rst:99
+#: ../engine_features.rst:97
 msgid ""
-"Sound is important in making scenes and applications feel more responsve "
-"to user's actions and generally more alive."
+"Sound is important in making scenes and applications feel more responsive"
+" to user's actions and generally more alive."
 msgstr ""
 "Правильно подобранный звук позволяет сделать приложение более интересным "
 "и отзывчивым."
 
-#: ../engine_features.rst:102
+#: ../engine_features.rst:100
 msgid ""
 "Here are some of the means that Blend4Web offers you to control how your "
 "creations will sound:"
@@ -237,35 +237,35 @@ msgstr ""
 "Возможности Blend4Web по созданию звуковой картины вашего творения "
 "включают:"
 
-#: ../engine_features.rst:105
+#: ../engine_features.rst:103
 msgid "Flexible Playback Control"
 msgstr "Гибкий контроль воспроизведения"
 
-#: ../engine_features.rst:106
+#: ../engine_features.rst:104
 msgid "3D Positioning"
 msgstr "Позиционирование в трёхмерном пространстве"
 
-#: ../engine_features.rst:107
+#: ../engine_features.rst:105
 msgid "Doppler Effect"
 msgstr "Эффект Допплера"
 
-#: ../engine_features.rst:108
+#: ../engine_features.rst:106
 msgid "Dynamic Compressor"
 msgstr "Динамический компрессор"
 
-#: ../engine_features.rst:109
+#: ../engine_features.rst:107
 msgid "Cross-fade Sound Animation"
 msgstr "Кроссфейдерная звуковая анимация"
 
-#: ../engine_features.rst:110
+#: ../engine_features.rst:108
 msgid "Real-Time Mixing"
 msgstr "Смешивание в реальном времени"
 
-#: ../engine_features.rst:116
+#: ../engine_features.rst:114
 msgid "**LOGIC EDITOR**"
 msgstr "**Редактор логики**"
 
-#: ../engine_features.rst:118
+#: ../engine_features.rst:116
 msgid ""
 "Using this visual editor, you can create logic node trees to control the "
 "behavior of your scenes and to add interactivity without writing single "
@@ -275,55 +275,55 @@ msgstr ""
 "деревья для контроля поведения сцены и добавления в сцену интерактивности"
 " без какого-либо программирования!"
 
-#: ../engine_features.rst:121
+#: ../engine_features.rst:119
 msgid "Logic Node Editor features:"
 msgstr "Возможности редактора логики:"
 
-#: ../engine_features.rst:123
+#: ../engine_features.rst:121
 msgid "Object Picking"
 msgstr "Выбор объектов"
 
-#: ../engine_features.rst:124
+#: ../engine_features.rst:122
 msgid "Animation Control"
 msgstr "Управление анимацией"
 
-#: ../engine_features.rst:125
+#: ../engine_features.rst:123
 msgid "Variables and Computations"
 msgstr "Переменные и вычисления"
 
-#: ../engine_features.rst:126
+#: ../engine_features.rst:124
 msgid "Server Data Exchange"
 msgstr "Обмен данными с сервером"
 
-#: ../engine_features.rst:132
+#: ../engine_features.rst:130
 msgid "**SCRIPTING**"
 msgstr "**Программирование**"
 
-#: ../engine_features.rst:134
+#: ../engine_features.rst:132
 msgid ""
 "Blend4Web uses JavaScript scenarios to control every aspect of an "
 "application."
 msgstr ""
-"Blend4Web испрользует JavaScript-сценарии для контроля всех аспектов "
+"Blend4Web использует JavaScript-сценарии для контроля всех аспектов "
 "работы приложения."
 
-#: ../engine_features.rst:136
+#: ../engine_features.rst:134
 msgid "Some Blend4Web's JavaScript API features include:"
 msgstr "Некоторые возможности API Blend4Web:"
 
-#: ../engine_features.rst:138
+#: ../engine_features.rst:136
 msgid "Module Structure"
 msgstr "Модульная структура"
 
-#: ../engine_features.rst:139
+#: ../engine_features.rst:137
 msgid "Event-Driven Model"
 msgstr "Событийная модель"
 
-#: ../engine_features.rst:140
+#: ../engine_features.rst:138
 msgid "GLSL Shaders"
 msgstr "GLSL-шейдеры"
 
-#: ../engine_features.rst:141
+#: ../engine_features.rst:139
 msgid "Code Minification and Obfuscation"
 msgstr "Минификация и обфускация кода"
 

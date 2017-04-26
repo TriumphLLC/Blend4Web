@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Objects &mdash; Blend4Web 17.02.1 User Manual</title>
+  <title>Objects &mdash; Blend4Web 17.04 User Manual</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.02.1 User Manual" href="index.html"/>
+    <link rel="top" title="Blend4Web 17.04 User Manual" href="index.html"/>
         <link rel="next" title="Meshes" href="meshes.html"/>
         <link rel="prev" title="Scene Settings" href="scene_settings.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v17.02.1
+              v17.04
             </div>
           
         
@@ -99,7 +99,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#object-tab">Object Tab</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#transform-panel">Transform Panel</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#groups-panel">Groups Panel</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#level-of-detail-panel">Level of Detail Panel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#levels-of-detail-panel">Levels of Detail Panel</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#animation-panel">Animation Panel</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#export-options-panel">Export Options Panel</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#rendering-properties-panel">Rendering Properties Panel</a></li>
@@ -133,6 +133,13 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#moving-via-tsr-vectors">Moving via TSR Vectors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#line-rendering">Line Rendering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#levels-of-detail">Levels Of Detail</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#specifics-and-differences-from-bge">Specifics and Differences From BGE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#smooth-lod-switching">Smooth LOD Switching</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hysteresis">Hysteresis</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">Meshes</a></li>
@@ -200,41 +207,48 @@
            <div itemprop="articleBody">
             
   <div class="section" id="objects">
-<span id="id1"></span><h1><a class="toc-backref" href="#id4">Objects</a><a class="headerlink" href="#objects" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1><a class="toc-backref" href="#id6">Objects</a><a class="headerlink" href="#objects" title="Permalink to this headline">¶</a></h1>
 <div class="contents topic" id="table-of-contents">
 <p class="topic-title first">Table of Contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#objects" id="id4">Objects</a><ul>
-<li><a class="reference internal" href="#types" id="id5">Types</a></li>
-<li><a class="reference internal" href="#static-and-dynamic-objects" id="id6">Static and Dynamic Objects</a></li>
-<li><a class="reference internal" href="#settings" id="id7">Settings</a><ul>
-<li><a class="reference internal" href="#object-tab" id="id8">Object Tab</a></li>
-<li><a class="reference internal" href="#physics-tab" id="id9">Physics Tab</a></li>
+<li><a class="reference internal" href="#objects" id="id6">Objects</a><ul>
+<li><a class="reference internal" href="#types" id="id7">Types</a></li>
+<li><a class="reference internal" href="#static-and-dynamic-objects" id="id8">Static and Dynamic Objects</a></li>
+<li><a class="reference internal" href="#settings" id="id9">Settings</a><ul>
+<li><a class="reference internal" href="#object-tab" id="id10">Object Tab</a></li>
+<li><a class="reference internal" href="#physics-tab" id="id11">Physics Tab</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#anchor-settings" id="id10">Anchor Settings</a></li>
-<li><a class="reference internal" href="#object-transform-api" id="id11">Object Transform API</a></li>
-<li><a class="reference internal" href="#get-object-api" id="id12">Get Object API</a></li>
-<li><a class="reference internal" href="#object-selection" id="id13">Object Selection</a></li>
-<li><a class="reference internal" href="#copying-objects-instancing" id="id14">Copying Objects (Instancing)</a><ul>
-<li><a class="reference internal" href="#making-a-simple-copy" id="id15">Making a Simple Copy</a></li>
-<li><a class="reference internal" href="#making-a-deep-copy" id="id16">Making a Deep Copy</a></li>
-<li><a class="reference internal" href="#removing-objects" id="id17">Removing Objects</a></li>
+<li><a class="reference internal" href="#anchor-settings" id="id12">Anchor Settings</a></li>
+<li><a class="reference internal" href="#object-transform-api" id="id13">Object Transform API</a></li>
+<li><a class="reference internal" href="#get-object-api" id="id14">Get Object API</a></li>
+<li><a class="reference internal" href="#object-selection" id="id15">Object Selection</a></li>
+<li><a class="reference internal" href="#copying-objects-instancing" id="id16">Copying Objects (Instancing)</a><ul>
+<li><a class="reference internal" href="#making-a-simple-copy" id="id17">Making a Simple Copy</a></li>
+<li><a class="reference internal" href="#making-a-deep-copy" id="id18">Making a Deep Copy</a></li>
+<li><a class="reference internal" href="#removing-objects" id="id19">Removing Objects</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#quaternions" id="id18">Quaternions</a><ul>
-<li><a class="reference internal" href="#quaternion-example" id="id19">Quaternion Example</a></li>
+<li><a class="reference internal" href="#quaternions" id="id20">Quaternions</a><ul>
+<li><a class="reference internal" href="#quaternion-example" id="id21">Quaternion Example</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#moving-via-tsr-vectors" id="id20">Moving via TSR Vectors</a></li>
-<li><a class="reference internal" href="#line-rendering" id="id21">Line Rendering</a></li>
+<li><a class="reference internal" href="#moving-via-tsr-vectors" id="id22">Moving via TSR Vectors</a></li>
+<li><a class="reference internal" href="#line-rendering" id="id23">Line Rendering</a></li>
+<li><a class="reference internal" href="#levels-of-detail" id="id24">Levels Of Detail</a><ul>
+<li><a class="reference internal" href="#overview" id="id25">Overview</a></li>
+<li><a class="reference internal" href="#specifics-and-differences-from-bge" id="id26">Specifics and Differences From BGE</a></li>
+<li><a class="reference internal" href="#smooth-lod-switching" id="id27">Smooth LOD Switching</a></li>
+<li><a class="reference internal" href="#hysteresis" id="id28">Hysteresis</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
 </div>
 <p>Objects are intended to position components of different types (meshes, cameras, lamps etc) in a 3D scene space.</p>
 <div class="section" id="types">
-<h2><a class="toc-backref" href="#id5">Types</a><a class="headerlink" href="#types" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id7">Types</a><a class="headerlink" href="#types" title="Permalink to this headline">¶</a></h2>
 <p>The engine supports objects of the following types:</p>
 <blockquote>
 <div><ul class="simple">
@@ -253,7 +267,7 @@
 <p>During the scene export, <code class="docutils literal"><span class="pre">CURVE</span></code>, <code class="docutils literal"><span class="pre">TEXT</span></code>, <code class="docutils literal"><span class="pre">METABALL</span></code> and <code class="docutils literal"><span class="pre">SURFACE</span></code> type objects are converted into <code class="docutils literal"><span class="pre">MESH</span></code> type objects.</p>
 </div>
 <div class="section" id="static-and-dynamic-objects">
-<span id="static-dynamic-objects"></span><h2><a class="toc-backref" href="#id6">Static and Dynamic Objects</a><a class="headerlink" href="#static-and-dynamic-objects" title="Permalink to this headline">¶</a></h2>
+<span id="static-dynamic-objects"></span><h2><a class="toc-backref" href="#id8">Static and Dynamic Objects</a><a class="headerlink" href="#static-and-dynamic-objects" title="Permalink to this headline">¶</a></h2>
 <p>An object can be either static or dynamic.</p>
 <p><strong>Static objects</strong> are objects that cannot be moved, animated or changed in any other way while running the application. For performance purposes, such objects can be merged together if they have the same material.</p>
 <p><strong>Dynamic objects</strong> can be moved, animated or changed in other ways while running the application. They can also interact with other objects, including static ones. Dynamic objects are never combined with each other or with static objects.</p>
@@ -271,10 +285,10 @@
 <p>API methods that concern object movement, copying and animation (both object and node material) can only be applied to dynamic objects. In order to make the movement of the object without dynamic settings possible, it is necessary to activate <code class="docutils literal"><span class="pre">Force</span> <span class="pre">Dynamic</span> <span class="pre">Object</span></code> option in its settings.</p>
 </div>
 <div class="section" id="settings">
-<span id="object-settings"></span><h2><a class="toc-backref" href="#id7">Settings</a><a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h2>
+<span id="object-settings"></span><h2><a class="toc-backref" href="#id9">Settings</a><a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h2>
 <p>The following is supported for all types of objects: transform, data reference, parent object, group membership and a set of the Blend4Web’s special properties.</p>
 <div class="section" id="object-tab">
-<h3><a class="toc-backref" href="#id8">Object Tab</a><a class="headerlink" href="#object-tab" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id10">Object Tab</a><a class="headerlink" href="#object-tab" title="Permalink to this headline">¶</a></h3>
 <img alt="_images/object_settings.png" class="align-center" src="_images/object_settings.png" />
 <div class="line-block">
 <div class="line"><br /></div>
@@ -302,13 +316,16 @@
 <div class="line"><br /></div>
 </div>
 </div>
-<div class="section" id="level-of-detail-panel">
-<span id="object-settings-lod"></span><h4>Level of Detail Panel<a class="headerlink" href="#level-of-detail-panel" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="levels-of-detail-panel">
+<span id="object-settings-lod"></span><h4>Levels of Detail Panel<a class="headerlink" href="#levels-of-detail-panel" title="Permalink to this headline">¶</a></h4>
 <img alt="_images/object_settings_lod.png" class="align-center" src="_images/object_settings_lod.png" />
 <dl class="docutils">
-<dt><em>Levels of Detail &gt; LOD Transition Ratio</em></dt>
-<dd>Parameter for smoothing the switching between the LOD objects. It defines the additional distance at which the LOD objects are still rendered before getting replaced by the next LOD objects. Assigned for the main object. Measured in fractions of the object’s bounding sphere radius.</dd>
+<dt><em>Levels of Detail &gt; Object</em></dt>
+<dd>The object to use for this level of detail.</dd>
+<dt><em>Levels of Detail &gt; Distance</em></dt>
+<dd>The distance to begin using this level of detail.</dd>
 </dl>
+<p>Using levels of detail is described in the <a class="reference internal" href="#lods"><span>dedicated section</span></a>.</p>
 </div>
 <div class="section" id="animation-panel">
 <span id="object-settings-animation"></span><h4>Animation Panel<a class="headerlink" href="#animation-panel" title="Permalink to this headline">¶</a></h4>
@@ -350,6 +367,8 @@
 <dl class="docutils">
 <dt><em>Rendering Properties &gt; Hidden</em></dt>
 <dd>An object with this property enabled will be hidden on load.</dd>
+<dt><em>Rendering Properties &gt; Hidden Children</em></dt>
+<dd>All of the object&#8217;s children and children&#8217;s children and so on will be hidden on load. Available only if the <code class="docutils literal"><span class="pre">Rendering</span> <span class="pre">Properties</span> <span class="pre">&gt;</span> <span class="pre">Hidden</span></code> property is enabled and if the object has any children.</dd>
 <dt><em>Rendering Properties &gt; Do Not Render</em></dt>
 <dd><p class="first">Disable object rendering (for example useful for a physics object).</p>
 <p class="last">This parameter is not available for <code class="docutils literal"><span class="pre">Empty</span></code> type objects.</p>
@@ -489,7 +508,7 @@
 </div>
 </div>
 <div class="section" id="physics-tab">
-<h3><a class="toc-backref" href="#id9">Physics Tab</a><a class="headerlink" href="#physics-tab" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id11">Physics Tab</a><a class="headerlink" href="#physics-tab" title="Permalink to this headline">¶</a></h3>
 <a class="reference internal image-reference" href="_images/object_setup_phys.png"><img alt="_images/object_setup_phys.png" class="align-center" src="_images/object_setup_phys.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -507,7 +526,7 @@
 </div>
 </div>
 <div class="section" id="anchor-settings">
-<span id="objects-anchors"></span><h2><a class="toc-backref" href="#id10">Anchor Settings</a><a class="headerlink" href="#anchor-settings" title="Permalink to this headline">¶</a></h2>
+<span id="objects-anchors"></span><h2><a class="toc-backref" href="#id12">Anchor Settings</a><a class="headerlink" href="#anchor-settings" title="Permalink to this headline">¶</a></h2>
 <p>Anchors can be used to attach annotations to 3D objects. The annotation is displayed near the object regardless of the camera position and even follows it throughout the animation.</p>
 <a class="reference internal image-reference" href="_images/objects_anchors_example.png"><img alt="_images/objects_anchors_example.png" class="align-center" src="_images/objects_anchors_example.png" style="width: 100%;" /></a>
 <p>Annotations can be created entirely in Blender. All you need to do is to place an <code class="docutils literal"><span class="pre">Empty</span></code> object in the required position and enable the <code class="docutils literal"><span class="pre">Anchor</span></code> property. The text for the annotations can be assigned in the <code class="docutils literal"><span class="pre">Title</span></code> and <code class="docutils literal"><span class="pre">Description</span></code> fields on the <code class="docutils literal"><span class="pre">Meta</span> <span class="pre">Tags</span></code> panel.</p>
@@ -533,7 +552,7 @@
 </dl>
 </div>
 <div class="section" id="object-transform-api">
-<span id="index-0"></span><h2><a class="toc-backref" href="#id11">Object Transform API</a><a class="headerlink" href="#object-transform-api" title="Permalink to this headline">¶</a></h2>
+<span id="index-0"></span><h2><a class="toc-backref" href="#id13">Object Transform API</a><a class="headerlink" href="#object-transform-api" title="Permalink to this headline">¶</a></h2>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">Make sure that the object you are trying to transform is a <a class="reference internal" href="#static-dynamic-objects"><span>dynamic object</span></a>.</p>
@@ -575,7 +594,7 @@
 </dl>
 </div>
 <div class="section" id="get-object-api">
-<span id="index-1"></span><span id="id2"></span><h2><a class="toc-backref" href="#id12">Get Object API</a><a class="headerlink" href="#get-object-api" title="Permalink to this headline">¶</a></h2>
+<span id="index-1"></span><span id="id2"></span><h2><a class="toc-backref" href="#id14">Get Object API</a><a class="headerlink" href="#get-object-api" title="Permalink to this headline">¶</a></h2>
 <p>To perform any operation with an object, you first need to get it (i.e. receive the link to it). There are several API functions for doing this. A link to an object has <code class="docutils literal"><span class="pre">Object3D</span></code> type.</p>
 <dl class="docutils">
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.get_object_by_name">get_object_by_name()</a></dt>
@@ -645,7 +664,7 @@
 </dl>
 </div>
 <div class="section" id="object-selection">
-<span id="mesh-selection"></span><h2><a class="toc-backref" href="#id13">Object Selection</a><a class="headerlink" href="#object-selection" title="Permalink to this headline">¶</a></h2>
+<span id="mesh-selection"></span><h2><a class="toc-backref" href="#id15">Object Selection</a><a class="headerlink" href="#object-selection" title="Permalink to this headline">¶</a></h2>
 <p>In order to enable selection of a certain object, it is required to enable the <code class="docutils literal"><span class="pre">Selectable</span></code> checkbox on the <code class="docutils literal"><span class="pre">Selection</span> <span class="pre">and</span> <span class="pre">Outlining</span></code> panel.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -668,7 +687,7 @@
 </div>
 </div>
 <div class="section" id="copying-objects-instancing">
-<span id="mesh-copy"></span><h2><a class="toc-backref" href="#id14">Copying Objects (Instancing)</a><a class="headerlink" href="#copying-objects-instancing" title="Permalink to this headline">¶</a></h2>
+<span id="mesh-copy"></span><h2><a class="toc-backref" href="#id16">Copying Objects (Instancing)</a><a class="headerlink" href="#copying-objects-instancing" title="Permalink to this headline">¶</a></h2>
 <p>It is often required to copy (to make instances of) objects during application work.</p>
 <dl class="docutils">
 <dt>Copying objects has its limitations:</dt>
@@ -680,11 +699,11 @@
 </dd>
 </dl>
 <div class="section" id="making-a-simple-copy">
-<h3><a class="toc-backref" href="#id15">Making a Simple Copy</a><a class="headerlink" href="#making-a-simple-copy" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id17">Making a Simple Copy</a><a class="headerlink" href="#making-a-simple-copy" title="Permalink to this headline">¶</a></h3>
 <p>In case of simple copying the new object will share the mesh with the original object. Thus, if the original object’s mesh is changed, the copied object’s mesh will be changed too. To make simple copying possible, it’s enough to turn on the <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Force</span> <span class="pre">Dynamic</span> <span class="pre">Object</span></code> setting in the source object’s properties.</p>
 </div>
 <div class="section" id="making-a-deep-copy">
-<h3><a class="toc-backref" href="#id16">Making a Deep Copy</a><a class="headerlink" href="#making-a-deep-copy" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id18">Making a Deep Copy</a><a class="headerlink" href="#making-a-deep-copy" title="Permalink to this headline">¶</a></h3>
 <p>In case of deep copying, the new object will have unique properties, namely it will have its own mesh. Thus, if the original object’s mesh is changed, the copied object’s mesh will not be changed. Also, the canvas textures on the copied objects are different textures and not one and the same like it is the case with the simple copying. To make deep copying possible, it is required to enable the <a class="reference internal" href="#dynamic-geom"><span>Rendering Properties &gt; Dynamic Geometry</span></a> checkbox for the source object.
 |</p>
 <p>Copying objects in runtime can be performed with the <code class="docutils literal"><span class="pre">copy</span></code> method of the <code class="docutils literal"><span class="pre">objects.js</span></code> module. This method requires three arguments: the id of the source object, a unique name for the new object and the boolean value to specify the copy mode (i.e. simple or deep). By default, simple copying will be performed.</p>
@@ -698,7 +717,7 @@
 </div>
 </div>
 <div class="section" id="removing-objects">
-<h3><a class="toc-backref" href="#id17">Removing Objects</a><a class="headerlink" href="#removing-objects" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id19">Removing Objects</a><a class="headerlink" href="#removing-objects" title="Permalink to this headline">¶</a></h3>
 <p>To remove objects, use the <code class="docutils literal"><span class="pre">remove_object</span></code> method of the <code class="docutils literal"><span class="pre">scenes.js</span></code> module. Pass the object to it as an argument. Dynamic mesh- and empty-type objects can be removed this way.</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
 <span class="nx">m_objects</span><span class="p">.</span><span class="nx">remove_object</span><span class="p">(</span><span class="nx">new_obj</span><span class="p">);</span>
@@ -708,7 +727,7 @@
 </div>
 </div>
 <div class="section" id="quaternions">
-<span id="index-2"></span><h2><a class="toc-backref" href="#id18">Quaternions</a><a class="headerlink" href="#quaternions" title="Permalink to this headline">¶</a></h2>
+<span id="index-2"></span><h2><a class="toc-backref" href="#id20">Quaternions</a><a class="headerlink" href="#quaternions" title="Permalink to this headline">¶</a></h2>
 <p>Quaternion is a four-component vector used to perform rotating. Quaternions have a number of advantages over other rotation methods such as:</p>
 <blockquote>
 <div><ul class="simple">
@@ -739,7 +758,7 @@
 <dd>Conversion from Euler angles and back.</dd>
 </dl>
 <div class="section" id="quaternion-example">
-<h3><a class="toc-backref" href="#id19">Quaternion Example</a><a class="headerlink" href="#quaternion-example" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id21">Quaternion Example</a><a class="headerlink" href="#quaternion-example" title="Permalink to this headline">¶</a></h3>
 <p>We need to rotate the object by 60 degrees in a horizontal plane to the right. We have a model named “Cessna” in Blender.</p>
 <a class="reference internal image-reference" href="_images/objects_aircraft.png"><img alt="_images/objects_aircraft.png" class="align-center" src="_images/objects_aircraft.png" style="width: 100%;" /></a>
 <div class="line-block">
@@ -786,7 +805,7 @@
 </div>
 </div>
 <div class="section" id="moving-via-tsr-vectors">
-<h2><a class="toc-backref" href="#id20">Moving via TSR Vectors</a><a class="headerlink" href="#moving-via-tsr-vectors" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id22">Moving via TSR Vectors</a><a class="headerlink" href="#moving-via-tsr-vectors" title="Permalink to this headline">¶</a></h2>
 <p>It is sometimes convenient to move objects using vectors of the following format:</p>
 <blockquote>
 <div><span class="math">\([T_x, T_y, T_z, S, R_x, R_y, R_z, R_w]\)</span></div></blockquote>
@@ -794,7 +813,7 @@
 <p>This vector can be operated via <cite>tsr</cite> module, as well as via <cite>set_tsr()</cite>/<cite>get_tsr()</cite> methods of the <cite>transform</cite> module.</p>
 </div>
 <div class="section" id="line-rendering">
-<span id="id3"></span><h2><a class="toc-backref" href="#id21">Line Rendering</a><a class="headerlink" href="#line-rendering" title="Permalink to this headline">¶</a></h2>
+<span id="id3"></span><h2><a class="toc-backref" href="#id23">Line Rendering</a><a class="headerlink" href="#line-rendering" title="Permalink to this headline">¶</a></h2>
 <p>Blend4Web engine also features an option to render lines defined by sets of points.</p>
 <a class="reference internal image-reference" href="_images/objects_line_rendering.png"><img alt="_images/objects_line_rendering.png" class="align-center" src="_images/objects_line_rendering.png" style="width: 100%;" /></a>
 <p>API methods used for line rendering itself are located in the <a class="reference external" href="https://www.blend4web.com/api_doc/module-geometry.html">geometry</a> module, while the style of a rendered line (i.e. its color and thickness) can be set with the <a class="reference external" href="https://www.blend4web.com/api_doc/module-material.html#.set_line_params">set_line_params()</a> method of the <a class="reference external" href="https://www.blend4web.com/api_doc/module-material.html">material</a> module.</p>
@@ -826,6 +845,60 @@
 </div>
 <p>This code listing produces only the main axes of the object, because listing all of its elements will make the code long and repetitive. The other elements of the object are drawn it the same way.</p>
 </div>
+<div class="section" id="levels-of-detail">
+<span id="lods"></span><h2><a class="toc-backref" href="#id24">Levels Of Detail</a><a class="headerlink" href="#levels-of-detail" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="overview">
+<h3><a class="toc-backref" href="#id25">Overview</a><a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h3>
+<p>LODs, or levels of detail, are versions of a single object with various amounts of detail. Levels of detail are used for the purpose of optimization, and the idea here is that if an object is far from the camera, you can render more simple version of it – for example, the one with less polygons and simpler material. This can reduce the burden on the GPU without decreasing the quality of the render, as most of the details of the original object won’t be visible from the distance.</p>
+<p>LODs are often used in large-scale scenes with high object count. More compact scenes may not gain a major performance boost from using this feature. Video game locations such as islands, countrysides or town streets are most suitable for using LODs.</p>
+<p>LODs can be set up directly in Blender at the <code class="docutils literal"><span class="pre">Levels</span> <span class="pre">of</span> <span class="pre">Detail</span></code> <a class="reference internal" href="#object-settings-lod"><span>panel</span></a>.</p>
+<a class="reference internal image-reference" href="_images/objects_lod_list.png"><img alt="_images/objects_lod_list.png" class="align-center" src="_images/objects_lod_list.png" style="width: 100%;" /></a>
+<p>There, you can set levels of detail and distances at which they will be used for an individual object. Each level of detail is a separate object. The main rule is obvious: the lower the level of detail is positioned in the list, the simpler the corresponding object should be.</p>
+<p>You can make your objects simpler in different ways: by decreasing its polycount, by making the materials less complex (this is especially true for node materials) or by turning off various effect such as <a class="reference internal" href="lighting.html#shadows"><span>shadows</span></a>, <a class="reference internal" href="animation.html#animation"><span>animations</span></a> or <a class="reference internal" href="outdoor_rendering.html#wind"><span>Wind Bending</span></a>.</p>
+<p>The number of levels can be set as you see fit, depending on the overall scale of the scene.</p>
+<div class="figure align-center" id="id4">
+<a class="reference internal image-reference" href="_images/objects_levels_compare.png"><img alt="_images/objects_levels_compare.png" src="_images/objects_levels_compare.png" style="width: 100%;" /></a>
+<p class="caption"><span class="caption-text"><em>Levels of detail for trees: original object at the left, its LOD on the right</em></span></p>
+</div>
+</div>
+<div class="section" id="specifics-and-differences-from-bge">
+<h3><a class="toc-backref" href="#id26">Specifics and Differences From BGE</a><a class="headerlink" href="#specifics-and-differences-from-bge" title="Permalink to this headline">¶</a></h3>
+<p>Setting up LODs and using them in the engine has some specifics. Also, BGE mode in Blender has its own LOD system that is mostly identical to the one used in Blend4Web, but still has some differences that are mentioned below.</p>
+<ol class="arabic simple">
+<li>When you are applying a LOD object to some other object, the position of the LOD object will not change. So, if you want the objects to occupy the same place in the runtime, you should manually place them in the same location in Blender. This is different from BGE, where a selected LOD object is automatically moved to the center of the main object.</li>
+<li>If you need to set the same LOD object for multiple different objects (for example, same-type trees, building, cars or shrubs), you should make a copy of it for every object (i.e., make as many copies as there are objects that will use this object as a LOD) and set these copies as LODs. Unlike BGE, copies are not generated automatically when you select the same LOD object for multiple base objects. To simplify creating same-type object, we recommend to put the base object and all its LODs to one group and then duplicate this group using Empty objects.</li>
+<li>If the object is supposed to change its position in the runtime, you should attach its LODs to it in Blender using parent-child link so LOD object would copy its transformations.</li>
+</ol>
+</div>
+<div class="section" id="smooth-lod-switching">
+<h3><a class="toc-backref" href="#id27">Smooth LOD Switching</a><a class="headerlink" href="#smooth-lod-switching" title="Permalink to this headline">¶</a></h3>
+<p>One of the most notable shortcomings of the LOD system is the abrupt switching between levels of detail which is easy to notice and can be annoying.</p>
+<p>The engine supports smooth transition between LODs based on alpha test.</p>
+<div class="figure align-center" id="id5">
+<a class="reference internal image-reference" href="_images/objects_lod_smoothing.png"><img alt="_images/objects_lod_smoothing.png" src="_images/objects_lod_smoothing.png" style="width: 100%;" /></a>
+<p class="caption"><span class="caption-text"><em>Smooth transition between the original object and its LOD.</em></span></p>
+</div>
+<p>The option used for this is called <code class="docutils literal"><span class="pre">LOD</span> <span class="pre">Smooth</span> <span class="pre">Transitions</span></code> and can be found on the <code class="docutils literal"><span class="pre">Scene-&gt;Object</span> <span class="pre">Clustering</span> <span class="pre">&amp;</span> <span class="pre">LOD</span></code> <a class="reference internal" href="scene_settings.html#scene-batching"><span>panel</span></a>.</p>
+<p>It is intended for enabling smooth LOD transition and setting object types that this transition will be applied to. It should be noted that enabling this option might significantly decrease performance (it depends on the number of LOD objects and their materials).</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Smooth LOD transition is not always required. For example, if you instantly transport your camera to some distant object, you probably don’t want LOD switching to occur right in front of it. In cases like this, the <code class="docutils literal"><span class="pre">lod_leap_smooth_threshold</span></code> parameter should be used. It defines the threshold distance (in meters) that the camera can cover in one frame. If this value is exceeded, LODs are switched instantaneously. This can be used to disable smooth LOD transition when camera is teleported to a new location or simply moves very fast.</p>
+<blockquote class="last">
+<div><div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
+
+<span class="nx">m_cfg</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;lod_leap_smooth_threshold&quot;</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span> <span class="c1">// 5 meters</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="hysteresis">
+<h3><a class="toc-backref" href="#id28">Hysteresis</a><a class="headerlink" href="#hysteresis" title="Permalink to this headline">¶</a></h3>
+<p>LODs are switched at certain distances from the object. These level borders are set up on the <code class="docutils literal"><span class="pre">Levels</span> <span class="pre">of</span> <span class="pre">Detail</span></code> panel. If the camera is moving near a border like this, it can cross it often, which results in frequent LOD switching. Under such circumstances, LOD switching becomes very apparent and thus undesirable.</p>
+<p>This problem can be negated with the <code class="docutils literal"><span class="pre">Max</span> <span class="pre">LOD</span> <span class="pre">Hysteresis</span> <span class="pre">Interval</span></code> parameter located on the <code class="docutils literal"><span class="pre">Scene-&gt;Object</span> <span class="pre">Clustering</span> <span class="pre">&amp;</span> <span class="pre">LOD</span></code> <a class="reference internal" href="scene_settings.html#scene-batching"><span>panel</span></a>. It sets an interval (in meters) that is used as a gap between two LOD levels.</p>
+<p>For example, if <code class="docutils literal"><span class="pre">Max</span> <span class="pre">LOD</span> <span class="pre">Hysteresis</span> <span class="pre">Interval</span></code> is set to 4 meters while the distance between detail levels is equal to the 20 meters, one level will be turned on at the distance of 18 meters and the other, at the distance of 22 meters. Using this option eliminates frequent LOD switching, as levels of detail no longer have definite border between them. The setting is adaptive and can adjust to different LOD distances, reducing the set interval, if needed.</p>
+</div>
+</div>
 </div>
 
 
@@ -847,8 +920,8 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2014-2016, Triumph.
-      Last updated on 2017-03-07.
+        &copy; Copyright 2014-2017, Triumph.
+      Last updated on 2017-04-26.
 
     </p>
   </div>
@@ -904,7 +977,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.02.1',
+            VERSION:'v17.04',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

@@ -68,7 +68,7 @@ var m_nmesh = require("__navmesh");
  * Ray test callback.
  * @callback RayTestCallback
  * @param {number} id Ray Test ID
- * @param {number} hit_fract Fraction of ray length where hit has occured (0-1)
+ * @param {number} hit_fract Fraction of ray length where hit has occurred (0-1)
  * or -1 if there is no hit anymore
  * @param {?Object3D} obj_hit Hit Object 3D
  * @param {number} hit_time Time the hit happened.
@@ -78,7 +78,7 @@ var m_nmesh = require("__navmesh");
  * Ray test callback with additional position/normal.
  * @callback RayTestCallbackPosNorm
  * @param {number} id Ray Test ID
- * @param {number} hit_fract Fraction of ray length where hit has occured (0-1)
+ * @param {number} hit_fract Fraction of ray length where hit has occurred (0-1)
  * or -1 if there is no hit anymore
  * @param {?Object3D} obj_hit Hit Object 3D
  * @param {number} hit_time Time the hit happened.
@@ -748,7 +748,7 @@ exports.remove_collision_test = function(obj, collision_id, callback) {
  * Apply a new async collision impulse test to the given object.
  * @method module:physics.apply_collision_impulse_test
  * @param {Object3D} obj Object 3D
- * @param {CollisionImpulseCallback} callback Callision impulse test callback.
+ * @param {CollisionImpulseCallback} callback Collision impulse test callback.
  */
 exports.apply_collision_impulse_test = function(obj, callback) {
     if (!m_phy.obj_has_physics(obj)) {
@@ -879,7 +879,7 @@ exports.change_ray_test_from_to = function(id, from, to) {
  * @param {Object3D} obj_b Object 3D B
  * @param {Vec3} trans_b Translation of pivot frame relative to B
  * @param {Quat} quat_b Rotation of pivot frame relative to B
- * @param {ConstraintLimits} limits Object containting constraint limits
+ * @param {ConstraintLimits} limits Object containing constraint limits
  * @param {Float32Array} [stiffness=null] 6-dimensional vector with constraint stiffness
  * @param {Float32Array} [damping=null] 6-dimensional vector with constraint damping
  */

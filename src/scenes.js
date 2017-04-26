@@ -372,6 +372,8 @@ function append_scene(bpy_scene, scene_objects, lamps, bpy_mesh_objs, bpy_empty_
     render.color_picking     = check_selectable_objects(bpy_scene, bpy_mesh_objs);
     render.outline           = check_outlining_objects(bpy_scene, bpy_mesh_objs);
     render.glow_materials    = check_glow_materials(bpy_scene, bpy_mesh_objs);
+    render.lod_smooth_type   = bpy_scene["b4w_lod_smooth_type"];
+    render.lod_hyst_interval = bpy_scene["b4w_lod_hyst_interval"];
 
     var reflection_quality = cfg_def.reflection_quality ? cfg_def.reflection_quality :
             bpy_scene["b4w_reflection_quality"];
@@ -460,8 +462,7 @@ exports.append_scene_vtex = function(scene, textures, data_id) {
 
 function extract_shadow_params(bpy_scene, lamps, bpy_mesh_objs) {
 
-    if (!(cfg_def.depth_tex_available &&
-          check_render_shadows(bpy_scene, lamps, bpy_mesh_objs)))
+    if (!check_render_shadows(bpy_scene, lamps, bpy_mesh_objs))
         return null;
 
     var shs = bpy_scene["b4w_shadow_settings"];
@@ -841,7 +842,8 @@ function check_blend_reflexible(obj) {
         var gs = mat["game_settings"];
         var alpha_blend = gs["alpha_blend"];
         if (alpha_blend != "OPAQUE"
-                && alpha_blend != "CLIP")
+                && alpha_blend != "CLIP"
+                && alpha_blend != "ALPHA_ANTIALIASING")
             return true;
     }
 
@@ -902,8 +904,7 @@ function extract_ssao_params(bpy_scene) {
  */
 function extract_bloom_params(bpy_scene) {
 
-    if (!(cfg_def.bloom && bpy_scene["b4w_enable_bloom"]
-            && bpy_scene._render.sun_exist))
+    if (!(cfg_def.bloom && bpy_scene["b4w_enable_bloom"]))
         return null;
 
     var bloom_params   = {};
@@ -912,6 +913,8 @@ function extract_bloom_params(bpy_scene) {
     bloom_params.blur     = bloom_settings["blur"];
     bloom_params.edge_lum = bloom_settings["edge_lum"];
     bloom_params.key      = bloom_settings["key"];
+    bloom_params.adaptive = bloom_settings["adaptive"];
+    bloom_params.average_luminance = bloom_settings["average_luminance"];
 
     return bloom_params;
 }
@@ -1009,6 +1012,17 @@ function get_world_light_set(world, sky_params) {
     wls_params.sky_texture_slot         = null;
     wls_params.sky_texture_param        = null;
     wls_params.environment_texture_slot = null;
+    wls_params.ngraph_proxy_id = "";
+
+    if (sky_params["render_sky"] && world["use_nodes"] && world["node_tree"]) {
+        var node_tree = world["node_tree"];
+        var uuid = world["uuid"];
+        var mat_name = world["name"];
+        var ngraph_proxy = m_nodemat.compose_ngraph_proxy(node_tree, uuid, false, mat_name,
+                            "MAIN");
+
+        wls_params.ngraph_proxy_id = ngraph_proxy.id;
+    }
 
     var use_environment_light = true;
     if (wls_params.use_environment_light && wls_params.environment_color == "SKY_TEXTURE" &&
@@ -1219,7 +1233,8 @@ function check_xray_materials(bpy_objects) {
             var alpha_blend = gs["alpha_blend"];
             if (mat["b4w_render_above_all"]
                     && alpha_blend != "OPAQUE"
-                    && alpha_blend != "CLIP")
+                    && alpha_blend != "CLIP"
+                    && alpha_blend != "ALPHA_ANTIALIASING")
                 return true;
         }
     }
@@ -1379,24 +1394,14 @@ exports.generate_auxiliary_batches = function(scene, graph) {
 
             break;
         case m_subs.LUMINANCE_TRUNCED:
-            batch = m_batch.create_luminance_trunced_batch();
-
-            break;
-        case m_subs.BLOOM_BLUR:
-            batch = m_batch.create_bloom_blur_batch();
+            batch = m_batch.create_luminance_truncated_batch(subs.adaptive_bloom);
 
             break;
         case m_subs.BLOOM:
-
-            var subs_blur_y = m_scgraph.find_input(graph, subs, m_subs.BLOOM_BLUR);
-            var subs_blur_x = m_scgraph.find_input(graph, subs_blur_y, m_subs.BLOOM_BLUR);
-
-            // set blur strength for 2 subscenes
-            m_scgraph.set_texel_size_mult(subs_blur_y, subs.bloom_blur);
-            m_scgraph.set_texel_size_mult(subs_blur_x, subs.bloom_blur);
-
-            batch = m_batch.create_bloom_combine_batch();
-
+            batch = m_batch.create_bloom_combine_batch(subs.bloom_blur_num);
+            break;
+        case m_subs.RESIZE:
+            batch = m_batch.create_postprocessing_batch("NONE");
             break;
 
         case m_subs.VELOCITY:
@@ -1445,6 +1450,10 @@ exports.append_object = function(scene, obj, copy, append_phys) {
             var subs = subs_arr[i];
             add_object_sub(subs, obj, graph, scene, copy);
         }
+
+        if (type == "WORLD") {
+            init_cube_sky_dim(scene, obj);
+        }
         break;
     case "LAMP":
         update_lamp_scene(obj, scene);
@@ -1454,11 +1463,11 @@ exports.append_object = function(scene, obj, copy, append_phys) {
     }
 
     // remove unused batches
-    for (var i = 0; i < obj.scenes_data.length; i++) {
-        var batches = obj.scenes_data[i].batches;
-        for (var j = 0; j < batches.length; j++)
-            if (batches[j].shader == null)
-                batches.splice(j--, 1);
+    var scenes_data = m_obj_util.get_scene_data(obj, scene);
+    var batches = scenes_data.batches;
+    for (var j = 0; j < batches.length; j++) {
+        if (batches[j].shader == null && batches[j].type != "PHYSICS")
+            batches.splice(j--, 1);
     }
 
     m_obj_util.scene_data_set_active(obj, true, scene);
@@ -1466,10 +1475,86 @@ exports.append_object = function(scene, obj, copy, append_phys) {
 
 exports.update_world_texture = update_world_texture;
 function update_world_texture(scene) {
+    var subs_sky = m_scgraph.find_subs(scene._render.graph, m_subs.SKY);
+    if (subs_sky)
+        update_sky(scene, subs_sky);
+}
+
+function init_cube_sky_dim(scene, world_obj) {
     if (scene && scene._render && scene._render.graph) {
+        var graph = scene._render.graph;
         var subs_sky = m_scgraph.find_subs(scene._render.graph, m_subs.SKY);
-        if (subs_sky)
-            update_sky(scene, subs_sky);
+
+        if (subs_sky) {
+            var sky_cube_texture = null;
+
+            m_scgraph.traverse_slinks(graph, function(slink, internal, subs1, subs2) {
+                if (slink.from == "CUBEMAP" && subs1.type == m_subs.SKY && subs2.type == m_subs.SINK) {
+                    sky_cube_texture = slink.texture;
+                    return true;
+                }
+            });
+
+            if (sky_cube_texture) {
+                var tex_size = cfg_scs.cubemap_tex_size;
+                var sky_batch = m_batch.get_batch_by_type(world_obj, "SKY", scene);
+
+                if (sky_batch && sky_batch.has_nodes) {
+                    var ngraph_proxy = m_nodemat.get_ngraph_proxy_cached(sky_batch.ngraph_proxy_id);
+                    var ngraph = ngraph_proxy.graph;
+                    var node_env_tex_size = m_nodemat.get_max_env_texture_size(ngraph);
+
+                    if (node_env_tex_size != -1)
+                        tex_size = node_env_tex_size;
+
+                } else {
+                    var sc_render = scene._render;
+                    var wls = sc_render.world_light_set;
+                    var tex_param = wls.sky_texture_param;
+                    if (tex_param)
+                        tex_size = tex_param.tex_size;
+                }
+
+                tex_size *= 2;
+                tex_size = Math.min(tex_size, cfg_lim.max_cube_map_texture_size / 4);
+                subs_sky.camera.width  = tex_size;
+                subs_sky.camera.height = tex_size;
+
+                m_tex.set_cubemap_tex_size(sky_cube_texture, tex_size);
+            }
+        }
+    }
+}
+
+exports.update_cube_sky_dim = update_cube_sky_dim;
+function update_cube_sky_dim(world, texture) {
+    var scenes_data = world.scenes_data;
+    for (var i = 0; i < scenes_data.length; i++) {
+        var scene = scenes_data[i].scene;
+
+        if (scene && scene._render && scene._render.graph) {
+            var graph = scene._render.graph;
+            var subs_sky = m_scgraph.find_subs(scene._render.graph, m_subs.SKY);
+
+            if (subs_sky) {
+                var sky_cube_texture = null;
+
+                m_scgraph.traverse_slinks(graph, function(slink, internal, subs1, subs2) {
+                    if (slink.from == "CUBEMAP" && subs1.type == m_subs.SKY && subs2.type == m_subs.SINK) {
+                        sky_cube_texture = slink.texture;
+                        return true;
+                    }
+                });
+
+                if (sky_cube_texture) {
+                    var tex_size = Math.min(texture.height, cfg_lim.max_cube_map_texture_size / 4);
+                    subs_sky.camera.width  = tex_size;
+                    subs_sky.camera.height = tex_size;
+
+                    m_tex.set_cubemap_tex_size(sky_cube_texture, tex_size);
+                }
+            }
+        }
     }
 }
 
@@ -1569,6 +1654,11 @@ function add_object_subs_main(subs, obj, graph, main_type, scene, copy) {
     }
 }
 
+function assign_lod_transition_dirs(batch) {
+    if (batch.lod_settings.use_smoothing)
+        m_batch.set_batch_directive(batch, "USE_LOD_SMOOTHING", 1);
+}
+
 function update_batch_subs(batch, subs, obj, graph, main_type, bpy_scene) {
     var obj_render = obj.render;
     var sc_render = bpy_scene._render;
@@ -1614,8 +1704,11 @@ function update_batch_subs(batch, subs, obj, graph, main_type, bpy_scene) {
             break;
         }
     var shaders_info = batch.shaders_info;
+
     m_shaders.set_directive(shaders_info, "SHADOW_USAGE", shadow_usage);
     m_shaders.set_directive(shaders_info, "POISSON_DISK_NUM", blur_samples);
+
+    assign_lod_transition_dirs(batch);
 
     if (batch.dynamic_grass) {
         var subs_grass_map = m_scgraph.find_subs(graph, m_subs.GRASS_MAP);
@@ -1624,12 +1717,7 @@ function update_batch_subs(batch, subs, obj, graph, main_type, bpy_scene) {
     }
 
     var cam = subs.camera;
-    if (cam.type == m_cam.TYPE_ORTHO ||
-            cam.type == m_cam.TYPE_ORTHO_ASPECT ||
-            cam.type == m_cam.TYPE_ORTHO_ASYMMETRIC)
-        m_shaders.set_directive(shaders_info, "CAMERA_TYPE", "CAM_TYPE_ORTHO");
-    else
-        m_shaders.set_directive(shaders_info, "CAMERA_TYPE", "CAM_TYPE_PERSP");
+    set_batch_cam_type(shaders_info, cam);
 
     if ((batch.type == "SHADOW" || main_type == "COLOR_ID") && !batch.has_nodes)
         return;
@@ -1793,6 +1881,15 @@ function update_batch_subs(batch, subs, obj, graph, main_type, bpy_scene) {
     }
 }
 
+function set_batch_cam_type(shaders_info, subs_cam) {
+    if (subs_cam.type == m_cam.TYPE_ORTHO ||
+            subs_cam.type == m_cam.TYPE_ORTHO_ASPECT ||
+            subs_cam.type == m_cam.TYPE_ORTHO_ASYMMETRIC)
+        m_shaders.set_directive(shaders_info, "CAMERA_TYPE", "CAM_TYPE_ORTHO");
+    else
+        m_shaders.set_directive(shaders_info, "CAMERA_TYPE", "CAM_TYPE_PERSP");
+}
+
 function check_batch_textures_number(batch) {
     if (batch.textures.length > MAX_BATCH_TEXTURES)
         m_print.warn(batch.type, "too many textures used - " +
@@ -1881,11 +1978,15 @@ function add_object_subs_shadow(subs, obj, graph, scene, copy) {
         update_needed = true;
 
         if (!copy) {
+            assign_lod_transition_dirs(batch);
+
             var num_lights = subs.num_lights;
             m_batch.set_batch_directive(batch, "NUM_LIGHTS", num_lights);
             var num_lfac = num_lights % 2 == 0 ? num_lights / 2:
                                                  Math.floor(num_lights / 2) + 1;
             m_batch.set_batch_directive(batch, "NUM_LFACTORS", num_lfac);
+
+            set_batch_cam_type(batch.shaders_info, subs.camera);
 
             m_shaders.set_directive(batch.shaders_info, "SHADOW_USAGE", "SHADOW_CASTING");
 
@@ -2535,13 +2636,11 @@ function update_lamp_scene(lamp, scene) {
             subs.sun_quaternion.set(quat);
             // by link
             subs.sun_intensity = light.color_intensity;
-
-            if (subs.type === m_subs.SKY) {
+            m_vec3.copy(light.direction, subs.sun_direction);
+            if (subs.type == m_subs.SKY && subs.procedural_skydome) {
                 subs.need_fog_update = light.need_sun_fog_update;
-                m_vec3.copy(light.direction, subs.sun_direction);
                 update_sky(scene, subs);
-            } else
-                m_vec3.copy(light.direction, subs.sun_direction);
+            }
             break
         case "HEMI":
         case "POINT":
@@ -2647,6 +2746,7 @@ function reset_shadow_cam_vm(bpy_scene) {
         }
     }
 }
+
 exports.update_sky_texture = function(world) {
     var scenes_data = world.scenes_data;
     for (var i = 0; i < scenes_data.length; i++)
@@ -2787,7 +2887,6 @@ function setup_dim(width, height, scale) {
         setup_scene_dim(_active_scene, width, height);
 }
 
-exports.setup_scene_dim = setup_scene_dim;
 /**
  * Setup dimension for specific scene subscenes
  */
@@ -2795,10 +2894,16 @@ function setup_scene_dim(scene, width, height) {
     var sc_render = scene._render;
     var cam_scene_data = m_obj_util.get_scene_data(scene._camera, scene);
     var upd_cameras = cam_scene_data.cameras;
+
+    if (height != 0)
+        var aspect = width/height;
+    else
+        var aspect = 1;
+
     for (var i = 0; i < upd_cameras.length; i++) {
         var cam = upd_cameras[i];
 
-        m_cam.set_aspect(cam, width/height);
+        m_cam.set_aspect(cam, aspect);
         m_cam.set_projection(cam, false);
 
         // NOTE: update size of camera shadow cascades
@@ -2833,8 +2938,11 @@ function setup_scene_dim(scene, width, height) {
                     m_tex.resize(slink.texture, tex_width, tex_height);
             }
         } else {
-            if (m_tex.is_texture(slink.texture))
+            if (m_tex.is_texture(slink.texture)) {
                 m_tex.resize(slink.texture, tex_width, tex_height);
+                if (slink.texture.use_mipmap)
+                    subs2.last_mip_map_ind = slink.texture.mipmap_count;
+            }
 
             // NOTE: needed in set_dof_params() and several other places
             var cam = subs1.camera;
@@ -2843,7 +2951,6 @@ function setup_scene_dim(scene, width, height) {
 
             switch (subs1.type) {
             case m_subs.DOF:
-
                 set_dof_params(scene, {"dof_power": subs1.camera.dof_power});
                 break;
             case m_subs.GLOW_COMBINE:
@@ -2853,7 +2960,11 @@ function setup_scene_dim(scene, width, height) {
                 break;
             case m_subs.BLOOM:
                 set_bloom_params(scene,
-                        {"bloom_blur": subs1.bloom_blur});
+                        {"blur": subs1.bloom_blur});
+                break;
+            case m_subs.RESIZE:
+                cam.width = cam.color_attachment.width;
+                cam.height = cam.color_attachment.height;
                 break;
             case m_subs.OUTLINE:
                 var subs_outline_blur_y = m_scgraph.find_input(graph, subs1,
@@ -2975,6 +3086,9 @@ function set_environment_colors(scene, environment_energy, horizon_color, zenith
 
         subs.need_perm_uniforms_update = true;
     }
+    var subs_sky = m_scgraph.find_subs(scene._render.graph, m_subs.SKY);
+    if (subs_sky)
+        update_sky(scene, subs_sky);
 }
 
 /**
@@ -2983,7 +3097,7 @@ function set_environment_colors(scene, environment_energy, horizon_color, zenith
 exports.get_sky_params = function(scene) {
 
     var subs = get_subs(scene, m_subs.SKY);
-    if (subs) {
+    if (subs && subs.procedural_skydome) {
         var sky_params = {};
         sky_params.color = new Array(3);
         m_vec3.copy(subs.sky_color, sky_params.color);
@@ -3353,7 +3467,6 @@ exports.get_bloom_params = function(scene) {
 
     var lum_subs = get_subs(scene, m_subs.LUMINANCE_TRUNCED);
     var bloom_subs = get_subs(scene, m_subs.BLOOM);
-
     if (!lum_subs || !bloom_subs) {
         return null;
     }
@@ -3363,6 +3476,8 @@ exports.get_bloom_params = function(scene) {
     bloom_params.key = lum_subs.bloom_key;
     bloom_params.edge_lum = lum_subs.bloom_edge_lum;
     bloom_params.blur = bloom_subs.bloom_blur;
+    bloom_params.adaptive = lum_subs.adaptive_bloom;
+    bloom_params.average_luminance = lum_subs.average_luminance;
 
     return bloom_params;
 }
@@ -3390,19 +3505,36 @@ function set_bloom_params(scene, bloom_params) {
             lum_subs[i].need_perm_uniforms_update = true;
         }
     }
+
     if (typeof bloom_params.blur == "number") {
         for (var i = 0; i < bloom_subs.length; i++) {
-            var graph = scene._render.graph;
-            var subs_blur1 = m_scgraph.find_input(graph, bloom_subs[i], m_subs.BLOOM_BLUR);
-            var subs_blur2 = m_scgraph.find_input(graph, subs_blur1, m_subs.BLOOM_BLUR);
             bloom_subs[i].bloom_blur = bloom_params.blur;
-            m_scgraph.set_texel_size_mult(subs_blur1, bloom_params.blur);
-            m_scgraph.set_texel_size(subs_blur1, 1/bloom_subs[i].camera.width,
-                                                 1/bloom_subs[i].camera.height);
-            m_scgraph.set_texel_size_mult(subs_blur2, bloom_params.blur);
-            m_scgraph.set_texel_size(subs_blur2, 1/bloom_subs[i].camera.width,
-                                                 1/bloom_subs[i].camera.height);
+            var graph = scene._render.graph;
+
+            var original_width = bloom_subs[i].camera.width / 0.5;
+            var original_height = bloom_subs[i].camera.height / 0.5;
+            var bloom_inputs = m_scgraph.get_inputs_by_type(graph, bloom_subs[i], m_subs.POSTPROCESSING);
+
+            for (var j = 0; j < bloom_inputs.length; ++j) {
+                var subs_blur_y = bloom_inputs[j];
+                var subs_blur_x = m_scgraph.find_input(graph, subs_blur_y, m_subs.POSTPROCESSING);
+
+                var width = original_width * subs_blur_y.bloom_blur_scale;
+                var height = original_height * subs_blur_y.bloom_blur_scale;
+
+                m_scgraph.set_texel_size_mult(subs_blur_y, bloom_params.blur);
+                m_scgraph.set_texel_size(subs_blur_y, 1/width, 1/height);
+                m_scgraph.set_texel_size_mult(subs_blur_x, bloom_params.blur);
+                m_scgraph.set_texel_size(subs_blur_x, 1/width, 1/height);
+            }
         }
+    }
+    if (typeof bloom_params.average_luminance == "number") {
+        for (var i = 0; i < lum_subs.length; i++)
+            if (!lum_subs[i].adaptive_bloom) {
+                lum_subs[i].average_luminance = bloom_params.average_luminance;
+                lum_subs[i].need_perm_uniforms_update = true;
+            }
     }
 }
 
@@ -4135,7 +4267,7 @@ exports.pick_color = function(scene, canvas_x, canvas_y) {
         }
 
         // NOTE: may be some delay since exports.update() execution
-        m_prerender.prerender_subs(subs_color_pick, subs_color_pick.camera);
+        m_prerender.prerender_subs(subs_color_pick);
         if (subs_color_pick.do_render)
             m_render.draw(subs_color_pick);
 
@@ -4148,7 +4280,7 @@ exports.pick_color = function(scene, canvas_x, canvas_y) {
             m_util.extract_frustum_planes(
                     subs_color_pick_xray.camera.view_proj_matrix,
                     subs_color_pick_xray.camera.frustum_planes);
-            m_prerender.prerender_subs(subs_color_pick_xray, subs_color_pick_xray.camera);
+            m_prerender.prerender_subs(subs_color_pick_xray);
             if (subs_color_pick_xray.do_render)
                 m_render.draw(subs_color_pick_xray);
             var cam = subs_color_pick_xray.camera;

@@ -34,6 +34,8 @@
 
     * 基本角色
 
+    * Controlling Characters with API
+
   * 导航网格
 
     * 创建导航网格
@@ -353,6 +355,129 @@ Blend4Web引擎有快速建立用户控制的第一人称角色的选项。这�
 
 注解: 只有一个基本角色可存在于场景中。如果场景中有多个角色，该引擎将
   使用他 们的第一个基本角色，而忽略其他。
+
+
+Controlling Characters with API
+-------------------------------
+
+Basic character described above can only provide generic
+functionality. If you need more control over character behavior, you
+should use methods from the fps module.
+
+The most important of them is the enable_fps_controls() method which,
+as its name suggests, is used to initialize characters in the scene.
+It can be used as follows:
+
+   var m_fps = require("fps");
+
+   m_fps.enable_fps_controls();
+
+This method should be used at the start of the application (in the
+**load_cb** function) to enable character controls.
+
+注解: This method may conflict with the enable_camera_controls()
+  method which is used to enable basic character described in the
+  previous section. These two methods should not be used
+  simultaneously.
+
+The method also has the following optional parameters:
+
+   "character" sets the character object. The link to the character
+   can be retrieved by calling the get_first_character() method.
+   Should be used if more then one character is present in the scene.
+
+   "element" specifies the HTML element to which the method adds
+   listeners.
+
+   "motion_cb" specifies the callback function that is called when
+   character changes its direction.
+
+   "gamepad_id" specifies the ID of the gamepad plugged to the system.
+
+   "forward_sens", "backward_sens", "right_sens", "left_sens",
+   "jump_sens", "fly_sens" - these parameters are used to set arrays
+   of sensor types for specific character action like walking in
+   different directions, jumping and so on.
+
+   "rotation_cb" specifies the callback function that is called when a
+   character or camera rotates.
+
+   "lock_camera" - setting this parameter to "true" will parent the
+   scene camera to the character.
+
+Other important methods are set_cam_sensitivity() and
+set_cam_smooth_factor(). The first one of them sets the sensitivity of
+the camera (defined by a numeric value in the range from zero to 100).
+The second method defines how smooth the camera moves (defined by a
+value in the range from 0 to 1.0).
+
+
+Character States
+~~~~~~~~~~~~~~~~
+
+Character states are constant values that represent current behavior
+of the character (does it currently walk or fly or do anything else).
+Every character present in a scene always have one and only one state.
+
+Available character states:
+
+   CS_CLIMB - a character is climbing.
+
+   CS_FLY - a character is flying.
+
+   CS_RUN - a character is running.
+
+   CS_STAY - a character does not move.
+
+   CS_WALK - a character is walking.
+
+Current state of a specific character can be retrieved using the
+get_character_state() method, while a specific state can be assigned
+to a character with the switch_state() method. The following example
+shows how these two methods can be used:
+
+   var m_fps = require("fps");
+
+   var current_state = m_fps.get_character_state();
+
+   if (current_state == m_fps.CS_FLY)
+       m_fps.switch_state(m_fps.CS_WALK);
+
+
+Action Binding
+~~~~~~~~~~~~~~
+
+The fps module also provides means for binding various actions to
+character events. The bind_action() method is used for this:
+
+   var m_fps = require("fps");
+   var m_ctl = require("controls");
+
+   var action_cb = function(value) {
+       console.log("Q key pressed.");
+   }
+
+   m_fps.bind_action(m_fps.AT_PRESSED, [m_ctl.KEY_Q], action_cb);
+
+This method features the following parameters:
+
+   * the first parameter is the type of action:
+
+     AT_CONTINUOUS - an input type that detects a continuous user
+     action such as mouse movement, keyboard key held down, gamepad
+     stick tilt etc.
+
+     AT_PRESSED - this input type detects a discrete user action, e.g.
+     pressing a button.
+
+     AT_RELEASED - an input type that detects button (mouse, gamepad
+     or keyboard) being released.
+
+   * the second parameter defines an array of sensor types (such as
+     keyboard keys, gamepad buttons or mouse actions).
+
+   * **action_cb** is a callback function that will be called each
+     time user performs action defined by the first parameter.
 
 
 导航网格

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>工作流程 &mdash; Blend4Web 17.02.1 用户手册</title>
+  <title>工作流程 &mdash; Blend4Web 17.04 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.02.1 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 17.04 用户手册" href="index.html"/>
         <link rel="next" title="项目管理" href="project_manager.html"/>
         <link rel="prev" title="安装和更新" href="setup.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v17.02.1
+              v17.04
             </div>
           
         
@@ -87,16 +87,16 @@
 <li class="toctree-l1"><a class="reference internal" href="engine_features.html">引擎功能</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">安装和更新</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">工作流程</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#creating-a-new-project">Creating a New Project</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#creating-scenes">Creating Scenes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#preparing-a-scene-to-use-in-blend4web">Preparing a Scene to Use in Blend4Web</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#creating-a-new-project">创建一个新项目</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#creating-scenes">创建场景</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#preparing-a-scene-to-use-in-blend4web">准备一个在Blend4Web中使用的场景</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#displaying-scenes-in-the-viewer">在浏览器显示场景</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#exporting-scenes">导出场景</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#application-development">应用程序开发</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#project-building">Project Building</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#project-deploying">Project Deploying</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#project-building">构建项目</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#project-deploying">项目部署</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理</a></li>
@@ -175,16 +175,16 @@
 <p class="topic-title first">目录</p>
 <ul class="simple">
 <li><a class="reference internal" href="#workflow" id="id1">工作流程</a><ul>
-<li><a class="reference internal" href="#creating-a-new-project" id="id2">Creating a New Project</a></li>
-<li><a class="reference internal" href="#creating-scenes" id="id3">Creating Scenes</a></li>
-<li><a class="reference internal" href="#preparing-a-scene-to-use-in-blend4web" id="id4">Preparing a Scene to Use in Blend4Web</a><ul>
+<li><a class="reference internal" href="#creating-a-new-project" id="id2">创建一个新项目</a></li>
+<li><a class="reference internal" href="#creating-scenes" id="id3">创建场景</a></li>
+<li><a class="reference internal" href="#preparing-a-scene-to-use-in-blend4web" id="id4">准备一个在Blend4Web中使用的场景</a><ul>
 <li><a class="reference internal" href="#displaying-scenes-in-the-viewer" id="id5">在浏览器显示场景</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#exporting-scenes" id="id6">导出场景</a></li>
 <li><a class="reference internal" href="#application-development" id="id7">应用程序开发</a></li>
-<li><a class="reference internal" href="#project-building" id="id8">Project Building</a></li>
-<li><a class="reference internal" href="#project-deploying" id="id9">Project Deploying</a></li>
+<li><a class="reference internal" href="#project-building" id="id8">构建项目</a></li>
+<li><a class="reference internal" href="#project-deploying" id="id9">项目部署</a></li>
 </ul>
 </li>
 </ul>
@@ -194,33 +194,41 @@
 <ol class="arabic simple">
 <li><p class="first">创建一个新项目</p>
 </li>
-<li>Creating Scenes</li>
-<li>Preparing a Scene to Use in Blend4Web</li>
+<li><p class="first">创建场景</p>
+</li>
+<li><p class="first">准备一个在Blend4Web中使用的场景</p>
+</li>
 <li><p class="first">导出场景。</p>
 </li>
 <li><p class="first">应用程序开发</p>
 </li>
-<li>Project Building.</li>
-<li>Project Deploying.</li>
+<li><p class="first">构建项目</p>
+</li>
+<li><p class="first">项目部署。</p>
+</li>
 </ol>
 <div class="section" id="creating-a-new-project">
-<h2><a class="toc-backref" href="#id2">Creating a New Project</a><a class="headerlink" href="#creating-a-new-project" title="永久链接至标题">¶</a></h2>
-<p>The work on a project, of course, should always start with creating it.</p>
-<p>The easiest way to create a new project is to use the <a class="reference internal" href="project_manager.html#project-manager"><span>Project Manager</span></a>. To do it, press the Create New Project button at the top of the Project Manager’s main window.</p>
-<p>The other way is to use the <em>project.py</em> command line script, which is more versatile. Working with this script is described <a class="reference internal" href="project_manager.html#creating-a-project"><span>here</span></a>.</p>
+<h2><a class="toc-backref" href="#id2">创建一个新项目</a><a class="headerlink" href="#creating-a-new-project" title="永久链接至标题">¶</a></h2>
+<p>要在一个项目上工作，首先就是要创建它。</p>
+<p>创建一个新项目最简单的方法是使用 <a class="reference internal" href="project_manager.html#project-manager"><span>项目管理器</span></a>.  要做到这一点，在项目管理器的主窗口顶部按新建项目按钮。</p>
+<p>另一种方法是使用  <em>project.py</em>  命令行脚本，这个更通用。这个脚本的工作描述 <a class="reference internal" href="project_manager.html#creating-a-project"><span>在这里</span></a>.</p>
 </div>
 <div class="section" id="creating-scenes">
-<h2><a class="toc-backref" href="#id3">Creating Scenes</a><a class="headerlink" href="#creating-scenes" title="永久链接至标题">¶</a></h2>
-<p>Scenes are contained in blend files. Project Manager can automatically create a blend file with a basic scene upon creating a new project. Additional blend files can be created and attached to a project.</p>
-<p>Scenes for Blend4Web are created in the same manner as the scenes for Blender itself, with only minor differences. The process of working on a scene could be separated into several stages:</p>
+<h2><a class="toc-backref" href="#id3">创建场景</a><a class="headerlink" href="#creating-scenes" title="永久链接至标题">¶</a></h2>
+<p>场景都包含在blend文件。项目管理器可以在创建新项目时自动创建一个基本的blend场景文件。额外的blend文件可以被创建并附加到一个项目。</p>
+<p>Blend4Web的场景都跟Blender里创建场景都是以同样的方式，只有轻微的差异。处理一个场景的工作过程可以分为几个阶段：</p>
 <ol class="arabic simple">
-<li>Modeling the scene objects</li>
-<li><a class="reference internal" href="materials.html#materials"><span>Setting up materials</span></a></li>
-<li><a class="reference internal" href="animation.html#animation"><span>Animating objects</span></a></li>
-<li><a class="reference internal" href="logic_editor.html#logic-editor"><span>Creating scene logic</span></a> (this part is exclusive for Blend4Web engine and does not apply to regular Blender scenes)</li>
+<li><p class="first">建模场景中的物体</p>
+</li>
+<li><p class="first"><a class="reference internal" href="materials.html#materials"><span>设置材质</span></a></p>
+</li>
+<li><p class="first"><a class="reference internal" href="animation.html#animation"><span>给物体动画</span></a></p>
+</li>
+<li><p class="first"><a class="reference internal" href="logic_editor.html#logic-editor"><span>创建场景逻辑</span></a> （这部分是Blend4Web引擎独有的，并不适用于普通Blender场景）</p>
+</li>
 </ol>
-<p>It should be noted that not every project may require all of these stages. More simple scene might not feature any animations or even any materials aside from the default ones.</p>
-<p>The order of the stages is also not strict and can be interchaged to a certain degree (for example, you won&#8217;t probably animate an object before creating it, but you can create a material for it beforehand).</p>
+<p>应该注意的是，并不是每一个项目都需要所有这些阶段。更简单的场景可能除了默认的功能不会有任何动画甚至任何的材质。</p>
+<p>各个阶段的顺序也不是严格的，可以一定程度的互换（例如，你不可能在创建物体钱进行动画，但你可以预先为它创建一个材质）。</p>
 <p>除了一般的阶段如建模，贴图，动画等，场景应该在做好在引擎中的准备。</p>
 <p>一般建议：</p>
 <ol class="arabic simple">
@@ -237,7 +245,7 @@
 </ol>
 </div>
 <div class="section" id="preparing-a-scene-to-use-in-blend4web">
-<h2><a class="toc-backref" href="#id4">Preparing a Scene to Use in Blend4Web</a><a class="headerlink" href="#preparing-a-scene-to-use-in-blend4web" title="永久链接至标题">¶</a></h2>
+<h2><a class="toc-backref" href="#id4">准备一个在Blend4Web中使用的场景</a><a class="headerlink" href="#preparing-a-scene-to-use-in-blend4web" title="永久链接至标题">¶</a></h2>
 <p>除了一般的阶段如建模，贴图，动画等，场景应该在做好在引擎中的准备。</p>
 <div class="section" id="displaying-scenes-in-the-viewer">
 <span id="assets-json"></span><span id="index-0"></span><h3><a class="toc-backref" href="#id5">在浏览器显示场景</a><a class="headerlink" href="#displaying-scenes-in-the-viewer" title="永久链接至标题">¶</a></h3>
@@ -261,23 +269,23 @@
 </div>
 <div class="section" id="application-development">
 <h2><a class="toc-backref" href="#id7">应用程序开发</a><a class="headerlink" href="#application-development" title="永久链接至标题">¶</a></h2>
-<p>This section only applies to the project types other than Web Player HTML and Web Player JSON.</p>
+<p>本节仅适用于除网络播放器的HTML和网络播放器JSON的其他项目类型。</p>
 <p>在此阶段的应用已经被创建。逻辑场景加载和用户交互使用JavaScript编写。应用程序开发人员笔记中给出了 <a class="reference internal" href="developers.html#developers"><span>相应章节</span></a>.</p>
 </div>
 <div class="section" id="project-building">
-<h2><a class="toc-backref" href="#id8">Project Building</a><a class="headerlink" href="#project-building" title="永久链接至标题">¶</a></h2>
-<p>After development of a project is completed, it should be built so it can then be used outside of the SDK.</p>
-<p>Project building can be performed by clicking the <code class="docutils literal"><span class="pre">build</span> <span class="pre">project</span></code> link in the <a class="reference internal" href="project_manager.html#project-manager"><span>Project Manager</span></a>.</p>
-<p>Before building a project, you might want to <a class="reference internal" href="developers.html#converter"><span>convert media resources</span></a> used in the project, which can help to minimize its size.</p>
+<h2><a class="toc-backref" href="#id8">构建项目</a><a class="headerlink" href="#project-building" title="永久链接至标题">¶</a></h2>
+<p>一个项目的开发完成之后，应当构建以便它以后可以在SDK之外使用。</p>
+<p>项目构建可以通过点击在  <a class="reference internal" href="project_manager.html#project-manager"><span>项目管理器</span></a> 中的 <code class="docutils literal"><span class="pre">build</span> <span class="pre">project</span></code> 链接执行。</p>
+<p>构建项目之前，您可能希望将用在项目中的媒体资源  <a class="reference internal" href="developers.html#converter"><span>转换</span></a> ，可以最大限度地缩减大小。</p>
 </div>
 <div class="section" id="project-deploying">
-<h2><a class="toc-backref" href="#id9">Project Deploying</a><a class="headerlink" href="#project-deploying" title="永久链接至标题">¶</a></h2>
-<p>After project development is completed, the project can be deployed so it can be used outside of the Blend4Web SDK. Project deployment is performed by clicking the <code class="docutils literal"><span class="pre">deploy</span> <span class="pre">project</span></code> link that can be found in the <code class="docutils literal"><span class="pre">Operations</span></code> command list on the right side of the project entry in the main window of the <a class="reference internal" href="project_manager.html#project-manager"><span>Project Manager</span></a>.</p>
-<p>Clicking this link will cause Project Manager to perform all necessary operations and to deploy the project.</p>
-<p>The deployed project has a form of an archive that contains all project files. This archive can be saved to any place on your disc with the use of a standard Save File dialogue in the web browser you are using.</p>
-<p>A complete project can be placed on a web server.</p>
-<p>To do it, extract the project files from the archive dowloanded from the Project Manager and upload them to your web server (while retaining inner file structure) by means of FTP, SSH or any other file transfer protocol suppored by the server. After doing this, you only need to place the project on a web page using, for example, an <code class="docutils literal"><span class="pre">iframe</span></code> container.</p>
-<p>Deploying project to web server is described in a <a class="reference internal" href="project_manager.html#project-deploy"><span>dedicated section</span></a> of the <a class="reference internal" href="project_manager.html#project-manager"><span>Project Manager</span></a> chapter.</p>
+<h2><a class="toc-backref" href="#id9">项目部署</a><a class="headerlink" href="#project-deploying" title="永久链接至标题">¶</a></h2>
+<p>项目开发完成后，该项目可被部署，这样它可以在Blend4Web SDK之外使用。项目部署通过点击 <a class="reference internal" href="project_manager.html#project-manager"><span>项目管理器</span></a> 主窗口的项目类右边栏中的  <code class="docutils literal"><span class="pre">Operations</span></code> 命令列表里的  <code class="docutils literal"><span class="pre">deploy</span> <span class="pre">project</span></code> 链接来执行。</p>
+<p>点击这个链接会使得项目管理器执行所有必须的操作和部署项目。</p>
+<p>部署的项目都有一个包含所有项目文件归档的形式。这个档案可以保存在硬盘的任何位置，只需通过你使用的浏览器的标准保存文件对话框。</p>
+<p>一个完整的项目可以放置在Web服务器上。</p>
+<p>要做到这一点，从项目管理器下载存档然后提取项目文件，并将其上传到Web服务器（同时保留内部文件结构）可以通过FTP，SSH或服务器支持的任何其他文件传输协议的方式。这样做后，你只需要把这个项目放在一个网页中使用，例如一个 <code class="docutils literal"><span class="pre">iframe</span></code> 容器。</p>
+<p>部署项目到Web服务器的描述在 <a class="reference internal" href="project_manager.html#project-manager"><span>项目管理器</span></a> 章的 <a class="reference internal" href="project_manager.html#project-deploy"><span>相应节</span></a>  中。</p>
 </div>
 </div>
 
@@ -300,8 +308,8 @@
 
   <div role="contentinfo">
     <p>
-        &copy; 版权所有 2014-2016, Triumph.
-      最后更新于 2017-03-07.
+        &copy; 版权所有 2014-2017, Triumph.
+      最后更新于 2017-04-26.
 
     </p>
   </div>
@@ -357,7 +365,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.02.1',
+            VERSION:'v17.04',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

@@ -97,7 +97,8 @@ part_params calc_part_params(void) {
     if (!(t < 0.0 || t >= lifetime)) {
         /* position */
 
-    vec3 norm_tbn = qrot(a_tbn_quat, vec3(0.0, 1.0, 0.0));
+    vec4 tbn_quat = get_tbn_quat(a_tbn);
+    vec3 norm_tbn = qrot(tbn_quat, vec3(0.0, 1.0, 0.0));
 #if WORLD_SPACE
         vec3 pos = a_position;
         vec3 norm = norm_tbn;

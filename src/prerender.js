@@ -26,12 +26,11 @@ b4w.module["__prerender"] = function(exports, require) {
 
 var m_debug    = require("__debug");
 var m_geom     = require("__geometry");
-var m_obj_util = require("__obj_util");
+var m_obj      = require("__objects");
 var m_render   = require("__renderer");
 var m_subs     = require("__subscene");
 var m_tsr      = require("__tsr");
 var m_util     = require("__util");
-var m_vec3     = require("__vec3");
 
 var USE_FRUSTUM_CULLING = true;
 
@@ -158,12 +157,12 @@ function prerender_bundle(bundle, subs) {
     else
         var eye = m_tsr.get_trans(cam.world_tsr, _vec3_tmp);
 
-    if (!is_lod_visible(obj_render, eye))
+    var batch = bundle.batch;
+
+    if (!m_obj.update_lod_visibility(batch, obj_render, eye))
         return false;
 
     obj_render.is_visible = true;
-
-    var batch = bundle.batch;
 
     if (subs.type == m_subs.DEBUG_VIEW)
         if (subs.debug_view_mode == m_debug.DV_BOUNDINGS)
@@ -209,40 +208,6 @@ function is_out_of_frustum(planes, bs, be, use_be) {
     return is_out;
 }
 
-function is_lod_visible(obj_render, eye) {
-
-    if (obj_render.type == "STATIC" && obj_render.is_lod) {
-        var center = obj_render.lod_center;
-        var radius = obj_render.lod_radius;
-    } else {
-        // DYNAMIC objects should use bs_world, because it is constantly 
-        // updated unlike the lod_center/lod_radius properties; non-lod objects 
-        // should use bs_world, because the lod_center/lod_radius scheme is a 
-        // culling deoptimization
-        var center = obj_render.bs_world.center;
-        var radius = obj_render.bs_world.radius;
-    }
-
-    var dist_min = obj_render.lod_dist_min;
-    var dist_max = obj_render.lod_dist_max;
-
-    var dist = m_vec3.dist(center, eye);
-
-    if (dist < dist_min)
-        return false;
-    // for objects with no lods or with infinite lod_dist_max
-    if (dist_max == m_obj_util.LOD_DIST_MAX_INFINITY)
-        return true;
-
-    // additional interval for transition, fixes LOD flickering
-    var tr_int = obj_render.lod_transition_ratio * radius;
-
-    if (dist < (dist_max + tr_int))
-        return true;
-
-    return false;
-}
-
 function update_particles_buffers(batch) {
     // NOTE: update buffers only for visible bundles
     var pdata = batch.particles_data;
@@ -258,9 +223,9 @@ function update_particles_buffers(batch) {
     m_geom.vbo_source_data_set_attr(pbuf.vbo_source_data, "a_position", 
             pdata.positions_cache, pos_offset);
 
-    var tbn_offset = pointers["a_tbn_quat"].offset;
-    m_geom.vbo_source_data_set_attr(pbuf.vbo_source_data, "a_tbn_quat", 
-            pdata.tbn_quats_cache, tbn_offset);
+    var tbn_offset = pointers["a_tbn"].offset;
+    m_geom.vbo_source_data_set_attr(pbuf.vbo_source_data, "a_tbn", 
+            pdata.tbn_cache, tbn_offset);
 
     m_geom.update_gl_buffers(pbuf);
 }

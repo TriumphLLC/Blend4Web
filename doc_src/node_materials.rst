@@ -146,10 +146,10 @@ The engine also has partial support for some of the Cycles nodes. This subject i
     |                   | mathematical operations |                            |                      |
     |                   | with two given vectors  |                            |                      |
     +-------------------+-------------------------+----------------------------+----------------------+   
-    | Vector            | Converts Vertor, Point  | Full                       | Average              |
+    | Vector            | Converts Vector, Point  | Full                       | Average              |
     | Transform [#f2]_  | or Normal between       |                            |                      |
     |                   | World, Camera and       |                            |                      |
-    |                   | Object coordinte spaces |                            |                      |
+    |                   | Object coordinate spaces|                            |                      |
     +-------------------+-------------------------+----------------------------+----------------------+
 
 .. [#f1] The ``Color Space`` parameter of a normal map used with this node should be set to ``Non-Color``. Not doing so may lead to unpredictable results (although it won't crash the engine).
@@ -515,7 +515,7 @@ Cycles Nodes
 ============
 
 .. note::
-    Cycles node support is an experimental feature that is not yet recommended for using in production enviroment.
+    Cycles node support is an experimental feature that is not yet recommended for using in production environment.
 
     It should also be noted that using Cycles nodes in Blend4Web will produce images similar, but not identical to the ones created using Cycles renderer itself.
 

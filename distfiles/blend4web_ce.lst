@@ -11,6 +11,7 @@ apps_dev/victory_day_2015
 apps_dev/viewer
 apps_dev/website
 apps_dev/webplayer
+projects/simple_app
 
 csrc
 doc_src

@@ -130,8 +130,10 @@
    ）。
 
 *未击中*
-   如果用户没有选择 "Switch Select" 节点中指定的任何物体，这个参数将把
-   控制传递给下一个节点。
+   This parameter will pass the control to the next node when the user
+   selects any object with the "Selectable" property enabled (or used
+   by another "Switch Select" node), but not specified in the "Switch
+   Select" node.
 
 
 内部参数
@@ -204,24 +206,30 @@
 *条件*
    逻辑条件。可以有以下几种类型：
 
-   * *Equal* - 第一个操作数等于第二个。
+   * *Equal (=)* - 第一个操作数等于第二个。
 
-   * *Not Equal* - 第一个操作数不等于第二个。
+   * *Not Equal (!=)* - 第一个操作数不等于第二个。
 
-   * *Less Than* - 第一个操作数小于第二个。
+   * *Less Than (<)* - 第一个操作数小于第二个。
 
-   * *Greater Than* - 第一个操作数大于第二个。
+   * *Greater Than (>)* - 第一个操作数大于第二个。
 
-   * *Less Than Or Equal* -  第一个操作数小于或等于第二。
+   * *Less Than Or Equal (<=)* -  第一个操作数小于或等于第二。
 
-   * *Greater Than Or Equal* - 第一个操作数是大于或等于第二个。
+   * *Greater Than Or Equal (=>)* - 第一个操作数是大于或等于第二个。
 
 *Operand1*
-   逻辑条件的第一个操作数。应该有一个数字值。可以在节点中指定或可以是
-   一个链接到一个变量。
+   First operand of the logical condition. Contains a numeric value of
+   a string (if the "String Operators" parameter is enabled). Can be
+   specified in the node or can be a link to one of the variables (if
+   the "Variable" parameter at the right of it is enabled).
 
 *Operand2*
    逻辑条件的第二个操作数。和第一个以同样的方式工作。
+
+*String Operands*
+   If this parameter is enabled, first and second operands can use
+   strings (set manually or by a variable) as their values.
 
 
 JS 回调
@@ -523,7 +531,7 @@ JS 回调
 设置为 "Hover" 或者 "Target" 时才可用︰
 
 *使用物体*
-   此参数启用和禁用使用场景对象作为相机的目标或轴心点 （取决于相机类型
+   此参数启用和禁用使用场景物体作为相机的目标或轴心点 （取决于相机类型
    ）。如果它激活，一个文本字段将显示在指定的物体。此参数默认被禁用的
    。
 
@@ -571,8 +579,8 @@ JS 回调
 *物体*
    显示一个物体。
 
-*Process child objects*
-   If this parameter is enabled, child objects will be shown as well.
+*处理子物体*
+   如果启用此参数，则将显示子物体。
 
 
 隐藏物体
@@ -603,8 +611,8 @@ JS 回调
 *物体*
    一个物体隐藏。
 
-*Process child objects*
-   If this parameter is enabled, child objects will be hidden as well.
+*处理子物体*
+   如果启用此参数，则将隐藏子物体。
 
 
 变换物体
@@ -947,34 +955,32 @@ RGB节点
 
    * *除数* 由第二个把第一个操作数除。
 
-   * *Sin* returns the sine of an angle (measured in radians)
-     defined by the first operand.
+   * *正弦* 返回第一个操作数所定义的角度 （以弧度为单位来衡量） 的正
+     弦 值。
 
-   * *Cos* returns the cosine of an angle (measured in radians)
-     defined by the first operand
+   * *余弦* 返回第一个操作数所定义的角度 （以弧度为单位来衡量） 的余
+     弦 值
 
-   * *Tan* returns the tangent of an angle (measured in radians)
-     defined by the first operand.
+   * *正切* 返回第一个操作数所定义的角度 （以弧度为单位来衡量） 的正
+     切 值。
 
-   * *ArcSin* returns the arcsine value of the first operand.
+   * *反正弦* 返回第一个操作数的反正弦值。
 
-   * *ArcCos* returns the arccosine value of the first operand.
+   * *反余弦* 返回第一个操作数的反余弦值。
 
-   * *ArcTan* returns the arctangent value of the first operand.
+   * *反正切* 返回第一个操作数的反正切值。
 
-   * *Log* returns the logarithmic value of the first operand with
-     the second operand used as the base.
+   * *对数* 返回用第二个操作数用作基底的第一个操作数的对数值。
 
-   * *Min* returns the lesser one of the two operands.
+   * *最小* 返回一个较小的两个操作数。
 
-   * *Max* returns the greater one of the two operands.
+   * *最大* 返回两个操作数的其中大的那个。
 
-   * *Round* rounds the first operator.
+   * *四舍五入* 四舍五入第一个操作数。
 
-   * *Mod* returns the remainder after division of the first operand
-     by the second.
+   * *求余* 返回第一个数被第二个数相除后的余数。
 
-   * *Abs* returns the absolute value of the first operand.
+   * *绝对值* 返回第一个操作数的绝对值。
 
 *Operand1*
    对于第一个操作数。它可以在节点中指定或它可以链接到一个变量 （如果启
@@ -1177,14 +1183,14 @@ RGB节点
    默认设置为 "Auto" 。可以用来重新分配HTTP请求的标题。
 
 *Request Params*
-   指定将发送到服务器的包含 JSON 对象的变量。 "Method" 参数设置为
+   指定将发送到服务器的包含 JSON 物体的变量。 "Method" 参数设置为
    "Method" 时才可用。默认值为 "R1" 。
 
 
 JSON
 ----
 
-此节点可以用于编码和解码复杂的 JSON 对象。
+此节点可以用于编码和解码复杂的 JSON 物体。
 
 [图片]
 
@@ -1207,34 +1213,34 @@ JSON
 ~~~~~~~~
 
 *JSON*
-   链接到一个您需要进行解码或编码的 JSON 对象。默认设置为 "R1" 。
+   链接到一个您需要进行解码或编码的 JSON 物体。默认设置为 "R1" 。
 
 *JSON 操作*
-   需要对 "JSON"  参数所指定的 JSON 对象执行的操作。可以有两个值之一:
-   "ENCODE" 对  JSON 对象进行编码 和 "PARSE" 进行解码。默认设置为
+   需要对 "JSON"  参数所指定的 JSON 物体执行的操作。可以有两个值之一:
+   "ENCODE" 对  JSON 物体进行编码 和 "PARSE" 进行解码。默认设置为
    "ENCODE" 。
 
 *Paths*
-   一个JSON对象内部的变量的路径列表。路径是用来定义一个JSON对象的内部
+   一个JSON物体内部的变量的路径列表。路径是用来定义一个JSON物体的内部
    结构。路径应该包括几个标识符（用逗号分隔），作为一个JSON字段路径。
    如果路径的片段的名称仅由数字组成，则该名称将被解释为数组索引。路径
    的创建和删除跟变量是同时的（变量列表），和一个路径总是对应于一个变
-   量。这个列表可以用来进行编码和解码的JSON对象。默认情况下，列表是空
+   量。这个列表可以用来进行编码和解码的JSON物体。默认情况下，列表是空
    的。
 
 *Variables*
-   变量列表，将用于存储数据的解码或编码一个JSON对象（取决于 "JSON
+   变量列表，将用于存储数据的解码或编码一个JSON物体（取决于 "JSON
    Operation" 参数的值）。变量总是有类似 "var0", "var1" 等的名字，他们
    的数量和名称可以调整。默认列表为空。
 
 
-使用JSON逻辑节点编码JSON对象
+使用JSON逻辑节点编码JSON物体
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 [图片]
 
-在图片的逻辑节点设置在 "R1" 可 变编码以上JSON对象，并将其存储。这样的
-JSON对象如下：
+在图片的逻辑节点设置在 "R1" 可 变编码以上JSON物体，并将其存储。这样的
+JSON物体如下：
 
    {
        "main":{
@@ -1245,13 +1251,13 @@ JSON对象如下：
    }
 
 
-使用JSON逻辑节点解码JSON对象
+使用JSON逻辑节点解码JSON物体
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 [图片]
 
-上图为逻辑节点的设置，从服务器获取JSON对象，并将其存储在 "R1" 变量，然
-后解码。这样的JSON对象如下：
+上图为逻辑节点的设置，从服务器获取JSON物体，并将其存储在 "R1" 变量，然
+后解码。这样的JSON物体如下：
 
    {
        "a": {
@@ -1260,10 +1266,10 @@ JSON对象如下：
        }
    }
 
-这解码JSON对象的 "JSON" 逻辑节点 "var0"，"var1" 和 "var2" 三个变量命名
-的结果（你不必事先创建的变量）将包含JSON对象的各个部分。在这个例子中，
+这解码JSON物体的 "JSON" 逻辑节点 "var0"，"var1" 和 "var2" 三个变量命名
+的结果（你不必事先创建的变量）将包含JSON物体的各个部分。在这个例子中，
 "var1" 变量的值是17，则 "var2" 变量的值是 "abc"，而``var0`` 变量包含
-JSON对象的以下片段：
+JSON物体的以下片段：
 
    {
        "b": 17,

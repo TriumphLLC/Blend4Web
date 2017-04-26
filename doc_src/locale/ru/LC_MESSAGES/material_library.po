@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2016-09-01 16:56+0300\n"
+"POT-Creation-Date: 2017-04-20 16:04+0300\n"
 "PO-Revision-Date: 2015-08-28 10:55+0300\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Russian <info [at] blend4web.com>\n"
@@ -36,17 +36,52 @@ msgstr ""
 
 #: ../material_library.rst:13
 msgid ""
-"The material library can be found in the ``/blender/material_library/`` "
-"folder in the SDK root directory."
+"When creating a new project, you can plug the material library into it, "
+"and then plug in materials directly from there."
 msgstr ""
-"Библиотека материалов находится в паке ``/blender/material_library/`` "
-"относительно корневой директории SDK."
+"При создании нового проекта возможно перенести библиотеку материалов в "
+"новый проект автоматически и подключать материалы оттуда."
 
-#: ../material_library.rst:16
+#: ../material_library.rst:19
+msgid ""
+"To do this, check the ``Use Material Library`` box when creating the "
+"project using the :ref:`Project Manager <project_management>`. Then, an "
+"entire material library will be automatically copied to the "
+"``/assets/material_library/`` folder in the new project’s directory."
+msgstr ""
+"Для этого при создании нового проекта при помощи :ref:`менеджера проектов"
+" <project_management>` надо выставить галочку ``Use Material Library``. "
+"Тогда вся библиотека материалов будет автоматически скопирована в папку "
+"``/assets/material_library/`` в каталоге нового проекта."
+
+#: ../material_library.rst:23
+msgid ""
+"It is also possible to use Material Library in a pre-existing project. "
+"All you have to do is copy files from the ``/blender/material_library/`` "
+"folder to the ``/assets/`` folder in your project’s directory. Then you "
+"can link the files that contain materials you need to your scene file and"
+" use them in the scene."
+msgstr ""
+"Библиотека материалов может использоваться и в уже существующем проекте. "
+"Для этого достаточно скопировать файлы из папки "
+"``/blender/material_library/`` в каталоге SDK в папку ``/assets/`` в "
+"каталоге проекта. После этого файлы материалов можно подключить к файлу "
+"сцены и использовать материалы в сцене."
+
+#: ../material_library.rst:27
+msgid ""
+"Materials (or any other objects) can be both *linked* or *appended* to "
+"the scene. The difference is described :ref:`here <material_add>`."
+msgstr ""
+"Как и любые объекты, материалы можно добавлять к сцене с помощью команд "
+"``Link`` и  ``Append``. Разница между ними описана :ref:`здесь "
+"<material_add>`."
+
+#: ../material_library.rst:32
 msgid "Library Structure"
 msgstr "Структура библиотеки"
 
-#: ../material_library.rst:18
+#: ../material_library.rst:34
 msgid ""
 "All materials are structured by folder (by categories of materials) and "
 "by a separate file (by materials). Every blend file contains one base "
@@ -61,15 +96,15 @@ msgstr ""
 "демонстрировать материал на характерном объекте, ассоциирующимся с данным"
 " материалом (например: материал золото — золотой слиток)."
 
-#: ../material_library.rst:25
+#: ../material_library.rst:43
 msgid "Material Structure"
 msgstr "Структура материала"
 
-#: ../material_library.rst:31
+#: ../material_library.rst:49
 msgid "The core of the material"
 msgstr "Ядро материала"
 
-#: ../material_library.rst:32
+#: ../material_library.rst:50
 msgid ""
 "The ``Material`` node which receives all valuable information from the "
 "core."
@@ -77,13 +112,13 @@ msgstr ""
 "Нода ``Material``, в которую подается вся нужная информация из ядра "
 "материала."
 
-#: ../material_library.rst:33
+#: ../material_library.rst:51
 msgid "The normal map that can be plugged into any material core."
 msgstr ""
 "Карта нормалей, которую при необходимости можно подключить к любому ядру "
 "материала."
 
-#: ../material_library.rst:34
+#: ../material_library.rst:52
 msgid ""
 "Texture containing additional masks important for the material on the "
 "surface of the object to behave correctly. Most materials use the "
@@ -93,23 +128,23 @@ msgstr ""
 "поведения материала на поверхности объекта. В большинстве материалов "
 "использованы следующие маски:"
 
-#: ../material_library.rst:36
+#: ../material_library.rst:54
 msgid "Ambient occlusion map"
 msgstr "Карта затенения"
 
-#: ../material_library.rst:37
+#: ../material_library.rst:55
 msgid "Dirt map"
 msgstr "Карта загрязнения"
 
-#: ../material_library.rst:38
+#: ../material_library.rst:56
 msgid "Worn map"
 msgstr "Карта потёртостей"
 
-#: ../material_library.rst:39
+#: ../material_library.rst:57
 msgid "Patina map"
 msgstr "Карта патины"
 
-#: ../material_library.rst:41
+#: ../material_library.rst:59
 msgid ""
 "These masks are not used in every material, only when they are needed for"
 " the shader to appear a specific way."
@@ -117,19 +152,19 @@ msgstr ""
 "Не все из них используются в каждом материале, только если требуется для "
 "создания корректного поведения того или иного шейдера."
 
-#: ../material_library.rst:42
+#: ../material_library.rst:60
 msgid "The ``Mapping`` node is used to control the parameters of the UV maps."
 msgstr "Нода ``Mapping``, регулирующая параметры UV-развертки."
 
-#: ../material_library.rst:43
+#: ../material_library.rst:61
 msgid ""
-"The ``RGB Curve`` nodes can be used to correct masks before pulgging them"
+"The ``RGB Curve`` nodes can be used to correct masks before plugging them"
 " into the material core."
 msgstr ""
 "Ноды ``RGB Curve``, позволяющие корректировать те или иные маски прежде "
 "чем они будут поданы в ядро материала."
 
-#: ../material_library.rst:44
+#: ../material_library.rst:62
 msgid ""
 "Specific specular map settings are used right after the ``Material`` node"
 " to achieve various degrees of specular blur."
@@ -137,21 +172,21 @@ msgstr ""
 "Специфическая настройка карты спекуляра после ноды ``Material``, для "
 "создания разной степени размытости блеска с использованием масок."
 
-#: ../material_library.rst:45
+#: ../material_library.rst:63
 msgid ""
 "The baked ambient occlusion map is added to the shader right before the "
 "Output node."
 msgstr "Запеченная карта затенения добавляется к шейдеру перед нодой ``Output``."
 
-#: ../material_library.rst:46
+#: ../material_library.rst:64
 msgid "The ``Output`` node."
 msgstr "Нода ``Output``"
 
-#: ../material_library.rst:49
+#: ../material_library.rst:67
 msgid "Material Core"
 msgstr "Ядро материала"
 
-#: ../material_library.rst:51
+#: ../material_library.rst:69
 msgid ""
 "This is the main node group containing the node structure that form a "
 "shader. Essentially, this is the material itself in its true form, with "
@@ -165,11 +200,11 @@ msgstr ""
 "использования. Для её настройки нодовая группа имеет специальные входы и "
 "выходы, а так же специфические вводные параметры."
 
-#: ../material_library.rst:54
+#: ../material_library.rst:74
 msgid "An Example of Using a Material"
 msgstr "Пример использования"
 
-#: ../material_library.rst:60
+#: ../material_library.rst:80
 msgid ""
 "Here, you can see an example of setting plastic material for a special "
 "demo object without using the textures that are plugged into the core of "
@@ -179,7 +214,7 @@ msgstr ""
 " демонстрационном объекте без использования текстур, подключаемых в ядро "
 "материала."
 
-#: ../material_library.rst:66
+#: ../material_library.rst:86
 msgid ""
 "The base color is created with a simple ``RGB`` Color node and plugged to"
 " the material core input."
@@ -187,7 +222,7 @@ msgstr ""
 "Базовый цвет задан простой нодой ``RGB Color`` и подан на вход в ядро "
 "материала."
 
-#: ../material_library.rst:67
+#: ../material_library.rst:87
 msgid ""
 "This implementation of the material does not use any normal maps, so "
 "geometry data is plugged to the ``Normal`` input."
@@ -195,7 +230,7 @@ msgstr ""
 "В данной реализации материала не используется никаких карт нормалей и во "
 "вход ``Normal`` поданы данные нормалей с геометрии."
 
-#: ../material_library.rst:68
+#: ../material_library.rst:88
 msgid ""
 "The core of the material has a certain parameter that controls the amount"
 " of gloss on the material. In this case, the value of this parameter is "
@@ -205,11 +240,11 @@ msgstr ""
 "регулирующая уровень глянца на материале. В данном случае значение "
 "выставлено на максимум."
 
-#: ../material_library.rst:69
+#: ../material_library.rst:89
 msgid "The material also uses a baked ambient occlusion map."
 msgstr "Также в материале используется запеченная маска затенения."
 
-#: ../material_library.rst:71
+#: ../material_library.rst:91
 msgid ""
 "Now, let's take a look at a case of using the same material on a "
 "different object — a plastic gamepad."
@@ -217,13 +252,13 @@ msgstr ""
 "Теперь рассмотрим использование того же материала на другом объекте - "
 "пластиковом джойстике."
 
-#: ../material_library.rst:77
+#: ../material_library.rst:97
 msgid ""
 "The vertex color from the geometry of the object is used as the base "
 "color here."
 msgstr "В качестве цвета здесь используется вертексный цвет с геометрии объекта."
 
-#: ../material_library.rst:78
+#: ../material_library.rst:98
 msgid ""
 "A normal map has been baked for the geometry of the gamepad, and "
 "connected to the ``Normal`` input of the material core."
@@ -231,11 +266,11 @@ msgstr ""
 "Для геометрии джойстика была запечена карта нормалей, которая подана во "
 "вход ``Normal`` ядра материала."
 
-#: ../material_library.rst:79
+#: ../material_library.rst:99
 msgid "The level of gloss is lower."
 msgstr "Уровень глянца объекта настроен на меньшее значение."
 
-#: ../material_library.rst:80
+#: ../material_library.rst:100
 msgid ""
 "Instead of the masks from the demo model, the masks (ambient occlusion "
 "and dirt) baked specifically for the gamepad model are used."
@@ -243,7 +278,7 @@ msgstr ""
 "Вместо масок демонстрационной модели используются маски (загрязнения и "
 "затемнения), запеченные специально для модели джойстика."
 
-#: ../material_library.rst:83
+#: ../material_library.rst:103
 msgid ""
 "It should be noted that the material core hasn't changed and was not "
 "altered to fit different geometry."
@@ -251,15 +286,15 @@ msgstr ""
 "Следует заметить, что содержимое ядра материала не менялось и не "
 "корректировалось под другую геометрию."
 
-#: ../material_library.rst:86
+#: ../material_library.rst:108
 msgid "Adding Material to a Scene"
 msgstr "Добавление материала в сцену"
 
-#: ../material_library.rst:89
+#: ../material_library.rst:111
 msgid "How to Add a Whole Material"
 msgstr "Добавление целого материала"
 
-#: ../material_library.rst:95
+#: ../material_library.rst:117
 msgid ""
 "Select the ``File > Append/Link`` from the menu, depending on what you "
 "want to do. If you want to keep the ability to modify the object after it"
@@ -271,7 +306,7 @@ msgstr ""
 "прилинковать без необходимости изменений (в этом случае выберите "
 "``Link``)."
 
-#: ../material_library.rst:101
+#: ../material_library.rst:123
 msgid ""
 "Then select the blend file containing the material you need from the "
 "``/blend4web/blender/material_library/`` directory."
@@ -279,7 +314,7 @@ msgstr ""
 "Далее выберите интересующий вас .blend-файл с материалом из директории "
 "``/blend4web/blender/material_library/``"
 
-#: ../material_library.rst:107
+#: ../material_library.rst:129
 msgid ""
 "Select the material itself from the list of materials, and press ``Append"
 " from Library`` or ``Link from Library``. Now, the material has been "
@@ -289,11 +324,11 @@ msgstr ""
 "Library`` или ``Link from Library``. Теперь материал добавлен в вашу "
 "сцену и вы можете применить его к любому из объектов."
 
-#: ../material_library.rst:110
+#: ../material_library.rst:132
 msgid "How to Add Only a Material Core"
 msgstr "Добавление только ядра материала"
 
-#: ../material_library.rst:112
+#: ../material_library.rst:134
 msgid ""
 "If you want to add only the core of the material and set everything else "
 "yourself, then, instead of selecting material, select ``NodeTree`` while "
@@ -305,7 +340,7 @@ msgstr ""
 "выберите ``NodeTree`` и, выбрав интересующую вас нодовую группу, нажмите "
 "``Append from Library`` или ``Link from Library``."
 
-#: ../material_library.rst:118
+#: ../material_library.rst:140
 msgid ""
 "Now this node group can be found in the list of node groups that you can "
 "add to your material by clicking **Add=>Group** in the Node Editor "
@@ -314,37 +349,13 @@ msgstr ""
 "Теперь эта нодовая группа находится в списке нодовых групп которые вы "
 "можете добавить в свой материал через **Add=>Group** в окне Node Editor."
 
-#: ../material_library.rst:125
+#: ../material_library.rst:147
 msgid ""
 "Every material has its own requirements considering not only masks and "
 "textures, but also vertex colors and UV maps."
 msgstr ""
 "У любого материала есть свои требования не только в отношении "
-"определенных масок и текстур, но и вертекстных цветов и UV-разверток."
-
-#: ../material_library.rst:128
-msgid "How to Add the Material Library to a Project"
-msgstr "Добавление библиотеки материалов в проект"
-
-#: ../material_library.rst:130
-msgid ""
-"When creating a new project, you can plug the material library into it, "
-"and then plug in materials directly from there."
-msgstr ""
-"При создании нового проекта возможно перенести библиотеку материалов в "
-"новый проект автоматически и подключать материалы оттуда."
-
-#: ../material_library.rst:136
-msgid ""
-"To do this, check the ``Use Material Library`` box when creating the "
-"project using the :ref:`Project Manager <project_management>`. Then, an "
-"entire material library will be automatically copied to the new project "
-"along with all the dependencies."
-msgstr ""
-"Для этого при создании нового проекта при помощи :ref:`менеджера проектов"
-" <project_management>` надо выставить галочку ``Use Material Library``. "
-"Тогда вся библиотека материалов будет автоматически скопирована в новый "
-"проект со всеми зависимыми от нее файлами."
+"определенных масок и текстур, но и вертексных цветов и UV-разверток."
 
 #~ msgid "Let's have a look on these two examples."
 #~ msgstr ""
@@ -375,4 +386,7 @@ msgstr ""
 
 #~ msgid "The Core of the Material"
 #~ msgstr "Ядро материала"
+
+#~ msgid "How to Add the Material Library to a Project"
+#~ msgstr "Добавление библиотеки материалов в проект"
 

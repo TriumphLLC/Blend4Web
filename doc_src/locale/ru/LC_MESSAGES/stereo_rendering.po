@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2016-10-21 15:38+0300\n"
+"POT-Creation-Date: 2017-04-20 16:04+0300\n"
 "PO-Revision-Date: 2015-08-28 10:55+0300\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Russian <info [at] blend4web.com>\n"
@@ -62,12 +62,12 @@ msgstr "Активация"
 
 #: ../stereo_rendering.rst:41
 msgid ""
-"To use HMD stereo rendering, you need to install Oculus's `runtime "
-"utility <https://developer.oculus.com/downloads/>`_ (two versions are "
-"supported: the `chromium_webvr_v1_win64.7z` in the root directory and the"
-" one in the `Deprecated API` folder). Windows and macOS versions can be "
-"found on the Oculus website in binary format, while Linux version should "
-"be compiled from the source code."
+"To use HMD stereo rendering, you need to install Oculus' `runtime utility"
+" <https://developer.oculus.com/downloads/>`_ (two versions are supported:"
+" the `chromium_webvr_v1_win64.7z` in the root directory and the one in "
+"the `Deprecated API` folder). Windows and macOS versions can be found on "
+"the Oculus website in binary format, while Linux version should be "
+"compiled from the source code."
 msgstr ""
 "Для работы стереорежима HMD нужно установить `runtime-утилиту "
 "<https://developer.oculus.com/downloads/>`_ от Oculus (поддерживаются две"
@@ -158,7 +158,7 @@ msgid ""
 msgstr ""
 "Во-вторых, с использованием в приложении метода :b4wref:`hmd_conf.show` "
 "из модуля :b4wmod:`hmd_conf`, для чего требуется написание программного "
-"кода. Примеры испльзования этого метода можно увидеть в приложениях "
+"кода. Примеры использования этого метода можно увидеть в приложениях "
 "``viewer.js`` и  ``webplayer.js`` (в объекте ``m_hmd_conf``)."
 
 #: ../stereo_rendering.rst:78
@@ -222,7 +222,7 @@ msgid "This value can vary from 0 to 100. Default value is 64."
 msgstr "Значение может меняться от 0 до 100. Значение по умолчанию - 64."
 
 #: ../stereo_rendering.rst:105
-msgid "*Screen to lense distance*"
+msgid "*Screen to lens distance*"
 msgstr ""
 
 #: ../stereo_rendering.rst:103
@@ -241,11 +241,11 @@ msgstr ""
 
 #: ../stereo_rendering.rst:108
 msgid "The height of the screen."
-msgstr "Высота экарана."
+msgstr "Высота экрана."
 
 #: ../stereo_rendering.rst:110
 msgid "This value can vary from 0 to 150. Default value is 63."
-msgstr "Зачение может меняться от 0 до 150. Значение по умолчанию - 63."
+msgstr "Значение может меняться от 0 до 150. Значение по умолчанию - 63."
 
 #: ../stereo_rendering.rst:115
 msgid "*Screen width*"
@@ -293,7 +293,7 @@ msgstr ""
 
 #: ../stereo_rendering.rst:128
 msgid "Other control tools"
-msgstr "Другие иструменты управления"
+msgstr "Другие инструменты управления"
 
 #: ../stereo_rendering.rst:131
 msgid "*Save*"
@@ -322,4 +322,7 @@ msgstr "Восстанавливает настройки по умолчани�
 #: ../stereo_rendering.rst:2
 msgid "anaglyph"
 msgstr "анаглиф"
+
+#~ msgid "*Screen to lense distance*"
+#~ msgstr ""
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2017-02-21 14:02+0300\n"
+"POT-Creation-Date: 2017-04-20 16:04+0300\n"
 "PO-Revision-Date: 2015-08-28 10:55+0300\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Russian <info [at] blend4web.com>\n"
@@ -213,13 +213,23 @@ msgstr ""
 
 #: ../web_player.rst:98
 msgid ""
+"the ``compressed_gzip`` optional parameter is used to enable loading of "
+"GZIP compressed resources such as \".json.gz\", \".bin.gz\", \".dds.gz\" "
+"and \".pvr.gz\"."
+msgstr ""
+"необязательный атрибут ``compressed_gzip`` используется для включения"
+" загрузки сжатых при помощи GZIP ресурсов, таких как \".json.gz\", \".bin.gz\""
+", \".dds.gz\" и \".pvr.gz\"."
+
+#: ../web_player.rst:99
+msgid ""
 "optional ``alpha`` parameter is used to enable transparency for the "
 "rendering area."
 msgstr ""
 "необязательный атрибут ``alpha`` используется для установки прозрачности "
 "области отрисовки."
 
-#: ../web_player.rst:99
+#: ../web_player.rst:100
 msgid ""
 "the optional ``no_social`` attribute is used to disable social networks "
 "buttons on the control panel."
@@ -227,7 +237,7 @@ msgstr ""
 "необязательный атрибут ``no_social`` используется для отключения кнопок "
 "социальных сетей на панели управления."
 
-#: ../web_player.rst:100
+#: ../web_player.rst:101
 msgid ""
 "the optional ``socials`` attribute is used to selectively enable and "
 "disable social network buttons on the control panel. This attribute "
@@ -244,7 +254,7 @@ msgstr ""
 "социальных сетей, которые вы хотите включить (``f`` - Facebook, ``v`` - "
 "VK, ``t`` - Twitter, ``w`` - Weibo, ``g`` - Google+)."
 
-#: ../web_player.rst:104
+#: ../web_player.rst:105
 msgid ""
 "If both ``fallback_image`` and ``fallback_video`` parameters are "
 "specified, the ``fallback_image`` parameter is used."
@@ -252,11 +262,11 @@ msgstr ""
 "Если указаны параметры ``fallback_image`` и ``fallback_video``, приоритет"
 " имеет ``fallback_image``."
 
-#: ../web_player.rst:109
+#: ../web_player.rst:110
 msgid "Scene Name as Title"
 msgstr "Название сцены в заголовке"
 
-#: ../web_player.rst:111
+#: ../web_player.rst:112
 msgid ""
 "By default the Web Player has the ``Blend4Web Web Player`` title. "
 "Assigning the meta tag ``title`` on the scene in Blender you can change "
@@ -266,37 +276,39 @@ msgstr ""
 " Player``. С помощью мета-тега ``title`` в настройках сцены можно "
 "изменить значение по умолчанию."
 
-#: ../web_player.rst:118
+#: ../web_player.rst:119
 msgid "Scene Errors"
 msgstr "Ошибки сцены"
 
-#: ../web_player.rst:120
+#: ../web_player.rst:121
 msgid "If the player is used incorrectly it displays the corresponding errors."
 msgstr ""
 "В случае некорректного использования веб-плеера выводятся сообщения об "
 "ошибках."
 
-#: ../web_player.rst:123
+#: ../web_player.rst:124
 msgid ""
 "The ``load`` :ref:`attribute <webplayer_attributes>` specifies a wrong "
 "path to the JSON file or the file is corrupt."
 msgstr ""
-":ref:`атрибутом <webplayer_attributes>` ``load`` указан неверный путь к JSON "
-"файлу или данный файл неисправен;"
+":ref:`атрибутом <webplayer_attributes>` ``load`` указан неверный путь к "
+"JSON файлу или данный файл неисправен;"
 
-#: ../web_player.rst:131
+#: ../web_player.rst:132
 msgid ""
 "The ``load`` :ref:`attribute <webplayer_attributes>` is not found or is "
 "void."
-msgstr ":ref:`атрибут <webplayer_attributes>` ``load`` не найден или его "
-"значение пустое;"
+msgstr ""
+":ref:`атрибут <webplayer_attributes>` ``load`` не найден или его значение"
+" пустое;"
 
-#: ../web_player.rst:139
+#: ../web_player.rst:140
 msgid ""
 "WebGL initialization error. Please, look at :ref:`this page "
 "<renderer_not_working>` for the solution."
-msgstr "Ошибка инициализации WebGL. Возможные решения описаны на "
-":ref:`этой странице <renderer_not_working>`."
+msgstr ""
+"Ошибка инициализации WebGL. Возможные решения описаны на :ref:`этой "
+"странице <renderer_not_working>`."
 
 #: ../web_player.rst:1
 msgid "web player"

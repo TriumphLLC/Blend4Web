@@ -39,6 +39,8 @@ var _animators = [];
 
 var _framerate = -1;
 
+var _delta_from_prev_frame = 0;
+
 exports.set_timeline = function(timeline) {
     _timeline = timeline;                   // s
     _timeline_epoch = performance.now();    // ms
@@ -83,6 +85,14 @@ function get_timeout_id() {
 function get_animation_id() {
     _animator_counter++;
     return _animator_counter;
+}
+
+exports.set_delta = function(delta) {
+    _delta_from_prev_frame = delta;
+}
+
+exports.get_delta = function() {
+    return _delta_from_prev_frame;
 }
 
 /**

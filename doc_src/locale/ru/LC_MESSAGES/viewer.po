@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2017-02-21 14:02+0300\n"
+"POT-Creation-Date: 2017-04-20 16:04+0300\n"
 "PO-Revision-Date: 2015-08-28 10:55+0300\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Russian <info [at] blend4web.com>\n"
@@ -287,7 +287,7 @@ msgid ""
 "different colors."
 msgstr ""
 "``FRONT BACK VIEW`` - в этом режиме внешние и внутренние стороны "
-"полигонов окрашиваюся разными цветами."
+"полигонов окрашиваются разными цветами."
 
 #: ../viewer.rst:108
 msgid ""
@@ -325,7 +325,7 @@ msgid ""
 "``RENDER TIME`` - the scene is rendered in different colors to represent "
 "the complexity of various parts of the scene. The lightest parts are "
 "rendered using shades of green, heavier - shades of orange, and the most "
-"resourse-demanding parts of the scene are colored red."
+"resource-demanding parts of the scene are colored red."
 msgstr ""
 "``RENDER TIME`` - в этом режиме сцена визуализируется при помощи разных "
 "цветов, отображающих сложность различных участков сцены. Наиболее простые"
@@ -384,8 +384,8 @@ msgstr ""
 #: ../viewer.rst:130
 msgid ""
 "This button shows a list of rendered subscenes and its parameters, "
-"incuding:"
-msgstr "Показывает список визуализируемых подсцен и их парамеров, таких, как:"
+"including:"
+msgstr "Показывает список визуализируемых подсцен и их параметров, таких, как:"
 
 #: ../viewer.rst:133
 msgid "*SCENE*"
@@ -534,7 +534,7 @@ msgstr ""
 msgid ""
 "Pressing this button will stop playback of all animations that are "
 "currently being played."
-msgstr "Останавливает все анимации, которые воспроизводятся в настроящий момент."
+msgstr "Останавливает все анимации, которые воспроизводятся в настоящий момент."
 
 #: ../viewer.rst:180 ../viewer.rst:243
 msgid "*Object*"
@@ -632,7 +632,7 @@ msgstr ""
 msgid ""
 "The factor of mixing different skeletal animations together. Default "
 "value is 1.0."
-msgstr "Задаёт степень сvешивания скелетных анимаций. Значение п оумолчанию - 1.0."
+msgstr "Задаёт степень сvешивания скелетных анимаций. Значение по умолчанию - 1.0."
 
 #: ../viewer.rst:212
 msgid "NLA"
@@ -678,7 +678,7 @@ msgid ""
 "If an animation is stopped at the moment, this parameter can be used for "
 "setting a specific frame of NLA animation."
 msgstr ""
-"Если анимация остановлена, этот параметр может примеяться для задания "
+"Если анимация остановлена, этот параметр может применяться для задания "
 "текущего кадра."
 
 #: ../viewer.rst:236
@@ -758,7 +758,7 @@ msgstr ""
 
 #: ../viewer.rst:267
 msgid ""
-"This parameter sets the refelctivity factor of a selected material. Its "
+"This parameter sets the reflectivity factor of a selected material. Its "
 "value is equal to zero by default."
 msgstr ""
 "Задаёт силу зеркального отражения для выбранного материала. Значение по "
@@ -803,7 +803,7 @@ msgid ""
 "The number of steps used for building a parallax surface. The value can "
 "vary from 1 to 30. Default value is 5."
 msgstr ""
-"Количество итераций для рассчёта эффекта рельефа. Значение этого "
+"Количество итераций для расчёта эффекта рельефа. Значение этого "
 "параметра может изменяться от 1 до 30, по умолчанию он равен 5."
 
 #: ../viewer.rst:284
@@ -971,7 +971,7 @@ msgid ""
 "This parameter sets maximum possible vertical angle for a ``Sun`` type "
 "light source. Default value is 60."
 msgstr ""
-"Этот параметр задаёт макимальный вертикалный угол для источника света "
+"Этот параметр задаёт максимальный вертикальный угол для источника света "
 "типа ``Sun``. Значение по умолчанию - 60."
 
 #: ../viewer.rst:343
@@ -1142,7 +1142,7 @@ msgid ""
 "described in the :ref:`Outdoor Rendering <wind_bending>` chapter."
 msgstr ""
 "Аналогичный набор параметров Wind Bending доступен в Blender и описан в "
-"главе :ref:`Природные эффекты <wind_bending>`".
+"главе :ref:`Природные эффекты <wind_bending>`\""
 
 #: ../viewer.rst:417
 msgid "Screen Space Amb Occlus"

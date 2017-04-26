@@ -405,7 +405,7 @@ class ProjectManagerCli():
         proj_util = get_proj_util_mod(root)
         python_path = _python_path
 
-        cmd = [python_path, join(root, "apps_dev", "project.py"),
+        cmd = [python_path, "-E", join(root, "apps_dev", "project.py"),
                 "--no-colorama"]
 
         cmd.append("list")
@@ -594,15 +594,14 @@ class ProjectRootHandler(tornado.web.RequestHandler, ProjectManagerCli):
                                     app)))
                 else:
                     apps = [proj_util.unix_path(relpath(str(html), root))
-                            for html in pathlib.Path(join(root, path)).rglob("*.html")
-                            if not str(html).startswith(join(root, path, "build"))]
+                            for html in pathlib.Path(normpath(join(root, path))).rglob("*.html")
+                            if not str(html).startswith(normpath(join(root, build_dir)))]
 
                     dev_apps.extend(apps)
 
                     if engine_type != "update" and build_dir:
                         apps = [proj_util.unix_path(relpath(str(html), root))
-                                for html in pathlib.Path(join(root, build_dir)).rglob("*.html")
-                                if not str(html).startswith(join(root, build_dir, "build"))]
+                                for html in pathlib.Path(join(root, build_dir)).rglob("*.html")]
 
                         build_apps.extend(apps)
 
@@ -869,7 +868,7 @@ class ProjectRequestHandler(tornado.web.RequestHandler, ProjectManagerCli):
 
             python_path = _python_path
 
-            cmd = [python_path, join(root, "apps_dev", "project.py"),
+            cmd = [python_path, "-E", join(root, "apps_dev", "project.py"),
                     "--no-colorama"]
 
             show_download_link = False

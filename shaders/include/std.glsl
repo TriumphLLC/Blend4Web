@@ -141,6 +141,13 @@
 #define POST_EFFECT_EXTEND     7
 #define FLIP_CUBEMAP_COORDS    8
 
+// bloom
+#define BLUR_PASS_1 1
+#define BLUR_PASS_2 2
+#define BLUR_PASS_3 3
+#define BLUR_PASS_4 4
+#define BLUR_PASS_5 5
+
 // debug view modes
 #define DV_NONE 0
 #define DV_OPAQUE_WIREFRAME 1
@@ -166,10 +173,10 @@
 #define AA_QUALITY_HIGH 2
 
 // SMAA pass
-#define SMAA_RESOLVE 1
-#define SMAA_EDGE_DETECTION 2
-#define SMAA_BLENDING_WEIGHT_CALCULATION 3
-#define SMAA_NEIGHBORHOOD_BLENDING 4
+#define SMAA_RESOLVE 25
+#define SMAA_EDGE_DETECTION 24
+#define SMAA_BLENDING_WEIGHT_CALCULATION 23
+#define SMAA_NEIGHBORHOOD_BLENDING 26
 
 // SMAA antialiasing method
 #define AA_METHOD_SMAA_LOW 1

@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2017-02-21 14:02+0300\n"
-"PO-Revision-Date: 2016-12-23 18:07+0800\n"
-"Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
+"POT-Creation-Date: 2017-04-20 16:04+0300\n"
+"PO-Revision-Date: 2017-02-23 15:59+0800\n"
+"Last-Translator: kidux <yuzukyo@gmail.com>\n"
 "Language-Team: Chinese <info [at] blend4web.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -428,7 +428,7 @@ msgstr "*噪音Dir频率*"
 
 #: ../outdoor_rendering.rst:217
 msgid ""
-"This describes the fequency of the noise for the shore waves. This "
+"This describes the frequency of the noise for the shore waves. This "
 "parameter can vary from 0 to 1. Default value is 0.07."
 msgstr "设置岸波的噪音频率。这个参数可以变化从0到1的默认值是0.07。"
 
@@ -492,7 +492,7 @@ msgstr "*细分*"
 #: ../outdoor_rendering.rst:238
 msgid ""
 "This is the number of subdivisions in generated mesh. Default value is "
-"64. The lowes possible value for this parameter is 2, while the highest "
+"64. The lowest possible value for this parameter is 2, while the highest "
 "possible value is 512."
 msgstr "这是生成的网格的细分数目。默认值是64。此参数是最低值是2，而最高的可能值是512。"
 
@@ -676,7 +676,6 @@ msgid ""
 msgstr ""
 
 #: ../outdoor_rendering.rst:320
-#, fuzzy
 msgid "When a dynamic skydome is used, the fog color is defined by the sky color."
 msgstr "当使用动态天穹，雾的颜色是由天空的颜色定义。"
 
@@ -968,10 +967,7 @@ msgstr "海岸线"
 #~ msgstr "*雾>使用定制颜色*"
 
 #~ msgid ""
-#~ "Apply the user-defined fog color "
-#~ "instead of ``World > Horizon`` color."
-#~ " Enabled by default."
-#~ msgstr "应用用户定义雾的颜色，而不是 ``World > Horizon`` 颜色。默认情况下启用。"
+#~ msgstr ""
 
 #~ msgid "*Mist > Color*"
 #~ msgstr "*雾>颜色*"

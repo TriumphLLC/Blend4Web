@@ -38,11 +38,11 @@
 
       * 海洋
 
-      * Mist
+      * 雾场
 
       * 风
 
-      * Wind Bending
+      * 风弯曲
 
       * 屏幕空间环境光遮蔽
 
@@ -466,13 +466,12 @@ Shape Keys
 身相同的设置。
 
 
-Mist
+雾场
 ~~~~
 
-Setup for fog parameters.
+设置雾参数。
 
-Scene Viewer uses standard fog rendering settings that are described
-in the dedicated chapter.
+场景查看器使用标准的雾场渲染设定，描述在 相应章节.
 
 
 风
@@ -484,13 +483,12 @@ in the dedicated chapter.
 描述。
 
 
-Wind Bending
-~~~~~~~~~~~~
+风弯曲
+~~~~~~
 
-Setup for wind bending effect parameters.
+设置风弯曲效果参数。
 
-The same set of wind bending parameters is available in Blender. It is
-described in the Outdoor Rendering chapter.
+同一套风弯曲参数在Blender中也可用。参考 室外渲染 一章。
 
 
 屏幕空间环境光遮蔽

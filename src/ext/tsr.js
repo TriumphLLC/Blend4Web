@@ -196,7 +196,7 @@ exports.transform_vec3 = m_tsr.transform_vec3;
 exports.transform_vec3_inv = m_tsr.transform_vec3_inv;
 
 /**
- * Tranform vec3 vectors by TSR.
+ * Transform vec3 vectors by TSR.
  * optional destination offset in values (not vectors, not bytes)
  * @method module:tsr.transform_vectors
  * @param {Float32Array} vectors Array of vectors to transform
@@ -227,7 +227,7 @@ exports.transform_dir_vectors = m_tsr.transform_dir_vectors;
 exports.transform_dir_vec3 = m_tsr.transform_dir_vec3;
 
 /**
- * Tranform 4 comp tangent vectors by matrix.
+ * Transform 4 comp tangent vectors by matrix.
  * optional destination offset in values (not vectors, not bytes)
  * @method module:tsr.transform_tangents
  * @param {Float32Array} vectors Array of vectors to transform

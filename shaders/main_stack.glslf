@@ -15,6 +15,7 @@
 #var CALC_TBN_SPACE 0
 #var USE_TBN_SHADING 0
 #var REFLECTION_PASS REFL_PASS_PLANE
+#var RGBA_SHADOWS 0
 
 #var TEXTURE_SPEC 0
 #var ALPHA_AS_SPEC 0
@@ -53,6 +54,8 @@
 #var POISSON_DISK_NUM NO_SOFT_SHADOWS
 #var SSAO_ONLY 0
 
+#var USE_LOD_SMOOTHING 0
+
 /*==============================================================================
                                   INCLUDES
 ==============================================================================*/
@@ -62,10 +65,17 @@
 #include <color_util.glslf>
 #include <math.glslv>
 
+#if USE_LOD_SMOOTHING
+#include <coverage.glslf>
+#endif
+
 #if !SHADELESS
 # if CAUSTICS
 #include <caustics.glslf>
 # endif
+#endif
+#if RGBA_SHADOWS
+#include <pack.glslf>
 #endif
 
 /*==============================================================================
@@ -114,6 +124,11 @@ uniform mat4 u_cube_fog;
 # if USE_FOG
 uniform vec4 u_fog_params; // intensity, depth, start, height
 # endif
+#endif
+
+#if USE_LOD_SMOOTHING
+uniform float u_lod_coverage;
+uniform float u_lod_cmp_logic;
 #endif
 
 /*==============================================================================
@@ -332,9 +347,7 @@ void main(void) {
 
 #if TEXTURE_NORM_CO != TEXTURE_COORDS_NONE
     vec3 binormal = cross(sided_normal, v_tangent.xyz) * v_tangent.w;
-    binormal = normalize(binormal);
-    vec3 tangent = cross(binormal, sided_normal) * v_tangent.w;
-    mat3 tbn_matrix = mat3(tangent, binormal, sided_normal);
+    mat3 tbn_matrix = mat3(v_tangent.xyz, binormal, sided_normal);
 #endif
 
 #if NORMAL_TEXCOORD || REFLECTION_TYPE == REFL_PLANE || REFRACTIVE
@@ -570,6 +583,11 @@ void main(void) {
 #else  // ALPHA
     alpha = 1.0;
 #endif  // ALPHA
+
+#if USE_LOD_SMOOTHING
+    if (!coverage_is_frag_visible(u_lod_coverage, u_lod_cmp_logic))
+        discard;
+#endif
 
 #if REFRACTIVE
     vec2 normal_view = -(tsr9_transform_dir(view_tsr, normal)).xy;

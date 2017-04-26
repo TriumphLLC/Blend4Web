@@ -8,7 +8,8 @@ MEMORY=67108864
 
 BUILDDIR=build
 
-PROJECT=uranium
+PROJECT_ASM=uranium
+PROJECT_WASM=uranium_wasm
 
 DU_MODULES=(duCharacter duBoat duFloatingBody duWater duWorld bindings)
 
@@ -26,11 +27,16 @@ COPTS="-O2 --llvm-lto 1 -DNDEBUG"
 
 #OPTS="-O1"
 #LOPTS="-Oz -s DOUBLE_MODE=0 -s CORRECT_OVERFLOWS=0 -s CORRECT_ROUNDINGS=0 -s CORRECT_SIGNS=0 -s PRECISE_I64_MATH=0 --closure 1"
-LOPTS="-O2 --llvm-lto 1 -s DOUBLE_MODE=0 -s CORRECT_OVERFLOWS=0 -s CORRECT_ROUNDINGS=0 -s CORRECT_SIGNS=0 -s PRECISE_I64_MATH=0 --closure 1"
+LOPTS="-O2 --llvm-lto 1 -s DOUBLE_MODE=0 -s CORRECT_OVERFLOWS=0 -s CORRECT_ROUNDINGS=0 -s CORRECT_SIGNS=0 -s PRECISE_I64_MATH=0"
 #LOPTS="-O3 -s DOUBLE_MODE=0 -s CORRECT_OVERFLOWS=0 -s CORRECT_ROUNDINGS=0 -s CORRECT_SIGNS=0 -s PRECISE_I64_MATH=0 --closure 1 -s AGGRESSIVE_VARIABLE_ELIMINATION=1 -s INLINING_LIMIT=100"
 #LOPTS="-O3 --llvm-lto 1 -s DOUBLE_MODE=0 -s CORRECT_OVERFLOWS=0 -s CORRECT_ROUNDINGS=0 -s CORRECT_SIGNS=0 -s PRECISE_I64_MATH=0 --closure 1 -s AGGRESSIVE_VARIABLE_ELIMINATION=1"
+LOPTS_ASM=" --closure 1"
+LOPTS_WASM=" --closure 0"
 
-LOPTS2="-s TOTAL_MEMORY=$MEMORY -s WARN_ON_UNDEFINED_SYMBOLS=1 -s NO_EXIT_RUNTIME=1 -s NO_FILESYSTEM=1 -s NO_BROWSER=0 --memory-init-file 1 -s ASM_JS=1 --pre-js ../../src/b4w.js  --pre-js ../../src/ipc.js --pre-js ../bindings.js --post-js ../bindings_post.js "
+LOPTS2="-s TOTAL_MEMORY=$MEMORY -s WARN_ON_UNDEFINED_SYMBOLS=1 -s NO_EXIT_RUNTIME=1 -s NO_FILESYSTEM=1 -s NO_BROWSER=0 --pre-js ../../src/b4w.js  --pre-js ../../src/ipc.js --pre-js ../bindings.js --post-js ../bindings_post.js "
+
+LOPTS2_ASM="--pre-js ../locatefile.js --memory-init-file 1 -s ASM_JS=1 "
+LOPTS2_WASM="--pre-js ../wasmbinaryfile.js --memory-init-file 0 -s WASM=1 "
 
 EXPFUN="\
 _du_create_world \
@@ -200,8 +206,10 @@ LOPTS3="-s EXPORTED_FUNCTIONS=[${LOPTS3:1}]"
 
 echo "Generating uranium.js ($LOPTS)"
 
-EMCC_CLOSURE_ARGS="--externs $EXT_MODS" EMCC_DEBUG=1 $EMCC $LOPTS $LOPTS2 $LOPTS3 bindings.bc duCharacter.bc duBoat.bc duFloatingBody.bc duWater.bc duWorld.bc src/BulletDynamics/libBulletDynamics.a src/BulletCollision/libBulletCollision.a src/LinearMath/libLinearMath.a -o $PROJECT.js
+EMCC_CLOSURE_ARGS="--externs $EXT_MODS" EMCC_DEBUG=1 $EMCC $LOPTS $LOPTS_ASM $LOPTS2 $LOPTS2_ASM $LOPTS3 bindings.bc duCharacter.bc duBoat.bc duFloatingBody.bc duWater.bc duWorld.bc src/BulletDynamics/libBulletDynamics.a src/BulletCollision/libBulletCollision.a src/LinearMath/libLinearMath.a -o $PROJECT_ASM.js
 
+echo "Generating uranium_wasm.js ($LOPTS)"
+EMCC_CLOSURE_ARGS="--externs $EXT_MODS" EMCC_DEBUG=1 $EMCC $LOPTS $LOPTS_WASM $LOPTS2 $LOPTS2_WASM $LOPTS3 bindings.bc duCharacter.bc duBoat.bc duFloatingBody.bc duWater.bc duWorld.bc src/BulletDynamics/libBulletDynamics.a src/BulletCollision/libBulletCollision.a src/LinearMath/libLinearMath.a -o $PROJECT_WASM.js
 #echo "Wrap in closure"
 #
 #(       #echo "\"use strict\"" && \

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2016-09-01 16:56+0300\n"
+"POT-Creation-Date: 2017-04-20 16:04+0300\n"
 "PO-Revision-Date: 2016-10-11 13:55+0800\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Chinese <info [at] blend4web.com>\n"
@@ -15,309 +15,298 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.3.4\n"
-"Language: zh\n"
-"X-Generator: Poedit 1.8.9\n"
 
 #: ../engine_features.rst:7
 msgid "Engine Features"
 msgstr "引擎功能"
 
-#: ../engine_features.rst:12
+#: ../engine_features.rst:10
 msgid "**BLENDER INTEGRATION**"
 msgstr "**集成到BLENDER中**"
 
-#: ../engine_features.rst:14
+#: ../engine_features.rst:12
 msgid ""
 "Creating interactive applications has never been easier! You can simply "
 "create a 3D scene in Blender and then use it in Blend4Web with the help "
 "of the following features:"
-msgstr ""
-"创建交互式应用程序从未如此简单 ！你可以在Blender中简单地创建一个 3D 场"
-"景，然后在 Blend4Web 的帮助下使用以下功能 ︰"
+msgstr "创建交互式应用程序从未如此简单 ！你可以在Blender中简单地创建一个 3D 场景，然后在 Blend4Web 的帮助下使用以下功能 ︰"
 
-#: ../engine_features.rst:18
+#: ../engine_features.rst:16
 msgid "Fast and Convenient Scene Export"
 msgstr "快速和方便的场景导出"
 
-#: ../engine_features.rst:19
+#: ../engine_features.rst:17
 msgid "One-Click Scene Preview"
 msgstr "单击即可场景预览"
 
-#: ../engine_features.rst:20
+#: ../engine_features.rst:18
 msgid "Full Support for Blender's Environment and Material Settings"
 msgstr "全面支持Blender的环境和材质设置"
 
-#: ../engine_features.rst:21
+#: ../engine_features.rst:19
 msgid "Tools for Creating and Managing Projects"
 msgstr "用于创建和管理项目的工具"
 
-#: ../engine_features.rst:27
+#: ../engine_features.rst:25
 msgid "**RENDERING**"
 msgstr "**渲染**"
 
-#: ../engine_features.rst:29
+#: ../engine_features.rst:27
 msgid ""
 "Blend4Web offers a great many features to make your creations look "
 "amazing."
 msgstr "Blend4Web 提供丰富的功能，使您的作品看起来令人惊叹。"
 
-#: ../engine_features.rst:31
+#: ../engine_features.rst:29
 msgid "Some of them include:"
 msgstr "一些功能包括 ︰"
 
-#: ../engine_features.rst:33
+#: ../engine_features.rst:31
 msgid "3D Scenes of Any Complexity"
 msgstr "任何复杂的 3D 场景"
 
-#: ../engine_features.rst:34
+#: ../engine_features.rst:32
 msgid "Cascaded Shadow Mapping"
 msgstr "级联的阴影贴图"
 
-#: ../engine_features.rst:35
+#: ../engine_features.rst:33
 msgid "Dynamic Foliage"
 msgstr "动态的树叶"
 
-#: ../engine_features.rst:36
+#: ../engine_features.rst:34
 msgid "Particle Systems"
 msgstr "粒子系统"
 
-#: ../engine_features.rst:37
+#: ../engine_features.rst:35
 msgid "Level of Detail"
 msgstr "细节层次"
 
-#: ../engine_features.rst:38
+#: ../engine_features.rst:36
 msgid "Post-processing Effects"
 msgstr "后期处理效果"
 
-#: ../engine_features.rst:39
+#: ../engine_features.rst:37
 msgid "VR Support"
 msgstr "支持VR"
 
-#: ../engine_features.rst:45
+#: ../engine_features.rst:43
 msgid "**MATERIALS**"
 msgstr "**材质**"
 
-#: ../engine_features.rst:47
+#: ../engine_features.rst:45
 msgid ""
 "Powerful and easy-to-use material creation system makes it possible to "
 "create any material you might need, from a simple cartoon-like to an "
 "almost photo-real one."
-msgstr ""
-"功能强大且易于使用的材质制作系统使可以让你创作需要的材质，从最简单的卡通"
-"类型到几乎照片真实的材质。"
+msgstr "功能强大且易于使用的材质制作系统使可以让你创作需要的材质，从最简单的卡通类型到几乎照片真实的材质。"
 
-#: ../engine_features.rst:50
+#: ../engine_features.rst:48
 msgid "Some of the features:"
 msgstr "一些功能 ︰"
 
-#: ../engine_features.rst:52
+#: ../engine_features.rst:50
 msgid "Node Materials"
 msgstr "节点材质"
 
-#: ../engine_features.rst:53
+#: ../engine_features.rst:51
 msgid "Parallax Offset Mapping"
 msgstr "视差偏移量贴图"
 
-#: ../engine_features.rst:54
+#: ../engine_features.rst:52
 msgid "Render-To-Texture"
 msgstr "渲染到纹理"
 
-#: ../engine_features.rst:55
+#: ../engine_features.rst:53
 msgid "Video Textures"
 msgstr "视频纹理"
 
-#: ../engine_features.rst:56
+#: ../engine_features.rst:54
 msgid "Full Support for Blender Material Nodes"
 msgstr "全面支持Blender的材质节点"
 
-#: ../engine_features.rst:57
+#: ../engine_features.rst:55
 msgid "Refractions and Reflections"
 msgstr "反射和折射"
 
-#: ../engine_features.rst:63
+#: ../engine_features.rst:61
 msgid "**ANIMATION**"
 msgstr "**动画**"
 
-#: ../engine_features.rst:65
+#: ../engine_features.rst:63
 msgid ""
-"Blend4web supports almost every animation technique available in "
-"Blender, including:"
+"Blend4web supports almost every animation technique available in Blender,"
+" including:"
 msgstr "Blend4web 支持几乎所有在Blender中存在的动画技术，包括："
 
-#: ../engine_features.rst:67
+#: ../engine_features.rst:65
 msgid "Skeletal Animation"
 msgstr "骨骼动画"
 
-#: ../engine_features.rst:68
+#: ../engine_features.rst:66
 msgid "Vertex Animation"
 msgstr "顶点动画"
 
-#: ../engine_features.rst:69
+#: ../engine_features.rst:67
 msgid "Object Animation"
 msgstr "物体动画"
 
-#: ../engine_features.rst:70
+#: ../engine_features.rst:68
 msgid "Wind Bending"
 msgstr "风弯曲："
 
-#: ../engine_features.rst:71
+#: ../engine_features.rst:69
 msgid "Material Animation"
 msgstr "材质动画"
 
-#: ../engine_features.rst:72
+#: ../engine_features.rst:70
 msgid "Animation Baking"
 msgstr "动画烘焙"
 
-#: ../engine_features.rst:73
+#: ../engine_features.rst:71
 msgid "Flow Control Using API or Logic Editor"
 msgstr "使用API或者逻辑编辑器的流程控制"
 
-#: ../engine_features.rst:79
+#: ../engine_features.rst:77
 msgid "**PHYSICS**"
 msgstr "**物理**"
 
-#: ../engine_features.rst:81
+#: ../engine_features.rst:79
 msgid ""
 "If you are creating a physical simulation or simply want your scene to "
-"behave realistically, then Blend4Web's powerful physics system is at "
-"your service."
-msgstr ""
-"如果您正在创建一个物理模拟，或只是想要你的场景来表现现实，Blend4Web 的强"
-"大物理系统正为在您服务。"
+"behave realistically, then Blend4Web's powerful physics system is at your"
+" service."
+msgstr "如果您正在创建一个物理模拟，或只是想要你的场景来表现现实，Blend4Web 的强大物理系统正为在您服务。"
 
-#: ../engine_features.rst:84
+#: ../engine_features.rst:82
 msgid "Its features include:"
 msgstr "功能包括："
 
-#: ../engine_features.rst:86
+#: ../engine_features.rst:84
 msgid "Collisions"
 msgstr "碰撞"
 
-#: ../engine_features.rst:87
+#: ../engine_features.rst:85
 msgid "Rigid Body Physics"
 msgstr "刚体物理"
 
-#: ../engine_features.rst:88
+#: ../engine_features.rst:86
 msgid "Joint System"
 msgstr "铰链系统"
 
-#: ../engine_features.rst:89
+#: ../engine_features.rst:87
 msgid "Ray Casting"
 msgstr "光线投射"
 
-#: ../engine_features.rst:90
+#: ../engine_features.rst:88
 msgid "Floating Objects"
 msgstr "浮动物体"
 
-#: ../engine_features.rst:91
+#: ../engine_features.rst:89
 msgid "Vehicles"
 msgstr "轮式车辆模拟"
 
-#: ../engine_features.rst:97
+#: ../engine_features.rst:95
 msgid "**SOUND**"
 msgstr "**声音**"
 
-#: ../engine_features.rst:99
+#: ../engine_features.rst:97
 msgid ""
-"Sound is important in making scenes and applications feel more responsve "
-"to user's actions and generally more alive."
-msgstr ""
-"声音在将制作的场景和应用变得对用户操作上更有反馈和让它们更有活力的重要元"
-"素。"
+"Sound is important in making scenes and applications feel more responsive"
+" to user's actions and generally more alive."
+msgstr "声音在将制作的场景和应用变得对用户操作上更有反馈和让它们更有活力的重要元素。"
 
-#: ../engine_features.rst:102
+#: ../engine_features.rst:100
 msgid ""
 "Here are some of the means that Blend4Web offers you to control how your "
 "creations will sound:"
 msgstr "这里是一些 Blend4Web 提供的你要控制作品会听起来怎么样的手段 ︰"
 
-#: ../engine_features.rst:105
+#: ../engine_features.rst:103
 msgid "Flexible Playback Control"
 msgstr "灵活的播放控制"
 
-#: ../engine_features.rst:106
+#: ../engine_features.rst:104
 msgid "3D Positioning"
 msgstr "3D 定位"
 
-#: ../engine_features.rst:107
+#: ../engine_features.rst:105
 msgid "Doppler Effect"
 msgstr "多普勒效应"
 
-#: ../engine_features.rst:108
+#: ../engine_features.rst:106
 msgid "Dynamic Compressor"
 msgstr "动态压缩"
 
-#: ../engine_features.rst:109
+#: ../engine_features.rst:107
 msgid "Cross-fade Sound Animation"
 msgstr "声音淡入淡出动画"
 
-#: ../engine_features.rst:110
+#: ../engine_features.rst:108
 msgid "Real-Time Mixing"
 msgstr "实时混音工具"
 
-#: ../engine_features.rst:116
+#: ../engine_features.rst:114
 msgid "**LOGIC EDITOR**"
 msgstr "**逻辑编辑器**"
 
-#: ../engine_features.rst:118
+#: ../engine_features.rst:116
 msgid ""
 "Using this visual editor, you can create logic node trees to control the "
 "behavior of your scenes and to add interactivity without writing single "
 "line of code!"
-msgstr ""
-"使用此可视化编辑器，您可以创建逻辑节点树来控制你的场景的行为，而无需为添"
-"加交互性而编写一行代码 ！"
+msgstr "使用此可视化编辑器，您可以创建逻辑节点树来控制你的场景的行为，而无需为添加交互性而编写一行代码 ！"
 
-#: ../engine_features.rst:121
+#: ../engine_features.rst:119
 msgid "Logic Node Editor features:"
 msgstr "逻辑编辑器功能"
 
-#: ../engine_features.rst:123
+#: ../engine_features.rst:121
 msgid "Object Picking"
 msgstr "物体拾取"
 
-#: ../engine_features.rst:124
+#: ../engine_features.rst:122
 msgid "Animation Control"
 msgstr "动画控制"
 
-#: ../engine_features.rst:125
+#: ../engine_features.rst:123
 msgid "Variables and Computations"
 msgstr "环境变量"
 
-#: ../engine_features.rst:126
+#: ../engine_features.rst:124
 msgid "Server Data Exchange"
 msgstr "开发服务器"
 
-#: ../engine_features.rst:132
+#: ../engine_features.rst:130
 msgid "**SCRIPTING**"
 msgstr "**脚本**"
 
-#: ../engine_features.rst:134
+#: ../engine_features.rst:132
 msgid ""
 "Blend4Web uses JavaScript scenarios to control every aspect of an "
 "application."
 msgstr "Blend4Web 使用 JavaScript 方案来控制应用程序的每个方面。"
 
-#: ../engine_features.rst:136
+#: ../engine_features.rst:134
 msgid "Some Blend4Web's JavaScript API features include:"
 msgstr "一些 Blend4Web JavaScript API 功能包括 ︰"
 
-#: ../engine_features.rst:138
+#: ../engine_features.rst:136
 msgid "Module Structure"
 msgstr "模块结构"
 
-#: ../engine_features.rst:139
+#: ../engine_features.rst:137
 msgid "Event-Driven Model"
 msgstr "事件驱动模型"
 
-#: ../engine_features.rst:140
+#: ../engine_features.rst:138
 msgid "GLSL Shaders"
 msgstr "GLSL 着色器"
 
-#: ../engine_features.rst:141
+#: ../engine_features.rst:139
 msgid "Code Minification and Obfuscation"
 msgstr "用于商业用途引擎的代码缩减和混淆处理"
 
 #: ../engine_features.rst:3
 msgid "engine features"
 msgstr "引擎功能"
+

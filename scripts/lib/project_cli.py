@@ -1162,7 +1162,7 @@ def run_clone_snippet(args, snippet_name):
                               cur_snippet_assets, join(new_proj_path, "assets"),
                               cur_snippet_blend, join(new_proj_path, "blender"))
 
-    print(GREEN + "Snippet cloning finished" + ENDCOL)
+    print(GREEN + "Snippet cloning completed." + ENDCOL)
     sys.exit(0)
 
 def run_clone(args, dev_proj_path):
@@ -1192,6 +1192,23 @@ def run_clone(args, dev_proj_path):
 
     proj_cfg = get_proj_cfg(new_proj_path)
 
+    js_file_path = normpath(join(new_proj_path, proj_cfg["info"]["name"] + ".js"))
+
+    if exists(js_file_path):
+        js_file = open(js_file_path, 'r', encoding="utf-8", newline="\n")
+        js_lines = js_file.readlines()
+        js_file.close()
+
+        tmp_js_lines = []
+
+        for line in js_lines:
+            line = re.sub("APP_ASSETS_PATH *=(.*?);", "APP_ASSETS_PATH = m_cfg.get_assets_path(\"" + new_proj_name + "\");", line)
+            tmp_js_lines.append(line)
+
+        js_file = open(js_file_path, 'w', encoding="utf-8", newline="\n")
+        js_file.writelines(tmp_js_lines)
+        js_file.close()
+
     proj_cfg["info"]["name"] = new_proj_name
     proj_cfg["paths"]["assets_dirs"] = unix_path(join("projects", new_proj_name, "assets"))
     proj_cfg["paths"]["blend_dirs"] = unix_path(join("projects", new_proj_name, "blender"))
@@ -1202,7 +1219,7 @@ def run_clone(args, dev_proj_path):
     with open(b4w_proj_file, "w", encoding="utf-8", newline="\n") as configfile:
         proj_cfg.write(configfile)
 
-    print(GREEN + "Project cloning finished" + ENDCOL)
+    print(GREEN + "Project cloning completed." + ENDCOL)
     sys.exit(0)
 
 def run_build(args, dev_proj_path):
@@ -1319,9 +1336,9 @@ def run_build(args, dev_proj_path):
         shutil.copytree(dev_proj_path, build_proj_path,
                 ignore=shutil.ignore_patterns(*ignore))
 
-        print("-"*(len("Project building finished")))
-        print(GREEN + "Project building finished" + ENDCOL)
-        print("-"*(len("Project building finished")))
+        print("-"*(len("Project building completed.")))
+        print(GREEN + "Project building completed." + ENDCOL)
+        print("-"*(len("Project building completed.")))
 
         return
 
@@ -1334,9 +1351,6 @@ def run_build(args, dev_proj_path):
 
     if not len(apps):
         apps = list(Path(dev_proj_path).rglob("*.html"))
-        print("    " + "-"*(len("'apps' field in project config is empty, detecting apps html-files automatically")))
-        print("    " + YELLOW + "'apps' field in project config is empty, detecting apps html-files automatically" + ENDCOL)
-        print("    " + "-"*(len("'apps' field in project config is empty, detecting apps html-files automatically")))
     else:
         apps = [Path(join(dev_proj_path, app)) for app in apps]
         html_apps = list(set(Path(dev_proj_path).rglob("*.html")) -
@@ -1392,7 +1406,9 @@ def run_build(args, dev_proj_path):
         _js_cc_params.append("--jscomp_off=checkEventfulObjectDisposal")
         _js_cc_params.append("--jscomp_off=checkRegExp")
         _js_cc_params.append("--jscomp_off=const")
-        _js_cc_params.append("--jscomp_off=constantProperty")
+        # NOTE: forcing jscomp_warning for the "constantProperty" as a workaround 
+        # for the gcc bug with the Element.querySelector method
+        _js_cc_params.append("--jscomp_warning=constantProperty")
         _js_cc_params.append("--jscomp_off=deprecated")
         _js_cc_params.append("--jscomp_off=deprecatedAnnotations")
         _js_cc_params.append("--jscomp_off=duplicateMessage")
@@ -1479,7 +1495,7 @@ def run_build(args, dev_proj_path):
         if exists(f) and f not in _undeleted_files:
             os.remove(f)
 
-    print(GREEN + "Project building finished" + ENDCOL)
+    print(GREEN + "Project building completed." + ENDCOL)
 
 def check_engine_type(engine_type):
     if engine_type in ENGINE_TYPE_LIST:
@@ -1823,6 +1839,9 @@ def change_build_version(build_proj_path, engine_file_name, version, js_paths=Fa
         processed_files = [i.strip(".js") + ".min.js" for i in processed_files]
 
     for path in processed_files:
+        if not exists(path):
+            continue
+
         processed_file = open(path, "r", encoding="utf-8")
         file_data = processed_file.read()
         processed_file.close()
@@ -1979,14 +1998,15 @@ def compile_js(js_paths, file_name, opt_level, engine_type, use_source_map, dev_
 
     for parent in js_paths:
         if engine_type == "compile":
-            ENGINE_CP.extend(["--external-js=" + join(_src_dir, "b4w.js")])
-            ENGINE_CP.extend(["--external-js=" +
+            ENGINE_CP_TMP = ENGINE_CP[:]
+            ENGINE_CP_TMP.extend(["--external-js=" + join(_src_dir, "b4w.js")])
+            ENGINE_CP_TMP.extend(["--external-js=" +
                               i for i in get_used_modules(js_paths[parent])])
-            ENGINE_CP.extend(["--external-js=" + i for i in js_paths[parent]])
-            ENGINE_CP.extend(["-d", join(parent, file_name + ".min.js")])
-            ENGINE_CP.append("--optimization=" + OPTIMIZATION_ENGINE_NAME_DICT[opt_level])
+            ENGINE_CP_TMP.extend(["--external-js=" + i for i in js_paths[parent]])
+            ENGINE_CP_TMP.extend(["-d", join(parent, file_name + ".min.js")])
+            ENGINE_CP_TMP.append("--optimization=" + OPTIMIZATION_DICT[opt_level])
 
-            proc = subprocess.Popen(ENGINE_CP, stdout=subprocess.PIPE,
+            proc = subprocess.Popen(ENGINE_CP_TMP, stdout=subprocess.PIPE,
                     stderr=subprocess.STDOUT, universal_newlines=True)
 
             print_flush()
@@ -2093,16 +2113,26 @@ def get_used_modules(js_files):
         paths[root] = files
 
     for js_file in js_files:
-        f = open(js_file)
-        string = f.read()
+        f = open(js_file, encoding="utf-8")
+
+        try:
+            string = f.read()
+        except UnicodeDecodeError as err:
+            print(RED, "File", js_file, "has an unsupported encoding. Please save it in UTF-8 encoding.", ENDCOL)
+            sys.exit(1)
         f.close()
 
         modules.extend(re.findall(pattern_1, string))
 
         for path in paths:
             for f in paths[path]:
-                with open(join(path, f)) as ff:
-                    text = ff.read()
+                with open(join(path, f), encoding="utf-8") as ff:
+                    try:
+                        text = ff.read()
+                    except UnicodeDecodeError as err:
+                        print(RED, "File", join(path, f), "has an unsupported encoding. Please save it in UTF-8 encoding.", ENDCOL)
+                        sys.exit(1)
+
                     file_modules = re.findall(pattern_2, text)
                     file_modules.extend(re.findall(pattern_3, text))
 
@@ -2122,7 +2152,7 @@ def check_file_modules(module, module_names, reserved_mods, pattern_1):
     if not module_names[module] in reserved_mods:
         reserved_mods.append(module_names[module])
 
-    with open(module_names[module]) as parent_module:
+    with open(module_names[module], encoding="utf-8") as parent_module:
         par_mod_text = parent_module.read()
         ch_modules = re.findall(pattern_1, par_mod_text)
 
@@ -2281,17 +2311,23 @@ def run_convert_resources(args, proj_path):
     for assets_dir in assets_dirs:
         # NOTE: crashes if some utility is not found
         print("Processing directory: " + relpath(assets_dir, _base_dir))
-        print("Resizing textures")
+        print("Creating minified copies of textures...")
         print_flush()
         subprocess.check_call([python_path, conv_path, "-d", assets_dir, "resize_textures"])
-        print("Compressing textures")
+        print("Converting textures to DDS...")
         print_flush()
         subprocess.check_call([python_path, conv_path, "-d", assets_dir, "convert_dds"])
-        print("Converting media files")
+        print("Converting textures to PVR...")
+        print_flush()
+        subprocess.check_call([python_path, conv_path, "-d", assets_dir, "convert_pvr"])
+        print("Creating audio and video files of alternative formats...")
         print_flush()
         subprocess.check_call([python_path, conv_path, "-d", assets_dir, "convert_media"])
+        print("Creating gzip-compressed .json/.bin/.pvr/.dds files...")
+        print_flush()
+        subprocess.check_call([python_path, conv_path, "-d", assets_dir, "compress_gzip"])
 
-    print(GREEN + "Project resources converted" + ENDCOL)
+    print(GREEN + "Project assets converted." + ENDCOL)
 
 def help_convert_resources(err=""):
     if err:
@@ -2534,6 +2570,9 @@ def run_deploy(args, proj_path):
 
     change_deploy_assets_prefix(deploy_abs_path, assets_path_prefix)
 
+    if engine_type == "webplayer_json":
+        refact_wp_assets_path(deploy_abs_path, assets_path_prefix, proj_cfg)
+
     if archive:
         print("Compressing deployed project")
         compress_dir(archive, deploy_abs_path, proj_name)
@@ -2554,6 +2593,45 @@ Options:
     -o, --override          remove deploy dir if it exists
     -s, --assets            override project's assets directory(s)
     -h, --help              display this help and exit""")
+
+
+def refact_wp_assets_path(deploy_abs_path, assets_path_prefix, proj_cfg):
+    path_obj = Path(deploy_abs_path)
+    json_files = list(path_obj.glob("*.json"))
+
+    if not len(json_files):
+        return
+
+    main_json_rel_path = join(assets_path_prefix, relpath(str(json_files[0]), deploy_abs_path))
+
+    webplayer_js_path = join(deploy_abs_path, "webplayer.min.js")
+
+    webplayer_js_file = open(webplayer_js_path, encoding="utf-8")
+    webplayer_js_src = webplayer_js_file.read()
+    webplayer_js_file.close()
+    webplayer_js_src = re.sub("([\'|\"]*load[\'|\"]*: *[\'|\"])(__ASSETS_LOADING_PATH__)([\'|\"])", r'\g<1>' + main_json_rel_path + r'\g<3>', webplayer_js_src)
+
+    if proj_cfg.has_option("url_params", "compressed_textures_pvr"):
+        webplayer_js_src = re.sub("([\'|\"]*compressed_textures_pvr[\'|\"]*: *[\'|\"])(__COMPRESSED_TEXTURES_PVR__)([\'|\"])", r'\g<1>' + "ON" + r'\g<3>', webplayer_js_src)
+    if proj_cfg.has_option("url_params", "compressed_textures"):
+        webplayer_js_src = re.sub("([\'|\"]*compressed_textures_dds[\'|\"]*: *[\'|\"])(__COMPRESSED_TEXTURES_DDS__)([\'|\"])", r'\g<1>' + "ON" + r'\g<3>', webplayer_js_src)
+    if proj_cfg.has_option("url_params", "show_fps"):
+        webplayer_js_src = re.sub("([\'|\"]*show_fps[\'|\"]*: *[\'|\"])(__SHOW_FPS__)([\'|\"])", r'\g<1>' + "ON" + r'\g<3>', webplayer_js_src)
+    if proj_cfg.has_option("url_params", "no_social"):
+        webplayer_js_src = re.sub("([\'|\"]*no_social[\'|\"]*: *[\'|\"])(__NO_SOCIAL__)([\'|\"])", r'\g<1>' + "ON" + r'\g<3>', webplayer_js_src)
+    if proj_cfg.has_option("url_params", "alpha"):
+        webplayer_js_src = re.sub("([\'|\"]*alpha[\'|\"]*: *[\'|\"])(__ALPHA__)([\'|\"])", r'\g<1>' + "ON" + r'\g<3>', webplayer_js_src)
+    if proj_cfg.has_option("url_params", "min_capabilities"):
+        webplayer_js_src = re.sub("([\'|\"]*min_capabilities[\'|\"]*: *[\'|\"])(__MIN_CAPABILITIES__)([\'|\"])", r'\g<1>' + "ON" + r'\g<3>', webplayer_js_src)
+    if proj_cfg.has_option("url_params", "autorotate"):
+        webplayer_js_src = re.sub("([\'|\"]*autorotate[\'|\"]*: *[\'|\"])(__AUTOROTATE__)([\'|\"])", r'\g<1>' + "ON" + r'\g<3>', webplayer_js_src)
+    if proj_cfg.has_option("url_params", "compressed_gzip"):
+        webplayer_js_src = re.sub("([\'|\"]*compressed_gzip[\'|\"]*: *[\'|\"])(__COMPRESSED_GZIP__)([\'|\"])", r'\g<1>' + "ON" + r'\g<3>', webplayer_js_src)
+
+    webplayer_js_file = open(webplayer_js_path, "w", encoding="utf-8")
+    webplayer_js_file.write(webplayer_js_src)
+    webplayer_js_file.close()
+
 
 def run_check_deps(args):
     """
@@ -2705,7 +2783,7 @@ def run_import(args):
         engine_type = proj_cfg_value(proj_cfg, "compile", "engine_type", "copy")
 
         if engine_type in ["copy", "compile", "external"]:
-            print("Check moodules in the '", basename(proj_path),"' project.")
+            print("Check modules in the '", basename(proj_path),"' project.")
             run_check_mods(proj_path_dst)
 
     print(GREEN + "Project imported" + ENDCOL)
@@ -2722,7 +2800,7 @@ def check_sdk_base_dir(path):
 def get_sdk_ver_params(path):
     ver_file_path = join(path, "VERSION")
 
-    with open(ver_file_path) as f:
+    with open(ver_file_path, encoding="utf-8") as f:
         lines = f.readlines()
 
     if not len(lines):
@@ -3217,7 +3295,7 @@ Options:
 def change_uranium_mem_path(build_proj_path, version):
     uranium_path = join(build_proj_path, URANIUM_FILE_NAME)
 
-    uranium_file = open(uranium_path, "r")
+    uranium_file = open(uranium_path, "r", encoding="utf-8")
     uranium_file_data = uranium_file.read()
     uranium_file.close()
 
@@ -3225,7 +3303,7 @@ def change_uranium_mem_path(build_proj_path, version):
 
     uranium_file_data = re.sub(regexp_pattern, r"uranium.js.mem?v=" + str(version), uranium_file_data)
 
-    uranium_file = open(uranium_path, "w")
+    uranium_file = open(uranium_path, "w", encoding="utf-8")
     uranium_file.write(uranium_file_data)
     uranium_file.close()
 
@@ -3237,7 +3315,7 @@ def get_base_dir(curr_work_dir):
         try:
             ver_file_path = os.path.join(curr_dir, "VERSION")
 
-            with open(ver_file_path) as f:
+            with open(ver_file_path, encoding="utf-8") as f:
                 lines = f.readlines()
 
             params = lines[0].split()

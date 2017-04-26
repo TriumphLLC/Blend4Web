@@ -18,6 +18,8 @@
 #var MAC_OS_SHADOW_HACK 0
 #var USE_POSITION_CLIP 0
 
+#var RGBA_SHADOWS 0
+
 #var REFRACTIVE 0
 
 #var AU_QUALIFIER GLSL_IN
@@ -59,7 +61,7 @@
 ==============================================================================*/
 GLSL_IN vec3 a_position;
 
-GLSL_IN vec4 a_tbn_quat;
+GLSL_IN vec4 a_tbn;
 
 #if USE_INSTANCED_PARTCLS
 GLSL_IN vec4 a_part_ts;
@@ -100,7 +102,7 @@ GLSL_IN vec3 a_position_next;
 # if NODES && ALPHA
 #  if USE_NODE_MATERIAL_BEGIN || USE_NODE_GEOMETRY_NO || USE_NODE_NORMAL_MAP \
         || CAUSTICS || CALC_TBN_SPACE
-GLSL_IN vec4 a_tbn_quat_next;
+GLSL_IN vec4 a_tbn_next;
 #  endif
 # endif
 #endif // VERTEX_ANIM
@@ -124,7 +126,8 @@ GLSL_OUT vec2 v_texcoord;
 # endif
 #endif
 
-#if SHADOW_USAGE == SHADOW_MASK_GENERATION || NODES && ALPHA
+#if SHADOW_USAGE == SHADOW_MASK_GENERATION || NODES && ALPHA \
+|| SHADOW_USAGE == SHADOW_CASTING && RGBA_SHADOWS
 GLSL_OUT vec4 v_pos_view;
 #endif
 
@@ -283,15 +286,21 @@ void main(void) {
         || CAUSTICS || WIND_BEND && MAIN_BEND_COL && DETAIL_BEND \
         || USE_NODE_BSDF_BEGIN || USE_NODE_FRESNEL || USE_NODE_TEX_COORD_NO \
         || USE_NODE_TEX_COORD_RE || USE_NODE_LAYER_WEIGHT || USE_NODE_BUMP
-    vec3 norm_tbn = qrot(a_tbn_quat, vec3(0.0, 1.0, 0.0));
+    float correct_angle, handedness;
+    vec4 tbn_quat = get_tbn_quat(a_tbn, correct_angle, handedness);
+    vec3 norm_tbn = qrot(tbn_quat, vec3(0.0, 1.0, 0.0));
     vec3 normal = norm_tbn;
 #else
     vec3 normal = vec3(0.0);
 #endif
 
 #if NODES && ALPHA && CALC_TBN_SPACE
-    vec3 tangent = qrot(a_tbn_quat, vec3(1.0, 0.0, 0.0));
-    vec3 binormal = sign(a_tbn_quat[3]) * cross(normal, tangent);
+    vec3 tangent = qrot(tbn_quat, vec3(1.0, 0.0, 0.0));
+    // - cross(tangent, normal) --- blender space binormal
+    vec3 binormal = handedness * cross(normal, tangent);
+
+    vec4 tanget_rot_quat = qsetAxisAngle(binormal, handedness * correct_angle);
+    tangent = qrot(tanget_rot_quat, normal);
 #else
     vec3 tangent = vec3(0.0);
     vec3 binormal = vec3(0.0);
@@ -301,12 +310,19 @@ void main(void) {
     position = mix(position, a_position_next, u_va_frame_factor);
 # if NODES && ALPHA
 #  if USE_NODE_MATERIAL_BEGIN || USE_NODE_GEOMETRY_NO || USE_NODE_NORMAL_MAP || CAUSTICS || CALC_TBN_SPACE
-    vec3 normal_next = qrot(a_tbn_quat_next, vec3(0.0, 1.0, 0.0));
+    float correct_angle_next, handedness_next;
+    vec4 tbn_quat_next = get_tbn_quat(a_tbn_next, correct_angle_next, handedness_next);
+    vec3 normal_next = qrot(tbn_quat_next, vec3(0.0, 1.0, 0.0));
     normal = mix(normal, normal_next, VERTEX_ANIM_MIX_NORMALS_FACTOR);
 #  endif
 #  if CALC_TBN_SPACE
-    vec3 tangent_next = qrot(a_tbn_quat_next, vec3(1.0, 0.0, 0.0));
-    vec3 binormal_next = sign(a_tbn_quat_next[3]) * cross(normal_next, tangent_next);
+    vec3 tangent_next = qrot(tbn_quat_next, vec3(1.0, 0.0, 0.0));
+    vec3 binormal_next = handedness_next * cross(normal_next, tangent_next);
+
+    vec4 tangent_rot_quat_next = qsetAxisAngle(binormal_next, \
+            handedness_next * correct_angle_next);
+    tangent_next = qrot(tangent_rot_quat_next, normal_next);
+
     tangent = mix(tangent, tangent_next, u_va_frame_factor);
     binormal = mix(binormal, binormal_next, u_va_frame_factor);
 #  endif
@@ -444,7 +460,8 @@ void main(void) {
     get_shadow_coords(world.position, world.normal);
 #endif
 
-#if SHADOW_USAGE == SHADOW_MASK_GENERATION || NODES && ALPHA
+#if SHADOW_USAGE == SHADOW_MASK_GENERATION || NODES && ALPHA \
+|| SHADOW_USAGE == SHADOW_CASTING && RGBA_SHADOWS
     v_pos_view = pos_view;
 #endif
 

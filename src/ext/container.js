@@ -117,7 +117,7 @@ exports.client_to_canvas_coords = function(x, y, dest) {
  * @method module:container.client_to_element_coords
  * @param {number} x X client coordinate.
  * @param {number} y Y client coordinate.
- * @param {HtmlElement} element HTML element.
+ * @param {HTMLElement} element HTML element.
  * @param {Vec2} [dest=Float32Array(2)] Destination vector.
  * @returns {Vec2} CSS coordinates relative to the Canvas.
  */
@@ -148,12 +148,6 @@ exports.force_offsets_updating = function() {
  * @param {boolean} [update_canvas_css=true] Change canvas CSS width/height
  */
 exports.resize = function(width, height, update_canvas_css) {
-
-    if (!width || !height)
-        m_print.warn("Wrong canvas container dimensions: " + width + "x" + height 
-                + ". Zero dimensions aren't allowed. Resized to: " 
-                + m_cont.DEFAULT_CANVAS_W + "x" + m_cont.DEFAULT_CANVAS_H + ".");
-
     m_cont.resize(width, height, update_canvas_css);
 }
 

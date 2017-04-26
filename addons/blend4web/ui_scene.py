@@ -246,7 +246,7 @@ class B4W_ScenePhysics(SceneButtonsPanel, Panel):
         layout.prop(scene, "b4w_enable_physics", text=_("Enable Physics"))
 
 class B4W_SceneClusterBatching(SceneButtonsPanel, Panel):
-    bl_label = _("Objects Clustering")
+    bl_label = _("Object Clustering & LOD")
     bl_idname = "SCENE_PT_b4w_cluster_batching"
     bl_options = {'DEFAULT_CLOSED'}
 
@@ -255,9 +255,11 @@ class B4W_SceneClusterBatching(SceneButtonsPanel, Panel):
         layout = self.layout
         layout.prop(scene, "b4w_cluster_size", text=_("Cluster Size"))
         layout.prop(scene, "b4w_lod_cluster_size_mult", text=_("LOD Cluster Size Multiplier"))
+        layout.prop(scene, "b4w_lod_smooth_type", text=_("LOD Smooth Transitions"))
+        layout.prop(scene, "b4w_lod_hyst_interval", text=_("Max LOD Hysteresis Interval"))
 
 class B4W_SceneObjsSelection(SceneButtonsPanel, Panel):
-    bl_label = _("Objects Selection")
+    bl_label = _("Object Selection")
     bl_idname = "SCENE_PT_b4w_objs_selection"
     bl_options = {'DEFAULT_CLOSED'}
 

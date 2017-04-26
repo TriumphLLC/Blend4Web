@@ -22,6 +22,7 @@ ADDON_DIR = os.path.normpath(os.path.join(os.path.abspath(os.path.dirname(__file
 PATH_TO_PO = os.path.join(ADDON_DIR, "locales")
 
 _ = lambda string : string
+# should be used for defining context
 p_ = lambda string, context : string
 
 def get_translate(message):

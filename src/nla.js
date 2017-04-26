@@ -56,6 +56,7 @@ exports.update_object = function(bpy_source, obj) {
                     m_obj_util.is_camera(obj) ||
                     m_obj_util.is_mesh(obj) ||
                     m_obj_util.is_empty(obj) ||
+                    m_obj_util.is_line(obj) ||
                     m_obj_util.is_lamp(obj) ||
                     // no need for separate slot in case of sound
                     m_obj_util.is_speaker(obj) ||
@@ -95,7 +96,18 @@ exports.update_object = function(bpy_source, obj) {
             }
         }
 
-        if (!m_obj_util.is_world(obj)) {
+        if (m_obj_util.is_world(obj)) {
+            if (bpy_source["use_nodes"] && bpy_source["node_tree"]) {
+                var nla_tracks = [];
+                get_nodetree_nla_tracks_r(bpy_source["node_tree"], nla_tracks, [bpy_source["name"]]);
+                var nla_events = get_nla_events(nla_tracks, slot_num);
+                if (nla_events.length) {
+                    slot_num += assign_anim_slots(nla_events, slot_num);
+                    obj.nla_events = obj.nla_events.concat(nla_events);
+                }
+            }
+
+        } else {
             for (var j = 0; j < bpy_source["particle_systems"].length; j++) {
                 var psys = bpy_source["particle_systems"][j];
                 var pset = psys["settings"];
@@ -135,6 +147,7 @@ exports.update_object = function(bpy_source, obj) {
                     obj.nla_events.push(ev);
                 }
             }
+
         }
     }
 }

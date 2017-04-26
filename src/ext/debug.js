@@ -24,31 +24,46 @@
  * @local LoadedCallback
  * @local CodeTestCallback
  * @local EqualsFunction
- * @local OkFunction
+ * @local OKFunction
  */
 b4w.module["debug"] = function(exports, require) {
 
+var m_batch    = require("__batch");
 var m_cfg      = require("__config");
 var m_compat   = require("__compat");
 var m_ctl      = require("__controls");
 var m_cont     = require("__container");
+var m_data     = require("__data");
 var m_debug    = require("__debug");
 var m_ext      = require("__extensions");
+var m_geom     = require("__geometry");
 var m_load     = require("__loader");
 var m_obj      = require("__objects");
 var m_obj_util = require("__obj_util");
 var m_phy      = require("__physics");
 var m_print    = require("__print");
+var m_quat     = require("__quat");
 var m_render   = require("__renderer");
 var m_scenes   = require("__scenes");
 var m_scgraph  = require("__scenegraph");
 var m_sfx      = require("__sfx");
 var m_shaders  = require("__shaders");
 var m_subs     = require("__subscene");
+var m_tbn      = require("__tbn");
 var m_textures = require("__textures");
+var m_trans    = require("__transform");
 var m_tsr      = require("__tsr");
 var m_util     = require("__util");
 var m_vec3     = require("__vec3");
+var m_vec4     = require("__vec4");
+
+var _quat_tmp = m_quat.create();
+var _tsr_tmp = m_tsr.create();
+var _vec3_tmp = m_vec3.create();
+var _vec3_tmp2 = m_vec3.create();
+var _vec4_tmp = m_vec4.create();
+
+var _normal_line = null;
 
 var cfg_def = m_cfg.defaults;
 
@@ -78,12 +93,12 @@ var _vec2_tmp = new Float32Array(2);
 /**
  * Code test callback.
  * @callback CodeTestCallback
- * @param {EqualsFunction} equals Сomparison function.
- * @param {OkFunction} ok Code test function.
+ * @param {EqualsFunction} equals Comparison function.
+ * @param {OKFunction} ok Code test function.
  */
 
 /**
- * Return the comparison result of entrace params.
+ * Return the comparison result of the given parameters.
  * @callback EqualsFunction
  * @param {*} result Real function result.
  * @param {*} exp_result Expected result.
@@ -91,7 +106,7 @@ var _vec2_tmp = new Float32Array(2);
 
  /**
  * Check code crash.
- * @callback OkFunction
+ * @callback OKFunction
  * @param {*} result Real function result.
  */
 
@@ -160,7 +175,14 @@ exports.physics_stats = function() {
 exports.physics_id = function(id) {
     m_print.log("O", m_phy.find_obj_by_body_id(id))
 
-    var bundles = m_phy.get_active_scene()._physics.bundles;
+    var act_phy_scene = m_phy.get_active_scene();
+
+    if (!act_phy_scene) {
+        m_print.error("No active physics scene.");
+        return;
+    }
+
+    var bundles = act_phy_scene._physics.bundles;
 
     for (var i = 0; i < bundles.length; i++) {
         var bundle = bundles[i];
@@ -180,9 +202,9 @@ exports.visible_objects = function() {
 
     var objs = m_obj.get_scene_objs(scene, "MESH", m_obj.DATA_ID_ALL);
 
-    var main_subscenes = [m_scenes.get_subs(scene, m_subs.MAIN_OPAQUE),
-                          m_scenes.get_subs(scene, m_subs.MAIN_BLEND),
-                          m_scenes.get_subs(scene, m_subs.MAIN_GLOW)];
+    var main_subscenes = m_scenes.subs_array(scene, [m_subs.MAIN_OPAQUE,
+                                                     m_subs.MAIN_BLEND,
+                                                     m_subs.MAIN_GLOW]);
 
     for (var i = 0; i < main_subscenes.length; i++) {
         var subs_main = main_subscenes[i];
@@ -191,62 +213,43 @@ exports.visible_objects = function() {
         if (!draw_data.length)
             continue;
 
-        m_print.group(subs_main.type, "DYNAMIC");
-
-        for (var j = 0; j < objs.length; j++) {
-            var obj = objs[j];
-            var render = obj.render;
-
-            if (render.type != "DYNAMIC")
-                continue;
-
-            var is_visible = false;
-
-            for (var k = 0; k < draw_data.length; k++) {
-                var bundles = draw_data[k].bundles;
-                for (var m = 0; m < bundles.length; m++) {
-                    var bundle = bundles[m];
-                    if (bundle.do_render && bundle.obj_render == render) {
-                        m_print.log_raw(obj.name, obj);
-                        is_visible = true;
-                        break;
-                    }
-                }
-                if (is_visible)
-                    break;
-            }
-        }
-
-        m_print.groupEnd();
-
-        m_print.groupCollapsed(subs_main.type, "STATIC");
-
-        for (var j = 0; j < objs.length; j++) {
-            var obj = objs[j];
-            var render = obj.render;
-
-            if (render.type == "DYNAMIC")
-                continue;
-
-            var is_visible = false;
-
-            for (var k = 0; k < draw_data.length; k++) {
-                var bundles = draw_data[k].bundles;
-                for (var m = 0; m < bundles.length; m++) {
-                    var bundle = bundles[m];
-                    if (bundle.do_render && bundle.obj_render == render) {
-                        m_print.log_raw(obj.name, obj);
-                        is_visible = true;
-                        break;
-                    }
-                }
-                if (is_visible)
-                    break;
-            }
-        }
-
-        m_print.groupEnd();
+        print_objs(subs_main, draw_data, objs, "DYNAMIC");
+        print_objs(subs_main, draw_data, objs, "STATIC");
     }
+}
+
+function print_objs(subs, draw_data, objs, type) {
+
+    m_print.group(m_subs.subs_label(subs), type);
+
+    for (var j = 0; j < objs.length; j++) {
+        var obj = objs[j];
+        var render = obj.render;
+
+        if (render.type != type)
+            continue;
+
+        var is_visible = false;
+
+        for (var k = 0; k < draw_data.length; k++) {
+            var bundles = draw_data[k].bundles;
+            for (var m = 0; m < bundles.length; m++) {
+                var bundle = bundles[m];
+                if (bundle.do_render && bundle.obj_render == render) {
+                    if (type == "STATIC")
+                        m_print.log_raw(obj.origin_name, obj);
+                    else
+                        m_print.log_raw(obj.name, obj);
+                    is_visible = true;
+                    break;
+                }
+            }
+            if (is_visible)
+                break;
+        }
+    }
+
+    m_print.groupEnd();
 }
 
 /**
@@ -295,19 +298,19 @@ exports.object_info = function(name) {
 exports.objects_stat = function() {
     var scene = m_scenes.get_active();
 
-    console.log("Armatures: " + m_obj.get_scene_objs(scene, "ARMATURE",
+    m_print.log("Armatures: " + m_obj.get_scene_objs(scene, "ARMATURE",
             m_obj.DATA_ID_ALL).length);
-    console.log("Cameras: " + m_obj.get_scene_objs(scene, "CAMERA",
+    m_print.log("Cameras: " + m_obj.get_scene_objs(scene, "CAMERA",
             m_obj.DATA_ID_ALL).length);
-    console.log("Curves: " + m_obj.get_scene_objs(scene, "CURVE",
+    m_print.log("Curves: " + m_obj.get_scene_objs(scene, "CURVE",
             m_obj.DATA_ID_ALL).length);
-    console.log("Empties: " + m_obj.get_scene_objs(scene, "EMPTY",
+    m_print.log("Empties: " + m_obj.get_scene_objs(scene, "EMPTY",
             m_obj.DATA_ID_ALL).length);
-    console.log("Lamps: " + m_obj.get_scene_objs(scene, "LAMP",
+    m_print.log("Lamps: " + m_obj.get_scene_objs(scene, "LAMP",
             m_obj.DATA_ID_ALL).length);
-    console.log("Meshes: " + m_obj.get_scene_objs(scene, "MESH",
+    m_print.log("Meshes: " + m_obj.get_scene_objs(scene, "MESH",
             m_obj.DATA_ID_ALL).length);
-    console.log("Speakers: " + m_obj.get_scene_objs(scene, "SPEAKER",
+    m_print.log("Speakers: " + m_obj.get_scene_objs(scene, "SPEAKER",
             m_obj.DATA_ID_ALL).length);
 }
 
@@ -322,16 +325,13 @@ exports.num_vertices = function() {
 
     var scene = m_scenes.get_active();
 
-    var main_subscenes = [m_scenes.get_subs(scene, m_subs.MAIN_OPAQUE),
-                          m_scenes.get_subs(scene, m_subs.MAIN_BLEND),
-                          m_scenes.get_subs(scene, m_subs.MAIN_GLOW)];
+    var main_subscenes = m_scenes.subs_array(scene, [m_subs.MAIN_OPAQUE,
+                                                     m_subs.MAIN_BLEND,
+                                                     m_subs.MAIN_GLOW]);
 
     for (var i = 0; i < main_subscenes.length; i++) {
 
         var subs = main_subscenes[i];
-
-        if (!subs)
-            continue;
 
         var draw_data = subs.draw_data;
 
@@ -361,16 +361,13 @@ exports.num_triangles = function() {
 
     var scene = m_scenes.get_active();
 
-    var main_subscenes = [m_scenes.get_subs(scene, m_subs.MAIN_OPAQUE),
-                          m_scenes.get_subs(scene, m_subs.MAIN_BLEND),
-                          m_scenes.get_subs(scene, m_subs.MAIN_GLOW)];
+    var main_subscenes = m_scenes.subs_array(scene, [m_subs.MAIN_OPAQUE,
+                                                     m_subs.MAIN_BLEND,
+                                                     m_subs.MAIN_GLOW]);
 
     for (var i = 0; i < main_subscenes.length; i++) {
 
         var subs = main_subscenes[i];
-
-        if (!subs)
-            continue;
 
         var draw_data = subs.draw_data;
 
@@ -495,16 +492,13 @@ exports.num_textures = function() {
 
     var scene = m_scenes.get_active();
 
-    var main_subscenes = [m_scenes.get_subs(scene, m_subs.MAIN_OPAQUE),
-                          m_scenes.get_subs(scene, m_subs.MAIN_BLEND),
-                          m_scenes.get_subs(scene, m_subs.MAIN_GLOW)];
+    var main_subscenes = m_scenes.subs_array(scene, [m_subs.MAIN_OPAQUE,
+                                                     m_subs.MAIN_BLEND,
+                                                     m_subs.MAIN_GLOW]);
 
     for (var i = 0; i < main_subscenes.length; i++) {
 
         var subs = main_subscenes[i];
-
-        if (!subs)
-            continue;
 
         var draw_data = subs.draw_data;
         for (var j = 0; j < draw_data.length; j++) {
@@ -646,10 +640,6 @@ exports.scenegraph_to_dot = function() {
     }
 }
 
-exports.scenes_to_dot = function() {
-
-}
-
 exports.loading_graph_to_dot = function(data_id) {
     data_id = data_id | 0;
     m_print.log("\n" + m_load.graph_to_dot(data_id));
@@ -772,9 +762,7 @@ exports.mute_music = function() {
  * @method module:debug.check_finite
  * @param {*} o Value
  */
-exports.check_finite = function(o) {
-    m_debug.check_finite(o);
-}
+exports.check_finite = m_debug.check_finite;
 
 /**
  * Set debugging parameters.
@@ -858,6 +846,8 @@ exports.analyze_shaders = function(opt_shader_id_part) {
 
         var cshader = compiled_shaders[shader_id];
         var stat = get_shaders_stat(cshader.vshader, cshader.fshader);
+        if (!stat)
+            continue;
 
         var shaders_info = cshader.shaders_info;
         var title = shaders_info.vert + " + " + shaders_info.frag;
@@ -896,7 +886,7 @@ function get_shaders_stat(vshader, fshader) {
 
     var ext_ds = m_ext.get_debug_shaders();
     if (!ext_ds) {
-        m_print.error("WEBGL_debug_shaders extension not found");
+        m_print.warn("WEBGL_debug_shaders extension not found");
         return;
     }
 
@@ -1288,13 +1278,100 @@ exports.eq = function(result, exp_result) {
 exports.stat = function(module_name) {
     var module = require(module_name);
     for (var name in module)
-        if (_called_funcs.indexOf(module[name]) == -1)
+        if (_called_funcs.indexOf(module[name]) == -1 &&
+                typeof module[name] === "function")
             console.warn(name + " function wasn't called.");
 }
 
 exports.ok = function(exp) {
     if (!Boolean(exp))
         throw "Wrong result. Function: " + _tested_func_name;
+}
+
+/**
+ * Show normals of the dynamic object.
+ * @method module:debug.show_normals
+ * @param {Object3D} obj Object 3D
+ * @param {string} mat_name Material name
+ * @param {number} length Length of normals
+ * @param {number} width Width of normals
+ */
+exports.show_normals = function(obj, mat_name, length, width) {
+    hide_normals();
+
+    var batch = m_batch.find_batch_material(obj, mat_name, "MAIN");
+    if (!m_geom.has_dyn_geom(obj) || !batch) {
+        m_print.error("Normals are not avaliable for the dynamic object:", obj.name);
+        return false;
+    }
+
+    var bufs_data = batch.bufs_data;
+    if (!(bufs_data && bufs_data.pointers &&
+            bufs_data.pointers["a_position"] &&
+            bufs_data.pointers["a_tbn"])) {
+        m_print.error("Normals are not avaliable for the object:", obj.name);
+        return false;
+    }
+
+    var positions = m_geom.extract_array(bufs_data, "a_position");
+    var tbn_attr = m_geom.extract_array(bufs_data, "a_tbn");
+
+    var obj_tsr = m_trans.get_tsr(obj, _tsr_tmp);
+
+    _normal_line = m_obj.create_line("normal_line");
+
+    var normals = new Float32Array(2 * positions.length);
+    for (var i = 0; i < positions.length; i += 3) {
+        var ver_pos = _vec3_tmp;
+        ver_pos[0] = positions[i + 0];
+        ver_pos[1] = positions[i + 1];
+        ver_pos[2] = positions[i + 2];
+        var begin_norm = m_tsr.transform_vec3(ver_pos, obj_tsr, _vec3_tmp2);
+        normals[2 * i + 0] = begin_norm[0];
+        normals[2 * i + 1] = begin_norm[1];
+        normals[2 * i + 2] = begin_norm[2];
+
+        // NOTE: use zero for the last component, actual value isn't needed for quat
+        var tbn = m_vec4.set(
+                m_geom.value_vbo_to_float("a_tbn", tbn_attr[i / 3 * 4]),
+                m_geom.value_vbo_to_float("a_tbn", tbn_attr[i / 3 * 4 + 1]),
+                m_geom.value_vbo_to_float("a_tbn", tbn_attr[i / 3 * 4 + 2]),
+                0, _vec4_tmp);
+        var tbn_quat = m_tbn.get_quat(tbn, 0, _quat_tmp);
+
+        var offset = m_vec3.scale(m_util.AXIS_Y, length, _vec3_tmp2);
+        var dir = m_vec3.transformQuat(offset, tbn_quat, _vec3_tmp2);
+        var end_norm_l = m_vec3.add(ver_pos, dir, _vec3_tmp2);
+        var end_norm = m_tsr.transform_vec3(end_norm_l, obj_tsr, _vec3_tmp2);
+        normals[2 * i + 3] = end_norm[0];
+        normals[2 * i + 4] = end_norm[1];
+        normals[2 * i + 5] = end_norm[2];
+    }
+
+    var normal_line_batch = m_batch.get_first_batch(_normal_line);
+
+    m_geom.draw_line(normal_line_batch, normals, true);
+    m_render.assign_attribute_setters(normal_line_batch);
+    normal_line_batch.diffuse_color.set([1.0, 1.0, 1.0, 1.0]);
+    normal_line_batch.line_width = width;
+}
+
+/**
+ * Hide normals of a dynamic object.
+ * @method module:debug.hide_normals
+ */
+exports.hide_normals = hide_normals;
+function hide_normals() {
+    if (!_normal_line)
+        return;
+
+    // NOTE: it is a copy/paste m_scenes.remove_object
+    m_obj.obj_switch_cleanup_flags(_normal_line, false, false, false);
+    m_data.prepare_object_unloading(_normal_line);
+    m_obj.obj_switch_cleanup_flags(_normal_line, true, true, true);
+    m_obj.remove_object(_normal_line);
+
+    _normal_line = null;
 }
 
 }

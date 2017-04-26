@@ -1407,7 +1407,7 @@ function transform_changed(obj) {
 
 
 /**
- * Move object by applying velocity in world space.
+ * Move object by applying velocity in its space.
  */
 exports.apply_velocity = function(obj, vx_local, vy_local, vz_local) {
 
@@ -1446,7 +1446,7 @@ exports.apply_velocity = function(obj, vx_local, vy_local, vz_local) {
 
 /**
  * Move the object by applying velocity in the world space.
- * TODO: apply_velocity -> apply_velocity_local
+ * TODO: rename apply_velocity -> apply_velocity_local
  */
 exports.apply_velocity_world = function(obj, vx, vy, vz) {
 

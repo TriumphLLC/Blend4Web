@@ -96,7 +96,7 @@ SUPPORTED_NODES = ["NodeFrame", "ShaderNodeMaterial", "ShaderNodeCameraData", \
         "ShaderNodeTangent", "ShaderNodeLayerWeight", "ShaderNodeLightPath", \
         "ShaderNodeAttribute", "ShaderNodeOutputLamp", "ShaderNodeScript", \
         "ShaderNodeMixShader", "ShaderNodeAddShader", "ShaderNodeNewGeometry", \
-        "ShaderNodeFresnel"]
+        "ShaderNodeFresnel", "ShaderNodeOutputWorld", "ShaderNodeBackground"]
 
 PARALLAX_HEIGHT_MAP_INPUT_NAME = "Height Map"
 PARALLAX_HEIGHT_MAP_INPUT_NODE = "ShaderNodeTexture"
@@ -140,8 +140,6 @@ _b4w_export_errors = []
 
 _vehicle_integrity = {}
 
-_packed_files_data = {}
-
 _rendered_scenes = []
 
 _additional_scene_objects = []
@@ -167,6 +165,10 @@ _performed_cleanup = False
 _proj_util_module = None
 
 _dg_counter = 0
+
+_unique_packed_images = None
+
+_unique_packed_sounds = None
 
 # speaker distance maximum
 SPKDISTMAX = 10000
@@ -690,25 +692,6 @@ def get_scene_lib_path(scene):
     else:
         return ""
 
-def packed_resource_get_unique_name(resource):
-    unique_rsrc_id = resource.name + resource.filepath
-    if resource.library:
-        unique_rsrc_id += resource.library.filepath
-    # fix overwriting collision for export/html export
-    if _is_html_export:
-        unique_rsrc_id += "%html_export%"
-
-    ext = os.path.splitext(resource.filepath)[1]
-    unique_name = hashlib.md5(unique_rsrc_id.encode()).hexdigest() + ext
-
-    if bpy.data.filepath and _export_filepath is not None:
-        export_dir = os.path.split(_export_filepath)[0]
-        result_name = os.path.join(export_dir, unique_name)
-    else:
-        result_name = os.path.join(os.getcwd(), unique_name)
-
-    return result_name
-
 def get_main_json_data():
     return _main_json_str
 
@@ -718,7 +701,27 @@ def get_binaries_data():
             + _bpy_bindata_short + _bpy_bindata_ushort + _bpy_bindata_uchar;
 
 def get_packed_data():
-    return _packed_files_data
+    packed_data = {}
+
+    for img_hash in _unique_packed_images:
+        data = _unique_packed_images[img_hash]
+
+        # filepath and packed_file are the same for all images
+        bpy_image = _bpy_uuid_cache[data[0]]
+        image_data = _export_uuid_cache[data[0]]
+        packed_data[image_data["filepath"]] = b4w_bin.get_packed_data(
+                bpy_image.packed_file.as_pointer())
+
+    for snd_hash in _unique_packed_sounds:
+        data = _unique_packed_sounds[snd_hash]
+        
+        # filepath and packed_file are the same for all sounds
+        bpy_sound = _bpy_uuid_cache[data[0]]
+        sound_data = _export_uuid_cache[data[0]]
+        packed_data[sound_data["filepath"]] = b4w_bin.get_packed_data(
+                bpy_sound.packed_file.as_pointer())
+
+    return packed_data
 
 def get_b4w_bin_info():
     format_version = blend4web.bl_info["b4w_format_version"]
@@ -956,7 +959,8 @@ def process_action(action):
                 # file size optimization: left handle needed only if
                 # PREVIOS keyframe point is bezier, right handle needed only if
                 # THIS keyframe point is bezier
-                if previous and previous.interpolation == "BEZIER":
+                if previous and (previous.interpolation != "LINEAR"
+                        and previous.interpolation != "CONSTANT"):
                     keyframes_data.extend(hl)
                 if interpolation == "BEZIER":
                     keyframes_data.extend(hr)
@@ -998,6 +1002,15 @@ def get_mat_action_num_channels(action, node_name):
     mats = bpy.data.materials
     for mat in mats:
         node_tree = mat.node_tree
+        if not node_tree:
+            continue
+        num_channels_mat = num_node_channels(action.name, node_tree, node_name)
+        if num_channels_mat:
+            return num_channels_mat
+    # cycles world actions
+    worlds = bpy.data.worlds
+    for world in worlds:
+        node_tree = world.node_tree
         if not node_tree:
             continue
         num_channels_mat = num_node_channels(action.name, node_tree, node_name)
@@ -1097,6 +1110,8 @@ def process_scene(scene):
     scene_data["b4w_enable_object_selection"] = scene.b4w_enable_object_selection
     scene_data["b4w_enable_outlining"] = scene.b4w_enable_outlining
     scene_data["b4w_enable_anchors_visibility"] = scene.b4w_enable_anchors_visibility
+    scene_data["b4w_lod_smooth_type"] = scene.b4w_lod_smooth_type
+    scene_data["b4w_lod_hyst_interval"] = scene.b4w_lod_hyst_interval
     
     tags = scene.b4w_tags
 
@@ -1564,6 +1579,8 @@ def process_scene_bloom_settings(scene_data, scene):
     dct["key"] = round_num(bloom.key, 2)
     dct["blur"] = round_num(bloom.blur, 2)
     dct["edge_lum"] = round_num(bloom.edge_lum, 2)
+    dct["adaptive"] = bloom.adaptive
+    dct["average_luminance"] = bloom.average_luminance
 
 def process_scene_motion_blur_settings(scene_data, scene):
     motion_blur = scene.b4w_motion_blur_settings
@@ -1734,6 +1751,7 @@ def process_object(obj, is_curve=False, is_hair=False):
     obj_data["b4w_cluster_data"] = OrderedDict()
     obj_data["b4w_cluster_data"]["cluster_id"] = -1
     obj_data["b4w_cluster_data"]["cluster_center"] = None
+    # NOTE: unused
     obj_data["b4w_cluster_data"]["cluster_radius"] = 0
 
     # NOTE: give more freedom to objs with edited normals
@@ -1764,6 +1782,7 @@ def process_object(obj, is_curve=False, is_hair=False):
     obj_data["b4w_disable_fogging"] = obj.b4w_disable_fogging
     obj_data["b4w_do_not_render"] = obj.b4w_do_not_render
     obj_data["b4w_hidden_on_load"] = obj.b4w_hidden_on_load
+    obj_data["b4w_hide_chldr_on_load"] = obj.b4w_hidden_on_load and obj.b4w_hide_chldr_on_load
     obj_data["b4w_shadow_cast"] = obj.b4w_shadow_cast
     obj_data["b4w_shadow_receive"] = obj.b4w_shadow_receive
     obj_data["b4w_reflexible"] = obj.b4w_reflexible
@@ -1790,8 +1809,6 @@ def process_object(obj, is_curve=False, is_hair=False):
     dct["leaves_stiffness_col"] = detail_bend.leaves_stiffness_col
     dct["leaves_phase_col"] = detail_bend.leaves_phase_col
     dct["overall_stiffness_col"] = detail_bend.overall_stiffness_col
-
-    obj_data["b4w_lod_transition"] = round_num(obj.b4w_lod_transition, 3);
 
     if is_hair:
         obj_data["lod_levels"] = []
@@ -2800,20 +2817,11 @@ def process_image(image):
     image_data["name"] = image.name
     image_data["uuid"] = gen_uuid(image)
 
-    if image.packed_file is not None:
-        packed_data = b4w_bin.get_packed_data(image.packed_file.as_pointer())
-        packed_file_path = get_json_relative_filepath(
-                packed_resource_get_unique_name(image))
-
-        # NOTE: fix image path without extension, e.g. custom image created in
-        # Blender and packed as PNG
-        if os.path.splitext(packed_file_path)[1] == "":
-            packed_file_path += "." + image.file_format.lower()
-
-        _packed_files_data[packed_file_path] = packed_data
-        image_data["filepath"] = packed_file_path
-    else:
-        image_data["filepath"] = get_filepath(image)
+    ext = os.path.splitext(image.filepath)[1]
+    # NOTE: fix image path without extension, e.g. custom image created in
+    # Blender and packed as PNG
+    ext = ext if ext != "" else "." + image.file_format.lower()
+    process_media_path(image, image_data, ext, _unique_packed_images)
 
     image_data["size"] = list(image.size)
     image_data["source"] = image.source
@@ -2821,6 +2829,32 @@ def process_image(image):
     _export_data["images"].append(image_data)
     _export_uuid_cache[image_data["uuid"]] = image_data
     _bpy_uuid_cache[image_data["uuid"]] = image
+
+def process_media_path(bpy_datablock, export_datablock, ext, unique_media_data):
+    if bpy_datablock.packed_file is not None:
+        data_buffer = bpy_datablock.packed_file.data
+        # fix overwriting collision for export/html export
+        if _is_html_export:
+            data_buffer = bytearray(data_buffer)
+            data_buffer.extend(bytes(b"%html_export%"))
+        hash_str = hashlib.md5(data_buffer).hexdigest()
+
+        if hash_str not in unique_media_data:
+            unique_media_data[hash_str] = []
+        unique_media_data[hash_str].append(export_datablock["uuid"])
+
+        pack_filepath = hash_str + ext
+
+        if bpy.data.filepath and _export_filepath is not None:
+            export_dir = os.path.split(_export_filepath)[0]
+            pack_filepath = os.path.join(export_dir, pack_filepath)
+        else:
+            pack_filepath = os.path.join(os.getcwd(), pack_filepath)
+
+        pack_filepath = get_json_relative_filepath(pack_filepath)
+        export_datablock["filepath"] = pack_filepath
+    else:
+        export_datablock["filepath"] = get_filepath(bpy_datablock)
 
 def get_filepath(comp):
     path_b = comp.filepath.replace("//", "")
@@ -3718,14 +3752,8 @@ def process_sound(sound):
     sound_data["name"] = sound.name
     sound_data["uuid"] = gen_uuid(sound)
 
-    if sound.packed_file is not None:
-        packed_data = b4w_bin.get_packed_data(sound.packed_file.as_pointer())
-        packed_file_path = get_json_relative_filepath(
-                packed_resource_get_unique_name(sound))
-        _packed_files_data[packed_file_path] = packed_data
-        sound_data["filepath"] = packed_file_path
-    else:
-        sound_data["filepath"] = get_filepath(sound)
+    ext = os.path.splitext(sound.filepath)[1]
+    process_media_path(sound, sound_data, ext, _unique_packed_sounds)
 
     _export_data["sounds"].append(sound_data)
     _export_uuid_cache[sound_data["uuid"]] = sound_data
@@ -3926,11 +3954,19 @@ def process_world(world):
     world_data["b4w_use_default_animation"] = world.b4w_use_default_animation
     world_data["b4w_anim_behavior"] = world.b4w_anim_behavior
 
+    world_data["use_nodes"] = world.use_nodes
+    world_data["uv_vc_key"] = ""
+
     process_world_light_settings(world_data, world)
     process_world_sky_settings(world_data, world)
     process_world_mist_settings(world_data, world)
 
     process_animation_data(world_data, world, bpy.data.actions)
+
+    if world_data["use_nodes"]:
+        process_node_tree(world_data, world, False)
+    else:
+        world_data["node_tree"] = None
 
     _export_data["worlds"].append(world_data)
     _export_uuid_cache[world_data["uuid"]] = world_data
@@ -4219,7 +4255,7 @@ def process_object_lod_levels(obj):
         lods_data = OrderedDict()
         lods_data["distance"] = lod.distance
 
-        if lod.object:
+        if lod.object and do_export(lod.object) and object_is_valid(lod.object):
             lods_data["object"] = process_object(lod.object)
         else:
             lods_data["object"] = None
@@ -4271,24 +4307,25 @@ def get_particle_system_scale(obj, obj_data, psys, vert_group_name):
     len_tessfaces = len(obj_data.tessfaces)
     for i in range(len(psys.particles)):
         scale = 0
-        if psys.settings.emit_from != "VERT":
-            # Some already distributed particles have wrong mapping to face
-            # The cause is not known yet
-            # Check the number of faces to prevent overflow
-            if len_tessfaces > indices[i]:
+        # Some already distributed particles have wrong mapping to face
+        # The cause is not known yet
+        # Check the number of faces to prevent overflow
+        if len_tessfaces > indices[i]:
+            if psys.settings.emit_from != "VERT":
                 obj_data.tessfaces[indices[i]].vertices
 
                 vert = obj_data.tessfaces[indices[i]].vertices
 
                 for j in range(0, len(vert)):
                     vert_index = vert[j]
+
                     weight = get_ver_weight_by_group_ind(psys, obj_data, vert_index, vg_index)
                     scale += weight * vertex_influence[i * 4 + j]
             else:
-                warn("Wrong face number %s for particle %s in particle system '%s'" % (indices[i], i, psys.name))
+                vert_gr_ind = obj.vertex_groups[vert_group_name].index
+                scale = get_ver_weight_by_group_ind(psys, old_mesh, indices[i], vert_gr_ind)
         else:
-            vert_gr_ind = obj.vertex_groups[vert_group_name].index
-            scale = get_ver_weight_by_group_ind(psys, old_mesh, indices[i], vert_gr_ind)
+            warn("Wrong face number %s for particle %s in particle system '%s'" % (indices[i], i, psys.name))
 
         scale = max(min(scale, 1), 0)
         scales.append(scale)
@@ -4298,11 +4335,13 @@ def get_particle_system_scale(obj, obj_data, psys, vert_group_name):
 
 def get_ver_weight_by_group_ind(psys, obj_data, vert_index, vg_index):
     weight = 0
-    for v_group in obj_data.vertices[vert_index].groups:
-        if v_group.group == vg_index:
-            weight = v_group.weight
-    if psys.invert_vertex_group_length:
-        weight = 1.0 - weight
+    # NOTE: it's necessary for corrupted meshes
+    if vert_index < len(obj_data.vertices):
+        for v_group in obj_data.vertices[vert_index].groups:
+            if v_group.group == vg_index:
+                weight = v_group.weight
+        if psys.invert_vertex_group_length:
+            weight = 1.0 - weight
     return weight
 
 def process_object_particle_systems(obj, obj_data):
@@ -4690,7 +4729,7 @@ def cleanup_node_tree_data(node_tree_data, is_group = False):
 
     main_output_conn_nodes = []
     for node_data in nodes[::-1]:
-        if node_data["type"] == "OUTPUT" or node_data["type"] == "OUTPUT_MATERIAL":
+        if node_data["type"] == "OUTPUT" or node_data["type"] == "OUTPUT_MATERIAL" or node_data["type"] == "OUTPUT_WORLD":
             main_output_conn_nodes = get_conn_nodes(node_tree_data, node_data["name"])
             break
 
@@ -4758,9 +4797,9 @@ def cleanup_loose_links(node_tree_data):
     links = node_tree_data["links"]
 
     # remove half-edges too
-    node_tree_data["links"] = [link_data for link_data in links if find_node_by_name(node_tree_data, link_data["from_node"]["name"]) and find_node_by_name(node_tree_data, link_data["to_node"]["name"])]
-    # for link in links:
-    #     print(link["from_node"]["name"] + " -> " +link["to_node"]["name"])
+    node_tree_data["links"] = [link_data for link_data in links \
+                                if find_node_by_name(node_tree_data, link_data["from_node"]["name"]) and \
+                                find_node_by_name(node_tree_data, link_data["to_node"]["name"])]
 
 def get_in_links(node_tree_data, node_name):
     links = node_tree_data["links"]
@@ -4788,6 +4827,7 @@ def set_unvisited(node_tree_data, visit_state):
 def process_world_texture_slots(world_data, world):
     slots = world.texture_slots
     world_data["texture_slots"] = []
+    world_data["use_orco_tex_coord"] = False
     for i in range(len(slots)):
         slot = slots[i]
         if slot:
@@ -5188,11 +5228,14 @@ class B4W_ExportProcessor(bpy.types.Operator):
         global _vehicle_integrity
         _vehicle_integrity = {}
 
-        global _packed_files_data
-        _packed_files_data = {}
-
         global _dupli_group_ids
         _dupli_group_ids = {}
+
+        global _unique_packed_images
+        _unique_packed_images = {}
+
+        global _unique_packed_sounds
+        _unique_packed_sounds = {}
 
         global _dg_counter
         _dg_counter = 0
@@ -5282,7 +5325,8 @@ class B4W_ExportProcessor(bpy.types.Operator):
 
             if not _is_html_export:
                 # write packed files (images, sounds) for non-html export
-                for path in _packed_files_data:
+                packed_data = get_packed_data()
+                for path in packed_data:
                     abs_path = os.path.join(os.path.dirname(export_filepath), path)
                     try:
                         f = open(abs_path, "wb")
@@ -5290,7 +5334,7 @@ class B4W_ExportProcessor(bpy.types.Operator):
                         _file_error = exp
                         raise FileError("Permission denied")
                     else:
-                        f.write(_packed_files_data[path])
+                        f.write(packed_data[path])
                         f.close()
 
                 # write main binary and json files
@@ -5388,11 +5432,12 @@ def disable_vehicle(vehicle_settings):
             vehicle_settings[v_type]["b4w_vehicle_settings"] = None
             vehicle_settings[v_type]["b4w_vehicle"] = False
 
+# two objects with two different vert groups, but with one mesh
 def check_shared_data(scenes):
     original_mesh_names = []
     for scene in scenes:
         for obj in scene.objects:
-            if obj.vertex_groups:
+            if len(obj.vertex_groups):
                 mesh = obj.data
                 if mesh.name in original_mesh_names:
                     obj["force_to_mesh"] = True

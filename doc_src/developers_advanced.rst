@@ -240,7 +240,7 @@ Debugging
 
 Engine debugging is performed with the ``debug.js`` module methods.
 
-The structure of the current render graph can be saved in the DOT format using the ``b4w.debug.scenegraph_to_dot()`` call, for example, in the browser console. After calling this method, save the console's output into the file with the .gv extension. To get the graph in a visual form the `graphviz <http://www.graphviz.org/>`_ utilities are required. Converting to the SVG format is performed using the command:
+The structure of the current render graph can be saved in the DOT format using the ``b4w.debug.scenegraph_to_dot()`` call, for example, in the browser console. After calling this method, save the console output into the file with the .gv extension. To get the graph in a visual form the `graphviz <http://www.graphviz.org/>`_ utilities are required. Converting to the SVG format is performed using the command:
 
 .. code-block:: bash
 
@@ -292,7 +292,7 @@ The compiler performs the following procedures related to shader code validation
 * reporting about unused variables and functions (dead code),
 * checking the syntax of shaders,
 * checking the conformance of shaders to the import/export mechanism,
-* removing odd or repetitive tokens: spaces, endlines and semicolons.
+* removing odd or repetitive tokens: spaces, line ends and semicolons.
 
 
 .. index:: compiling shaders; obfuscation
@@ -421,7 +421,7 @@ For example:
 6. The usage of the #include directive should not lead to ambiguity during the obfuscation of the include file. This can happen when multiple shaders are included into the same file and the above defined directives (like #var or #define) can have influence on any of them. Also, it's better not to use undeclared functions and variables in the include file.
 
 7. Multi-level includes or multiple inclusion of the same include into the same shader is not supported.
-8. The shader's malfunction can also be caused by nontrivial using of preprocessing, for example, creating an invalid GLSL code:
+8. Shader malfunction can also be caused by nontrivial using of preprocessing, for example, creating an invalid GLSL code:
 
 .. code-block:: glsl
 

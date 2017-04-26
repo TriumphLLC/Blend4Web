@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>色彩管理 &mdash; Blend4Web 17.02.1 用户手册</title>
+  <title>色彩管理 &mdash; Blend4Web 17.04 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.02.1 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 17.04 用户手册" href="index.html"/>
         <link rel="next" title="音频" href="audio.html"/>
         <link rel="prev" title="室外效果" href="outdoor_rendering.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v17.02.1
+              v17.04
             </div>
           
         
@@ -342,7 +342,7 @@
 <span id="id1"></span><h2><a class="toc-backref" href="#id12">alpha合成</a><a class="headerlink" href="#alpha-compositing" title="永久链接至标题">¶</a></h2>
 <div class="section" id="overview">
 <h3><a class="toc-backref" href="#id13">概述</a><a class="headerlink" href="#overview" title="永久链接至标题">¶</a></h3>
-<p>物理正确的alpha合成是根据下式进行的 [<a class="reference external" href="http://wwwnew.cs.princeton.edu/courses/archive/spring05/cos426/papers/smith95a.pdf">source</a>]:</p>
+<p>Physically correct alpha compositing is performed according to the formula [<a class="reference external" href="http://www.cs.princeton.edu/courses/archive/spring05/cos426/papers/smith95a.pdf">source</a>]:</p>
 <blockquote>
 <div><span class="math">\(C_o = C_a \alpha_a + C_b \alpha_b (1 - \alpha_a)\)</span>.</div></blockquote>
 <p>这个方程和经典的混合操作（又名凸包合成）不同，因为它在第二被加数具有  <span class="math">\(\alpha_b\)</span> 乘数。因此渲染的时候不仅是原始像素的 <span class="math">\(\alpha_a\)</span>  值应该是已知的用于alpha合成，而且要叠合的像素的  <span class="math">\(\alpha_b\)</span> 也是一样。</p>
@@ -352,7 +352,7 @@
 <p>最后一个公式用于计算出  <span class="math">\(\alpha_o\)</span> 值：</p>
 <blockquote>
 <div><span class="math">\(\alpha_o = \alpha_a + \alpha_b (1 - \alpha_a)\)</span>.</div></blockquote>
-<p>将颜色通道预乘 <span class="math">\(\alpha\)</span>  值允许保留2个乘法运算。更明显的是，衍生公式可以重复进行而不需要在每个迭代都去用 <span class="math">\(C_o\)</span> 颜色值去除 <span class="math">\(\alpha_o\)</span> 的值.</p>
+<p>Preliminary multiplication of the color channels by the <span class="math">\(\alpha\)</span> values allows to save two multiplication operations. The more significant thing is that the derived formula can be used repeatedly without the need to divide the <span class="math">\(C_o\)</span> color by the <span class="math">\(\alpha_o\)</span> value on each consequent iteration.</p>
 </div>
 <div class="section" id="implementation">
 <h3><a class="toc-backref" href="#id14">实现</a><a class="headerlink" href="#implementation" title="永久链接至标题">¶</a></h3>
@@ -409,8 +409,8 @@
 
   <div role="contentinfo">
     <p>
-        &copy; 版权所有 2014-2016, Triumph.
-      最后更新于 2017-03-07.
+        &copy; 版权所有 2014-2017, Triumph.
+      最后更新于 2017-04-26.
 
     </p>
   </div>
@@ -466,7 +466,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.02.1',
+            VERSION:'v17.04',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

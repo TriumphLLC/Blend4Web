@@ -128,6 +128,10 @@ exports.defaults = {
 
     allow_vertex_textures      : true,
 
+    lod_leap_smooth_threshold  : 3, // meters
+
+    assets_gzip_available      : false,
+
     no_phy_interp_hack         : false,
 
     shader_constants_hack      : false,
@@ -155,6 +159,8 @@ exports.defaults = {
     enable_selectable          : true,
 
     enable_outlining           : true,
+
+    lod_smooth_transitions     : true,
 
     glow_materials             : true,
 
@@ -200,11 +206,11 @@ exports.defaults = {
 
     allow_instanced_arrays_ext : false,
 
-    allow_vao_ext : false,
+    allow_vao_ext              : false,
 
     compress_format            : "dds",
 
-    shadow_blur_samples               : "",
+    shadow_blur_samples        : "",
 
     reflection_quality         : "",
 
@@ -212,7 +218,11 @@ exports.defaults = {
 
     ios_copy_tex_hack          : false,
 
-    amd_depth_hack             : false
+    rgba_fallback_shadows      : false,
+
+    debug_loading              : false,
+
+    phy_race_condition_hack    : false,
 }
 
 exports.defaults_save = m_util.clone_object_r(exports.defaults);
@@ -286,11 +296,18 @@ exports.physics = {
     enabled: true,
     max_fps: 60,
     uranium_path: "",
+    uranium_bin: "",
     // relative to engine sources (default value for developer version)
-    uranium_path_default: "B4W_URANIUM_PATH=../deploy/apps/common/uranium.js",
+    uranium_path_default: "B4W_URANIUM_PATH=../deploy/apps/common/",
+    asmjs_file: "uranium.js",
+    wasmjs_file: "uranium_wasm.js",
+    mem_file: "uranium.js.mem",
+    wasm_file: "uranium_wasm.wasm",
+    uranium_dir: "../deploy/apps/common/",
     calc_fps: false,
     ping: false,
-    use_workers: true
+    use_workers: true,
+    use_wasm: false
 }
 exports.physics_save = m_util.clone_object_r(exports.physics);
 
@@ -328,7 +345,7 @@ exports.outlining = {
 
 exports.debug_subs = {
     enabled     : false,
-    subs_type   : 0,    // look subscene module for the right type number
+    subs_type   : 39,    // look subscene module for the right type number
     subs_number : 0,
     slink_type  : "COLOR"
 }
@@ -423,6 +440,8 @@ exports.apply_quality = function() {
 
         cfg_phy.max_fps = 120;
 
+        cfg_def.lod_smooth_transitions = true;
+
         break;
 
     case exports.P_HIGH:
@@ -485,6 +504,8 @@ exports.apply_quality = function() {
 
         cfg_phy.max_fps = 60;
 
+        cfg_def.lod_smooth_transitions = true;
+
         break;
 
     case exports.P_LOW:
@@ -545,7 +566,9 @@ exports.apply_quality = function() {
 
         cfg_def.msaa_samples = 1;
 
-        cfg_phy.max_fps = 60
+        cfg_phy.max_fps = 60;
+
+        cfg_def.lod_smooth_transitions = false;
 
         break;
     case exports.P_CUSTOM:
@@ -638,6 +661,12 @@ function set(prop, value) {
     case "stereo":
         exports.defaults.stereo = value;
         break;
+    case "lod_leap_smooth_threshold":
+        exports.defaults.lod_leap_smooth_threshold = value;
+        break;
+    case "lod_smooth_transitions":
+        exports.defaults.lod_smooth_transitions = value;
+        break;
     case "max_fps":
         exports.defaults.max_fps = value;
         break;
@@ -654,7 +683,17 @@ function set(prop, value) {
         exports.physics.enabled = value;
         break;
     case "physics_uranium_path":
-        exports.physics.uranium_path = value;
+        if (is_wasm_enabled()) {
+            exports.physics.uranium_path = value + exports.physics.wasmjs_file;
+            exports.physics.uranium_bin = value + exports.physics.wasm_file;
+        } else {
+            exports.physics.uranium_path = value + exports.physics.asmjs_file;
+            exports.physics.uranium_bin = value + exports.physics.mem_file;
+        }
+        exports.physics.uranium_dir = value;
+        break;
+    case "physics_use_wasm":
+        exports.physics.use_wasm = value;
         break;
     case "physics_calc_fps":
         exports.physics.calc_fps = value;
@@ -692,12 +731,15 @@ function set(prop, value) {
         exports.defaults.show_hud_debug_info = value;
         break;
     case "smaa":
+        m_print.error_deprecated_cfg("smaa");
         exports.defaults.smaa = value;
         break;
     case "smaa_search_texture_path":
+        m_print.error_deprecated_cfg("smaa_search_texture_path");
         exports.paths.smaa_search_texture_path = value;
         break;
     case "smaa_area_texture_path":
+        m_print.error_deprecated_cfg("smaa_area_texture_path");
         exports.paths.smaa_area_texture_path = value;
         break;
     case "ssao":
@@ -735,6 +777,15 @@ function set(prop, value) {
         break;
     case "reflection_quality":
         exports.defaults.reflection_quality = value;
+        break;
+    case "assets_gzip_available":
+        exports.defaults.assets_gzip_available = value;
+        break;
+    case "debug_loading":
+        exports.defaults.debug_loading = value;
+        break;
+    case "msaa_samples":
+        exports.defaults.msaa_samples = value;
         break;
     default:
         m_print.error("Unknown config property: " + prop);
@@ -796,6 +847,10 @@ exports.get = function(prop) {
         return exports.defaults.god_rays;
     case "stereo":
         return exports.defaults.stereo;
+    case "lod_leap_smooth_threshold":
+        return exports.defaults.lod_leap_smooth_threshold;
+    case "lod_smooth_transitions":
+        return exports.defaults.lod_smooth_transitions;
     case "max_fps":
         return exports.defaults.max_fps;
     case "max_fps_physics":
@@ -807,7 +862,11 @@ exports.get = function(prop) {
     case "physics_enabled":
         return exports.physics.enabled;
     case "physics_uranium_path":
-        return exports.physics.uranium_path;
+        return exports.physics.uranium_dir;
+    case "physics_uranium_bin":
+        return exports.physics.uranium_bin;
+    case "physics_use_wasm":
+        return exports.physics.use_wasm;
     case "physics_calc_fps":
         return exports.physics.calc_fps;
     case "physics_use_workers":
@@ -862,6 +921,12 @@ exports.get = function(prop) {
         return exports.defaults.shadow_blur_samples;
     case "reflection_quality":
         return exports.defaults.reflection_quality;
+    case "assets_gzip_available":
+        return exports.defaults.assets_gzip_available;
+    case "debug_loading":
+        return exports.defaults.debug_loading;
+    case "msaa_samples":
+        return exports.defaults.msaa_samples;
     default:
         m_print.error("Unknown config property: " + prop);
         break;
@@ -898,6 +963,10 @@ function is_built_in_data() {
     return b4w.module_check(exports.paths.built_in_data_module);
 }
 
+function is_wasm_enabled() {
+    return exports.physics.use_wasm && window.WebAssembly;
+}
+
 /**
  * Set configuration paths for shaders, uranium engine and smaa textures.
  */
@@ -908,9 +977,20 @@ exports.set_paths = function() {
     if (!is_built_in_data() && cfg_pth.shaders_path == "")
         cfg_pth.shaders_path = js_src_dir() + "/" + cfg_pth.shaders_path_default;
 
-    if (cfg_phy.enabled && cfg_phy.uranium_path == "")
+    if (is_wasm_enabled()) {
+        var uranium_path = cfg_phy.uranium_path_default + cfg_phy.wasmjs_file;
+        var uranium_bin = cfg_phy.uranium_path_default + cfg_phy.wasm_file;
+    } else {
+        var uranium_path = cfg_phy.uranium_path_default + cfg_phy.asmjs_file;
+        var uranium_bin = cfg_phy.uranium_path_default + cfg_phy.mem_file;
+    }
+
+    if (cfg_phy.enabled && cfg_phy.uranium_path == "") {
         cfg_phy.uranium_path = js_src_dir() + "/" +
-                cfg_phy.uranium_path_default.replace("B4W_URANIUM_PATH=", "")
+                uranium_path.replace("B4W_URANIUM_PATH=", "");
+        cfg_phy.uranium_bin = js_src_dir() + "/" +
+                uranium_bin.replace("B4W_URANIUM_PATH=", "");
+    }
 }
 
 /**

@@ -536,7 +536,7 @@ function update_params() {
                         _param_values["screen_width"] * MM_TO_M);
                 m_input.set_config(device, m_input.HMD_SCREEN_HEIGHT,
                         _param_values["screen_height"] * MM_TO_M);
-                m_input.set_config(device, m_input.HMD_SCREEN_LENSE_DIST,
+                m_input.set_config(device, m_input.HMD_SCREEN_LENS_DIST,
                         _param_values["screen_lense"] * MM_TO_M);
                 m_input.set_config(device, m_input.HMD_EYE_DISTANCE,
                         _param_values["ipd"] * MM_TO_M);

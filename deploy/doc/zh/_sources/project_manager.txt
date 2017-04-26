@@ -18,7 +18,7 @@
 
     * 项目编辑
 
-    * Project Config
+    * 项目配置
 
     * 项目导入
 
@@ -100,7 +100,7 @@ SDK的首页的 *工具* 项中可以运行 *项目管理* 应用 。启动后�
    命令。
 
 *帮助*
-   Opens the Help file.
+   打开  帮助文件.
 
 用于管理特定项目的命令在它的右侧。
 
@@ -147,26 +147,23 @@ SDK的首页的 *工具* 项中可以运行 *项目管理* 应用 。启动后�
 
 4. 转换媒体资源。
 
-5. Export and download a project archive.
+5. 导出并下载项目文档.
 
 6. 移除项目
 
-7. Update file structure. Available only for the project created
-   with versions of Blend4Web older than 16.12.
+7. 更新文件结构. 仅可用于  Blend4Web 16.12 或更旧版本创建的项目。
 
-注解: All project paths are retrieved from its .b4w_project config
-  file.
+注解: 项目的所有路径都是从它的 .b4w_project 配置文件 中检索。
 
-Beside the project's name are located the links to the
+位于项目的名称旁边的是链接到
 
-1. project information page,
+1. 项目信息页面,
 
-2. project file editor and
+2. 项目文件编辑器 和
 
-3. project configurator.
+3. 项目配置器.
 
-The application type is also specified there. An application can have
-one of the following types:
+这里也指定应用程序类型。应用程序可以具有下列类型之一︰
 
 *播放器*
    可以使用 Web 播放器播放应用程序。
@@ -261,9 +258,9 @@ New Project]" 按钮执行。
 
 [图片]
 
-Creating a Web Player application is simple. All you have to do when
-creating a new project is select the "Web Player JSON" or "Web Player
-HTML" option under the Application Type tab.
+创建一个Web Player应用程序很简单。所有你需要做的，当创建一个新的项目选
+择时在引擎绑定类型面板下面选择 "Web Player JSON" 或 "Web Player HTML"
+选项。
 
 可用于在Web播放器项目的参数大多是和任何其他类型的项目一样的。唯一的例
 外是被称为网络播放器PARAMS组参数。
@@ -278,11 +275,11 @@ HTML" option under the Application Type tab.
 这里列出的参数在本质上是运行该项目的Web播放器应用程序将使用的URL。
 
 
-Project Building and Deploy
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+构建项目并部署
+~~~~~~~~~~~~~~
 
-After the work on a project is completed, it can be built and deployed
-to a web server. All of this is described in a dedicated section.
+在一个项目上的工作完毕后，它能够生成和部署到 web 服务器。所有这一切都
+在 相应章节 中描述
 
 
 项目信息
@@ -373,42 +370,38 @@ to a web server. All of this is described in a dedicated section.
 
 [图片]
 
-The left part of the editor window contains a list of all ".html",
-".css" and ".js" files from the project directory
-("projects/my_project"). The right part contains the content of a
-currently selected project file (no file is selected by default) with
-highlighted syntax.
+编辑器窗口的左的部分包含所有从项目目录("projects/my_project") 中
+".html", ".css" 和 ".js" 文件的列表。右侧部分包含带有高亮语法的当前选
+定的项目文件 （默认无选中的文件） 的内容。
 
 注解: 这个界面可以仅用于编辑项目的开发版文件，但不能编辑建建好的版本
   。
 
-New ".html", ".js" and ".css" files can be added to the project
-directory by clicking the "[New File]" button.
+新的 ".html", ".js" 和 ".css" 文件可以通过单击 "[New File]" 按钮添加到
+项目目录。
 
 可在页面底部找到了 "[Save]" 和  "[Save As...]"  按钮用来保存当前选定的
 项目文件。
 
 
-Project Config
---------------
+项目配置
+--------
 
-This is a web interface that allows the developer to view and change
-project settings after the project is created.
+这是一个 web 界面，允许开发人员在创建项目后查看和更改项目设置。
 
 [图片]
 
-This page include all settings available during project creation along
-with some additional parameters. Some of the parameters are read-only
-(and thus cannot be changed after the project is created).
+此页面包括项目创建过程中的所有设置以及一些额外的参数。一些参数是只读
+（因此创建项目后不能更改）。
 
 
-"Info" Settings Group
-~~~~~~~~~~~~~~~~~~~~~
+"Info" 设置组
+~~~~~~~~~~~~~
 
 *名字*
    项目名称
 
-   This is a read-only parameter.
+   这是一个只读的参数。
 
 *名称*
    在浏览器中所示的项目标题。
@@ -416,77 +409,73 @@ with some additional parameters. Some of the parameters are read-only
 *作者*
    该项目的作者或开发商公司的名称。
 
-*Icon*
-   The icon of the project in the Project Manager.
+*图标*
+   该项目在项目管理器中的图标。
 
-   The icon can be replaced with the "Choose File" button. If an icon
-   is not specified (as it is by default), Blend4Web logo is used.
+   其图标可以替换的选择文件按钮。如果图标不指定 （因为它是默认情况），
+   则使用 Blend4Web 标志。
 
 
-"Build" Setting Group
-~~~~~~~~~~~~~~~~~~~~~
+"Build" 设置组
+~~~~~~~~~~~~~~
 
 *Apps*
-   The list of the project's ".HTML" files that are used for compiling
-   applications. Each ".HTML" file is considered a separate
-   application.
+   项目中用于编译应用程序的 ".HTML" 文件。每个  ".HTML" 文件被认为是一
+   个单独的应用程序。
 
-*Use Physics*
-   Enables and disables adding physics engine files to the project.
-   Can be turned off if the project does not use physics.
+*使用物理*
+   启用和禁用添加物理引擎文件到该项目。如果该项目不使用物理可以关闭。
 
-   This parameter is always disabled for a WebPlayer HTML type project
-   and always enabled for a WebPlayer JSON type. For other types of
-   projects, it can be set manually.
+   此参数在 WebPlayer HTML 类型项目中总是禁用但 WebPlayer JSON 类型中
+   总是启用。对于其他类型的项目，它可以手动设置。
 
-*Application Type*
+*应用程序类型*
    设置项目类型
 
-   This is a read-only parameter, as projects with different types
-   have different inner structure.
+   这是一个只读的参数，因为不同类型的项目有不同的内部结构。
 
 *JavaScript 混淆级别*
-   JavaScript optimization level for compiling application.
+   编译应用程序时 Javascript 优化级别。
 
-   This parameter is read-only for the None, WebPlayer HTML and
-   WebPlayer JSON type projects.
+   此参数为 None，WebPlayer HTML 和 WebPlayer JSON 类型项目设置为只读
+   模式。
 
 *JS编译通过列表*
    该项目的JavaScript文件汇编直通例外列表。
 
 *CSS编译通过列表*
-   The list of pass-through exceptions for the project's CSS files.
+   项目的 CSS 文件直通例外列表。
 
 *构建忽略列表*
    项目编译中的例外列表。
 
 
-"Paths" Setting Group
-~~~~~~~~~~~~~~~~~~~~~
+"Paths" 设置组
+~~~~~~~~~~~~~~
 
 *Developer Project Path*
-   The path to the application for development.
+   开发的应用程序的路径。
 
-   This is a read-only parameter.
+   这是一个只读的参数。
 
 *Build Project Path*
-   The path to the compiled application.
+   编译应用程序的路径。
 
 *Blend 目录*
-   Path(s) to the blend file directory(ies).
+   blend 文件夹的路径
 
 *资产目录*
-   Path(s) to the assets directory(ies).
+   资产文件夹的路径。
 
 *Blender Exec*
-   The path to the Blender exacutable file.
+   Blender的可执行文件路径。
 
 *Deployment Path*
-   The path to the folder for project final deployment.
+   为项目最终部署文件夹的路径。
 
 
-"Deploy" Setting Group
-~~~~~~~~~~~~~~~~~~~~~~
+"Deploy" 设置组
+~~~~~~~~~~~~~~~
 
 *部署资产目录*
    资产将被放置部署项目的目录。
@@ -498,17 +487,15 @@ with some additional parameters. Some of the parameters are read-only
    项目的部署例外列表。
 
 *Override Deployment Path*
-   Deletes deployment directory, if it already exists.
+   删除部署目录，如果它已经存在。
 
 
-URL GET Params
-~~~~~~~~~~~~~~
+URL GET 参数
+~~~~~~~~~~~~
 
-The additional GET parameters for the URL link to the application in
-the Project Manager interface are specified in this field.
+在项目管理器界面中，此字段中为 URL 链接指定额外的 GET 参数。
 
-Project setting can be saved by pressing the "[Save Config]" button at
-the bottom of the screen.
+项目设置可以按屏幕底部的 "[Save Config]" 按钮保存。
 
 
 项目导入
@@ -566,20 +553,18 @@ the bottom of the screen.
 部署项目
 --------
 
-After you have completed your project, select the "deploy project"
-option from the "Operations" panel on the Project Manager main page.
-The project will be exported and packed into a single archive.
+您完成您的项目后，在项目管理器的主页面从 "Operations" 面板选择 "deploy
+project" 选项。该项目将被导出，打包成一个单一的存档，并下载到您的网页
+浏览器存储所有下载文件的文件夹。
 
 [图片]
 
-After that, this archive can then be downloaded by to the folder where
-your web browser stores all dowloaded files by pressing the "Download"
-button. It should be noted that the process of downloading can take a
-significant amount of time depending on the size of the archive.
+在那之后，该存档文件然后可以下载的到您的 web 浏览器存储下载的所有文件
+按下载按钮的位置的文件夹。应该指出的是，下载的过程可以产生大量的时间取
+决于归档文件的大小。
 
-To place the project on a webpage, you have to extract this archive
-and upload its files to a web server using FTP, SSH or any other
-protocols supported by the server.
+若要将项目放在网页上，你必须提取此文档，并用FTP，SSH或由支持的任何其他
+协议服务上传文件（"html" 文件和 "assets" 目录）发送到Web服务器。
 
 注解: 将项目文件上传到Web服务器上，应保留对其文件的归档和相关路径的
   内部结 构。
@@ -620,10 +605,9 @@ protocols supported by the server.
 高级项目管理器使用 *project.py* 脚本并手动编辑  *.b4w_project*  配置文
 件。
 
-The *project.py* script can be found in the "./apps_dev/" folder of
-the Blend4Web SDK directory. If the "Copy Project Management Script"
-option has been set while creating the project, the script can also be
-found in the root folder of the project.
+*Project.py* 脚本可以在 Blend4Web SDK 目录的 "./apps_dev/" 文件夹中找
+到。如果在创建项目时，设置了 "Copy Project Management Script" 选项，也
+可以在项目的根文件夹中找到该脚本。
 
 
 依赖
@@ -705,8 +689,7 @@ MY_PROJECT结构以及，看上去的样子：
 项目配置文件包含项目的所有必要的信息，包括姓名，元数据，目录，应用程序
 创建和部署信息。
 
-Project configuration file can be edited manually, but a more
-convenient way is to use Project Editing interface.
+项目配置文件可以手动编辑，但一个更方便的方法是使用 项目编辑 界面。
 
    [info]
    author = Blend4Web
@@ -762,7 +745,7 @@ convenient way is to use Project Editing interface.
 
 包含项目路径：
 
-*assets_dirs*
+**资源目录**
    项目的媒体资产所在的位置目录。
 
 *blend_dirs*
@@ -855,10 +838,10 @@ convenient way is to use Project Editing interface.
   "deploy/assets/<my_project_name>" 和 "blender/<my_project_name>"
   (*my_project.json/.bin* 和 *my_project.blend* 相应的).
 
-* "-T | --title" (optional) write a title in the config file. Upon
-  building, it will be used inside the "<title>" HTML element.
+* "-T | --title``（可选）在配置文件写入标题。编译时，会将写入进HTML
+  元 素  ``<title>" 。
 
-* "-t | --engine-type" （可选）写在配置文件中的引擎类型。
+* "-t | --engine-type" （可选）在配置文件中写入引擎类型。
 
 示例：
 
@@ -912,8 +895,8 @@ HTML文件的形式提供:
    apps = myapp1;myapp2;
    ...
 
-If the "apps" field is empty, every "html" file in the project
-directory will be considered an application.
+如果 "apps" 字段为空，项目目录中的每个  "html" 文件将被视为一个应用程
+序。
 
 
 构建项目
@@ -935,14 +918,11 @@ directory will be considered an application.
 * "“-o | --optimization”" （可选）指定JavaScript文件的优化级别：
   "whitespace"，"simple" （默认）或 "advanced"。
 
-* ""-t | --engine-type"" （可选）定义的应用程序编译类型。四种型号可
-  供 选择： *external* (默认), *copy*, *compile*, *update*.
-
 * "“-v | --version”" 加版本和脚本和样式的路径。
 
 编译器要求
 
-* 在一个HTML文件必须存放在目录的根目录如果  "-a" 选项被禁用
+* 一个HTML文件必须存放在目录的根目录，如果  "-a" 选项被禁用
 
 * 脚本和样式可以存储在应用程序的根目录和子文件夹中
 
@@ -958,7 +938,7 @@ directory will be considered an application.
 
 * "“-b | --blender_exec”" Blender可执行文件的路径。
 
-* "“-s | --assets”" 用场景资源指定目录。
+* ""-s | --assets"" 用场景资源指定目录。
 
 
 资源转换
@@ -971,7 +951,7 @@ directory will be considered an application.
 
 可用参数：
 
-* "“-s | --assets”" 用场景资源指定目录。
+* ""-s | --assets"" 用场景资源指定目录。
 
 资源的转换中详细描述在 对应部分.
 
@@ -989,11 +969,11 @@ directory will be considered an application.
 
 * ""-E | --assets-prefix"" 资产网址前缀（默认情况下“资产”）。
 
-* "“-o | --override”" 如果它存在删除目录。
+* ""-o | --override"" 如果它存在删除目录。
 
-* "“-s | --assets”" 用场景资源指定目录。
+* ""-s | --assets"" 用场景资源指定目录。
 
-* "-t | --engine-type" （可选）写在配置文件中的引擎类型。
+* ""-t | --engine-type"" （可选）写在配置文件中的引擎类型。
 
 
 移除项目

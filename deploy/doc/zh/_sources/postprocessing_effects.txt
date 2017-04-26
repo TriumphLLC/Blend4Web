@@ -218,14 +218,18 @@ Shadows" 面板设置  "Render Shadows" 到参数  "AUTO" 或 "ON" 。
 其他设置
 --------
 
+*Use Adaptive*
+   Use calculation of adaptive average luminance. Enabled by default.
+
 *强度*
-   泛光强度。
+   Bloom intensity. Set to 1.0 by default.
 
 *模糊*
-   泛光模糊的系数。
+   Bloom blurriness factor. Set to 4.0 by default.
 
 *边缘亮度*
-   泛光效果出现时一个元素的相对亮度的边界值。
+   The boundary value of an element's relative brightness above which
+   the bloom effect appears. Set to 1.0 by default.
 
 
 物体外轮廓

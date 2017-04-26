@@ -10,6 +10,8 @@
 #var USE_TBN_SHADING 0
 #var SHADELESS 0
 
+#var RGBA_SHADOWS 0
+
 #var USE_VIEW_TSR_INVERSE 0
 #var USE_MODEL_TSR_INVERSE 0
 #var USE_VIEW_TSR 0
@@ -37,8 +39,11 @@
 #var SHADOW_USAGE NO_SHADOWS
 #var POISSON_DISK_NUM NO_SOFT_SHADOWS
 #var USE_DERIVATIVES_EXT 0
+#var CAMERA_TYPE CAM_TYPE_PERSP
 
-# if USE_DERIVATIVES_EXT
+#var USE_LOD_SMOOTHING 0
+
+# if GLSL1 && USE_DERIVATIVES_EXT
 #extension GL_OES_standard_derivatives: enable
 # endif
 
@@ -50,6 +55,15 @@
 
 #if NODES && ALPHA
 #include <math.glslv>
+#endif
+
+#if RGBA_SHADOWS
+#include <depth_fetch.glslf>
+#include <pack.glslf>
+#endif
+
+#if USE_LOD_SMOOTHING
+#include <coverage.glslf>
 #endif
 
 /*==============================================================================
@@ -177,6 +191,15 @@ uniform sampler2D u_nodes_texture;
 uniform vec3 u_obj_info;
 #endif
 
+#if RGBA_SHADOWS && SHADOW_USAGE == SHADOW_CASTING
+uniform vec2 u_camera_range;
+#endif
+
+#if USE_LOD_SMOOTHING
+uniform float u_lod_coverage;
+uniform float u_lod_cmp_logic;
+#endif
+
 /*==============================================================================
                                 SHADER INTERFACE
 ==============================================================================*/
@@ -193,7 +216,8 @@ GLSL_IN vec2 v_texcoord;
 # endif
 #endif // NODES && ALPHA
 
-#if SHADOW_USAGE == SHADOW_MASK_GENERATION || NODES && ALPHA
+#if SHADOW_USAGE == SHADOW_MASK_GENERATION || NODES && ALPHA \
+|| SHADOW_USAGE == SHADOW_CASTING && RGBA_SHADOWS
 GLSL_IN vec4 v_pos_view;
 #endif
 
@@ -282,7 +306,16 @@ void main(void) {
 #endif
 
 #if SHADOW_USAGE == NO_SHADOWS || SHADOW_USAGE == SHADOW_CASTING
+# if USE_LOD_SMOOTHING
+    if (!coverage_is_frag_visible(u_lod_coverage, u_lod_cmp_logic))
+        discard;
+# endif
+# if RGBA_SHADOWS
+    float depth = depth_pack(-v_pos_view.z, u_camera_range);
+    GLSL_OUT_FRAG_COLOR = pack(depth);
+# else
     GLSL_OUT_FRAG_COLOR = vec4(1.0);
+# endif
 #elif SHADOW_USAGE == SHADOW_MASK_GENERATION
     GLSL_OUT_FRAG_COLOR = shadow_visibility(v_pos_view.z);
 #endif

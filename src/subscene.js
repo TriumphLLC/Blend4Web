@@ -48,7 +48,6 @@ var SHADOW_CAST                         = 8;
 var SHADOW_RECEIVE                      = 9;
 var GRASS_MAP                           = 10;
 var POSTPROCESSING                      = 11;
-var BLOOM_BLUR                          = 12;
 var GLOW_COMBINE                        = 13;
 var RESOLVE                             = 14;
 var COLOR_PICKING                       = 15;
@@ -81,6 +80,7 @@ var BLOOM                               = 41;
 var VELOCITY                            = 42;
 var SINK                                = 43;
 var PERFORMANCE                         = 44;
+var RESIZE                              = 45;
 
 exports.MAIN_OPAQUE = MAIN_OPAQUE;
 exports.MAIN_BLEND = MAIN_BLEND;
@@ -94,7 +94,6 @@ exports.SHADOW_CAST = SHADOW_CAST;
 exports.SHADOW_RECEIVE = SHADOW_RECEIVE;
 exports.GRASS_MAP = GRASS_MAP;
 exports.POSTPROCESSING = POSTPROCESSING;
-exports.BLOOM_BLUR = BLOOM_BLUR;
 exports.GLOW_COMBINE = GLOW_COMBINE;
 exports.RESOLVE = RESOLVE;
 exports.COLOR_PICKING = COLOR_PICKING;
@@ -127,6 +126,7 @@ exports.BLOOM = BLOOM;
 exports.VELOCITY = VELOCITY;
 exports.SINK = SINK;
 exports.PERFORMANCE = PERFORMANCE;
+exports.RESIZE = RESIZE;
 
 
 exports.create_subs_shadow_cast = function(csm_index, lamp_index, shadow_params, num_lights) {
@@ -221,6 +221,7 @@ function init_subs(type) {
         sun_direction: new Float32Array([0,0,1]),
         sun_quaternion: new Float32Array(4),
         sky_tex_color: new Float32Array(3),
+        sky_ngraph_proxy_id: "",
 
         // outline properties
         outline_factor: 0,
@@ -293,6 +294,8 @@ function init_subs(type) {
         bloom_key: 0,
         bloom_blur: 0,
         bloom_edge_lum: 0,
+        adaptive_bloom: true,
+        average_luminance: 0,
         blur_texel_size_mult: 0,
         ext_texel_size_mult: 0,
         mb_decay_threshold: 0,
@@ -301,6 +304,9 @@ function init_subs(type) {
         pp_effect: "",
         coc_type: "",
         jitter_projection_space: new Float32Array(2),
+        last_mip_map_ind: 0.0,
+        bloom_blur_num: 2,
+        bloom_blur_scale: 0.5,
 
         small_glow_mask_width: 0,
         large_glow_mask_width: 0,
@@ -320,7 +326,7 @@ function init_subs(type) {
 
         need_draw_data_sort: true,
 
-        // ske props
+        // sky props
         sky_invert: false,
         sky_use_rgb_to_intensity: false,
         sky_use_map_blend: false,
@@ -407,6 +413,14 @@ exports.create_subs_postprocessing = function(pp_effect) {
         pp_subs.texel_mask[0] = 0;
         pp_subs.texel_mask[1] = 1;
         break;
+    case "X_BLOOM_BLUR":
+        pp_subs.texel_mask[0] = 1;
+        pp_subs.texel_mask[1] = 0;
+        break;
+    case "Y_BLOOM_BLUR":
+        pp_subs.texel_mask[0] = 0;
+        pp_subs.texel_mask[1] = 1;
+        break;
     case "X_DOF_BLUR":
         pp_subs.texel_mask[0] = 1;
         pp_subs.texel_mask[1] = 1;
@@ -441,38 +455,6 @@ exports.create_subs_postprocessing = function(pp_effect) {
     }
 
     return pp_subs;
-}
-
-/**
- * more accurate and a bit different from standrad Gauss blur
- * get width/height from input subscene
- */
-exports.create_subs_bloom_blur = function(graph, subs_input, pp_effect) {
-
-    var subs = init_subs(BLOOM_BLUR);
-    subs.clear_color = false;
-    subs.clear_depth = false;
-    subs.depth_test = false;
-
-    subs.camera = m_cam.create_camera(m_cam.TYPE_NONE);
-    subs.pp_effect = pp_effect;
-    subs.is_pp = true;
-
-    switch(pp_effect) {
-    case "X_BLUR":
-        subs.texel_mask[0] = 1;
-        subs.texel_mask[1] = 0;
-        break;
-    case "Y_BLUR":
-        subs.texel_mask[0] = 0;
-        subs.texel_mask[1] = 1;
-        break;
-    default:
-        m_util.panic("Wrong postprocessing effect for bloom blur: " + pp_effect);
-        break;
-    }
-
-    return subs;
 }
 
 exports.create_subs_glow_combine = function(cam, sc_render) {
@@ -942,6 +924,7 @@ exports.create_subs_sky = function(wls, num_lights, sky_params, size) {
         subs.use_sky_blend = wls.use_sky_blend;
         subs.use_sky_paper = wls.use_sky_paper;
         subs.use_sky_real = wls.use_sky_real;
+        subs.sky_ngraph_proxy_id = wls.ngraph_proxy_id;
     }
 
 
@@ -997,7 +980,19 @@ exports.create_subs_av_luminance = function() {
     return subs;
 }
 
-exports.create_subs_luminance_trunced = function(bloom_key, edge_lum, num_lights, cam) {
+exports.create_resize_subs = function() {
+
+    var subs = init_subs(RESIZE);
+    subs.clear_color = false;
+    subs.clear_depth = false;
+
+    subs.camera = m_cam.create_camera(m_cam.TYPE_NONE);
+    subs.is_pp = true;
+
+    return subs;
+}
+
+exports.create_subs_luminance_truncated = function(bloom_key, edge_lum, num_lights, cam) {
 
     var subs = init_subs(LUMINANCE_TRUNCED);
     subs.clear_color = false;
@@ -1015,7 +1010,7 @@ exports.create_subs_luminance_trunced = function(bloom_key, edge_lum, num_lights
     return subs;
 }
 
-exports.create_subs_bloom_combine = function(blur) {
+exports.create_subs_bloom_combine = function(blur, pass_num) {
 
     var subs = init_subs(BLOOM);
     subs.clear_color = false;
@@ -1023,6 +1018,7 @@ exports.create_subs_bloom_combine = function(blur) {
 
     subs.camera = m_cam.create_camera(m_cam.TYPE_NONE);
     subs.bloom_blur = blur;
+    subs.bloom_blur_num = pass_num;
     subs.is_pp = true;
 
     return subs;
@@ -1084,8 +1080,6 @@ exports.subs_label = function(subs) {
     // one special case
     case POSTPROCESSING:
         return "POSTPROCESSING (" + subs.pp_effect.replace(/_/g, " ") + ")";
-    case BLOOM_BLUR:
-        return "BLOOM BLUR";
     case GLOW_COMBINE:
         return "GLOW COMBINE";
     case RESOLVE:
@@ -1150,6 +1144,8 @@ exports.subs_label = function(subs) {
         return "PERFORMANCE";
     case SINK:
         return "SINK";
+    case RESIZE:
+        return "RESIZE";
     default:
         return "UNKNOWN";
     }
@@ -1159,6 +1155,7 @@ exports.append_draw_data = function(subs, rb) {
 
     var batch = rb.batch;
     var shader = batch.shader;
+    var alpha_aa = batch.alpha_antialiasing;
 
     // remove existing draw data if any
     for (var i = 0; i < subs.draw_data.length; i++) {
@@ -1179,24 +1176,25 @@ exports.append_draw_data = function(subs, rb) {
     else
         var offset_z = 0;
 
-    var exist_ddata = get_draw_data(subs.draw_data, shader, offset_z);
+    var exist_ddata = get_draw_data(subs.draw_data, shader, alpha_aa, offset_z, batch.is_sky);
 
     if (exist_ddata)
         exist_ddata.bundles.push(rb);
     else {
-        var d_data = init_draw_data(shader, rb, batch.alpha_clip, offset_z);
+        var d_data = init_draw_data(shader, rb, alpha_aa, offset_z, batch.is_sky);
         subs.draw_data.push(d_data);
         subs.need_draw_data_sort = true;
     }
 }
 
-function init_draw_data(shader, rb, alpha_clip, offset_z) {
+function init_draw_data(shader, rb, alpha_antialiasing, offset_z, is_sky) {
     return {
         shader: shader,
         bundles: [rb],
-        alpha_clip: alpha_clip,
+        alpha_antialiasing: alpha_antialiasing,
         offset_z: offset_z,
-        do_render: true,
+        is_sky: is_sky,
+        do_render: true
     };
 }
 
@@ -1225,10 +1223,11 @@ exports.init_bundle = function(batch, render) {
     return bundle;
 }
 
-function get_draw_data(draw_data, shader, offset_z) {
+function get_draw_data(draw_data, shader, alpha_antialiasing, offset_z, is_sky) {
     for (var i = 0; i < draw_data.length; i++) {
         var ddata = draw_data[i];
-        if (ddata.shader == shader && offset_z == ddata.offset_z)
+        if (ddata.shader == shader && ddata.alpha_antialiasing == alpha_antialiasing 
+                && ddata.offset_z == offset_z && ddata.is_sky == is_sky)
             return ddata;
     }
     return null;
@@ -1245,9 +1244,11 @@ function sort_fun(a, b) {
 }
 
 function sort_fun_draw_data(a, b) {
-    return -sort_fun(a.alpha_clip, b.alpha_clip) ||
-            sort_fun(a.offset_z, b.offset_z) ||
-            sort_fun(a.shader.shader_id, b.shader.shader_id);
+    return sort_fun(a.alpha_antialiasing, b.alpha_antialiasing) ||
+           sort_fun(a.is_sky, b.is_sky) ||
+           sort_fun(a.offset_z, b.offset_z) ||
+           sort_fun(a.shader.has_discard, b.shader.has_discard) ||
+           sort_fun(a.shader.shader_id, b.shader.shader_id);
 }
 
 }

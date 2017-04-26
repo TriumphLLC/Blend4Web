@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>对应用程序开发人员 &mdash; Blend4Web 17.02.1 用户手册</title>
+  <title>对应用程序开发人员 &mdash; Blend4Web 17.04 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.02.1 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 17.04 用户手册" href="index.html"/>
         <link rel="next" title="对于引擎开发者" href="developers_advanced.html"/>
         <link rel="prev" title="物理" href="physics.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v17.02.1
+              v17.04
             </div>
           
         
@@ -112,17 +112,18 @@
 <li class="toctree-l1"><a class="reference internal" href="audio.html">音频</a></li>
 <li class="toctree-l1"><a class="reference internal" href="physics.html">物理</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">对应用程序开发人员</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#application-programming">应用程序编程</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#hello-world-application">“你好，世界！”应用</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#loading-scenes-in-apps">应用中加载场景</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-system">模块系统</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#creating-apps-quickly">快速创建应用程序</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#application-development">Application Development</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#application-code-structure">Application Code Structure</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#writing-application-logic">Writing Application Logic</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-system">模块系统</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#background-transparency">背景透明</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#resource-conversion">资源转换</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#commands">Commands</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#arguments">Arguments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#commands">命令</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#arguments">参数</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#dependencies">依赖</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#data-formats">数据格式</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#dds-texture-compression">DDS纹理压缩</a></li>
@@ -132,6 +133,7 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#gzip-compression">GZIP Compression</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#code-examples">示例代码</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#loading-application-assets">加载应用程序资产</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#event-driven-model">事件驱动模型</a><ul>
@@ -142,8 +144,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#sdk-file-structure">SDK文件结构</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#loading-local-resources">加载本地资源</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#quality-profiles">品质配置</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#non-standard-canvas-position-and-orientation">Non-Standard Canvas Position and Orientation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#mobile-web-apps">Mobile Web Apps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#non-standard-canvas-position-and-orientation">非标准画布位置和方向</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mobile-web-apps">移动 Web 应用程序</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">对于引擎开发者</a></li>
@@ -197,176 +199,290 @@
 <p class="topic-title first">目录</p>
 <ul class="simple">
 <li><a class="reference internal" href="#for-application-developers" id="id2">对应用程序开发人员</a><ul>
-<li><a class="reference internal" href="#application-programming" id="id3">应用程序编程</a><ul>
-<li><a class="reference internal" href="#hello-world-application" id="id4">“你好，世界！”应用</a></li>
-<li><a class="reference internal" href="#loading-scenes-in-apps" id="id5">应用中加载场景</a></li>
-<li><a class="reference internal" href="#module-system" id="id6">模块系统</a></li>
-<li><a class="reference internal" href="#creating-apps-quickly" id="id7">快速创建应用程序</a></li>
+<li><a class="reference internal" href="#application-development" id="id3">Application Development</a><ul>
+<li><a class="reference internal" href="#application-code-structure" id="id4">Application Code Structure</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#background-transparency" id="id8">背景透明</a></li>
-<li><a class="reference internal" href="#resource-conversion" id="id9">资源转换</a><ul>
-<li><a class="reference internal" href="#commands" id="id10">Commands</a></li>
-<li><a class="reference internal" href="#arguments" id="id11">Arguments</a></li>
-<li><a class="reference internal" href="#dependencies" id="id12">依赖</a></li>
-<li><a class="reference internal" href="#data-formats" id="id13">数据格式</a></li>
+<li><a class="reference internal" href="#background-transparency" id="id5">背景透明</a></li>
+<li><a class="reference internal" href="#resource-conversion" id="id6">资源转换</a><ul>
+<li><a class="reference internal" href="#commands" id="id7">命令</a></li>
+<li><a class="reference internal" href="#arguments" id="id8">参数</a></li>
+<li><a class="reference internal" href="#dependencies" id="id9">依赖</a></li>
+<li><a class="reference internal" href="#data-formats" id="id10">数据格式</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#code-examples" id="id14">示例代码</a></li>
-<li><a class="reference internal" href="#loading-application-assets" id="id15">加载应用程序资产</a></li>
-<li><a class="reference internal" href="#event-driven-model" id="id16">事件驱动模型</a><ul>
-<li><a class="reference internal" href="#sensors" id="id17">传感器</a></li>
-<li><a class="reference internal" href="#example" id="id18">示例</a></li>
+<li><a class="reference internal" href="#gzip-compression" id="id11">GZIP Compression</a></li>
+<li><a class="reference internal" href="#code-examples" id="id12">示例代码</a></li>
+<li><a class="reference internal" href="#loading-application-assets" id="id13">加载应用程序资产</a></li>
+<li><a class="reference internal" href="#event-driven-model" id="id14">事件驱动模型</a><ul>
+<li><a class="reference internal" href="#sensors" id="id15">传感器</a></li>
+<li><a class="reference internal" href="#example" id="id16">示例</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#sdk-file-structure" id="id19">SDK文件结构</a></li>
-<li><a class="reference internal" href="#loading-local-resources" id="id20">加载本地资源</a></li>
-<li><a class="reference internal" href="#quality-profiles" id="id21">品质配置</a></li>
-<li><a class="reference internal" href="#non-standard-canvas-position-and-orientation" id="id22">Non-Standard Canvas Position and Orientation</a></li>
-<li><a class="reference internal" href="#mobile-web-apps" id="id23">Mobile Web Apps</a></li>
+<li><a class="reference internal" href="#sdk-file-structure" id="id17">SDK文件结构</a></li>
+<li><a class="reference internal" href="#loading-local-resources" id="id18">加载本地资源</a></li>
+<li><a class="reference internal" href="#quality-profiles" id="id19">品质配置</a></li>
+<li><a class="reference internal" href="#non-standard-canvas-position-and-orientation" id="id20">非标准画布位置和方向</a></li>
+<li><a class="reference internal" href="#mobile-web-apps" id="id21">移动 Web 应用程序</a></li>
 </ul>
 </li>
 </ul>
 </div>
-<div class="section" id="application-programming">
-<span id="app-building"></span><h2><a class="toc-backref" href="#id3">应用程序编程</a><a class="headerlink" href="#application-programming" title="永久链接至标题">¶</a></h2>
-<div class="section" id="hello-world-application">
-<h3><a class="toc-backref" href="#id4">“你好，世界！”应用</a><a class="headerlink" href="#hello-world-application" title="永久链接至标题">¶</a></h3>
-<p>最简单的应用程序Blend4Web可能是这样的：</p>
-<div class="highlight-html"><div class="highlight"><pre><span></span><span class="cp">&lt;!DOCTYPE html&gt;</span>
-<span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
-<span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
-<span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;b4w.min.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
-<span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
-<span class="kd">function</span> <span class="nx">hello</span><span class="p">()</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">m_version</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;version&quot;</span><span class="p">);</span>
-    <span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="s2">&quot;Hello, Blend4Web &quot;</span> <span class="o">+</span> <span class="nx">m_version</span><span class="p">.</span><span class="nx">version</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;!&quot;</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
-<span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+<div class="section" id="application-development">
+<span id="app-building"></span><h2><a class="toc-backref" href="#id3">Application Development</a><a class="headerlink" href="#application-development" title="永久链接至标题">¶</a></h2>
+<p>To simplify development process, we recommend to use <a class="reference internal" href="project_manager.html#project-management"><span>Project Manager</span></a>. It can be used to quickly <a class="reference internal" href="project_manager.html#create-new-project"><span>create</span></a> a simple application with a generic code that is enough to load a simple scene and enable basic camera controls.</p>
+<div class="section" id="application-code-structure">
+<span id="app-init-loading"></span><h3><a class="toc-backref" href="#id4">Application Code Structure</a><a class="headerlink" href="#application-code-structure" title="永久链接至标题">¶</a></h3>
+<p>The process of initializing and loading an application is separated into several stages, which is reflected in the code of the application. If you are using Project Manager, a newly created <code class="docutils literal"><span class="pre">Copy</span></code> or <code class="docutils literal"><span class="pre">Compile</span></code> type project will include a main JS file, which will be placed in the SDK. The path to the file will look like this: <code class="docutils literal"><span class="pre">./projects/PROJECT_NAME/PROJECT_NAME.js</span></code>.</p>
+<p>This file contains generic code shaped as a module. This module can be registered using the certain structure:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">b4w</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">exports</span><span class="p">,</span> <span class="nx">require</span><span class="p">)</span> <span class="p">{</span>
 
-<span class="p">&lt;</span><span class="nt">body</span> <span class="na">onload</span><span class="o">=</span><span class="s">&quot;hello()&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+    <span class="c1">// module code</span>
+    <span class="c1">//...</span>
 
-<span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+<span class="p">});</span>
 </pre></div>
 </div>
-<p>这个应用在浏览器窗口打印了一行信息和引擎的版本。让我们更仔细的查看这个示例。引擎库嵌入在 <code class="docutils literal"><span class="pre">&lt;script</span> <span class="pre">src=&quot;...&quot;&gt;</span></code> 元素中。应用等待页面加载然后在浏览器窗口打印当前版本。在这个示例中，<code class="docutils literal"><span class="pre">version</span></code> 是唯一用到的模块带有一个同样名字的函数 - <code class="docutils literal"><span class="pre">version()</span></code>. 需要更详细的了解使用引擎模块和函数的信息可以在  <a class="reference external" href="https://www.blend4web.com/api_doc/index.html">API 文档</a> 中找到。</p>
-<p>编译引擎文件 <code class="docutils literal"><span class="pre">b4w.min.js</span></code> 可以从SDK的 <code class="docutils literal"><span class="pre">deploy/apps/common</span></code> 目录进行复制，并和HTML文件放置在同一目录中。</p>
-</div>
-<div class="section" id="loading-scenes-in-apps">
-<h3><a class="toc-backref" href="#id5">应用中加载场景</a><a class="headerlink" href="#loading-scenes-in-apps" title="永久链接至标题">¶</a></h3>
-<p>要加载你需要的3D场景：</p>
-<ol class="arabic simple">
-<li><p class="first">放置一个 <code class="docutils literal"><span class="pre">&lt;canvas&gt;</span></code> 元素到页面进行渲染。</p>
-</li>
-<li><p class="first">调用  <code class="docutils literal"><span class="pre">m_main.init()</span></code> 函数创建的元素 id 加载页面后初始化 WebGL 上下文。</p>
-</li>
-<li><p class="first">调用 <code class="docutils literal"><span class="pre">m_data.load()</span></code> 函数加载3D场景。</p>
-</li>
-</ol>
-<div class="highlight-html"><div class="highlight"><pre><span></span><span class="cp">&lt;!DOCTYPE html&gt;</span>
-<span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
-<span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
-<span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;b4w.min.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
-<span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
-<span class="kd">function</span> <span class="nx">hello</span><span class="p">()</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">m_main</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;main&quot;</span><span class="p">);</span>
-    <span class="kd">var</span> <span class="nx">m_data</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;data&quot;</span><span class="p">);</span>
-
-    <span class="kd">var</span> <span class="nx">canvas_elem</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;canvas_id&quot;</span><span class="p">);</span>
-    <span class="nx">m_main</span><span class="p">.</span><span class="nx">init</span><span class="p">(</span><span class="nx">canvas_elem</span><span class="p">);</span>
-    <span class="nx">m_data</span><span class="p">.</span><span class="nx">load</span><span class="p">(</span><span class="s2">&quot;some_scene.json&quot;</span><span class="p">);</span>
-<span class="p">}</span>
-<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
-<span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
-
-<span class="p">&lt;</span><span class="nt">body</span> <span class="na">onload</span><span class="o">=</span><span class="s">&quot;hello()&quot;</span><span class="p">&gt;&lt;</span><span class="nt">canvas</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;canvas_id&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">canvas</span><span class="p">&gt;&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
-
-<span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
-</pre></div>
-</div>
+<p>So, the code of a module is contained within a function that accepts <code class="docutils literal"><span class="pre">exports</span></code> and <code class="docutils literal"><span class="pre">require</span></code> parameters.</p>
+<ol class="arabic">
+<li><p class="first"><code class="docutils literal"><span class="pre">require</span></code> is the method used for loading engine modules. The generic example mentioned above loads several modules:</p>
+<blockquote>
+<div><p>The most important ones of them are the <code class="docutils literal"><span class="pre">app</span></code> and <code class="docutils literal"><span class="pre">data</span></code> modules. The <code class="docutils literal"><span class="pre">app</span></code> module simplifies application initialization while the <code class="docutils literal"><span class="pre">data</span></code> module contains API methods for loading 3D scene data.</p>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
-<p class="last">注意，一个实际应用应包括错误检查，在引擎初始化之前并且还要有与用户交互的基本系统设定。</p>
+<p class="last">To make module naming more convenient, <code class="docutils literal"><span class="pre">m_</span></code> prefix is often used (<code class="docutils literal"><span class="pre">m_app</span></code>, <code class="docutils literal"><span class="pre">m_data</span></code> etc.) to show that the variable is an engine module.</p>
 </div>
+</div></blockquote>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">exports</span></code> is an object used for gaining access to module’s functions from outside (for example, from other modules). In this case, only the <code class="docutils literal"><span class="pre">init</span></code> function has been made external:</p>
+<blockquote>
+<div><div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">b4w</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">exports</span><span class="p">,</span> <span class="nx">require</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="p">...</span>
+
+    <span class="nx">exports</span><span class="p">.</span><span class="nx">init</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nx">m_app</span><span class="p">.</span><span class="nx">init</span><span class="p">({</span>
+        <span class="nx">canvas_container_id</span><span class="o">:</span> <span class="s2">&quot;main_canvas_container&quot;</span><span class="p">,</span>
+        <span class="nx">callback</span><span class="o">:</span> <span class="nx">init_cb</span><span class="p">,</span>
+        <span class="nx">show_fps</span><span class="o">:</span> <span class="nx">DEBUG</span><span class="p">,</span>
+        <span class="nx">console_verbose</span><span class="o">:</span> <span class="nx">DEBUG</span><span class="p">,</span>
+        <span class="nx">autoresize</span><span class="o">:</span> <span class="kc">true</span>
+    <span class="p">});</span>
+<span class="p">}</span>
+
+<span class="p">...</span>
+<span class="p">});</span>
+</pre></div>
 </div>
-<div class="section" id="module-system">
-<h3><a class="toc-backref" href="#id6">模块系统</a><a class="headerlink" href="#module-system" title="永久链接至标题">¶</a></h3>
-<p>虽然引擎赋予应用程序程序员 API 中的几十个模块的规模，它占用单 &#8216;b4w&#8217; 命名空间。调用模块的方法 <code class="docutils literal"><span class="pre">b4w.require()</span></code> 功能首先导入。</p>
-<p>如果他们的名称不与现有的模块冲突能够登记外部模块。模块可以用 <code class="docutils literal"><span class="pre">b4w.register()</span></code> 调用登记。检查是否有一些名称的模块已调用用 <code class="docutils literal"><span class="pre">b4w.module_check()</span></code> 调用。</p>
-<p>示例：</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// check if module exists</span>
-<span class="k">if</span> <span class="p">(</span><span class="nx">b4w</span><span class="p">.</span><span class="nx">module_check</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">))</span>
-    <span class="k">throw</span> <span class="s2">&quot;Failed to register module: my_module&quot;</span><span class="p">;</span>
+</div></blockquote>
+</li>
+</ol>
+<p>Application initialization begins with this function, and it is called outside of the module:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">b4w</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">exports</span><span class="p">,</span> <span class="nx">require</span><span class="p">)</span> <span class="p">{</span>
 
-<span class="c1">// register my_module</span>
-<span class="nx">b4w</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">exports</span><span class="p">,</span> <span class="nx">require</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">...</span>
 
-    <span class="c1">// import module &quot;version&quot;</span>
-    <span class="kd">var</span> <span class="nx">m_version</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;version&quot;</span><span class="p">);</span>
-
-    <span class="c1">// export print_build_date() from module &quot;my_module&quot;</span>
-    <span class="nx">exports</span><span class="p">.</span><span class="nx">print_build_date</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-        <span class="c1">// exec function date() from module &quot;version&quot;</span>
-        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Engine build date: &quot;</span> <span class="o">+</span> <span class="nx">m_version</span><span class="p">.</span><span class="nx">date</span><span class="p">());</span>
+    <span class="nx">exports</span><span class="p">.</span><span class="nx">init</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nx">m_app</span><span class="p">.</span><span class="nx">init</span><span class="p">({</span>
+            <span class="nx">canvas_container_id</span><span class="o">:</span> <span class="s2">&quot;main_canvas_container&quot;</span><span class="p">,</span>
+            <span class="nx">callback</span><span class="o">:</span> <span class="nx">init_cb</span><span class="p">,</span>
+            <span class="nx">show_fps</span><span class="o">:</span> <span class="nx">DEBUG</span><span class="p">,</span>
+            <span class="nx">console_verbose</span><span class="o">:</span> <span class="nx">DEBUG</span><span class="p">,</span>
+            <span class="nx">autoresize</span><span class="o">:</span> <span class="kc">true</span>
+        <span class="p">});</span>
     <span class="p">}</span>
+
+    <span class="p">...</span>
 <span class="p">});</span>
 
-<span class="c1">// import module &quot;my_module&quot;</span>
-<span class="kd">var</span> <span class="nx">m_my_module</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">);</span>
-
-<span class="c1">// exec function print_build_date() from module &quot;my_module&quot;</span>
-<span class="nx">m_my_module</span><span class="p">.</span><span class="nx">print_build_date</span><span class="p">();</span>
+<span class="c1">// import the app module and start the app by calling the init method</span>
+<span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">).</span><span class="nx">init</span><span class="p">();</span>
 </pre></div>
 </div>
+<p>After this, the <a class="reference external" href="https://www.blend4web.com/api_doc/module-app.html#.init">app.init</a> method is called. It creates Canvas HTML element and performs all necessary action for initializing WebGL. This method has many different attributes, the most important ones of which are:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">canvas_container_id</span></code> set the id of the HTML element that acts as a container for the Canvas element. By default, an element with the <code class="docutils literal"><span class="pre">main_canvas_container</span></code> ID is used (this element is located in the main HTML file of the application).</li>
+<li><code class="docutils literal"><span class="pre">callback</span></code> is the function that is called after finishing initialization.</li>
+</ul>
+<p>When application initialization is completed, the <a class="reference external" href="https://www.blend4web.com/api_doc/module-app.html#~AppInitCallback">init_cb</a> function set by the <code class="docutils literal"><span class="pre">callback</span></code> parameter is called:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">function</span> <span class="nx">init_cb</span><span class="p">(</span><span class="nx">canvas_elem</span><span class="p">,</span> <span class="nx">success</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">success</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;b4w init failure&quot;</span><span class="p">);</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="nx">m_preloader</span><span class="p">.</span><span class="nx">create_preloader</span><span class="p">();</span>
+
+    <span class="c1">// ignore right-click on the canvas element</span>
+    <span class="nx">canvas_elem</span><span class="p">.</span><span class="nx">oncontextmenu</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">e</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+        <span class="nx">e</span><span class="p">.</span><span class="nx">stopPropagation</span><span class="p">();</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="p">};</span>
+
+   <span class="nx">load</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
 </div>
-<div class="section" id="creating-apps-quickly">
-<h3><a class="toc-backref" href="#id7">快速创建应用程序</a><a class="headerlink" href="#creating-apps-quickly" title="永久链接至标题">¶</a></h3>
-<p>从头开始创建一个应用程序可以是一个乏味的任务，特别对于初学者。为了解决这个问题有一个特殊名为 <code class="docutils literal"><span class="pre">app</span></code> 的引擎插件：</p>
-<div class="highlight-html"><div class="highlight"><pre><span></span><span class="cp">&lt;!DOCTYPE html&gt;</span>
-<span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
-<span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
-<span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;b4w.min.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
-<span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
+<p>It has following parameters:</p>
+<ul class="simple">
+<li>canvas_elem is the created Canvas HTML element that will be used for rendering 3D content</li>
+<li>success it the flag that indicates the success of the initialization. The <code class="docutils literal"><span class="pre">false</span></code> value meant that the application is unable to work due to initialization errors (for example, WebGL is not supported by the device).</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">注解</p>
+<p class="last">The <a class="reference external" href="https://www.blend4web.com/api_doc/module-app.html#.init">app.init</a> methods sets initialization to the <code class="docutils literal"><span class="pre">window.onload</span></code> event, so the <code class="docutils literal"><span class="pre">init_cb</span></code> function will have access to the entire DOM tree of the HTML document.</p>
+</div>
+<p>Now we can begin loading 3D scene. This is done in the <code class="docutils literal"><span class="pre">load</span></code> function that is called from the <code class="docutils literal"><span class="pre">init_cb</span></code>:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">APP_ASSETS_PATH</span> <span class="o">=</span> <span class="nx">m_cfg</span><span class="p">.</span><span class="nx">get_assets_path</span><span class="p">(</span><span class="s2">&quot;my_project&quot;</span><span class="p">);</span>
 
-<span class="kd">var</span> <span class="nx">m_app</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;app&quot;</span><span class="p">);</span>
-<span class="kd">var</span> <span class="nx">m_data</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;data&quot;</span><span class="p">);</span>
+<span class="p">...</span>
 
-<span class="nx">m_app</span><span class="p">.</span><span class="nx">init</span><span class="p">({</span>
-    <span class="nx">canvas_container_id</span><span class="o">:</span> <span class="s2">&quot;container_id&quot;</span><span class="p">,</span>
-    <span class="nx">callback</span><span class="o">:</span> <span class="nx">load_cb</span>
-<span class="p">})</span>
-
-<span class="kd">function</span> <span class="nx">load_cb</span><span class="p">()</span> <span class="p">{</span>
-    <span class="nx">m_data</span><span class="p">.</span><span class="nx">load</span><span class="p">(</span><span class="s2">&quot;some_scene.json&quot;</span><span class="p">,</span> <span class="nx">loaded_cb</span><span class="p">);</span>
+<span class="kd">function</span> <span class="nx">load</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">m_data</span><span class="p">.</span><span class="nx">load</span><span class="p">(</span><span class="nx">APP_ASSETS_PATH</span> <span class="o">+</span> <span class="s2">&quot;my_project.json&quot;</span><span class="p">,</span> <span class="nx">load_cb</span><span class="p">,</span> <span class="nx">preloader_cb</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The <a class="reference external" href="https://www.blend4web.com/api_doc/module-data.html#.load">data.load</a> method is used for loading. The first parameter of this method is the path to a 3D scene file. The path to a JSON file should be relative to the main HTML application file. Projects created in Project Manager have a dedicated asset folder, and you can easily obtain the path to it. This is done in the generic example code by introducing the <code class="docutils literal"><span class="pre">APP_ASSETS_PATH</span></code> global variable that is later used in the <a class="reference external" href="https://www.blend4web.com/api_doc/module-data.html#.load">data.load</a>.</p>
+<p>The second parameter of the method is the <a class="reference external" href="https://www.blend4web.com/api_doc/module-data.html#~LoadedCallback">load_cb</a> function which is called after the 3D scene is loaded and prepared for rendering.</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">function</span> <span class="nx">load</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">m_data</span><span class="p">.</span><span class="nx">load</span><span class="p">(</span><span class="nx">APP_ASSETS_PATH</span> <span class="o">+</span> <span class="s2">&quot;my_project.json&quot;</span><span class="p">,</span> <span class="nx">load_cb</span><span class="p">,</span> <span class="nx">preloader_cb</span><span class="p">);</span>
 <span class="p">}</span>
 
-<span class="kd">function</span> <span class="nx">loaded_cb</span><span class="p">()</span> <span class="p">{</span>
+<span class="kd">function</span> <span class="nx">load_cb</span><span class="p">(</span><span class="nx">data_id</span><span class="p">,</span> <span class="nx">success</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">success</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;b4w load failure&quot;</span><span class="p">);</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+
     <span class="nx">m_app</span><span class="p">.</span><span class="nx">enable_camera_controls</span><span class="p">();</span>
+
+    <span class="c1">// place your code here</span>
+
 <span class="p">}</span>
-
-<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
-<span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
-
-<span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
-    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;container_id&quot;</span> <span class="na">style</span><span class="o">=</span><span class="s">&quot;width: 350px; height: 200px;&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
-<span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
-
-<span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
 </pre></div>
 </div>
-<p>在这种情况下，<code class="docutils literal"><span class="pre">app</span></code> 模块将在容器内的元素用指定 <code class="docutils literal"><span class="pre">container_id</span></code> ID建立一个 <code class="docutils literal"><span class="pre">&lt;canvas&gt;</span></code> 。再经过页面加载和最终执行 <code class="docutils literal"><span class="pre">load_cb（）</span></code> 回调则初始化引擎。</p>
-<p>然后 some_scene.json 场景被同时加载于前面的例子。唯一的区别是，该场景被加载之后，所述控制系统被初始化并可以用键盘和鼠标（或传感器屏幕）控制照相机运动。</p>
-<p>一旦使用 <code class="docutils literal"><span class="pre">app</span></code> 模块，就必须显式地指定尺寸的容器元素。否则为创建 <code class="docutils literal"><span class="pre">&lt;canvas&gt;</span></code> 元素将具有零维度。</p>
+<p>Calling this function means that the application has finished loading and now starts scene rendering. As this is the very first moment when the 3D scene data will be available, it is a suitable moment for initializing and preparing everything related to the scene, its object, animations and other things. For example, standard camera controls can be enabled here with the <a class="reference external" href="https://www.blend4web.com/api_doc/module-app.html#.enable_camera_controls">enable_camera_controls</a> method.</p>
+<div class="section" id="writing-application-logic">
+<h4>Writing Application Logic<a class="headerlink" href="#writing-application-logic" title="永久链接至标题">¶</a></h4>
+<p>After initializing and loading 3D scene the application will proceed to work according to the logic set by the programmer such as interacting with input devices, manipulating scene objects, controlling camera behavior and so on.</p>
+<p>By observing the <a class="reference internal" href="#app-init-loading"><span>application loading process</span></a>, we can determine several places suitable for performing various tasks.</p>
+<ol class="arabic">
+<li><p class="first">The <a class="reference external" href="https://www.blend4web.com/api_doc/module-app.html#.init">app.init</a> method used for starting the initialization accepts engine configuration parameters. So you can configure the engine right before calling this method using URL attributes as a base:</p>
+<blockquote>
+<div><div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">b4w</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">exports</span><span class="p">,</span> <span class="nx">require</span><span class="p">)</span> <span class="p">{</span>
+
+<span class="p">...</span>
+
+<span class="nx">exports</span><span class="p">.</span><span class="nx">init</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">url_params</span> <span class="o">=</span> <span class="nx">m_app</span><span class="p">.</span><span class="nx">get_url_params</span><span class="p">();</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">url_params</span> <span class="o">&amp;&amp;</span> <span class="s2">&quot;show_fps&quot;</span> <span class="k">in</span> <span class="nx">url_params</span><span class="p">)</span>
+        <span class="kd">var</span> <span class="nx">show_fps</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+    <span class="k">else</span>
+        <span class="kd">var</span> <span class="nx">show_fps</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+
+    <span class="nx">m_app</span><span class="p">.</span><span class="nx">init</span><span class="p">({</span>
+        <span class="nx">canvas_container_id</span><span class="o">:</span> <span class="s2">&quot;main_canvas_container&quot;</span><span class="p">,</span>
+        <span class="nx">callback</span><span class="o">:</span> <span class="nx">init_cb</span><span class="p">,</span>
+        <span class="nx">autoresize</span><span class="o">:</span> <span class="kc">true</span>
+        <span class="nx">show_fps</span><span class="o">:</span> <span class="nx">show_fps</span>
+    <span class="p">});</span>
+<span class="p">}</span>
+
+    <span class="p">...</span>
+<span class="p">});</span>
+<span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">).</span><span class="nx">init</span><span class="p">();</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">Initialization is started by the <code class="docutils literal"><span class="pre">window.onload</span></code> action, which means that after it is completed, the <a class="reference external" href="https://www.blend4web.com/api_doc/module-app.html#~AppInitCallback">init_cb</a> function will have access to the whole DOM tree. At this moment, you already can perform some preparations such as creating and setting up interface elements. However, the 3D scene itself is not yet loaded, and its objects are not yet available.</p>
+</li>
+<li><p class="first">After the 3D scene is loaded, the <a class="reference external" href="https://www.blend4web.com/api_doc/module-data.html#~LoadedCallback">load_cb</a> function is called. At this moment, all scene objects become available, thus any action that concerns them can be implemented in this function. Some examples can be found in the  <a class="reference internal" href="#code-snippets"><span>Code Snippets</span></a> application.</p>
+</li>
+</ol>
+<p>Logic can be added to the application by using either browser or engine API:</p>
+<ol class="arabic simple">
+<li>Basic keyboard/mouse/gamepad input can be implemented with standard event handlers by using the <code class="docutils literal"><span class="pre">addEventListener</span></code> method. In more complex cases you can use the <a class="reference external" href="https://www.blend4web.com/api_doc/module-input.html">input</a> API module. The engine also features the <a class="reference external" href="https://www.blend4web.com/api_doc/module-input.html#.add_click_listener">add_click_listener</a> method that registers both mouse clicks and touch screen events which makes it useful for writing applications compatible with desktop and mobile devices alike.</li>
+<li>Time-stretched events that have to be performed at every frame (procedural animation, for example) can be implemented with methods such as <a class="reference external" href="https://www.blend4web.com/api_doc/module-main.html#.set_render_callback">set_render_callback</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-main.html#.append_loop_cb">append_loop_cb</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-time.html#.animate">animate</a> and <a class="reference external" href="https://www.blend4web.com/api_doc/module-time.html#.set_timeout">set_timeout</a>. Standard <code class="docutils literal"><span class="pre">setTimeout</span></code> and <code class="docutils literal"><span class="pre">setInterval</span></code> methods can also be used.</li>
+<li>For complex logic that takes into account both user actions and the state of the 3D scene can use engine’s <a class="reference internal" href="#event-model"><span>event-driven model</span></a> that is based on sensor system.</li>
+</ol>
+</div>
+<div class="section" id="module-system">
+<h4>模块系统<a class="headerlink" href="#module-system" title="永久链接至标题">¶</a></h4>
+<p>Blend4Web engine is built upon modular structure: all engine API methods are separated into several modules. If necessary, a module can be plugged into the application with the <code class="docutils literal"><span class="pre">require</span></code> method. We recommend to structure the code of the actual application into modules as well.</p>
+<ol class="arabic simple">
+<li>Registering Modules</li>
+</ol>
+<p>A module is essentially a code block wrapped by a specific structure that is used to register it:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">b4w</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s2">&quot;my_module1&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">exports</span><span class="p">,</span> <span class="nx">require</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="c1">// module code</span>
+    <span class="p">...</span>
+<span class="p">});</span>
+
+<span class="nx">b4w</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s2">&quot;my_module2&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">exports</span><span class="p">,</span> <span class="nx">require</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="c1">// module code</span>
+    <span class="p">...</span>
+<span class="p">});</span>
+
+<span class="p">...</span>
+</pre></div>
+</div>
+<p>The <a class="reference external" href="https://www.blend4web.com/api_doc/b4w.html#.register">register</a> method is used for registering modules. You can only register custom modules if their names do not coincide with the regular API modules. If necessary, the <a class="reference external" href="https://www.blend4web.com/api_doc/b4w.html#.module_check">module_check</a> method to check if a module with a given name is present:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="p">(</span><span class="nx">b4w</span><span class="p">.</span><span class="nx">module_check</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">))</span>
+    <span class="k">throw</span> <span class="s2">&quot;Failed to register module: my_module&quot;</span><span class="p">;</span>
+
+<span class="nx">b4w</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">exports</span><span class="p">,</span> <span class="nx">require</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="c1">// module code</span>
+    <span class="p">...</span>
+
+<span class="p">});</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li>Loading Modules</li>
+</ol>
+<p>Custom modules, just like regular ones, can be plugged in with the <code class="docutils literal"><span class="pre">require</span></code> method:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">b4w</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s2">&quot;my_module1&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">exports</span><span class="p">,</span> <span class="nx">require</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="kd">var</span> <span class="nx">mod2</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;my_module2&quot;</span><span class="p">)</span>
+
+    <span class="p">...</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li>Application Initialization</li>
+</ol>
+<p>Application initialization in Blend4Web is usually done with a call like this:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">).</span><span class="nx">init</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>Here, the <code class="docutils literal"><span class="pre">my_module</span></code> custom module and its <code class="docutils literal"><span class="pre">init</span></code> external function do, in a certain sense, act as the entry point to the application.</p>
+<div class="admonition note">
+<p class="first admonition-title">注解</p>
+<p class="last">In the global visibility scope a module can be loaded with the same <a class="reference external" href="https://www.blend4web.com/api_doc/b4w.html#.require">require</a> method available as a method of the global <code class="docutils literal"><span class="pre">b4w</span></code> object: <code class="docutils literal"><span class="pre">b4w.require(&quot;MODULE_NAME&quot;)</span></code>.</p>
+</div>
+<ol class="arabic simple" start="4">
+<li>Using Multiple Modules</li>
+</ol>
+<p>After a project is created in the <a class="reference internal" href="project_manager.html#project-management"><span>Project Manager</span></a>, its generic application JS-file will contain only one module. However, while developing the application, you might need to separate your code into several logic parts. In this case, you can either create several modules inside one file, or you can create several files each one of them contain one module.</p>
+<p>If your application uses multiple modules, keep in mind that every one of them should be properly registered before initialization starts, or you will get an engine error if you try to call a module that is not yet registered. If you are using several JS files, the script that starts the initialization (contains application entry point) should the last one to be plugged into the main HTML application file.</p>
+</div>
 </div>
 </div>
 <div class="section" id="background-transparency">
-<h2><a class="toc-backref" href="#id8">背景透明</a><a class="headerlink" href="#background-transparency" title="永久链接至标题">¶</a></h2>
+<h2><a class="toc-backref" href="#id5">背景透明</a><a class="headerlink" href="#background-transparency" title="永久链接至标题">¶</a></h2>
 <p><code class="docutils literal"><span class="pre">background_color</span></code> 和 <code class="docutils literal"><span class="pre">alpha</span></code> 参数传递到  <a class="reference external" href="https://www.blend4web.com/api_doc/module-m_app.html#.init">init</a> 方法放在加载回调函数中（场景加载后调用的函数），像这样︰</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">m_app</span><span class="p">.</span><span class="nx">init</span> <span class="p">({</span>
     <span class="nx">alpha</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
     <span class="nx">background_color</span><span class="o">:</span> <span class="p">[</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
-   <span class="c1">//this method sets the background to an opaque light grey color</span>
+   <span class="c1">//this method sets the background to an opaque light gray color</span>
 <span class="p">});</span>
 </pre></div>
 </div>
@@ -413,7 +529,7 @@
 </div>
 </div>
 <div class="section" id="resource-conversion">
-<span id="converter"></span><h2><a class="toc-backref" href="#id9">资源转换</a><a class="headerlink" href="#resource-conversion" title="永久链接至标题">¶</a></h2>
+<span id="converter"></span><h2><a class="toc-backref" href="#id6">资源转换</a><a class="headerlink" href="#resource-conversion" title="永久链接至标题">¶</a></h2>
 <p>目前，浏览器不完全支持所有可能的媒体格式，所以为了创建跨浏览器应用程序（也为优化的目的），我们建议您使用的资源转换器。</p>
 <p>支持更广泛的平台，一个 Python 脚本 (<em>scripts/converter.py</em>) 为将源代码文件转换成其他格式后发布。</p>
 <p>有两种方式来运行此脚本。</p>
@@ -437,38 +553,55 @@
 <p>要排除从资源转换的一些目录，它足以把一个文件名为``.b4w_no_conv`` 。这不会影响嵌套目录转换。</p>
 <p><strong>resize_textures</strong> 参数用于为  <strong>LOW</strong> 模式降低纹理分辨率。</p>
 <div class="section" id="commands">
-<span id="converter-commands"></span><h3><a class="toc-backref" href="#id10">Commands</a><a class="headerlink" href="#commands" title="永久链接至标题">¶</a></h3>
-<p>Commands for conversion:</p>
+<span id="converter-commands"></span><h3><a class="toc-backref" href="#id7">命令</a><a class="headerlink" href="#commands" title="永久链接至标题">¶</a></h3>
+<p>转换的命令︰</p>
 <ul class="simple">
-<li><code class="docutils literal"><span class="pre">resize_textures</span></code> converts textures to lower resolution.</li>
-<li><code class="docutils literal"><span class="pre">convert_dds</span></code> converts textures to <a class="reference internal" href="#dds"><span>DDS format</span></a>.</li>
-<li><code class="docutils literal"><span class="pre">convert_media</span></code> converts audio and video files to <a class="reference internal" href="#converter-data-format"><span>alternative formats</span></a>.</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">resize_textures</span></code>  将纹理转换到低分辨率。</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">convert_dds</span></code> 将纹理转换到 <a class="reference internal" href="#dds"><span>DDS 格式</span></a>.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">convert_pvr</span></code> 将纹理转换到 <a class="reference internal" href="#dds"><span>PVR 格式</span></a>.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">convert_media</span></code> 将音频和视频文件转换为 <a class="reference internal" href="#converter-data-format"><span>替换格式</span></a>.</p>
+</li>
+<li><code class="docutils literal"><span class="pre">convert_gzip</span></code> generates GZIP-compressed versions of &#8221;.json&#8221; and &#8221;.bin&#8221; scene files and &#8221;.dds&#8221; and &#8221;.pvr&#8221; textures.</li>
 </ul>
-<p>Commands for resource cleanup:</p>
+<p>资源清理命令：</p>
 <ul class="simple">
-<li><code class="docutils literal"><span class="pre">cleanup_textures</span></code> removes low resolution textures generated by the <code class="docutils literal"><span class="pre">resize_textures</span></code> command.</li>
-<li><code class="docutils literal"><span class="pre">cleanup_dds</span></code> removers DDS texture files generated by the <code class="docutils literal"><span class="pre">convert_dds</span></code> command.</li>
-<li><code class="docutils literal"><span class="pre">cleanup_media</span></code> removes audio and video files in alternative formats that were generated by the <code class="docutils literal"><span class="pre">convert_media</span></code> command.</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">cleanup_textures</span></code> 删除由 <code class="docutils literal"><span class="pre">resize_textures</span></code> 命令生成的低分辨率纹理。</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">cleanup_dds</span></code> 删除由 <code class="docutils literal"><span class="pre">convert_dds</span></code> 命令生成的DDS纹理文件。</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">cleanup_pvr</span></code> 删除由 <code class="docutils literal"><span class="pre">convert_pvr</span></code> 命令生成的DDS纹理文件。</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">cleanup_media</span></code> 删除由 <code class="docutils literal"><span class="pre">convert_media</span></code> 命令生成的替换格式的音频和视频文件。</p>
+</li>
+<li><code class="docutils literal"><span class="pre">cleanup_gzip</span></code> removes GZIP-compressed files generated by the <code class="docutils literal"><span class="pre">convert_gzip</span></code> command.</li>
 </ul>
-<p>Commands for image compression:</p>
+<p>图像压缩命令:</p>
 <ul class="simple">
-<li><code class="docutils literal"><span class="pre">compress_png</span></code> compresses PNG files in order to decrease their size. This option requires OptiPNG tool to be installed and set up in the <code class="docutils literal"><span class="pre">PATH</span></code> environment variable.</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">compress_png</span></code> 压缩PNG文件，以减少它们的大小。此选项需要 OptiPNG工具已经安装并在 <code class="docutils literal"><span class="pre">PATH</span></code> 环境变量完成设置。</p>
+</li>
 </ul>
-<p>Other commands:</p>
+<p>其它命令：</p>
 <ul class="simple">
-<li><code class="docutils literal"><span class="pre">check_dependencies</span></code> checks <a class="reference internal" href="#converter-deps"><span>converter dependencies</span></a></li>
+<li><p class="first"><code class="docutils literal"><span class="pre">check_dependencies</span></code> 检查 <a class="reference internal" href="#converter-deps"><span>转换依赖</span></a></p>
+</li>
 </ul>
 </div>
 <div class="section" id="arguments">
-<span id="converter-arguments"></span><h3><a class="toc-backref" href="#id11">Arguments</a><a class="headerlink" href="#arguments" title="永久链接至标题">¶</a></h3>
+<span id="converter-arguments"></span><h3><a class="toc-backref" href="#id8">参数</a><a class="headerlink" href="#arguments" title="永久链接至标题">¶</a></h3>
 <ul class="simple">
-<li><code class="docutils literal"><span class="pre">-d</span></code>, <code class="docutils literal"><span class="pre">--dir</span> <span class="pre">&lt;dir_path&gt;</span></code> enables using an alternative directory to store converted files. The &lt;dir_path&gt; value specifies the path to this directory.</li>
-<li><code class="docutils literal"><span class="pre">-j</span></code>, <code class="docutils literal"><span class="pre">--jobs</span> <span class="pre">&lt;jobs&gt;</span></code> specifies the number of jobs (threads) to run simultaneously. If this parameter is set to zero or is not specified, the number will be calculated automatically based on the number of CPUs.</li>
-<li><code class="docutils literal"><span class="pre">-v</span></code>, <code class="docutils literal"><span class="pre">--verbose</span></code> enables outputting more information about files that are being converted. For example, when converting textures into DDS format, the script will show progress percentage for every file that is being converted.</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">-d</span></code>, <code class="docutils literal"><span class="pre">--dir</span> <span class="pre">&lt;dir_path&gt;</span></code> 允许使用其他目录来存储转换后的文件。该 &lt;dir_path&gt; 值指定到此目录的路径。</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">-j</span></code>, <code class="docutils literal"><span class="pre">--jobs</span> <span class="pre">&lt;jobs&gt;</span></code> 指定要同时运行的作业（线程）的数量。如果该参数被设置为零或者未指定，数字会自动根据CPU的数量来计算。</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">-v</span></code>, <code class="docutils literal"><span class="pre">--verbose</span></code> 能够输出更多在转换文件时的详细信息。例如，转换成纹理DDS格式时，该脚本将显示每个要转换的文件进度百分比。</p>
+</li>
 </ul>
 </div>
 <div class="section" id="dependencies">
-<span id="converter-deps"></span><h3><a class="toc-backref" href="#id12">依赖</a><a class="headerlink" href="#dependencies" title="永久链接至标题">¶</a></h3>
+<span id="converter-deps"></span><h3><a class="toc-backref" href="#id9">依赖</a><a class="headerlink" href="#dependencies" title="永久链接至标题">¶</a></h3>
 <p>请确保你已经安装了所有的依赖转换器。你可以用下面的命令做到这一点：</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; python3 &lt;path_to_sdk&gt;/scripts/converter.py check_dependencies
 </pre></div>
@@ -541,7 +674,7 @@
 </div>
 </div>
 <div class="section" id="data-formats">
-<span id="converter-data-format"></span><h3><a class="toc-backref" href="#id13">数据格式</a><a class="headerlink" href="#data-formats" title="永久链接至标题">¶</a></h3>
+<span id="converter-data-format"></span><h3><a class="toc-backref" href="#id10">数据格式</a><a class="headerlink" href="#data-formats" title="永久链接至标题">¶</a></h3>
 <p>如下进行转化：</p>
 <dl class="docutils">
 <dt>音频（convert_media）：</dt>
@@ -577,7 +710,7 @@
 </dd>
 </dl>
 <p>输入文件的实例：<code class="docutils literal"><span class="pre">file_name.jpg</span></code>，例如一个输出文件：<code class="docutils literal"><span class="pre">file_name.altconv.jpg.dds</span></code>。</p>
-<p>为了优化应用性能的目的，有可能使用 <code class="docutils literal"><span class="pre">min50</span></code> （减半）和 <code class="docutils literal"><span class="pre">DDS</span></code> 纹理。为了做到这一点，我们所需要的应用程序的初始化期间通过下列参数：</p>
+<p>For the purpose of optimizing application performance it&#8217;s possible to use <code class="docutils literal"><span class="pre">min50</span></code> (halved) and <code class="docutils literal"><span class="pre">DDS</span></code> or <code class="docutils literal"><span class="pre">PVRTC</span></code> (compressed) textures. In order to do this, we need to pass the following parameters during initialization of the application:</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">exports</span><span class="p">.</span><span class="nx">init</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
     <span class="nx">m_app</span><span class="p">.</span><span class="nx">init</span><span class="p">({</span>
         <span class="c1">// . . .</span>
@@ -603,7 +736,7 @@
 </pre></div>
 </div>
 </div></blockquote>
-<p class="last">这将告诉引擎加载PVRTC纹理，如果这些都存在于 <code class="docutils literal"><span class="pre">./assets/</span></code> 文件夹中。</p>
+<p class="last">This will tell the engine to load PVRTC textures, if such are present in the <code class="docutils literal"><span class="pre">./assets/</span></code> folder.</p>
 </div>
 <div class="section" id="dds-texture-compression">
 <span id="dds"></span><h4>DDS纹理压缩<a class="headerlink" href="#dds-texture-compression" title="永久链接至标题">¶</a></h4>
@@ -649,8 +782,47 @@
 </div>
 </div>
 </div>
+<div class="section" id="gzip-compression">
+<span id="gzip"></span><h2><a class="toc-backref" href="#id11">GZIP Compression</a><a class="headerlink" href="#gzip-compression" title="永久链接至标题">¶</a></h2>
+<p>Typical Blend4Web application can use various resource formats from standard  HTML, JS, CSS, PNG or JPEG files to engine-specific JSON- and BIN-files that contain scene data. Compressed  DDS/PVR image formats are also an option. Both big and small applications benefit from decreasing the size of the resources, as this also decreases the loading time.</p>
+<p>Usually, loading time can be decreased by setting up caching on the server that contains web application. You can also enable GZIP compression for various file types.</p>
+<p>Speaking of the specific file types, GZIP compression should be used for  JSON, BIN, DDS and PVR files. JSON and BIN files, being the main scene files, can contain large amounts of data, while DDS and PVR also can be quite large (at least when compared to standard PNG and JPEG files), and there can be quite a lot of them.</p>
+<p>But if for some reason GZIP compression cannot be set up on the server, it can be enabled in the application itself.</p>
+<p>The engine can load compressed resources in the form of <code class="docutils literal"><span class="pre">.gz</span></code> files. To use this feature in a <code class="docutils literal"><span class="pre">WebPlayer</span> <span class="pre">JSON</span></code> type project, you need to pass the <code class="docutils literal"><span class="pre">compressed_gzip</span></code> URL parameter. If you are developing your own application, you need to pass the <code class="docutils literal"><span class="pre">assets_gzip_available</span></code> configuration parameter during the initialization.</p>
+<blockquote>
+<div><div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_app</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;app&quot;</span><span class="p">);</span>
+
+<span class="nx">m_app</span><span class="p">.</span><span class="nx">init</span><span class="p">({</span>
+    <span class="nx">canvas_container_id</span><span class="o">:</span> <span class="s2">&quot;main_canvas_container&quot;</span><span class="p">,</span>
+    <span class="nx">callback</span><span class="o">:</span> <span class="nx">init_cb</span><span class="p">,</span>
+    <span class="nx">show_fps</span><span class="o">:</span> <span class="nx">DEBUG</span><span class="p">,</span>
+    <span class="nx">console_verbose</span><span class="o">:</span> <span class="nx">DEBUG</span><span class="p">,</span>
+    <span class="nx">autoresize</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nx">assets_gzip_available</span><span class="o">:</span> <span class="kc">true</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Compressed <code class="docutils literal"><span class="pre">.gz</span></code> files should be placed alongside the original ones, for example, like this:</p>
+<blockquote>
+<div><div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">my_project</span><span class="o">/</span>
+    <span class="nx">assets</span><span class="o">/</span>
+        <span class="nx">my_scene</span><span class="p">.</span><span class="nx">json</span>
+        <span class="nx">my_scene</span><span class="p">.</span><span class="nx">json</span><span class="p">.</span><span class="nx">gz</span>
+        <span class="nx">my_scene</span><span class="p">.</span><span class="nx">bin</span>
+        <span class="nx">my_scene</span><span class="p">.</span><span class="nx">bin</span><span class="p">.</span><span class="nx">gz</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>This also applies to the <code class="docutils literal"><span class="pre">.dds</span></code> and <code class="docutils literal"><span class="pre">.pvr</span></code> files and their compressed counterparts <code class="docutils literal"><span class="pre">.dds.gz</span></code> and <code class="docutils literal"><span class="pre">.pvr.gz</span></code>.</p>
+<div class="admonition note">
+<p class="first admonition-title">注解</p>
+<p class="last">If a compressed <code class="docutils literal"><span class="pre">.gz</span></code> is not present, engine will load the original file and output a corresponding message to the console.</p>
+</div>
+<p>GZIP compressed files can be generated with the <code class="docutils literal"><span class="pre">convert</span> <span class="pre">resources</span></code> <a class="reference internal" href="project_manager.html#project-manager"><span>command</span></a> that can be found in the Project Manager interface. This can also be done in the console by running the <a class="reference internal" href="#converter"><span>./scripts/converter.py</span></a> script with the <code class="docutils literal"><span class="pre">compress_gzip</span></code> (for compressing resources) or the <code class="docutils literal"><span class="pre">cleanup_gzip</span></code> (for removing compressed files) command.</p>
+</div>
 <div class="section" id="code-examples">
-<span id="code-snippets"></span><h2><a class="toc-backref" href="#id14">示例代码</a><a class="headerlink" href="#code-examples" title="永久链接至标题">¶</a></h2>
+<span id="code-snippets"></span><h2><a class="toc-backref" href="#id12">示例代码</a><a class="headerlink" href="#code-examples" title="永久链接至标题">¶</a></h2>
 <p>SDK中包含的代码片段应用程序，它演示了如何使用引擎的功能。</p>
 <p>目前，这款应用程序包含以下例子：</p>
 <blockquote>
@@ -687,7 +859,7 @@
 </li>
 <li><p class="first">Ray Test - 光线投射的障碍物检测使用</p>
 </li>
-<li>VR - initializing a VR application</li>
+<li>VR - a VR application example</li>
 <li><p class="first">网络摄像头 - 利用来自Web摄像头的媒体流</p>
 </li>
 </ul>
@@ -695,7 +867,7 @@
 <p>代码片段的应用在 <code class="docutils literal"><span class="pre">./apps_dev/code_snippets/code_snippets_dev.html</span></code>. 它可以通过使用位于SDK根的 <code class="docutils literal"><span class="pre">index.html</span></code> 文件的链接也可以运行。</p>
 </div>
 <div class="section" id="loading-application-assets">
-<h2><a class="toc-backref" href="#id15">加载应用程序资产</a><a class="headerlink" href="#loading-application-assets" title="永久链接至标题">¶</a></h2>
+<h2><a class="toc-backref" href="#id13">加载应用程序资产</a><a class="headerlink" href="#loading-application-assets" title="永久链接至标题">¶</a></h2>
 <p>为了简化项目维护和服务器部署总是将你的项目文件（的JavaScript，CSS，HTML等）和您的应用程序资源文件（导出的场景，纹理，声音等）分开。你的SDK这里面的资产目录位于 <code class="docutils literal"><span class="pre">projects/my_project/assets</span></code>.</p>
 <p>要（通过使用如 <a class="reference external" href="https://www.blend4web.com/api_doc/module-data.html#.load">load()</a>)从该目录中加载文件使用 <a class="reference external" href="https://www.blend4web.com/api_doc/module-config.html#.get_assets_path">get_assets_path()</a> 方法：</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">m_data</span><span class="p">.</span><span class="nx">load</span><span class="p">(</span><span class="nx">m_config</span><span class="p">.</span><span class="nx">get_assets_path</span><span class="p">(</span><span class="s2">&quot;my_project&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;loaded_scene.json&quot;</span><span class="p">,</span> <span class="nx">load_cb</span><span class="p">);</span>
@@ -704,10 +876,10 @@
 <p>这样可以确保您的应用程序将独立于目前的开发阶段寻找资产（开发，构建或部署）。</p>
 </div>
 <div class="section" id="event-driven-model">
-<span id="event-model"></span><h2><a class="toc-backref" href="#id16">事件驱动模型</a><a class="headerlink" href="#event-driven-model" title="永久链接至标题">¶</a></h2>
+<span id="event-model"></span><h2><a class="toc-backref" href="#id14">事件驱动模型</a><a class="headerlink" href="#event-driven-model" title="永久链接至标题">¶</a></h2>
 <p>事件驱动模型提供一个通用接口描述的三维场景变化的状态。它简化了加工的物理事件和用户操作。</p>
 <div class="section" id="sensors">
-<span id="index-0"></span><h3><a class="toc-backref" href="#id17">传感器</a><a class="headerlink" href="#sensors" title="永久链接至标题">¶</a></h3>
+<span id="index-0"></span><h3><a class="toc-backref" href="#id15">传感器</a><a class="headerlink" href="#sensors" title="永久链接至标题">¶</a></h3>
 <p>事件驱动模型的基本单元是一个传感器。传感器是一种编程实体和只能是活动的（1，一种）或无效（0，零）。一些传感器可以携带可以在歧管的回调函数与对应的API接收一个有效载荷。例如，光线跟踪传感器（线传感器）提供的交点射线的相对长度。</p>
 <p id="index-1">用户不能直接通过外部 API控制传感器。相反，所有的传感器都必须存在于一个或多个集合-所谓的传感器流形。一个流形是与场景对象相关联的逻辑容器。它通过执行一个回调函数生成一组定义的传感器事件响应。要定义的流形，它须有以下信息 （请参见的 &#8216;controls.create_sensor_manifold&#8217; 功能描述 API 文档） ︰</p>
 <ul class="simple">
@@ -729,7 +901,7 @@
 <p>你可以阅读更多有关在  <a class="reference external" href="https://www.blend4web.com/api_doc/module-controls.html">controls</a> 模块文档引擎API。</p>
 </div>
 <div class="section" id="example">
-<h3><a class="toc-backref" href="#id18">示例</a><a class="headerlink" href="#example" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id16">示例</a><a class="headerlink" href="#example" title="永久链接至标题">¶</a></h3>
 <p>让我们考虑到 insonify 任务被投掷的石头的影响。不同的媒体 （例如地形和墙）应产生独特的声音影响。有碰撞网格与Blender场景中的物理材质，材质的 id 是&#8221;地形&#8221;和&#8221;墙&#8221;。也是被抛在场景中的物理对象，该对象被命名为&#8221;石头&#8221;。</p>
 <p>让我们定义碰撞传感器的每个介质类型的声音产生。</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// import the modules</span>
@@ -776,7 +948,7 @@
 </div>
 </div>
 <div class="section" id="sdk-file-structure">
-<span id="repo-file-structure"></span><h2><a class="toc-backref" href="#id19">SDK文件结构</a><a class="headerlink" href="#sdk-file-structure" title="永久链接至标题">¶</a></h2>
+<span id="repo-file-structure"></span><h2><a class="toc-backref" href="#id17">SDK文件结构</a><a class="headerlink" href="#sdk-file-structure" title="永久链接至标题">¶</a></h2>
 <dl class="docutils">
 <dt><strong>addons</strong></dt>
 <dd><dl class="first last docutils">
@@ -1013,12 +1185,12 @@
 </dl>
 </div>
 <div class="section" id="loading-local-resources">
-<span id="browser-for-local-loading"></span><h2><a class="toc-backref" href="#id20">加载本地资源</a><a class="headerlink" href="#loading-local-resources" title="永久链接至标题">¶</a></h2>
+<span id="browser-for-local-loading"></span><h2><a class="toc-backref" href="#id18">加载本地资源</a><a class="headerlink" href="#loading-local-resources" title="永久链接至标题">¶</a></h2>
 <p>该引擎的渲染器是一个Web应用程序，当你在浏览器中查看HTML文件它就工作。初始化之后，资源（场景，纹理）加载。这个过程是受 <a class="reference external" href="http://en.wikipedia.org/wiki/Same-origin_policy">同源策略</a> 规则。这条规则特别规定从本地目录加载禁止。</p>
 <p>自15.02版，Blend4Web SDK包括  <a class="reference internal" href="addon.html#local-development-server"><span>开发服务器</span></a> 解决加载本地资源的问题。</p>
 </div>
 <div class="section" id="quality-profiles">
-<span id="quality-settings"></span><h2><a class="toc-backref" href="#id21">品质配置</a><a class="headerlink" href="#quality-profiles" title="永久链接至标题">¶</a></h2>
+<span id="quality-settings"></span><h2><a class="toc-backref" href="#id19">品质配置</a><a class="headerlink" href="#quality-profiles" title="永久链接至标题">¶</a></h2>
 <p>几个质量配置文件，以支持具有不同功能的平台上实现。</p>
 <blockquote>
 <div><ul class="simple">
@@ -1056,11 +1228,12 @@
 </div>
 </div>
 <div class="section" id="non-standard-canvas-position-and-orientation">
-<span id="non-standard-canvas-pos"></span><h2><a class="toc-backref" href="#id22">Non-Standard Canvas Position and Orientation</a><a class="headerlink" href="#non-standard-canvas-position-and-orientation" title="永久链接至标题">¶</a></h2>
+<span id="non-standard-canvas-pos"></span><h2><a class="toc-backref" href="#id20">非标准画布位置和方向</a><a class="headerlink" href="#non-standard-canvas-position-and-orientation" title="永久链接至标题">¶</a></h2>
 <p>画布元件，开始执行渲染时，可改变相对于浏览器窗口的位置。这可能是由于一些操作在DOM树，或者作为页面滚动的结果，特别是用于非全屏web应用。</p>
 <p>在大多数情况下，这将不会影响该应用的任何的性能。然而，涉及到鼠标或触摸位置某些DOM事件可以携带不正确的信息。这是因为从相应的事件中获得的坐标是相对于浏览器窗口的原点测量，同时引擎的工作与Canvas元素本身（它的坐标原点位于左上角）的坐标空间。</p>
 <ol class="arabic simple">
-<li>If the top left corner of the Canvas element matches the top left corner of the browser window and is fixed in its position (non-movable) then it&#8217;s sufficient to use event.clientX and event.clientY coordinates of the input events or <a class="reference external" href="https://www.blend4web.com/api_doc/module-mouse.html#.get_coords_x">get_coords_x()</a> and <a class="reference external" href="https://www.blend4web.com/api_doc/module-mouse.html#.get_coords_y">get_coords_y()</a> methods.</li>
+<li><p class="first">如果画布元素的左上角与浏览器窗口左上角匹配并且固定在它的位置 （不能移动），那么就足以使用 event.clientX 和 event.clientY 输入事件的坐标或 <a class="reference external" href="https://www.blend4web.com/api_doc/module-mouse.html#.get_coords_x">get_coords_x()</a> 和 <a class="reference external" href="https://www.blend4web.com/api_doc/module-mouse.html#.get_coords_y">get_coords_y()</a> 方法.</p>
+</li>
 </ol>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_mouse</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;mouse&quot;</span><span class="p">);</span>
 
@@ -1077,7 +1250,8 @@
 <div class="line"><br /></div>
 </div>
 <ol class="arabic simple" start="2">
-<li>In the case of more sophisticated manipulations with the Canvas element (scrolling of the page elements, displacement from the top level corner of the browser window, changes in the DOM-tree) it&#8217;s needed to obtain properly calculated coordinates. This can be done by using the aforementioned <a class="reference external" href="https://www.blend4web.com/api_doc/module-mouse.html#.get_coords_x">get_coords_x()</a> and <a class="reference external" href="https://www.blend4web.com/api_doc/module-mouse.html#.get_coords_y">get_coords_y()</a> methods with a <code class="docutils literal"><span class="pre">true</span></code> value as a third parameter:</li>
+<li><p class="first">在更多复杂的画布元素操作中（滚动的页面元素，从浏览器窗口顶层角移动，在 DOM 树中的更改）这就需要获得正确计算的坐标。可以通过使用上述:b4wref:<cite>mouse.get_coords_x()</cite> and <a class="reference external" href="https://www.blend4web.com/api_doc/module-mouse.html#.get_coords_y">get_coords_y()</a> 并将 <code class="docutils literal"><span class="pre">true</span></code> 作为第三个参数值的方法︰</p>
+</li>
 </ol>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_mouse</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;mouse&quot;</span><span class="p">);</span>
 
@@ -1090,7 +1264,7 @@
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p>Another option in this case is to use the <a class="reference external" href="https://www.blend4web.com/api_doc/module-container.html#.client_to_canvas_coords">client_to_canvas_coords()</a> method as follows:</p>
+<p>在这种情况下，另一个选择是使用 <a class="reference external" href="https://www.blend4web.com/api_doc/module-container.html#.client_to_canvas_coords">client_to_canvas_coords()</a> 方法，如下所示︰</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_cont</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;container&quot;</span><span class="p">);</span>
 
 <span class="kd">var</span> <span class="nx">_vec2_tmp</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
@@ -1102,13 +1276,13 @@
 </div>
 </div>
 <div class="section" id="mobile-web-apps">
-<span id="id1"></span><h2><a class="toc-backref" href="#id23">Mobile Web Apps</a><a class="headerlink" href="#mobile-web-apps" title="永久链接至标题">¶</a></h2>
-<p>An option to scale the whole webpage and change the orientation of a mobile device should be considered when creating user interface for a web application. It is recommended to prevent scaling and keep the aspect ratio of a webpage constant to avoid possible problems. This can be achieved by adding the following meta-tag to the page header:</p>
+<span id="id1"></span><h2><a class="toc-backref" href="#id21">移动 Web 应用程序</a><a class="headerlink" href="#mobile-web-apps" title="永久链接至标题">¶</a></h2>
+<p>创建一个 web 应用程序的用户界面时，应考虑缩放整个网页和更改移动设备方向的选项。在这里建议，阻止缩放和保持网页的纵横比不变以避免可能出现的问题。通过将以下 meta-tag 添加到页标题得以实现︰</p>
 <div class="highlight-html"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">meta</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;viewport&quot;</span> <span class="na">content</span><span class="o">=</span><span class="s">&quot;width=device-width, initial-scale=1.0, user-scalable=no&quot;</span><span class="p">&gt;</span>
 </pre></div>
 </div>
-<p>Sometimes you might need to lock a mobile device to a certain orientation, especially when you don&#8217;t want to make both landscape and portrait interface variants. Since the native screenlock API is experimental and isn&#8217;t widespread, this might be easier to do using CSS rules.</p>
-<p>To keep the orientation in landscape mode only, one can set rotation for the &lt;html&gt; element by 90 degrees in the portrait mode:</p>
+<p>有时你可能需要锁定移动设备到某一种方向，尤其是当你不想要使用横向和纵向的接口类型。由于本机屏幕锁定 API 是试验性的并不普遍，可能使用 CSS 规则来实现更容易。</p>
+<p>若要保持方向仅有横向模式，可以设置纵向模式中的元素旋转 &lt;html&gt; 90 度︰</p>
 <div class="highlight-css"><div class="highlight"><pre><span></span><span class="k">@media</span> <span class="o">(</span><span class="nt">orientation</span> <span class="o">:</span> <span class="nt">portrait</span><span class="o">)</span> <span class="p">{</span>
     <span class="nt">html</span> <span class="p">{</span>
         <span class="nb">position</span><span class="o">:</span> <span class="nb">absolute</span><span class="p">;</span>
@@ -1133,7 +1307,7 @@
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p>Similarly, the CSS rule for the portrait mode only should look like the following:</p>
+<p>同样，纵向模式下的 CSS 规则只应该如下所示︰</p>
 <div class="highlight-css"><div class="highlight"><pre><span></span><span class="k">@media</span> <span class="o">(</span><span class="nt">orientation</span> <span class="o">:</span> <span class="nt">landscape</span><span class="o">)</span> <span class="p">{</span>
     <span class="nt">html</span> <span class="p">{</span>
         <span class="nb">position</span><span class="o">:</span> <span class="nb">absolute</span><span class="p">;</span>
@@ -1177,8 +1351,8 @@
 
   <div role="contentinfo">
     <p>
-        &copy; 版权所有 2014-2016, Triumph.
-      最后更新于 2017-03-07.
+        &copy; 版权所有 2014-2017, Triumph.
+      最后更新于 2017-04-26.
 
     </p>
   </div>
@@ -1234,7 +1408,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.02.1',
+            VERSION:'v17.04',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>项目管理 &mdash; Blend4Web 17.02.1 用户手册</title>
+  <title>项目管理 &mdash; Blend4Web 17.04 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.02.1 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 17.04 用户手册" href="index.html"/>
         <link rel="next" title="场景预览器" href="viewer.html"/>
         <link rel="prev" title="工作流程" href="workflow.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v17.02.1
+              v17.04
             </div>
           
         
@@ -92,7 +92,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#project-creation-wizard">项目创建向导</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#creating-a-web-player-application">创建一个 Web 播放器应用程序</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#project-settings">项目设置</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#project-building-and-deploy">Project Building and Deploy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#project-building-and-deploy">构建项目并部署</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#project-information">项目信息</a><ul>
@@ -101,12 +101,12 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#project-editing">项目编辑</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#project-config">Project Config</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#info-settings-group"><code class="docutils literal"><span class="pre">Info</span></code> Settings Group</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#build-setting-group"><code class="docutils literal"><span class="pre">Build</span></code> Setting Group</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#paths-setting-group"><code class="docutils literal"><span class="pre">Paths</span></code> Setting Group</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#deploy-setting-group"><code class="docutils literal"><span class="pre">Deploy</span></code> Setting Group</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#url-get-params">URL GET Params</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#project-config">项目配置</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#info-settings-group"><code class="docutils literal"><span class="pre">Info</span></code> 设置组</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#build-setting-group"><code class="docutils literal"><span class="pre">Build</span></code> 设置组</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#paths-setting-group"><code class="docutils literal"><span class="pre">Paths</span></code> 设置组</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#deploy-setting-group"><code class="docutils literal"><span class="pre">Deploy</span></code> 设置组</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#url-get-params">URL GET 参数</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#project-import">项目导入</a></li>
@@ -222,7 +222,7 @@
 <li><a class="reference internal" href="#creating-a-web-player-application" id="id12">创建一个 Web 播放器应用程序</a></li>
 <li><a class="reference internal" href="#project-information" id="id13">项目信息</a></li>
 <li><a class="reference internal" href="#project-editing" id="id14">项目编辑</a></li>
-<li><a class="reference internal" href="#project-config" id="id15">Project Config</a></li>
+<li><a class="reference internal" href="#project-config" id="id15">项目配置</a></li>
 <li><a class="reference internal" href="#project-import" id="id16">项目导入</a></li>
 <li><a class="reference internal" href="#project-export" id="id17">项目导出</a></li>
 <li><a class="reference internal" href="#deploying-the-project" id="id18">部署项目</a></li>
@@ -291,7 +291,8 @@
 <dd><p class="first last">可以用来隐藏项目。如果已经隐藏了此类项目，则此命令替换 <code class="docutils literal"><span class="pre">显示项目</span></code> 命令。</p>
 </dd>
 <dt><em>帮助</em></dt>
-<dd>Opens the <a class="reference internal" href="#project-manager"><span>Help file</span></a>.</dd>
+<dd><p class="first last">打开  <a class="reference internal" href="#project-manager"><span>帮助文件</span></a>.</p>
+</dd>
 </dl>
 <p>用于管理特定项目的命令在它的右侧。</p>
 <div class="admonition note">
@@ -335,24 +336,27 @@
 </li>
 <li><p class="first"><a class="reference internal" href="developers.html#converter"><span>转换媒体资源。</span></a></p>
 </li>
-<li><p class="first"><a class="reference internal" href="#project-deploy"><span>Export and download a project archive</span></a>.</p>
+<li><p class="first"><a class="reference internal" href="#project-deploy"><span>导出并下载项目文档</span></a>.</p>
 </li>
 <li><p class="first">移除项目</p>
 </li>
-<li><p class="first"><a class="reference internal" href="#updating-project-structure"><span>Update file structure</span></a>. Available only for the project created with versions of Blend4Web older than 16.12.</p>
+<li><p class="first"><a class="reference internal" href="#updating-project-structure"><span>更新文件结构</span></a>. 仅可用于  Blend4Web 16.12 或更旧版本创建的项目。</p>
 </li>
 </ol>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
-<p class="last">All project paths are retrieved from its <a class="reference internal" href="#b4w-config"><span>.b4w_project config file</span></a>.</p>
+<p class="last">项目的所有路径都是从它的 <a class="reference internal" href="#b4w-config"><span>.b4w_project 配置文件</span></a> 中检索。</p>
 </div>
-<p>Beside the project&#8217;s name are located the links to the</p>
+<p>位于项目的名称旁边的是链接到</p>
 <ol class="arabic simple">
-<li><a class="reference internal" href="#project-info"><span>project information page</span></a>,</li>
-<li><a class="reference internal" href="#project-edit"><span>project file editor</span></a> and</li>
-<li><a class="reference internal" href="#project-config"><span>project configurator</span></a>.</li>
+<li><p class="first"><a class="reference internal" href="#project-info"><span>项目信息页面</span></a>,</p>
+</li>
+<li><p class="first"><a class="reference internal" href="#project-edit"><span>项目文件编辑器</span></a> 和</p>
+</li>
+<li><p class="first"><a class="reference internal" href="#project-config"><span>项目配置器</span></a>.</p>
+</li>
 </ol>
-<p>The application type is also specified there. An application can have one of the following types:</p>
+<p>这里也指定应用程序类型。应用程序可以具有下列类型之一︰</p>
 <dl class="docutils">
 <dt><em>播放器</em></dt>
 <dd><p class="first last">可以使用 Web 播放器播放应用程序。</p>
@@ -442,7 +446,7 @@
 <span id="web-player-app"></span><h3><a class="toc-backref" href="#id12">创建一个 Web 播放器应用程序</a><a class="headerlink" href="#creating-a-web-player-application" title="永久链接至标题">¶</a></h3>
 <p>网络播放器应用的主要优点是易于在网站上部署这种应用。</p>
 <a class="reference internal image-reference" href="_images/project_manager_create_web_player_project.png"><img alt="_images/project_manager_create_web_player_project.png" class="align-center" src="_images/project_manager_create_web_player_project.png" style="width: 100%;" /></a>
-<p>Creating a Web Player application is simple. All you have to do when creating a new project is select the <code class="docutils literal"><span class="pre">Web</span> <span class="pre">Player</span> <span class="pre">JSON</span></code> or <code class="docutils literal"><span class="pre">Web</span> <span class="pre">Player</span> <span class="pre">HTML</span></code> option under the Application Type tab.</p>
+<p>创建一个Web Player应用程序很简单。所有你需要做的，当创建一个新的项目选择时在引擎绑定类型面板下面选择 <code class="docutils literal"><span class="pre">Web</span> <span class="pre">Player</span> <span class="pre">JSON</span></code> 或 <code class="docutils literal"><span class="pre">Web</span> <span class="pre">Player</span> <span class="pre">HTML</span></code> 选项。</p>
 <p>可用于在Web播放器项目的参数大多是和任何其他类型的项目一样的。唯一的例外是被称为网络播放器PARAMS组参数。</p>
 <div class="section" id="project-settings">
 <h4>项目设置<a class="headerlink" href="#project-settings" title="永久链接至标题">¶</a></h4>
@@ -450,8 +454,8 @@
 <p>如果 <code class="docutils literal"><span class="pre">Web</span> <span class="pre">Player</span> <span class="pre">JSON</span></code> 或 <code class="docutils literal"><span class="pre">Web</span> <span class="pre">Player</span> <span class="pre">HTML</span></code> 选项已启用，此面板才可用。这里列出的参数在本质上是运行该项目的Web播放器应用程序将使用的URL。</p>
 </div>
 <div class="section" id="project-building-and-deploy">
-<h4>Project Building and Deploy<a class="headerlink" href="#project-building-and-deploy" title="永久链接至标题">¶</a></h4>
-<p>After the work on a project is completed, it can be built and deployed to a web server. All of this is described in a <a class="reference internal" href="#project-deploy"><span>dedicated section</span></a>.</p>
+<h4>构建项目并部署<a class="headerlink" href="#project-building-and-deploy" title="永久链接至标题">¶</a></h4>
+<p>在一个项目上的工作完毕后，它能够生成和部署到 web 服务器。所有这一切都在 <a class="reference internal" href="#project-deploy"><span>相应章节</span></a> 中描述</p>
 </div>
 </div>
 <div class="section" id="project-information">
@@ -538,25 +542,25 @@
 <span id="project-edit"></span><h3><a class="toc-backref" href="#id14">项目编辑</a><a class="headerlink" href="#project-editing" title="永久链接至标题">¶</a></h3>
 <p>简单的基于Web的界面可以编辑项目文件，通过项目的标题旁的 <code class="docutils literal"><span class="pre">[编辑]</span></code> 链接。</p>
 <a class="reference internal image-reference" href="_images/project_manager_edit_project.png"><img alt="_images/project_manager_edit_project.png" class="align-center" src="_images/project_manager_edit_project.png" style="width: 100%;" /></a>
-<p>The left part of the editor window contains a list of all <code class="docutils literal"><span class="pre">.html</span></code>, <code class="docutils literal"><span class="pre">.css</span></code> and <code class="docutils literal"><span class="pre">.js</span></code> files from the project directory (<code class="docutils literal"><span class="pre">projects/my_project</span></code>). The right part contains the content of a currently selected project file (no file is selected by default) with highlighted syntax.</p>
+<p>编辑器窗口的左的部分包含所有从项目目录(<code class="docutils literal"><span class="pre">projects/my_project</span></code>) 中  <code class="docutils literal"><span class="pre">.html</span></code>, <code class="docutils literal"><span class="pre">.css</span></code> 和 <code class="docutils literal"><span class="pre">.js</span></code> 文件的列表。右侧部分包含带有高亮语法的当前选定的项目文件 （默认无选中的文件） 的内容。</p>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
 <p class="last">这个界面可以仅用于编辑项目的开发版文件，但不能编辑建建好的版本。</p>
 </div>
-<p>New <code class="docutils literal"><span class="pre">.html</span></code>, <code class="docutils literal"><span class="pre">.js</span></code> and <code class="docutils literal"><span class="pre">.css</span></code> files can be added to the project directory by clicking the <code class="docutils literal"><span class="pre">[New</span> <span class="pre">File]</span></code> button.</p>
+<p>新的 <code class="docutils literal"><span class="pre">.html</span></code>, <code class="docutils literal"><span class="pre">.js</span></code> 和 <code class="docutils literal"><span class="pre">.css</span></code> 文件可以通过单击 <code class="docutils literal"><span class="pre">[New</span> <span class="pre">File]</span></code> 按钮添加到项目目录。</p>
 <p>可在页面底部找到了 <code class="docutils literal"><span class="pre">[Save]</span></code> 和  <code class="docutils literal"><span class="pre">[Save</span> <span class="pre">As...]</span></code>  按钮用来保存当前选定的项目文件。</p>
 </div>
 <div class="section" id="project-config">
-<span id="id3"></span><h3><a class="toc-backref" href="#id15">Project Config</a><a class="headerlink" href="#project-config" title="永久链接至标题">¶</a></h3>
-<p>This is a web interface that allows the developer to view and change project settings after the project is created.</p>
+<span id="id3"></span><h3><a class="toc-backref" href="#id15">项目配置</a><a class="headerlink" href="#project-config" title="永久链接至标题">¶</a></h3>
+<p>这是一个 web 界面，允许开发人员在创建项目后查看和更改项目设置。</p>
 <a class="reference internal image-reference" href="_images/project_manager_config.png"><img alt="_images/project_manager_config.png" class="align-center" src="_images/project_manager_config.png" style="width: 100%;" /></a>
-<p>This page include all settings available during project creation along with some additional parameters. Some of the parameters are read-only (and thus cannot be changed after the project is created).</p>
+<p>此页面包括项目创建过程中的所有设置以及一些额外的参数。一些参数是只读 （因此创建项目后不能更改）。</p>
 <div class="section" id="info-settings-group">
-<h4><code class="docutils literal"><span class="pre">Info</span></code> Settings Group<a class="headerlink" href="#info-settings-group" title="永久链接至标题">¶</a></h4>
+<h4><code class="docutils literal"><span class="pre">Info</span></code> 设置组<a class="headerlink" href="#info-settings-group" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>名字</em></dt>
 <dd><p class="first">项目名称</p>
-<p class="last">This is a read-only parameter.</p>
+<p class="last">这是一个只读的参数。</p>
 </dd>
 <dt><em>名称</em></dt>
 <dd><p class="first last">在浏览器中所示的项目标题。</p>
@@ -564,60 +568,67 @@
 <dt><em>作者</em></dt>
 <dd><p class="first last">该项目的作者或开发商公司的名称。</p>
 </dd>
-<dt><em>Icon</em></dt>
-<dd><p class="first">The icon of the project in the Project Manager.</p>
-<p class="last">The icon can be replaced with the <code class="docutils literal"><span class="pre">Choose</span> <span class="pre">File</span></code> button. If an icon is not specified (as it is by default), Blend4Web logo is used.</p>
+<dt><em>图标</em></dt>
+<dd><p class="first">该项目在项目管理器中的图标。</p>
+<p class="last">其图标可以替换的选择文件按钮。如果图标不指定 （因为它是默认情况），则使用 Blend4Web 标志。</p>
 </dd>
 </dl>
 </div>
 <div class="section" id="build-setting-group">
-<h4><code class="docutils literal"><span class="pre">Build</span></code> Setting Group<a class="headerlink" href="#build-setting-group" title="永久链接至标题">¶</a></h4>
+<h4><code class="docutils literal"><span class="pre">Build</span></code> 设置组<a class="headerlink" href="#build-setting-group" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>Apps</em></dt>
-<dd>The list of the project&#8217;s <code class="docutils literal"><span class="pre">.HTML</span></code> files that are used for compiling applications. Each <code class="docutils literal"><span class="pre">.HTML</span></code> file is considered a separate application.</dd>
-<dt><em>Use Physics</em></dt>
-<dd><p class="first">Enables and disables adding physics engine files to the project. Can be turned off if the project does not use physics.</p>
-<p class="last">This parameter is always disabled for a WebPlayer HTML type project and always enabled for a WebPlayer JSON type. For other types of projects, it can be set manually.</p>
+<dd><p class="first last">项目中用于编译应用程序的 <code class="docutils literal"><span class="pre">.HTML</span></code> 文件。每个  <code class="docutils literal"><span class="pre">.HTML</span></code> 文件被认为是一个单独的应用程序。</p>
 </dd>
-<dt><em>Application Type</em></dt>
+<dt><em>使用物理</em></dt>
+<dd><p class="first">启用和禁用添加物理引擎文件到该项目。如果该项目不使用物理可以关闭。</p>
+<p class="last">此参数在 WebPlayer HTML 类型项目中总是禁用但 WebPlayer JSON 类型中总是启用。对于其他类型的项目，它可以手动设置。</p>
+</dd>
+<dt><em>应用程序类型</em></dt>
 <dd><p class="first">设置项目类型</p>
-<p class="last">This is a read-only parameter, as projects with different types have different inner structure.</p>
+<p class="last">这是一个只读的参数，因为不同类型的项目有不同的内部结构。</p>
 </dd>
 <dt><em>JavaScript 混淆级别</em></dt>
-<dd><p class="first">JavaScript optimization level for compiling application.</p>
-<p class="last">This parameter is read-only for the None, WebPlayer HTML and WebPlayer JSON type projects.</p>
+<dd><p class="first">编译应用程序时 Javascript 优化级别。</p>
+<p class="last">此参数为 None，WebPlayer HTML 和 WebPlayer JSON 类型项目设置为只读模式。</p>
 </dd>
 <dt><em>JS编译通过列表</em></dt>
 <dd><p class="first last">该项目的JavaScript文件汇编直通例外列表。</p>
 </dd>
 <dt><em>CSS编译通过列表</em></dt>
-<dd>The list of pass-through exceptions for the project&#8217;s CSS files.</dd>
+<dd><p class="first last">项目的 CSS 文件直通例外列表。</p>
+</dd>
 <dt><em>构建忽略列表</em></dt>
 <dd><p class="first last">项目编译中的例外列表。</p>
 </dd>
 </dl>
 </div>
 <div class="section" id="paths-setting-group">
-<h4><code class="docutils literal"><span class="pre">Paths</span></code> Setting Group<a class="headerlink" href="#paths-setting-group" title="永久链接至标题">¶</a></h4>
+<h4><code class="docutils literal"><span class="pre">Paths</span></code> 设置组<a class="headerlink" href="#paths-setting-group" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>Developer Project Path</em></dt>
-<dd><p class="first">The path to the application for development.</p>
-<p class="last">This is a read-only parameter.</p>
+<dd><p class="first">开发的应用程序的路径。</p>
+<p class="last">这是一个只读的参数。</p>
 </dd>
 <dt><em>Build Project Path</em></dt>
-<dd>The path to the compiled application.</dd>
+<dd><p class="first last">编译应用程序的路径。</p>
+</dd>
 <dt><em>Blend 目录</em></dt>
-<dd>Path(s) to the blend file directory(ies).</dd>
+<dd><p class="first last">blend 文件夹的路径</p>
+</dd>
 <dt><em>资产目录</em></dt>
-<dd>Path(s) to the assets directory(ies).</dd>
+<dd><p class="first last">资产文件夹的路径。</p>
+</dd>
 <dt><em>Blender Exec</em></dt>
-<dd>The path to the Blender exacutable file.</dd>
+<dd><p class="first last">Blender的可执行文件路径。</p>
+</dd>
 <dt><em>Deployment Path</em></dt>
-<dd>The path to the folder for project final deployment.</dd>
+<dd><p class="first last">为项目最终部署文件夹的路径。</p>
+</dd>
 </dl>
 </div>
 <div class="section" id="deploy-setting-group">
-<h4><code class="docutils literal"><span class="pre">Deploy</span></code> Setting Group<a class="headerlink" href="#deploy-setting-group" title="永久链接至标题">¶</a></h4>
+<h4><code class="docutils literal"><span class="pre">Deploy</span></code> 设置组<a class="headerlink" href="#deploy-setting-group" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>部署资产目录</em></dt>
 <dd><p class="first last">资产将被放置部署项目的目录。</p>
@@ -629,13 +640,14 @@
 <dd><p class="first last">项目的部署例外列表。</p>
 </dd>
 <dt><em>Override Deployment Path</em></dt>
-<dd>Deletes deployment directory, if it already exists.</dd>
+<dd><p class="first last">删除部署目录，如果它已经存在。</p>
+</dd>
 </dl>
 </div>
 <div class="section" id="url-get-params">
-<h4>URL GET Params<a class="headerlink" href="#url-get-params" title="永久链接至标题">¶</a></h4>
-<p>The additional GET parameters for the URL link to the application in the Project Manager interface are specified in this field.</p>
-<p>Project setting can be saved by pressing the <code class="docutils literal"><span class="pre">[Save</span> <span class="pre">Config]</span></code> button at the bottom of the screen.</p>
+<h4>URL GET 参数<a class="headerlink" href="#url-get-params" title="永久链接至标题">¶</a></h4>
+<p>在项目管理器界面中，此字段中为 URL 链接指定额外的 GET 参数。</p>
+<p>项目设置可以按屏幕底部的 <code class="docutils literal"><span class="pre">[Save</span> <span class="pre">Config]</span></code> 按钮保存。</p>
 </div>
 </div>
 <div class="section" id="project-import">
@@ -689,10 +701,10 @@
 </div>
 <div class="section" id="deploying-the-project">
 <span id="project-deploy"></span><h3><a class="toc-backref" href="#id18">部署项目</a><a class="headerlink" href="#deploying-the-project" title="永久链接至标题">¶</a></h3>
-<p>After you have completed your project, select the <code class="docutils literal"><span class="pre">deploy</span> <span class="pre">project</span></code> option from the <code class="docutils literal"><span class="pre">Operations</span></code> panel on the Project Manager main page. The project will be exported and packed into a single archive.</p>
+<p>您完成您的项目后，在项目管理器的主页面从 <code class="docutils literal"><span class="pre">Operations</span></code> 面板选择 <code class="docutils literal"><span class="pre">deploy</span> <span class="pre">project</span></code> 选项。该项目将被导出，打包成一个单一的存档，并下载到您的网页浏览器存储所有下载文件的文件夹。</p>
 <a class="reference internal image-reference" href="_images/project_manager_deploying.png"><img alt="_images/project_manager_deploying.png" class="align-center" src="_images/project_manager_deploying.png" style="width: 100%;" /></a>
-<p>After that, this archive can then be downloaded by to the folder where your web browser stores all dowloaded files by pressing the <code class="docutils literal"><span class="pre">Download</span></code> button. It should be noted that the process of downloading can take a significant amount of time depending on the size of the archive.</p>
-<p>To place the project on a webpage, you have to extract this archive and upload its files to a web server using FTP, SSH or any other protocols supported by the server.</p>
+<p>在那之后，该存档文件然后可以下载的到您的 web 浏览器存储下载的所有文件按下载按钮的位置的文件夹。应该指出的是，下载的过程可以产生大量的时间取决于归档文件的大小。</p>
+<p>若要将项目放在网页上，你必须提取此文档，并用FTP，SSH或由支持的任何其他协议服务上传文件（<code class="docutils literal"><span class="pre">html</span></code> 文件和 <code class="docutils literal"><span class="pre">assets</span></code> 目录）发送到Web服务器。</p>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
 <p class="last">将项目文件上传到Web服务器上，应保留对其文件的归档和相关路径的内部结构。</p>
@@ -727,7 +739,7 @@
 <span id="id6"></span><h2><a class="toc-backref" href="#id19">高级项目管理</a><a class="headerlink" href="#advanced-project-management" title="永久链接至标题">¶</a></h2>
 <p>高级项目管理器由经验丰富的开发人员使用，在需要更多的灵活性和需要自动化项目开发过程中使用。</p>
 <p>高级项目管理器使用 <em>project.py</em> 脚本并手动编辑  <em>.b4w_project</em>  配置文件。</p>
-<p>The <em>project.py</em> script can be found in the <code class="docutils literal"><span class="pre">./apps_dev/</span></code> folder of the Blend4Web SDK directory. If the <code class="docutils literal"><span class="pre">Copy</span> <span class="pre">Project</span> <span class="pre">Management</span> <span class="pre">Script</span></code> option has been set while creating the project, the script can also be found in the root folder of the project.</p>
+<p><em>Project.py</em> 脚本可以在 Blend4Web SDK 目录的 <code class="docutils literal"><span class="pre">./apps_dev/</span></code> 文件夹中找到。如果在创建项目时，设置了 <code class="docutils literal"><span class="pre">Copy</span> <span class="pre">Project</span> <span class="pre">Management</span> <span class="pre">Script</span></code> 选项，也可以在项目的根文件夹中找到该脚本。</p>
 <div class="section" id="dependencies">
 <span id="project-deps"></span><h3><a class="toc-backref" href="#id20">依赖</a><a class="headerlink" href="#dependencies" title="永久链接至标题">¶</a></h3>
 <p>项目管理系统在所有操作系统都可用。但是，某些操作可能需要安装附加依赖项。为了检查是否满足所有依赖项，请使用以下命令 ︰</p>
@@ -793,7 +805,7 @@
 <div class="section" id="project-configuration-file-b4w-project">
 <span id="b4w-config"></span><h3><a class="toc-backref" href="#id23">项目配置文件（.b4w_project）</a><a class="headerlink" href="#project-configuration-file-b4w-project" title="永久链接至标题">¶</a></h3>
 <p>项目配置文件包含项目的所有必要的信息，包括姓名，元数据，目录，应用程序创建和部署信息。</p>
-<p>Project configuration file can be edited manually, but a more convenient way is to use <a class="reference internal" href="#project-edit"><span>Project Editing</span></a> interface.</p>
+<p>项目配置文件可以手动编辑，但一个更方便的方法是使用 <a class="reference internal" href="#project-edit"><span>项目编辑</span></a> 界面。</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span>[info]
 author = Blend4Web
 name = my_project
@@ -846,7 +858,7 @@ override =
 <h4>模块 <code class="docutils literal"><span class="pre">[paths]</span></code><a class="headerlink" href="#section-paths" title="永久链接至标题">¶</a></h4>
 <p>包含项目路径：</p>
 <dl class="docutils">
-<dt><em>assets_dirs</em></dt>
+<dt><strong>资源目录</strong></dt>
 <dd><p class="first last">项目的媒体资产所在的位置目录。</p>
 </dd>
 <dt><em>blend_dirs</em></dt>
@@ -935,8 +947,9 @@ override =
 </li>
 <li><p class="first"><code class="docutils literal"><span class="pre">-S</span> <span class="pre">|</span> <span class="pre">--copy-场景templates</span></code> （可选）创建目录 <code class="docutils literal"><span class="pre">deploy/assets/&lt;my_project_name&gt;</span></code> 和 <code class="docutils literal"><span class="pre">blender/&lt;my_project_name&gt;</span></code> (<em>my_project.json/.bin</em> 和 <em>my_project.blend</em> 相应的).</p>
 </li>
-<li><code class="docutils literal"><span class="pre">-T</span> <span class="pre">|</span> <span class="pre">--title</span></code> (optional) write a title in the config file. Upon building, it will be used inside the <code class="docutils literal"><span class="pre">&lt;title&gt;</span></code> HTML element.</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">-t</span> <span class="pre">|</span> <span class="pre">--engine-type</span></code> （可选）写在配置文件中的引擎类型。</p>
+<li><p class="first"><code class="docutils literal"><span class="pre">-T</span> <span class="pre">|</span> <span class="pre">--title``（可选）在配置文件写入标题。编译时，会将写入进HTML元素</span>&nbsp; <span class="pre">``&lt;title&gt;</span></code> 。</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">-t</span> <span class="pre">|</span> <span class="pre">--engine-type</span></code> （可选）在配置文件中写入引擎类型。</p>
 </li>
 </ul>
 <p>示例：</p>
@@ -986,7 +999,7 @@ override =
 <span class="o">...</span>
 </pre></div>
 </div>
-<p>If the <code class="docutils literal"><span class="pre">apps</span></code> field is empty, every <code class="docutils literal"><span class="pre">html</span></code> file in the project directory will be considered an application.</p>
+<p>如果 <code class="docutils literal"><span class="pre">apps</span></code> 字段为空，项目目录中的每个  <code class="docutils literal"><span class="pre">html</span></code> 文件将被视为一个应用程序。</p>
 </div>
 <div class="section" id="building-projects">
 <span id="project-build"></span><h3><a class="toc-backref" href="#id26">构建项目</a><a class="headerlink" href="#building-projects" title="永久链接至标题">¶</a></h3>
@@ -1004,14 +1017,12 @@ override =
 </li>
 <li><p class="first"><code class="docutils literal"><span class="pre">“-o</span> <span class="pre">|</span> <span class="pre">--optimization”</span></code> （可选）指定JavaScript文件的优化级别： <code class="docutils literal"><span class="pre">whitespace</span></code>，<code class="docutils literal"><span class="pre">simple</span></code> （默认）或 <code class="docutils literal"><span class="pre">advanced</span></code>。</p>
 </li>
-<li><p class="first"><code class="docutils literal"><span class="pre">&quot;-t</span> <span class="pre">|</span> <span class="pre">--engine-type&quot;</span></code> （可选）定义的应用程序编译类型。四种型号可供选择： <em>external</em> (默认), <em>copy</em>, <em>compile</em>, <em>update</em>.</p>
-</li>
 <li><p class="first"><code class="docutils literal"><span class="pre">“-v</span> <span class="pre">|</span> <span class="pre">--version”</span></code> 加版本和脚本和样式的路径。</p>
 </li>
 </ul>
 <p>编译器要求</p>
 <ul class="simple">
-<li><p class="first">在一个HTML文件必须存放在目录的根目录如果  <code class="docutils literal"><span class="pre">-a</span></code> 选项被禁用</p>
+<li><p class="first">一个HTML文件必须存放在目录的根目录，如果  <code class="docutils literal"><span class="pre">-a</span></code> 选项被禁用</p>
 </li>
 <li><p class="first">脚本和样式可以存储在应用程序的根目录和子文件夹中</p>
 </li>
@@ -1027,7 +1038,7 @@ override =
 <ul class="simple">
 <li><p class="first"><code class="docutils literal"><span class="pre">“-b</span> <span class="pre">|</span> <span class="pre">--blender_exec”</span></code> Blender可执行文件的路径。</p>
 </li>
-<li><p class="first"><code class="docutils literal"><span class="pre">“-s</span> <span class="pre">|</span> <span class="pre">--assets”</span></code> 用场景资源指定目录。</p>
+<li><p class="first"><code class="docutils literal"><span class="pre">&quot;-s</span> <span class="pre">|</span> <span class="pre">--assets&quot;</span></code> 用场景资源指定目录。</p>
 </li>
 </ul>
 </div>
@@ -1039,7 +1050,7 @@ override =
 <p>外部资源（纹理，音频和视频文件）转换为另一种格式，以确保跨浏览器和跨平台性能。</p>
 <p>可用参数：</p>
 <ul class="simple">
-<li><p class="first"><code class="docutils literal"><span class="pre">“-s</span> <span class="pre">|</span> <span class="pre">--assets”</span></code> 用场景资源指定目录。</p>
+<li><p class="first"><code class="docutils literal"><span class="pre">&quot;-s</span> <span class="pre">|</span> <span class="pre">--assets&quot;</span></code> 用场景资源指定目录。</p>
 </li>
 </ul>
 <p>资源的转换中详细描述在 <a class="reference internal" href="developers.html#converter"><span>对应部分</span></a>.</p>
@@ -1056,11 +1067,11 @@ override =
 </li>
 <li><p class="first"><code class="docutils literal"><span class="pre">&quot;-E</span> <span class="pre">|</span> <span class="pre">--assets-prefix&quot;</span></code> 资产网址前缀（默认情况下“资产”）。</p>
 </li>
-<li><p class="first"><code class="docutils literal"><span class="pre">“-o</span> <span class="pre">|</span> <span class="pre">--override”</span></code> 如果它存在删除目录。</p>
+<li><p class="first"><code class="docutils literal"><span class="pre">&quot;-o</span> <span class="pre">|</span> <span class="pre">--override&quot;</span></code> 如果它存在删除目录。</p>
 </li>
-<li><p class="first"><code class="docutils literal"><span class="pre">“-s</span> <span class="pre">|</span> <span class="pre">--assets”</span></code> 用场景资源指定目录。</p>
+<li><p class="first"><code class="docutils literal"><span class="pre">&quot;-s</span> <span class="pre">|</span> <span class="pre">--assets&quot;</span></code> 用场景资源指定目录。</p>
 </li>
-<li><p class="first"><code class="docutils literal"><span class="pre">-t</span> <span class="pre">|</span> <span class="pre">--engine-type</span></code> （可选）写在配置文件中的引擎类型。</p>
+<li><p class="first"><code class="docutils literal"><span class="pre">&quot;-t</span> <span class="pre">|</span> <span class="pre">--engine-type&quot;</span></code> （可选）写在配置文件中的引擎类型。</p>
 </li>
 </ul>
 </div>
@@ -1131,8 +1142,8 @@ override =
 
   <div role="contentinfo">
     <p>
-        &copy; 版权所有 2014-2016, Triumph.
-      最后更新于 2017-03-07.
+        &copy; 版权所有 2014-2017, Triumph.
+      最后更新于 2017-04-26.
 
     </p>
   </div>
@@ -1188,7 +1199,7 @@ override =
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.02.1',
+            VERSION:'v17.04',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

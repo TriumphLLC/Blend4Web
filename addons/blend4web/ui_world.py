@@ -77,20 +77,24 @@ class B4W_WORLD_PT_world(WorldButtonsPanel, Panel):
         layout = self.layout
 
         world = context.world
-
         sky = world.b4w_sky_settings
-        layout.prop(context.world.b4w_sky_settings, "render_sky", text=_("Render Sky"))
 
+        layout.prop(sky, "render_sky", text=_("Render Sky"))
         sky_is_active = getattr(sky, "render_sky")
 
         row = layout.row()
         row.active = sky_is_active
+        row.prop(world, "use_nodes", text=_("Use Nodes (Cycles)"))
+        is_node_world = getattr(world, "use_nodes")
+
+        row = layout.row()
+        row.active = sky_is_active and not is_node_world
         row.prop(world, "use_sky_paper")
         row.prop(world, "use_sky_blend")
         row.prop(world, "use_sky_real")
 
         row = layout.row()
-        row.active = sky_is_active
+        row.active = sky_is_active and not is_node_world
         row.column().prop(world, "horizon_color")
         col = row.column()
         col.prop(world, "zenith_color")

@@ -114,11 +114,15 @@ Blend4Web SDK分布和您的网站进行部署。您可以将导出的场景文�
 7. 该 "compressed_textures_pvr" 可选参数用于启用加载压缩为PVRTC格式
    的 材质，该参数用在 "compressed_textures" 参数中。
 
-8. 可选 "alpha" 参数用于启用对描画区域的透明度。
+8. the "compressed_gzip" optional parameter is used to enable
+   loading of GZIP compressed resources such as ".json.gz", ".bin.gz",
+   ".dds.gz" and ".pvr.gz".
 
-9. 可选的 "no_social" 属性用于在控制面板上禁用社交网络按钮。
+9. 可选 "alpha" 参数用于启用对描画区域的透明度。
 
-10. 可选的 "socials" 属性用于选择性地启用和禁用控制面板上的社交网
+10. 可选的 "no_social" 属性用于在控制面板上禁用社交网络按钮。
+
+11. 可选的 "socials" 属性用于选择性地启用和禁用控制面板上的社交网
     络按 钮。此属性应该像 "socials=<...>",  其中  "<...>" 是一组与您要
     启用 的社交网络按钮字母（ "f" 为Facebook "v" 为VK，"t" 是Twitter的
     ，"w" 是微博和 "g" 是Google ）。字母顺序设置定义了按钮将出现在屏幕
@@ -142,21 +146,19 @@ Blend4Web SDK分布和您的网站进行部署。您可以将导出的场景文�
 
 如果播放器使用不当，它会显示相应的错误。
 
-1. The "load" attribute specifies a wrong path to the JSON file or
-   the file is corrupt.
+1. "load" 属性 指定了一个错误的路径指向JSON文件或文件已损坏;
 
 [图片]
 
 
 
-2. The "load" attribute is not found or is void.
+2. "load" 属性 未找到或无效的;
 
 [图片]
 
 
 
-3. WebGL initialization error. Please, look at this page for the
-   solution.
+3. WebGL的初始化错误。请查看 这一页 找到解决方法。
 
 [图片]
 

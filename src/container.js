@@ -49,14 +49,10 @@ var _offsets_updating_needed = false;
 var _viewport_layout = {
     width: 0,   // device pixels
     height: 0,  // device pixels
-    scale: 1,   // divece pixels/css pixels
+    scale: 1,   // divice pixels/css pixels
     offset_top: 0,  // css pixels
     offset_left: 0  // css pixels
 }
-
-// default canvas dimensions
-exports.DEFAULT_CANVAS_W = 320;
-exports.DEFAULT_CANVAS_H = 240;
 
 /**
  * Setup WebGL context
@@ -271,14 +267,6 @@ function resize_css(canvas_webgl, canvas_hud, width, height) {
 
 exports.resize = resize;
 function resize(width, height, update_canvas_css) {
-    if (!width || !height) {
-        width = exports.DEFAULT_CANVAS_W;
-        height = exports.DEFAULT_CANVAS_H;
-
-        var canvas_cont = get_container();
-        canvas_cont.style.width = exports.DEFAULT_CANVAS_W + "px";
-        canvas_cont.style.height = exports.DEFAULT_CANVAS_H + "px";
-    }
 
     var canvas_webgl = get_canvas();
     var canvas_hud   = get_canvas_hud();
@@ -327,7 +315,12 @@ function resize(width, height, update_canvas_css) {
         canvas_webgl.height = ch;
     }
 
-    m_scenes.setup_dim(cw, ch, cw/width);
+    if (width)
+        var scale = cw/width;
+    else
+        var scale = 1;
+
+    m_scenes.setup_dim(cw, ch, scale);
 
     // needed for frustum culling/constraints
     if (m_scenes.check_active())

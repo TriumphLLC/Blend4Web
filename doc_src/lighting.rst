@@ -125,6 +125,8 @@ The engine supports 3 methods of the environment lighting simulation.
 2. Hemispherical lighting model in which horizon and zenith colors should be specified. As a result objects are filled with a gradient between these two colors depending on the direction of normals.
 3. Lighting using an :ref:`environment map <environment_map>` - so called image-based lighting.
 
+Please note that environment lighting uses a simplified model which doesn't take into account mutual shadowing of objects.
+
 Activation
 ----------
 

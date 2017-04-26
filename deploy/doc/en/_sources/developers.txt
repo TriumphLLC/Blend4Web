@@ -10,154 +10,277 @@ For Application Developers
 
 .. _app_building:
 
-Application Programming
+Application Development
 =======================
 
-"Hello World!" application
+To simplify development process, we recommend to use :ref:`Project Manager <project_management>`. It can be used to quickly :ref:`create <create_new_project>` a simple application with a generic code that is enough to load a simple scene and enable basic camera controls.
+
+.. _app_init_loading:
+
+Application Code Structure
 --------------------------
 
-The simplest Blend4Web app may look like this:
+The process of initializing and loading an application is separated into several stages, which is reflected in the code of the application. If you are using Project Manager, a newly created ``Copy`` or ``Compile`` type project will include a main JS file, which will be placed in the SDK. The path to the file will look like this: ``./projects/PROJECT_NAME/PROJECT_NAME.js``.
 
-.. code-block:: html
-
-    <!DOCTYPE html>
-    <html>
-    <head>
-    <script src="b4w.min.js"></script>
-    <script>
-    function hello() {
-        var m_version = b4w.require("version");
-        document.body.innerHTML = "Hello, Blend4Web " + m_version.version() + "!";
-    }
-    </script>
-    </head>
-
-    <body onload="hello()"></body>
-
-    </html>
-
-
-This app prints a message and the engine's version in the browser window. Let's look at this example in detail. The engine library is embedded with the ``<script src="...">`` element. Then, the app waits for the page to load and prints the current version in the browser window. In this example, ``version`` is the only used module which has a function with the same name - ``version()``. A more detailed info about the usage of engine's modules and functions can be found in the `API documentation <https://www.blend4web.com/api_doc/index.html>`_.
-
-The compiled engine file ``b4w.min.js`` can be copied from the SDK's ``deploy/apps/common`` directory and placed in the same directory as the HTML file.
-
-Loading Scenes in Apps
-----------------------
-
-To load a 3D scene you need:
-
-#. Place a ``<canvas>`` element on a page for rendering.
-
-#. Call the ``m_main.init()`` function with the created element id to initialize the WebGL context after the page is loaded.
-
-#. Call the ``m_data.load()`` function to load a 3D scene.
-
-.. code-block:: html
-
-    <!DOCTYPE html>
-    <html>
-    <head>
-    <script src="b4w.min.js"></script>
-    <script>
-    function hello() {
-        var m_main = b4w.require("main");
-        var m_data = b4w.require("data");
-
-        var canvas_elem = document.getElementById("canvas_id");
-        m_main.init(canvas_elem);
-        m_data.load("some_scene.json");
-    }
-    </script>
-    </head>
-
-    <body onload="hello()"><canvas id="canvas_id"></canvas></body>
-
-    </html>
-
-.. note::
-
-    Note that a real app should include error checking, setting up the engine before initializing and also a basic system for interacting with the user.
-
-
-Module System
--------------
-
-While the engine gives an app programmer an API in the scale of dozens of modules, it occupies a single ``b4w`` namespace. To call a module’s method import it first with the ``b4w.require()`` function.
-
-It is possible to register external modules if their names do not collide with already existing modules. A module can be registered with a ``b4w.register()`` call. Check if a module with some name already exists with a ``b4w.module_check()`` call.
-
-Example:
+This file contains generic code shaped as a module. This module can be registered using the certain structure:
 
 .. code-block:: javascript
 
-    // check if module exists
+    b4w.register("my_module", function(exports, require) {
+
+        // module code
+        //...
+
+    });
+
+So, the code of a module is contained within a function that accepts ``exports`` and ``require`` parameters.
+
+#. ``require`` is the method used for loading engine modules. The generic example mentioned above loads several modules:
+
+    The most important ones of them are the ``app`` and ``data`` modules. The ``app`` module simplifies application initialization while the ``data`` module contains API methods for loading 3D scene data.
+
+    .. note::
+
+        To make module naming more convenient, ``m_`` prefix is often used (``m_app``, ``m_data`` etc.) to show that the variable is an engine module.
+
+#. ``exports`` is an object used for gaining access to module’s functions from outside (for example, from other modules). In this case, only the ``init`` function has been made external:
+
+    .. code-block:: javascript
+
+        b4w.register("my_module", function(exports, require) {
+
+            ...
+
+            exports.init = function() {
+                m_app.init({
+                canvas_container_id: "main_canvas_container",
+                callback: init_cb,
+                show_fps: DEBUG,
+                console_verbose: DEBUG,
+                autoresize: true
+            });
+        }
+
+        ...
+        });
+
+Application initialization begins with this function, and it is called outside of the module:
+
+.. code-block:: javascript
+
+     b4w.register("my_module", function(exports, require) {
+
+         ...
+
+         exports.init = function() {
+             m_app.init({
+                 canvas_container_id: "main_canvas_container",
+                 callback: init_cb,
+                 show_fps: DEBUG,
+                 console_verbose: DEBUG,
+                 autoresize: true
+             });
+         }
+
+         ...
+     });
+
+     // import the app module and start the app by calling the init method
+     b4w.require("my_module").init();
+
+After this, the :b4wref:`app.init app.init` method is called. It creates Canvas HTML element and performs all necessary action for initializing WebGL. This method has many different attributes, the most important ones of which are:
+
+* ``canvas_container_id`` set the id of the HTML element that acts as a container for the Canvas element. By default, an element with the ``main_canvas_container`` ID is used (this element is located in the main HTML file of the application).
+
+* ``callback`` is the function that is called after finishing initialization.
+
+When application initialization is completed, the :b4wref:`init_cb app.~AppInitCallback` function set by the ``callback`` parameter is called:
+
+.. code-block:: javascript
+
+    function init_cb(canvas_elem, success) {
+
+        if (!success) {
+            console.log("b4w init failure");
+            return;
+        }
+
+        m_preloader.create_preloader();
+
+        // ignore right-click on the canvas element
+        canvas_elem.oncontextmenu = function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        };
+
+       load();
+    }
+
+It has following parameters:
+
+* canvas_elem is the created Canvas HTML element that will be used for rendering 3D content
+
+* success it the flag that indicates the success of the initialization. The ``false`` value meant that the application is unable to work due to initialization errors (for example, WebGL is not supported by the device).
+
+.. note::
+
+    The :b4wref:`app.init app.init` methods sets initialization to the ``window.onload`` event, so the ``init_cb`` function will have access to the entire DOM tree of the HTML document.
+
+Now we can begin loading 3D scene. This is done in the ``load`` function that is called from the ``init_cb``:
+
+.. code-block:: javascript
+
+    var APP_ASSETS_PATH = m_cfg.get_assets_path("my_project");
+
+    ...
+
+    function load() {
+        m_data.load(APP_ASSETS_PATH + "my_project.json", load_cb, preloader_cb);
+    }
+
+The :b4wref:`data.load data.load` method is used for loading. The first parameter of this method is the path to a 3D scene file. The path to a JSON file should be relative to the main HTML application file. Projects created in Project Manager have a dedicated asset folder, and you can easily obtain the path to it. This is done in the generic example code by introducing the ``APP_ASSETS_PATH`` global variable that is later used in the :b4wref:`data.load data.load`.
+
+The second parameter of the method is the :b4wref:`load_cb data.~LoadedCallback` function which is called after the 3D scene is loaded and prepared for rendering.
+
+.. code-block:: javascript
+
+    function load() {
+        m_data.load(APP_ASSETS_PATH + "my_project.json", load_cb, preloader_cb);
+    }
+
+    function load_cb(data_id, success) {
+
+        if (!success) {
+            console.log("b4w load failure");
+            return;
+        }
+
+        m_app.enable_camera_controls();
+
+        // place your code here
+
+    }
+
+Calling this function means that the application has finished loading and now starts scene rendering. As this is the very first moment when the 3D scene data will be available, it is a suitable moment for initializing and preparing everything related to the scene, its object, animations and other things. For example, standard camera controls can be enabled here with the :b4wref:`app.enable_camera_controls` method.
+
+Writing Application Logic
+.........................
+
+After initializing and loading 3D scene the application will proceed to work according to the logic set by the programmer such as interacting with input devices, manipulating scene objects, controlling camera behavior and so on.
+
+By observing the :ref:`application loading process <app_init_loading>`, we can determine several places suitable for performing various tasks.
+
+#. The :b4wref:`app.init app.init` method used for starting the initialization accepts engine configuration parameters. So you can configure the engine right before calling this method using URL attributes as a base:
+
+    .. code-block:: javascript
+
+        b4w.register("my_module", function(exports, require) {
+
+        ...
+
+        exports.init = function() {
+            var url_params = m_app.get_url_params();
+            if (url_params && "show_fps" in url_params)
+                var show_fps = true;
+            else
+                var show_fps = false;
+
+            m_app.init({
+                canvas_container_id: "main_canvas_container",
+                callback: init_cb,
+                autoresize: true
+                show_fps: show_fps
+            });
+        }
+
+            ...
+        });
+        b4w.require("my_module").init();
+
+#. Initialization is started by the ``window.onload`` action, which means that after it is completed, the :b4wref:`init_cb app.~AppInitCallback` function will have access to the whole DOM tree. At this moment, you already can perform some preparations such as creating and setting up interface elements. However, the 3D scene itself is not yet loaded, and its objects are not yet available.
+
+#. After the 3D scene is loaded, the :b4wref:`load_cb data.~LoadedCallback` function is called. At this moment, all scene objects become available, thus any action that concerns them can be implemented in this function. Some examples can be found in the  :ref:`Code Snippets <code_snippets>` application.
+
+Logic can be added to the application by using either browser or engine API:
+
+#. Basic keyboard/mouse/gamepad input can be implemented with standard event handlers by using the ``addEventListener`` method. In more complex cases you can use the :b4wmod:`input` API module. The engine also features the :b4wref:`input.add_click_listener` method that registers both mouse clicks and touch screen events which makes it useful for writing applications compatible with desktop and mobile devices alike.
+
+#. Time-stretched events that have to be performed at every frame (procedural animation, for example) can be implemented with methods such as :b4wref:`main.set_render_callback`, :b4wref:`main.append_loop_cb`, :b4wref:`time.animate` and :b4wref:`time.set_timeout`. Standard ``setTimeout`` and ``setInterval`` methods can also be used.
+
+#. For complex logic that takes into account both user actions and the state of the 3D scene can use engine’s :ref:`event-driven model <event_model>` that is based on sensor system.
+
+Module System
+.............
+
+Blend4Web engine is built upon modular structure: all engine API methods are separated into several modules. If necessary, a module can be plugged into the application with the ``require`` method. We recommend to structure the code of the actual application into modules as well.
+
+1) Registering Modules
+
+A module is essentially a code block wrapped by a specific structure that is used to register it:
+
+.. code-block:: javascript
+
+    b4w.register("my_module1", function(exports, require) {
+
+        // module code
+        ...
+    });
+
+    b4w.register("my_module2", function(exports, require) {
+
+        // module code
+        ...
+    });
+
+    ...
+
+The :b4wref:`b4w.register` method is used for registering modules. You can only register custom modules if their names do not coincide with the regular API modules. If necessary, the :b4wref:`b4w.module_check` method to check if a module with a given name is present:
+
+.. code-block:: javascript
+
     if (b4w.module_check("my_module"))
         throw "Failed to register module: my_module";
 
-    // register my_module
     b4w.register("my_module", function(exports, require) {
 
-        // import module "version"
-        var m_version = require("version");
+        // module code
+        ...
 
-        // export print_build_date() from module "my_module"
-        exports.print_build_date = function() {
-            // exec function date() from module "version"
-            console.log("Engine build date: " + m_version.date());
-        }
     });
 
-    // import module "my_module"
-    var m_my_module = b4w.require("my_module");
+2) Loading Modules
 
-    // exec function print_build_date() from module "my_module"
-    m_my_module.print_build_date();
+Custom modules, just like regular ones, can be plugged in with the ``require`` method:
 
+.. code-block:: javascript
 
+    b4w.register("my_module1", function(exports, require) {
 
-Creating Apps Quickly
----------------------
+        var mod2 = require("my_module2")
 
-Creating an app from scratch can be a tedious task, especially for beginners. To address this there is a special add-on for the engine called ``app``:
+        ...
+    });
 
-.. code-block:: html
+3) Application Initialization
 
-    <!DOCTYPE html>
-    <html>
-    <head>
-    <script src="b4w.min.js"></script>
-    <script>
+Application initialization in Blend4Web is usually done with a call like this:
 
-    var m_app = b4w.require("app");
-    var m_data = b4w.require("data");
+.. code-block:: javascript
 
-    m_app.init({
-        canvas_container_id: "container_id",
-        callback: load_cb
-    })
+    b4w.require("my_module").init();
 
-    function load_cb() {      
-        m_data.load("some_scene.json", loaded_cb);
-    }
+Here, the ``my_module`` custom module and its ``init`` external function do, in a certain sense, act as the entry point to the application.
 
-    function loaded_cb() {
-        m_app.enable_camera_controls();
-    }
+.. note::
 
-    </script>
-    </head>
+    In the global visibility scope a module can be loaded with the same :b4wref:`b4w.require` method available as a method of the global ``b4w`` object: ``b4w.require("MODULE_NAME")``.
 
-    <body>
-        <div id="container_id" style="width: 350px; height: 200px;"></div>
-    </body>
+4) Using Multiple Modules
 
-    </html>
+After a project is created in the :ref:`Project Manager <project_management>`, its generic application JS-file will contain only one module. However, while developing the application, you might need to separate your code into several logic parts. In this case, you can either create several modules inside one file, or you can create several files each one of them contain one module.
 
-In this case the ``app`` module will create a ``<canvas>`` element inside the container with the specified ``container_id`` id. Then it will initialize the engine after the page is loaded and will finally execute the ``load_cb()`` callback.
-
-Then the some_scene.json scene is loaded similar to the previous example. The only difference is that after the scene is loaded, the control system is initialized and camera movement with keyboard and mouse (or sensor screen) becomes possible.
-
-In case when the ``app`` module is used, it is necessary to explicitly specify dimensions of the container element. Otherwise, the created ``<canvas>`` element will have zero dimensions.
+If your application uses multiple modules, keep in mind that every one of them should be properly registered before initialization starts, or you will get an engine error if you try to call a module that is not yet registered. If you are using several JS files, the script that starts the initialization (contains application entry point) should the last one to be plugged into the main HTML application file.
 
 Background Transparency
 =======================
@@ -169,7 +292,7 @@ The ``background_color`` and ``alpha`` parameters are passed to the :b4wref:`m_a
     m_app.init ({
         alpha: true,
         background_color: [0.7, 0.7, 0.7, 1]
-       //this method sets the background to an opaque light grey color
+       //this method sets the background to an opaque light gray color
     });
 
 The combination of the parameters passed to the method defines how the backgrounds of the Blend4Web application and the HTML application blend together. Available options are:
@@ -228,7 +351,7 @@ To support a wider range of platforms, a Python script (*scripts/converter.py*) 
 
 There are two ways to run this script.
 
-Firstly, you can run it automatically using the project mangement system. The ``Convert Resources`` button can be found in the main page of the :ref:`Project Manager <project_management>`, in the ``Operations`` tab at the right side of the screen. 
+Firstly, you can run it automatically using the project management system. The ``Convert Resources`` button can be found in the main page of the :ref:`Project Manager <project_management>`, in the ``Operations`` tab at the right side of the screen. 
 
 .. image:: src_images/developers/developers_convert_resources.png
    :align: center
@@ -269,15 +392,23 @@ Commands for conversion:
 
 * ``convert_dds`` converts textures to :ref:`DDS format <dds>`.
 
+* ``convert_pvr`` converts textures to :ref:`PVR format <pvrtc>`.
+
 * ``convert_media`` converts audio and video files to :ref:`alternative formats <converter_data_format>`.
+
+* ``convert_gzip`` generates GZIP-compressed versions of ".json" and ".bin" scene files and ".dds" and ".pvr" textures.
 
 Commands for resource cleanup:
 
 * ``cleanup_textures`` removes low resolution textures generated by the ``resize_textures`` command.
 
-* ``cleanup_dds`` removers DDS texture files generated by the ``convert_dds`` command.
+* ``cleanup_dds`` removes DDS texture files generated by the ``convert_dds`` command.
+
+* ``cleanup_pvr`` removes PVR texture files generated by the ``convert_pvr`` command.
 
 * ``cleanup_media`` removes audio and video files in alternative formats that were generated by the ``convert_media`` command.
+
+* ``cleanup_gzip`` removes GZIP-compressed files generated by the ``convert_gzip`` command.
 
 Commands for image compression:
 
@@ -404,7 +535,7 @@ for images (convert_dds):
 
 Example of an input file: ``file_name.jpg``, example of an output file: ``file_name.altconv.jpg.dds``.
 
-For the purpose of optimizing application performance it's possible to use ``min50`` (halved) and ``DDS`` or ``PRVTC`` (compressed) textures. In order to do this, we need to pass the following parameters during initialization of the application:
+For the purpose of optimizing application performance it's possible to use ``min50`` (halved) and ``DDS`` or ``PVRTC`` (compressed) textures. In order to do this, we need to pass the following parameters during initialization of the application:
 
 .. code-block:: javascript
 
@@ -495,7 +626,52 @@ The engine can use files which are manually created by a user if they have the f
 
 You can also use the free and cross-platform application `Miro Video Converter <http://www.mirovideoconverter.com/>`_ to convert media files.
 
+.. _gzip:
 
+GZIP Compression
+================
+
+Typical Blend4Web application can use various resource formats from standard  HTML, JS, CSS, PNG or JPEG files to engine-specific JSON- and BIN-files that contain scene data. Compressed  DDS/PVR image formats are also an option. Both big and small applications benefit from decreasing the size of the resources, as this also decreases the loading time.
+
+Usually, loading time can be decreased by setting up caching on the server that contains web application. You can also enable GZIP compression for various file types.
+
+Speaking of the specific file types, GZIP compression should be used for  JSON, BIN, DDS and PVR files. JSON and BIN files, being the main scene files, can contain large amounts of data, while DDS and PVR also can be quite large (at least when compared to standard PNG and JPEG files), and there can be quite a lot of them.
+
+But if for some reason GZIP compression cannot be set up on the server, it can be enabled in the application itself.
+
+The engine can load compressed resources in the form of ``.gz`` files. To use this feature in a ``WebPlayer JSON`` type project, you need to pass the ``compressed_gzip`` URL parameter. If you are developing your own application, you need to pass the ``assets_gzip_available`` configuration parameter during the initialization.
+
+    .. code-block:: javascript
+
+        var m_app = require("app");
+
+        m_app.init({
+            canvas_container_id: "main_canvas_container",
+            callback: init_cb,
+            show_fps: DEBUG,
+            console_verbose: DEBUG,
+            autoresize: true,
+            assets_gzip_available: true
+        });
+
+Compressed ``.gz`` files should be placed alongside the original ones, for example, like this:
+
+    .. code-block:: javascript
+
+        my_project/
+            assets/
+                my_scene.json
+                my_scene.json.gz
+                my_scene.bin
+                my_scene.bin.gz
+
+This also applies to the ``.dds`` and ``.pvr`` files and their compressed counterparts ``.dds.gz`` and ``.pvr.gz``.
+
+.. note::
+
+    If a compressed ``.gz`` is not present, engine will load the original file and output a corresponding message to the console.
+
+GZIP compressed files can be generated with the ``convert resources`` :ref:`command <project_manager>` that can be found in the Project Manager interface. This can also be done in the console by running the :ref:`./scripts/converter.py <converter>` script with the ``compress_gzip`` (for compressing resources) or the ``cleanup_gzip`` (for removing compressed files) command.
 
 .. _code_snippets:
 
@@ -522,7 +698,7 @@ Currently, this application contains the following examples:
     * Multitouch (Mobile Only) - using mobile devices multitouch sensor
     * Pathfinding - an example of calculating paths and using navigation meshes
     * Ray Test - the usage of raycasting for obstacles detection
-    * VR - initializing a VR application
+    * VR - a VR application example
     * Webcam - using media stream from a web camera
 
 The Code Snippets application is available at ``./apps_dev/code_snippets/code_snippets_dev.html``. It can be also run by using a link in the ``index.html`` file located in the SDK root.
@@ -531,7 +707,7 @@ The Code Snippets application is available at ``./apps_dev/code_snippets/code_sn
 Loading Application Assets
 ==========================
 
-To simplify project maintanance and server deployment always keep your application asset files (exported scenes, textures, sounds, etc) separate from other project files (JavaScript, CSS, HTML, etc). Inside your SDK this asset directory is located at ``projects/my_project/assets``.
+To simplify project maintenance and server deployment always keep your application asset files (exported scenes, textures, sounds, etc) separate from other project files (JavaScript, CSS, HTML, etc). Inside your SDK this asset directory is located at ``projects/my_project/assets``.
 
 To load files (e.g by using :b4wref:`data.load()`) from this directory use the :b4wref:`config.get_assets_path()` method:
 

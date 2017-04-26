@@ -447,6 +447,7 @@ function init_ui() {
     bind_control(set_mb_params, "mb_decay_threshold", "number");
 
     // bloom
+    bind_control(set_bloom_params, "bloom_average_luminance", "number");
     bind_control(set_bloom_params, "bloom_key", "number");
     bind_control(set_bloom_params, "bloom_blur", "number");
     bind_control(set_bloom_params, "bloom_edge_lum", "number");
@@ -585,16 +586,21 @@ function loaded_callback(data_id) {
         if (pulse == 1 && _selected_object) {
             var sel_obj = get_selected_object();
 
+            var need_set_info = false;
             if (sel_obj) {
                 var sel_obj_pos = _vec3_tmp;
                 var calc_bs_center = true;
                 m_trans.get_object_center(sel_obj, calc_bs_center, sel_obj_pos);
                 var cam_eye = m_cam.get_translation(obj, _vec3_tmp2);
-                var dist = m_vec3.dist(sel_obj_pos, cam_eye);
-                _dist_to_camera = dist.toFixed(3);
+                var dist = m_vec3.dist(sel_obj_pos, cam_eye).toFixed(3);
+                if (dist != _dist_to_camera) {
+                    _dist_to_camera = dist;
+                    need_set_info = true;
+                }
             }
 
-            set_object_info();
+            if (need_set_info)
+                set_object_info();
         }
     }
     m_ctl.create_sensor_manifold(m_scenes.get_active_camera(), "TO_OBJ",
@@ -2463,7 +2469,13 @@ function get_bloom_params() {
 
     forbid_params(bloom_param_names, "enable");
 
+    if (bloom_params["adaptive"])
+        forbid_params(["bloom_average_luminance"], "disable");
+    else
+        forbid_elem(["bloom_average_luminance"], "enable");
+
     if (bloom_params) {
+        set_slider("bloom_average_luminance", bloom_params["average_luminance"]);
         set_slider("bloom_key", bloom_params["key"]);
         set_slider("bloom_blur", bloom_params["blur"]);
         set_slider("bloom_edge_lum", bloom_params["edge_lum"]);
@@ -2481,6 +2493,9 @@ function set_bloom_params(value) {
     }
     if ("bloom_edge_lum" in value) {
         bloom_params.edge_lum = value["bloom_edge_lum"];
+    }
+    if ("bloom_average_luminance" in value) {
+        bloom_params.average_luminance = value["bloom_average_luminance"];
     }
 
     m_scenes.set_bloom_params(bloom_params);

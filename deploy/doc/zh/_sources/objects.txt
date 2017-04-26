@@ -40,7 +40,17 @@
 
   * 通过TSR矢量移动
 
-  * Line Rendering
+  * 线渲染
+
+  * Levels Of Detail
+
+    * Overview
+
+    * Specifics and Differences From BGE
+
+    * Smooth LOD Switching
+
+    * Hysteresis
 
 物体是在3D场景空间中放置的不同类型（网格，照相机，灯等）的组件。
 
@@ -149,15 +159,18 @@ Blend4Web的特殊属性。
 
 
 
-层次细节面板
-~~~~~~~~~~~~
+Levels of Detail Panel
+~~~~~~~~~~~~~~~~~~~~~~
 
 [图片]
 
-*细节层次 > LOD 转换速率*
-   参数用于平滑LOD物体之间的切换。它定义在该LOD物体由下一LOD物体更换前
-   仍然渲染的额外距离。分配到主要物体。测量值为在物体的边界球半径的分
-   数。
+*Levels of Detail > Object*
+   The object to use for this level of detail.
+
+*Levels of Detail > Distance*
+   The distance to begin using this level of detail.
+
+Using levels of detail is described in the dedicated section.
 
 
 动画面板
@@ -209,27 +222,31 @@ Blend4Web的特殊属性。
 *渲染属性>隐藏*
    与此属性启用的物体将在加载时被隐藏。
 
+*Rendering Properties > Hidden Children*
+   All of the object's children and children's children and so on will
+   be hidden on load. Available only if the "Rendering Properties >
+   Hidden" property is enabled and if the object has any children.
+
 *渲染属性 > 不要渲染*
    禁止物体的渲染（例如用于有用的物理物体）。
 
-   This parameter is not available for "Empty" type objects.
+   此参数不可用于 "Empty" 类型的物体。
 
 *渲染属性 > 禁止视椎体剔除*
    禁用视椎体剔除优化。
 
-   This parameter is not available for "Empty" type objects.
+   此参数不可用于 "Empty" 类型的物体。
 
 *渲染属性 > 强制动态物体*
    强制物体变成了 动态物体.
 
-*Rendering Properties > Dynamic Geometry & Materials*
-   Allows using geometry update API and inherit materials for the
-   object.
+*渲染属性 > 动态几何体与材质*
+   允许使用几何更新 API 和为物体继承材质。
 
-*Rendering Properties > Line Rendering*
-   Enables using the object for rendering lines.
+*渲染属性 > 线呈渲染*
+   允许使用该物体到渲染中 参数线条.
 
-   This parameter is only available for "Empty" type objects.
+   此参数仅供 "Empty" 类型物体。
 
 
 阴影面板
@@ -749,40 +766,31 @@ R_w - 四元数向量的分量。这个向量故名：TSR或TSR-8。
 *set_tsr()*/*get_tsr()*  的方法操作。
 
 
-Line Rendering
-==============
+线渲染
+======
 
-Blend4Web engine also features an option to render lines defined by
-sets of points.
+Blend4Web 引擎还具有功能选项能够渲染点集定义的线。
 
 [图片]
 
-API methods used for line rendering itself are located in the geometry
-module, while the style of a rendered line (i.e. its color and
-thickness) can be set with the set_line_params() method of the
-material module.
+用于渲染线的API 方法位于 geometry  模块，可以设置渲染线的样式（即其颜
+色和厚度）需要用 set_line_params() 的方法，位于 material 模块。
 
-To use line rendering, at least one "Empty" type object with enabled
-"Line Rendering" option needs to be present in the scene.
+若要使用线条的渲染效果，至少需要在场景中存在一个 "Empty" 类型物体启用
+了 "线渲染" 选项。
 
-To render a line, you first have to retrieve a link to an "Empty"
-object. The origin point of this object will then be used as a center
-of coordinates when rendering lines.
+要渲染一条线，你首先必须 获取链接 到 "Empty" 物体。此物体的起始点将用
+作线在渲染时的中心坐标。
 
-The line itself can be rendered by calling the draw_line() API method.
-Its first parameter is a link to an "Empty" object (see above), while
-the second one is an array of vertices that will be used for building
-a line. The method is also has a third, optional, parameter, that
-defines the rendering mode: whether the method will produce a single
-line or a set of lines defined by pairs of vertices (in the latter
-case, the total number of vertices should be even).
+可以通过调用 draw_line() API 方法渲染线条。其第一个参数是指向  "Empty"
+物体 （见上面），而第二个是用于建立一条线的一列顶点数组。该方法也拥有
+第三个可选的参数，定义渲染模式︰ 方法由成对的顶点定义生成一条或一组线
+（后一种情况下的顶点总数应该是偶数）。
 
-If an "Empty" object is used to render more than one line at a time,
-only the last one will be visible. To render multiple lines, you will
-need to use multiple "Empty" objects.
+如果一个 "Empty" 物体在一条线渲染中不止一次使用，只有最后一个将可见。
+要渲染多条线，您将需要使用多个 "Empty" 物体。
 
-The following example shows a part of the coordinate axes object in
-the picture above rendered using lines:
+下面的示例演示了使用线渲染上面的图片中的坐标轴物体的一部分︰
 
    var m_scenes    = require("scenes");
    var m_material  = require("material");
@@ -804,6 +812,137 @@ the picture above rendered using lines:
    //drawing main axes
    m_geometry.draw_line(line_1, points_1, true);
 
-This code listing produces only the main axes of the object, because
-listing all of its elements will make the code long and repetitive.
-The other elements of the object are drawn it the same way.
+这个代码列表生成只有物体的主轴，因为列出所有元素将都使代码过长和重复。
+绘制物体的其他元素它以同样的方式。
+
+
+Levels Of Detail
+================
+
+
+Overview
+--------
+
+LODs, or levels of detail, are versions of a single object with
+various amounts of detail. Levels of detail are used for the purpose
+of optimization, and the idea here is that if an object is far from
+the camera, you can render more simple version of it – for example,
+the one with less polygons and simpler material. This can reduce the
+burden on the GPU without decreasing the quality of the render, as
+most of the details of the original object won’t be visible from the
+distance.
+
+LODs are often used in large-scale scenes with high object count. More
+compact scenes may not gain a major performance boost from using this
+feature. Video game locations such as islands, countrysides or town
+streets are most suitable for using LODs.
+
+LODs can be set up directly in Blender at the "Levels of Detail"
+panel.
+
+[图片]
+
+There, you can set levels of detail and distances at which they will
+be used for an individual object. Each level of detail is a separate
+object. The main rule is obvious: the lower the level of detail is
+positioned in the list, the simpler the corresponding object should
+be.
+
+You can make your objects simpler in different ways: by decreasing its
+polycount, by making the materials less complex (this is especially
+true for node materials) or by turning off various effect such as
+shadows, animations or Wind Bending.
+
+The number of levels can be set as you see fit, depending on the
+overall scale of the scene.
+
+   [图片]*Levels of detail for trees: original object at the left, its
+   LOD on the right*
+
+
+Specifics and Differences From BGE
+----------------------------------
+
+Setting up LODs and using them in the engine has some specifics. Also,
+BGE mode in Blender has its own LOD system that is mostly identical to
+the one used in Blend4Web, but still has some differences that are
+mentioned below.
+
+1. When you are applying a LOD object to some other object, the
+   position of the LOD object will not change. So, if you want the
+   objects to occupy the same place in the runtime, you should
+   manually place them in the same location in Blender. This is
+   different from BGE, where a selected LOD object is automatically
+   moved to the center of the main object.
+
+2. If you need to set the same LOD object for multiple different
+   objects (for example, same-type trees, building, cars or shrubs),
+   you should make a copy of it for every object (i.e., make as many
+   copies as there are objects that will use this object as a LOD) and
+   set these copies as LODs. Unlike BGE, copies are not generated
+   automatically when you select the same LOD object for multiple base
+   objects. To simplify creating same-type object, we recommend to put
+   the base object and all its LODs to one group and then duplicate
+   this group using Empty objects.
+
+3. If the object is supposed to change its position in the runtime,
+   you should attach its LODs to it in Blender using parent-child link
+   so LOD object would copy its transformations.
+
+
+Smooth LOD Switching
+--------------------
+
+One of the most notable shortcomings of the LOD system is the abrupt
+switching between levels of detail which is easy to notice and can be
+annoying.
+
+The engine supports smooth transition between LODs based on alpha
+test.
+
+   [图片]*Smooth transition between the original object and its LOD.*
+
+The option used for this is called "LOD Smooth Transitions" and can be
+found on the "Scene->Object Clustering & LOD" panel.
+
+It is intended for enabling smooth LOD transition and setting object
+types that this transition will be applied to. It should be noted that
+enabling this option might significantly decrease performance (it
+depends on the number of LOD objects and their materials).
+
+注解: Smooth LOD transition is not always required. For example, if
+  you instantly transport your camera to some distant object, you
+  probably don’t want LOD switching to occur right in front of it. In
+  cases like this, the "lod_leap_smooth_threshold" parameter should be
+  used. It defines the threshold distance (in meters) that the camera
+  can cover in one frame. If this value is exceeded, LODs are switched
+  instantaneously. This can be used to disable smooth LOD transition
+  when camera is teleported to a new location or simply moves very
+  fast.
+
+        var m_cfg = require("config");
+
+        m_cfg.set("lod_leap_smooth_threshold", 5); // 5 meters
+
+
+Hysteresis
+----------
+
+LODs are switched at certain distances from the object. These level
+borders are set up on the "Levels of Detail" panel. If the camera is
+moving near a border like this, it can cross it often, which results
+in frequent LOD switching. Under such circumstances, LOD switching
+becomes very apparent and thus undesirable.
+
+This problem can be negated with the "Max LOD Hysteresis Interval"
+parameter located on the "Scene->Object Clustering & LOD" panel. It
+sets an interval (in meters) that is used as a gap between two LOD
+levels.
+
+For example, if "Max LOD Hysteresis Interval" is set to 4 meters while
+the distance between detail levels is equal to the 20 meters, one
+level will be turned on at the distance of 18 meters and the other, at
+the distance of 22 meters. Using this option eliminates frequent LOD
+switching, as levels of detail no longer have definite border between
+them. The setting is adaptive and can adjust to different LOD
+distances, reducing the set interval, if needed.

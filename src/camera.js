@@ -89,11 +89,6 @@ var DEF_PERSP_FAR   = 1000;
 
 var MAX_HOVER_INIT_ANGLE = m_util.deg_to_rad(0.5);
 
-// NOTE: the amount of distance for the last value in 16bit depth texture
-// example: 0.05 means that the last value (65534->65535) corresponds to the 5% 
-// of the camera distance range
-var LAST_VAL_16_BIT_DEPTH = 0.05;
-
 // for internal usage
 var _vec2_tmp = new Float32Array(2);
 var _vec2_tmp2 = new Float32Array(2);
@@ -126,28 +121,7 @@ exports.camera_object_to_camera = function(bpy_camobj, camobj) {
 
         // NOTE: expect some issues with camera sensor fit
         var fov = camobj_data["angle"];
-        
-        if (cfg_def.amd_depth_hack) {
-            var near = camobj_data["clip_start"];
-            var far = camobj_data["clip_end"];
-            
-            // https://www.khronos.org/opengl/wiki/Depth_Buffer_Precision
-            var s = (65535 - 1) / 65535;
-            var last_depth_val_dist = -far * near /((far - near) * s - far);
-            var percentage = 1 - (last_depth_val_dist - near) / (far - near);
-
-            if (percentage > LAST_VAL_16_BIT_DEPTH) {
-                var new_near = (1 - LAST_VAL_16_BIT_DEPTH) * far * (1 - s) / s / 
-                        LAST_VAL_16_BIT_DEPTH; 
-
-                m_print.warn("Changing the clip range of the camera \"" 
-                        + bpy_camobj["name"] + "\" from [" + near + ", " 
-                        + far + "] to [" + new_near + ", " + far 
-                        + "] because of the 16bit depth buffer.");
-                near = new_near;
-            }
-        } else
-            var near = camobj_data["clip_start"];
+        var near = camobj_data["clip_start"];
             
         set_frustum(cam, fov, near, camobj_data["clip_end"]);
         break;

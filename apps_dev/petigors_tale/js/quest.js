@@ -18,9 +18,9 @@ var m_cam       = require("camera");
 var m_math      = require("math");
 var m_vec3      = require("vec3");
 var m_trans     = require("transform");
-var m_tsr       = require("tsr");
 var m_geom      = require("geometry");
 var m_mat       = require("material");
+var m_print     = require("print");
 
 var _gs = {
     character: undefined,
@@ -125,7 +125,7 @@ function main_ray_callback(obj, id, pulse) {
 var click_sensor_cb = function(obj, id, pulse) {
     var xy = m_ctl.get_sensor_payload(obj, id, 0).coords;
     if (!(xy[0] && xy[1])) {
-        var xy = m_ctl.get_sensor_payload(obj, id, 1).coords;
+        xy = m_ctl.get_sensor_payload(obj, id, 1).coords;
     }
     var pline = m_math.create_pline();
     if (!_gs.to) {

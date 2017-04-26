@@ -33,7 +33,7 @@ var m_vec4   = require("__vec4");
 
 var cfg_def = m_cfg.defaults;
 
-var LOD_DIST_MAX_INFINITY = -1;
+var LOD_DIST_MAX_INFINITY = Infinity;
 exports.LOD_DIST_MAX_INFINITY = LOD_DIST_MAX_INFINITY;
 
 /**
@@ -105,11 +105,17 @@ function create_render(type) {
         friction: 0,
         elasticity: 0,
         is_lod: false,
-        lod_center: new Float32Array(3),
-        lod_radius: 0,
-        lod_dist_max: LOD_DIST_MAX_INFINITY,
+        lod_center: new Float32Array(3), // for STATIC objects
+        main_lod_offset: new Float32Array(3), // for DYNAMIC objects
         lod_dist_min: 0,
-        lod_transition_ratio: 0,
+        lod_dist_max: LOD_DIST_MAX_INFINITY,
+        
+        // the maximum radius around the border of the current lod level that 
+        // doesn't overleap over the adjacent lod levels in both directions:
+        // min(curr_level_interval, prev_level_interval)
+        // min(curr_level_interval, next_level_interval)
+        lod_lower_border_range: 0,
+        lod_upper_border_range: 0,
 
         // rendering flags
         do_not_render: false,
@@ -124,6 +130,7 @@ function create_render(type) {
         dynamic_geometry: false,
         dynamic_grass: false,
         hide: false,
+        hide_children: false,
         selectable: false,
         origin_selectable: false,
         outlining: false,
@@ -169,7 +176,9 @@ function create_render(type) {
         anim_mix_factor: 1.0,
         anim_mix_factor_change_speed: 0,
         anim_destination_mix_factor: 1.0,
-        two_last_skeletal_slots: new Int8Array([-1, -1]),
+        anim_mix_cb: null,
+        mix_with_current: false,
+        blend_skel_slots: new Int8Array([-1, -1]),
         skinned_renders: [],
         mesh_to_arm_bone_maps: [],
         skinning_data_cache: [],
@@ -177,6 +186,8 @@ function create_render(type) {
         quats_after: null,
         trans_before: null,
         trans_after: null,
+        trans_curr: null,
+        quats_curr: null,
         bone_pointers: null,
         bone_skinning_info: null,
         pose_data: null,
@@ -271,10 +282,11 @@ function clone_render(render) {
     out.elasticity = render.elasticity;
     out.is_lod = render.is_lod;
     m_vec3.copy(render.lod_center, out.lod_center);
-    out.lod_radius = render.lod_radius;
-    out.lod_dist_max = render.lod_dist_max;
+    m_vec3.copy(render.main_lod_offset, out.main_lod_offset);
     out.lod_dist_min = render.lod_dist_min;
-    out.lod_transition_ratio = render.lod_transition_ratio;
+    out.lod_dist_max = render.lod_dist_max;
+    out.lod_lower_border_range = render.lod_lower_border_range;
+    out.lod_upper_border_range = render.lod_upper_border_range;
 
     out.do_not_render = render.do_not_render;
     out.shadow_cast = render.shadow_cast;
@@ -327,7 +339,7 @@ function clone_render(render) {
     out.anim_mix_factor = render.anim_mix_factor;
     out.anim_mix_factor_change_speed = render.anim_mix_factor_change_speed;
     out.anim_destination_mix_factor = render.anim_destination_mix_factor;
-    out.two_last_skeletal_slots.set(render.two_last_skeletal_slots);
+    out.blend_skel_slots.set(render.blend_skel_slots);
     out.skinned_renders = m_util.clone_object_r(render.skinned_renders); //?
     out.mesh_to_arm_bone_maps = m_util.clone_object_r(render.mesh_to_arm_bone_maps); //?
     out.skinning_data_cache = m_util.clone_object_r(render.skinning_data_cache); // ?

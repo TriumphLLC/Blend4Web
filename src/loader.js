@@ -21,6 +21,9 @@ b4w.module["__loader"] = function(exports, require) {
 var m_graph  = require("__graph");
 var m_print  = require("__print");
 var m_util   = require("__util");
+var m_cfg    = require("__config");
+
+var cfg_def  = m_cfg.defaults;
 
 var THREAD_IDLE = 0;
 var THREAD_LOADING = 1;
@@ -33,7 +36,6 @@ var THREAD_STAGE_LOOP = 1;
 var THREAD_STAGE_AFTER = 2;
 var THREAD_STAGE_IDLE = 3;
 
-var DEBUG_MODE = false;
 var DEBUG_COLOR = "color: #f0f;";
 
 var MAX_LOAD_TIME_MS = 16;
@@ -268,7 +270,7 @@ exports.update_scheduler = function(bpy_data_array) {
                 thread.status = THREAD_LOADING;
                 thread.time_load_start = performance.now();
                 thread.stageload_cb(0, 0);
-                if (DEBUG_MODE)
+                if (cfg_def.debug_loading)
                     m_print.log("%cTHREAD " + thread.id 
                             + ": 0% LOADING START 0ms", DEBUG_COLOR);
             }
@@ -310,7 +312,7 @@ function finish_thread(scheduler, thread, bpy_data) {
     thread.complete_load_cb(bpy_data, thread);
     thread.status = THREAD_FINISHED;
     scheduler.active_threads--;
-    if (DEBUG_MODE) {
+    if (cfg_def.debug_loading) {
         var ms = Math.round(performance.now() 
                 - thread.time_load_start);
         m_print.log("%cTHREAD " + thread.id + ": 100% LOADING END " 
@@ -411,7 +413,7 @@ function process_stage(thread, stage, bpy_data) {
     // don't process skipped stages
     if (stage.skip) {
         stage.is_finished = true;
-        if (DEBUG_MODE)
+        if (cfg_def.debug_loading)
             m_print.log("%cTHREAD " + thread.id + ": SKIP STAGE " + stage.name, 
                     DEBUG_COLOR);
 
@@ -420,7 +422,7 @@ function process_stage(thread, stage, bpy_data) {
     }
 
     // debug message for start stage loading
-    if (DEBUG_MODE && stage.status == THREAD_STAGE_BEFORE) {
+    if (cfg_def.debug_loading && stage.status == THREAD_STAGE_BEFORE) {
         var percents = get_load_percents(thread);
         var message = "LOADING START " +  stage.name;
         var ms = Math.round(performance.now() - thread.time_load_start);
@@ -487,7 +489,7 @@ function stage_finish_cb(thread, stage) {
     stage.status = THREAD_STAGE_IDLE;
     stage_loading_action(thread, stage, 1);
 
-    if (DEBUG_MODE) {
+    if (cfg_def.debug_loading) {
         var percents = get_load_percents(thread);
         var message = "LOADING END " +  stage.name;
         var ms = Math.round(performance.now() - thread.time_load_start);
@@ -565,7 +567,7 @@ function skip_stage(stage) {
 function release_thread(thread) {
     thread.stageload_cb = null;
     thread.complete_load_cb = null;
-    if (!DEBUG_MODE)
+    if (!cfg_def.debug_loading)
         thread.stage_graph = null;
     thread.stages_queue = null;
     // NOTE: thread.loaded_cb needed for aborted threads
@@ -600,7 +602,7 @@ exports.is_primary_loaded = function(data_id) {
 }
 
 exports.graph_to_dot = function(data_id) {
-    if (!DEBUG_MODE) {
+    if (!cfg_def.debug_loading) {
         m_print.error("Debug mode isn't enabled. Can not retrieve the graph.");
         return;
     }

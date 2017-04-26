@@ -869,7 +869,7 @@ function set_character_hor_rotation(body_id, angle) {
     var character = world.characters[body_id].du_id;
     var du_body_id = get_du_body_id(body_id);
     _du_activate(du_body_id);
-    _du_set_character_vert_rotation(character, angle);
+    _du_set_character_hor_rotation(character, angle);
 }
 
 function set_character_vert_rotation(body_id, angle) {
@@ -877,7 +877,7 @@ function set_character_vert_rotation(body_id, angle) {
     var character = world.characters[body_id].du_id;
     var du_body_id = get_du_body_id(body_id);
     _du_activate(du_body_id);
-    _du_set_character_hor_rotation(character, angle);
+    _du_set_character_vert_rotation(character, angle);
 }
 
 function character_rotation_increment(body_id, h_angle, v_angle) {
@@ -1262,33 +1262,34 @@ function set_transform(body_id, trans, quat) {
 
 function set_character_rotation_quat(body_id, quat) {
 
-    var z_dir = _vec3_tmp;
-    z_dir[0] = 0;
-    z_dir[1] = 0;
-    z_dir[2] = 1;
-    quat4_multiply_vec3(quat, z_dir);
+    var my_dir = _vec3_tmp;
+    my_dir[0] = 0;
+    my_dir[1] = -1;
+    my_dir[2] = 0;
+    quat4_multiply_vec3(quat, my_dir);
 
-    // project to XZ plane
+    // project to XY plane
     var proj = _vec3_tmp2
-    proj[0] = z_dir[0];
-    proj[1] = 0;
-    proj[2] = z_dir[2];
+    proj[0] = my_dir[0];
+    proj[1] = my_dir[1];
+    proj[2] = 0;
     vec3_normalize(proj);
 
     // vertical plane
-    var cos_v = proj[0]*z_dir[0] + proj[2]*z_dir[2];
-    var sign_v = z_dir[1] < 0 ? 1: -1;
+    var cos_v = proj[0]*my_dir[0] + proj[1]*my_dir[1];
+    var sign_v = my_dir[2] < 0 ? 1: -1;
 
-    // Z axis is positive direction
+    // MY axis is positive direction
     var defdir = _vec3_tmp;
     defdir[0] = 0;
-    defdir[1] = 0;
-    defdir[2] = 1;
+    defdir[1] = -1;
+    defdir[2] = 0;
 
     // horizontal plane (dot product)
-    var cos_h = proj[2] * defdir[2];
+    var cos_h = proj[1] * defdir[1];
+
     // horizontal angle sign is a vertical part of cross cross(proj, defdir)
-    var sign_h = (-proj[0] * defdir[2]) > 0? -1: 1;
+    var sign_h = (-proj[0] * defdir[1]) < 0? -1: 1;
 
     var angle_h  = Math.acos(cos_h) * sign_h;
     var angle_v  = Math.acos(cos_v) * sign_v;
@@ -2243,19 +2244,6 @@ var Module = {};
 
 Module['onRuntimeInitialized'] = function() {
     init_worker_environment();
-}
-
-Module['locateFile'] = is_worker_env() ? null : function() {
-    var worker_namespace = b4w.get_namespace(require);
-
-    for (var i = 0; i < b4w.worker_namespaces.length; i+=2)
-        if (b4w.worker_namespaces[i+1] == worker_namespace) {
-            var main_namespace = b4w.worker_namespaces[i];
-            var m_cfg_main = b4w.require("config", main_namespace);
-            return m_cfg_main.get("physics_uranium_path") + ".mem";
-        }
-
-    return "NOT_FOUND";
 }
 
 //}

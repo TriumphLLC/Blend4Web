@@ -27,15 +27,19 @@
 b4w.module["__reformer"] = function(exports, require) {
 
 var m_bounds = require("__boundings");
+var m_cfg    = require("__config");
 var m_curve  = require("__curve");
 var m_mat4   = require("__mat4");
 var m_print  = require("__print");
 var m_quat   = require("__quat");
+var m_tbn    = require("__tbn");
 var m_util   = require("__util");
 var m_vec3   = require("__vec3");
 var m_mat3   = require("__mat3");
 var m_logn   = require("__logic_nodes");
 var m_anim   = require("__animation");
+
+var cfg_def = m_cfg.defaults;
 
 var REPORT_COMPATIBILITY_ISSUES = true;
 
@@ -46,6 +50,7 @@ var _unreported_compat_issues = false;
 var _params_reported = {};
 
 var _mat3_tmp = m_mat3.create();
+var _tbn_tmp  = m_tbn.create();
 var _quat_tmp = m_quat.create();
 
 function reform_node(node) {
@@ -276,6 +281,8 @@ exports.check_bpy_data = function(bpy_data) {
             "use_sky_paper": false,
             "use_sky_blend": false,
             "use_sky_real": false,
+            "use_nodes": false,
+            "node_tree": null,
             "texture_slots": []
         }
         worlds.push(world);
@@ -419,6 +426,9 @@ exports.check_bpy_data = function(bpy_data) {
             scene["timeline_markers"] = null;
             report("scene", scene, "timeline_markers");
         }
+        if (typeof scene["b4w_enable_physics"] == "boolean") {
+            scene["b4w_enable_physics"] = "AUTO";
+        }
 
         if (!("b4w_reflection_quality" in scene)) {
             scene["b4w_reflection_quality"] = "MEDIUM";
@@ -501,6 +511,17 @@ exports.check_bpy_data = function(bpy_data) {
             };
             report("scene", scene, "b4w_tags");
         }
+
+        if (!("b4w_lod_smooth_type" in scene)) {
+            scene["b4w_lod_smooth_type"] = "OFF";
+            report("scene", scene, "b4w_lod_smooth_type");
+        }
+
+        if (!("b4w_lod_hyst_interval" in scene)) {
+            scene["b4w_lod_hyst_interval"] = 0;
+            report("scene", scene, "b4w_lod_hyst_interval");
+        }
+
         if (!("b4w_enable_object_selection" in scene)) {
             scene["b4w_enable_object_selection"] = "AUTO";
             report("scene", scene, "b4w_enable_object_selection");
@@ -664,6 +685,14 @@ exports.check_bpy_data = function(bpy_data) {
         if(!("edge_lum" in scene["b4w_bloom_settings"])) {
             report("scene", scene, "b4w_bloom_settings.edge_lum");
             scene["b4w_bloom_settings"]["edge_lum"] = 1.0;
+        }
+        if (!("adaptive" in scene["b4w_bloom_settings"])) {
+            report("scene", scene, "b4w_bloom_settings.adaptive");
+            scene["b4w_bloom_settings"]["adaptive"] = true;
+        }
+        if (!("average_luminance" in scene["b4w_bloom_settings"])) {
+            report("scene", scene, "b4w_bloom_settings.average_luminance");
+            scene["b4w_bloom_settings"]["average_luminance"] = 0.5;
         }
 
         if (!("b4w_motion_blur_settings" in scene)) {
@@ -1313,8 +1342,13 @@ exports.check_bpy_data = function(bpy_data) {
     for (var i = 0; i < materials.length; i++) {
         var mat = materials[i];
 
-        if (mat["game_settings"]["alpha_blend"] == "ALPHA_ANTIALIASING")
+        if (cfg_def.msaa_samples < 2 
+                && mat["game_settings"]["alpha_blend"] == "ALPHA_ANTIALIASING") {
+            m_print.warn("Material \"" + mat["name"] + "\" has the "
+                    + "\"Alpha Anti-Aliasing\" transparency type, but " 
+                    + "multisampling is disabled. Changed to \"Alpha Clip\".")
             mat["game_settings"]["alpha_blend"] = "CLIP";
+        }
 
         if (!("use_tangent_shading" in mat)) {
             mat["use_tangent_shading"] = false;
@@ -1769,6 +1803,11 @@ exports.check_bpy_data = function(bpy_data) {
                 //report("object", bpy_obj, "b4w_hidden_on_load");
             }
 
+            if (!("b4w_hide_chldr_on_load" in bpy_obj)) {
+                bpy_obj["b4w_hide_chldr_on_load"] = false;
+                //report("object", bpy_obj, "b4w_hidden_on_load");
+            }
+
             if (!("use_ghost" in bpy_obj["game"])) {
                 bpy_obj["game"]["use_ghost"] = false;
                 //report("object", bpy_obj, "use_ghost");
@@ -1958,10 +1997,6 @@ exports.check_bpy_data = function(bpy_data) {
                     bpy_obj["b4w_outline_settings"]["outline_relapses"] = 0;
                 }
                 report("object", bpy_obj, "b4w_outline_settings");
-            }
-            if (!("b4w_lod_transition" in bpy_obj)) {
-                bpy_obj["b4w_lod_transition"] = 0.01;
-                report("object", bpy_obj, "b4w_lod_transition");
             }
             if (!("lod_levels" in bpy_obj)) {
                 bpy_obj["lod_levels"] = [];
@@ -2212,8 +2247,7 @@ exports.check_bpy_data = function(bpy_data) {
         if (!("b4w_cluster_data" in bpy_obj)) {
             bpy_obj["b4w_cluster_data"] = { 
                 "cluster_id": -1,
-                "cluster_center": null,
-                "cluster_radius": 0,
+                "cluster_center": null
             };
             report("object", bpy_obj, "b4w_cluster_data");
         }
@@ -2536,7 +2570,7 @@ function apply_curve_modifier(mesh, mod) {
         var submesh = mesh["submeshes"][i];
 
         var position = submesh["position"];
-        var tbn_quat = submesh["tbn_quat"];
+        var tbn = submesh["tbn"];
 
         // NOTE: expected that mesh lies on positive side of deform axis
         var deform_index = deform_axis_index(mod["deform_axis"]);
@@ -2606,19 +2640,9 @@ function apply_curve_modifier(mesh, mod) {
             position[3*j+1] = loc[1];
             position[3*j+2] = loc[2];
 
-            if (tbn_quat.length) {
-                _quat_tmp[0] = tbn_quat[4*j];
-                _quat_tmp[1] = tbn_quat[4*j+1];
-                _quat_tmp[2] = tbn_quat[4*j+2];
-                _quat_tmp[3] = tbn_quat[4*j+3];
-
-                m_quat.multiply(_quat_tmp, quat, _quat_tmp);
-
-                tbn_quat[4*j] = _quat_tmp[0];
-                tbn_quat[4*j+1] = _quat_tmp[1];
-                tbn_quat[4*j+2] = _quat_tmp[2];
-                tbn_quat[4*j+3] = _quat_tmp[3];
-            }
+            var cur_tbn = m_tbn.get_item(tbn, j, _tbn_tmp);
+            m_tbn.multiply_quat(cur_tbn, quat, cur_tbn);
+            m_tbn.set_item(tbn, cur_tbn, j);
         }
     }
 }
@@ -2832,8 +2856,8 @@ function mesh_transform_locations(mesh, matrix) {
 
         m_util.positions_multiply_matrix(submesh["position"], matrix,
                 submesh["position"], 0);
-        m_util.quats_multiply_quat(submesh["tbn_quat"], quat,
-                submesh["tbn_quat"], 0);
+
+        m_tbn.multiply_quat(submesh["tbn"], quat, submesh["tbn"]);
     }
 }
 

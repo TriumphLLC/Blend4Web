@@ -290,10 +290,105 @@ The character can be controlled in mostly the same way as a regular ``Eye`` type
 .. note::
     Only one basic character can be present in the scene. If a scene has multiple characters, the engine will use the first of them as the basic character and ignore the others.
 
+Controlling Characters with API
+-------------------------------
+
+Basic character described above can only provide generic functionality. If you need more control over character behavior, you should use methods from the :b4wmod:`fps` module.
+
+The most important of them is the :b4wref:`fps.enable_fps_controls()` method which, as its name suggests, is used to initialize characters in the scene. It can be used as follows:
+
+.. code-block:: javascript
+
+    var m_fps = require("fps");
+
+    m_fps.enable_fps_controls();
+
+This method should be used at the start of the application (in the **load_cb** function) to enable character controls.
+
+.. note::
+
+    This method may conflict with the :b4wref:`app.enable_camera_controls()` method which is used to enable basic character described in the previous section. These two methods should not be used simultaneously.
+
+The method also has the following optional parameters:
+
+    ``character`` sets the character object. The link to the character can be retrieved by calling the :b4wref:`scenes.get_first_character()` method. Should be used if more then one character is present in the scene.
+
+    ``element`` specifies the HTML element to which the method adds listeners.
+
+    ``motion_cb`` specifies the callback function that is called when character changes its direction.
+
+    ``gamepad_id`` specifies the ID of the gamepad plugged to the system.
+
+    ``forward_sens``, ``backward_sens``, ``right_sens``, ``left_sens``, ``jump_sens``, ``fly_sens`` - these parameters are used to set arrays of sensor types for specific character action like walking in different directions, jumping and so on.
+
+    ``rotation_cb`` specifies the callback function that is called when a character or camera rotates.
+
+    ``lock_camera`` - setting this parameter to ``true`` will parent the scene camera to the character.
+
+Other important methods are :b4wref:`fps.set_cam_sensitivity()` and :b4wref:`fps.set_cam_smooth_factor()`. The first one of them sets the sensitivity of the camera (defined by a numeric value in the range from zero to 100). The second method defines how smooth the camera moves (defined by a value in the range from 0 to 1.0).
+
+Character States
+................
+
+Character states are constant values that represent current behavior of the character (does it currently walk or fly or do anything else). Every character present in a scene always have one and only one state.
+
+Available character states:
+
+    :b4wref:`fps.CS_CLIMB` - a character is climbing.
+
+    :b4wref:`fps.CS_FLY` - a character is flying.
+
+    :b4wref:`fps.CS_RUN` - a character is running.
+
+    :b4wref:`fps.CS_STAY` - a character does not move.
+
+    :b4wref:`fps.CS_WALK` - a character is walking.
+
+Current state of a specific character can be retrieved using the :b4wref:`fps.get_character_state()` method, while a specific state can be assigned to a character with the :b4wref:`fps.switch_state()` method. The following example shows how these two methods can be used:
+
+.. code-block:: javascript
+
+    var m_fps = require("fps");
+
+    var current_state = m_fps.get_character_state();
+    
+    if (current_state == m_fps.CS_FLY)
+        m_fps.switch_state(m_fps.CS_WALK);
+
+Action Binding
+..............
+
+The :b4wmod:`fps` module also provides means for binding various actions to character events. The :b4wref:`fps.bind_action()` method is used for this:
+
+.. code-block:: javascript
+
+    var m_fps = require("fps");
+    var m_ctl = require("controls");
+
+    var action_cb = function(value) {
+        console.log("Q key pressed.");
+    }
+
+    m_fps.bind_action(m_fps.AT_PRESSED, [m_ctl.KEY_Q], action_cb);
+
+This method features the following parameters:
+
+    * the first parameter is the type of action:
+
+      :b4wref:`fps.AT_CONTINUOUS` - an input type that detects a continuous user action such as mouse movement, keyboard key held down, gamepad stick tilt etc.
+
+      :b4wref:`fps.AT_PRESSED` - this input type detects a discrete user action, e.g. pressing a button.
+
+      :b4wref:`fps.AT_RELEASED` - an input type that detects button (mouse, gamepad or keyboard) being released.
+
+    * the second parameter defines an array of sensor types (such as keyboard keys, gamepad buttons or mouse actions).
+    * **action_cb** is a callback function that will be called each time user performs action defined by the first parameter.
+
+
 Navigation Meshes
 =================
 
-Navigation meshes (commonly abbreviated *navmeshes*) are mesh objects that are used to make pathfinding simplier by eliminating the need for additional calculations such as collisions.
+Navigation meshes (commonly abbreviated *navmeshes*) are mesh objects that are used to make pathfinding simpler by eliminating the need for additional calculations such as collisions.
 
 .. image:: src_images/physics/physics_pathfinding_example.png
    :align: center
@@ -362,7 +457,7 @@ Aside from this button, the ``Navigation Mesh`` panel offers users several group
 
     ``Layers`` — a slower, but still reasonably fast method that produces better triangulations than Monotone partitioning.
 
-    ``Watershed`` — classic Recast partitioning method that generates the nicest tesselation. This option is selected by default.
+    ``Watershed`` — classic Recast partitioning method that generates the nicest tessellation. This option is selected by default.
 
 ``Polygonization`` group of parameters:
 

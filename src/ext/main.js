@@ -378,6 +378,8 @@ function loop() {
         if (_resume_time > _last_abs_time)
             delta -= (_resume_time - Math.max(_pause_time, _last_abs_time));
 
+        m_time.set_delta(delta);
+
         timeline += delta;
         m_time.set_timeline(timeline);
 

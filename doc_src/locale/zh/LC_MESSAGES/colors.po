@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2016-09-01 16:56+0300\n"
+"POT-Creation-Date: 2017-04-24 17:23+0300\n"
 "PO-Revision-Date: 2016-10-07 16:04+0800\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Chinese <info [at] blend4web.com>\n"
@@ -15,8 +15,6 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.3.4\n"
-"Language: zh\n"
-"X-Generator: Poedit 1.8.9\n"
 
 #: ../colors.rst:5
 msgid "Color Management"
@@ -31,38 +29,44 @@ msgid "Gamma Overview"
 msgstr "Gamma概述"
 
 #: ../colors.rst:14
-msgid "The essence of gamma correction is packing the image brightness channel into  8 bits of information."
+msgid ""
+"The essence of gamma correction is packing the image brightness channel "
+"into  8 bits of information."
 msgstr "伽马校正的实质是将图像亮度通道打包进8比特信息中。"
 
 #: ../colors.rst:16
 msgid ""
-"Standard (non-HDR) images are always stored in non-linear color space where the darker components are encoded using "
-"more bits than the brighter ones. That means that a bigger RGB value corresponds to 0.5 of the real light intensity (a "
-"physical quantity called illuminance) - in the simplest case this value equals to 0.5 ^ (1/2.2) = 0.73."
+"Standard (non-HDR) images are always stored in non-linear color space "
+"where the darker components are encoded using more bits than the brighter"
+" ones. That means that a bigger RGB value corresponds to 0.5 of the real "
+"light intensity (a physical quantity called illuminance) - in the "
+"simplest case this value equals to 0.5 ^ (1/2.2) = 0.73."
 msgstr ""
-"标准（非HDR）图像总是存储在较暗的部分比亮的那些部分使用更多的比特编码的非线性颜色空间。这意味着，较大的RGB值对应于实际的"
-"光强度（物理量称为照度）的0.5  - 在简单的情况该值等于0.5 ^（1 / 2.2）= 0.73。"
+"标准（非HDR）图像总是存储在较暗的部分比亮的那些部分使用更多的比特编码的非线性颜色空间。这意味着，较大的RGB值对应于实际的光强度（物理量称为照度）的0.5"
+"  - 在简单的情况该值等于0.5 ^（1 / 2.2）= 0.73。"
 
 #: ../colors.rst:18
 msgid ""
-"Overwise, 8 bit of information will not be enough to encode the light intensity. This will result in incorrect "
-"rendering of darker tones. For example, dark  gradients will look stepped."
+"Otherwise, 8 bit of information will not be enough to encode the light "
+"intensity. This will result in incorrect rendering of darker tones. For "
+"example, dark  gradients will look stepped."
 msgstr "否则，光强的8位的信息将不足以进行编码。这将导致深色调的不正确渲染。例如，深色渐变会显得加强。"
 
 #: ../colors.rst:20
 msgid ""
-"Therefore, web browsers, as well as many other programs for viewing and manipulating images, work in non-linear space. "
-"However, 3D engines and renderers work in linear space, because it is the only correct way to represent light behavior "
-"in the real world. For example, the illuminance from two identical lamps exceeds the illuminance from one lamp exactly "
-"by two times."
-msgstr ""
-"因此，网络浏览器和其他软件一样，也是在非线性空间观看和处理图像。但是，3D引擎和渲染器在线性空间的工作，这是表现现实世界中"
-"光的行为的唯一正确途径。例如，来自两个相同的灯的照度超过了从一个灯完全照度两倍。"
+"Therefore, web browsers, as well as many other programs for viewing and "
+"manipulating images, work in non-linear space. However, 3D engines and "
+"renderers work in linear space, because it is the only correct way to "
+"represent light behavior in the real world. For example, the illuminance "
+"from two identical lamps exceeds the illuminance from one lamp exactly by"
+" two times."
+msgstr "因此，网络浏览器和其他软件一样，也是在非线性空间观看和处理图像。但是，3D引擎和渲染器在线性空间的工作，这是表现现实世界中光的行为的唯一正确途径。例如，来自两个相同的灯的照度超过了从一个灯完全照度两倍。"
 
 #: ../colors.rst:22
 msgid ""
-"Undoubtedly, 8 bit of information will not be enough in this case. This can be clearly seen from the table in which "
-"approximate illuminance values for some real light sources are shown."
+"Undoubtedly, 8 bit of information will not be enough in this case. This "
+"can be clearly seen from the table in which approximate illuminance "
+"values for some real light sources are shown."
 msgstr "无疑，在这种情况下8位的信息是不足够的。这可以从一些真实光源的近似照度值示表中清楚地看到。"
 
 #: ../colors.rst:25
@@ -123,14 +127,16 @@ msgstr "0.001"
 
 #: ../colors.rst:42
 msgid ""
-"When the ``Color Management > Display Device > sRGB`` option is enabled for a scene, Blender works in a linear space. "
-"Material colors and lamp settings correspond to physical values. For texture images (except normal maps) it is required "
-"to select the ``Image > Input Color Space > sRGB`` option. In this case an automatic image unpacking (sRGB -> Linear) "
-"is performed at the time of rendering."
+"When the ``Color Management > Display Device > sRGB`` option is enabled "
+"for a scene, Blender works in a linear space. Material colors and lamp "
+"settings correspond to physical values. For texture images (except normal"
+" maps) it is required to select the ``Image > Input Color Space > sRGB`` "
+"option. In this case an automatic image unpacking (sRGB -> Linear) is "
+"performed at the time of rendering."
 msgstr ""
-"当  ``Color Management > Display Device > sRGB`` 选项为场景启用时，Blender工作于线性空间。材质的颜色和灯设置对应到相应的"
-"物理值。对于纹理图像（除法线贴图），则需要选择  ``Image > Input Color Space > sRGB``  选项。在这种情况下，在渲染的时候执"
-"行自动图象解包（sRGB的 -> 直线）。"
+"当  ``Color Management > Display Device > sRGB`` "
+"选项为场景启用时，Blender工作于线性空间。材质的颜色和灯设置对应到相应的物理值。对于纹理图像（除法线贴图），则需要选择  ``Image >"
+" Input Color Space > sRGB``  选项。在这种情况下，在渲染的时候执行自动图象解包（sRGB的 -> 直线）。"
 
 #: ../colors.rst:46
 msgid "Human Vision and Monitors"
@@ -138,25 +144,28 @@ msgstr "人类视觉和显示器"
 
 #: ../colors.rst:48
 msgid ""
-"While the human vision is non-linear (a human recognizes the darker light tints better than the brighter ones), the "
-"light coming into the eye still obeys the physical laws (see the lamps example)."
+"While the human vision is non-linear (a human recognizes the darker light"
+" tints better than the brighter ones), the light coming into the eye "
+"still obeys the physical laws (see the lamps example)."
 msgstr "尽管人的视觉是非线性（人识别较暗光色调比亮的要好），进入眼睛的光仍然服从物理定律（参照灯的例子）。"
 
 #: ../colors.rst:50
 msgid ""
-"In CRT monitors the brightness is dependent non-linearly upon the electric voltage applied to the monitor’s input (the "
-"voltage itself is determined by the color channel value in the video memory). LCD monitors mimic the same "
-"characteristics. Nevertheless, the light emitted by such monitors obeys the physical laws. For example the addition of "
-"a second light source to a virtual scene should cause the brightness to double (in the perfect case)."
-msgstr ""
-"在CRT显示器的亮度是根据施加到显示器的输入非线性地施加到显示屏的电压（由在显存中的色彩通道值确定的电压）。液晶显示器模仿"
-"相同的特性。但是这类显示器发出的光服从物理定律。例如将第二光源到虚拟场景会引起亮度加倍（在完美的情况）。"
+"In CRT monitors the brightness is dependent non-linearly upon the "
+"electric voltage applied to the monitor’s input (the voltage itself is "
+"determined by the color channel value in the video memory). LCD monitors "
+"mimic the same characteristics. Nevertheless, the light emitted by such "
+"monitors obeys the physical laws. For example the addition of a second "
+"light source to a virtual scene should cause the brightness to double (in"
+" the perfect case)."
+msgstr "在CRT显示器的亮度是根据施加到显示器的输入非线性地施加到显示屏的电压（由在显存中的色彩通道值确定的电压）。液晶显示器模仿相同的特性。但是这类显示器发出的光服从物理定律。例如将第二光源到虚拟场景会引起亮度加倍（在完美的情况）。"
 
 #: ../colors.rst:52
 msgid ""
-"Therefore, the perception characteristics of the human eye are the reason due to which it is possible to pack color "
-"channels. At the same time, the technical characteristics of monitors have a secondary significance for gamma "
-"correction."
+"Therefore, the perception characteristics of the human eye are the reason"
+" due to which it is possible to pack color channels. At the same time, "
+"the technical characteristics of monitors have a secondary significance "
+"for gamma correction."
 msgstr "因此，人眼的感知特性是能够打包颜色通道的原因。同时，显示器的技术特征有二次伽马校正的意义。"
 
 #: ../colors.rst:56
@@ -173,12 +182,13 @@ msgstr "V\\ :sub:`out` = V\\ :sub:`in`\\ :sup:`γ`"
 
 #: ../colors.rst:62
 msgid ""
-"γ < 1 - packing gamma, γ > 1 - unpacking gamma. In the simplest case 1/2.2  and 2.2 values are used respectively. "
-"Hereinafter the \\“packing\\” (Linear -> sRGB) and \\“unpacking\\” (sRGB -> Linear) terms are used instead of \\“gamma "
-"correction\\”."
+"γ < 1 - packing gamma, γ > 1 - unpacking gamma. In the simplest case "
+"1/2.2  and 2.2 values are used respectively. Hereinafter the "
+"\\“packing\\” (Linear -> sRGB) and \\“unpacking\\” (sRGB -> Linear) terms"
+" are used instead of \\“gamma correction\\”."
 msgstr ""
-"γ<1  - 打包伽玛值，γ> 1  - 拆包伽马。在最简单的情况 1/2.2  和 2.2 的值被分别使用。在下文中，用术语  \\“打包\\” (Linear -"
-"> sRGB) 和 \\“解包\\” (sRGB -> Linear) 的术语用来代替 \\“伽马校正\\”."
+"γ<1  - 打包伽玛值，γ> 1  - 拆包伽马。在最简单的情况 1/2.2  和 2.2 的值被分别使用。在下文中，用术语  \\“打包\\”"
+" (Linear -> sRGB) 和 \\“解包\\” (sRGB -> Linear) 的术语用来代替 \\“伽马校正\\”."
 
 #: ../colors.rst:72
 msgid "Gamma in Node Materials"
@@ -190,13 +200,15 @@ msgstr "为颜色的节点"
 
 #: ../colors.rst:77
 msgid ""
-"Unpacking (sRGB -> Linear) is required when textures and vertex colors are used for coloring (not for masking). The "
-"texture node and Vertex Color output of Geometry node implement unpacking automatically."
-msgstr ""
-"当纹理和顶点颜色用于色彩（不用于遮罩）拆包（sRGB -> 线性） 是必需的。纹理节点和几何节点的顶点颜色输出实现自动拆包。"
+"Unpacking (sRGB -> Linear) is required when textures and vertex colors "
+"are used for coloring (not for masking). The texture node and Vertex "
+"Color output of Geometry node implement unpacking automatically."
+msgstr "当纹理和顶点颜色用于色彩（不用于遮罩）拆包（sRGB -> 线性） 是必需的。纹理节点和几何节点的顶点颜色输出实现自动拆包。"
 
 #: ../colors.rst:79
-msgid "Note that the alpha channel of a texture node is not corrected. Its values are in the linear space."
+msgid ""
+"Note that the alpha channel of a texture node is not corrected. Its "
+"values are in the linear space."
 msgstr "需要注意的是纹理节点的alpha通道没有得到纠正。它的值是线性空间。"
 
 #: ../colors.rst:82
@@ -205,21 +217,25 @@ msgstr "为遮罩的节点"
 
 #: ../colors.rst:84
 msgid ""
-"Textures and vertex colors can be used as masks i.e. input data for some mathematical operations. In such a case the "
-"packing operation is required."
+"Textures and vertex colors can be used as masks i.e. input data for some "
+"mathematical operations. In such a case the packing operation is "
+"required."
 msgstr "纹理和顶点颜色可作为遮罩即对于一些数学运算的输入数据可以使用。在这样的情况下，需要打包操作。"
 
 #: ../colors.rst:86
 msgid ""
-"Keep in mind that a texture node and `Vertex Color` output of `Geometry` node implement unpacking automatically. This "
-"results in necessity of the additional transformation back to the non-linear space, for which the `LINEAR_TO_SRGB` or "
-"`GAMMA` node with γ = 1/2.2 is used."
+"Keep in mind that a texture node and `Vertex Color` output of `Geometry` "
+"node implement unpacking automatically. This results in necessity of the "
+"additional transformation back to the non-linear space, for which the "
+"`LINEAR_TO_SRGB` or `GAMMA` node with γ = 1/2.2 is used."
 msgstr ""
 "请记住，一个纹理节点和 `几何` 节点的 `顶点色` 输出实现自动拆包。这导致了额外回到非线性空间中的转换，需要使用 "
 "`LINEAR_TO_SRGB` 或 γ= 1 / 2.2 `GAMMA` 节点。"
 
 #: ../colors.rst:89
-msgid "`LINEAR_TO_SRGB` and `SRGB_TO_LINEAR` nodes are deprecated. `GAMMA` node should be used instead."
+msgid ""
+"`LINEAR_TO_SRGB` and `SRGB_TO_LINEAR` nodes are deprecated. `GAMMA` node "
+"should be used instead."
 msgstr "`LINEAR_TO_SRGB` 和 `SRGB_TO_LINEAR` 节点已被弃用。 应使用 `GAMMA` 节点。"
 
 #: ../colors.rst:92
@@ -247,7 +263,9 @@ msgid "Texture for coloring"
 msgstr "纹理着色"
 
 #: ../colors.rst:104
-msgid "implemented automatically in the texture node (the alpha channel is not corrected)"
+msgid ""
+"implemented automatically in the texture node (the alpha channel is not "
+"corrected)"
 msgstr "在纹理节点自动执行（Alpha通道不校正）"
 
 #: ../colors.rst:108
@@ -287,12 +305,14 @@ msgid "Overview"
 msgstr "概述"
 
 #: ../colors.rst:125
+#, fuzzy
 msgid ""
-"Physically correct alpha compositing is performed according to the formula [`source <http://wwwnew.cs.princeton.edu/"
-"courses/archive/spring05/cos426/papers/smith95a.pdf>`_]:"
+"Physically correct alpha compositing is performed according to the "
+"formula [`source "
+"<http://www.cs.princeton.edu/courses/archive/spring05/cos426/papers/smith95a.pdf>`_]:"
 msgstr ""
-"物理正确的alpha合成是根据下式进行的 [`source <http://wwwnew.cs.princeton.edu/courses/archive/spring05/cos426/papers/"
-"smith95a.pdf>`_]:"
+"物理正确的alpha合成是根据下式进行的 [`source "
+"<http://www.cs.princeton.edu/courses/archive/spring05/cos426/papers/smith95a.pdf>`_]:"
 
 #: ../colors.rst:127
 msgid ":math:`C_o = C_a \\alpha_a + C_b \\alpha_b (1 - \\alpha_a)`."
@@ -300,17 +320,21 @@ msgstr ":math:`C_o = C_a \\alpha_a + C_b \\alpha_b (1 - \\alpha_a)`."
 
 #: ../colors.rst:129
 msgid ""
-"This formula differs from the classic mix operation (aka convex combination) because it has the :math:`\\alpha_b` "
-"multiplier in the second summand. Therefore, not only the :math:`\\alpha_a` value of the source pixel should be known "
-"for alpha compositing, but also the :math:`\\alpha_b` value of the pixel over which the rendering is performed."
+"This formula differs from the classic mix operation (aka convex "
+"combination) because it has the :math:`\\alpha_b` multiplier in the "
+"second summand. Therefore, not only the :math:`\\alpha_a` value of the "
+"source pixel should be known for alpha compositing, but also the "
+":math:`\\alpha_b` value of the pixel over which the rendering is "
+"performed."
 msgstr ""
-"这个方程和经典的混合操作（又名凸包合成）不同，因为它在第二被加数具有  :math:`\\alpha_b` 乘数。因此渲染的时候不仅是原始像"
-"素的 :math:`\\alpha_a`  值应该是已知的用于alpha合成，而且要叠合的像素的  :math:`\\alpha_b` 也是一样。"
+"这个方程和经典的混合操作（又名凸包合成）不同，因为它在第二被加数具有  :math:`\\alpha_b` 乘数。因此渲染的时候不仅是原始像素的 "
+":math:`\\alpha_a`  值应该是已知的用于alpha合成，而且要叠合的像素的  :math:`\\alpha_b` 也是一样。"
 
 #: ../colors.rst:131
 msgid ""
-"In case of preliminary multiplication of the :math:`\\alpha` values by the color channels (so called premultiplied "
-"alpha) the formula becomes as following:"
+"In case of preliminary multiplication of the :math:`\\alpha` values by "
+"the color channels (so called premultiplied alpha) the formula becomes as"
+" following:"
 msgstr "公式在预乘的情况下颜色通道的  :math:`\\alpha`  值（称为预乘alpha） 就变成下面："
 
 #: ../colors.rst:133
@@ -318,7 +342,9 @@ msgid ":math:`C_o = C_a + C_b (1 - \\alpha_a)`."
 msgstr ":math:`C_o = C_a + C_b (1 - \\alpha_a)`."
 
 #: ../colors.rst:135
-msgid "The last formula is used also to calculate the resulting :math:`\\alpha_o` value:"
+msgid ""
+"The last formula is used also to calculate the resulting "
+":math:`\\alpha_o` value:"
 msgstr "最后一个公式用于计算出  :math:`\\alpha_o` 值："
 
 #: ../colors.rst:137
@@ -326,13 +352,16 @@ msgid ":math:`\\alpha_o = \\alpha_a + \\alpha_b (1 - \\alpha_a)`."
 msgstr ":math:`\\alpha_o = \\alpha_a + \\alpha_b (1 - \\alpha_a)`."
 
 #: ../colors.rst:139
+#, fuzzy
 msgid ""
-"Preliminary multiplication of the color channels by the :math:`\\alpha`  values allows to save two multiplication "
-"operations. The more significant thing is that the derived formula can be used repeatedly without the need to divide "
-"the :math:`C_o` color by the αoαo value on each consequent iteration."
+"Preliminary multiplication of the color channels by the :math:`\\alpha` "
+"values allows to save two multiplication operations. The more significant"
+" thing is that the derived formula can be used repeatedly without the "
+"need to divide the :math:`C_o` color by the :math:`\\alpha_o` value on "
+"each consequent iteration."
 msgstr ""
-"将颜色通道预乘 :math:`\\alpha`  值允许保留2个乘法运算。更明显的是，衍生公式可以重复进行而不需要在每个迭代都去用 :math:"
-"`C_o` 颜色值去除 :math:`\\alpha_o` 的值."
+"将颜色通道预乘 :math:`\\alpha`  值允许保留2个乘法运算。更明显的是，衍生公式可以重复进行而不需要在每个迭代都去用 "
+":math:`C_o` 颜色值去除 :math:`\\alpha_o` 的值."
 
 #: ../colors.rst:143
 msgid "Implementation"
@@ -344,13 +373,15 @@ msgstr "在Blend4Web使用的混合功能如下："
 
 #: ../colors.rst:151
 msgid ""
-"WebGL context initialization is performed using the premultipliedAlpha = true parameter (that is the default value). "
-"Also multiplication of all the color channels by the :math:`\\alpha` value is performed on the output of the shaders."
+"WebGL context initialization is performed using the premultipliedAlpha = "
+"true parameter (that is the default value). Also multiplication of all "
+"the color channels by the :math:`\\alpha` value is performed on the "
+"output of the shaders."
 msgstr ""
-"WebGL的上下文初始化是使用 premultipliedAlpha = true 参数（即默认值）进行的。由所有颜色通道相乘  :math:`\\alpha` 值在着色"
-"器进行输出。"
+"WebGL的上下文初始化是使用 premultipliedAlpha = true 参数（即默认值）进行的。由所有颜色通道相乘  "
+":math:`\\alpha` 值在着色器进行输出。"
 
-#: ../colors.rst:158 ../colors.rst:153
+#: ../colors.rst:153 ../colors.rst:158
 msgid "Color Correction"
 msgstr "色彩校正"
 
@@ -389,3 +420,4 @@ msgstr "默认值是 1.0。"
 #: ../colors.rst:186
 msgid "*Saturation*"
 msgstr "*饱和度*"
+

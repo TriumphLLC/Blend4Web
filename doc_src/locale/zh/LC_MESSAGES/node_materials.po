@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2017-02-28 12:12+0300\n"
-"PO-Revision-Date: 2016-12-23 18:07+0800\n"
-"Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
+"POT-Creation-Date: 2017-04-20 16:04+0300\n"
+"PO-Revision-Date: 2017-02-24 22:13+0800\n"
+"Last-Translator: kidux <yuzukyo@gmail.com>\n"
 "Language-Team: Chinese <info [at] blend4web.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -373,8 +373,8 @@ msgstr "矢量变换 [#f2]_"
 
 #: ../node_materials.rst:149
 msgid ""
-"Converts Vertor, Point or Normal between World, Camera and Object "
-"coordinte spaces"
+"Converts Vector, Point or Normal between World, Camera and Object "
+"coordinate spaces"
 msgstr "在世界，相机和物体坐标空间中转换矢量，点或法线。"
 
 #: ../node_materials.rst:155
@@ -951,7 +951,7 @@ msgstr "Cycles 节点"
 #: ../node_materials.rst:518
 msgid ""
 "Cycles node support is an experimental feature that is not yet "
-"recommended for using in production enviroment."
+"recommended for using in production environment."
 msgstr "Cycles节点的支持是不建议在生产中使用环境的实验性功能。"
 
 #: ../node_materials.rst:520
@@ -959,18 +959,17 @@ msgid ""
 "It should also be noted that using Cycles nodes in Blend4Web will produce"
 " images similar, but not identical to the ones created using Cycles "
 "renderer itself."
-msgstr ""
+msgstr "此外应指出的是，在 Blend4Web 中使用Cycles节点会产生相似的图像，但不是完全跟使用Cycles渲染器本身创建的图像一样。"
 
 #: ../node_materials.rst:522
 msgid "The engine support the following ``Cycles`` nodes:"
 msgstr "引擎支持以下 ``Cycles`` 节点︰"
 
 #: ../node_materials.rst:524
-#, fuzzy
 msgid ""
 "``Material Output`` (only ``Surface`` and ``Displacement`` inputs are "
 "supported);"
-msgstr "``材质输出``' （只有 ``Surface``  输入支持）;"
+msgstr "``材质输出`` (只支持 ``Surface`` 和  ``Displacement`` 输入）;"
 
 #: ../node_materials.rst:526
 msgid "``BSDF Diffuse``;"
@@ -1053,7 +1052,4 @@ msgstr "材质"
 #: ../node_materials.rst:1 ../node_materials.rst:26 ../node_materials.rst:170
 msgid "nodes"
 msgstr "节点"
-
-#~ msgid "Output color."
-#~ msgstr "输出颜色。"
 

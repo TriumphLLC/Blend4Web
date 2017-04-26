@@ -168,7 +168,8 @@ alpha合成
 概述
 ----
 
-物理正确的alpha合成是根据下式进行的 [source]:
+Physically correct alpha compositing is performed according to the
+formula [source]:
 
    C_o = C_a \alpha_a + C_b \alpha_b (1 - \alpha_a).
 
@@ -184,8 +185,11 @@ alpha合成
 
    \alpha_o = \alpha_a + \alpha_b (1 - \alpha_a).
 
-将颜色通道预乘 \alpha  值允许保留2个乘法运算。更明显的是，衍生公式可以
-重复进行而不需要在每个迭代都去用 C_o 颜色值去除 \alpha_o 的值.
+Preliminary multiplication of the color channels by the \alpha values
+allows to save two multiplication operations. The more significant
+thing is that the derived formula can be used repeatedly without the
+need to divide the C_o color by the \alpha_o value on each consequent
+iteration.
 
 
 实现

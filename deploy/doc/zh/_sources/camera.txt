@@ -316,7 +316,7 @@ static_setup(), eye_setup(), target_setup() 和 hover_setup().  这些方
    m_cam.target_setup(camera, { pos: POS, pivot: LOOK_AT,
            dist_lim: TARGET_DIST_LIMITS, use_panning: true });
 
-   // setup HOVER camera on a fixed distance (without zooming) reltively to its pivot
+   // setup HOVER camera on a fixed distance (without zooming) relatively to its pivot
    m_cam.hover_setup(camera, { pos: POS, pivot: LOOK_AT });
 
    // setup HOVER camera with zooming (distance + angle limits)

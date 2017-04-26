@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2016-09-01 16:56+0300\n"
+"POT-Creation-Date: 2017-04-20 16:04+0300\n"
 "PO-Revision-Date: 2015-08-28 10:55+0300\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Russian <info [at] blend4web.com>\n"
@@ -27,9 +27,9 @@ msgstr "Содержание"
 #: ../meshes.rst:12
 msgid ""
 "Meshes are a subclass of :ref:`objects <objects>`. Meshes are different "
-"from objects of the other types in a sence that they have geometric "
+"from objects of the other types in a sense that they have geometric "
 "structure that is visible in the scene. All objects user can see in a "
-"scene are either meshes or convertet to meshes on export (like the "
+"scene are either meshes or converted to meshes on export (like the "
 "``CURVE``, ``TEXT``, ``METABALL`` and ``SURFACE`` type objects)."
 msgstr ""
 "Меши (англ. Meshes) — подкласс :ref:`объектов <objects>`. Меши отличаются"
@@ -77,7 +77,7 @@ msgstr ""
 "**Динамические меши** - меши, которые не могут быть скомбинированы друг с"
 " другом."
 
-#: ../meshes.rst:29
+#: ../meshes.rst:31
 msgid ""
 "Merging of static meshes - so called batching - is performed "
 "automatically when the scene is loaded in order to optimize the number of"
@@ -90,7 +90,7 @@ msgstr ""
 "один объект. Центр получившегося в результате конвертации меша находится "
 "в начале координат."
 
-#: ../meshes.rst:31
+#: ../meshes.rst:33
 msgid ""
 "Meshes that have animation, physics or a parent, which is a dynamic "
 "object, are considered dynamic."
@@ -98,11 +98,11 @@ msgstr ""
 "Меши, имеющие анимацию, физику или родителя, являющегося динамическим "
 "объектом, рассматриваются как динамические."
 
-#: ../meshes.rst:36
+#: ../meshes.rst:38
 msgid "Settings"
 msgstr "Настройка"
 
-#: ../meshes.rst:38
+#: ../meshes.rst:40
 msgid ""
 "Meshes have all settings of the :ref:`objects <object_settings>` and "
 "several additional settings."
@@ -110,34 +110,34 @@ msgstr ""
 "Меши обладают всеми параметрами :ref:`объектов <object_settings>`, а "
 "также некоторыми дополнительными параметрами."
 
-#: ../meshes.rst:43
+#: ../meshes.rst:45
 msgid "Override Bounding Volumes"
 msgstr ""
 
-#: ../meshes.rst:45
+#: ../meshes.rst:47
 msgid ""
 "This section is used to override bounding volumes. Such volumes are used "
 "to check object’s visibility, to handle collisions and physics "
 "interaction. By editing them, you can achieve various effects."
 msgstr ""
 "Эта вкладка используется для настройки ограничивающих объёмов. Такие "
-"объёмы используются при определении видимости объекта, для рассчёта "
+"объёмы используются при определении видимости объекта, для расчёта "
 "столкновений и физических взаимодействий. Манипулируя ими, можно добиться"
 " различных эффектов."
 
-#: ../meshes.rst:51
+#: ../meshes.rst:53
 msgid ""
 "The ``Override Bounding Volumes`` section can be found on the "
 "``Blend4Web`` panel (beside the :ref:`normals editor <normals_editor>`.)."
 msgstr ""
-"Раздел ``Override Bounding Volumes`` расположен на панели иструментов "
+"Раздел ``Override Bounding Volumes`` расположен на панели инструментов "
 "``Blend4Web`` (рядом с :ref:`редактором нормалей <normals_editor>`)."
 
-#: ../meshes.rst:53
+#: ../meshes.rst:55
 msgid "*Show Boundings*"
 msgstr ""
 
-#: ../meshes.rst:60
+#: ../meshes.rst:62
 msgid ""
 "Show the bounding volumes in the Blender viewport. This option works only"
 " if the ``Override Mesh Boundings`` parameter is enabled. The volume can "
@@ -151,7 +151,7 @@ msgstr ""
 " эллипсов. Одновременно может работать более одного метода визуализации "
 "(в том числе все три)."
 
-#: ../meshes.rst:63
+#: ../meshes.rst:65
 msgid ""
 "The selected rendering method does not affect the bounding volume shape, "
 "only the way it is represented in the viewport."
@@ -159,55 +159,55 @@ msgstr ""
 "Метод визуализации не влияет на форму ограничивающего объёма, только на "
 "его представление во вьюпорте."
 
-#: ../meshes.rst:67
+#: ../meshes.rst:69
 msgid "*Override Mesh Boundings*"
 msgstr ""
 
-#: ../meshes.rst:74
+#: ../meshes.rst:76
 msgid ""
 "This button enables the override of the basic mesh boundings. The "
 "bounding volume always has the shape of a rectangular cuboid with a "
 "center in the object’s pivot point."
 msgstr ""
 "Эта кнопка включает использование нестандартного ограничивающего объёма. "
-"Ограничивающий объём имеет форму параллелпипеда, центр которого совпадает"
+"Ограничивающий объём имеет форму параллелепипеда, центр которого совпадает"
 " с точкой привязки объекта."
 
-#: ../meshes.rst:77
+#: ../meshes.rst:79
 msgid "*MinX and  MaxX*"
 msgstr "*MinX и  MaxX*"
 
-#: ../meshes.rst:77
+#: ../meshes.rst:79
 msgid "The volume’s X dimensions. By default, *MinX* = -1, *MaxX* = 1"
 msgstr ""
 "Размеры ограничивающего объёма по оси Z. По умолчанию *MinX* = -1, *MaxX*"
 " = 1."
 
-#: ../meshes.rst:80
+#: ../meshes.rst:82
 msgid "*MinY and  MaxY*"
 msgstr "*MinY и  MaxY*"
 
-#: ../meshes.rst:80
+#: ../meshes.rst:82
 msgid "The volume’s Y dimensions. By default, *MinY* = -1, *MaxY* = 1."
 msgstr ""
 "Размеры ограничивающего объёма по оси Y. По умолчанию *MinY* = -1, *MaxY*"
 " = 1."
 
-#: ../meshes.rst:83
+#: ../meshes.rst:85
 msgid "*MinZ and  MaxZ*"
 msgstr "*MinZ и  MaxZ*"
 
-#: ../meshes.rst:83
+#: ../meshes.rst:85
 msgid "The volume’s Z dimensions. By default, *MinZ* = -1, *MaxZ* = 1"
 msgstr ""
 "Размеры ограничивающего объёма по оси Z. По умолчанию *MinZ* = -1, *MaxZ*"
 " = 1."
 
-#: ../meshes.rst:88
+#: ../meshes.rst:90
 msgid "Morphing"
 msgstr "Морфинг"
 
-#: ../meshes.rst:90
+#: ../meshes.rst:92
 msgid ""
 "Morph targets can be added using Blender’s standard ``Mesh > Shape keys``"
 " interface."
@@ -215,11 +215,11 @@ msgstr ""
 "Для создания ключей деформации (опорных фигур) перейдите во вкладку "
 "``Mesh > Shape keys``."
 
-#: ../meshes.rst:97
+#: ../meshes.rst:99
 msgid "The engine supports all shape key options under the “Relative” type."
 msgstr "Движком поддерживаются все опции типа \"Relative\" для ключей деформации."
 
-#: ../meshes.rst:99
+#: ../meshes.rst:101
 msgid ""
 "To set a shape key value, use the ``apply_shape_key`` method of the "
 "``geometry.js`` module."
@@ -227,7 +227,7 @@ msgstr ""
 "Для изменения значения ключа деформации, существует функция "
 "``apply_shape_key`` в модуле ``geometry.js``."
 
-#: ../meshes.rst:103
+#: ../meshes.rst:105
 msgid "The object must have ``Export Shape Keys`` parameter enabled."
 msgstr "На объекте должно стоять свойство *Export Shape Keys*."
 

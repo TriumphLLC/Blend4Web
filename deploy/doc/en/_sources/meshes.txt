@@ -9,7 +9,7 @@ Meshes
     :depth: 3
     :backlinks: entry
 
-Meshes are a subclass of :ref:`objects <objects>`. Meshes are different from objects of the other types in a sence that they have geometric structure that is visible in the scene. All objects user can see in a scene are either meshes or convertet to meshes on export (like the ``CURVE``, ``TEXT``, ``METABALL`` and ``SURFACE`` type objects).
+Meshes are a subclass of :ref:`objects <objects>`. Meshes are different from objects of the other types in a sense that they have geometric structure that is visible in the scene. All objects user can see in a scene are either meshes or converted to meshes on export (like the ``CURVE``, ``TEXT``, ``METABALL`` and ``SURFACE`` type objects).
 
 :ref:`Blend4Web addon <addon>` has several tools for mesh editing, including the :ref:`normal editor <normals_editor>`.
 

@@ -20,16 +20,15 @@ ENOPT = -D language='en' -c conf_en
 ZHOPT = -D language='zh' -c conf_zh
 FROPT = -D language='fr' -c conf_fr
 
-.PHONY: help clean html latexpdf gettext text
+.PHONY: help clean html latexpdf text gettext_build gettext gettext_base gettext_locale
 
 all: clean gettext_build html text
 
 help:
 	@echo "Please use \`make <target>' where <target> is one of"
-	@echo "  html       to make standalone HTML files"
-	@echo "  latexpdf   to make LaTeX files and run them through pdflatex"
-	@echo "  gettext    to make PO message catalogs"
-	@echo "  sorttext   to sort lines in PO messages"
+	@echo "  html     to make standalone HTML files"
+	@echo "  latexpdf to make LaTeX files and run them through pdflatex"
+	@echo "  gettext  to make PO message catalogs"
 
 clean:
 	-rm -rf $(BUILDDIR)/*
@@ -76,23 +75,10 @@ latexpdf:
 	@echo "xelatex finished; the PDF files are in $(BUILDDIR)/latex."
 	mv latex/b4w_tmp.pdf $(PUBDIR)/b4w_manual_zh.pdf
 
-gettext:
-	$(SPHINXBUILD) -b gettext $(ENOPT) $(I18NSPHINXOPTS) locale -j 4
-	@echo
-	@echo "Build finished. The message catalogs are in locale."
-
-gettext_update:
-	sphinx-intl -c conf_en/conf.py update -l ru -p locale -d locale
-	sphinx-intl -c conf_en/conf.py update -l zh -p locale -d locale
-	#sphinx-intl -c conf_ru/conf.py update -l fr -p locale -d locale
-
 gettext_build:
 	sphinx-intl -c conf_en/conf.py build -d locale
 	mkdir -p $(BUILDDIR)
 	cp -rv locale $(BUILDDIR)
-
-sorttext:
-	python3 ../scripts/sort_doc_texts.py
 
 text:
 	$(SPHINXBUILD) -b text -c conf_ru . ../deploy/doc/ru/_sources/ -j 4
@@ -101,3 +87,15 @@ text:
 	@echo "Build zh search pages."
 	#$(SPHINXBUILD) -b text -c conf_fr . ../deploy/doc/fr/_sources/
 	#@echo "Build fr search pages."
+
+gettext: gettext_base gettext_locale
+
+gettext_base:
+	$(SPHINXBUILD) -b gettext $(ENOPT) $(I18NSPHINXOPTS) locale -j 4
+	@echo
+	@echo "Build finished. The message catalogs are in locale."
+
+gettext_locale:
+	sphinx-intl -c conf_en/conf.py update -l ru -p locale -d locale
+	sphinx-intl -c conf_en/conf.py update -l zh -p locale -d locale
+	#sphinx-intl -c conf_ru/conf.py update -l fr -p locale -d locale

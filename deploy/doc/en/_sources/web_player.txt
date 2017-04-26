@@ -95,9 +95,10 @@ Web player accepts attributes from the browser address line:
 5) optional parameter ``autorotate`` is used to enable automatic camera rotation just after the scene loads.
 6) the ``compressed_textures`` optional parameter is used to enable loading of minified and compressed textures (in DDS format).
 7) the ``compressed_textures_pvr`` optional parameter is used to enable loading of textures compressed in PVRTC format. This parameter is used with the ``compressed_textures`` parameter.
-8) optional ``alpha`` parameter is used to enable transparency for the rendering area.
-9) the optional ``no_social`` attribute is used to disable social networks buttons on the control panel.
-10) the optional ``socials`` attribute is used to selectively enable and disable social network buttons on the control panel. This attribute should look like ``socials=<...>``, where ``<...>`` is a set of letters corresponding to the social network buttons you want to enable (``f`` for Facebook, ``v`` for VK, ``t`` for Twitter, ``w`` for Weibo and ``g`` for Google+). The order of letters sets the order in which the buttons will appear on the screen.
+8) the ``compressed_gzip`` optional parameter is used to enable loading of GZIP compressed resources such as ".json.gz", ".bin.gz", ".dds.gz" and ".pvr.gz".
+9) optional ``alpha`` parameter is used to enable transparency for the rendering area.
+10) the optional ``no_social`` attribute is used to disable social networks buttons on the control panel.
+11) the optional ``socials`` attribute is used to selectively enable and disable social network buttons on the control panel. This attribute should look like ``socials=<...>``, where ``<...>`` is a set of letters corresponding to the social network buttons you want to enable (``f`` for Facebook, ``v`` for VK, ``t`` for Twitter, ``w`` for Weibo and ``g`` for Google+). The order of letters sets the order in which the buttons will appear on the screen.
 
 .. note::
 

@@ -179,7 +179,7 @@ The parameters available for sound mixing include:
     The center frequency of where the boost is applied.
 
 *EQ_Q*
-    The Q factor. This value controls the width of the band of frequencies that wiil be boosted. Increasing the value of this parameter reduces the width.
+    The Q factor. This value controls the width of the band of frequencies that will be boosted. Increasing the value of this parameter reduces the width.
 
 *EQ_GAIN*
     This value controls the boost (measured in dB) that will be applied to the sound emitted by the speaker.

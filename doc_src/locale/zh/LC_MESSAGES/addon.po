@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-02-28 15:17+0300\n"
-"PO-Revision-Date: 2016-12-23 16:00+0800\n"
-"Last-Translator: \n"
+"POT-Creation-Date: 2017-04-20 16:04+0300\n"
+"PO-Revision-Date: 2017-02-23 15:50+0800\n"
+"Last-Translator: kidux <yuzukyo@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -351,7 +351,7 @@ msgstr "原因"
 msgid ""
 "Blend4Web initialization error! Add-on is not compatible with the "
 "PLATFORM platform."
-msgstr "Blend4Web初始化错误!该Blend4Web插件和该平台不兼容。"
+msgstr ""
 
 #: ../addon.rst:197
 msgid "The Blend4Web add-on is not compatible with the PLATFORM platform."
@@ -377,7 +377,7 @@ msgstr "警告有关可能不符合当前Blender的版本号。它建议使用VE
 
 #: ../addon.rst:207
 msgid "Incorrect add-on directory name."
-msgstr "不正确的附加目录名。"
+msgstr ""
 
 #: ../addon.rst:207
 msgid ""
@@ -478,7 +478,7 @@ msgstr ""
 msgid ""
 "Version of the .bin file is too old relative to .json file: VER_BIN, "
 ".json file version is VER_JSON. The scene will not be loaded. We "
-"recommend you to reexport yor scene."
+"recommend you to reexport your scene."
 msgstr ".bin文件的版本太旧相对于.json文件：VER_BIN，.json文件版本VER_JSON。场景将不会被加载。我们建议您再导出侑场景。"
 
 #: ../addon.rst:275
@@ -493,7 +493,7 @@ msgstr ""
 msgid ""
 "Version of the .bin file is a bit old relative to .json file: VER_BIN, "
 ".json file version is VER_JSON. Some incompatibility errors can arise. We"
-" recommend you to reexport yor scene."
+" recommend you to reexport your scene."
 msgstr ".bin文件的版本有点老相对于.json文件：VER_BIN，.json文件版本VER_JSON。可能会出现一些不兼容的错误。我们建议您再导出侑场景。"
 
 #: ../addon.rst:288
@@ -522,7 +522,7 @@ msgstr "``ERROR`` -在发生问题的简短描述。"
 
 #: ../addon.rst:307
 msgid "Export to different disk is forbidden"
-msgstr "导出到位于不同的磁盘上的目录被禁止"
+msgstr ""
 
 #: ../addon.rst:307
 msgid "Export to a directory located on a different disk is forbidden"
@@ -734,12 +734,11 @@ msgstr "该 ``Vertex Color Paint`` 启用了网状材料的选择，但网格没
 
 #: ../addon.rst:406
 msgid "Incorrect NLA script, falling back to simple sequential NLA."
-msgstr "NLA 脚本错误，回落到简单序列 NLA。"
+msgstr ""
 
 #: ../addon.rst:406
-#, fuzzy
 msgid "Incorrect NLA script. Falling back to simple sequential NLA."
-msgstr "NLA 脚本错误，回落到简单序列 NLA。"
+msgstr "不正确的 NLA 脚本。返回到简单的序列 NLA。"
 
 #: ../addon.rst:409
 #, fuzzy
@@ -774,7 +773,7 @@ msgid "The mesh has vertices assigned to the non-existing vertex group."
 msgstr "该网格具有分配给不存在的顶点顶点组的顶点。"
 
 #: ../addon.rst:420
-msgid "Incorrect mesh NAME; Wrong vertice positions"
+msgid "Incorrect mesh NAME; Wrong vertex positions"
 msgstr ""
 
 #: ../addon.rst:420
@@ -815,7 +814,7 @@ msgstr "损坏的文件：不正确的顶点组权重值。"
 
 #: ../addon.rst:437
 msgid "Incomplete vehicle. The NAME vehicle doesn't have any chassis or hull"
-msgstr "非完整车辆。NAME 车辆不具有任何底盘或船体"
+msgstr ""
 
 #: ../addon.rst:437
 msgid ""
@@ -942,7 +941,6 @@ msgid ""
 msgstr ""
 
 #: ../addon.rst:483
-#, fuzzy
 msgid ""
 "An object named \\\"NAME\\\" has no mesh or mesh is broken. The object's "
 "type has been changed to EMPTY."
@@ -1143,10 +1141,9 @@ msgstr "主场景名称不能被其他场景渲染。材料名称已被删除。
 
 #: ../addon.rst:567
 msgid "The NAME action has decimal frames. Converted to integer."
-msgstr "操作具有十进制的帧。转换为整数。"
+msgstr ""
 
 #: ../addon.rst:567
-#, fuzzy
 msgid ""
 "The NAME action has decimal frames, which isn't supported. Converted to "
 "integer."
@@ -1156,27 +1153,25 @@ msgstr "操作具有十进制的帧。转换为整数。"
 msgid ""
 "The NAME armature modifier has a proxy object as an armature. Modifier "
 "removed."
-msgstr "该 NAME 骨架修改器有一个代理物体作为骨架，修改器被移除。"
+msgstr ""
 
 #: ../addon.rst:570
 msgid "An armature modifier has a proxy object as an armature."
 msgstr "一个骨架修改器具有一个代理对象作为骨架。"
 
 #: ../addon.rst:574
-#, fuzzy
 msgid ""
 "The NAME armature modifier has no armature object or it is not exported. "
 "Modifier removed."
-msgstr "该名称 ``Armature`` 修正没有骨架问题，也没有导出。修改删除。"
+msgstr ""
 
 #: ../addon.rst:574
 msgid ""
 "The NAME ``Armature`` modifier has no armature object or it is not "
 "exported. Modifier removed."
-msgstr "该名称 ``Armature`` 修正没有骨架问题，也没有导出。修改删除。"
+msgstr ""
 
 #: ../addon.rst:578
-#, fuzzy
 msgid "The NAME curve modifier has no curve object. Modifier removed."
 msgstr "该名称曲线修正没有对象。修改删除。"
 
@@ -1309,7 +1304,7 @@ msgstr ""
 msgid ""
 "Wrong \"Height Map\" input for the \"NAME\" B4W_PARALLAX node. Only link "
 "from the TEXTURE node with a non-empty texture is allowed."
-msgstr "错误的数据传递给该名称的“高度贴图”输入 ``B4W_PARALLAX`` 节点。只从一个非空的输出 ``TEXTURE`` 节点是允许的。"
+msgstr ""
 
 #: ../addon.rst:634
 msgid ""
@@ -1366,9 +1361,7 @@ msgstr "这些消息可以在浏览器的控制台中查看（与打开 ``F12`` 
 
 #: ../addon.rst:662
 msgid "``B4W EXPORT WARNING: Export message which requires the user's attention``"
-msgstr ""
-"``B4W EXPORT WARNING: Export message which requires the user's "
-"attention（B4W EXPORT警告：导出消息，这就需要用户注意）``"
+msgstr "``B4W EXPORT警告：导出消息，这就需要用户注意``"
 
 #: ../addon.rst:671
 msgid "Error Message"
@@ -1407,12 +1400,11 @@ msgstr "粒子设置数据块名称包含被用于渲染场景到纹理名称。
 
 #: ../addon.rst:685
 msgid "The action NAME has no fcurves."
-msgstr "动作 NAME 没有f曲线."
+msgstr ""
 
 #: ../addon.rst:685
-#, fuzzy
 msgid "The action with the name \"NAME\" has no fcurves."
-msgstr "动作 NAME 没有f曲线."
+msgstr ""
 
 #: ../addon.rst:688
 msgid ""
@@ -1889,5 +1881,8 @@ msgstr "导出错误警告"
 #~ msgstr ""
 
 #~ msgid "TEXTURE_TYPE isn't supported, WORLD_NAME"
+#~ msgstr ""
+
+#~ msgid "Incorrect mesh NAME; Wrong vertice positions"
 #~ msgstr ""
 

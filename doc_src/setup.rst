@@ -183,7 +183,7 @@ Updating the Addon
 
 If you are only using the Blend4Web add-on, follow this instruction instead.
 
-Before installing a new version of the add-on, you may firstly remove the existing one. To do this, unfold the information tab of the Blend4Web addon and press the ``Remove`` button. Removing the old version is not required before installing a new one, but doing so makes sure there won't be any coflicts.
+Before installing a new version of the add-on, you may firstly remove the existing one. To do this, unfold the information tab of the Blend4Web addon and press the ``Remove`` button. Removing the old version is not required before installing a new one, but doing so makes sure there won't be any conflicts.
 
 .. image:: src_images/setup/user_preferences_remove_addon.png
    :align: center
@@ -216,13 +216,13 @@ After you have updated your SDK (or Add-on), you can import projects that you ex
 
 #. Import your projects using the ``Import Project(s)`` button.
 
-#. Reexport projects's ``.blend`` files using the ``re-export scenes`` link.
+#. Reexport the projects' ``.blend`` files using the ``re-export scenes`` link.
 
-#. Use the ``check modules`` link for every imported project to make sure there are no missing or unused modules in the program code. If there are, you may try to fix the poblems using the ``Update Modules`` button.
+#. Use the ``check modules`` link for every imported project to make sure there are no missing or unused modules in the program code. If there are, you may try to fix the problems using the ``Update Modules`` button.
 
 #. Then use ``build`` command to make the build versions of the imported projects work again.
 
-#. The developer version of the projects using ``Copy`` or ``Compile`` engine binding type should also be build to properly work with the new version of the SDK (the developer versions of the projects with other bindning types should work fine without it).
+#. The developer version of the projects using ``Copy`` or ``Compile`` engine binding type should also be build to properly work with the new version of the SDK (the developer versions of the projects with other binding types should work fine without it).
 
 |
 

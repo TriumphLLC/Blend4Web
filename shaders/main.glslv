@@ -64,7 +64,7 @@
 ==============================================================================*/
 GLSL_IN vec3 a_position;
 
-GLSL_IN vec4 a_tbn_quat;
+GLSL_IN vec4 a_tbn;
 
 #if USE_INSTANCED_PARTCLS
 GLSL_IN vec4 a_part_ts;
@@ -105,7 +105,7 @@ GLSL_IN vec3 a_position_next;
 # if !NODES || USE_NODE_MATERIAL_BEGIN || USE_NODE_GEOMETRY_NO || USE_NODE_NORMAL_MAP \
         || CAUSTICS || CALC_TBN_SPACE || USE_NODE_TEX_COORD_NO \
         || USE_NODE_BSDF_BEGIN || USE_NODE_TEX_COORD_RE
-GLSL_IN vec4 a_tbn_quat_next;
+GLSL_IN vec4 a_tbn_next;
 # endif
 #endif
 
@@ -316,7 +316,9 @@ void main(void) {
         || CAUSTICS || WIND_BEND && MAIN_BEND_COL && DETAIL_BEND || !NODES \
         || USE_TBN_SHADING && CALC_TBN || USE_NODE_BSDF_BEGIN || USE_NODE_FRESNEL \
         || USE_NODE_TEX_COORD_NO || USE_NODE_TEX_COORD_RE || USE_NODE_LAYER_WEIGHT || USE_NODE_BUMP
-    vec3 norm_tbn = qrot(a_tbn_quat, vec3(0.0, 1.0, 0.0));
+    float correct_angle, handedness;
+    vec4 tbn_quat = get_tbn_quat(a_tbn, correct_angle, handedness);
+    vec3 norm_tbn = qrot(tbn_quat, vec3(0.0, 1.0, 0.0));
 #endif
 
 #if CALC_TBN_SPACE || USE_NODE_MATERIAL_BEGIN || USE_NODE_GEOMETRY_NO || USE_NODE_NORMAL_MAP \
@@ -329,9 +331,12 @@ void main(void) {
 #endif
 
 #if CALC_TBN_SPACE || !NODES && TEXTURE_NORM_CO == TEXTURE_COORDS_UV_ORCO
-    vec3 tangent = qrot(a_tbn_quat, vec3(1.0, 0.0, 0.0));
+    vec3 tangent = qrot(tbn_quat, vec3(1.0, 0.0, 0.0));
     // - cross(tangent, normal) --- blender space binormal
-    vec3 binormal = sign(a_tbn_quat[3]) * cross(normal, tangent);
+    vec3 binormal = handedness * cross(normal, tangent);
+
+    vec4 tanget_rot_quat = qsetAxisAngle(binormal, handedness * correct_angle);
+    tangent = qrot(tanget_rot_quat, normal);
 #elif !NODES && TEXTURE_NORM_CO == TEXTURE_COORDS_NORMAL
     // NOTE: absolutely not precise. Better too avoid using such a setup
     vec3 world_pos = tsr9_transform(model_tsr, position);
@@ -363,17 +368,23 @@ void main(void) {
         || USE_NODE_GEOMETRY_NO || CAUSTICS || CALC_TBN_SPACE \
         || TEXTURE_NORM_CO != TEXTURE_COORDS_NONE || USE_NODE_BSDF_BEGIN \
         || USE_NODE_TEX_COORD_RE || USE_NODE_BUMP
-    vec3 norm_tbn_next = qrot(a_tbn_quat_next, vec3(0.0, 1.0, 0.0));
+    float correct_angle_next, handedness_next;
+    vec4 tbn_quat_next = get_tbn_quat(a_tbn_next, correct_angle_next, handedness_next);
+    vec3 normal_next = qrot(tbn_quat_next, vec3(0.0, 1.0, 0.0));
 # endif
 
 # if !NODES || USE_NODE_MATERIAL_BEGIN || USE_NODE_NORMAL_MAP \
         || USE_NODE_GEOMETRY_NO || CAUSTICS || CALC_TBN_SPACE || USE_NODE_BSDF_BEGIN \
         || USE_NODE_BUMP
-    normal = mix(normal, norm_tbn_next, VERTEX_ANIM_MIX_NORMALS_FACTOR);
+    normal = mix(normal, normal_next, VERTEX_ANIM_MIX_NORMALS_FACTOR);
 # endif
 # if TEXTURE_NORM_CO != TEXTURE_COORDS_NONE
-    vec3 tangent_next = qrot(a_tbn_quat_next, vec3(1.0, 0.0, 0.0));
-    vec3 binormal_next = sign(a_tbn_quat_next[3]) * cross(norm_tbn_next, tangent_next);
+    vec3 tangent_next = qrot(tbn_quat_next, vec3(1.0, 0.0, 0.0));
+    vec3 binormal_next = handedness_next * cross(normal_next, tangent_next);
+
+    vec4 tangent_rot_quat_next = qsetAxisAngle(binormal_next, \
+            handedness_next * correct_angle_next);
+    tangent_next = qrot(tangent_rot_quat_next, normal_next);
 
     tangent = mix(tangent, tangent_next, u_va_frame_factor);
     binormal = mix(binormal, binormal_next, u_va_frame_factor);

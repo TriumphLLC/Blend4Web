@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2016-09-01 16:56+0300\n"
+"POT-Creation-Date: 2017-04-20 16:04+0300\n"
 "PO-Revision-Date: 2016-10-04 19:33+0800\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Chinese <info [at] blend4web.com>\n"
@@ -15,8 +15,6 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.3.4\n"
-"Language: zh\n"
-"X-Generator: Poedit 1.8.9\n"
 
 #: ../meshes.rst:6
 msgid "Meshes"
@@ -29,30 +27,26 @@ msgstr "目录"
 #: ../meshes.rst:12
 msgid ""
 "Meshes are a subclass of :ref:`objects <objects>`. Meshes are different "
-"from objects of the other types in a sence that they have geometric "
-"structure that is visible in the scene. All objects user can see in a scene "
-"are either meshes or convertet to meshes on export (like the ``CURVE``, "
-"``TEXT``, ``METABALL`` and ``SURFACE`` type objects)."
+"from objects of the other types in a sense that they have geometric "
+"structure that is visible in the scene. All objects user can see in a "
+"scene are either meshes or converted to meshes on export (like the "
+"``CURVE``, ``TEXT``, ``METABALL`` and ``SURFACE`` type objects)."
 msgstr ""
-"网格是的 :ref:`obje物体 <objects>` 的一个子类。网格从某种意义上讲跟其他物体"
-"类型是不一样的，尽管他们都是在场景中可见的几何结构。用户在一个场景中看到的所"
-"有物体都是网格或 在导出时 (比如 ``CURVE``, ``TEXT``, ``METABALL`` 和 "
-"``SURFACE`` 类型的物体)转换成网格的。"
+"网格是的 :ref:`obje物体 <objects>` "
+"的一个子类。网格从某种意义上讲跟其他物体类型是不一样的，尽管他们都是在场景中可见的几何结构。用户在一个场景中看到的所有物体都是网格或 在导出时 "
+"(比如 ``CURVE``, ``TEXT``, ``METABALL`` 和 ``SURFACE`` 类型的物体)转换成网格的。"
 
 #: ../meshes.rst:14
 msgid ""
 ":ref:`Blend4Web addon <addon>` has several tools for mesh editing, "
 "including the :ref:`normal editor <normals_editor>`."
-msgstr ""
-":ref:`Blend4Web 插件 <addon>` 有几个工具用于网格编辑，包括  :ref:`法线编辑"
-"器 <normals_editor>`."
+msgstr ":ref:`Blend4Web 插件 <addon>` 有几个工具用于网格编辑，包括  :ref:`法线编辑器 <normals_editor>`."
 
 #: ../meshes.rst:16
 msgid ""
 "This chapter provides an overview of the ``MESH`` type object parameters "
 "and settings, as well as the API functions to work with them."
-msgstr ""
-"这一章概述了 ``MESH`` 类型物体参数和设置，以及他们一起工作的 API 函数。"
+msgstr "这一章概述了 ``MESH`` 类型物体参数和设置，以及他们一起工作的 API 函数。"
 
 #: ../meshes.rst:21
 msgid "Static and Dynamic Meshes"
@@ -64,140 +58,134 @@ msgstr "所有 ``MESH`` 物体可分为静态和动态。"
 
 #: ../meshes.rst:25
 msgid ""
-"**Static meshes** are meshes that can be merged together if they have the "
-"same material."
+"**Static meshes** are meshes that can be merged together if they have the"
+" same material."
 msgstr "**静态物体** 是物体，具有相同的材质的网格可以合并在一起。"
 
 #: ../meshes.rst:27
 msgid "**Dynamic meshes** are meshes that cannot be combined with each other."
 msgstr "**动态物体** 是物体，网格不可以互相合并。"
 
-#: ../meshes.rst:29
-msgid ""
-"Merging of static meshes - so called batching - is performed automatically "
-"when the scene is loaded in order to optimize the number of draw calls. The "
-"conversion is performed even if there is just one object in the scene. The "
-"center of the resulting mesh is located in the origin."
-msgstr ""
-"静态网格的合并-所谓的批处理-在场景被加载时自动执行，以优化绘制调用的次数。即"
-"使在场景中只有一个物体，也执行转换。由此产生的网格的中心位于原点。"
-
 #: ../meshes.rst:31
 msgid ""
-"Meshes that have animation, physics or a parent, which is a dynamic object, "
-"are considered dynamic."
+"Merging of static meshes - so called batching - is performed "
+"automatically when the scene is loaded in order to optimize the number of"
+" draw calls. The conversion is performed even if there is just one object"
+" in the scene. The center of the resulting mesh is located in the origin."
+msgstr "静态网格的合并-所谓的批处理-在场景被加载时自动执行，以优化绘制调用的次数。即使在场景中只有一个物体，也执行转换。由此产生的网格的中心位于原点。"
+
+#: ../meshes.rst:33
+msgid ""
+"Meshes that have animation, physics or a parent, which is a dynamic "
+"object, are considered dynamic."
 msgstr "具有动画，物理或父级关系的物体，是一个动态物体，都被认为是动态的。"
 
-#: ../meshes.rst:36
+#: ../meshes.rst:38
 msgid "Settings"
 msgstr "设置"
 
-#: ../meshes.rst:38
+#: ../meshes.rst:40
 msgid ""
 "Meshes have all settings of the :ref:`objects <object_settings>` and "
 "several additional settings."
 msgstr "网格含有 :ref:`物体 <object_settings>` 所有的设置和一些额外的设置。"
 
-#: ../meshes.rst:43
+#: ../meshes.rst:45
 msgid "Override Bounding Volumes"
 msgstr "覆盖包围体积"
 
-#: ../meshes.rst:45
+#: ../meshes.rst:47
 msgid ""
-"This section is used to override bounding volumes. Such volumes are used to "
-"check object’s visibility, to handle collisions and physics interaction. By "
-"editing them, you can achieve various effects."
-msgstr ""
-"这部分是用来覆盖包围盒。这样体积盒用于检查物体的可见性，来处理碰撞和物理交"
-"互。通过编辑它们，可以实现各种效果。"
-
-#: ../meshes.rst:51
-msgid ""
-"The ``Override Bounding Volumes`` section can be found on the ``Blend4Web`` "
-"panel (beside the :ref:`normals editor <normals_editor>`.)."
-msgstr ""
-"该 ``覆盖包围体积`` 部分可以在 ``Blend4Web`` 面板上找到（在 :ref:`法线编辑"
-"器 <normals_editor>` 旁边）。"
+"This section is used to override bounding volumes. Such volumes are used "
+"to check object’s visibility, to handle collisions and physics "
+"interaction. By editing them, you can achieve various effects."
+msgstr "这部分是用来覆盖包围盒。这样体积盒用于检查物体的可见性，来处理碰撞和物理交互。通过编辑它们，可以实现各种效果。"
 
 #: ../meshes.rst:53
+msgid ""
+"The ``Override Bounding Volumes`` section can be found on the "
+"``Blend4Web`` panel (beside the :ref:`normals editor <normals_editor>`.)."
+msgstr ""
+"该 ``覆盖包围体积`` 部分可以在 ``Blend4Web`` 面板上找到（在 :ref:`法线编辑器 <normals_editor>` "
+"旁边）。"
+
+#: ../meshes.rst:55
 msgid "*Show Boundings*"
 msgstr "*显示包围*"
 
-#: ../meshes.rst:60
+#: ../meshes.rst:62
 msgid ""
-"Show the bounding volumes in the Blender viewport. This option works only "
-"if the ``Override Mesh Boundings`` parameter is enabled. The volume can be "
-"rendered as a rectangular cuboid or as a combination of circles or "
-"ellipses. More than one method of rendering can be active at the same time "
-"(even all three methods can be enabled simultaneously)."
+"Show the bounding volumes in the Blender viewport. This option works only"
+" if the ``Override Mesh Boundings`` parameter is enabled. The volume can "
+"be rendered as a rectangular cuboid or as a combination of circles or "
+"ellipses. More than one method of rendering can be active at the same "
+"time (even all three methods can be enabled simultaneously)."
 msgstr ""
-"显示在Blender视口中的包围盒。只有当 ``覆盖网格包围`` 参数开启，启用该选项。"
-"包围盒可以呈现为长方体或为圆形或椭圆的组合。多个渲染方式可以在同一时间是启用"
-"（甚至所有三种方法可以同时启用）。"
+"显示在Blender视口中的包围盒。只有当 ``覆盖网格包围`` "
+"参数开启，启用该选项。包围盒可以呈现为长方体或为圆形或椭圆的组合。多个渲染方式可以在同一时间是启用（甚至所有三种方法可以同时启用）。"
 
-#: ../meshes.rst:63
+#: ../meshes.rst:65
 msgid ""
 "The selected rendering method does not affect the bounding volume shape, "
 "only the way it is represented in the viewport."
 msgstr "所选渲染方法不会影响包围盒的形状，只是影响它在视口中展示的方式。"
 
-#: ../meshes.rst:67
+#: ../meshes.rst:69
 msgid "*Override Mesh Boundings*"
 msgstr "*覆盖网格包围*"
 
-#: ../meshes.rst:74
+#: ../meshes.rst:76
 msgid ""
-"This button enables the override of the basic mesh boundings. The bounding "
-"volume always has the shape of a rectangular cuboid with a center in the "
-"object’s pivot point."
-msgstr ""
-"此按钮可以使基本网格包围覆盖。包围盒总是一个长方体并以物体的枢轴点为中心。"
+"This button enables the override of the basic mesh boundings. The "
+"bounding volume always has the shape of a rectangular cuboid with a "
+"center in the object’s pivot point."
+msgstr "此按钮可以使基本网格包围覆盖。包围盒总是一个长方体并以物体的枢轴点为中心。"
 
-#: ../meshes.rst:77
+#: ../meshes.rst:79
 msgid "*MinX and  MaxX*"
 msgstr ""
 
-#: ../meshes.rst:77
+#: ../meshes.rst:79
 msgid "The volume’s X dimensions. By default, *MinX* = -1, *MaxX* = 1"
 msgstr "包围盒的X尺寸。默认情况下， *MinX* = -1, *MaxX* = 1"
 
-#: ../meshes.rst:80
+#: ../meshes.rst:82
 msgid "*MinY and  MaxY*"
 msgstr ""
 
-#: ../meshes.rst:80
+#: ../meshes.rst:82
 msgid "The volume’s Y dimensions. By default, *MinY* = -1, *MaxY* = 1."
 msgstr "包围盒的Y尺寸。缺省情况下，*MinY* = -1, *MaxY* = 1."
 
-#: ../meshes.rst:83
+#: ../meshes.rst:85
 msgid "*MinZ and  MaxZ*"
 msgstr ""
 
-#: ../meshes.rst:83
+#: ../meshes.rst:85
 msgid "The volume’s Z dimensions. By default, *MinZ* = -1, *MaxZ* = 1"
 msgstr "包围盒的z方向。缺省情况下，*MinZ* = -1, *MaxZ* = 1"
 
-#: ../meshes.rst:88
+#: ../meshes.rst:90
 msgid "Morphing"
 msgstr "变形"
 
-#: ../meshes.rst:90
+#: ../meshes.rst:92
 msgid ""
-"Morph targets can be added using Blender’s standard ``Mesh > Shape keys`` "
-"interface."
+"Morph targets can be added using Blender’s standard ``Mesh > Shape keys``"
+" interface."
 msgstr "变形目标可以用Blender的标准 ``网格 > 形变键`` 界面进行添加。"
 
-#: ../meshes.rst:97
+#: ../meshes.rst:99
 msgid "The engine supports all shape key options under the “Relative” type."
 msgstr "该引擎支持所有 “相对” 类型下的形变键选项。"
 
-#: ../meshes.rst:99
+#: ../meshes.rst:101
 msgid ""
 "To set a shape key value, use the ``apply_shape_key`` method of the "
 "``geometry.js`` module."
-msgstr ""
-"要设置一个形变键值，使用 ``geometry.js`` 模块的 ``apply_shape_key`` 方法。"
+msgstr "要设置一个形变键值，使用 ``geometry.js`` 模块的 ``apply_shape_key`` 方法。"
 
-#: ../meshes.rst:103
+#: ../meshes.rst:105
 msgid "The object must have ``Export Shape Keys`` parameter enabled."
 msgstr "该物体必须具有 ``导出形变键`` 参数启用。"
+

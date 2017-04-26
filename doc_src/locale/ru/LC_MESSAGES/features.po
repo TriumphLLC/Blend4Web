@@ -395,7 +395,7 @@ msgstr ""
 msgid "various constraints types - rigid, hinges, springs, pivots, sliding etc"
 msgstr ""
 "система соединителей (ограничителей) - жёсткие, гибкие, пружинящие, "
-"поворотные, скользящие итд."
+"поворотные, скользящие и т.д."
 
 #: ../features.rst:122
 msgid "ray tracing"

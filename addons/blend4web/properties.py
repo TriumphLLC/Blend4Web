@@ -711,7 +711,7 @@ class B4W_SSAOSettings(bpy.types.PropertyGroup):
         description = _("How much AO affects the final rendering"),
         default = 0.7,
         min = 0.0,
-        max = 1.0,
+        max = 2.0,
         step = 0.005,
         precision = 3,
         options = set()
@@ -864,6 +864,22 @@ class B4W_BloomSettings(bpy.types.PropertyGroup):
         default = 1.0,
         min = 0.0,
         max = 3.0,
+        step = 0.01,
+        precision = 2,
+        options = set()
+    )
+    adaptive = bpy.props.BoolProperty(
+        name = _("adaptive"),
+        description = _("Use calculation of adaptive average luminance."),
+        default = True,
+        options = set()
+    )
+    average_luminance = bpy.props.FloatProperty(
+        name = _("average_luminance"),
+        description = _("Calculate average luminance during runtime."),
+        default = 0.5,
+        min = 0.0,
+        max = 1.0,
         step = 0.01,
         precision = 2,
         options = set()
@@ -1268,8 +1284,8 @@ def add_b4w_props():
 
     b4w_use_custom_color = bpy.props.BoolProperty(
         name = _("B4W: use custom color"),
-        description = _("Fog will uses custom color instead of horizon color"),
-        default = True,
+        description = _("Fog will use custom color instead of horizon color"),
+        default = False,
         options = set()
     )
     bpy.types.World.b4w_use_custom_color = b4w_use_custom_color
@@ -1403,7 +1419,6 @@ def remove_obj_props():
     del bpy.types.Object.b4w_anim_clean_keys
     del bpy.types.Object.b4w_bake_only_deform
     del bpy.types.Object.b4w_loc_export_vertex_anim
-    del bpy.types.Object.b4w_lod_transition
     del bpy.types.Object.b4w_detail_bend_colors
     del bpy.types.Object.b4w_correct_bounding_offset
     del bpy.types.Object.b4w_refl_plane_index
@@ -1436,6 +1451,8 @@ def remove_scenes_props():
     del bpy.types.Scene.b4w_ssao_settings
     del bpy.types.Scene.b4w_cluster_size
     del bpy.types.Scene.b4w_lod_cluster_size_mult
+    del bpy.types.Scene.b4w_lod_smooth_type
+    del bpy.types.Scene.b4w_lod_hyst_interval
     del bpy.types.Scene.b4w_anisotropic_filtering
     del bpy.types.Scene.b4w_enable_bloom
     del bpy.types.Scene.b4w_bloom_settings
@@ -1684,10 +1701,15 @@ def add_scene_properties():
         options = set()
     )
 
-    b4w_enable_physics = bpy.props.BoolProperty(
+    b4w_enable_physics = bpy.props.EnumProperty(
         name = _("B4W: enable physics"),
         description = _("Enable physics simulation on this scene"),
-        default = True,
+        items = [
+            ("OFF", _("OFF"), "OFF", 0),
+            ("ON",  _("ON"),  "ON", 1),
+            ("AUTO",  _("AUTO"),  "AUTO", 2),
+        ],
+        default = "AUTO",
         options = set()
     )
     scene_type.b4w_enable_physics = b4w_enable_physics
@@ -1832,6 +1854,32 @@ def add_scene_properties():
         options = set()
     )
     scene_type.b4w_lod_cluster_size_mult = b4w_lod_cluster_size_mult
+
+    b4w_lod_smooth_type = bpy.props.EnumProperty(
+        name = _("B4W: LOD Smooth Transitions"),
+        description = _("Smooth transitions between LOD objects."),
+        items = [
+            ("OFF", _("OFF"), _("Don't use smooth transitions")),
+            ("NON-OPAQUE", _("NON-OPAQUE"), _("Use smooth transitions for " 
+                    + "objects with non-opaque materials: Add, Alpha Clip, " 
+                    + "Alpha Blend, Alpha Sort and Alpha Anti-Aliasing.")),
+            ("ALL", _("ALL"), _("Use smooth transitions for all objects (can be slow)")),
+        ],
+        default = "NON-OPAQUE",
+        options = set()
+    )
+    scene_type.b4w_lod_smooth_type = b4w_lod_smooth_type
+
+    b4w_lod_hyst_interval = bpy.props.FloatProperty(
+        name = _("B4W: LOD hysteresis interval"),
+        description = _("Maximum hysteresis interval for LOD switching (in meters)."),
+        default = 4,
+        min = 0.0,
+        soft_max = 10.0,
+        precision = 2,
+        options = set()
+    )
+    scene_type.b4w_lod_hyst_interval = b4w_lod_hyst_interval
 
     # see also b4w_anisotropic_filtering for texture
     b4w_anisotropic_filtering = bpy.props.EnumProperty(
@@ -2514,6 +2562,13 @@ def add_object_properties():
         options = set()
     )
 
+    obj_type.b4w_hide_chldr_on_load = bpy.props.BoolProperty(
+        name = _("B4W: hidden children"),
+        description = _("Object's children will be hidden on load"),
+        default = False,
+        options = set()
+    )
+
     obj_type.b4w_hidden_on_load = bpy.props.BoolProperty(
         name = _("B4W: hidden"),
         description = _("Object will be hidden on load"),
@@ -2834,19 +2889,6 @@ def add_object_properties():
         description = _("Export baked vertex animation"),
         default = False,
         update = loc_export_vertex_anim_update,
-        options = set()
-    )
-
-    obj_type.b4w_lod_transition = bpy.props.FloatProperty(
-        name = _("B4W: LOD transition ratio"),
-        description = _("LOD transition ratio"),
-        default = 0.1,
-        min = 0.00,
-        max = 100,
-        soft_min = 0,
-        soft_max = 1,
-        step = 1,
-        precision = 3,
         options = set()
     )
 

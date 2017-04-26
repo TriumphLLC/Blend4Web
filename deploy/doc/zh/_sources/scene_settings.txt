@@ -56,9 +56,9 @@
 
     * 物理
 
-    * 物体聚类
+    * Object Clustering & LOD
 
-    * 选择物体
+    * Object Selection
 
     * 锚
 
@@ -165,9 +165,8 @@
 
 [图片]
 
-注解: For dynamically loaded objects, "AUTO" setting is interpreted
-  as "OFF", if no materials with glow are present in the scene. If you
-  are using dynamic loading, you should set this parameter to "ON".
+注解: 为动态加载物体，"AUTO" 设置被解析为 "OFF",当没有带辉光的材料在
+  场景中 时。如果使用的是动态加载，你应该将这个参数设置为  "ON".
 
 
 抗锯齿
@@ -382,7 +381,7 @@ Meta标签
 *说明源*
    应用程序的说明的来源。说明可以从一个文件中加载，或直接在
    "Description" 字段中写出。此参数可以有两个值，"Text" 和 "File"，它
-   是默认设置为``Text``。
+   是默认设置为 "Text"。
 
 
 物理
@@ -396,26 +395,57 @@ Meta标签
    允许在应用程序中使用物理。默认情况下启用。
 
 
-物体聚类
---------
+Object Clustering & LOD
+-----------------------
 
-物体集群的设置。它可用于优化目的。
+Settings for object clustering and Levels Of Detail.
 
 [图片]
 
 *簇大小*
-   簇的用于批量（尺寸：米）的处理。如果该参数被设置为零，引擎将场景中
-   所有物体合并。默认设置为零。
+   The size of the cluster used for batching (in meters). Can be used
+   for optimization purposes. If this parameter is set to zero, the
+   engine will try to combine all objects in the scene. Set to zero by
+   default.
 
 *LOD簇大小乘数*
-   该参数用于细分簇（基于每个物体指定的LOD距离）到较小的部分使得不同情
-   况的层次细节切换不被引起注意。小簇的大小是由物体的LOD距离乘以这个参
-   数的值定义。较高的值导致更大的簇，提高性能但使得过渡比较明显，而较
-   低的值让转换不被引起注意但是以性能降低为代价。默认设置为0.5。
+   This parameter is used to subdivide clusters (based on LOD distance
+   specified individually for each object) into smaller ones to make
+   transitions between different levels of detail less noticeable. The
+   size of that smaller clusters is defined by object LOD distance
+   multiplied by the value of this parameter. Higher values lead to
+   bigger clusters which increases performance but makes transition
+   between LODs more noticeable, while lower values make said
+   transitions less noticeable at the cost of decreased performance.
+   Can be used for optimization purposes. Set to 0.5 by default.
+
+*LOD Smooth Transitions*
+   Defines what objects will use smooth transitions while switching
+   their LOD levels. Has the following options:
+
+   * OFF - smooth transitions are disabled (fastest).
+
+   * NON-OPAQUE - use smooth transitions for objects with "Add",
+     "Alpha Clip", "Alpha Blend", "Alpha Sort" and "Alpha Anti-
+     Aliasing" materials.
+
+   * ALL - smooth transitions will be used for all objects
+     (slowest).
+
+   Choosing the "ALL" value can noticeably decrease application
+   performance, so use it with caution. Default value is "NON-OPAQUE".
+
+*Max LOD Hysteresis Interval*
+
+   The length of the interval (in meters) used for switching LOD
+   levels. The half of this value is added/subtracted from the
+   distance threshold in order to make two different thresholds for
+   switching to the lower and to the higher LOD level. This should
+   reduce LOD "popping" effect. Set to 4.0 by default.
 
 
-选择物体
---------
+Object Selection
+----------------
 
 物体选择设置。对象可以使用API​​函数来选择两种 pick_object() 并用 逻辑
 节点。

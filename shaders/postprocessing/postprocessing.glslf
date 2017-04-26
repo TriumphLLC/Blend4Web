@@ -39,6 +39,7 @@ void main(void) {
 #if POST_EFFECT == POST_EFFECT_NONE
     // copy exact
     GLSL_OUT_FRAG_COLOR = GLSL_TEXTURE(u_color, v_texcoord);
+    // GLSL_OUT_FRAG_COLOR = vec4(v_texcoord, 0.0, 1.0);
 
 #elif POST_EFFECT == POST_EFFECT_GRAYSCALE
     vec4 c = GLSL_TEXTURE(u_color, v_texcoord);

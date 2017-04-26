@@ -17,7 +17,7 @@
 "use strict";
 
 /**
- * Containts various utility methods for math, searching etc.
+ * Contains various utility methods for math, searching etc.
  * @module util
  */
 b4w.module["util"] = function(exports, require) {
@@ -25,6 +25,7 @@ b4w.module["util"] = function(exports, require) {
 var m_compat   = require("__compat");
 var m_print    = require("__print");
 var m_quat     = require("__quat");
+var m_tbn      = require("__tbn");
 var m_util     = require("__util");
 var m_vec3     = require("__vec3");
 
@@ -325,7 +326,7 @@ exports.smooth = m_util.smooth;
  * @param {Float32Array} curr Current value.
  * @param {Float32Array} last Last smoothed value.
  * @param {Float32Array} delta Time delta.
- * @param {Float32Array} pariod Mean lifetime for avaraging.
+ * @param {Float32Array} period Mean lifetime for averaging.
  * @param {Float32Array} [dest] Smoothed value
  * @returns {Float32Array} Smoothed value
  */
@@ -429,6 +430,6 @@ exports.is_ie11 = m_compat.is_ie11;
  * @param {Float32Array} [tangents] Flat array of tangents.
  * @returns {Float32Array} Flat array of quaternions.
  */
-exports.gen_tbn_quats = m_util.gen_tbn_quats;
+exports.gen_tbn_quats = m_tbn.get;
 
 }

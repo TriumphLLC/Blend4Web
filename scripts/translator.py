@@ -70,7 +70,7 @@ def translate_addon(lang_po=""):
         abs_path = os.path.join(PATH_TO_ADDON, f)
         if os.path.isfile(abs_path) and f[-3:] == ".py":
             # remove "--no-location" key to append location to .po-file
-            res = subprocess.call(["xgettext", "--no-location", "--no-wrap", "-j", 
+            res = subprocess.call(["xgettext", "--no-location", "-s", "--no-wrap", "-j", 
                     "--default-domain=" + PATH_TO_EMPTY, "--from-code=utf-8", "--keyword=p_:1,2c", abs_path])
     if lang_po:
         translate_po(lang_po)

@@ -94,9 +94,6 @@ class B4W_OBJECT_PT_levels_of_detail(ObjectButtonsPanel, Panel):
         row.operator("object.lod_add", text=_("Add"), icon='ZOOMIN')
         row.menu("OBJECT_MT_lod_tools", text="", icon='TRIA_DOWN')
 
-        row = layout.row()
-        row.prop(obj, "b4w_lod_transition", text=_("Lod Transition Ratio"))
-
 class B4W_ObjectAnimation(ObjectButtonsPanel, Panel):
     bl_label = _("Animation")
     bl_idname = "OBJECT_PT_b4w_animation"
@@ -168,6 +165,10 @@ class B4W_ObjectRenderProps(ObjectButtonsPanel, Panel):
 
         row = layout.row()
         row.prop(obj, "b4w_hidden_on_load", text=_("Hidden"))
+        row = layout.row()
+        if len(obj.children):
+            row.prop(obj, "b4w_hide_chldr_on_load", text=_("Hidden Children"))
+            row.active = obj.b4w_hidden_on_load
 
         if is_mesh:
             row = layout.row()

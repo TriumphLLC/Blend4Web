@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2017-02-21 14:02+0300\n"
-"PO-Revision-Date: 2016-10-28 17:39+0800\n"
-"Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
+"POT-Creation-Date: 2017-04-20 16:04+0300\n"
+"PO-Revision-Date: 2017-02-24 23:02+0800\n"
+"Last-Translator: kidux <yuzukyo@gmail.com>\n"
 "Language-Team: Chinese <info [at] blend4web.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -288,7 +288,7 @@ msgid ""
 "``RENDER TIME`` - the scene is rendered in different colors to represent "
 "the complexity of various parts of the scene. The lightest parts are "
 "rendered using shades of green, heavier - shades of orange, and the most "
-"resourse-demanding parts of the scene are colored red."
+"resource-demanding parts of the scene are colored red."
 msgstr ""
 "``RENDER TIME``  - 场景是场景的不同部分的复杂性用不同颜色来渲染。最轻的部分使用绿色，较重 - "
 "橙色色调，场景中非常消耗资源的部分用红色。"
@@ -338,7 +338,7 @@ msgstr "*HUD信息*"
 #: ../viewer.rst:130
 msgid ""
 "This button shows a list of rendered subscenes and its parameters, "
-"incuding:"
+"including:"
 msgstr "此按钮显示渲染子场景及其参数的的列表，包含："
 
 #: ../viewer.rst:133
@@ -675,7 +675,7 @@ msgstr "*反射率*"
 
 #: ../viewer.rst:267
 msgid ""
-"This parameter sets the refelctivity factor of a selected material. Its "
+"This parameter sets the reflectivity factor of a selected material. Its "
 "value is equal to zero by default."
 msgstr "该参数设定所选择的材质的反射率因子。它的值默认等于零。"
 
@@ -956,18 +956,17 @@ msgstr ":ref:`室外渲染 <water>` 章节描述了用于水渲染的设置。�
 
 #: ../viewer.rst:390
 msgid "Mist"
-msgstr ""
+msgstr "雾场"
 
 #: ../viewer.rst:392
-#, fuzzy
 msgid "Setup for fog parameters."
-msgstr "泛光效果参数设置。"
+msgstr "设置雾参数。"
 
 #: ../viewer.rst:394
 msgid ""
 "Scene Viewer uses standard fog rendering settings that are described in "
 "the :ref:`dedicated chapter <fog>`."
-msgstr ""
+msgstr "场景查看器使用标准的雾场渲染设定，描述在 :ref:`相应章节 <fog>`."
 
 #: ../viewer.rst:399
 msgid "Wind"
@@ -986,18 +985,17 @@ msgstr "场景浏览器所使用的的和在Blender中使用的是相同的参�
 
 #: ../viewer.rst:408
 msgid "Wind Bending"
-msgstr ""
+msgstr "风弯曲"
 
 #: ../viewer.rst:410
-#, fuzzy
 msgid "Setup for wind bending effect parameters."
-msgstr "泛光效果参数设置。"
+msgstr "设置风弯曲效果参数。"
 
 #: ../viewer.rst:412
 msgid ""
 "The same set of wind bending parameters is available in Blender. It is "
 "described in the :ref:`Outdoor Rendering <wind_bending>` chapter."
-msgstr ""
+msgstr "同一套风弯曲参数在Blender中也可用。参考 :ref:`室外渲染 <wind_bending>` 一章。"
 
 #: ../viewer.rst:417
 msgid "Screen Space Amb Occlus"

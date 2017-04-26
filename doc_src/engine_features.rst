@@ -94,7 +94,7 @@ Engine Features
 +--------------------------------------------------------------------------------------+--------------------------------------------------------------+
 | **SOUND**                                                                            | .. image:: src_images/engine_features/audio.png              |
 |                                                                                      |                                                              |
-| Sound is important in making scenes and applications feel more responsve             |                                                              |
+| Sound is important in making scenes and applications feel more responsive            |                                                              |
 | to user's actions and generally more alive.                                          |                                                              |
 |                                                                                      |                                                              |
 | Here are some of the means that Blend4Web offers you to control how                  |                                                              |

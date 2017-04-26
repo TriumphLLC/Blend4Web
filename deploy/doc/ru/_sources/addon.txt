@@ -442,7 +442,7 @@ HTML-файлы не могут применяться для дальнейше
 | Incorrect mesh NAME; Wrong group      | Меш содержит вершины, привязанные к         |
 | indices                               | несуществующей группе.                      |
 +---------------------------------------+---------------------------------------------+
-| Incorrect mesh NAME; Wrong vertice    | Поврежденный файл: некорректное значение    |
+| Incorrect mesh NAME; Wrong vertex     | Поврежденный файл: некорректное значение    |
 | positions                             | координаты вертекса.                        |
 +---------------------------------------+---------------------------------------------+
 | Incorrect mesh NAME; Wrong normals    | Поврежденный файл: некорректное значение    |
@@ -647,7 +647,7 @@ HTML-файлы не могут применяться для дальнейше
 | Wrong "Height Map" input for the      | На вход "Height Map" ноды NAME типа         |
 | "NAME" B4W_PARALLAX node. Only link   | "B4W_PARALLAX" подаются некорректные        |
 | from the TEXTURE node with a non-     | данные. Разрешено подавать только выход из  |
-| empty texture is allowed.             | ноды типа "TEXTURE" с заполненой текстурой. |
+| empty texture is allowed.             | ноды типа "TEXTURE" с непустой текстурой.   |
 +---------------------------------------+---------------------------------------------+
 | Wrong texture coordinates type in     | Для текстур с изображением (image)          |
 | texture NAME. [Material: NAME.]       | поддерживаются следующие типы координат:    |

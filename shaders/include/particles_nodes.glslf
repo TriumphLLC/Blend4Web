@@ -829,14 +829,14 @@ vec2 vec_to_uv(vec3 vec)
     #node_out vec3 normal_out
 
 # node_if USE_NORMAL_IN
-        vec3 bl_normal = normalize(normal_in);
+    vec3 bl_normal = normal_in;
 # node_else
-        vec3 bl_normal = nin_normal;
+    vec3 bl_normal = nin_nmap_normal;
 # node_endif
 
 # node_if SPACE == NM_TANGENT
     normal_out = 2.0 * color.xyz - _1_0;
-    normal_out = nin_tbn_matrix * normal_out;
+    normal_out = nin_nmap_tbn_matrix * normal_out;
 
 # node_elif SPACE == NM_OBJECT || SPACE == NM_BLENDER_OBJECT
     normal_out = 2.0 * color.xyz - _1_0;
@@ -850,7 +850,8 @@ vec2 vec_to_uv(vec3 vec)
     normal_out.yz *= -_1_0;
 # node_endif
 
-    normal_out = normalize(mix(bl_normal, normal_out, strength));
+    float fac = max(strength, _0_0);
+    normal_out = normalize(mix(bl_normal, normal_out, fac));
 #endnode
 
 #node VECT_TRANSFORM
@@ -2686,16 +2687,14 @@ reflect_factor;
         color_out += spot_intensity * mix(vec4(D, _1_0), vec4(_1_0),
                 spot_diff_factor) * translucency_color
                 * vec4(lcolorint * ln * vec3(transmit_coeff), _1_0);
-        specular_out = specular_in;
     } else {
         // frontside lighting
-        specular_out = specular_in + lcolorint * S * sfactor;
         color_out = color_in + vec4(lcolorint * D * lfactor, sfactor);
     }
 #node_else
-    specular_out = specular_in + lcolorint * S * sfactor;
     color_out = color_in + vec4(lcolorint * D * lfactor, sfactor);
 #node_endif
+    specular_out = specular_in + lcolorint * S * sfactor;
 #endnode
 
 #node RGB
@@ -3196,37 +3195,52 @@ void nodes_main(in vec3 nin_eye_dir,
         || USE_NODE_BSDF_BEGIN || USE_NODE_FRESNEL || USE_NODE_TEX_COORD_RE \
         || USE_NODE_LAYER_WEIGHT || USE_NODE_BUMP
 
-    vec3 normal = normalize(v_normal);
-    vec3 sided_normal = normal;
+    vec3 unnorm_sided_normal = v_normal;
+
 # if DOUBLE_SIDED_LIGHTING || USE_NODE_GEOMETRY_NO
     // NOTE: workaround for some bug with gl_FrontFacing on Intel graphics
     // or open-source drivers
-#if REFLECTION_PASS == REFL_PASS_PLANE
+#  if REFLECTION_PASS == REFL_PASS_PLANE
     if (gl_FrontFacing == false)
-#else
+#  else
     if (gl_FrontFacing)
-#endif
-        sided_normal = sided_normal;
+#  endif
+        unnorm_sided_normal = unnorm_sided_normal;
     else
-        sided_normal = -sided_normal;
+        unnorm_sided_normal = -unnorm_sided_normal;
+# endif
+
+    // NOTE: be very careful with normalization of interpolated normal
+# if USE_NODE_NORMAL_MAP
+    vec3 nin_nmap_normal = unnorm_sided_normal;
+# endif
+
+# if DOUBLE_SIDED_LIGHTING || USE_NODE_GEOMETRY_NO || USE_NODE_TEXTURE_NORMAL \
+        || USE_NODE_B4W_PARALLAX
+    vec3 norm_sided_normal = normalize(unnorm_sided_normal);
 # endif
 
 # if DOUBLE_SIDED_LIGHTING
-    vec3 nin_normal = sided_normal;
+    vec3 nin_normal = norm_sided_normal;
 # else
-    vec3 nin_normal = normal;
+    vec3 nin_normal = normalize(v_normal);
 # endif
 
 # if USE_NODE_GEOMETRY_NO
-    vec3 nin_geom_normal = sided_normal;
+    vec3 nin_geom_normal = norm_sided_normal;
 # endif
 #endif
 
 #if CALC_TBN_SPACE
-    vec3 binormal = cross(sided_normal, v_tangent.xyz) * v_tangent.w;
-    binormal = normalize(binormal);
-    vec3 tangent = cross(binormal, sided_normal) * v_tangent.w;
-    mat3 nin_tbn_matrix = mat3(tangent, binormal, sided_normal);
+# if USE_NODE_TEXTURE_NORMAL || USE_NODE_B4W_PARALLAX
+    vec3 binormal = cross(norm_sided_normal, v_tangent.xyz) * v_tangent.w;
+    mat3 nin_tbn_matrix = mat3(v_tangent.xyz, binormal, norm_sided_normal);
+# endif
+
+# if USE_NODE_NORMAL_MAP
+    vec3 binormal = cross(unnorm_sided_normal, v_tangent.xyz) * v_tangent.w;
+    mat3 nin_nmap_tbn_matrix = mat3(v_tangent.xyz, binormal, unnorm_sided_normal);
+# endif
 #endif
 
     // NOTE: array uniforms used in nodes can't be renamed:

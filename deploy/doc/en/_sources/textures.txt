@@ -315,7 +315,7 @@ Specifics of Mobile Devices
 
 The peculiarities for mobile devices are as follows:
 
-#. Normal operation of video textures on iPhones is not possible because these devices play back videos via the standard iOS video player. For these devices you need to convert your videos to special ``.seq`` format by using our :ref:`converter <converter>`.
+#. Normal operation of video textures on iPhone is not possible because these devices play back videos via the standard iOS video player. For these devices you need to convert your videos to special ``.seq`` format by using our :ref:`converter <converter>`.
 #. some devices only support playing back only one video file.
 #. stable operation is not guaranteed if the ``Offset`` value is not zero.
 #. not all devices support changing the video playback rate.

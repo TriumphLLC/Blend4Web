@@ -75,6 +75,7 @@ gettext_compact = False
 
 gettext_enables = ['index']
 gettext_additional_targets = ['index']
+gettext_location = False
 
 # There are two options for replacing |today|: either, you set today to some
 # non-false value, then it is used:

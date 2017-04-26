@@ -36,13 +36,13 @@
 
     * 附加设置
 
-  * Material API
+  * 材质API
 
-    * Methods for Stack Materials
+    * 堆叠材质的方法
 
-    * Methods for Node Materials
+    * 节点材质的方法
 
-  * Inherit Material
+  * 材质继承
 
     * 激活
 
@@ -123,6 +123,14 @@
    带渐变透明。引擎按三角与相机间的距离进行排序来正确渲染重叠的透明表
    面。此操作计算代价昂贵。建议将此功能用于封闭透明几何 （瓶、 汽车玻
    璃等）。
+
+*Alpha Anti-Aliasing*
+   Transparent with a gradient. This feature is implemented with the
+   help of the Alpha to coverage technique. It's available only if
+   MSAA is enabled (only on WebGL2-capable devices). The sorting of
+   triangles is not performed. It is recommended to use this feature
+   with a mask texture to visualize smaller details (tree leaves,
+   grass).
 
 *Alpha 混合*
    带渐变透明。不执行三角形排序。建议在无封闭透明几何体 （水表面，贴花
@@ -386,28 +394,23 @@
    物体的局部坐标系中使星星可见的最小高度。
 
 
-Material API
-============
+材质API
+=======
 
-All API methods used for setting and changing scene materials, both
-stack and node, are located in the Material API module. Every method
-that this module has to offer is thoroughly described in this page of
-the API reference.
+用于设置和场景的材质，包括堆叠和节点，的所有API方法，位于材质API模块中
+。该模块所提供的每个方法的完整说明都在 page API参考页 。
 
-注解: API methods can only work with materials that are attached to
-  dynamic objects.
+注解: API方法只能在添加到动态物体的材质上工作。
 
 
-Methods for Stack Materials
----------------------------
+堆叠材质的方法
+--------------
 
-The material API module includes methods to control virtually every
-aspect of a stack material.
+material API模块包括控制堆栈材质的每一个方面的方法。
 
-Here are several examples of how the material API module can be used
-to perform various operations with the material of an object:
+这里有材质API模块如何用来对一个物体的材质进行各种操作的几个示例：
 
-Getting object's diffuse color:
+获取物体的漫反射颜色：
 
    var m_scenes    = require("scenes");
    var m_material  = require("material");
@@ -420,7 +423,7 @@ Getting object's diffuse color:
    var diffuse_color_factor = m_material.get_diffuse_color_factor(cube, "MyMaterial");
    var diffuse_intensity = m_material.get_diffuse_intensity(cube, "MyMaterial");
 
-Getting object's specular color:
+获取物体的高光颜色：
 
    var m_scenes    = require("scenes");
    var m_material  = require("material");
@@ -434,7 +437,7 @@ Getting object's specular color:
    var specular_hardness = m_material.get_specular_hardness(cube, "MyMaterial");
    var specular_intensity = m_material.get_specular_intensity(cube, "MyMaterial");
 
-Getting other parameters:
+获取其他参数：
 
    var m_scenes    = require("scenes");
    var m_material  = require("material");
@@ -449,7 +452,7 @@ Getting other parameters:
 
    var extended_parameters = m_material.get_material_extended_params(cube, "MyMaterial");
 
-Setting stack material parameters:
+设置堆叠材质参数：
 
    var m_scenes    = require("scenes");
    var m_material  = require("material");
@@ -468,35 +471,31 @@ Setting stack material parameters:
                                                                 reflect_factor: 0});
 
 
-Methods for Node Materials
---------------------------
+节点材质的方法
+--------------
 
-At the moment, API methods can only affect RGB and Value nodes. Any
-other type is not supported.
+此时，API方法只能影响RGB节点和数值值节点。不支持任何其他类型。
 
-To change the value of a particular material node, you need:
+要改变一个特定的材质节点的值，您需要：
 
-* to get the object that uses this particular material,
+* 到物体的链接，使用这种特殊的材质，
 
-* the name of the material,
+* 该材质的名称，
 
-* the name of the node itself
+* 节点本身的名称
 
-* and the name of the node group that contains the node (if there is
-  one).
+* 和包含该节点（如果存在的话）的节点组的名称。
 
-The name of a node can be viewed and changed in the upper part of the
-side panel at the right of the Node Editor window.
+最好也给节点唯一的名称，否则你将无法获得它们的链接。一个节点的名称可以
+在在节点编辑器窗口的右侧侧面板的上部查看和改变。
 
-注解: Nodes in the main window of the Node Editor do not show the
-  name of the node, only its type.
+注解: 在Node编辑器的主要窗口中的节点不显示节点的名称，只有它的类型。
 
 [图片]
 
-These two examples show how the parameters of a node material can be
-adjusted using API methods.
+这两个例子说明了一个节点材质的参数如何通过API方法来调节。
 
-Getting node material parameters:
+获取节点材质参数︰
 
    var m_scenes    = require("scenes");
    var m_material  = require("material");
@@ -509,7 +508,7 @@ Getting node material parameters:
    var rgb_node_2 = m_material.get_nodemat_rgb(cube, ["MyMaterial", "MyRGB_2"]);
    var value_node = m_material.get_nodemat_value(cube, ["MyMaterial", "MyValue"]);
 
-Setting node material parameters:
+设置节点材质参数：
 
    var m_scenes    = require("scenes");
    var m_material  = require("material");
@@ -522,50 +521,38 @@ Setting node material parameters:
    m_material.set_nodemat_rgb(cube, ["MyMaterial", "MyRGB"], 0.7, 0.9, 0.3);
 
 
-Inherit Material
-================
+材质继承
+========
 
-Blend4Web supports dynamic material switching. This feature is
-exceptionally useful for so-called configurator applications that give
-a user an opportunity to customize the appearance of a model such as
-an apparel, a piece of furniture, a car or something else. The Inherit
-Material feature should be used when API methods for adjusting stack
-and node materials as well as the change_texture method do not
-suffice.
+Blend4Web支持动态的材质切换。这个特性给用户一个机会可以配置模型外观非
+常对有用，诸如服装，一件家具，汽车或其他东西。继承材质特性可以在通过
+change_texture  方法来调整堆叠材质和节点材质不够用的时候使用。
 
-Inherit Material has the advantage of being flexible and easy to use,
-which makes it a better choice when you have to significantly alter
-the source material. It is available for both API scripts and logic
-nodes, and it can be used for stack and node materials alike. The
-downside of this feature is the fact that it might not work as fast as
-other methods described above, which can be critical in some cases.
+继承材质的优点是灵活，易于使用，这使得当你必须显着改变源材质的时候，它
+是一个更好的选择。它同时适用于API的脚本和逻辑节点，并且它可用于堆叠材
+质和节点材质。这个功能的缺点是，它可能无法像上面描述的其他方法一样快速
+工作，这在某些情况下可能是至关重要的。
 
 
 激活
 ----
 
-To use Inherit Material, you need two objects. First one of them is
-the source object that has a material that will be inherited assigned
-to it. The second one is the target object which has a material that
-you need to replace. Both object should have the "Dynamic Geometry &
-Material" option enabled (this option can be found under the "Object"
-tab, on the "Rendering Properties" panel).
+要使用继承材质，你需要两个物体。其中第一个是，具有将被继承材质的源物体
+。第二个是其具有需要更换材质的目标物体。这两个物体应该具有启用了
+"Dynamic Geometry & Material"   选项（此选项可以在 "Object" 标签下可以
+找到，在 "Rendering Properties" 面板）。
 
-注解: After a material is inherited, it will look exactly the same
-  as if it was simply assigned to the target object in Blender. This
-  means that you might have to manually prepare all UV maps and vertex
-  color layers for every material that will be inherited by the object
-  beforehand. For the source object, this is not necessary.
+注解: 当一个材质被继承后，它看起来和在Blender中被简单地分配给目标物
+  体的完 全一样。这意味着，需要事先将继承的每一个材质的所有UV贴图和顶
+  点颜色层 进行手动准备。对于源物体，这是没有必要的。
 
-If you are using Logic Nodes, Inherit Material can be performed with
-the "Object->Inherit Material" node. If you are using API, this can be
-done with the inherit_material method.
+如果使用的是逻辑节点，继承材质可以用 "Object->Inherit Material" 节点执
+行。 如果你正在使用API， 可以使用 inherit_material 方法完成。
 
 [图片]
 
-If an application requires many different materials to be changed, it
-might be a good approach to create a dedicated container object. It
-can be a simple flat mesh, like a "Plane" object, that has every
-material you might need assigned to it. This object can be hidden from
-the scene itself by setting the "Hidden" or "Do Not Render" option on
-the "Object->Rendering Properties" panel.
+如果应用程序需要许多不同的材质被改变，创建一个专用的容器物体可能是一个
+不错的办法。它可以是一个简单的平面网格，就像一个 "Plane" 物体，有你可
+能需要分配给它的每一个材质。这个物体可以隐藏在场景中，通过在
+"Object->Rendering Properties" 面板中设置  "Hidden" 或者 "Do Not
+Render"  的选项。

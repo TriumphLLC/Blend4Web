@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>物理 &mdash; Blend4Web 17.02.1 用户手册</title>
+  <title>物理 &mdash; Blend4Web 17.04 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.02.1 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 17.04 用户手册" href="index.html"/>
         <link rel="next" title="对应用程序开发人员" href="developers.html"/>
         <link rel="prev" title="音频" href="audio.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v17.02.1
+              v17.04
             </div>
           
         
@@ -130,6 +130,11 @@
 <li class="toctree-l2"><a class="reference internal" href="#characters">角色</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#character-settings">角色设置</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#basic-character">基本角色</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#controlling-characters-with-api">Controlling Characters with API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#character-states">Character States</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#action-binding">Action Binding</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#navigation-meshes">导航网格</a><ul>
@@ -211,14 +216,15 @@
 <li><a class="reference internal" href="#characters" id="id17">角色</a><ul>
 <li><a class="reference internal" href="#character-settings" id="id18">角色设置</a></li>
 <li><a class="reference internal" href="#basic-character" id="id19">基本角色</a></li>
+<li><a class="reference internal" href="#controlling-characters-with-api" id="id20">Controlling Characters with API</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#navigation-meshes" id="id20">导航网格</a><ul>
-<li><a class="reference internal" href="#creating-navigation-meshes" id="id21">创建导航网格</a></li>
-<li><a class="reference internal" href="#using-navigation-meshes" id="id22">使用导航网格</a></li>
+<li><a class="reference internal" href="#navigation-meshes" id="id21">导航网格</a><ul>
+<li><a class="reference internal" href="#creating-navigation-meshes" id="id22">创建导航网格</a></li>
+<li><a class="reference internal" href="#using-navigation-meshes" id="id23">使用导航网格</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#use-in-applications" id="id23">在应用程序中的使用</a></li>
+<li><a class="reference internal" href="#use-in-applications" id="id24">在应用程序中的使用</a></li>
 </ul>
 </li>
 </ul>
@@ -440,14 +446,89 @@
 <p class="last">只有一个基本角色可存在于场景中。如果场景中有多个角色，该引擎将使用他们的第一个基本角色，而忽略其他。</p>
 </div>
 </div>
+<div class="section" id="controlling-characters-with-api">
+<h3><a class="toc-backref" href="#id20">Controlling Characters with API</a><a class="headerlink" href="#controlling-characters-with-api" title="永久链接至标题">¶</a></h3>
+<p>Basic character described above can only provide generic functionality. If you need more control over character behavior, you should use methods from the <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html">fps</a> module.</p>
+<p>The most important of them is the <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.enable_fps_controls">enable_fps_controls()</a> method which, as its name suggests, is used to initialize characters in the scene. It can be used as follows:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_fps</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;fps&quot;</span><span class="p">);</span>
+
+<span class="nx">m_fps</span><span class="p">.</span><span class="nx">enable_fps_controls</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>This method should be used at the start of the application (in the <strong>load_cb</strong> function) to enable character controls.</p>
+<div class="admonition note">
+<p class="first admonition-title">注解</p>
+<p class="last">This method may conflict with the <a class="reference external" href="https://www.blend4web.com/api_doc/module-app.html#.enable_camera_controls">enable_camera_controls()</a> method which is used to enable basic character described in the previous section. These two methods should not be used simultaneously.</p>
+</div>
+<p>The method also has the following optional parameters:</p>
+<blockquote>
+<div><p><code class="docutils literal"><span class="pre">character</span></code> sets the character object. The link to the character can be retrieved by calling the <a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.get_first_character">get_first_character()</a> method. Should be used if more then one character is present in the scene.</p>
+<p><code class="docutils literal"><span class="pre">element</span></code> specifies the HTML element to which the method adds listeners.</p>
+<p><code class="docutils literal"><span class="pre">motion_cb</span></code> specifies the callback function that is called when character changes its direction.</p>
+<p><code class="docutils literal"><span class="pre">gamepad_id</span></code> specifies the ID of the gamepad plugged to the system.</p>
+<p><code class="docutils literal"><span class="pre">forward_sens</span></code>, <code class="docutils literal"><span class="pre">backward_sens</span></code>, <code class="docutils literal"><span class="pre">right_sens</span></code>, <code class="docutils literal"><span class="pre">left_sens</span></code>, <code class="docutils literal"><span class="pre">jump_sens</span></code>, <code class="docutils literal"><span class="pre">fly_sens</span></code> - these parameters are used to set arrays of sensor types for specific character action like walking in different directions, jumping and so on.</p>
+<p><code class="docutils literal"><span class="pre">rotation_cb</span></code> specifies the callback function that is called when a character or camera rotates.</p>
+<p><code class="docutils literal"><span class="pre">lock_camera</span></code> - setting this parameter to <code class="docutils literal"><span class="pre">true</span></code> will parent the scene camera to the character.</p>
+</div></blockquote>
+<p>Other important methods are <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.set_cam_sensitivity">set_cam_sensitivity()</a> and <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.set_cam_smooth_factor">set_cam_smooth_factor()</a>. The first one of them sets the sensitivity of the camera (defined by a numeric value in the range from zero to 100). The second method defines how smooth the camera moves (defined by a value in the range from 0 to 1.0).</p>
+<div class="section" id="character-states">
+<h4>Character States<a class="headerlink" href="#character-states" title="永久链接至标题">¶</a></h4>
+<p>Character states are constant values that represent current behavior of the character (does it currently walk or fly or do anything else). Every character present in a scene always have one and only one state.</p>
+<p>Available character states:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.CS_CLIMB">CS_CLIMB</a> - a character is climbing.</p>
+<p><a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.CS_FLY">CS_FLY</a> - a character is flying.</p>
+<p><a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.CS_RUN">CS_RUN</a> - a character is running.</p>
+<p><a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.CS_STAY">CS_STAY</a> - a character does not move.</p>
+<p><a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.CS_WALK">CS_WALK</a> - a character is walking.</p>
+</div></blockquote>
+<p>Current state of a specific character can be retrieved using the <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.get_character_state">get_character_state()</a> method, while a specific state can be assigned to a character with the <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.switch_state">switch_state()</a> method. The following example shows how these two methods can be used:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_fps</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;fps&quot;</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">current_state</span> <span class="o">=</span> <span class="nx">m_fps</span><span class="p">.</span><span class="nx">get_character_state</span><span class="p">();</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="nx">current_state</span> <span class="o">==</span> <span class="nx">m_fps</span><span class="p">.</span><span class="nx">CS_FLY</span><span class="p">)</span>
+    <span class="nx">m_fps</span><span class="p">.</span><span class="nx">switch_state</span><span class="p">(</span><span class="nx">m_fps</span><span class="p">.</span><span class="nx">CS_WALK</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="action-binding">
+<h4>Action Binding<a class="headerlink" href="#action-binding" title="永久链接至标题">¶</a></h4>
+<p>The <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html">fps</a> module also provides means for binding various actions to character events. The <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.bind_action">bind_action()</a> method is used for this:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_fps</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;fps&quot;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">m_ctl</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;controls&quot;</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">action_cb</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Q key pressed.&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="nx">m_fps</span><span class="p">.</span><span class="nx">bind_action</span><span class="p">(</span><span class="nx">m_fps</span><span class="p">.</span><span class="nx">AT_PRESSED</span><span class="p">,</span> <span class="p">[</span><span class="nx">m_ctl</span><span class="p">.</span><span class="nx">KEY_Q</span><span class="p">],</span> <span class="nx">action_cb</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>This method features the following parameters:</p>
+<blockquote>
+<div><ul>
+<li><p class="first">the first parameter is the type of action:</p>
+<p><a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.AT_CONTINUOUS">AT_CONTINUOUS</a> - an input type that detects a continuous user action such as mouse movement, keyboard key held down, gamepad stick tilt etc.</p>
+<p><a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.AT_PRESSED">AT_PRESSED</a> - this input type detects a discrete user action, e.g. pressing a button.</p>
+<p><a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.AT_RELEASED">AT_RELEASED</a> - an input type that detects button (mouse, gamepad or keyboard) being released.</p>
+</li>
+<li><p class="first">the second parameter defines an array of sensor types (such as keyboard keys, gamepad buttons or mouse actions).</p>
+</li>
+<li><p class="first"><strong>action_cb</strong> is a callback function that will be called each time user performs action defined by the first parameter.</p>
+</li>
+</ul>
+</div></blockquote>
+</div>
+</div>
 </div>
 <div class="section" id="navigation-meshes">
-<h2><a class="toc-backref" href="#id20">导航网格</a><a class="headerlink" href="#navigation-meshes" title="永久链接至标题">¶</a></h2>
+<h2><a class="toc-backref" href="#id21">导航网格</a><a class="headerlink" href="#navigation-meshes" title="永久链接至标题">¶</a></h2>
 <p>导航网格 (通常缩写 <em>navmeshes</em>) 是用来消除需要额外计算比如碰撞等使寻路更加简便的网格物体。</p>
 <a class="reference internal image-reference" href="_images/physics_pathfinding_example.png"><img alt="_images/physics_pathfinding_example.png" class="align-center" src="_images/physics_pathfinding_example.png" style="width: 100%;" /></a>
 <p>在此示例中 （取自代码片段），导航网格用于生成通过迷宫的路径。</p>
 <div class="section" id="creating-navigation-meshes">
-<h3><a class="toc-backref" href="#id21">创建导航网格</a><a class="headerlink" href="#creating-navigation-meshes" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id22">创建导航网格</a><a class="headerlink" href="#creating-navigation-meshes" title="永久链接至标题">¶</a></h3>
 <p>若要将物体生成 navmesh，打开 <code class="docutils literal"><span class="pre">Physics</span></code> 面板的 <code class="docutils literal"><span class="pre">Object</span> <span class="pre">Physics</span></code> 参数 ，从 <code class="docutils literal"><span class="pre">Physics</span> <span class="pre">Type</span></code> 列表中选择 <code class="docutils literal"><span class="pre">Navigation</span> <span class="pre">Mesh</span></code> 。</p>
 <a class="reference internal image-reference" href="_images/physics_navmesh.png"><img alt="_images/physics_navmesh.png" class="align-center" src="_images/physics_navmesh.png" style="width: 100%;" /></a>
 <p>导航网格也可以使用特定的工具手动创建或生成自动。</p>
@@ -521,13 +602,13 @@
 </dl>
 </div>
 <div class="section" id="using-navigation-meshes">
-<h3><a class="toc-backref" href="#id22">使用导航网格</a><a class="headerlink" href="#using-navigation-meshes" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id23">使用导航网格</a><a class="headerlink" href="#using-navigation-meshes" title="永久链接至标题">¶</a></h3>
 <p>Navmesh 创建后，它然后可用于在应用程序中计算两个点之间的运动轨迹。这可以从  <a class="reference external" href="https://www.blend4web.com/api_doc/module-physics.html">physics</a>  模块的两种方法得到 <a class="reference external" href="https://www.blend4web.com/api_doc/module-physics.html#.navmesh_get_island">navmesh_get_island()</a> 和 <a class="reference external" href="https://www.blend4web.com/api_doc/module-physics.html#.navmesh_find_path">navmesh_find_path()</a>. 前者用来检索链接到当前的岛 （最接近独立网段的 navmesh），而后者返回以数组形式的实际路径中的坐标。</p>
 <p>使用导航网格的寻路的例子可以在 <a class="reference internal" href="developers.html#code-snippets"><span>代码摘要</span></a> (相对应的摘要名字叫 <code class="docutils literal"><span class="pre">Pathfinding</span></code>).</p>
 </div>
 </div>
 <div class="section" id="use-in-applications">
-<span id="using-physics"></span><h2><a class="toc-backref" href="#id23">在应用程序中的使用</a><a class="headerlink" href="#use-in-applications" title="永久链接至标题">¶</a></h2>
+<span id="using-physics"></span><h2><a class="toc-backref" href="#id24">在应用程序中的使用</a><a class="headerlink" href="#use-in-applications" title="永久链接至标题">¶</a></h2>
 <p>物理系统是在 <strong>uranium.js</strong> 模块中实现，并分别从引擎的主要代码加载。<strong>Uranium.js</strong> 模块本身是 <a class="reference external" href="http://bulletphysics.org/">Bullet</a> 物理引擎的修改版，移植在浏览器中工作。为了激活物理系统，这就需要将 <strong>uranium.js</strong> 和 <strong>uranium.js.mem</strong> 文件跟应用程序的源代码放在同一个目录。</p>
 <p>另一个方法是通过使用下面的 API 方法显式指定 <strong>uranium.js</strong> 模块的加载路径 ︰</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">m_config</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;physics_uranium_path&quot;</span><span class="p">,</span> <span class="s2">&quot;.../uranium.js&quot;</span><span class="p">);</span>
@@ -563,8 +644,8 @@
 
   <div role="contentinfo">
     <p>
-        &copy; 版权所有 2014-2016, Triumph.
-      最后更新于 2017-03-07.
+        &copy; 版权所有 2014-2017, Triumph.
+      最后更新于 2017-04-26.
 
     </p>
   </div>
@@ -620,7 +701,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.02.1',
+            VERSION:'v17.04',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

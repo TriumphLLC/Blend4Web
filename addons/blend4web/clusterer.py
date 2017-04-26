@@ -650,6 +650,7 @@ def run(export_uuid_cache, bpy_uuid_cache, scene, cluster_size, lod_cluster_size
                     curr_level = curr_level[uuid]
                 curr_level["cluster_id"] = cluster_counter
                 curr_level["cluster_center"] = cluster.center
+                # NOTE: unused
                 curr_level["cluster_radius"] = cluster.radius
             cluster_counter += 1
 

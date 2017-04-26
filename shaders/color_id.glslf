@@ -36,7 +36,9 @@
 #var POISSON_DISK_NUM NO_SOFT_SHADOWS
 #var USE_DERIVATIVES_EXT 0
 
-# if USE_DERIVATIVES_EXT
+#var USE_LOD_SMOOTHING 0
+
+# if GLSL1 && USE_DERIVATIVES_EXT
 #extension GL_OES_standard_derivatives: enable
 # endif
 
@@ -48,6 +50,10 @@
 
 #if NODES && ALPHA
 #include <math.glslv>
+#endif
+
+#if USE_LOD_SMOOTHING
+#include <coverage.glslf>
 #endif
 
 /*==============================================================================
@@ -172,6 +178,13 @@ uniform float u_outline_intensity;
 uniform vec3 u_obj_info;
 #endif
 
+#if USE_LOD_SMOOTHING
+uniform float u_lod_coverage;
+uniform float u_lod_cmp_logic;
+#endif
+
+
+
 /*==============================================================================
                                 SHADER INTERFACE
 ==============================================================================*/
@@ -260,6 +273,11 @@ void main(void) {
         discard;
     alpha = 1.0;
 # endif
+#endif
+
+#if USE_LOD_SMOOTHING
+    if (!coverage_is_frag_visible(u_lod_coverage, u_lod_cmp_logic))
+        discard;
 #endif
 
 #if USE_OUTLINE

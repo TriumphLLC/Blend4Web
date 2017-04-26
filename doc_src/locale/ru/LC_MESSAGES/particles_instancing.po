@@ -228,7 +228,7 @@ msgstr ""
 
 #: ../particles_instancing.rst:103
 msgid "Enables billboarding for particles. Disabled by default."
-msgstr "Включение биллбординга для частиц. По умолчанию выключено."
+msgstr "Включение билбординга для частиц. По умолчанию выключено."
 
 #: ../particles_instancing.rst:105
 msgid "*Render > Billboard Type*"
@@ -239,7 +239,7 @@ msgid ""
 "Billboarding type. The option is available when the ``Render > "
 "Billboard`` option is enabled. Three types are available:"
 msgstr ""
-"Тип биллбординга (опция доступна при включении ``Render > Billboard``). "
+"Тип билбординга (опция доступна при включении ``Render > Billboard``). "
 "Доступны три типа:"
 
 #: ../particles_instancing.rst:109
@@ -247,7 +247,7 @@ msgid ""
 "``Basic`` - simple one-sided billboarding: particles will be turned with "
 "their front to the observer"
 msgstr ""
-"``Basic`` - простой односторонний биллбординг: частицы всегда будут "
+"``Basic`` - простой односторонний билбординг: частицы всегда будут "
 "повернуты лицевой стороной"
 
 #: ../particles_instancing.rst:110
@@ -257,7 +257,7 @@ msgid ""
 "often with their side; also there will be a small random turn; this model"
 " is designed specially for grass instancing"
 msgstr ""
-"``Random`` - случайный двусторонний биллбординг: частицы чаще всего будут"
+"``Random`` - случайный двусторонний билбординг: частицы чаще всего будут"
 " повернуты лицевой, либо обратной стороной, реже - боком; присутствует "
 "небольшой случайный поворот; модель создана специально для инстансинга "
 "травы"
@@ -268,7 +268,7 @@ msgid ""
 "wavering along the plane which is turned to the observer; this model is "
 "designed specially for instancing of tree leaves"
 msgstr ""
-"``Jittered`` - односторонний биллбординг с колебанием частиц в плоскости,"
+"``Jittered`` - односторонний билбординг с колебанием частиц в плоскости,"
 " обращенной к наблюдателю; модель создана специально для инстансинга "
 "листвы деревьев"
 
@@ -313,7 +313,7 @@ msgid ""
 "Billboard rotation type (the option is available when the ``Render > "
 "Billboard`` checkbox is set). Two types are available:"
 msgstr ""
-"Тип вращения биллбордов (опция доступна при включении ``Render > "
+"Тип вращения билбордов (опция доступна при включении ``Render > "
 "Billboard``). Доступны два типа:"
 
 #: ../particles_instancing.rst:127
@@ -321,7 +321,7 @@ msgid ""
 "``Spherical`` - spherical billboarding i.e. particles are fully oriented "
 "to the observer and their rotation is unlimited;"
 msgstr ""
-"``Spherical`` - сферический биллбординг, полная ориентация частиц по "
+"``Spherical`` - сферический билбординг, полная ориентация частиц по "
 "отношению к наблюдателю, вращение ничем не ограничено;"
 
 #: ../particles_instancing.rst:128
@@ -329,7 +329,7 @@ msgid ""
 "``Cylindrical`` - cylindrical billboarding i.e. particles are rotating "
 "only around the vertical Z axis;"
 msgstr ""
-"``Cylindrical`` - цилиндрический биллбординг, вращение частиц только "
+"``Cylindrical`` - цилиндрический билбординг, вращение частиц только "
 "относительно оси Z"
 
 #: ../particles_instancing.rst:130
@@ -591,7 +591,7 @@ msgstr ""
 
 #: ../particles_instancing.rst:252
 msgid "*Billboarding settings*"
-msgstr "*Настройки биллбординга*"
+msgstr "*Настройки билбординга*"
 
 #: ../particles_instancing.rst:254
 msgid ""
@@ -601,7 +601,7 @@ msgid ""
 " ``Render > Jitter Amplitude`` and ``Render > Jitter Frequency`` values "
 "can be set at will."
 msgstr ""
-"Рекомендуется включить биллбординг, выставить тип ``Jittered`` (опция "
+"Рекомендуется включить билбординг, выставить тип ``Jittered`` (опция "
 "``Render > Billboard Type``) и сделать его сферическим - ``Spherical`` "
 "(опция ``Render > Billboard Geometry``). Настройки ``Render > Jitter "
 "Amplitude`` и ``Render > Jitter Frequency`` - на свое усмотрение."

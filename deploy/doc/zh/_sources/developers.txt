@@ -8,27 +8,23 @@
 
 * 对应用程序开发人员
 
-  * 应用程序编程
+  * Application Development
 
-    * “你好，世界！”应用
-
-    * 应用中加载场景
-
-    * 模块系统
-
-    * 快速创建应用程序
+    * Application Code Structure
 
   * 背景透明
 
   * 资源转换
 
-    * Commands
+    * 命令
 
-    * Arguments
+    * 参数
 
     * 依赖
 
     * 数据格式
+
+  * GZIP Compression
 
   * 示例代码
 
@@ -46,165 +42,351 @@
 
   * 品质配置
 
-  * Non-Standard Canvas Position and Orientation
+  * 非标准画布位置和方向
 
-  * Mobile Web Apps
-
-
-应用程序编程
-============
+  * 移动 Web 应用程序
 
 
-“你好，世界！”应用
-------------------
+Application Development
+=======================
 
-最简单的应用程序Blend4Web可能是这样的：
+To simplify development process, we recommend to use Project Manager.
+It can be used to quickly create a simple application with a generic
+code that is enough to load a simple scene and enable basic camera
+controls.
 
-   <!DOCTYPE html>
-   <html>
-   <head>
-   <script src="b4w.min.js"></script>
-   <script>
-   function hello() {
-       var m_version = b4w.require("version");
-       document.body.innerHTML = "Hello, Blend4Web " + m_version.version() + "!";
+
+Application Code Structure
+--------------------------
+
+The process of initializing and loading an application is separated
+into several stages, which is reflected in the code of the
+application. If you are using Project Manager, a newly created "Copy"
+or "Compile" type project will include a main JS file, which will be
+placed in the SDK. The path to the file will look like this:
+"./projects/PROJECT_NAME/PROJECT_NAME.js".
+
+This file contains generic code shaped as a module. This module can be
+registered using the certain structure:
+
+   b4w.register("my_module", function(exports, require) {
+
+       // module code
+       //...
+
+   });
+
+So, the code of a module is contained within a function that accepts
+"exports" and "require" parameters.
+
+1. "require" is the method used for loading engine modules. The
+   generic example mentioned above loads several modules:
+
+      The most important ones of them are the "app" and "data"
+      modules. The "app" module simplifies application initialization
+      while the "data" module contains API methods for loading 3D
+      scene data.
+
+      注解: To make module naming more convenient, "m_" prefix is
+        often used ("m_app", "m_data" etc.) to show that the variable
+        is an engine module.
+
+2. "exports" is an object used for gaining access to module’s
+   functions from outside (for example, from other modules). In this
+   case, only the "init" function has been made external:
+
+         b4w.register("my_module", function(exports, require) {
+
+             ...
+
+             exports.init = function() {
+                 m_app.init({
+                 canvas_container_id: "main_canvas_container",
+                 callback: init_cb,
+                 show_fps: DEBUG,
+                 console_verbose: DEBUG,
+                 autoresize: true
+             });
+         }
+
+         ...
+         });
+
+Application initialization begins with this function, and it is called
+outside of the module:
+
+   b4w.register("my_module", function(exports, require) {
+
+       ...
+
+       exports.init = function() {
+           m_app.init({
+               canvas_container_id: "main_canvas_container",
+               callback: init_cb,
+               show_fps: DEBUG,
+               console_verbose: DEBUG,
+               autoresize: true
+           });
+       }
+
+       ...
+   });
+
+   // import the app module and start the app by calling the init method
+   b4w.require("my_module").init();
+
+After this, the app.init method is called. It creates Canvas HTML
+element and performs all necessary action for initializing WebGL. This
+method has many different attributes, the most important ones of which
+are:
+
+* "canvas_container_id" set the id of the HTML element that acts as
+  a container for the Canvas element. By default, an element with the
+  "main_canvas_container" ID is used (this element is located in the
+  main HTML file of the application).
+
+* "callback" is the function that is called after finishing
+  initialization.
+
+When application initialization is completed, the init_cb function set
+by the "callback" parameter is called:
+
+   function init_cb(canvas_elem, success) {
+
+       if (!success) {
+           console.log("b4w init failure");
+           return;
+       }
+
+       m_preloader.create_preloader();
+
+       // ignore right-click on the canvas element
+       canvas_elem.oncontextmenu = function(e) {
+           e.preventDefault();
+           e.stopPropagation();
+           return false;
+       };
+
+      load();
    }
-   </script>
-   </head>
 
-   <body onload="hello()"></body>
+It has following parameters:
 
-   </html>
+* canvas_elem is the created Canvas HTML element that will be used
+  for rendering 3D content
 
-这个应用在浏览器窗口打印了一行信息和引擎的版本。让我们更仔细的查看这个
-示例。引擎库嵌入在 "<script src="...">" 元素中。应用等待页面加载然后在
-浏览器窗口打印当前版本。在这个示例中，"version" 是唯一用到的模块带有一
-个同样名字的函数 - "version()". 需要更详细的了解使用引擎模块和函数的信
-息可以在  API 文档 中找到。
+* success it the flag that indicates the success of the
+  initialization. The "false" value meant that the application is
+  unable to work due to initialization errors (for example, WebGL is
+  not supported by the device).
 
-编译引擎文件 "b4w.min.js" 可以从SDK的 "deploy/apps/common" 目录进行复
-制，并和HTML文件放置在同一目录中。
+注解: The app.init methods sets initialization to the
+  "window.onload" event, so the "init_cb" function will have access to
+  the entire DOM tree of the HTML document.
 
+Now we can begin loading 3D scene. This is done in the "load" function
+that is called from the "init_cb":
 
-应用中加载场景
---------------
+   var APP_ASSETS_PATH = m_cfg.get_assets_path("my_project");
 
-要加载你需要的3D场景：
+   ...
 
-1. 放置一个 "<canvas>" 元素到页面进行渲染。
-
-2. 调用  "m_main.init()" 函数创建的元素 id 加载页面后初始化 WebGL
-   上下 文。
-
-3. 调用 "m_data.load()" 函数加载3D场景。
-
-   <!DOCTYPE html>
-   <html>
-   <head>
-   <script src="b4w.min.js"></script>
-   <script>
-   function hello() {
-       var m_main = b4w.require("main");
-       var m_data = b4w.require("data");
-
-       var canvas_elem = document.getElementById("canvas_id");
-       m_main.init(canvas_elem);
-       m_data.load("some_scene.json");
+   function load() {
+       m_data.load(APP_ASSETS_PATH + "my_project.json", load_cb, preloader_cb);
    }
-   </script>
-   </head>
 
-   <body onload="hello()"><canvas id="canvas_id"></canvas></body>
+The data.load method is used for loading. The first parameter of this
+method is the path to a 3D scene file. The path to a JSON file should
+be relative to the main HTML application file. Projects created in
+Project Manager have a dedicated asset folder, and you can easily
+obtain the path to it. This is done in the generic example code by
+introducing the "APP_ASSETS_PATH" global variable that is later used
+in the data.load.
 
-   </html>
+The second parameter of the method is the load_cb function which is
+called after the 3D scene is loaded and prepared for rendering.
 
-注解: 注意，一个实际应用应包括错误检查，在引擎初始化之前并且还要有与
-  用户交 互的基本系统设定。
+   function load() {
+       m_data.load(APP_ASSETS_PATH + "my_project.json", load_cb, preloader_cb);
+   }
+
+   function load_cb(data_id, success) {
+
+       if (!success) {
+           console.log("b4w load failure");
+           return;
+       }
+
+       m_app.enable_camera_controls();
+
+       // place your code here
+
+   }
+
+Calling this function means that the application has finished loading
+and now starts scene rendering. As this is the very first moment when
+the 3D scene data will be available, it is a suitable moment for
+initializing and preparing everything related to the scene, its
+object, animations and other things. For example, standard camera
+controls can be enabled here with the enable_camera_controls method.
+
+
+Writing Application Logic
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+After initializing and loading 3D scene the application will proceed
+to work according to the logic set by the programmer such as
+interacting with input devices, manipulating scene objects,
+controlling camera behavior and so on.
+
+By observing the application loading process, we can determine several
+places suitable for performing various tasks.
+
+1. The app.init method used for starting the initialization accepts
+   engine configuration parameters. So you can configure the engine
+   right before calling this method using URL attributes as a base:
+
+         b4w.register("my_module", function(exports, require) {
+
+         ...
+
+         exports.init = function() {
+             var url_params = m_app.get_url_params();
+             if (url_params && "show_fps" in url_params)
+                 var show_fps = true;
+             else
+                 var show_fps = false;
+
+             m_app.init({
+                 canvas_container_id: "main_canvas_container",
+                 callback: init_cb,
+                 autoresize: true
+                 show_fps: show_fps
+             });
+         }
+
+             ...
+         });
+         b4w.require("my_module").init();
+
+2. Initialization is started by the "window.onload" action, which
+   means that after it is completed, the init_cb function will have
+   access to the whole DOM tree. At this moment, you already can
+   perform some preparations such as creating and setting up interface
+   elements. However, the 3D scene itself is not yet loaded, and its
+   objects are not yet available.
+
+3. After the 3D scene is loaded, the load_cb function is called. At
+   this moment, all scene objects become available, thus any action
+   that concerns them can be implemented in this function. Some
+   examples can be found in the  Code Snippets application.
+
+Logic can be added to the application by using either browser or
+engine API:
+
+1. Basic keyboard/mouse/gamepad input can be implemented with
+   standard event handlers by using the "addEventListener" method. In
+   more complex cases you can use the input API module. The engine
+   also features the add_click_listener method that registers both
+   mouse clicks and touch screen events which makes it useful for
+   writing applications compatible with desktop and mobile devices
+   alike.
+
+2. Time-stretched events that have to be performed at every frame
+   (procedural animation, for example) can be implemented with methods
+   such as set_render_callback, append_loop_cb, animate and
+   set_timeout. Standard "setTimeout" and "setInterval" methods can
+   also be used.
+
+3. For complex logic that takes into account both user actions and
+   the state of the 3D scene can use engine’s event-driven model that
+   is based on sensor system.
 
 
 模块系统
---------
+~~~~~~~~
 
-虽然引擎赋予应用程序程序员 API 中的几十个模块的规模，它占用单 'b4w' 命
-名空间。调用模块的方法 "b4w.require()" 功能首先导入。
+Blend4Web engine is built upon modular structure: all engine API
+methods are separated into several modules. If necessary, a module can
+be plugged into the application with the "require" method. We
+recommend to structure the code of the actual application into modules
+as well.
 
-如果他们的名称不与现有的模块冲突能够登记外部模块。模块可以用
-"b4w.register()" 调用登记。检查是否有一些名称的模块已调用用
-"b4w.module_check()" 调用。
+1. Registering Modules
 
-示例：
+A module is essentially a code block wrapped by a specific structure
+that is used to register it:
 
-   // check if module exists
+   b4w.register("my_module1", function(exports, require) {
+
+       // module code
+       ...
+   });
+
+   b4w.register("my_module2", function(exports, require) {
+
+       // module code
+       ...
+   });
+
+   ...
+
+The register method is used for registering modules. You can only
+register custom modules if their names do not coincide with the
+regular API modules. If necessary, the module_check method to check if
+a module with a given name is present:
+
    if (b4w.module_check("my_module"))
        throw "Failed to register module: my_module";
 
-   // register my_module
    b4w.register("my_module", function(exports, require) {
 
-       // import module "version"
-       var m_version = require("version");
+       // module code
+       ...
 
-       // export print_build_date() from module "my_module"
-       exports.print_build_date = function() {
-           // exec function date() from module "version"
-           console.log("Engine build date: " + m_version.date());
-       }
    });
 
-   // import module "my_module"
-   var m_my_module = b4w.require("my_module");
+2. Loading Modules
 
-   // exec function print_build_date() from module "my_module"
-   m_my_module.print_build_date();
+Custom modules, just like regular ones, can be plugged in with the
+"require" method:
 
+   b4w.register("my_module1", function(exports, require) {
 
-快速创建应用程序
-----------------
+       var mod2 = require("my_module2")
 
-从头开始创建一个应用程序可以是一个乏味的任务，特别对于初学者。为了解决
-这个问题有一个特殊名为 "app" 的引擎插件：
+       ...
+   });
 
-   <!DOCTYPE html>
-   <html>
-   <head>
-   <script src="b4w.min.js"></script>
-   <script>
+3. Application Initialization
 
-   var m_app = b4w.require("app");
-   var m_data = b4w.require("data");
+Application initialization in Blend4Web is usually done with a call
+like this:
 
-   m_app.init({
-       canvas_container_id: "container_id",
-       callback: load_cb
-   })
+   b4w.require("my_module").init();
 
-   function load_cb() {
-       m_data.load("some_scene.json", loaded_cb);
-   }
+Here, the "my_module" custom module and its "init" external function
+do, in a certain sense, act as the entry point to the application.
 
-   function loaded_cb() {
-       m_app.enable_camera_controls();
-   }
+注解: In the global visibility scope a module can be loaded with the
+  same require method available as a method of the global "b4w"
+  object: "b4w.require("MODULE_NAME")".
 
-   </script>
-   </head>
+4. Using Multiple Modules
 
-   <body>
-       <div id="container_id" style="width: 350px; height: 200px;"></div>
-   </body>
+After a project is created in the Project Manager, its generic
+application JS-file will contain only one module. However, while
+developing the application, you might need to separate your code into
+several logic parts. In this case, you can either create several
+modules inside one file, or you can create several files each one of
+them contain one module.
 
-   </html>
-
-在这种情况下，"app" 模块将在容器内的元素用指定 "container_id" ID建立一
-个 "<canvas>" 。再经过页面加载和最终执行 "load_cb（）" 回调则初始化引
-擎。
-
-然后 some_scene.json 场景被同时加载于前面的例子。唯一的区别是，该场景
-被加载之后，所述控制系统被初始化并可以用键盘和鼠标（或传感器屏幕）控制
-照相机运动。
-
-一旦使用 "app" 模块，就必须显式地指定尺寸的容器元素。否则为创建
-"<canvas>" 元素将具有零维度。
+If your application uses multiple modules, keep in mind that every one
+of them should be properly registered before initialization starts, or
+you will get an engine error if you try to call a module that is not
+yet registered. If you are using several JS files, the script that
+starts the initialization (contains application entry point) should
+the last one to be plugged into the main HTML application file.
 
 
 背景透明
@@ -216,7 +398,7 @@
    m_app.init ({
        alpha: true,
        background_color: [0.7, 0.7, 0.7, 1]
-      //this method sets the background to an opaque light grey color
+      //this method sets the background to an opaque light gray color
    });
 
 参数传递给该方法的组合定义了 Blend4Web 应用如何和 HTML 应用程序的背景
@@ -307,56 +489,58 @@ transparency (alpha)"  参数 。
 **resize_textures** 参数用于为  **LOW** 模式降低纹理分辨率。
 
 
-Commands
---------
+命令
+----
 
-Commands for conversion:
+转换的命令︰
 
-* "resize_textures" converts textures to lower resolution.
+* "resize_textures"  将纹理转换到低分辨率。
 
-* "convert_dds" converts textures to DDS format.
+* "convert_dds" 将纹理转换到 DDS 格式.
 
-* "convert_media" converts audio and video files to alternative
-  formats.
+* "convert_pvr" 将纹理转换到 PVR 格式.
 
-Commands for resource cleanup:
+* "convert_media" 将音频和视频文件转换为 替换格式.
 
-* "cleanup_textures" removes low resolution textures generated by
-  the "resize_textures" command.
+* "convert_gzip" generates GZIP-compressed versions of ".json" and
+  ".bin" scene files and ".dds" and ".pvr" textures.
 
-* "cleanup_dds" removers DDS texture files generated by the
-  "convert_dds" command.
+资源清理命令：
 
-* "cleanup_media" removes audio and video files in alternative
-  formats that were generated by the "convert_media" command.
+* "cleanup_textures" 删除由 "resize_textures" 命令生成的低分辨率纹理
+  。
 
-Commands for image compression:
+* "cleanup_dds" 删除由 "convert_dds" 命令生成的DDS纹理文件。
 
-* "compress_png" compresses PNG files in order to decrease their
-  size. This option requires OptiPNG tool to be installed and set up
-  in the "PATH" environment variable.
+* "cleanup_pvr" 删除由 "convert_pvr" 命令生成的DDS纹理文件。
 
-Other commands:
+* "cleanup_media" 删除由 "convert_media" 命令生成的替换格式的音频和
+  视 频文件。
 
-* "check_dependencies" checks converter dependencies
+* "cleanup_gzip" removes GZIP-compressed files generated by the
+  "convert_gzip" command.
+
+图像压缩命令:
+
+* "compress_png" 压缩PNG文件，以减少它们的大小。此选项需要 OptiPNG工
+  具 已经安装并在 "PATH" 环境变量完成设置。
+
+其它命令：
+
+* "check_dependencies" 检查 转换依赖
 
 
-Arguments
----------
+参数
+----
 
-* "-d", "--dir <dir_path>" enables using an alternative directory to
-  store converted files. The <dir_path> value specifies the path to
-  this directory.
+* "-d", "--dir <dir_path>" 允许使用其他目录来存储转换后的文件。该
+  <dir_path> 值指定到此目录的路径。
 
-* "-j", "--jobs <jobs>" specifies the number of jobs (threads) to
-  run simultaneously. If this parameter is set to zero or is not
-  specified, the number will be calculated automatically based on the
-  number of CPUs.
+* "-j", "--jobs <jobs>" 指定要同时运行的作业（线程）的数量。如果该参
+  数 被设置为零或者未指定，数字会自动根据CPU的数量来计算。
 
-* "-v", "--verbose" enables outputting more information about files
-  that are being converted. For example, when converting textures into
-  DDS format, the script will show progress percentage for every file
-  that is being converted.
+* "-v", "--verbose" 能够输出更多在转换文件时的详细信息。例如，转换成
+  纹 理DDS格式时，该脚本将显示每个要转换的文件进度百分比。
 
 
 依赖
@@ -464,8 +648,10 @@ macOS 用户可以安装  brew 包管理器，然后再安装任何缺失的软�
 输入文件的实例："file_name.jpg"，例如一个输出文件：
 "file_name.altconv.jpg.dds"。
 
-为了优化应用性能的目的，有可能使用 "min50" （减半）和 "DDS" 纹理。为了
-做到这一点，我们所需要的应用程序的初始化期间通过下列参数：
+For the purpose of optimizing application performance it's possible to
+use "min50" (halved) and "DDS" or "PVRTC" (compressed) textures. In
+order to do this, we need to pass the following parameters during
+initialization of the application:
 
    exports.init = function() {
        m_app.init({
@@ -485,7 +671,8 @@ macOS 用户可以安装  brew 包管理器，然后再安装任何缺失的软�
 
         assets_pvr_available: true,
 
-  这将告诉引擎加载PVRTC纹理，如果这些都存在于 "./assets/" 文件夹中。
+  This will tell the engine to load PVRTC textures, if such are
+  present in the "./assets/" folder.
 
 
 DDS纹理压缩
@@ -560,6 +747,69 @@ SEQ视频格式
 您还可以使用的免费和跨平台的应用 Miro视频转换器 转换媒体文件。
 
 
+GZIP Compression
+================
+
+Typical Blend4Web application can use various resource formats from
+standard  HTML, JS, CSS, PNG or JPEG files to engine-specific JSON-
+and BIN-files that contain scene data. Compressed  DDS/PVR image
+formats are also an option. Both big and small applications benefit
+from decreasing the size of the resources, as this also decreases the
+loading time.
+
+Usually, loading time can be decreased by setting up caching on the
+server that contains web application. You can also enable GZIP
+compression for various file types.
+
+Speaking of the specific file types, GZIP compression should be used
+for  JSON, BIN, DDS and PVR files. JSON and BIN files, being the main
+scene files, can contain large amounts of data, while DDS and PVR also
+can be quite large (at least when compared to standard PNG and JPEG
+files), and there can be quite a lot of them.
+
+But if for some reason GZIP compression cannot be set up on the
+server, it can be enabled in the application itself.
+
+The engine can load compressed resources in the form of ".gz" files.
+To use this feature in a "WebPlayer JSON" type project, you need to
+pass the "compressed_gzip" URL parameter. If you are developing your
+own application, you need to pass the "assets_gzip_available"
+configuration parameter during the initialization.
+
+      var m_app = require("app");
+
+      m_app.init({
+          canvas_container_id: "main_canvas_container",
+          callback: init_cb,
+          show_fps: DEBUG,
+          console_verbose: DEBUG,
+          autoresize: true,
+          assets_gzip_available: true
+      });
+
+Compressed ".gz" files should be placed alongside the original ones,
+for example, like this:
+
+      my_project/
+          assets/
+              my_scene.json
+              my_scene.json.gz
+              my_scene.bin
+              my_scene.bin.gz
+
+This also applies to the ".dds" and ".pvr" files and their compressed
+counterparts ".dds.gz" and ".pvr.gz".
+
+注解: If a compressed ".gz" is not present, engine will load the
+  original file and output a corresponding message to the console.
+
+GZIP compressed files can be generated with the "convert resources"
+command that can be found in the Project Manager interface. This can
+also be done in the console by running the ./scripts/converter.py
+script with the "compress_gzip" (for compressing resources) or the
+"cleanup_gzip" (for removing compressed files) command.
+
+
 示例代码
 ========
 
@@ -599,7 +849,7 @@ SDK中包含的代码片段应用程序，它演示了如何使用引擎的功�
 
    * Ray Test - 光线投射的障碍物检测使用
 
-   * VR - initializing a VR application
+   * VR - a VR application example
 
    * 网络摄像头 - 利用来自Web摄像头的媒体流
 
@@ -989,8 +1239,8 @@ SDK文件结构
    });
 
 
-Non-Standard Canvas Position and Orientation
-============================================
+非标准画布位置和方向
+====================
 
 画布元件，开始执行渲染时，可改变相对于浏览器窗口的位置。这可能是由于一
 些操作在DOM树，或者作为页面滚动的结果，特别是用于非全屏web应用。
@@ -1000,11 +1250,9 @@ Non-Standard Canvas Position and Orientation
 是相对于浏览器窗口的原点测量，同时引擎的工作与Canvas元素本身（它的坐标
 原点位于左上角）的坐标空间。
 
-1. If the top left corner of the Canvas element matches the top
-   left corner of the browser window and is fixed in its position
-   (non- movable) then it's sufficient to use event.clientX and
-   event.clientY coordinates of the input events or get_coords_x() and
-   get_coords_y() methods.
+1. 如果画布元素的左上角与浏览器窗口左上角匹配并且固定在它的位置 （
+   不能 移动），那么就足以使用 event.clientX 和 event.clientY 输入事件
+   的坐 标或 get_coords_x() 和 get_coords_y() 方法.
 
    var m_mouse = require("mouse");
 
@@ -1018,12 +1266,10 @@ Non-Standard Canvas Position and Orientation
 
 
 
-2. In the case of more sophisticated manipulations with the Canvas
-   element (scrolling of the page elements, displacement from the top
-   level corner of the browser window, changes in the DOM-tree) it's
-   needed to obtain properly calculated coordinates. This can be done
-   by using the aforementioned get_coords_x() and get_coords_y()
-   methods with a "true" value as a third parameter:
+2. 在更多复杂的画布元素操作中（滚动的页面元素，从浏览器窗口顶层角移
+   动 ，在 DOM 树中的更改）这就需要获得正确计算的坐标。可以通过使用上
+   述 :b4wref:*mouse.get_coords_x()* and get_coords_y() 并将 "true" 作
+   为 第三个参数值的方法︰
 
    var m_mouse = require("mouse");
 
@@ -1034,8 +1280,8 @@ Non-Standard Canvas Position and Orientation
 
 
 
-Another option in this case is to use the client_to_canvas_coords()
-method as follows:
+在这种情况下，另一个选择是使用 client_to_canvas_coords() 方法，如下所
+示︰
 
    var m_cont = require("container");
 
@@ -1046,25 +1292,20 @@ method as follows:
    // . . .
 
 
-Mobile Web Apps
-===============
+移动 Web 应用程序
+=================
 
-An option to scale the whole webpage and change the orientation of a
-mobile device should be considered when creating user interface for a
-web application. It is recommended to prevent scaling and keep the
-aspect ratio of a webpage constant to avoid possible problems. This
-can be achieved by adding the following meta-tag to the page header:
+创建一个 web 应用程序的用户界面时，应考虑缩放整个网页和更改移动设备方
+向的选项。在这里建议，阻止缩放和保持网页的纵横比不变以避免可能出现的问
+题。通过将以下 meta-tag 添加到页标题得以实现︰
 
    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 
-Sometimes you might need to lock a mobile device to a certain
-orientation, especially when you don't want to make both landscape and
-portrait interface variants. Since the native screenlock API is
-experimental and isn't widespread, this might be easier to do using
-CSS rules.
+有时你可能需要锁定移动设备到某一种方向，尤其是当你不想要使用横向和纵向
+的接口类型。由于本机屏幕锁定 API 是试验性的并不普遍，可能使用 CSS 规则
+来实现更容易。
 
-To keep the orientation in landscape mode only, one can set rotation
-for the <html> element by 90 degrees in the portrait mode:
+若要保持方向仅有横向模式，可以设置纵向模式中的元素旋转 <html> 90 度︰
 
    @media (orientation : portrait) {
        html {
@@ -1088,8 +1329,7 @@ for the <html> element by 90 degrees in the portrait mode:
 
 
 
-Similarly, the CSS rule for the portrait mode only should look like
-the following:
+同样，纵向模式下的 CSS 规则只应该如下所示︰
 
    @media (orientation : landscape) {
        html {

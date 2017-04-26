@@ -101,14 +101,19 @@ Groups Panel
 
 .. _object_settings_lod:
 
-Level of Detail Panel
-.....................
+Levels of Detail Panel
+......................
 
 .. image:: src_images/objects/object_settings_lod.png
    :align: center
 
-*Levels of Detail > LOD Transition Ratio*
-    Parameter for smoothing the switching between the LOD objects. It defines the additional distance at which the LOD objects are still rendered before getting replaced by the next LOD objects. Assigned for the main object. Measured in fractions of the object’s bounding sphere radius.
+*Levels of Detail > Object*
+    The object to use for this level of detail.
+
+*Levels of Detail > Distance*
+    The distance to begin using this level of detail.
+
+Using levels of detail is described in the :ref:`dedicated section <lods>`.
 
 .. _object_settings_animation:
 
@@ -166,6 +171,9 @@ Rendering Properties Panel
 
 *Rendering Properties > Hidden*
     An object with this property enabled will be hidden on load.
+
+*Rendering Properties > Hidden Children*
+    All of the object's children and children's children and so on will be hidden on load. Available only if the ``Rendering Properties > Hidden`` property is enabled and if the object has any children.
 
 *Rendering Properties > Do Not Render*
     Disable object rendering (for example useful for a physics object).
@@ -771,3 +779,79 @@ The following example shows a part of the coordinate axes object in the picture 
     
 This code listing produces only the main axes of the object, because listing all of its elements will make the code long and repetitive. The other elements of the object are drawn it the same way.
 
+.. _lods:
+
+Levels Of Detail
+================
+
+Overview
+--------
+
+LODs, or levels of detail, are versions of a single object with various amounts of detail. Levels of detail are used for the purpose of optimization, and the idea here is that if an object is far from the camera, you can render more simple version of it – for example, the one with less polygons and simpler material. This can reduce the burden on the GPU without decreasing the quality of the render, as most of the details of the original object won’t be visible from the distance.
+
+LODs are often used in large-scale scenes with high object count. More compact scenes may not gain a major performance boost from using this feature. Video game locations such as islands, countrysides or town streets are most suitable for using LODs.
+
+LODs can be set up directly in Blender at the ``Levels of Detail`` :ref:`panel <object_settings_lod>`.
+
+.. image:: src_images/objects/objects_lod_list.png
+    :align: center
+    :width: 100%
+
+There, you can set levels of detail and distances at which they will be used for an individual object. Each level of detail is a separate object. The main rule is obvious: the lower the level of detail is positioned in the list, the simpler the corresponding object should be.
+
+You can make your objects simpler in different ways: by decreasing its polycount, by making the materials less complex (this is especially true for node materials) or by turning off various effect such as :ref:`shadows <shadows>`, :ref:`animations <animation>` or :ref:`Wind Bending <wind>`.
+
+The number of levels can be set as you see fit, depending on the overall scale of the scene.
+
+.. figure:: src_images/objects/objects_levels_compare.png
+    :align: center
+    :width: 100%
+
+    *Levels of detail for trees: original object at the left, its LOD on the right*
+
+Specifics and Differences From BGE
+----------------------------------
+
+Setting up LODs and using them in the engine has some specifics. Also, BGE mode in Blender has its own LOD system that is mostly identical to the one used in Blend4Web, but still has some differences that are mentioned below.
+
+#. When you are applying a LOD object to some other object, the position of the LOD object will not change. So, if you want the objects to occupy the same place in the runtime, you should manually place them in the same location in Blender. This is different from BGE, where a selected LOD object is automatically moved to the center of the main object.
+
+#. If you need to set the same LOD object for multiple different objects (for example, same-type trees, building, cars or shrubs), you should make a copy of it for every object (i.e., make as many copies as there are objects that will use this object as a LOD) and set these copies as LODs. Unlike BGE, copies are not generated automatically when you select the same LOD object for multiple base objects. To simplify creating same-type object, we recommend to put the base object and all its LODs to one group and then duplicate this group using Empty objects.
+
+#. If the object is supposed to change its position in the runtime, you should attach its LODs to it in Blender using parent-child link so LOD object would copy its transformations.
+
+Smooth LOD Switching
+--------------------
+
+One of the most notable shortcomings of the LOD system is the abrupt switching between levels of detail which is easy to notice and can be annoying.
+
+The engine supports smooth transition between LODs based on alpha test.
+
+.. figure:: src_images/objects/objects_lod_smoothing.png
+    :align: center
+    :width: 100%
+
+    *Smooth transition between the original object and its LOD.*
+
+The option used for this is called ``LOD Smooth Transitions`` and can be found on the ``Scene->Object Clustering & LOD`` :ref:`panel <scene_batching>`.
+
+It is intended for enabling smooth LOD transition and setting object types that this transition will be applied to. It should be noted that enabling this option might significantly decrease performance (it depends on the number of LOD objects and their materials).
+
+.. note::
+
+    Smooth LOD transition is not always required. For example, if you instantly transport your camera to some distant object, you probably don’t want LOD switching to occur right in front of it. In cases like this, the ``lod_leap_smooth_threshold`` parameter should be used. It defines the threshold distance (in meters) that the camera can cover in one frame. If this value is exceeded, LODs are switched instantaneously. This can be used to disable smooth LOD transition when camera is teleported to a new location or simply moves very fast.
+
+     .. code-block:: javascript
+
+            var m_cfg = require("config");
+
+            m_cfg.set("lod_leap_smooth_threshold", 5); // 5 meters
+
+Hysteresis
+----------
+
+LODs are switched at certain distances from the object. These level borders are set up on the ``Levels of Detail`` panel. If the camera is moving near a border like this, it can cross it often, which results in frequent LOD switching. Under such circumstances, LOD switching becomes very apparent and thus undesirable.
+
+This problem can be negated with the ``Max LOD Hysteresis Interval`` parameter located on the ``Scene->Object Clustering & LOD`` :ref:`panel <scene_batching>`. It sets an interval (in meters) that is used as a gap between two LOD levels.
+
+For example, if ``Max LOD Hysteresis Interval`` is set to 4 meters while the distance between detail levels is equal to the 20 meters, one level will be turned on at the distance of 18 meters and the other, at the distance of 22 meters. Using this option eliminates frequent LOD switching, as levels of detail no longer have definite border between them. The setting is adaptive and can adjust to different LOD distances, reducing the set interval, if needed.

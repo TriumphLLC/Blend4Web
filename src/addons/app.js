@@ -83,6 +83,7 @@ var CAM_SMOOTH_ROT_TRANS_TOUCH = 0.12;
 
 // Constants used for camera physics
 var CHAR_HEAD_POSITION          = 0.5;
+var CAM_COLL_DELTA              = 0.25
 
 // NOTE: EPSILON_DELTA << EPSILON_DISTANCE to prevent camera freezing near pivot
 var EPSILON_DISTANCE = 0.001;
@@ -105,6 +106,9 @@ var _fps_logger_elem = null;
 var _disable_default_pivot   = false;
 var _disable_letter_controls = false;
 var _disable_zoom            = false;
+var _element                 = null;
+var _allow_element_exit      = false;
+var _disable_gamepad_controls = false;
 
 // Cached arrays
 var _vec2_tmp  = new Float32Array(2);
@@ -149,6 +153,7 @@ var _limits_tmp = {};
  * @param {number}  [options.force_container_ratio=0] Automatically resize
  * canvas container height, based on its width and passed ratio value.
  * @param {boolean} [options.min_capabilities=false] Set min capability mode
+ * @param {boolean} [options.debug_loading=false] Print loading info into the console
  * @cc_externs canvas_container_id callback show_hud_debug_info
  * @cc_externs sfx_mix_mode show_fps fps_elem_id error_purge_elements
  * @cc_externs report_init_failure pause_invisible key_pause_enabled
@@ -156,7 +161,7 @@ var _limits_tmp = {};
  * @cc_externs assets_min50_available quality fps_wrapper_id
  * @cc_externs console_verbose physics_enabled autoresize track_container_position
  * @cc_externs force_container_ratio from to elem prop cb duration opt_prefix
- * @cc_externs opt_suffix min_capabilities srgb_type
+ * @cc_externs opt_suffix min_capabilities srgb_type debug_loading
  */
 
 exports.init = function(options) {
@@ -584,6 +589,7 @@ function get_dest_zoom(obj, value, velocity_zoom, dest_value, dev_fact,
  * @param {HTMLElement} [element] HTML element to add event listeners to. The canvas container will be use by default.
  * @param {boolean} [allow_element_exit=false] Continue receiving mouse events
  * even when the mouse is leaving the HTML element
+ * @param {boolean} [disable_gamepad_controls=false] Disable gamepad controls
  * @example 
  * var m_app = require("app");
  * m_app.enable_camera_controls();
@@ -592,11 +598,14 @@ function get_dest_zoom(obj, value, velocity_zoom, dest_value, dev_fact,
 exports.enable_camera_controls = enable_camera_controls;
 
 function enable_camera_controls(disable_default_pivot, disable_letter_controls,
-                                disable_zoom, element, allow_element_exit) {
-
+                                disable_zoom, element, allow_element_exit,
+                                disable_gamepad_controls) {
     _disable_default_pivot = disable_default_pivot;
     _disable_letter_controls = disable_letter_controls;
     _disable_zoom = disable_zoom;
+    _element = element;
+    _allow_element_exit = allow_element_exit;
+    _disable_gamepad_controls = disable_gamepad_controls;
 
     var obj = m_scs.get_active_camera();
     enable_cam_controls_resetting(obj);
@@ -632,7 +641,7 @@ function enable_camera_controls(disable_default_pivot, disable_letter_controls,
             if (coll_dist < 0) {
                 var coll_norm = m_ctl.get_sensor_payload(obj, id, 0).coll_norm;
                 var recover_offset = _vec3_tmp;
-                m_vec3.scale(coll_norm, -0.25 * coll_dist, recover_offset);
+                m_vec3.scale(coll_norm, -CAM_COLL_DELTA * coll_dist, recover_offset);
                 var trans = m_trans.get_translation(obj, _vec3_tmp2);
                 m_vec3.add(trans, recover_offset, trans);
                 m_trans.set_translation_v(obj, trans);
@@ -790,14 +799,29 @@ function enable_camera_controls(disable_default_pivot, disable_letter_controls,
         }
     }
 
-    var gmpd_indices = m_input.check_enable_gamepad_indices();
-    if (gmpd_indices.length)
-        var gamepad_id = gmpd_indices[gmpd_indices.length - 1];
-    else
-        var gamepad_id = 0;
-
     var key_w, key_s, key_a, key_d, key_r, key_f, gmpd_btn_6, gmpd_btn_7;
-    var key_up, key_down, key_left, key_right;
+    var key_up, key_down, key_left, key_right, lh_axis, lv_axis, rh_axis, rv_axis;
+
+    if (!disable_gamepad_controls) {
+        var gmpd_indices = m_input.check_enable_gamepad_indices();
+        if (gmpd_indices.length)
+            var gamepad_id = gmpd_indices[gmpd_indices.length - 1];
+        else
+            var gamepad_id = 0;
+
+        gmpd_btn_6 = m_ctl.create_gamepad_btn_sensor(m_input.GMPD_BUTTON_6,
+                gamepad_id);
+        gmpd_btn_7 = m_ctl.create_gamepad_btn_sensor(m_input.GMPD_BUTTON_7,
+                gamepad_id);
+        lh_axis = m_ctl.create_gamepad_axis_sensor(m_input.GMPD_AXIS_0, gmpd_indices);
+        lv_axis = m_ctl.create_gamepad_axis_sensor(m_input.GMPD_AXIS_1, gmpd_indices);
+
+        rh_axis = m_ctl.create_gamepad_axis_sensor(m_input.GMPD_AXIS_2, gmpd_indices);
+        rv_axis = m_ctl.create_gamepad_axis_sensor(m_input.GMPD_AXIS_3, gmpd_indices);
+    } else
+        gmpd_btn_6 = gmpd_btn_7 = lh_axis = lv_axis = rh_axis = rv_axis =
+                m_ctl.create_custom_sensor(0);
+
     if (!disable_letter_controls) {
         key_w = m_ctl.create_keyboard_sensor(m_ctl.KEY_W);
         key_s = m_ctl.create_keyboard_sensor(m_ctl.KEY_S);
@@ -805,25 +829,15 @@ function enable_camera_controls(disable_default_pivot, disable_letter_controls,
         key_d = m_ctl.create_keyboard_sensor(m_ctl.KEY_D);
         key_r = m_ctl.create_keyboard_sensor(m_ctl.KEY_R);
         key_f = m_ctl.create_keyboard_sensor(m_ctl.KEY_F);
-        gmpd_btn_6 = m_ctl.create_gamepad_btn_sensor(m_input.GMPD_BUTTON_6,
-                gamepad_id);
-        gmpd_btn_7 = m_ctl.create_gamepad_btn_sensor(m_input.GMPD_BUTTON_7,
-                gamepad_id);
 
         key_up = m_ctl.create_keyboard_sensor(m_ctl.KEY_UP);
         key_down = m_ctl.create_keyboard_sensor(m_ctl.KEY_DOWN);
         key_left = m_ctl.create_keyboard_sensor(m_ctl.KEY_LEFT);
         key_right = m_ctl.create_keyboard_sensor(m_ctl.KEY_RIGHT);
     } else
-        key_w = key_s = key_a = key_d = key_r = key_f = gmpd_btn_6 =
-                gmpd_btn_7 = key_up = key_down = key_left = key_right =
+        key_w = key_s = key_a = key_d = key_r = key_f =
+                key_up = key_down = key_left = key_right =
                 m_ctl.create_custom_sensor(0);
-
-    var lh_axis = m_ctl.create_gamepad_axis_sensor(m_input.GMPD_AXIS_0, gmpd_indices);
-    var lv_axis = m_ctl.create_gamepad_axis_sensor(m_input.GMPD_AXIS_1, gmpd_indices);
-
-    var rh_axis = m_ctl.create_gamepad_axis_sensor(m_input.GMPD_AXIS_2, gmpd_indices);
-    var rv_axis = m_ctl.create_gamepad_axis_sensor(m_input.GMPD_AXIS_3, gmpd_indices);
 
     // var key_single_logic = null;
     // var key_double_logic = function(s) {
@@ -1008,38 +1022,39 @@ function enable_camera_controls(disable_default_pivot, disable_letter_controls,
     // camera panning with gamepad
     var dest_pan_x_gmpd = 0;
     var dest_pan_y_gmpd = 0;
+    if (!disable_gamepad_controls) {
+        var gmpd_panning_x_pos_cb = function(obj, id, pulse) {
+            m_cam.get_velocities(obj, velocity);
+            dest_pan_x_gmpd += velocity.trans * TRANS_GMPD_KOEF;
+        }
+        var gmpd_panning_y_pos_cb = function(obj, id, pulse) {
+            m_cam.get_velocities(obj, velocity);
+            dest_pan_y_gmpd += velocity.zoom * ZOOM_GMPD_KOEF;
+        }
+        var gmpd_panning_x_neg_cb = function(obj, id, pulse) {
+            m_cam.get_velocities(obj, velocity);
+            dest_pan_x_gmpd -= velocity.trans * TRANS_GMPD_KOEF;
+        }
+        var gmpd_panning_y_neg_cb = function(obj, id, pulse) {
+            m_cam.get_velocities(obj, velocity);
+            dest_pan_y_gmpd -= velocity.zoom * ZOOM_GMPD_KOEF;
+        }
 
-    var gmpd_panning_x_pos_cb = function(obj, id, pulse) {
-        m_cam.get_velocities(obj, velocity);
-        dest_pan_x_gmpd += velocity.trans * TRANS_GMPD_KOEF;
-    }
-    var gmpd_panning_y_pos_cb = function(obj, id, pulse) {
-        m_cam.get_velocities(obj, velocity);
-        dest_pan_y_gmpd += velocity.zoom * ZOOM_GMPD_KOEF;
-    }
-    var gmpd_panning_x_neg_cb = function(obj, id, pulse) {
-        m_cam.get_velocities(obj, velocity);
-        dest_pan_x_gmpd -= velocity.trans * TRANS_GMPD_KOEF;
-    }
-    var gmpd_panning_y_neg_cb = function(obj, id, pulse) {
-        m_cam.get_velocities(obj, velocity);
-        dest_pan_y_gmpd -= velocity.zoom * ZOOM_GMPD_KOEF;
-    }
-
-    if (use_pivot) {
-        m_ctl.create_sensor_manifold(obj, "GMPD_PAN_Y_POS", m_ctl.CT_CONTINUOUS,
-                [gmpd_btn_6], null, gmpd_panning_y_pos_cb);
-        m_ctl.create_sensor_manifold(obj, "GMPD_PAN_Y_NEG", m_ctl.CT_CONTINUOUS,
-                [gmpd_btn_7], null, gmpd_panning_y_neg_cb);
-        m_ctl.create_sensor_manifold(obj, "GMPD_PAN_X_POS", m_ctl.CT_CONTINUOUS,
-                [lh_axis], function(s) {return s[0] < -AXIS_THRESHOLD}, gmpd_panning_x_neg_cb);
-        m_ctl.create_sensor_manifold(obj, "GMPD_PAN_X_NEG", m_ctl.CT_CONTINUOUS,
-                [lh_axis], function(s) {return s[0] > AXIS_THRESHOLD}, gmpd_panning_x_pos_cb);
-    } else if (use_hover) {
-        m_ctl.create_sensor_manifold(obj, "GMPD_PAN_X_POS", m_ctl.CT_CONTINUOUS,
-                [rh_axis], function(s) {return s[0] < -AXIS_THRESHOLD}, gmpd_panning_x_neg_cb);
-        m_ctl.create_sensor_manifold(obj, "GMPD_PAN_X_NEG", m_ctl.CT_CONTINUOUS,
-                [rh_axis], function(s) {return s[0] > AXIS_THRESHOLD}, gmpd_panning_x_pos_cb);
+        if (use_pivot) {
+            m_ctl.create_sensor_manifold(obj, "GMPD_PAN_Y_POS", m_ctl.CT_CONTINUOUS,
+                    [gmpd_btn_6], null, gmpd_panning_y_pos_cb);
+            m_ctl.create_sensor_manifold(obj, "GMPD_PAN_Y_NEG", m_ctl.CT_CONTINUOUS,
+                    [gmpd_btn_7], null, gmpd_panning_y_neg_cb);
+            m_ctl.create_sensor_manifold(obj, "GMPD_PAN_X_POS", m_ctl.CT_CONTINUOUS,
+                    [lh_axis], function(s) {return s[0] < -AXIS_THRESHOLD}, gmpd_panning_x_neg_cb);
+            m_ctl.create_sensor_manifold(obj, "GMPD_PAN_X_NEG", m_ctl.CT_CONTINUOUS,
+                    [lh_axis], function(s) {return s[0] > AXIS_THRESHOLD}, gmpd_panning_x_pos_cb);
+        } else if (use_hover) {
+            m_ctl.create_sensor_manifold(obj, "GMPD_PAN_X_POS", m_ctl.CT_CONTINUOUS,
+                    [rh_axis], function(s) {return s[0] < -AXIS_THRESHOLD}, gmpd_panning_x_neg_cb);
+            m_ctl.create_sensor_manifold(obj, "GMPD_PAN_X_NEG", m_ctl.CT_CONTINUOUS,
+                    [rh_axis], function(s) {return s[0] > AXIS_THRESHOLD}, gmpd_panning_x_pos_cb);
+        }
     }
 
     if (allow_element_exit) {
@@ -1237,7 +1252,8 @@ function enable_cam_controls_resetting(cam) {
     function reset_controls_cb(cam, id, pulse) {
         disable_camera_controls();
         enable_camera_controls(_disable_default_pivot, _disable_letter_controls,
-                _disable_zoom);
+                _disable_zoom, _element, _allow_element_exit,
+                _disable_gamepad_controls);
     }
     m_ctl.create_sensor_manifold(cam, "CHANGE_MOVE_STYLE", m_ctl.CT_POSITIVE,
             [cb_sensor], null, reset_controls_cb);
@@ -1423,7 +1439,7 @@ exports.check_fullscreen = function() {
 exports.report_app_error = report_app_error;
 /**
  * Report an application error.
- * Creates standard HTML elements with error info and inserts them in the page body.
+ * Creates standard HTML elements with error info and inserts them into the page body.
  * @method module:app.report_app_error
  * @param {string} text_message Message to place on upper element.
  * @param {string} link_message Message to place on bottom element.

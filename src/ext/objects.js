@@ -52,7 +52,7 @@ var m_scenes   = require("__scenes");
  * @property {number} main_frequency Frequency of main wind bending
  * @property {number} detail_frequency Frequency of detail wind bending
  * @property {number} detail_amplitude Amplitude of detail wind bending
- * @property {number} branch_amplitude Amplitude of braches wind bending
+ * @property {number} branch_amplitude Amplitude of branches wind bending
  * @cc_externs angle main_frequency detail_frequency
  * @cc_externs detail_amplitude branch_amplitude
  */
@@ -469,6 +469,14 @@ exports.get_wind_bending_params = function(obj) {
     wb_params.branch_amplitude = render.branch_bending_amp;
 
     return wb_params;
+}
+
+/**
+ * Create line object
+ * @param {string} name Line object name
+ */
+exports.create_line = function(name) {
+    return m_obj.create_line(name);
 }
 
 }

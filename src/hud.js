@@ -152,9 +152,9 @@ function show_debug_info_scene(scene) {
                 bundles, "  ", render_time.toFixed(3));
 
         subs.debug_render_calls = 0;
+        sum_bundles += bundles;
 
         if (is_active) {
-            sum_bundles += bundles;
             sum_rcalls += rcalls;
             sum_rtimes += render_time;
         }

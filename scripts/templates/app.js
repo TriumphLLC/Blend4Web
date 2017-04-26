@@ -1,7 +1,7 @@
 "use strict"
 
 // register the application module
-b4w.register("${app_name}_app", function(exports, require) {
+b4w.register("${app_name}_main", function(exports, require) {
 
 // import modules used by the app
 var m_app       = require("app");
@@ -85,4 +85,4 @@ function load_cb(data_id, success) {
 });
 
 // import the app module and start the app by calling the init method
-b4w.require("${app_name}_app").init();
+b4w.require("${app_name}_main").init();

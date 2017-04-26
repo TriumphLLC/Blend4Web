@@ -418,15 +418,13 @@ Blend4Web支持所有标准的Blender节点，但他们中的一些工作的不�
 Cycles 节点
 ===========
 
-注解: Cycles节点的支持是不建议在生产中使用环境的实验性功能。It
-  should also be noted that using Cycles nodes in Blend4Web will
-  produce images similar, but not identical to the ones created using
-  Cycles renderer itself.
+注解: Cycles节点的支持是不建议在生产中使用环境的实验性功能。此外应指
+  出的是 ，在 Blend4Web 中使用Cycles节点会产生相似的图像，但不是完全跟
+  使用 Cycles渲染器本身创建的图像一样。
 
 引擎支持以下 "Cycles" 节点︰
 
-* "Material Output" (only "Surface" and "Displacement" inputs are
-  supported);
+* "材质输出" (只支持 "Surface" 和  "Displacement" 输入）;
 
 * "BSDF Diffuse";
 

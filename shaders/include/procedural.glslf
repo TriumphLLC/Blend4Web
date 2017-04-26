@@ -169,7 +169,7 @@ float snoise(vec2 v)
     return 130.0 * dot(m, g);
 }
 
-// generating noise/pattern texture for dithering
+// generating noise/pattern texture for dithering; [-1.0; 1.0)
 vec2 generate_dithering_tex(vec2 coord) {
 
     float d1 = dot(coord, vec2(12.9898, 78.233));
@@ -179,6 +179,11 @@ vec2 generate_dithering_tex(vec2 coord) {
     float noiseY = fract(sin(d2) * 43758.5453) * 2.0 - _1_0;
 
     return vec2(noiseX, noiseY);
+}
+
+// [0.0, 1.0);
+float generate_rand_val(vec2 seed) {
+    return fract(sin(dot(seed, vec2(12.9898, 78.233))) * 43758.5453);
 }
 
 #endif

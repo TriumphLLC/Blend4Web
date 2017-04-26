@@ -133,7 +133,7 @@ A typical workflow may include the following stages:
 * choosing photos and/or creating concepts and sketches (views from the front - from the side - from the above) of the future model or scene
 * modeling - a 3D model consisting of polygons is created
 * UV mapping - the model is unwrapped for further overlaying of textures (flat images) 
-* texturing - textures are overlayed on the 3D model
+* texturing - textures are overlaid on the 3D model
 * materials setup - materials are assigned for different parts of the model and tuned (for example, a wooden door with a metal handle)
 * rigging - the controlling elements ("skeletal bones") are attached to the model to animate it
 * animation - the model is set in motion to visualize actions for example - of characters

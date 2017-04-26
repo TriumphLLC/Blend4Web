@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2016-09-27 16:51+0300\n"
+"POT-Creation-Date: 2017-03-23 16:09+0300\n"
 "PO-Revision-Date: 2015-08-28 10:55+0300\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Russian <info [at] blend4web.com>\n"
@@ -147,7 +147,7 @@ msgstr "Настройка источников света"
 msgid "Performed in the ``Object Data`` tab when a lamp object is selected."
 msgstr "Производится во вкладке ``Object Data`` при выборе объекта-лампы."
 
-#: ../lighting.rst:81 ../lighting.rst:209
+#: ../lighting.rst:81 ../lighting.rst:211
 msgid "*Color*"
 msgstr "*Цвет*"
 
@@ -312,31 +312,39 @@ msgstr ""
 "Освещение с помощью :ref:`карты окружения <environment_map>` - т.н. "
 "методика image-based lighting."
 
-#: ../lighting.rst:129 ../lighting.rst:185
+#: ../lighting.rst:128
+msgid ""
+"Please note that environment lighting uses a simplified model which "
+"doesn't take into account mutual shadowing of objects."
+msgstr ""
+"Обратите внимание, что освещение от окружающей среды рассчитывается по упрощённой "
+"модели, в которой объекты не затеняют друг друга.""
+
+#: ../lighting.rst:131 ../lighting.rst:187
 msgid "Activation"
 msgstr "Активация"
 
-#: ../lighting.rst:131 ../lighting.rst:156
+#: ../lighting.rst:133 ../lighting.rst:158
 msgid "Enable the ``Environment Lighting`` checkbox on the ``World`` tab."
 msgstr "Включить опцию ``Environment Lighting`` во вкладке ``World``."
 
-#: ../lighting.rst:139 ../lighting.rst:202
+#: ../lighting.rst:141 ../lighting.rst:204
 msgid "Setup"
 msgstr "Настройка"
 
-#: ../lighting.rst:142
+#: ../lighting.rst:144
 msgid "*World > Environment Lighting > Energy*"
 msgstr ""
 
-#: ../lighting.rst:142
+#: ../lighting.rst:144
 msgid "Environment lighting intensity. The default value is 1.0."
 msgstr "Интенсивность освещения от окружающей среды. Значение по умолчанию 1.0."
 
-#: ../lighting.rst:145
+#: ../lighting.rst:147
 msgid "*World > Environment Lighting > Environment Color*"
 msgstr ""
 
-#: ../lighting.rst:145
+#: ../lighting.rst:147
 msgid ""
 "Selection of the environment lighting simulation method: ``White`` - flat"
 " white lighting, ``Sky Color`` - hemispherical model, ``Sky Texture`` - "
@@ -348,11 +356,11 @@ msgstr ""
 "Texture`` - освещение с помощью :ref:`карты окружения <environment_map>`."
 " Значение по умолчанию ``White``."
 
-#: ../lighting.rst:149
+#: ../lighting.rst:151
 msgid "*World > Horizon Color* and *World > Zenith Color*"
 msgstr "*World > Horizon Color* и *World > Zenith Color*"
 
-#: ../lighting.rst:148
+#: ../lighting.rst:150
 msgid ""
 "If the hemispherical model (``Sky Color``) is selected the horizon and "
 "zenith colors can be specified by means of the ``World > Horizon Color`` "
@@ -364,25 +372,25 @@ msgstr ""
 " Color`` (цвет горизонта) и ``World > Zenith Color`` (цвет зенита). При "
 "выборе цвета рекомендуется активировать опцию ``World > Blend Sky``."
 
-#: ../lighting.rst:152
+#: ../lighting.rst:154
 msgid "Environment map method"
 msgstr "Использование карты окружения"
 
-#: ../lighting.rst:154
+#: ../lighting.rst:156
 msgid "To use an environment map for environment lighting:"
 msgstr ""
 "Для того, чтобы использовать карту окружения в целях реализации освещения"
 " от окружающей среды, необходимо:"
 
-#: ../lighting.rst:157
+#: ../lighting.rst:159
 msgid "Select ``Environment Lighting > Sky Texture``."
 msgstr "Выбрать метод ``Environment Lighting > Sky Texture``."
 
-#: ../lighting.rst:158
+#: ../lighting.rst:160
 msgid "Go from the ``World`` tab to the ``Texture`` tab."
 msgstr "Перейти из вкладки ``World`` во вкладку ``Texture``."
 
-#: ../lighting.rst:159
+#: ../lighting.rst:161
 msgid ""
 "Create an :ref:`environment map <environment_map>`, load the "
 "corresponding image to it."
@@ -390,7 +398,7 @@ msgstr ""
 "Создать :ref:`карту окружения <environment_map>`, загрузить в нее "
 "соответствующее изображение."
 
-#: ../lighting.rst:160
+#: ../lighting.rst:162
 msgid ""
 "For the environment map select ``ENVIRONMENT_LIGHTING`` or ``BOTH`` as "
 "the ``Sky Texture Usage`` value on the ``Export Options`` panel (the "
@@ -402,11 +410,11 @@ msgstr ""
 "``BOTH`` активирует также использование этой текстуры в качестве "
 ":ref:`текстуры неба <skydome_texture>`)."
 
-#: ../lighting.rst:172
+#: ../lighting.rst:174
 msgid "Shadows"
 msgstr "Тени"
 
-#: ../lighting.rst:174
+#: ../lighting.rst:176
 msgid ""
 "Shadows are exceptionally important for rendering the final picture. They"
 " provide the viewer not only with information about the objects' outline "
@@ -417,7 +425,7 @@ msgstr ""
 "Они предоставляют зрителю не только информацию о силуэте объектов, но и "
 "об их высоте и взаимном расположении, положении источника света и т.д."
 
-#: ../lighting.rst:176
+#: ../lighting.rst:178
 msgid ""
 "Blend4Web implements the following shadow rendering techniques: cascaded "
 "shadow maps (CSM) and softened shadows (PCF)."
@@ -425,7 +433,7 @@ msgstr ""
 "Платформой Blend4Web реализуются такие техники, как каскадные карты теней"
 " (CSM) и смягченные тени (PCF)."
 
-#: ../lighting.rst:178
+#: ../lighting.rst:180
 msgid ""
 "Up to 4 (or 3 if SSAO is enabled) light sources can generate shadows "
 "simultaneously. If *Shadow* parameter is enabled for more than 4 light "
@@ -435,7 +443,7 @@ msgstr ""
 "источников света одновременно. Если источников света больше (и у всех "
 "включён параметр Shadow), будут видны тени только от четырёх из них."
 
-#: ../lighting.rst:187
+#: ../lighting.rst:189
 msgid ""
 "Enable the ``Shadows: Cast`` checkbox under the ``Object`` tab for the "
 "objects which **cast** shadows."
@@ -443,7 +451,7 @@ msgstr ""
 "На объектах, **отбрасывающих** тени, включить опцию ``Shadows: Cast`` во "
 "вкладке ``Object``."
 
-#: ../lighting.rst:188
+#: ../lighting.rst:190
 msgid ""
 "Enable the ``Shadows: Receive`` checkbox under the ``Object`` tab for the"
 " objects which **receive** shadows."
@@ -451,7 +459,7 @@ msgstr ""
 "На объектах, **получающих** тени, включить опцию ``Shadows: Receive`` во "
 "вкладке ``Object``."
 
-#: ../lighting.rst:189
+#: ../lighting.rst:191
 msgid ""
 "Make sure that the ``Shadows`` option in the ``Render`` tab has the value"
 " ``AUTO`` or ``ON``."
@@ -459,7 +467,7 @@ msgstr ""
 "Убедиться, что включена опция ``Shadows`` ``AUTO`` или ``ON`` во вкладке "
 "``Render``."
 
-#: ../lighting.rst:193
+#: ../lighting.rst:195
 msgid ""
 "Objects, which have :ref:`transparent materials with a gradient "
 "<alpha_blend>`, do not cast shadows."
@@ -467,11 +475,11 @@ msgstr ""
 "Объекты, имеющие :ref:`прозрачные материалы с градиентом <alpha_blend>`, "
 "не отбрасывают теней."
 
-#: ../lighting.rst:205
+#: ../lighting.rst:207
 msgid "*Direction*"
 msgstr "*Направление*"
 
-#: ../lighting.rst:205
+#: ../lighting.rst:207
 msgid ""
 "If there are multiple light sources, it is recommended to specify the "
 "exact light source which is used for shadow calculations, by enabling the"
@@ -483,7 +491,7 @@ msgstr ""
 "включив опцию ``Shadow > Shadow`` во вкладке ``Object Data`` при выборе "
 "объекта-лампы."
 
-#: ../lighting.rst:208
+#: ../lighting.rst:210
 msgid ""
 "The shadow color is determined by the :ref:`environment lighting "
 "<environment_lighting>` settings."
@@ -491,7 +499,7 @@ msgstr ""
 "Цвет тени определяется настройками :ref:`освещения от окружающей среды "
 "<environment_lighting>`."
 
-#: ../lighting.rst:211
+#: ../lighting.rst:213
 msgid ""
 "The following additional settings are located on the ``Shadows`` panel of"
 " the ``Render`` tab:"
@@ -499,11 +507,11 @@ msgstr ""
 "Во вкладке ``Render`` на панели ``Shadows`` находятся дополнительные "
 "настройки:"
 
-#: ../lighting.rst:218
+#: ../lighting.rst:220
 msgid "*Render Shadows*"
 msgstr ""
 
-#: ../lighting.rst:218
+#: ../lighting.rst:220
 msgid ""
 "Enables and disables shadow rendering. Can be set to ``ON``, ``OFF`` and "
 "``AUTO``. Set to ``AUTO`` by default."
@@ -511,27 +519,27 @@ msgstr ""
 "Включает и выключает рендеринг теней. Возможные значения: ``ON``, ``OFF``"
 " и ``AUTO``. Значение по умолчанию - ``AUTO``."
 
-#: ../lighting.rst:221
+#: ../lighting.rst:223
 msgid "*Soft Shadows*"
 msgstr ""
 
-#: ../lighting.rst:221
+#: ../lighting.rst:223
 msgid "This option enables smoothing of the shadow maps. Enabled by default."
 msgstr "Включает размытие карт теней. По умолчанию включено."
 
-#: ../lighting.rst:224
+#: ../lighting.rst:226
 msgid "*Resolution*"
 msgstr ""
 
-#: ../lighting.rst:224
+#: ../lighting.rst:226
 msgid "Shadow map resolution. The default value is 2048 x 2048px."
 msgstr "Разрешение используемой карты теней. Значение по умолчанию: 2048 x 2048px."
 
-#: ../lighting.rst:227
+#: ../lighting.rst:229
 msgid "*Blur Samples*"
 msgstr ""
 
-#: ../lighting.rst:227
+#: ../lighting.rst:229
 msgid ""
 "The number of the samples used for smoothing shadow maps. Available "
 "values are 4x, 8x and 16x, with the latter being the default value."
@@ -539,11 +547,11 @@ msgstr ""
 "Количество сэмплов, используемых для размытия карты теней. Возможные "
 "значения - 4x, 8x и 16x (значение по умолчанию)."
 
-#: ../lighting.rst:230
+#: ../lighting.rst:232
 msgid "*Self-Shadow Polygon Offset*"
 msgstr ""
 
-#: ../lighting.rst:230
+#: ../lighting.rst:232
 msgid ""
 "Coefficient for shifting polygons relative to light source orientation. "
 "The default value is 1."
@@ -551,17 +559,17 @@ msgstr ""
 "Коэффициент смещения полигона в зависимости от ориентации к источнику "
 "света. Значение по умолчанию: 1."
 
-#: ../lighting.rst:233
+#: ../lighting.rst:235
 msgid "*Self-Shadow Normal Offset*"
 msgstr ""
 
-#: ../lighting.rst:233
+#: ../lighting.rst:235
 msgid ""
 "Coefficient for shifting polygons along their normals. The default value "
 "is 0.010."
 msgstr "Коэффициент смещения полигона по нормали. Значение по умолчанию: 0.010."
 
-#: ../lighting.rst:235
+#: ../lighting.rst:237
 msgid ""
 "The last two parameters can be used to reduce self-shadowing artifacts. "
 "These artifacts appear for the objects that cast and receive shadows at "
@@ -578,7 +586,7 @@ msgstr ""
 "Offset`` - в приграничных. Оба параметра приводят к искажению теней, "
 "поэтому рекомендуется держать их как можно меньшими."
 
-#: ../lighting.rst:242
+#: ../lighting.rst:244
 msgid ""
 "Shadows from ``Point`` light sources are generated the same way as from "
 "``Spot`` light sources and are projected only in one direction specified "
@@ -588,11 +596,11 @@ msgstr ""
 " для направленных (``Spot``), и падают только в одном направлении, "
 "определяемом параметром ``Rotation``."
 
-#: ../lighting.rst:247
+#: ../lighting.rst:249
 msgid "*Enable CSM*"
 msgstr ""
 
-#: ../lighting.rst:247
+#: ../lighting.rst:249
 msgid ""
 "Activates the using of cascaded shadows model; reveals additional "
 "options. Disabled by default. Won't work if the ``Shadow`` setting is "
@@ -604,13 +612,13 @@ msgstr ""
 "включена более чем для одного источника света. Для источников света типа "
 "``Point`` и ``Spot`` поддерживается только один каскад теней."
 
-#: ../lighting.rst:249
+#: ../lighting.rst:251
 msgid ""
 "This option allows to choose between the following shadow generation "
 "models:"
 msgstr "Эта опция позволяет выбрать один из следующих вариантов наложения теней:"
 
-#: ../lighting.rst:251
+#: ../lighting.rst:253
 msgid ""
 "Generic model which uses a single optimized shadow map for the whole "
 "scene (``Enable CSM`` is turned off)."
@@ -618,15 +626,15 @@ msgstr ""
 "Стандартная модель, использующая одну оптимизированную карту теней, "
 "охватывающую всю сцену (``Enable CSM`` отключена)."
 
-#: ../lighting.rst:252
+#: ../lighting.rst:254
 msgid "Shadow cascades (``Enable CSM`` is turned on)."
 msgstr "Каскады теней (``Enable CSM`` включена)."
 
-#: ../lighting.rst:255
+#: ../lighting.rst:257
 msgid "*Blur Radius*"
 msgstr ""
 
-#: ../lighting.rst:255
+#: ../lighting.rst:257
 msgid ""
 "Blur ratio for setting up softened shadows. The default value is 3. Zero "
 "value produces hard shadows."
@@ -634,7 +642,7 @@ msgstr ""
 "Коэффициент размытия теней, позволяющий настроить cмягченные тени. "
 "Значение по умолчанию: 3. Коэффициент 0 даст жесткие тени."
 
-#: ../lighting.rst:263
+#: ../lighting.rst:265
 msgid ""
 "Softened shadows can improve visual quality and realism. They hide the "
 "jugged edges inevitable when using image-based techniques, that is "
@@ -648,11 +656,11 @@ msgstr ""
 "разрешения. Использование смягченных теней часто позволяет снизить "
 "разрешение без существенной потери качества."
 
-#: ../lighting.rst:267
+#: ../lighting.rst:269
 msgid "Generic shadows"
 msgstr "Стандартная модель"
 
-#: ../lighting.rst:269
+#: ../lighting.rst:271
 msgid ""
 "This option suits well smaller scenes with a limited number of objects. "
 "Thanks to optimizations applied for such scenes, one can achieve better "
@@ -666,11 +674,11 @@ msgstr ""
 "вариант проще и быстрее настроить, а использование всего лишь одной карты"
 " теней положительно сказывается на производительности."
 
-#: ../lighting.rst:273
+#: ../lighting.rst:275
 msgid "Shadow cascades"
 msgstr "Каскады теней"
 
-#: ../lighting.rst:277
+#: ../lighting.rst:279
 msgid ""
 "These settings are supported only for ``Sun`` light sources. Cascades are"
 " turned off for other types of light sources."
@@ -678,7 +686,7 @@ msgstr ""
 "Данные настройки поддерживаются только для источников освещения типа "
 "``Sun``. Для других источников каскады автоматически отключаются."
 
-#: ../lighting.rst:279
+#: ../lighting.rst:281
 msgid ""
 "In order to provide acceptable shadow quality and to cover considerable "
 "space at the same time it is required to use multiple stages for shadow "
@@ -693,15 +701,15 @@ msgstr ""
 "вариант больше подходит для сцен среднего и большого размера, например, "
 "игровых уровней."
 
-#: ../lighting.rst:281
+#: ../lighting.rst:283
 msgid "When enabled the following extended settings are revealed:"
 msgstr "При включении предоставляет расширенные настройки:"
 
-#: ../lighting.rst:289
+#: ../lighting.rst:291
 msgid "*CSM Number*"
 msgstr ""
 
-#: ../lighting.rst:289
+#: ../lighting.rst:291
 msgid ""
 "Number of shadow cascades. From 1 to 4 cascades are supported. The "
 "default value is 1."
@@ -709,23 +717,23 @@ msgstr ""
 "Количество каскадов теней. Поддерживается от 1 до 4 каскадов. Значение по"
 " умолчанию: 1."
 
-#: ../lighting.rst:292
+#: ../lighting.rst:294
 msgid "*CSM First Cascade Border*"
 msgstr ""
 
-#: ../lighting.rst:292
+#: ../lighting.rst:294
 msgid "First cascade size. The default value is 10.0."
 msgstr "Размер первого каскада. Значение по умолчанию: 10.0."
 
-#: ../lighting.rst:295
+#: ../lighting.rst:297
 msgid "*CSM Last Cascade Border*"
 msgstr ""
 
-#: ../lighting.rst:295
+#: ../lighting.rst:297
 msgid "Last cascade size. The default value is 100.0."
 msgstr "Размер последнего каскада. Значение по умолчанию: 100.0."
 
-#: ../lighting.rst:297
+#: ../lighting.rst:299
 msgid ""
 "The sizes of the intermediate cascades are interpolated between the two "
 "above-mentioned parameters."
@@ -733,7 +741,7 @@ msgstr ""
 "Размеры промежуточных каскадов интерполируются на основе последних двух "
 "параметров."
 
-#: ../lighting.rst:301
+#: ../lighting.rst:303
 msgid ""
 "When setting up the shadows keep in mind that the bigger the cascade size"
 " is, the worse and less detailed are the shadows inside it. On the other "
@@ -752,11 +760,11 @@ msgstr ""
 "близком расстоянии от камеры. Однако, при использовании мягких теней "
 "качество в целом улучшится благодаря размытию на границах."
 
-#: ../lighting.rst:310
+#: ../lighting.rst:312
 msgid "*CSM First Cascade Blur Radius*"
 msgstr ""
 
-#: ../lighting.rst:310
+#: ../lighting.rst:312
 msgid ""
 "Blur ratio for the first cascade. The default value is 3. Zero value "
 "produces hard shadows."
@@ -764,11 +772,11 @@ msgstr ""
 "Коэффициент размытия на первом каскаде. Значение по умолчанию: 3. "
 "Коэффициент 0 даст жесткие тени."
 
-#: ../lighting.rst:313
+#: ../lighting.rst:315
 msgid "*CSM Last Cascade Blur Radius*"
 msgstr ""
 
-#: ../lighting.rst:313
+#: ../lighting.rst:315
 msgid ""
 "Blur ratio for the last cascade. The default value is 1.5. Zero value "
 "produces hard shadows."
@@ -776,7 +784,7 @@ msgstr ""
 "Коэффициент размытия на последнем каскаде. Значение по умолчанию: 1.5. "
 "Коэффициент 0 даст жесткие тени."
 
-#: ../lighting.rst:315
+#: ../lighting.rst:317
 msgid ""
 "The blur radii of the intermediate cascades are interpolated between the "
 "two above-mentioned parameters."
@@ -784,7 +792,7 @@ msgstr ""
 "Радиус размытия каждого промежуточного каскада интерполируется на основе "
 "этих параметров."
 
-#: ../lighting.rst:319
+#: ../lighting.rst:321
 msgid ""
 "We recommend to start setting up the softened shadows with the first "
 "cascade (using ``CSM First Cascade Blur Radius``) and then proceed to "
@@ -801,31 +809,31 @@ msgstr ""
 "низкой детализации, к тому же это уменьшит нежелательные артефакты "
 "самозатенения."
 
-#: ../lighting.rst:323
+#: ../lighting.rst:325
 msgid "*Fade-out Last Cascade*"
 msgstr ""
 
-#: ../lighting.rst:323
+#: ../lighting.rst:325
 msgid "Smooth dying-out of the last cascade. Enabled by default."
 msgstr "Плавное исчезновение последнего каскада. По умолчанию включено."
 
-#: ../lighting.rst:326
+#: ../lighting.rst:328
 msgid "*Blend Between Cascades*"
 msgstr ""
 
-#: ../lighting.rst:326
+#: ../lighting.rst:328
 msgid "Smoothing the boundaries between the cascades. Enabled by default."
 msgstr "Сглаживание границ между каскадами. По умолчанию включено."
 
-#: ../lighting.rst:337
+#: ../lighting.rst:339
 msgid "Background"
 msgstr "Цвет фона"
 
-#: ../lighting.rst:339
+#: ../lighting.rst:341
 msgid "You can change the background in the following ways:"
 msgstr "Цвет фона можно задать несколькими способами:"
 
-#: ../lighting.rst:341
+#: ../lighting.rst:343
 msgid ""
 "Enable ``World > Render Sky``, then set the ``Horizon Color`` and the "
 "``Zenith Color`` under Blender's ``World`` tab."
@@ -834,7 +842,7 @@ msgstr ""
 "``World`` в Blender, предварительно выставив опцию ``World > Render "
 "Sky``."
 
-#: ../lighting.rst:343
+#: ../lighting.rst:345
 msgid ""
 "Place the whole scene inside a model (e.g. a cube or a sphere) with its "
 "normals directed inside, with a material and an optional texture."
@@ -842,7 +850,7 @@ msgstr ""
 "Поместить сцену внутрь модели (например, куба или сферы) с направленными "
 "внутрь нормалями, с материалом и опциональной текстурой."
 
-#: ../lighting.rst:345
+#: ../lighting.rst:347
 msgid ""
 "Place a surface with a material and an optional texture in front of the "
 "camera. Parent it to the camera. If required, tweak the distance to this "
@@ -853,15 +861,15 @@ msgstr ""
 "необходимости настроить расстояние до поверхности, переднюю и заднюю "
 "плоскости отсечения камеры."
 
-#: ../lighting.rst:351
+#: ../lighting.rst:353
 msgid "Use a :ref:`skydome <skydome_texture>`."
 msgstr "Использовать :ref:`текстуру неба <skydome_texture>`."
 
-#: ../lighting.rst:353
+#: ../lighting.rst:355
 msgid "Set up the procedurally generated :ref:`atmosphere <atmosphere>`."
 msgstr "Настроить динамически генерируемую :ref:`атмосферу <atmosphere>`."
 
-#: ../lighting.rst:355
+#: ../lighting.rst:357
 msgid ""
 "Set the engine's ``background_color`` parameter with the ``config.set()``"
 " method. Please note, that ``World > Render Sky`` under Blender's "
@@ -878,7 +886,7 @@ msgstr ""
 "WebGL (параметр ``alpha``). Такая конфигурация используется по умолчанию "
 "в стандартном веб-плеере движка."
 
-#: ../lighting.rst:368
+#: ../lighting.rst:370
 msgid ""
 "You can use any HTML content behind the *canvas* element, to which the "
 "rendering is performed, as a background. To do this, activate the WebGL "
@@ -897,7 +905,7 @@ msgstr ""
 "конфигурация используется по умолчанию в стандартном :ref:`просмотрщике "
 "сцен <viewer>` SDK движка."
 
-#: ../lighting.rst:381
+#: ../lighting.rst:383
 msgid ":ref:`alpha_compositing`"
 msgstr ""
 
@@ -917,7 +925,7 @@ msgstr "типы"
 msgid "light sources"
 msgstr "источники света"
 
-#: ../lighting.rst:334
+#: ../lighting.rst:336
 msgid "background"
 msgstr "цвет фона"
 

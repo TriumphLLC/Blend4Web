@@ -50,7 +50,7 @@ Scenes for Blend4Web are created in the same manner as the scenes for Blender it
 
 It should be noted that not every project may require all of these stages. More simple scene might not feature any animations or even any materials aside from the default ones.
 
-The order of the stages is also not strict and can be interchaged to a certain degree (for example, you won't probably animate an object before creating it, but you can create a material for it beforehand).
+The order of the stages is also not strict and can be interchanged to a certain degree (for example, you won't probably animate an object before creating it, but you can create a material for it beforehand).
 
 Besides the usual stages such as modeling, texturing, animation etc a scene
 should be prepared for working in the engine.
@@ -150,7 +150,7 @@ The deployed project has a form of an archive that contains all project files. T
 
 A complete project can be placed on a web server.
 
-To do it, extract the project files from the archive dowloanded from the Project Manager and upload them to your web server (while retaining inner file structure) by means of FTP, SSH or any other file transfer protocol suppored by the server. After doing this, you only need to place the project on a web page using, for example, an ``iframe`` container.
+To do it, extract the project files from the archive downloaded from the Project Manager and upload them to your web server (while retaining inner file structure) by means of FTP, SSH or any other file transfer protocol supported by the server. After doing this, you only need to place the project on a web page using, for example, an ``iframe`` container.
 
 Deploying project to web server is described in a :ref:`dedicated section <project_deploy>` of the :ref:`Project Manager <project_manager>` chapter.
 

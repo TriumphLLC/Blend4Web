@@ -488,7 +488,7 @@ exports.move_camera_to_point = function(cam_obj, point_obj, cam_lin_speed, cam_a
 /**
  * Smoothly rotate the camera. Intended for non-STATIC cameras.
  * @param {Object3D} cam_obj Camera object 3D
- * @param {number} angle_phi Horisontal rotation angle
+ * @param {number} angle_phi Horizontal rotation angle
  * @param {number} angle_theta Vertical rotation angle
  * @param {number} [time=1000] Rotation time in ms
  * @param {RotateCameraCallback} [cb] Finishing callback

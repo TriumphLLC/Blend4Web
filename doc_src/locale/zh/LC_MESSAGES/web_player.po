@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2017-02-21 14:02+0300\n"
-"PO-Revision-Date: 2016-10-07 15:25+0800\n"
-"Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
+"POT-Creation-Date: 2017-04-20 16:04+0300\n"
+"PO-Revision-Date: 2017-02-24 23:07+0800\n"
+"Last-Translator: kidux <yuzukyo@gmail.com>\n"
 "Language-Team: Chinese <info [at] blend4web.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -189,17 +189,24 @@ msgstr ""
 
 #: ../web_player.rst:98
 msgid ""
+"the ``compressed_gzip`` optional parameter is used to enable loading of "
+"GZIP compressed resources such as \".json.gz\", \".bin.gz\", \".dds.gz\" "
+"and \".pvr.gz\"."
+msgstr ""
+
+#: ../web_player.rst:99
+msgid ""
 "optional ``alpha`` parameter is used to enable transparency for the "
 "rendering area."
 msgstr "可选 ``alpha`` 参数用于启用对描画区域的透明度。"
 
-#: ../web_player.rst:99
+#: ../web_player.rst:100
 msgid ""
 "the optional ``no_social`` attribute is used to disable social networks "
 "buttons on the control panel."
 msgstr "可选的 ``no_social`` 属性用于在控制面板上禁用社交网络按钮。 "
 
-#: ../web_player.rst:100
+#: ../web_player.rst:101
 msgid ""
 "the optional ``socials`` attribute is used to selectively enable and "
 "disable social network buttons on the control panel. This attribute "
@@ -213,7 +220,7 @@ msgstr ""
 "``<...>`` 是一组与您要启用的社交网络按钮字母（ ``f`` 为Facebook ``v`` 为VK，``t`` "
 "是Twitter的，``w`` 是微博和 ``g`` 是Google ）。字母顺序设置定义了按钮将出现在屏幕上的顺序。"
 
-#: ../web_player.rst:104
+#: ../web_player.rst:105
 msgid ""
 "If both ``fallback_image`` and ``fallback_video`` parameters are "
 "specified, the ``fallback_image`` parameter is used."
@@ -221,11 +228,11 @@ msgstr ""
 "如果同时 ``fallback_image`` 和 ``fallback_video`` 参数指定 ``fallback_image`` "
 "参数被使用。"
 
-#: ../web_player.rst:109
+#: ../web_player.rst:110
 msgid "Scene Name as Title"
 msgstr "场景名称为标题"
 
-#: ../web_player.rst:111
+#: ../web_player.rst:112
 msgid ""
 "By default the Web Player has the ``Blend4Web Web Player`` title. "
 "Assigning the meta tag ``title`` on the scene in Blender you can change "
@@ -234,33 +241,31 @@ msgstr ""
 "默认情况下，网络播放器具有 ``Blend4Web Web Player`` 称号。在Blender的场景中分配的meta标签 ``title``"
 " ，您可以更改该值为别的东西。"
 
-#: ../web_player.rst:118
+#: ../web_player.rst:119
 msgid "Scene Errors"
 msgstr "场景错误"
 
-#: ../web_player.rst:120
+#: ../web_player.rst:121
 msgid "If the player is used incorrectly it displays the corresponding errors."
 msgstr "如果播放器使用不当，它会显示相应的错误。"
 
-#: ../web_player.rst:123
-#, fuzzy
+#: ../web_player.rst:124
 msgid ""
 "The ``load`` :ref:`attribute <webplayer_attributes>` specifies a wrong "
 "path to the JSON file or the file is corrupt."
-msgstr "在 ``load`` 属性指定一个错误的路径JSON文件或文件已损坏;"
+msgstr "``load`` :ref:`属性 <webplayer_attributes>` 指定了一个错误的路径指向JSON文件或文件已损坏;"
 
-#: ../web_player.rst:131
-#, fuzzy
+#: ../web_player.rst:132
 msgid ""
 "The ``load`` :ref:`attribute <webplayer_attributes>` is not found or is "
 "void."
-msgstr "在 ``load`` 属性未找到或无效的;"
+msgstr "``load`` :ref:`属性 <webplayer_attributes>` 未找到或无效的;"
 
-#: ../web_player.rst:139
+#: ../web_player.rst:140
 msgid ""
 "WebGL initialization error. Please, look at :ref:`this page "
 "<renderer_not_working>` for the solution."
-msgstr ""
+msgstr "WebGL的初始化错误。请查看 :ref:`这一页 <renderer_not_working>` 找到解决方法。"
 
 #: ../web_player.rst:1
 msgid "web player"

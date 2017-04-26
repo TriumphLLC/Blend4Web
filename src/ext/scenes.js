@@ -49,7 +49,7 @@ var m_util     = require("__util");
  * Color correction params.
  * @typedef {Object} ColorCorrectionParams
  * @property {number} [brightness] Brightness
- * @property {number} [contrast] Constrast
+ * @property {number} [contrast] Contrast
  * @property {number} [exposure] Exposure
  * @property {number} [saturation] Saturation
  * @cc_externs brightness contrast exposure saturation
@@ -76,10 +76,12 @@ var m_util     = require("__util");
 /**
  * Bloom params.
  * @typedef {Object} BloomParams
- * @property {boolean} key Strength of bloom effect
- * @property {boolean} edge_lum Bloom edge relative luminance. Bloom is visible above this value.
- * @property {boolean} blur The amount of blur applied to bloom effect.
- * @cc_externs key edge_lum blur
+ * @property {number} key Strength of bloom effect
+ * @property {number} edge_lum Luminance threshold above which bloom is visible.
+ * @property {number} blur The amount of blur applied to bloom effect.
+ * @property {number} average_luminance The average luminance of the frame. Has influence only when
+ * the adaptive bloom is disabled.
+ * @cc_externs key edge_lum blur adaptive average_luminance
  */
 
 /**
@@ -222,8 +224,8 @@ exports.get_scenes = function() {
  * Return the active camera object from the active scene.
  * @method module:scenes.get_active_camera
  * @returns {Object3D} Camera object.
- * @example 
- * var m_scenes = require("scenes");
+ * @example var m_scenes = require("scenes");
+ *
  * var camera = m_scenes.get_active_camera();
  */
 exports.get_active_camera = function() {
@@ -240,8 +242,8 @@ exports.get_active_camera = function() {
  * @param {string} name Object name
  * @param {number} [data_id=0] ID of loaded data
  * @returns {Object3D} Object 3D
- * @example 
- * var m_scenes = require("scenes");
+ * @example var m_scenes = require("scenes");
+ *
  * var cube = m_scenes.get_object_by_name("Cube");
  */
 exports.get_object_by_name = function(name, data_id) {
@@ -312,6 +314,7 @@ exports.get_world_by_name = function(name, data_id) {
  * @param {Object3D} obj Object 3D
  * @returns {number} data_id Data ID property
  * @example var m_scenes = require("scenes");
+ *
  * var cube = m_scenes.get_object_by_name("Cube");
  *
  * var data_id = m_scenes.get_object_data_id(cube);
@@ -373,6 +376,7 @@ function pick_center() {
  * @param {Object3D} obj Object 3D
  * @returns {boolean} Checking result.
  * @example var m_scenes = require("scenes");
+ *
  * var cube = m_scenes.get_object_by_name("Cube");
  *
  * var outlining_is_enabled = m_scenes.outlining_is_enabled(cube);
@@ -387,6 +391,7 @@ exports.outlining_is_enabled = function(obj) {
  * @param {Object3D} obj Object 3D
  * @param {number} value Intensity value
  * @example var m_scenes = require("scenes");
+ *
  * var cube = m_scenes.get_object_by_name("Cube");
  *
  * m_scenes.set_outline_intensity(cube, 0.4);
@@ -404,6 +409,7 @@ exports.set_outline_intensity = function(obj, value) {
  * @param {Object3D} obj Object 3D
  * @returns {number} Intensity value
  * @example var m_scenes = require("scenes");
+ *
  * var cube = m_scenes.get_object_by_name("Cube");
  *
  * var outline_intensity = m_scenes.get_outline_intensity(cube);
@@ -425,6 +431,7 @@ exports.get_outline_intensity = function(obj) {
  * @param {number} T Period of outlining
  * @param {number} N Number of relapses (0 - infinity)
  * @example var m_scenes = require("scenes");
+ *
  * var cube = m_scenes.get_object_by_name("Cube");
  *
  * m_scenes.apply_outline_anim(cube, 10, 5, 0);
@@ -441,6 +448,7 @@ exports.apply_outline_anim = function(obj, tau, T, N) {
  * @method module:scenes.apply_outline_anim_def
  * @param {Object3D} obj Object 3D
  * @example var m_scenes = require("scenes");
+ *
  * var cube = m_scenes.get_object_by_name("Cube");
  *
  * m_scenes.apply_outline_anim_def(cube);
@@ -459,6 +467,7 @@ exports.apply_outline_anim_def = function(obj) {
  * @method module:scenes.clear_outline_anim
  * @param {Object3D} obj Object 3D
  * @example var m_scenes = require("scenes");
+ *
  * var cube = m_scenes.get_object_by_name("Cube");
  *
  * m_scenes.clear_outline_anim(cube);
@@ -486,6 +495,7 @@ exports.set_outline_color = m_scenes.set_outline_color;
  * @param {?RGB} dest Destination RGB color vector
  * @returns {RGB} Destination RGB color vector
  * @example var m_scenes = require("scenes");
+ *
  * var outline_color = new Float32Array(3);
  *
  * m_scenes.get_outline_color(outline_color);
@@ -746,8 +756,8 @@ exports.set_environment_colors = function(opt_environment_energy,
 /**
  * Get fog color and density.
  * @method module:scenes.get_fog_color_density
- * @param {Vec4} dest Destnation vector [C,C,C,D]
- * @returns {Vec4} Destnation vector
+ * @param {Vec4} dest Destination vector [C,C,C,D]
+ * @returns {Vec4} Destination vector
  * @example var m_scenes = require("scenes");
  *
  * var fog_density = new Float32Array(4);
@@ -783,7 +793,7 @@ exports.set_fog_color_density = function(val) {
  * Get fog params
  * @method module:scenes.get_fog_params
  * @returns {FogParams} Fog params
- * @cc_externs fog_inensity fog_inensity fog inensity
+ * @cc_externs fog_intensity fog_intensity fog intensity
  * @cc_externs fog_depth fog_depth fog_depth
  * @cc_externs fog_start fog_start fog start
  * @cc_externs fog_height fog_height fog height
@@ -883,7 +893,7 @@ exports.set_ssao_params = function(ssao_params) {
         return 0;
     }
 
-    for (var i = 0; i < subscenes; i++)
+    for (var i = 0; i < subscenes.length; i++)
         set_params_ssao_subs(subscenes[i], subscenes_blur[i], ssao_params);
 }
 
@@ -1121,8 +1131,8 @@ exports.set_sky_params = function(sky_params) {
  * Get depth-of-field (DOF) params.
  * @method module:scenes.get_dof_params
  * @returns {DOFParams} The object containing DOF parameters.
- * @example
- * var m_scenes = require("scenes");
+ * @example var m_scenes = require("scenes");
+ *
  * var dof_params = m_scenes.get_dof_params();
  */
 exports.get_dof_params = function() {
@@ -1398,8 +1408,7 @@ exports.update_scene_materials_params = function() {
  */
 exports.hide_object = function(obj, ignore_children) {
     ignore_children = ignore_children || false;
-    if ((m_obj_util.is_mesh(obj) || m_obj_util.is_empty(obj))
-            && !m_obj_util.is_dynamic(obj))
+    if (!is_hideable(obj))
         m_print.error("show/hide is only supported for dynamic objects.");
     else
         if (ignore_children)
@@ -1414,14 +1423,14 @@ exports.hide_object = function(obj, ignore_children) {
  * @param {Object3D} obj Object 3D
  * @param {boolean} [ignore_children=false] Don't show child objects.
  * @example var m_scenes = require("scenes");
+ *
  * var cube = m_scenes.get_object_by_name("Cube");
  *
  * m_scenes.show_object(cube);
  */
 exports.show_object = function(obj, ignore_children) {
     ignore_children = ignore_children || false;
-    if ((m_obj_util.is_mesh(obj) || m_obj_util.is_empty(obj))
-            && !m_obj_util.is_dynamic(obj))
+    if (!is_hideable(obj))
         m_print.error("show/hide is only supported for dynamic objects.");
     else
         if (ignore_children)
@@ -1436,18 +1445,23 @@ exports.show_object = function(obj, ignore_children) {
  * @param {Object3D} obj Object 3D
  * @returns {boolean} Check result
  * @example var m_scenes = require("scenes");
+ *
  * var cube = m_scenes.get_object_by_name("Cube");
  *
  * var object_is_hidden = m_scenes.is_hidden(cube);
  */
 exports.is_hidden = function(obj) {
-    if (m_obj_util.is_dynamic_mesh(obj) || m_obj_util.is_empty(obj)
-            || m_obj_util.is_lamp(obj)) {
+    if (is_hideable(obj)) {
         return m_scenes.is_hidden(obj);
     } else {
         m_print.error("show/hide is only supported for dynamic meshes/empties and lamps");
         return false;
     }
+}
+
+function is_hideable(obj) {
+    return m_obj_util.is_dynamic_mesh(obj) || m_obj_util.is_empty(obj)
+            || m_obj_util.is_line(obj) || m_obj_util.is_lamp(obj)
 }
 
 /**
@@ -1456,6 +1470,7 @@ exports.is_hidden = function(obj) {
  * @param {Object3D} obj Object 3D
  * @returns {boolean} Check result
  * @example var m_scenes = require("scenes");
+ *
  * var cube = m_scenes.get_object_by_name("Cube");
  *
  * var object_is_visible = m_scenes.is_visible(cube);
@@ -1549,6 +1564,7 @@ exports.get_all_objects = function(type, data_id) {
  * @param {Object3D} obj Object 3D
  * @returns {string} Object name
  * @example var m_scenes = require("scenes");
+ *
  * var cube = m_scenes.get_object_by_name("Cube");
  * 
  * var object_name = m_scenes.get_object_name(cube);
@@ -1567,6 +1583,7 @@ exports.get_object_name = function(obj) {
  * @param {Object3D} obj Object 3D
  * @returns {?Array} Object names hierarchy array (from the highest parent to the object itself).
  * @example var m_scenes = require("scenes");
+ *
  * var cube = m_scenes.get_object_by_name("Cube");
  *
  * var name_hierarchy = m_scenes.get_object_name_hierarchy(cube);
@@ -1592,6 +1609,7 @@ exports.get_object_name_hierarchy = function(obj) {
  * @param {Object3D} obj Object 3D
  * @returns {string} Object type
  * @example var m_scenes = require("scenes");
+ *
  * var cube = m_scenes.get_object_by_name("Cube");
  *
  * var object_type = m_scenes.get_object_type(cube);
@@ -1611,6 +1629,7 @@ exports.get_object_type = function(obj) {
  * @param {Object3D} obj Object 3D
  * @returns {Object3D[]} Array of children objects.
  * @example var m_scenes = require("scenes");
+ *
  * var cube = m_scenes.get_object_by_name("Cube");
  *
  * var object_children = m_scenes.get_object_children(cube);
@@ -1722,11 +1741,6 @@ exports.get_custom_prop = function() {
  */
 exports.append_object = function(obj, scene_name) {
 
-    if (!obj.render.is_copied) {
-        m_print.error("object \"" + obj.name + "\" has been created not by coping.");
-        return;
-    }
-
     if (scene_name) {
         var scenes = m_scenes.get_all_scenes();
         var scene = m_util.keysearch("name", scene_name, scenes);
@@ -1741,13 +1755,14 @@ exports.append_object = function(obj, scene_name) {
  * @method module:scenes.remove_object
  * @param {Object3D} obj Object 3D
  * @example var m_scenes = require("scenes");
+ *
  * var cube = m_scenes.get_object_by_name("Cube");
  *
  * m_scenes.remove_object(cube);
  */
 exports.remove_object = function(obj) {
-    if (!m_obj_util.is_mesh(obj) && !m_obj_util.is_empty(obj)
-            || !m_obj_util.is_dynamic(obj)) {
+    if (!m_obj_util.is_dynamic_mesh(obj) && !m_obj_util.is_empty(obj) &&
+            !m_obj_util.is_line(obj)) {
         m_print.error("Can't remove object \"" + obj.name + "\". It must be " +
                 "dynamic and type of MESH or EMPTY.");
         return;

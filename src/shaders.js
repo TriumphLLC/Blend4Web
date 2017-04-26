@@ -72,6 +72,7 @@ var SHADERS = ["anchors.glslf",
     "tex_skybox.glslf",
     "debug_view.glslf",
     "debug_view.glslv",
+    "node_skybox.glslf",
 
     "postprocessing/antialiasing.glslf",
     "postprocessing/bloom_combine.glslf",
@@ -80,14 +81,12 @@ var SHADERS = ["anchors.glslf",
     "postprocessing/depth_pack.glslf",
     "postprocessing/dof.glslf",
     "postprocessing/glow.glslf",
-    "postprocessing/bloom_blur.glslf",
     "postprocessing/god_rays.glslf",
     "postprocessing/god_rays.glslv",
     "postprocessing/god_rays_combine.glslf",
     "postprocessing/luminance.glslf",
     "postprocessing/luminance_av.glslf",
-    "postprocessing/luminance_trunced.glslf",
-    "postprocessing/luminance_trunced.glslv",
+    "postprocessing/luminance_truncated.glslf",
     "postprocessing/motion_blur.glslf",
     "postprocessing/outline.glslf",
     "postprocessing/performance.glslf",
@@ -103,6 +102,7 @@ var SHADERS = ["anchors.glslf",
     "include/blending.glslf",
     "include/caustics.glslf",
     "include/color_util.glslf",
+    "include/coverage.glslf",
     "include/depth_fetch.glslf",
     "include/dynamic_grass.glslv",
     "include/environment.glslf",
@@ -152,6 +152,7 @@ var SAMPLER_EXPR = /(?:^|[^a-zA-Z_])uniform.*?(sampler2D|samplerCube)(?=\s)(.*?\
 var UNIFORM_EXPR = /(?:^|[^a-zA-Z_])(uniform)(?=\s)\s*(float|vec2|vec3|vec4|ivec2|ivec3|ivec4|bvec2|bvec3|bvec4|mat2|mat3|mat4|sampler2D|samplerCube)\s*(.*?\[\s*([0-9]*)\s*\])?/;
 var IN_EXPR = /(?:^|[^a-zA-Z_])(in)(?=\s)\s*(float|vec2|vec3|vec4|mat2|mat3|mat4)\s*(.*?\[\s*([0-9]*)\s*\])?/;
 var VARYING_EXPR = /(?:^|[^a-zA-Z_])(varying)(?=\s)\s*(float|vec2|vec3|vec4|mat2|mat3|mat4)\s*(.*?\[\s*([0-9]*)\s*\])?/;
+var DISCARD_EXPR = /(?:\W|^)discard(\W|$)/;
 
 // 15 === 1 << 0 | 1 << 1 | 1 << 2 | 1 << 3
 var FILLED_ROW_FLAGS = 15;
@@ -761,7 +762,7 @@ exports.load_shaders = function() {
             shader_assets.push({id:SHADERS[i], type:asset_type, url:shader_path});
         }
 
-        var asset_cb = function(shader_text, shader_name, type, path) {
+        var asset_cb = function(shader_text, shader_name, type, url) {
             set_shader_texts(shader_name, shader_text);
         }
 
@@ -823,7 +824,7 @@ function combine_dir_tokens(type, shaders_info) {
         dirs["GLSL_TEXTURE_PROJ"] = ["texture2DProj"];
     }
 
-    if (cfg_def.compared_mode_depth)
+    if (cfg_def.compared_mode_depth && !cfg_def.rgba_fallback_shadows)
         dirs["GLSL_SMPLR2D_SHDW"] = ["sampler2DShadow"];
     else
         dirs["GLSL_SMPLR2D_SHDW"] = ["sampler2D"];
@@ -1606,6 +1607,9 @@ function init_shader(gl, vshader_text, fshader_text,
         shaders_info: m_util.clone_object_json(shaders_info),
 
         shader_id: shader_id,
+
+        has_discard: check_frag_discard(fshader_text),
+
         cleanup_gl_data_on_unload: true
     };
 
@@ -1627,6 +1631,10 @@ function init_shader(gl, vshader_text, fshader_text,
     }
 
     return compiled_shader;
+}
+
+function check_frag_discard(fshader_text) {
+    return Boolean(fshader_text.match(DISCARD_EXPR));
 }
 
 exports.debug_get_compilation_stats = function() {

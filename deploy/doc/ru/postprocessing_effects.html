@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Спецэффекты &mdash; Руководство пользователя Blend4Web 17.02.1</title>
+  <title>Спецэффекты &mdash; Руководство пользователя Blend4Web 17.04</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 17.02.1" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 17.04" href="index.html"/>
         <link rel="next" title="Стереоизображение" href="stereo_rendering.html"/>
         <link rel="prev" title="Освещение, тени и фон" href="lighting.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v17.02.1
+              v17.04
             </div>
           
         
@@ -266,7 +266,7 @@
 <dd><p class="first last">Задаёт объект, на котором фокусируется камера. Это поле пусто по умолчанию.</p>
 </dd>
 <dt><em>Distance</em></dt>
-<dd><p class="first last">Задаёт фокусное расстояние. Этот параметр доступен только в том случае, если не установлен параметр <code class="docutils literal"><span class="pre">Focus</span></code> (соответствующее поле пусто). По умолчанию фокусное расстояние равно нулю.</p>
+<dd><p class="first last">Задаёт расстояние фокусировки. Этот параметр доступен только в том случае, если не установлен параметр <code class="docutils literal"><span class="pre">Focus</span></code> (соответствующее поле пусто). По умолчанию расстояние до точки фокуса равно нулю.</p>
 </dd>
 <dt><em>Front Start</em></dt>
 <dd><p class="first">Задаёт расстояние (в метрах) от фокуса до ближней к камере плоскости, за которой начинает проявляться эффект размытия. Значение по умолчанию 1.0.</p>
@@ -324,10 +324,10 @@
 <dd><p class="first last">Использовать для расчёта затенения полусферический сэмплинг вместо сферического. Помимо этого используется другой закон затенения.</p>
 </dd>
 <dt><em>Use Blur Depth Test</em></dt>
-<dd><p class="first last">Если активировано - используется размытие SSAO на основе буфера глубины. Иначе - размытие по квадарту 4х4 по соседним пикселям.</p>
+<dd><p class="first last">Если активировано - используется размытие SSAO на основе буфера глубины. Иначе - размытие по квадрату 4х4 по соседним пикселям.</p>
 </dd>
 <dt><em>Blur Depth Test Discard Value</em></dt>
-<dd><p class="first last">Влияние разницы глубины сэмлов на их вес в размытии. Используется при активированном параметре <code class="docutils literal"><span class="pre">Use</span> <span class="pre">Blur</span> <span class="pre">Depth</span> <span class="pre">Test</span></code>. Значение по умолчанию 1.0.</p>
+<dd><p class="first last">Влияние разницы глубины сэмплов на их вес в размытии. Используется при активированном параметре <code class="docutils literal"><span class="pre">Use</span> <span class="pre">Blur</span> <span class="pre">Depth</span> <span class="pre">Test</span></code>. Значение по умолчанию 1.0.</p>
 </dd>
 <dt><em>Influence</em></dt>
 <dd><p class="first last">Степень проявленности эффекта взаимного затенения. Значение по умолчанию 0.7.</p>
@@ -375,14 +375,17 @@
 <div class="section" id="id12">
 <h3>Дополнительные настройки<a class="headerlink" href="#id12" title="Ссылка на этот заголовок">¶</a></h3>
 <dl class="docutils">
+<dt><em>Use Adaptive</em></dt>
+<dd><p class="first last">Включает расчёт адаптивной средней яркости. По умолчанию включено.</p>
+</dd>
 <dt><em>Intensity</em></dt>
-<dd><p class="first last">Интенсивность эффекта свечения.</p>
+<dd><p class="first last">Интенсивность засветки. По умолчанию равна 1.0.</p>
 </dd>
 <dt><em>Blur</em></dt>
-<dd><p class="first last">Степень размытия засветки.</p>
+<dd><p class="first last">Степень размытия засветки. По умолчанию равна 4.0.</p>
 </dd>
 <dt><em>Edge Luminance</em></dt>
-<dd><p class="first last">Граничное значение относительной яркости элемента, выше которого начинает проявляться эффект засветки.</p>
+<dd><p class="first last">Граничное значение относительной яркости элемента, выше которого начинает проявляться эффект засветки. По умолчанию равно 1.0.</p>
 </dd>
 </dl>
 </div>
@@ -472,7 +475,7 @@
 </div>
 <div class="section" id="id19">
 <h3>Дополнительные настройки<a class="headerlink" href="#id19" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Итоговые настройки сглаживания назначаются копмозицией выбора профиля качества антиалиасинга и выбора профиля работы движка. При выборе профиля работы движка действуют следующие настройки:</p>
+<p>Итоговые настройки сглаживания назначаются композицией выбора профиля качества антиалиасинга и выбора профиля работы движка. При выборе профиля работы движка действуют следующие настройки:</p>
 <blockquote>
 <div><ul class="simple">
 <li><p class="first"><em>низкое качество</em> - антиалиасинг отключен,</p>
@@ -504,8 +507,8 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2014-2016, Триумф.
-      Обновлено: 2017-03-07.
+        &copy; Copyright 2014-2017, Триумф.
+      Обновлено: 2017-04-26.
 
     </p>
   </div>
@@ -561,7 +564,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.02.1',
+            VERSION:'v17.04',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

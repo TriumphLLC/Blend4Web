@@ -81,17 +81,20 @@ Transparency
    :align: center
    :width: 100%
 
-.. index:: transparancy; types
+.. index:: transparency; types
 
 Types
 -----
 
 Transparency implementation type can be selected in the ``Transparency`` menu on the ``Properties > Material`` panel.
 
-The engine supports the following transparency implementation types (sorted in the ascending order by performance):
+The engine supports all of the transparency types (sorted in the ascending order by performance):
 
 *Alpha Sort*
     Transparent with a gradient. The engine sorts the triangles by camera distance in order to render overlapping transparent surfaces correctly. This operation is computationally expensive. It is recommended to use this feature for closed transparent geometry (bottle, car glass etc).
+
+*Alpha Anti-Aliasing*
+    Transparent with a gradient. This feature is implemented with the help of the Alpha to coverage technique. It's available only if MSAA is enabled (only on WebGL2-capable devices). The sorting of triangles is not performed. It is recommended to use this feature with a mask texture to visualize smaller details (tree leaves, grass).
 
 *Alpha Blend*
     Transparent with a gradient. The sorting of triangles is not performed. It is recommended to use this feature for unclosed transparent geometry (water surface, decals).
@@ -110,7 +113,7 @@ The engine supports the following transparency implementation types (sorted in t
    :width: 100%
 
 
-.. index:: transparancy; settings
+.. index:: transparency; settings
 
 Additional Settings
 -------------------

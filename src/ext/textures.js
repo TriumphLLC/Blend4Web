@@ -205,10 +205,10 @@ exports.change_image = function(obj, text_name, image_path, callback) {
         id: image_path,
         type: m_assets.AT_IMAGE_ELEMENT,
         url: image_path,
-        request: "GET"
+        request_method: "GET"
     };
 
-    var asset_cb = function(data, uri, type, filepath) {
+    var asset_cb = function(data, id, type, url) {
         if (data) {
             m_textures.change_image(obj, tex, text_name, data, image_path);
             callback(true);

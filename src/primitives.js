@@ -26,6 +26,7 @@ b4w.module["__primitives"] = function(exports, require) {
 
 var m_cfg   = require("__config");
 var m_geom  = require("__geometry");
+var m_tbn   = require("__tbn");
 var m_util  = require("__util");
 
 var cfg_def  = m_cfg.defaults;
@@ -61,7 +62,7 @@ function generate_grid(x_subdiv, y_subdiv, x_size, y_size) {
     var indices   = [];
     var positions = [];
     var texcoords = [];
-    var tbn_quats = [];
+    var tbn_count = x_subdiv * y_subdiv;
 
     var delta_x = (2 * x_size) / (x_subdiv - 1);
     var delta_y = (2 * y_size) / (y_subdiv - 1);
@@ -75,7 +76,7 @@ function generate_grid(x_subdiv, y_subdiv, x_size, y_size) {
             var y = -y_size + j * delta_y;
 
             positions.push(x, y, 0);
-            tbn_quats.push(0, 0, 0, 1);
+
             texcoords.push(i / (x_subdiv - 1), j / (y_subdiv -1));
 
             if (i && j) {
@@ -94,7 +95,7 @@ function generate_grid(x_subdiv, y_subdiv, x_size, y_size) {
     var va_frame = m_util.create_empty_va_frame();
 
     va_frame["a_position"] = new Float32Array(positions);
-    va_frame["a_tbn_quat"] = new Float32Array(tbn_quats);
+    va_frame["a_tbn"] = m_tbn.create(tbn_count);
 
     var submesh = m_geom.init_submesh("GRID_PLANE");
 
@@ -120,7 +121,7 @@ exports.generate_cascaded_grid = function(num_cascads, subdivs, detailed_dist) {
 
     var indices      = [];
     var positions    = [];
-    var tbn_quats    = [];
+    var tbn_count    = 0;
 
     var prev_x = 0;
     var prev_y = 0;
@@ -190,7 +191,7 @@ exports.generate_cascaded_grid = function(num_cascads, subdivs, detailed_dist) {
                             } else
                                 var cascad_step = delta_x;
                             positions.push(x, y, cascad_step);
-                            tbn_quats.push(0.707,0,0,0.707);
+                            tbn_count++;
                             last_added_ind++; 
                         }
                         indices_in_row.push(idx0);
@@ -327,15 +328,18 @@ exports.generate_cascaded_grid = function(num_cascads, subdivs, detailed_dist) {
                      idx0 + 1, idx0 + 3, idx0 + 7,
                      idx0 + 7, idx0 + 4, idx0 + 5,
                      idx0 + 6, idx0 + 4, idx0 + 7);
-        for (var i = 0; i < 8; i++)
-            tbn_quats.push(0.707,0,0,0.707);
+
+        tbn_count += 8;
     }
 
     // construct submesh
     var va_frame = m_util.create_empty_va_frame();
 
     va_frame["a_position"] = new Float32Array(positions);
-    va_frame["a_tbn_quat"] = new Float32Array(tbn_quats);
+    va_frame["a_tbn"] = m_tbn.create(tbn_count);
+
+    // CHECK: why should we do next line?
+    m_tbn.multiply_quat(va_frame["a_tbn"], [0.707, 0, 0, 0.707], va_frame["a_tbn"]);
 
     var submesh = m_geom.init_submesh("MULTIGRID_PLANE");
 
@@ -427,6 +431,8 @@ function generate_from_quads(verts) {
     var va_frame = m_util.create_empty_va_frame();
 
     va_frame["a_position"] = new Float32Array(positions);
+    // CHECK: probably there should be non-init tbn
+    va_frame["a_tbn"] = m_tbn.create(len / 4);
 
     var submesh = m_geom.init_submesh("FROM_QUADS");
 
@@ -629,7 +635,7 @@ exports.generate_uv_sphere = function(segments, rings, size, center,
     va_frame["a_position"] = positions;
 
     if (use_wireframe) {
-        va_frame["a_tbn_quat"] = [];
+        va_frame["a_tbn"] = m_tbn.create();
     } else {
 
         var shared_indices = m_geom.calc_shared_indices(indices, 
@@ -637,7 +643,7 @@ exports.generate_uv_sphere = function(segments, rings, size, center,
 
         var normals = m_geom.calc_normals(indices, positions, 
                 shared_indices);
-        va_frame["a_tbn_quat"] = m_util.gen_tbn_quats(normals);
+        va_frame["a_tbn"] = m_tbn.from_norm_tan(normals);
     }
 
     submesh.va_frames[0] = va_frame;

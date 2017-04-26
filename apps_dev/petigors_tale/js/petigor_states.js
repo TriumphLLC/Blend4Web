@@ -258,7 +258,6 @@ function find_path(instance) {
     } else
         instance.path_point_index = 1;
 
-    var n = path.length/3;
     instance.path = path;
 
     _gs.positions = path;

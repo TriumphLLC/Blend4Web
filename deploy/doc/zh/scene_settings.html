@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>场景设置 &mdash; Blend4Web 17.02.1 用户手册</title>
+  <title>场景设置 &mdash; Blend4Web 17.04 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.02.1 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 17.04 用户手册" href="index.html"/>
         <link rel="next" title="物体" href="objects.html"/>
         <link rel="prev" title="插件" href="addon.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v17.02.1
+              v17.04
             </div>
           
         
@@ -118,8 +118,8 @@
 <li class="toctree-l3"><a class="reference internal" href="#nla">NLA 片段</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#meta-tags">Meta标签</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#physics">物理</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#objects-clustering">物体聚类</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#objects-selection">选择物体</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#object-clustering-lod">Object Clustering &amp; LOD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#object-selection">Object Selection</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#anchors">锚</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#export-options">导出选项</a></li>
 </ul>
@@ -233,8 +233,8 @@
 <li><a class="reference internal" href="#nla" id="id26">NLA 片段</a></li>
 <li><a class="reference internal" href="#meta-tags" id="id27">Meta标签</a></li>
 <li><a class="reference internal" href="#physics" id="id28">物理</a></li>
-<li><a class="reference internal" href="#objects-clustering" id="id29">物体聚类</a></li>
-<li><a class="reference internal" href="#objects-selection" id="id30">选择物体</a></li>
+<li><a class="reference internal" href="#object-clustering-lod" id="id29">Object Clustering &amp; LOD</a></li>
+<li><a class="reference internal" href="#object-selection" id="id30">Object Selection</a></li>
 <li><a class="reference internal" href="#anchors" id="id31">锚</a></li>
 <li><a class="reference internal" href="#export-options" id="id32">导出选项</a></li>
 </ul>
@@ -318,7 +318,7 @@
 <a class="reference internal image-reference" href="_images/render_glow_materials.png"><img alt="_images/render_glow_materials.png" class="align-center" src="_images/render_glow_materials.png" style="width: 100%;" /></a>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
-<p class="last">For dynamically loaded objects, <code class="docutils literal"><span class="pre">AUTO</span></code> setting is interpreted as <code class="docutils literal"><span class="pre">OFF</span></code>, if no materials with glow are present in the scene. If you are using dynamic loading, you should set this parameter to <code class="docutils literal"><span class="pre">ON</span></code>.</p>
+<p class="last">为动态加载物体，<code class="docutils literal"><span class="pre">AUTO</span></code> 设置被解析为 <code class="docutils literal"><span class="pre">OFF</span></code>,当没有带辉光的材料在场景中时。如果使用的是动态加载，你应该将这个参数设置为  <code class="docutils literal"><span class="pre">ON</span></code>.</p>
 </div>
 </div>
 <div class="section" id="anti-aliasing">
@@ -477,7 +477,7 @@
 <dd><p class="first last">应用程序的说明。可以是一个简单的文本或文本文件的链接（如果 <code class="docutils literal"><span class="pre">Description</span> <span class="pre">Source</span></code> 参数设置为 <code class="docutils literal"><span class="pre">File</span></code> 值）。</p>
 </dd>
 <dt><em>说明源</em></dt>
-<dd><p class="first last">应用程序的说明的来源。说明可以从一个文件中加载，或直接在 <code class="docutils literal"><span class="pre">Description</span></code> 字段中写出。此参数可以有两个值，<code class="docutils literal"><span class="pre">Text</span></code> 和 <code class="docutils literal"><span class="pre">File</span></code>，它是默认设置为``Text``。</p>
+<dd><p class="first last">应用程序的说明的来源。说明可以从一个文件中加载，或直接在 <code class="docutils literal"><span class="pre">Description</span></code> 字段中写出。此参数可以有两个值，<code class="docutils literal"><span class="pre">Text</span></code> 和 <code class="docutils literal"><span class="pre">File</span></code>，它是默认设置为 <code class="docutils literal"><span class="pre">Text</span></code>。</p>
 </dd>
 </dl>
 </div>
@@ -491,21 +491,31 @@
 </dd>
 </dl>
 </div>
-<div class="section" id="objects-clustering">
-<span id="scene-batching"></span><h3><a class="toc-backref" href="#id29">物体聚类</a><a class="headerlink" href="#objects-clustering" title="永久链接至标题">¶</a></h3>
-<p>物体集群的设置。它可用于优化目的。</p>
+<div class="section" id="object-clustering-lod">
+<span id="scene-batching"></span><h3><a class="toc-backref" href="#id29">Object Clustering &amp; LOD</a><a class="headerlink" href="#object-clustering-lod" title="永久链接至标题">¶</a></h3>
+<p>Settings for object clustering and Levels Of Detail.</p>
 <a class="reference internal image-reference" href="_images/scene_object_clustering.png"><img alt="_images/scene_object_clustering.png" class="align-center" src="_images/scene_object_clustering.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>簇大小</em></dt>
-<dd><p class="first last">簇的用于批量（尺寸：米）的处理。如果该参数被设置为零，引擎将场景中所有物体合并。默认设置为零。</p>
-</dd>
+<dd>The size of the cluster used for batching (in meters). Can be used for optimization purposes. If this parameter is set to zero, the engine will try to combine all objects in the scene. Set to zero by default.</dd>
 <dt><em>LOD簇大小乘数</em></dt>
-<dd><p class="first last">该参数用于细分簇（基于每个物体指定的LOD距离）到较小的部分使得不同情况的层次细节切换不被引起注意。小簇的大小是由物体的LOD距离乘以这个参数的值定义。较高的值导致更大的簇，提高性能但使得过渡比较明显，而较低的值让转换不被引起注意但是以性能降低为代价。默认设置为0.5。</p>
+<dd>This parameter is used to subdivide clusters (based on LOD distance specified individually for each object) into smaller ones to make transitions between different levels of detail less noticeable. The size of that smaller clusters is defined by object LOD distance multiplied by the value of this parameter. Higher values lead to bigger clusters which increases performance but makes transition between LODs more noticeable, while lower values make said transitions less noticeable at the cost of decreased performance. Can be used for optimization purposes. Set to 0.5 by default.</dd>
+<dt><em>LOD Smooth Transitions</em></dt>
+<dd><p class="first">Defines what objects will use smooth transitions while switching their LOD levels. Has the following options:</p>
+<ul class="simple">
+<li>OFF - smooth transitions are disabled (fastest).</li>
+<li>NON-OPAQUE - use smooth transitions for objects with <code class="docutils literal"><span class="pre">Add</span></code>, <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Clip</span></code>, <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Blend</span></code>, <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Sort</span></code> and <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Anti-Aliasing</span></code> <a class="reference internal" href="materials.html#alpha-blend"><span>materials</span></a>.</li>
+<li>ALL - smooth transitions will be used for all objects (slowest).</li>
+</ul>
+<p class="last">Choosing the &#8220;ALL&#8221; value can noticeably decrease application performance, so use it with caution. Default value is &#8220;NON-OPAQUE&#8221;.</p>
 </dd>
 </dl>
+<p><em>Max LOD Hysteresis Interval</em></p>
+<blockquote>
+<div>The length of the interval (in meters) used for switching LOD levels. The half of this value is added/subtracted from the distance threshold in order to make two different thresholds for switching to the lower and to the higher LOD level. This should reduce LOD &#8220;popping&#8221; effect. Set to 4.0 by default.</div></blockquote>
 </div>
-<div class="section" id="objects-selection">
-<span id="scene-objects-selection"></span><h3><a class="toc-backref" href="#id30">选择物体</a><a class="headerlink" href="#objects-selection" title="永久链接至标题">¶</a></h3>
+<div class="section" id="object-selection">
+<span id="scene-objects-selection"></span><h3><a class="toc-backref" href="#id30">Object Selection</a><a class="headerlink" href="#object-selection" title="永久链接至标题">¶</a></h3>
 <p>物体选择设置。对象可以使用API​​函数来选择两种 <a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.pick_object">pick_object()</a> 并用 <a class="reference internal" href="logic_editor.html#logic-editor"><span>逻辑节点</span></a>。</p>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
@@ -676,8 +686,8 @@
 
   <div role="contentinfo">
     <p>
-        &copy; 版权所有 2014-2016, Triumph.
-      最后更新于 2017-03-07.
+        &copy; 版权所有 2014-2017, Triumph.
+      最后更新于 2017-04-26.
 
     </p>
   </div>
@@ -733,7 +743,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.02.1',
+            VERSION:'v17.04',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

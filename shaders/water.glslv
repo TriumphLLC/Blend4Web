@@ -57,7 +57,7 @@
 GLSL_IN vec3 a_position;
 
 #if !GENERATED_MESH && (!DYNAMIC || NUM_NORMALMAPS > 0)
-GLSL_IN vec4 a_tbn_quat;
+GLSL_IN vec4 a_tbn;
 #endif
 
 #if !GENERATED_MESH && (NUM_NORMALMAPS > 0 || FOAM)
@@ -303,7 +303,8 @@ void main(void) {
     float factor = clamp(0.8 - up_dot_norm, 0.0, 1.0);
     v_normal = mix(v_normal, UP_VECTOR, factor);
 #elif !GENERATED_MESH
-    v_normal = qrot(a_tbn_quat, vec3(0.0, 1.0, 0.0));
+    vec4 tbn_quat = get_tbn_quat(a_tbn);
+    v_normal = qrot(tbn_quat, vec3(0.0, 1.0, 0.0));
 #else
     v_normal = vec3(0.0, 0.0, 1.0);
 #endif // DYNAMIC
@@ -311,7 +312,8 @@ void main(void) {
 #if NUM_NORMALMAPS > 0
 # if !DYNAMIC
 #  if !GENERATED_MESH
-    vec3 tangent = qrot(a_tbn_quat, vec3(1.0, 0.0, 0.0));
+    // CHECK: should tangent be corrected?
+    vec3 tangent = qrot(tbn_quat, vec3(1.0, 0.0, 0.0));
 #  elif !DYNAMIC
     vec3 tangent = vec3(1.0, 0.0, 0.0);
 #  endif

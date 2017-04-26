@@ -99,8 +99,11 @@ exports.error_deprecated_arr = function(depr_func, new_func_arr) {
 }
 
 exports.error_deprecated_cfg = function(depr_cfg, new_cfg) {
-    error_once("Config option \"" + depr_cfg + "\" is deprecated, use \"" +
-            new_cfg + "\" instead.");
+    if (new_cfg === undefined)
+        error_once("Config option \"" + depr_cfg + "\" is deprecated.");
+    else
+        error_once("Config option \"" + depr_cfg + "\" is deprecated, use \"" +
+                new_cfg + "\" instead.");
 }
 
 exports.warn = function() {

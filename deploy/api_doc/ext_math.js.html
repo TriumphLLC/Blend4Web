@@ -29,7 +29,7 @@
             <pre class="prettyprint source linenums"><code>"use strict";
 
 /**
- * Auxillary math methods. For math methods operating on vectors, matrices or quaternions see the
+ * Auxiliary math methods. For math methods operating on vectors, matrices or quaternions see the
  * corresponding modules.
  * @module math
  * @local Plane
@@ -69,7 +69,7 @@ exports.create_pline_from_points = function(point1, point2) {
  * Get the parametric line.
  * @method module:math.create_pline_from_point_vec
  * @param {Vec3} point First point.
- * @param {Vec3} vec Directional vecor.
+ * @param {Vec3} vec Directional vector.
  * @returns {ParametricLine} Parametric line.
  */
 exports.create_pline_from_point_vec = function(point, vec) {
@@ -146,7 +146,318 @@ exports.calc_pline_point = m_math.calc_pline_point;
  * @param {Plane} plane Plane.
  * @returns {number} Distance.
  */
-exports.point_plane_dist = m_math.point_plane_dist;
+
+/**
+ * Interpolate value with no easing, no acceleration.
+ * @method module:math.linear_tween
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.linear_tween = m_math.linear_tween;
+/**
+ * Interpolate value with accelerating from zero velocity.
+ * @method module:math.ease_in_quad
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_in_quad = m_math.ease_in_quad;
+/**
+ * Interpolate value with decelerating to zero velocity.
+ * @method module:math.ease_out_quad
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_out_quad = m_math.ease_out_quad;
+/**
+ * Interpolate value with acceleration until halfway, then deceleration.
+ * @method module:math.ease_in_out_quad
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_in_out_quad = m_math.ease_in_out_quad;
+/**
+ * Interpolate value with accelerating from zero velocity.
+ * @method module:math.ease_in_cubic
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_in_cubic = m_math.ease_in_cubic;
+/**
+ * Interpolate value with decelerating to zero velocity.
+ * @method module:math.ease_out_cubic
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_out_cubic = m_math.ease_out_cubic;
+/**
+ * Interpolate value with acceleration until halfway, then deceleration.
+ * @method module:math.ease_in_out_cubic
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_in_out_cubic = m_math.ease_in_out_cubic;
+/**
+ * Interpolate value with accelerating from zero velocity.
+ * @method module:math.ease_in_quart
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_in_quart = m_math.ease_in_quart;
+/**
+ * Interpolate value with decelerating to zero velocity.
+ * @method module:math.ease_out_quart
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_out_quart = m_math.ease_out_quart;
+/**
+ * Interpolate value with acceleration until halfway, then deceleration.
+ * @method module:math.ease_in_out_quart
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_in_out_quart = m_math.ease_in_out_quart;
+/**
+ * Interpolate value with decelerating from zero velocity.
+ * @method module:math.ease_in_quint
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_in_quint = m_math.ease_in_quint;
+/**
+ * Interpolate value with decelerating to zero velocity.
+ * @method module:math.ease_out_quint
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_out_quint = m_math.ease_out_quint;
+/**
+ * Interpolate value with acceleration until halfway, then deceleration.
+ * @method module:math.ease_in_out_quint
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_in_out_quint = m_math.ease_in_out_quint;
+/**
+ * Interpolate value with decelerating from zero velocity.
+ * @method module:math.ease_in_sine
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_in_sine = m_math.ease_in_sine;
+/**
+ * Interpolate value with decelerating to zero velocity.
+ * @method module:math.ease_out_sine
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_out_sine = m_math.ease_out_sine;
+/**
+ * Interpolate value with acceleration until halfway, then decelerating.
+ * @method module:math.ease_in_out_sine
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_in_out_sine = m_math.ease_in_out_sine;
+/**
+ * Interpolate value with decelerating from zero velocity.
+ * @method module:math.ease_in_expo
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_in_expo = m_math.ease_in_expo;
+/**
+ * Interpolate value with decelerating to zero velocity.
+ * @method module:math.ease_out_expo
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_out_expo = m_math.ease_out_expo;
+/**
+ * Interpolate value with acceleration until halfway, then decelerating.
+ * @method module:math.ease_in_out_expo
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_in_out_expo = m_math.ease_in_out_expo;
+/**
+ * Interpolate value with decelerating from zero velocity.
+ * @method module:math.ease_in_circ
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_in_circ = m_math.ease_in_circ;
+/**
+ * Interpolate value with decelerating to zero velocity.
+ * @method module:math.ease_out_circ
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_out_circ = m_math.ease_out_circ;
+/**
+ * Interpolate value with acceleration until halfway, then deceleration.
+ * @method module:math.ease_in_out_circ
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_in_out_circ = m_math.ease_in_out_circ;
+/**
+ * Interpolate value with decelerating from zero velocity.
+ * @method module:math.ease_in_elastic
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_in_elastic = m_math.ease_in_elastic;
+/**
+ * Interpolate value with decelerating to zero velocity.
+ * @method module:math.ease_out_elastic
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_out_elastic = m_math.ease_out_elastic;
+/**
+ * Interpolate value with acceleration until halfway, then deceleration.
+ * @method module:math.ease_in_out_elastic
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_in_out_elastic = m_math.ease_in_out_elastic;
+/**
+ * Interpolate value with decelerating from zero velocity.
+ * @method module:math.ease_in_back
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_in_back = m_math.ease_in_back;
+/**
+ * Interpolate value with decelerating to zero velocity.
+ * @method module:math.ease_out_back
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_out_back = m_math.ease_out_back;
+/**
+ * Interpolate value with acceleration until halfway, then deceleration.
+ * @method module:math.ease_in_out_back
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_in_out_back = m_math.ease_in_out_back;
+/**
+ * Interpolate value with decelerating from zero velocity.
+ * @method module:math.ease_in_bounce
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_in_bounce = m_math.ease_in_bounce;
+/**
+ * Interpolate value with decelerating to zero velocity.
+ * @method module:math.ease_out_bounce
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_out_bounce = m_math.ease_out_bounce;
+/**
+ * Interpolate value with acceleration until halfway, then deceleration.
+ * @method module:math.ease_in_out_bounce
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_in_out_bounce = m_math.ease_in_out_bounce;
+
 }
 </code></pre>
         </article>
@@ -164,7 +475,7 @@ exports.point_plane_dist = m_math.point_plane_dist;
 <br class="clear">
 
 <footer>
-    Blend4Web API Reference (generated by JSDoc 3.4.0 on Tue Mar 07 2017 11:35:18 GMT+0300 (MSK))
+    Blend4Web API Reference (generated by JSDoc 3.4.0 on Wed Apr 26 2017 11:05:09 GMT+0300 (MSK))
     <a href="https://www.blend4web.com">www.blend4web.com</a>
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">

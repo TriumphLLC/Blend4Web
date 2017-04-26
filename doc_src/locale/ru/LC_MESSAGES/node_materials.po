@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2017-02-28 12:12+0300\n"
+"POT-Creation-Date: 2017-04-20 16:04+0300\n"
 "PO-Revision-Date: 2015-08-28 10:55+0300\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Russian <info [at] blend4web.com>\n"
@@ -287,7 +287,7 @@ msgstr ""
 
 #: ../node_materials.rst:109
 msgid "Outputs the result of the node program"
-msgstr "Выводит результат работы нодовго материала"
+msgstr "Выводит результат работы нодового материала"
 
 #: ../node_materials.rst:112
 msgid "Particle Info"
@@ -387,8 +387,8 @@ msgstr ""
 
 #: ../node_materials.rst:149
 msgid ""
-"Converts Vertor, Point or Normal between World, Camera and Object "
-"coordinte spaces"
+"Converts Vector, Point or Normal between World, Camera and Object "
+"coordinate spaces"
 msgstr ""
 "Преобразует векторы, точки и нормали между пространствами координат мира,"
 " камеры и объекта."
@@ -711,7 +711,7 @@ msgstr ""
 
 #: ../node_materials.rst:327
 msgid "Value of perturbation strength."
-msgstr "Коэффицент возмущения (сдвига) текстуры сцены позади объекта."
+msgstr "Коэффициент возмущения (сдвига) текстуры сцены позади объекта."
 
 #: ../node_materials.rst:329
 msgid "The default value is 0.001."
@@ -909,7 +909,7 @@ msgid ""
 "the light source. It describes the color richness effect for the "
 "translucent areas."
 msgstr ""
-"Коэффицент коррекции цвета материала на обратной от источника света "
+"Коэффициент коррекции цвета материала на обратной от источника света "
 "стороне. Основан на визуальном эффекте большей насыщенности цвета при "
 "просвечивании."
 
@@ -1046,7 +1046,7 @@ msgstr "Ноды Сycles"
 #: ../node_materials.rst:518
 msgid ""
 "Cycles node support is an experimental feature that is not yet "
-"recommended for using in production enviroment."
+"recommended for using in production environment."
 msgstr ""
 "Поддержка нод Cycles - экспериментальная возможность, которая на данный "
 "момент не рекомендуется к использованию при разработке серьёзных "
@@ -1120,7 +1120,7 @@ msgstr ""
 
 #: ../node_materials.rst:546
 msgid "The following nodes are partially supported:"
-msgstr "Следующие ноды поддеживаются частично:"
+msgstr "Следующие ноды поддерживаются частично:"
 
 #: ../node_materials.rst:548
 msgid "``Texture Coordinates`` (``From Dupli`` parameter is not supported);"

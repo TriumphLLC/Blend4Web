@@ -248,6 +248,30 @@ exports.set_rotation_rel_v = function(obj, quat) {
     } else
         m_print.error("Wrong object: \"" + obj.name + "\" is not dynamic.");
 }
+/**
+ * Get the object's rotation in vector form
+ * (in the coordinate space of its parent).
+ * @method module:transform.set_rotation_rel_v
+ * @param {Object3D} obj Object 3D
+ * @param {Quat} quat Quaternion vector
+ * @returns {Quat} Destination vector
+ * @example 
+ * var m_scenes = require("scenes");
+ * var m_trans = require("transform");
+ * var m_quat  = require("quat");
+ * // precache quaternion
+ * var _quat_tmp = m_quat.create();
+ * // ...
+ * var cube = m_scenes.get_object_by_name("Cube");
+ * var rot_quat = m_trans.get_rotation_rel_v(cube, _quat_tmp);
+ */
+exports.get_rotation_rel_v = function(obj, quat) {
+    if (m_obj_util.is_dynamic(obj)) {
+        m_trans.get_rotation_rel(obj, quat);
+        return quat;
+    } else
+        m_print.error("Wrong object: \"" + obj.name + "\" is not dynamic.");
+}
 
 /**
  * Get the object's rotation quaternion.

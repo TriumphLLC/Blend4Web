@@ -107,7 +107,7 @@ Output Parameters
     This parameter will pass the control to the next node if the user selects (with a mouse or by touch) an object mentioned in the parameter’s name. The ``Switch Select`` node has one such parameter by default, but you can add new ones and remove existing ones (the node can even have no such parameters).
 
 *Miss*
-    This parameter will pass the control to the next node if the user hasn’t selected any of the objects specified in the ``Switch Select`` node.
+    This parameter will pass the control to the next node when the user selects any object with the ``Selectable`` property enabled (or used by another ``Switch Select`` node), but not specified in the ``Switch Select`` node.
 
 Internal Parameters
 ...................
@@ -176,18 +176,21 @@ Internal Parameters
 *Condition*
     Logical condition. Can have one of the following types:
 
-    * *Equal* - first operand is equal to the second.
-    * *Not Equal* - first operand is not equal to the second.
-    * *Less Than* - first operand is less than the second.
-    * *Greater Than* - first operand is greater than the second.
-    * *Less Than Or Equal* - first operand is less than or equal to the second.
-    * *Greater Than Or Equal* - first operand is greater than or equal to the second.
+    * *Equal (=)* - first operand is equal to the second.
+    * *Not Equal (!=)* - first operand is not equal to the second.
+    * *Less Than (<)* - first operand is less than the second.
+    * *Greater Than (>)* - first operand is greater than the second.
+    * *Less Than Or Equal (<=)* - first operand is less than or equal to the second.
+    * *Greater Than Or Equal (=>)* - first operand is greater than or equal to the second.
 
 *Operand1*
-    First operand of the logical condition. Should have a numeric value. Can be specified in the node or can be a link to one of the variables.
+    First operand of the logical condition. Contains a numeric value of a string (if the ``String Operators`` parameter is enabled). Can be specified in the node or can be a link to one of the variables (if the ``Variable`` parameter at the right of it is enabled).
 
 *Operand2*
     Second operand of the logical condition. Works the same way as the first.
+
+*String Operands*
+    If this parameter is enabled, first and second operands can use strings (set manually or by a variable) as their values.
 
 JS Callback
 -----------
@@ -233,7 +236,7 @@ Internal Parameters
     An array that consists of the output parameters serves as the second argument of the callback function.
 
 *Param <param_number>*
-    Specifies one of the variables that will be used as an output parameter. By default, ``R1`` varaible is used.
+    Specifies one of the variables that will be used as an output parameter. By default, ``R1`` variable is used.
 
 Animation
 =========
@@ -579,7 +582,7 @@ Internal Parameters
 
     * ``World`` - global coordinate space.
     * ``Parent`` - local coordinate system of the parent of the object specified by the ``Object`` parameter. Parent object's origin point is used as the center of coordinates, while its angles of rotation define the directions of the coordinate axes. 
-    * ``Local`` - local coordinate space of the selected object. Similar to the ``Parent`` coordinate space, but in this case, the origin point of the object itelf is used as the origin of coordinates.
+    * ``Local`` - local coordinate space of the selected object. Similar to the ``Parent`` coordinate space, but in this case, the origin point of the object itself is used as the origin of coordinates.
 
     Set to ``World`` by default.
 
@@ -857,23 +860,23 @@ Internal Parameters
 *Operation*
     Mathematical operation. Can have one of the following types:
 
-    * *Random* generates random value greater than the first operand and less than the second.
-    * *Add* sums the operands.
-    * *Multiply* multiplies the operands.
-    * *Subtract* subtracts the second operand from the first.
-    * *Divide* divides first operand by the second.
-    * *Sin* returns the sine of an angle (measured in radians) defined by the first operand.
-    * *Cos* returns the cosine of an angle (measured in radians) defined by the first operand
-    * *Tan* returns the tangent of an angle (measured in radians) defined by the first operand.
-    * *ArcSin* returns the arcsine value of the first operand.
-    * *ArcCos* returns the arccosine value of the first operand.
-    * *ArcTan* returns the arctangent value of the first operand.
-    * *Log* returns the logarithmic value of the first operand with the second operand used as the base.
-    * *Min* returns the lesser one of the two operands.
-    * *Max* returns the greater one of the two operands.
-    * *Round* rounds the first operator.
-    * *Mod* returns the remainder after division of the first operand by the second.
-    * *Abs* returns the absolute value of the first operand.
+    * *Random* generates random value greater than the first operand and less than the second,
+    * *Add* sums the operands,
+    * *Multiply* multiplies the operands,
+    * *Subtract* subtracts the second operand from the first,
+    * *Divide* divides first operand by the second,
+    * *Sin* returns the sine of an angle (measured in radians) defined by the first operand,
+    * *Cos* returns the cosine of an angle (measured in radians) defined by the first operand,
+    * *Tan* returns the tangent of an angle (measured in radians) defined by the first operand,
+    * *ArcSin* returns the arcsine value of the first operand,
+    * *ArcCos* returns the arccosine value of the first operand,
+    * *ArcTan* returns the arctangent value of the first operand,
+    * *Log* returns the logarithmic value of the first operand with the second operand used as the base,
+    * *Min* returns the lesser one of the two operands,
+    * *Max* returns the greater one of the two operands,
+    * *Round* rounds the first operator,
+    * *Mod* returns the remainder after division of the first operand by the second,
+    * *Abs* returns the absolute value of the first operand. 
 
 *Operand1*
     First operand. It can be specified in the node or it can be a link to one of the variables (if the ``Variable`` parameter is enabled).
@@ -1125,7 +1128,7 @@ Using JSON logic node to decode JSON object
     :align: center
     :width: 100%
 
-The picture above shows a logic node setup that recieves a JSON object from the server, stores it in the ``R1`` variable and then decodes it. Such a JSON object looks like this:
+The picture above shows a logic node setup that receives a JSON object from the server, stores it in the ``R1`` variable and then decodes it. Such a JSON object looks like this:
 
 .. code-block:: json
 

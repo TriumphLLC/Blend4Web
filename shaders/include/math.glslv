@@ -293,4 +293,18 @@ mat3 tsr_set_quat(in vec4 quat, in mat3 tsr) {
     return dest;
 }
 
+vec4 get_tbn_quat(in vec4 tbn) {
+    vec4 tbn_quat = tbn;
+
+    // CHECK: using abs is very strange but it give right bihavior for a mirror modifier
+    tbn_quat[3] = sqrt(abs(1.0 - tbn[0] * tbn[0] - tbn[1] * tbn[1] - tbn[2] * tbn[2]));
+    return tbn_quat;
+}
+
+vec4 get_tbn_quat(in vec4 tbn, out float correct_angle, out float handedness) {
+    correct_angle = abs(tbn[3]) * M_PI;
+    handedness = sign(tbn[3]);
+    return get_tbn_quat(tbn);
+}
+
 #endif

@@ -78,7 +78,7 @@ Additional Settings
     This parameter is available only if the ``High Quality (Bokeh)`` parameter is enabled.
 
 *Front End*
-    This sets the distance from the camera and the neares plane (relative to the camera) behind which blurring effect reaches maximum strength (defined by the ``Power`` value). Default value is 5.0.
+    This sets the distance from the camera and the nearest plane (relative to the camera) behind which blurring effect reaches maximum strength (defined by the ``Power`` value). Default value is 5.0.
 
 *Rear Start*
     This sets the distance from the focus to the furthest plane (relative to the camera) behind which blurring effect starts to occur. The default value is 1.0.
@@ -96,7 +96,7 @@ Additional Settings
 
     * Enables bokeh effect and makes available the ``Bokeh Intensity`` parameter for adjusting the strength of the effect.
 
-    * Enables the ``Front Start`` and ``Rear Start`` parameters for setting soft transition between the distance from camera where the effect start to occur and the distanse where it reaches its full strength.
+    * Enables the ``Front Start`` and ``Rear Start`` parameters for setting soft transition between the distance from camera where the effect start to occur and the distance where it reaches its full strength.
 
     * Enables ``Foreground Blur`` parameter that is described below.
 
@@ -202,14 +202,17 @@ Activate the ``Bloom`` panel under the ``Render`` tab.
 Additional settings
 -------------------
 
+*Use Adaptive*
+    Use calculation of adaptive average luminance. Enabled by default.
+
 *Intensity*
-    Bloom intensity.
+    Bloom intensity. Set to 1.0 by default.
 
 *Blur*
-    Bloom blurriness factor.
+    Bloom blurriness factor. Set to 4.0 by default.
 
 *Edge Luminance*
-    The boundary value of an element's relative brightness above which the bloom effect appears.
+    The boundary value of an element's relative brightness above which the bloom effect appears. Set to 1.0 by default.
 
 
 .. index:: outline glow

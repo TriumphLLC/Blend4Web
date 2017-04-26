@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Postprocessing Effects &mdash; Blend4Web 17.02.1 User Manual</title>
+  <title>Postprocessing Effects &mdash; Blend4Web 17.04 User Manual</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.02.1 User Manual" href="index.html"/>
+    <link rel="top" title="Blend4Web 17.04 User Manual" href="index.html"/>
         <link rel="next" title="Stereo Rendering" href="stereo_rendering.html"/>
         <link rel="prev" title="Lighting, Shadows and Background" href="lighting.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v17.02.1
+              v17.04
             </div>
           
         
@@ -267,7 +267,7 @@
 <p class="last">This parameter is available only if the <code class="docutils literal"><span class="pre">High</span> <span class="pre">Quality</span> <span class="pre">(Bokeh)</span></code> parameter is enabled.</p>
 </dd>
 <dt><em>Front End</em></dt>
-<dd>This sets the distance from the camera and the neares plane (relative to the camera) behind which blurring effect reaches maximum strength (defined by the <code class="docutils literal"><span class="pre">Power</span></code> value). Default value is 5.0.</dd>
+<dd>This sets the distance from the camera and the nearest plane (relative to the camera) behind which blurring effect reaches maximum strength (defined by the <code class="docutils literal"><span class="pre">Power</span></code> value). Default value is 5.0.</dd>
 <dt><em>Rear Start</em></dt>
 <dd><p class="first">This sets the distance from the focus to the furthest plane (relative to the camera) behind which blurring effect starts to occur. The default value is 1.0.</p>
 <p class="last">This parameter is available only if the <code class="docutils literal"><span class="pre">High</span> <span class="pre">Quality</span> <span class="pre">(Bokeh)</span></code> parameter is enabled.</p>
@@ -280,7 +280,7 @@
 <dd><p class="first">This enables high quality rendering of the depth of field effect. Activating this option:</p>
 <ul class="simple">
 <li>Enables bokeh effect and makes available the <code class="docutils literal"><span class="pre">Bokeh</span> <span class="pre">Intensity</span></code> parameter for adjusting the strength of the effect.</li>
-<li>Enables the <code class="docutils literal"><span class="pre">Front</span> <span class="pre">Start</span></code> and <code class="docutils literal"><span class="pre">Rear</span> <span class="pre">Start</span></code> parameters for setting soft transition between the distance from camera where the effect start to occur and the distanse where it reaches its full strength.</li>
+<li>Enables the <code class="docutils literal"><span class="pre">Front</span> <span class="pre">Start</span></code> and <code class="docutils literal"><span class="pre">Rear</span> <span class="pre">Start</span></code> parameters for setting soft transition between the distance from camera where the effect start to occur and the distance where it reaches its full strength.</li>
 <li>Enables <code class="docutils literal"><span class="pre">Foreground</span> <span class="pre">Blur</span></code> parameter that is described below.</li>
 </ul>
 <p class="last">The parameter is disabled by default.</p>
@@ -351,12 +351,14 @@
 <div class="section" id="id12">
 <h3>Additional settings<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
+<dt><em>Use Adaptive</em></dt>
+<dd>Use calculation of adaptive average luminance. Enabled by default.</dd>
 <dt><em>Intensity</em></dt>
-<dd>Bloom intensity.</dd>
+<dd>Bloom intensity. Set to 1.0 by default.</dd>
 <dt><em>Blur</em></dt>
-<dd>Bloom blurriness factor.</dd>
+<dd>Bloom blurriness factor. Set to 4.0 by default.</dd>
 <dt><em>Edge Luminance</em></dt>
-<dd>The boundary value of an element&#8217;s relative brightness above which the bloom effect appears.</dd>
+<dd>The boundary value of an element&#8217;s relative brightness above which the bloom effect appears. Set to 1.0 by default.</dd>
 </dl>
 </div>
 </div>
@@ -462,8 +464,8 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2014-2016, Triumph.
-      Last updated on 2017-03-07.
+        &copy; Copyright 2014-2017, Triumph.
+      Last updated on 2017-04-26.
 
     </p>
   </div>
@@ -519,7 +521,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.02.1',
+            VERSION:'v17.04',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

@@ -8,6 +8,7 @@ import struct
 import hashlib
 import glob
 import math
+import gzip
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
@@ -17,7 +18,8 @@ PATH_TO_UTILS_WIN = os.path.join(BASE_DIR, "..", "tools", "converter_utils", "wi
 
 NO_CONV_NAME = ".b4w_no_conv"
 
-DEPENDENCIES = ["avconv", "identify", "nvcompress", "convert", "ffmpeg", "ffprobe"]
+DEPENDENCIES = ["avconv", "identify", "nvcompress", "convert", "ffmpeg", 
+        "ffprobe", "PVRTexToolCLI"]
 
 WHITE  = "\033[97m"
 YELLOW = "\033[93m"
@@ -33,11 +35,15 @@ def help():
     print("""commands:
     resize_textures       convert textures to lower resolution
     convert_dds           convert textures to DDS format
+    convert_pvr           convert textures to PVR format
     convert_media         convert audio and video files to alternative formats
+    compress_gzip         compress json/bin/pvr/dds files to gzip
 
     cleanup_textures      cleanup low resolution textures
     cleanup_dds           cleanup textures converted to DDS
+    cleanup_pvr           cleanup textures converted to PVR
     cleanup_media         cleanup converted media
+    cleanup_gzip          cleanup compressed json/bin/pvr/dds
 
     check_dependencies    check converter dependencies
 
@@ -58,10 +64,7 @@ def print_flush():
 def check_dependencies(dependencies):
 
     if platform.system() == "Windows":
-        if "PVRTexToolCLI" in dependencies:
-            return False
-        else:
-            return True
+        return True
 
     missing_progs = get_missing_progs(dependencies)
     if "ffmpeg" in missing_progs and not "avconv" in missing_progs:
@@ -84,8 +87,14 @@ def check_dependencies(dependencies):
             needed_progs["Qt-faststart (optional)"] = True
         elif dep == "optipng":
             needed_progs["OptiPNG"] = True
+        elif dep == "PVRTexToolCLI":
+            needed_progs["PVRTexTool"] = True
+
     for prog in needed_progs:
-        print("Couldn't find", prog)
+        color = RED
+        if prog == "PVRTexTool":
+            color = YELLOW
+        print(color + "Couldn't find", prog + ".")
     if len(missing_progs) > 0:
         return False
     return True
@@ -162,33 +171,6 @@ def calc_square_size(width, height):
     h = max(8, 1 << math.ceil(math.log(height,2)))
     return max(w, h)
 
-def convert_pvr(path, path_to, ext, identify, convert):
-    if not check_dependencies(["PVRTexToolCLI"]):
-        return
-    if is_cubemap(path, identify):
-        return
-    if is_older(path, path_to):
-        return
-
-    proc = subprocess.Popen([identify, "-format", "%w %h", "-quiet", \
-                path], stdout=subprocess.PIPE)
-    size_data = proc.stdout.readline().split()
-    width = int(size_data[0])
-    height = int(size_data[1])
-    square_size = calc_square_size(width, height)
-
-    compression = check_pvr_compression_method(path, ext, convert, identify)
-    args = ["PVRTexToolCLI", "-f", compression]
-    args += ["-r", str(square_size) + "," + str(square_size)]
-    args += ["-m", "10"]
-    args += ["-flip", "y"]
-    args += ["-i", path]
-
-    print("converting to pvr", path)
-    if width != square_size or height != square_size:
-        print("resize to " + str(square_size) + "x" + str(square_size))
-    subprocess.call(args)
-
 def convert_dds_handler(args):
     root = args["root"]
     filename = args["filename"]
@@ -206,11 +188,6 @@ def convert_dds_handler(args):
     path_from = os.path.join(root, filename)
 
     if ext_low == ".jpg" or ext_low == ".jpeg" or ext_low == ".png" or \
-            ext_low == ".bmp":
-        path_to = os.path.join(root, head + ".pvr")
-        convert_pvr(path_from, path_to, ext, identify, convert)
-
-    if ext_low == ".jpg" or ext_low == ".jpeg" or ext_low == ".png" or \
             ext_low == ".gif" or ext_low == ".bmp":
         path_to = path_from + ".dds"
         proc = subprocess.Popen([identify, "-format", "%w %h", "-quiet", \
@@ -223,9 +200,6 @@ def convert_dds_handler(args):
             print(RED + "[INCOMPATIBLE IMAGE] " + WHITE \
                     + "Image size must be a multiple of 4:" + ENDCOL, path_from, \
                     WHITE, file=sys.stderr)
-            return
-
-        if is_cubemap(path_from, identify):
             return
 
         # optimization: only convert modified src files (like make)
@@ -273,6 +247,56 @@ def convert_dds_handler(args):
         remove_if_exist(path_flipped)
 
         print_flush()
+
+def convert_pvr_handler(args):
+    root = args["root"]
+    filename = args["filename"]
+
+    convert = args["convert"]
+    identify = args["identify"]
+
+    head_ext = os.path.splitext(filename)
+    ext = head_ext[1]
+    ext_low = ext.lower()
+
+    verbose = args["verbose"]
+    path_from = os.path.join(root, filename)
+
+    if ext_low == ".jpg" or ext_low == ".jpeg" or ext_low == ".png" or \
+            ext_low == ".bmp":
+        path_to = os.path.join(root, path_from + ".pvr")
+
+        if is_older(path_from, path_to):
+            return
+
+        proc = subprocess.Popen([identify, "-format", "%w %h", "-quiet", \
+                    path_from], stdout=subprocess.PIPE)
+        size_data = proc.stdout.readline().split()
+        width = int(size_data[0])
+        height = int(size_data[1])
+        square_size = calc_square_size(width, height)
+
+        compression = check_pvr_compression_method(path_from, ext, convert, identify)
+        args = ["PVRTexToolCLI", "-f", compression]
+        args += ["-r", str(square_size) + "," + str(square_size)]
+        args += ["-m", "10"]
+        args += ["-flip", "y"]
+        args += ["-i", path_from]
+        args += ["-o", path_from + ".pvr"]
+
+        if verbose:
+            sp_stdout = None
+        else:
+            sp_stdout = subprocess.DEVNULL
+
+        print("converting to pvr", path_from)
+        if width != square_size or height != square_size:
+            print("resize to " + str(square_size) + "x" + str(square_size))
+
+        subprocess.call(args, stdout=sp_stdout, stderr=sp_stdout)
+
+        print_flush()
+        
 
 def remove_if_exist(filename):
     try:
@@ -594,12 +618,47 @@ def cleanup_dds_handler(args):
     filename_low = filename.lower()
 
     if (".jpg.dds" in filename_low or ".jpeg.dds" in filename_low or
-            ".png.dds" in filename_low or ".gif.dds" in filename_low or ".bmp.dds" in filename_low
-            or ".pvr" in filename_low):
+            ".png.dds" in filename_low or ".gif.dds" in filename_low or ".bmp.dds" in filename_low):
         print("removing", os.path.join(root, filename))
         os.remove(os.path.join(root, filename))
 
         print_flush()
+
+def cleanup_pvr_handler(args):
+    root = args["root"]
+    filename = args["filename"]
+    filename_low = filename.lower()
+
+    if (".jpg.pvr" in filename_low or ".jpeg.pvr" in filename_low or
+            ".png.pvr" in filename_low or ".gif.pvr" in filename_low or ".bmp.pvr" in filename_low):
+        print("removing", os.path.join(root, filename))
+        os.remove(os.path.join(root, filename))
+
+        print_flush()
+
+def cleanup_gzip_handler(args):
+    root = args["root"]
+    filename = args["filename"]
+    filename_low = filename.lower()
+
+    if (".bin.gz" in filename_low or ".json.gz" in filename_low or
+            ".dds.gz" in filename_low or ".pvr.gz" in filename_low):
+        print("removing", os.path.join(root, filename))
+        os.remove(os.path.join(root, filename))
+
+        print_flush()
+
+def compress_gzip_handler(args):
+    root = args["root"]
+    filename = args["filename"]
+    ext = os.path.splitext(filename)[1]
+
+    if ext == ".bin" or ext == ".json" or ext == ".dds" or ext == ".pvr":
+        with open(os.path.join(root, filename), 'rb') as f_in:
+            with gzip.open(os.path.join(root, filename) + '.gz', 'wb') as f_out:
+                shutil.copyfileobj(f_in, f_out)
+
+    print_flush()
 
 if __name__ == "__main__":
 
@@ -648,7 +707,8 @@ if __name__ == "__main__":
 
     if task == "convert_media":
         if not check_dependencies(["ffmpeg", "avconv", "ffprobe"]):
-            sys.exit(1)
+            print(RED + "Skipping media conversion.")
+            sys.exit(0)
         handler = convert_media_handler
 
     elif task == "cleanup_media":
@@ -656,7 +716,8 @@ if __name__ == "__main__":
 
     elif task == "resize_textures":
         if not check_dependencies(["convert"]):
-            sys.exit(1)
+            print(RED + "Skipping texture resizing.")
+            sys.exit(0)
         handler = resize_textures_handler
 
     elif task == "cleanup_textures":
@@ -664,21 +725,38 @@ if __name__ == "__main__":
 
     elif task == "convert_dds":
         if not check_dependencies(["convert", "identify", "nvcompress"]):
-            sys.exit(1)
+            print(RED + "Skipping DDS conversion.")
+            sys.exit(0)
         handler = convert_dds_handler
+
+    elif task == "convert_pvr":
+        if not check_dependencies(["convert", "identify", "PVRTexToolCLI"]):
+            print(YELLOW + "Skipping PVR conversion.")
+            sys.exit(0)
+        handler = convert_pvr_handler
 
     elif task == "cleanup_dds":
         handler = cleanup_dds_handler
 
+    elif task == "cleanup_pvr":
+        handler = cleanup_pvr_handler
+
     elif task == "compress_png":
         if not check_dependencies(["optipng"]):
-            sys.exit(1)
+            print(RED + "Skipping PNG compression.")
+            sys.exit(0)
         handler = compress_png_handler
 
     elif task == "check_dependencies":
         if check_dependencies(DEPENDENCIES):
             print("All programs have been installed.")
         sys.exit(0)
+
+    elif task == "compress_gzip":
+        handler = compress_gzip_handler
+
+    elif task == "cleanup_gzip":
+        handler = cleanup_gzip_handler
 
     else:
         help()

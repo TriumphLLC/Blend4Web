@@ -158,7 +158,7 @@ Provides generic routines for the engine's initialization, UI and I/O.</div>
 
         
             
-<li> <a href="#.enable_camera_controls">enable_camera_controls<span class="signature">(disable_default_pivot<span class="signature-attributes">opt</span>, disable_letter_controls<span class="signature-attributes">opt</span>, disable_zoom<span class="signature-attributes">opt</span>, element<span class="signature-attributes">opt</span>, allow_element_exit<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
+<li> <a href="#.enable_camera_controls">enable_camera_controls<span class="signature">(disable_default_pivot<span class="signature-attributes">opt</span>, disable_letter_controls<span class="signature-attributes">opt</span>, disable_zoom<span class="signature-attributes">opt</span>, element<span class="signature-attributes">opt</span>, allow_element_exit<span class="signature-attributes">opt</span>, disable_gamepad_controls<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
 
         
             
@@ -514,7 +514,7 @@ Provides generic routines for the engine's initialization, UI and I/O.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1536">line 1536</a>
+        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1552">line 1552</a>
     </li></ul></dd>
     
 
@@ -624,7 +624,7 @@ Provides generic routines for the engine's initialization, UI and I/O.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1396">line 1396</a>
+        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1412">line 1412</a>
     </li></ul></dd>
     
 
@@ -992,7 +992,7 @@ Provides generic routines for the engine's initialization, UI and I/O.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1487">line 1487</a>
+        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1503">line 1503</a>
     </li></ul></dd>
     
 
@@ -1078,7 +1078,7 @@ Provides generic routines for the engine's initialization, UI and I/O.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1230">line 1230</a>
+        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1246">line 1246</a>
     </li></ul></dd>
     
 
@@ -1219,7 +1219,7 @@ m_app.disable_camera_controls();</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1346">line 1346</a>
+        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1362">line 1362</a>
     </li></ul></dd>
     
 
@@ -1241,7 +1241,7 @@ m_app.disable_camera_controls();</code></pre>
 
     
 
-    <h4 class="name" id=".enable_camera_controls">enable_camera_controls<span class="signature">(disable_default_pivot<span class="signature-attributes">opt</span>, disable_letter_controls<span class="signature-attributes">opt</span>, disable_zoom<span class="signature-attributes">opt</span>, element<span class="signature-attributes">opt</span>, allow_element_exit<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".enable_camera_controls">enable_camera_controls<span class="signature">(disable_default_pivot<span class="signature-attributes">opt</span>, disable_letter_controls<span class="signature-attributes">opt</span>, disable_zoom<span class="signature-attributes">opt</span>, element<span class="signature-attributes">opt</span>, allow_element_exit<span class="signature-attributes">opt</span>, disable_gamepad_controls<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 
@@ -1483,6 +1483,45 @@ even when the mouse is leaving the HTML element</td>
         </tr>
 
     
+
+        <tr>
+            
+                <td class="name"><code>disable_gamepad_controls</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    false
+                
+                </td>
+            
+
+            <td class="description last">Disable gamepad controls</td>
+        </tr>
+
+    
     </tbody>
 </table>
 
@@ -1532,7 +1571,7 @@ even when the mouse is leaving the HTML element</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line559">line 559</a>
+        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line564">line 564</a>
     </li></ul></dd>
     
 
@@ -1629,7 +1668,7 @@ m_app.enable_camera_controls();</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1361">line 1361</a>
+        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1377">line 1377</a>
     </li></ul></dd>
     
 
@@ -1819,7 +1858,7 @@ m_app.enable_camera_controls();</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1260">line 1260</a>
+        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1276">line 1276</a>
     </li></ul></dd>
     
 
@@ -1907,7 +1946,7 @@ m_app.enable_camera_controls();</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1386">line 1386</a>
+        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1402">line 1402</a>
     </li></ul></dd>
     
 
@@ -2015,7 +2054,7 @@ m_app.enable_camera_controls();</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1662">line 1662</a>
+        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1678">line 1678</a>
     </li></ul></dd>
     
 
@@ -2195,7 +2234,7 @@ m_app.enable_camera_controls();</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1451">line 1451</a>
+        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1467">line 1467</a>
     </li></ul></dd>
     
 
@@ -2841,6 +2880,45 @@ canvas container height, based on its width and passed ratio value.</td>
         </tr>
 
     
+
+        <tr>
+            
+                <td class="name"><code>debug_loading</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    false
+                
+                </td>
+            
+
+            <td class="description last">Print loading info into the console</td>
+        </tr>
+
+    
     </tbody>
 </table>
 
@@ -2897,7 +2975,7 @@ canvas container height, based on its width and passed ratio value.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line146">line 146</a>
+        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line151">line 151</a>
     </li></ul></dd>
     
 
@@ -3032,7 +3110,7 @@ canvas container height, based on its width and passed ratio value.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1604">line 1604</a>
+        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1620">line 1620</a>
     </li></ul></dd>
     
 
@@ -3063,7 +3141,7 @@ canvas container height, based on its width and passed ratio value.</td>
 
 <div class="description">
     Report an application error.
-Creates standard HTML elements with error info and inserts them in the page body.
+Creates standard HTML elements with error info and inserts them into the page body.
 </div>
 
 
@@ -3238,7 +3316,7 @@ elements are inserted.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1408">line 1408</a>
+        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1424">line 1424</a>
     </li></ul></dd>
     
 
@@ -3422,7 +3500,7 @@ Security issues: execute by user event.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1372">line 1372</a>
+        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1388">line 1388</a>
     </li></ul></dd>
     
 
@@ -3557,7 +3635,7 @@ Security issues: execute by user event.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1653">line 1653</a>
+        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1669">line 1669</a>
     </li></ul></dd>
     
 
@@ -3649,7 +3727,7 @@ Security issues: execute by user event.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1585">line 1585</a>
+        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1601">line 1601</a>
     </li></ul></dd>
     
 
@@ -3807,7 +3885,7 @@ Security issues: execute by user event.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line103">line 103</a>
+        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line107">line 107</a>
     </li></ul></dd>
     
 
@@ -4223,7 +4301,7 @@ Security issues: execute by user event.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1590">line 1590</a>
+        <a href="addons_app.js.html">addons/app.js</a>, <a href="addons_app.js.html#line1606">line 1606</a>
     </li></ul></dd>
     
 
@@ -4261,7 +4339,7 @@ Security issues: execute by user event.
 <br class="clear">
 
 <footer>
-    Blend4Web API Reference (generated by JSDoc 3.4.0 on Tue Mar 07 2017 11:35:18 GMT+0300 (MSK))
+    Blend4Web API Reference (generated by JSDoc 3.4.0 on Wed Apr 26 2017 11:05:09 GMT+0300 (MSK))
     <a href="https://www.blend4web.com">www.blend4web.com</a>
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">

@@ -40,6 +40,11 @@ var m_print = require("__print");
  */
 
 /**
+ * Animation blending finish callback.
+ * @callback AnimBlendingCallback
+ */
+
+/**
  * Animation behavior enum.
  * @see {@link module:animation.AB_CYCLIC},
  * {@link module:animation.AB_FINISH_RESET},
@@ -611,20 +616,73 @@ exports.get_skel_mix_factor = function(armobj) {
  * @param {number} factor Target animation mix factor.
  * @param {number} [time=0] Time interval for changing the mix factor from
  * the current to the target value.
+ * @param {AnimBlendingCallback} [callback=null] Callback to execute on finished blending.
  */
-exports.set_skel_mix_factor = function(armobj, factor, time) {
+exports.set_skel_mix_factor = function(armobj, factor, time, callback) {
     if (!m_obj_util.is_armature(armobj)) {
         m_print.error("Can't blend animation. Object \"" + armobj.name + "\" is not armature");
         return;
     }
-
     factor = Math.min(Math.max(factor, 0), 1);
     if (armobj.render.anim_mix_factor == factor)
         return;
 
     time = time || 0;
+    callback = callback || null;
 
-    m_anim.set_skel_mix_factor(armobj, factor, time);
+    m_anim.set_skel_mix_factor(armobj, factor, time, callback);
+}
+/**
+ * Set the blended skeletal animation slots.
+ * @method module:animation.set_skeletal_slots
+ * @param {Object3D} armobj Armature object.
+ * @param {number} [slot_1=-1] First blended animation slot.
+ * @param {number} [slot_2=-1] Second blended animation slot.
+ * @param {number} [factor=0] Start animation mix factor.
+ */
+exports.set_skeletal_slots = function(armobj, slot_1, slot_2, factor) {
+    slot_1 = slot_1 == undefined ? -1 : slot_1;
+    slot_2 = slot_1 == undefined ? -1 : slot_2;
+    factor = factor || 0;
+    var render = armobj.render;
+    var skeletal_slots = render.blend_skel_slots;
+    if (slot_1 >= 0)
+        skeletal_slots[0] = slot_1;
+    if (slot_2 >= 0)
+        skeletal_slots[1] = slot_2;
+    armobj.render.anim_mix_factor = factor;
+}
+/**
+ * Get the first blended animation slot.
+ * @method module:animation.get_first_skeletal_slot
+ * @param {Object3D} armobj Armature object.
+ * @returns {slot_1} First blended animation slot.
+ */
+exports.get_first_skeletal_slot = function(armobj) {
+    return armobj.render.blend_skel_slots[0];
+}
+/**
+ * Get the second blended animation slot.
+ * @method module:animation.get_second_skeletal_slot
+ * @param {Object3D} armobj Armature object.
+ * @returns {slot_2} Second blended animation slot.
+ */
+exports.get_second_skeletal_slot = function(armobj) {
+    return armobj.render.blend_skel_slots[1];
+}
+/**
+ * Set the mix factor for the skeletal animations assigned to the last two animation slots.
+ * @method module:animation.mix_from_cur_pos
+ * @param {Object3D} armobj Armature object.
+ * @param {AnimSlot} slot Animation slot number.
+ * @param {number} [time=0] Time interval for changing the mix factor from
+ * the current to the target value.
+ * @param {AnimBlendingCallback} [callback=null] Callback to execute on finished blending.
+ */
+exports.mix_from_cur_pos = function(armobj, slot, time, callback) {
+    callback = callback || null;
+    time = time || 0;
+    m_anim.mix_from_cur_pos(armobj, slot, time, callback);
 }
 
 }

@@ -32,6 +32,8 @@ from blend4web.translator import _, p_
 _b4w_export_warnings = []
 _b4w_export_errors = []
 
+_packed_data = None
+
 PATH_TO_WEBPLAYER = "deploy/apps/webplayer/"
 
 class B4W_HTMLExportProcessor(bpy.types.Operator):
@@ -132,6 +134,9 @@ class B4W_HTMLExportProcessor(bpy.types.Operator):
         return path
 
     def run(self, export_filepath):
+        global _packed_data
+        _packed_data = None
+
         export_dir = os.path.split(export_filepath)[0]
 
         # NOTE: fictional json filename, won't be exported,
@@ -209,6 +214,13 @@ def get_html_template(path):
     tpl_file.close()
     return Template(tpl_str)
 
+def get_packed_data():
+    global _packed_data
+    if _packed_data is None:
+        _packed_data = exporter.get_packed_data()
+
+    return _packed_data
+
 def extract_data(json_path, json_filename, export_converted_media):
     data = {
         "main_file": json_filename
@@ -271,7 +283,7 @@ def extract_data(json_path, json_filename, export_converted_media):
     return data
 
 def add_conv_media(data, json_path, file_path, conv_file_path):
-    packed_data = exporter.get_packed_data()
+    packed_data = get_packed_data()
     if file_path in packed_data:
         err("Packed media '" + file_path + "' has not been exported to '" \
                 + conv_file_path + "'")
@@ -302,7 +314,7 @@ def get_smaa_textures(data, json_path):
 
 def get_encoded_resource_data(path, json_path):
     bindata = None
-    packed_data = exporter.get_packed_data()
+    packed_data = get_packed_data()
 
     if path in packed_data:
         bindata = packed_data[path]

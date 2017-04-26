@@ -29,15 +29,18 @@ var m_bounds = require("__boundings");
 var m_ext    = require("__extensions");
 var m_print  = require("__print");
 var m_quat   = require("__quat");
+var m_tbn    = require("__tbn");
 var m_tsr    = require("__tsr");
 var m_util   = require("__util");
 var m_vec3   = require("__vec3");
 
+var _tbn_tmp = m_tbn.create();
+var _tbn_tmp2 = m_tbn.create();
+var _tbn_tmp3 = m_tbn.create();
 var _vec3_tmp = new Float32Array(3);
 var _vec3_tmp2 = new Float32Array(3);
 var _vec3_tmp3 = new Float32Array(3);
-var _quat_tmp = new Float32Array(4);
-var _quat_tmp2 = new Float32Array(4);
+var _quat_tmp = m_quat.create();
 
 var _tsr_tmp = new Float32Array(8);
 
@@ -48,7 +51,6 @@ var COMB_SORT_JUMP_COEFF = 1.247330950103979;
 // numbers of components per attribute
 var POS_NUM_COMP = 3;
 var NOR_NUM_COMP = 3;
-var TBN_QUAT_NUM_COMP = 4;
 var COL_NUM_COMP = 3;
 var TCO_NUM_COMP = 2;
 var SHD_TAN_NUM_COMP = 3;
@@ -127,10 +129,9 @@ exports.submesh_to_bufs_data = function(submesh, draw_mode, vc_usage) {
 
 exports.submesh_init_shape_keys = submesh_init_shape_keys;
 function submesh_init_shape_keys(submesh, frame) {
-    var f_a_tbn_quat = frame["a_tbn_quat"];
+    var f_a_tbn = frame["a_tbn"];
     var f_a_pos = frame["a_position"];
 
-    var tbn_quat_length = f_a_tbn_quat.length;
     var pos_length = f_a_pos.length;
 
     // position
@@ -145,22 +146,27 @@ function submesh_init_shape_keys(submesh, frame) {
             f_a_pos[j] += value * a_pos[j];
     }
 
-    // tbn_quat
-    var sum_tbn_quat = _quat_tmp;
-    for (var i = 0; i < tbn_quat_length; i+=TBN_QUAT_NUM_COMP) {
-        var f_quat = f_a_tbn_quat.subarray(i, i + TBN_QUAT_NUM_COMP);
+    // tbn
+    var count = m_tbn.get_items_count(f_a_tbn);
+    for (var i = 0; i < count; i++) {
+        var delta_tbn = m_tbn.identity(_tbn_tmp);
 
-        sum_tbn_quat.set(m_util.QUAT4_IDENT);
         for (var j = 1; j < submesh.shape_keys.length; j++) {
-            var geometry = submesh.shape_keys[j].geometry;
+            var a_tbn = submesh.shape_keys[j].geometry["a_tbn"];
             var value = submesh.shape_keys[j].init_value;
-            var a_tbn_quat = geometry["a_tbn_quat"];
+            if (!value)
+                continue;
 
-            var p_f_quat = m_quat.slerp(m_util.QUAT4_IDENT, a_tbn_quat, value, _quat_tmp2);
-            m_quat.normalize(p_f_quat, p_f_quat);
-            m_quat.multiply(p_f_quat, sum_tbn_quat, sum_tbn_quat);
+            var d_tbn = m_tbn.get_item(a_tbn, i, _tbn_tmp2);
+            var cur_d_tbn = m_tbn.slerp(m_tbn.identity(_tbn_tmp3), d_tbn,
+                    value, _tbn_tmp2);
+            m_tbn.multiply_tbn(cur_d_tbn, delta_tbn, delta_tbn);
         }
-        m_quat.multiply(sum_tbn_quat, f_quat, f_quat);
+
+        var b_tbn = m_tbn.get_item(f_a_tbn, i, _tbn_tmp2);
+        var r_tbn = m_tbn.multiply_tbn(delta_tbn, b_tbn, _tbn_tmp2);
+
+        m_tbn.set_item(f_a_tbn, r_tbn, i);
     }
 }
 
@@ -682,14 +688,13 @@ exports.has_empty_submesh = function(mesh, index) {
  */
 exports.submesh_apply_transform = function(submesh, transform) {
 
-    // positions/tbn_quat
+    // positions/tbn
     for (var f = 0; f < submesh.va_frames.length; f++) {
         var positions = submesh.va_frames[f]["a_position"];
         m_tsr.transform_vectors(positions, transform, positions, 0);
 
-        var tbn_quats = submesh.va_frames[f]["a_tbn_quat"];
-        if (tbn_quats.length > 0)
-            m_tsr.transform_quats(tbn_quats, transform, tbn_quats, 0);
+        var tbn = submesh.va_frames[f]["a_tbn"];
+        m_tbn.multiply_tsr(tbn, transform, tbn);
 
         var shade_tangs = submesh.va_frames[f]["a_shade_tangs"];
         if (shade_tangs && shade_tangs.length > 0)
@@ -838,14 +843,14 @@ function submesh_list_join(submeshes) {
         for (var i = 0; i < new_submesh.shape_keys.length; i++) {
             var geometry = new_submesh.shape_keys[i].geometry;
             var a_pos_offset = 0;
-            var a_tbn_quat_offset = 0;
+            var a_tbn_offset = 0;
 
             for (var j = 0; j < submeshes.length; j++) {
                 var cur_key_geom = submeshes[j].shape_keys[i].geometry;
                 geometry["a_position"].set(cur_key_geom["a_position"], a_pos_offset);
-                geometry["a_tbn_quat"].set(cur_key_geom["a_tbn_quat"], a_tbn_quat_offset);
+                geometry["a_tbn"].set(cur_key_geom["a_tbn"], a_tbn_offset);
                 a_pos_offset += cur_key_geom["a_position"].length;
-                a_tbn_quat_offset += cur_key_geom["a_tbn_quat"].length;
+                a_tbn_offset += cur_key_geom["a_tbn"].length;
             }
         }
 
@@ -874,18 +879,18 @@ function submesh_list_join_prepare_dest(submeshes) {
     new_submesh.indices = new Uint32Array(len);
 
     var pos_len = 0;
-    var tbn_quat_len = 0;
+    var tbn_len = 0;
 
     if (submeshes[0].shape_keys.length > 0) {
         for (var j = 0; j < submeshes[0].shape_keys.length; j++) {
             for (var i = 0; i < submeshes.length; i++) {
                 pos_len += submeshes[i].shape_keys[j].geometry["a_position"].length;
-                tbn_quat_len += submeshes[i].shape_keys[j].geometry["a_tbn_quat"].length;
+                tbn_len += m_tbn.get_items_count(submeshes[i].shape_keys[j].geometry["a_tbn"]);
             }
 
             var geometry = {
                 "a_position" : new Float32Array(pos_len),
-                "a_tbn_quat" : new Float32Array(tbn_quat_len)
+                "a_tbn" : m_tbn.create(tbn_len)
             };
 
             var key = {
@@ -1004,7 +1009,7 @@ exports.make_clone_submesh = function(src_submesh, params, transforms) {
                     m_tsr.transform_vectors(arr, transform,
                             new_submesh.va_frames[i][param_name], v_offset);
                     break;
-                case "a_tbn_quat":
+                case "a_tbn":
                     m_tsr.transform_quats(arr, transform,
                             new_submesh.va_frames[i][param_name], v_offset);
                     break;
@@ -1116,10 +1121,10 @@ function extract_submesh(mesh, material_index, attr_names, bone_skinning_info,
 
     // position always needed?
 
-    if (has_attr(attr_names, "a_tbn_quat") && bsub["tbn_quat"].length)
-        var use_tbn_quat = true;
+    if (has_attr(attr_names, "a_tbn") && bsub["tbn"].length)
+        var use_tbn = true;
     else
-        var use_tbn_quat = false;
+        var use_tbn = false;
 
     if (has_attr(attr_names, "a_shade_tangs") && bsub["shade_tangs"].length)
         var use_tangent_shading = true;
@@ -1130,7 +1135,7 @@ function extract_submesh(mesh, material_index, attr_names, bone_skinning_info,
         use_shape_keys = true;
 
     for (var i = 0; i < frames; i++) {
-        var va_frame = create_frame(bsub, base_length, use_tbn_quat, 
+        var va_frame = create_frame(bsub, base_length, use_tbn,
                 use_tangent_shading, i);
 
         if (use_shape_keys) {
@@ -1144,7 +1149,7 @@ function extract_submesh(mesh, material_index, attr_names, bone_skinning_info,
             } else {
                 // NOTE: create new object for base shape key geometry
                 sk_frame.geometry = create_frame(bsub, base_length, 
-                        use_tbn_quat, use_tangent_shading, i);
+                        use_tbn, use_tangent_shading, i);
                 sk_frame.init_value = 1;
             }
         }
@@ -1209,23 +1214,21 @@ function submesh_bd_to_b4w(submesh_bd, bd) {
     m_vec3.scale(bd.bbr_local.axis_z, rbb_scales[2], bd.bbr_local.axis_z);
 }
 
-function create_frame(bsub, base_length, use_tbn_quat, use_tangent_shading, 
+function create_frame(bsub, base_length, use_tbn, use_tangent_shading,
         frame_index) {
 
     var va_frame = {};
 
     var pos_arr = new Float32Array(base_length * POS_NUM_COMP);
-    var tbn_quat_arr = new Float32Array(use_tbn_quat ? base_length * TBN_QUAT_NUM_COMP : 0);
-    
-    
+    var tbn_arr = m_tbn.create(use_tbn ? base_length: 0);
+
     var from_index = frame_index * base_length * POS_NUM_COMP;
     var to_index = from_index + base_length * POS_NUM_COMP;
     pos_arr.set(bsub["position"].subarray(from_index, to_index), 0);
 
-    if (use_tbn_quat) {
-        from_index = frame_index * base_length * TBN_QUAT_NUM_COMP;
-        to_index = from_index + base_length * TBN_QUAT_NUM_COMP;
-        tbn_quat_arr.set(bsub["tbn_quat"].subarray(from_index, to_index), 0);
+    if (use_tbn) {
+        from_index = frame_index * base_length;
+        m_tbn.copy(bsub["tbn"], from_index, base_length, tbn_arr);
     }
 
     if (use_tangent_shading) {
@@ -1236,7 +1239,7 @@ function create_frame(bsub, base_length, use_tbn_quat, use_tangent_shading,
     }
 
     va_frame["a_position"] = pos_arr;
-    va_frame["a_tbn_quat"] = tbn_quat_arr;
+    va_frame["a_tbn"] = tbn_arr;
 
     return va_frame;
 }
@@ -1970,11 +1973,11 @@ function calc_shared_indices(indices, shared_locations, locations) {
  * Return n points uniformly distributed on geometry
  * point is Array of Float32Arrays of coords
  */
-exports.geometry_random_points = function(submesh, n, process_tbn_quats, seed) {
+exports.geometry_random_points = function(submesh, n, process_tbn, seed) {
 
     var triangles = extract_triangles_position(submesh, null);
-    if (process_tbn_quats)
-        var triangles_tbn = extract_triangles_tbn_quat(submesh, null);
+    if (process_tbn)
+        var triangles_tbn = extract_triangles_tbn(submesh, null);
 
     var tnum = triangles.length;
     var areas = new Float32Array(tnum);
@@ -2011,14 +2014,14 @@ exports.geometry_random_points = function(submesh, n, process_tbn_quats, seed) {
         var tri_index = m_util.binary_search_max(cumulative_areas, area, 0,
                 cumulative_areas.length - 1);
 
-        if (process_tbn_quats)
+        if (process_tbn)
             var tri = triangles_tbn[tri_index];
         else
             var tri = triangles[tri_index];
 
         var ps = triangle_random_point(tri, seed, _vec3_tmp);
 
-        if (process_tbn_quats) {
+        if (process_tbn) {
             points[i] = new Float32Array(4);
             m_vec3.normalize(ps, ps);
             var quat = m_quat.rotationTo(m_util.AXIS_Y, ps, _quat_tmp);
@@ -2053,21 +2056,17 @@ function extract_triangles_position(submesh, dest) {
     return ext_triangles(positions, submesh, dest);;
 }
 
-function extract_triangles_tbn_quat(submesh, dest) {
+function extract_triangles_tbn(submesh, dest) {
 
     if (!dest)
         dest = [];
 
-    var tbn_quats = submesh.va_frames[0]["a_tbn_quat"];
+    var tbn = submesh.va_frames[0]["a_tbn"];
 
-    var count = tbn_quats.length / 4;
+    var count = m_tbn.get_items_count(tbn);
     var positions = new Float32Array(3 * count);
     for (var i = 0; i < count; i++) {
-        var quat = _quat_tmp;
-        quat[0] = tbn_quats[4*i];
-        quat[1] = tbn_quats[4*i + 1];
-        quat[2] = tbn_quats[4*i + 2];
-        quat[3] = tbn_quats[4*i + 3];
+        var quat = m_tbn.get_quat(tbn, i, _quat_tmp);
         var norm = m_vec3.transformQuat(m_util.AXIS_Y, quat, _vec3_tmp);
         positions[3*i] = norm[0];
         positions[3*i + 1] = norm[1];
@@ -2254,12 +2253,12 @@ exports.apply_shape_key = function(obj, key_name, new_value) {
         apply_shape_key_pos(bd.pointers["a_position"], batches[i], pos_vbo_source, 
                 sk_data);
 
-        var tbn_type = get_vbo_type_by_attr_name("a_tbn_quat");
+        var tbn_type = get_vbo_type_by_attr_name("a_tbn");
         var tbn_vbo = get_vbo_by_type(bd.vbo_data, tbn_type);
         var tbn_vbo_source = get_vbo_source_by_type(bd.vbo_source_data, tbn_type);
 
         _gl.bindBuffer(_gl.ARRAY_BUFFER, tbn_vbo);
-        apply_shape_key_tbn_quat(bd.pointers["a_tbn_quat"], batches[i], tbn_vbo_source, 
+        apply_shape_key_tbn(bd.pointers["a_tbn"], batches[i], tbn_vbo_source,
                 sk_data);
     }
 }
@@ -2284,49 +2283,38 @@ function apply_shape_key_pos(pos_pointer, batch, vbo_source, sk_data) {
     }
 }
 
-function apply_shape_key_tbn_quat(tbn_quat_pointer, batch, vbo_source, sk_data) {
-    if (tbn_quat_pointer) {
-        var tbn_quat_offset = tbn_quat_pointer.offset;
-        var tbn_quat_length = tbn_quat_pointer.length + tbn_quat_offset;
-        var tbn_quat_first = batch.bufs_data.shape_keys[0].geometry["a_tbn_quat"];
-
-        var sum_tbn_quat = _quat_tmp;
-        for (var i = tbn_quat_offset; i < tbn_quat_length; i+=TBN_QUAT_NUM_COMP) {
-            sum_tbn_quat[0] = 0;
-            sum_tbn_quat[1] = 0;
-            sum_tbn_quat[2] = 0;
-            sum_tbn_quat[3] = 1;
+function apply_shape_key_tbn(tbn_pointer, batch, vbo_source, sk_data) {
+    if (tbn_pointer) {
+        var tbn_offset = tbn_pointer.offset;
+        var tbn_length = tbn_pointer.length + tbn_offset;
+        var tbn_first = batch.bufs_data.shape_keys[0].geometry["a_tbn"];
+        for (var i = tbn_offset; i < tbn_length; i+=m_tbn.TBN_NUM_COMP) {
+            var delta_tbn = m_tbn.identity(_tbn_tmp);
+            var tbn_ind = (i - tbn_offset) / m_tbn.TBN_NUM_COMP;
 
             for (var j = 1; j < batch.bufs_data.shape_keys.length; j++) {
-                var tbn_quat = batch.bufs_data.shape_keys[j].geometry["a_tbn_quat"];
+                var tbn = batch.bufs_data.shape_keys[j].geometry["a_tbn"];
                 var value = sk_data[j]["value"];
                 if (!value)
                     continue;
 
-                var f_quat = _quat_tmp2;
-                f_quat[0] = tbn_quat[i - tbn_quat_offset];
-                f_quat[1] = tbn_quat[i + 1 - tbn_quat_offset];
-                f_quat[2] = tbn_quat[i + 2 - tbn_quat_offset];
-                f_quat[3] = tbn_quat[i + 3 - tbn_quat_offset];
-                var p_f_quat = m_quat.slerp(m_util.QUAT4_IDENT, f_quat, value, _quat_tmp2);
-                m_quat.multiply(p_f_quat, sum_tbn_quat, sum_tbn_quat);
+                var d_tbn = m_tbn.get_item(tbn, tbn_ind, _tbn_tmp2);
+                var cur_d_tbn = m_tbn.slerp(m_tbn.identity(_tbn_tmp3), d_tbn,
+                        value, _tbn_tmp2);
+                m_tbn.multiply_tbn(cur_d_tbn, delta_tbn, delta_tbn);
             }
-            var r_quat = _quat_tmp2;
-            r_quat[0] = tbn_quat_first[i - tbn_quat_offset];
-            r_quat[1] = tbn_quat_first[i - tbn_quat_offset + 1];
-            r_quat[2] = tbn_quat_first[i - tbn_quat_offset + 2];
-            r_quat[3] = tbn_quat_first[i - tbn_quat_offset + 3];
-            var is_righthand = r_quat[3] > 0;
-            m_quat.multiply(sum_tbn_quat, r_quat, r_quat);
-            if (r_quat[3] > 0 && !is_righthand || r_quat[3] < 0 && is_righthand)
-                m_quat.scale(r_quat, -1, r_quat);
-            vbo_source[i] = m_util.float_to_short(r_quat[0]);
-            vbo_source[i + 1] = m_util.float_to_short(r_quat[1]);
-            vbo_source[i + 2] = m_util.float_to_short(r_quat[2]);
-            vbo_source[i + 3] = m_util.float_to_short(r_quat[3]);
+
+            var b_tbn = m_tbn.get_item(tbn_first, tbn_ind, _tbn_tmp2);
+            var r_tbn = m_tbn.multiply_tbn(delta_tbn, b_tbn, _tbn_tmp2);
+
+            // NOTE: optimization: don't check vbo type, consider a_tbn as short 
+            vbo_source[i] = m_util.float_to_short(r_tbn[0]);
+            vbo_source[i + 1] = m_util.float_to_short(r_tbn[1]);
+            vbo_source[i + 2] = m_util.float_to_short(r_tbn[2]);
+            vbo_source[i + 3] = m_util.float_to_short(r_tbn[3]);
         }
-        _gl.bufferSubData(_gl.ARRAY_BUFFER, m_util.FLOAT_SIZE * tbn_quat_offset,
-                vbo_source.subarray(tbn_quat_offset));
+        _gl.bufferSubData(_gl.ARRAY_BUFFER, m_util.FLOAT_SIZE * tbn_offset,
+                vbo_source.subarray(tbn_offset));
     }
 }
 
@@ -2499,37 +2487,40 @@ exports.draw_line = function(batch, positions, is_split) {
 
 // NOTE: cloning without vbo_data - for deferred updating
 exports.clone_bufs_data = function(bufs_data) {
-    var out = init_bufs_data();
 
-    if (bufs_data.ibo_array)
-        switch (bufs_data.ibo_type) {
-            case _gl.UNSIGNED_SHORT:
-                out.ibo_array = new Uint16Array(bufs_data.ibo_array);
-                break;
-            case _gl.UNSIGNED_INT:
-                out.ibo_array = new Uint32Array(bufs_data.ibo_array);
-                break;
-        }
-    else
-        out.ibo_array = null;
+    if (bufs_data) {
+        var out = init_bufs_data();
+        if (bufs_data.ibo_array)
+            switch (bufs_data.ibo_type) {
+                case _gl.UNSIGNED_SHORT:
+                    out.ibo_array = new Uint16Array(bufs_data.ibo_array);
+                    break;
+                case _gl.UNSIGNED_INT:
+                    out.ibo_array = new Uint32Array(bufs_data.ibo_array);
+                    break;
+            }
+        else
+            out.ibo_array = null;
 
-    out.vbo_source_data = clone_vbo_source_data(bufs_data.vbo_source_data);
+        out.vbo_source_data = clone_vbo_source_data(bufs_data.vbo_source_data);
 
-    out.ibo_type = bufs_data.ibo_type;
-    out.count = bufs_data.count;
-    out.pointers = m_util.clone_object_r(bufs_data.pointers);
-    out.usage = bufs_data.usage;
-    out.debug_ibo_bytes = bufs_data.debug_ibo_bytes;
-    out.debug_vbo_bytes = bufs_data.debug_vbo_bytes;
+        out.ibo_type = bufs_data.ibo_type;
+        out.count = bufs_data.count;
+        out.pointers = m_util.clone_object_r(bufs_data.pointers);
+        out.usage = bufs_data.usage;
+        out.debug_ibo_bytes = bufs_data.debug_ibo_bytes;
+        out.debug_vbo_bytes = bufs_data.debug_vbo_bytes;
 
-    out.ibo = null;
+        out.ibo = null;
 
-    out.info_for_z_sort_updates = m_util.clone_object_r(bufs_data.info_for_z_sort_updates);
-    out.shape_keys = m_util.clone_object_r(bufs_data.shape_keys);
+        out.info_for_z_sort_updates = m_util.clone_object_r(bufs_data.info_for_z_sort_updates);
+        out.shape_keys = m_util.clone_object_r(bufs_data.shape_keys);
 
-    out.instance_count = bufs_data.instance_count;
+        out.instance_count = bufs_data.instance_count;
 
-    out.cleanup_gl_data_on_unload = bufs_data.cleanup_gl_data_on_unload;
+        out.cleanup_gl_data_on_unload = bufs_data.cleanup_gl_data_on_unload;
+    } else
+        var out = null;
     return out;
 }
 
@@ -2633,7 +2624,7 @@ function get_vbo_type_by_attr_name(name) {
     name = name.replace(/param_GEOMETRY_VC_a_\w+/, "param_GEOMETRY_VC_a");
 
     switch (name) {
-    case "a_tbn_quat":
+    case "a_tbn":
     case "a_shade_tangs":
         return VBO_SHORT;
     case "a_color":
@@ -2700,6 +2691,38 @@ function vbo_source_data_set_attr(vbo_source_data, attr_name, array, offset) {
             vbo_source_data[index].vbo_source[offset + i] = m_util.ufloat_to_ubyte(array[i]);
         break;    
     }
+}
+
+exports.value_vbo_to_float = value_vbo_to_float;
+function value_vbo_to_float(attr_name, val) {
+    var type = get_vbo_type_by_attr_name(attr_name);
+
+    switch (type) {
+    case VBO_FLOAT:
+        return val;
+    case VBO_SHORT:
+        return m_util.short_to_float(val);
+    case VBO_UBYTE:
+        return m_util.ubyte_to_ufloat(val);
+    }
+
+    return val;
+}
+
+exports.value_float_to_vbo = value_float_to_vbo;
+function value_float_to_vbo(attr_name, val) {
+    var type = get_vbo_type_by_attr_name(attr_name);
+
+    switch (type) {
+    case VBO_FLOAT:
+        return val;
+    case VBO_SHORT:
+        return m_util.float_to_short(val);
+    case VBO_UBYTE:
+        return m_util.ufloat_to_ubyte(val);
+    }
+
+    return val;
 }
 
 }

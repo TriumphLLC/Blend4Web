@@ -399,7 +399,7 @@ To change the control mode and to completely define a camera's behavior, the fol
     m_cam.target_setup(camera, { pos: POS, pivot: LOOK_AT, 
             dist_lim: TARGET_DIST_LIMITS, use_panning: true });
 
-    // setup HOVER camera on a fixed distance (without zooming) reltively to its pivot
+    // setup HOVER camera on a fixed distance (without zooming) relatively to its pivot
     m_cam.hover_setup(camera, { pos: POS, pivot: LOOK_AT });
 
     // setup HOVER camera with zooming (distance + angle limits)

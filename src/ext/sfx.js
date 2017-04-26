@@ -317,7 +317,7 @@ exports.apply_playlist = m_sfx.apply_playlist;
 exports.clear_playlist = m_sfx.clear_playlist;
 
 /**
- * Detect supported audio containter.
+ * Detect supported audio container.
  * Containers have same meaning as file extension here, for each one possible
  * fallback exists:
  * <ul>
@@ -327,11 +327,11 @@ exports.clear_playlist = m_sfx.clear_playlist;
  * </ul>
  * @method module:sfx.detect_audio_container
  * @param {string} [hint="ogg"] Required container
- * @returns {string} Supported containter or ""
+ * @returns {string} Supported container or ""
  */
 exports.detect_audio_container = m_sfx.detect_audio_container;
 /**
- * Detect supported video containter.
+ * Detect supported video container.
  * Containers have same meaning as file extension here, for each one possible
  * fallback exists:
  * <ul>
@@ -341,7 +341,7 @@ exports.detect_audio_container = m_sfx.detect_audio_container;
  * </ul>
  * @method module:sfx.detect_video_container
  * @param {string} [hint="webm"] Required container
- * @returns {string} Supported containter or ""
+ * @returns {string} Supported container or ""
  */
 exports.detect_video_container = m_sfx.detect_video_container;
 /**
@@ -381,7 +381,7 @@ exports.get_filter_params = m_sfx.get_filter_params;
  * @method module:sfx.get_filter_freq_response
  * @param {Object3D} obj Object 3D
  * @param {Float32Array} freq_arr Input array with frequencies.
- * @param {Float32Array} mag_arr Ouput array with filter response magnitudes.
+ * @param {Float32Array} mag_arr Output array with filter response magnitudes.
  * @param {Float32Array} phase_arr Output array with filter response phases.
  */
 exports.get_filter_freq_response = m_sfx.get_filter_freq_response;

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>物体 &mdash; Blend4Web 17.02.1 用户手册</title>
+  <title>物体 &mdash; Blend4Web 17.04 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.02.1 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 17.04 用户手册" href="index.html"/>
         <link rel="next" title="网格" href="meshes.html"/>
         <link rel="prev" title="场景设置" href="scene_settings.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v17.02.1
+              v17.04
             </div>
           
         
@@ -99,7 +99,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#object-tab">物体选项卡</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#transform-panel">变换面板</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#groups-panel">组面板</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#level-of-detail-panel">层次细节面板</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#levels-of-detail-panel">Levels of Detail Panel</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#animation-panel">动画面板</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#export-options-panel">导出选项面板</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#rendering-properties-panel">渲染属性面板</a></li>
@@ -132,7 +132,14 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#moving-via-tsr-vectors">通过TSR矢量移动</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#line-rendering">Line Rendering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#line-rendering">线渲染</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#levels-of-detail">Levels Of Detail</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#specifics-and-differences-from-bge">Specifics and Differences From BGE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#smooth-lod-switching">Smooth LOD Switching</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hysteresis">Hysteresis</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">网格</a></li>
@@ -200,41 +207,48 @@
            <div itemprop="articleBody">
             
   <div class="section" id="objects">
-<span id="id1"></span><h1><a class="toc-backref" href="#id4">物体</a><a class="headerlink" href="#objects" title="永久链接至标题">¶</a></h1>
+<span id="id1"></span><h1><a class="toc-backref" href="#id6">物体</a><a class="headerlink" href="#objects" title="永久链接至标题">¶</a></h1>
 <div class="contents topic" id="table-of-contents">
 <p class="topic-title first">目录</p>
 <ul class="simple">
-<li><a class="reference internal" href="#objects" id="id4">物体</a><ul>
-<li><a class="reference internal" href="#types" id="id5">类型</a></li>
-<li><a class="reference internal" href="#static-and-dynamic-objects" id="id6">静态和动态物体</a></li>
-<li><a class="reference internal" href="#settings" id="id7">设置</a><ul>
-<li><a class="reference internal" href="#object-tab" id="id8">物体选项卡</a></li>
-<li><a class="reference internal" href="#physics-tab" id="id9">物理标签</a></li>
+<li><a class="reference internal" href="#objects" id="id6">物体</a><ul>
+<li><a class="reference internal" href="#types" id="id7">类型</a></li>
+<li><a class="reference internal" href="#static-and-dynamic-objects" id="id8">静态和动态物体</a></li>
+<li><a class="reference internal" href="#settings" id="id9">设置</a><ul>
+<li><a class="reference internal" href="#object-tab" id="id10">物体选项卡</a></li>
+<li><a class="reference internal" href="#physics-tab" id="id11">物理标签</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#anchor-settings" id="id10">锚设置</a></li>
-<li><a class="reference internal" href="#object-transform-api" id="id11">物体变换API</a></li>
-<li><a class="reference internal" href="#get-object-api" id="id12">获取物体API</a></li>
-<li><a class="reference internal" href="#object-selection" id="id13">物体选择</a></li>
-<li><a class="reference internal" href="#copying-objects-instancing" id="id14">复制物体（实例化）</a><ul>
-<li><a class="reference internal" href="#making-a-simple-copy" id="id15">制作一个简单的复制</a></li>
-<li><a class="reference internal" href="#making-a-deep-copy" id="id16">制作深复制</a></li>
-<li><a class="reference internal" href="#removing-objects" id="id17">删除物体</a></li>
+<li><a class="reference internal" href="#anchor-settings" id="id12">锚设置</a></li>
+<li><a class="reference internal" href="#object-transform-api" id="id13">物体变换API</a></li>
+<li><a class="reference internal" href="#get-object-api" id="id14">获取物体API</a></li>
+<li><a class="reference internal" href="#object-selection" id="id15">物体选择</a></li>
+<li><a class="reference internal" href="#copying-objects-instancing" id="id16">复制物体（实例化）</a><ul>
+<li><a class="reference internal" href="#making-a-simple-copy" id="id17">制作一个简单的复制</a></li>
+<li><a class="reference internal" href="#making-a-deep-copy" id="id18">制作深复制</a></li>
+<li><a class="reference internal" href="#removing-objects" id="id19">删除物体</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#quaternions" id="id18">四元数</a><ul>
-<li><a class="reference internal" href="#quaternion-example" id="id19">四元数例子</a></li>
+<li><a class="reference internal" href="#quaternions" id="id20">四元数</a><ul>
+<li><a class="reference internal" href="#quaternion-example" id="id21">四元数例子</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#moving-via-tsr-vectors" id="id20">通过TSR矢量移动</a></li>
-<li><a class="reference internal" href="#line-rendering" id="id21">Line Rendering</a></li>
+<li><a class="reference internal" href="#moving-via-tsr-vectors" id="id22">通过TSR矢量移动</a></li>
+<li><a class="reference internal" href="#line-rendering" id="id23">线渲染</a></li>
+<li><a class="reference internal" href="#levels-of-detail" id="id24">Levels Of Detail</a><ul>
+<li><a class="reference internal" href="#overview" id="id25">Overview</a></li>
+<li><a class="reference internal" href="#specifics-and-differences-from-bge" id="id26">Specifics and Differences From BGE</a></li>
+<li><a class="reference internal" href="#smooth-lod-switching" id="id27">Smooth LOD Switching</a></li>
+<li><a class="reference internal" href="#hysteresis" id="id28">Hysteresis</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
 </div>
 <p>物体是在3D场景空间中放置的不同类型（网格，照相机，灯等）的组件。</p>
 <div class="section" id="types">
-<h2><a class="toc-backref" href="#id5">类型</a><a class="headerlink" href="#types" title="永久链接至标题">¶</a></h2>
+<h2><a class="toc-backref" href="#id7">类型</a><a class="headerlink" href="#types" title="永久链接至标题">¶</a></h2>
 <p>该引擎支持以下类型的物体：</p>
 <blockquote>
 <div><ul class="simple">
@@ -263,7 +277,7 @@
 <p>在场景导出时，<code class="docutils literal"><span class="pre">CURVE</span></code>，<code class="docutils literal"><span class="pre">TEXT</span></code>，<code class="docutils literal"><span class="pre">METABALL</span></code> 和 <code class="docutils literal"><span class="pre">SURFACE</span></code> 类型的物体转换为 <code class="docutils literal"><span class="pre">MESH</span></code> 类型的物体。</p>
 </div>
 <div class="section" id="static-and-dynamic-objects">
-<span id="static-dynamic-objects"></span><h2><a class="toc-backref" href="#id6">静态和动态物体</a><a class="headerlink" href="#static-and-dynamic-objects" title="永久链接至标题">¶</a></h2>
+<span id="static-dynamic-objects"></span><h2><a class="toc-backref" href="#id8">静态和动态物体</a><a class="headerlink" href="#static-and-dynamic-objects" title="永久链接至标题">¶</a></h2>
 <p>物体可以是静态或动态的。</p>
 <p><strong>静态物体</strong> 是在运行程序时不能移动，动画或以任何其它方式改变的物体。这样的物体可以提高性能，如果它们具有相同的材质可以合并在一起。</p>
 <p><strong>动态物体</strong> 在运行的应用程序可以移动，动画或通过其手段改变。它们也可以与其他物体交互，包括静态物体。动态物体不会彼此或与静态物体相结合。</p>
@@ -285,10 +299,10 @@
 <p>API方法是关注物体的运动，复制和动画（包括物体和节点材料）只能应用于动态物体。为了使物体的不动态设置的运动可能，有必要激活设置 <code class="docutils literal"><span class="pre">Force</span> <span class="pre">Dynamic</span> <span class="pre">Object</span></code> 选项。</p>
 </div>
 <div class="section" id="settings">
-<span id="object-settings"></span><h2><a class="toc-backref" href="#id7">设置</a><a class="headerlink" href="#settings" title="永久链接至标题">¶</a></h2>
+<span id="object-settings"></span><h2><a class="toc-backref" href="#id9">设置</a><a class="headerlink" href="#settings" title="永久链接至标题">¶</a></h2>
 <p>以下是功能支持所有类型的物体：变换，数据引用，父物体，组成员和一套Blend4Web的特殊属性。</p>
 <div class="section" id="object-tab">
-<h3><a class="toc-backref" href="#id8">物体选项卡</a><a class="headerlink" href="#object-tab" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id10">物体选项卡</a><a class="headerlink" href="#object-tab" title="永久链接至标题">¶</a></h3>
 <img alt="_images/object_settings.png" class="align-center" src="_images/object_settings.png" />
 <div class="line-block">
 <div class="line"><br /></div>
@@ -320,14 +334,16 @@
 <div class="line"><br /></div>
 </div>
 </div>
-<div class="section" id="level-of-detail-panel">
-<span id="object-settings-lod"></span><h4>层次细节面板<a class="headerlink" href="#level-of-detail-panel" title="永久链接至标题">¶</a></h4>
+<div class="section" id="levels-of-detail-panel">
+<span id="object-settings-lod"></span><h4>Levels of Detail Panel<a class="headerlink" href="#levels-of-detail-panel" title="永久链接至标题">¶</a></h4>
 <img alt="_images/object_settings_lod.png" class="align-center" src="_images/object_settings_lod.png" />
 <dl class="docutils">
-<dt><em>细节层次 &gt; LOD 转换速率</em></dt>
-<dd><p class="first last">参数用于平滑LOD物体之间的切换。它定义在该LOD物体由下一LOD物体更换前仍然渲染的额外距离。分配到主要物体。测量值为在物体的边界球半径的分数。</p>
-</dd>
+<dt><em>Levels of Detail &gt; Object</em></dt>
+<dd>The object to use for this level of detail.</dd>
+<dt><em>Levels of Detail &gt; Distance</em></dt>
+<dd>The distance to begin using this level of detail.</dd>
 </dl>
+<p>Using levels of detail is described in the <a class="reference internal" href="#lods"><span>dedicated section</span></a>.</p>
 </div>
 <div class="section" id="animation-panel">
 <span id="object-settings-animation"></span><h4>动画面板<a class="headerlink" href="#animation-panel" title="永久链接至标题">¶</a></h4>
@@ -378,24 +394,27 @@
 <dt><em>渲染属性&gt;隐藏</em></dt>
 <dd><p class="first last">与此属性启用的物体将在加载时被隐藏。</p>
 </dd>
+<dt><em>Rendering Properties &gt; Hidden Children</em></dt>
+<dd>All of the object&#8217;s children and children&#8217;s children and so on will be hidden on load. Available only if the <code class="docutils literal"><span class="pre">Rendering</span> <span class="pre">Properties</span> <span class="pre">&gt;</span> <span class="pre">Hidden</span></code> property is enabled and if the object has any children.</dd>
 <dt><em>渲染属性 &gt; 不要渲染</em></dt>
 <dd><p class="first">禁止物体的渲染（例如用于有用的物理物体）。</p>
-<p class="last">This parameter is not available for <code class="docutils literal"><span class="pre">Empty</span></code> type objects.</p>
+<p class="last">此参数不可用于 <code class="docutils literal"><span class="pre">Empty</span></code> 类型的物体。</p>
 </dd>
 <dt><em>渲染属性 &gt; 禁止视椎体剔除</em></dt>
 <dd><p class="first">禁用视椎体剔除优化。</p>
-<p class="last">This parameter is not available for <code class="docutils literal"><span class="pre">Empty</span></code> type objects.</p>
+<p class="last">此参数不可用于 <code class="docutils literal"><span class="pre">Empty</span></code> 类型的物体。</p>
 </dd>
 <dt><em>渲染属性 &gt; 强制动态物体</em></dt>
 <dd><p class="first last">强制物体变成了 <a class="reference internal" href="#static-dynamic-objects"><span>动态物体</span></a>.</p>
 </dd>
 </dl>
 <dl class="docutils" id="dynamic-geom">
-<dt><em>Rendering Properties &gt; Dynamic Geometry &amp; Materials</em></dt>
-<dd>Allows using geometry update API and inherit materials for the object.</dd>
-<dt><em>Rendering Properties &gt; Line Rendering</em></dt>
-<dd><p class="first">Enables using the object for rendering <a class="reference internal" href="#line-rendering"><span>lines</span></a>.</p>
-<p class="last">This parameter is only available for <code class="docutils literal"><span class="pre">Empty</span></code> type objects.</p>
+<dt><em>渲染属性 &gt; 动态几何体与材质</em></dt>
+<dd><p class="first last">允许使用几何更新 API 和为物体继承材质。</p>
+</dd>
+<dt><em>渲染属性 &gt; 线呈渲染</em></dt>
+<dd><p class="first">允许使用该物体到渲染中 <a class="reference internal" href="#line-rendering"><span>参数线条</span></a>.</p>
+<p class="last">此参数仅供 <code class="docutils literal"><span class="pre">Empty</span></code> 类型物体。</p>
 </dd>
 </dl>
 </div>
@@ -536,7 +555,7 @@
 </div>
 </div>
 <div class="section" id="physics-tab">
-<h3><a class="toc-backref" href="#id9">物理标签</a><a class="headerlink" href="#physics-tab" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id11">物理标签</a><a class="headerlink" href="#physics-tab" title="永久链接至标题">¶</a></h3>
 <a class="reference internal image-reference" href="_images/object_setup_phys.png"><img alt="_images/object_setup_phys.png" class="align-center" src="_images/object_setup_phys.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -558,7 +577,7 @@
 </div>
 </div>
 <div class="section" id="anchor-settings">
-<span id="objects-anchors"></span><h2><a class="toc-backref" href="#id10">锚设置</a><a class="headerlink" href="#anchor-settings" title="永久链接至标题">¶</a></h2>
+<span id="objects-anchors"></span><h2><a class="toc-backref" href="#id12">锚设置</a><a class="headerlink" href="#anchor-settings" title="永久链接至标题">¶</a></h2>
 <p>锚可以用来附加注释到3D物体。不管摄像机位置注释显示在物体附近，甚至在整个动画跟随它。</p>
 <a class="reference internal image-reference" href="_images/objects_anchors_example.png"><img alt="_images/objects_anchors_example.png" class="align-center" src="_images/objects_anchors_example.png" style="width: 100%;" /></a>
 <p>注释完全可以在Blender中创建。你需要做的是放置一个 <code class="docutils literal"><span class="pre">Empty</span></code> 物体在需要的位置，然后启用 <code class="docutils literal"><span class="pre">Anchor</span></code> 属性。对于注释文本可以在 <code class="docutils literal"><span class="pre">Meta</span> <span class="pre">Tags</span></code>  面板的 <code class="docutils literal"><span class="pre">Title</span></code> 和 <code class="docutils literal"><span class="pre">Description</span></code> 字段进行分配。</p>
@@ -591,7 +610,7 @@
 </dl>
 </div>
 <div class="section" id="object-transform-api">
-<span id="index-0"></span><h2><a class="toc-backref" href="#id11">物体变换API</a><a class="headerlink" href="#object-transform-api" title="永久链接至标题">¶</a></h2>
+<span id="index-0"></span><h2><a class="toc-backref" href="#id13">物体变换API</a><a class="headerlink" href="#object-transform-api" title="永久链接至标题">¶</a></h2>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
 <p class="last">请确保您要变换的物体是 <a class="reference internal" href="#static-dynamic-objects"><span>动态物体</span></a>.</p>
@@ -649,7 +668,7 @@
 </dl>
 </div>
 <div class="section" id="get-object-api">
-<span id="index-1"></span><span id="id2"></span><h2><a class="toc-backref" href="#id12">获取物体API</a><a class="headerlink" href="#get-object-api" title="永久链接至标题">¶</a></h2>
+<span id="index-1"></span><span id="id2"></span><h2><a class="toc-backref" href="#id14">获取物体API</a><a class="headerlink" href="#get-object-api" title="永久链接至标题">¶</a></h2>
 <p>对物体执行任何操作，您首先需要得到它（找到到它的链接）。有几个API函数是做这个的。有链接的物体具有 <code class="docutils literal"><span class="pre">Object3D</span></code> 类型。</p>
 <dl class="docutils">
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.get_object_by_name">get_object_by_name()</a></dt>
@@ -719,7 +738,7 @@
 </dl>
 </div>
 <div class="section" id="object-selection">
-<span id="mesh-selection"></span><h2><a class="toc-backref" href="#id13">物体选择</a><a class="headerlink" href="#object-selection" title="永久链接至标题">¶</a></h2>
+<span id="mesh-selection"></span><h2><a class="toc-backref" href="#id15">物体选择</a><a class="headerlink" href="#object-selection" title="永久链接至标题">¶</a></h2>
 <p>为了使一个特定的物体能被选择，需要 <code class="docutils literal"><span class="pre">Selection</span> <span class="pre">and</span> <span class="pre">Outlining</span></code> 面板上的 <code class="docutils literal"><span class="pre">Selectable</span></code> 复选框启用。</p>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
@@ -742,7 +761,7 @@
 </div>
 </div>
 <div class="section" id="copying-objects-instancing">
-<span id="mesh-copy"></span><h2><a class="toc-backref" href="#id14">复制物体（实例化）</a><a class="headerlink" href="#copying-objects-instancing" title="永久链接至标题">¶</a></h2>
+<span id="mesh-copy"></span><h2><a class="toc-backref" href="#id16">复制物体（实例化）</a><a class="headerlink" href="#copying-objects-instancing" title="永久链接至标题">¶</a></h2>
 <p>它通常需要复制（使的实例）中的应用程序的工作物体。</p>
 <dl class="docutils">
 <dt>复制物体也有其局限性：</dt>
@@ -757,11 +776,11 @@
 </dd>
 </dl>
 <div class="section" id="making-a-simple-copy">
-<h3><a class="toc-backref" href="#id15">制作一个简单的复制</a><a class="headerlink" href="#making-a-simple-copy" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id17">制作一个简单的复制</a><a class="headerlink" href="#making-a-simple-copy" title="永久链接至标题">¶</a></h3>
 <p>在简单复制的情况下，新的物体将共享与原始物体的网格。因此，如果原始物体的网格被改变，则复制的物体的网格也将被改变。为了让简单复制可能的，但它足以打开``Blend4Web&gt;强制动态Object``源物体的属性设置。</p>
 </div>
 <div class="section" id="making-a-deep-copy">
-<h3><a class="toc-backref" href="#id16">制作深复制</a><a class="headerlink" href="#making-a-deep-copy" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id18">制作深复制</a><a class="headerlink" href="#making-a-deep-copy" title="永久链接至标题">¶</a></h3>
 <p>在深度复制的情况下，新物体将具有独特的性质，即它会有自己的网格。因此，如果原始物体的网格被改变，则复制的物体的网格将不被改变。另外，在复制的物体在画布纹理不同的纹理和不同一个像它与简单复制的情况。为了使深度复制可能，要求源物体启用 <a class="reference internal" href="#dynamic-geom"><span>渲染属性&gt;动态几何</span></a> 复选框. |</p>
 <p>在运行时复制物体可以使用 <code class="docutils literal"><span class="pre">objects.js</span></code> 模块的 <code class="docutils literal"><span class="pre">copy</span></code> 方法进行。此方法需要三个参数：源物体的id，新物体一个唯一的名称和布尔值，以指定复制模式（即简单或深度）。默认情况下，简单复制将被执行。</p>
 <p>新创建的物体，应添加到场景。这可以用 <code class="docutils literal"><span class="pre">scenes.js</span></code> 模块的 <code class="docutils literal"><span class="pre">append_object</span></code> 方法进行。新物体应该被传递给它作为参数。</p>
@@ -774,7 +793,7 @@
 </div>
 </div>
 <div class="section" id="removing-objects">
-<h3><a class="toc-backref" href="#id17">删除物体</a><a class="headerlink" href="#removing-objects" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id19">删除物体</a><a class="headerlink" href="#removing-objects" title="永久链接至标题">¶</a></h3>
 <p>要删除物体，请使用 <code class="docutils literal"><span class="pre">scenes.js</span></code> 模块的 <code class="docutils literal"><span class="pre">remove_object</span></code> 方法。传递物体作为参数。动态网格-空类型的物体可以用这种方式删除。</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
 <span class="nx">m_objects</span><span class="p">.</span><span class="nx">remove_object</span><span class="p">(</span><span class="nx">new_obj</span><span class="p">);</span>
@@ -784,7 +803,7 @@
 </div>
 </div>
 <div class="section" id="quaternions">
-<span id="index-2"></span><h2><a class="toc-backref" href="#id18">四元数</a><a class="headerlink" href="#quaternions" title="永久链接至标题">¶</a></h2>
+<span id="index-2"></span><h2><a class="toc-backref" href="#id20">四元数</a><a class="headerlink" href="#quaternions" title="永久链接至标题">¶</a></h2>
 <p>四元数是用于执行旋转的四分量矢量。四元数优于其它旋转方法，例如：</p>
 <blockquote>
 <div><ul class="simple">
@@ -826,7 +845,7 @@
 </dd>
 </dl>
 <div class="section" id="quaternion-example">
-<h3><a class="toc-backref" href="#id19">四元数例子</a><a class="headerlink" href="#quaternion-example" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id21">四元数例子</a><a class="headerlink" href="#quaternion-example" title="永久链接至标题">¶</a></h3>
 <p>我们需要在水平面向右旋转物体60度。我们有一个在Blender里有个名为 “Cessna” 的模型。</p>
 <a class="reference internal image-reference" href="_images/objects_aircraft.png"><img alt="_images/objects_aircraft.png" class="align-center" src="_images/objects_aircraft.png" style="width: 100%;" /></a>
 <div class="line-block">
@@ -875,7 +894,7 @@
 </div>
 </div>
 <div class="section" id="moving-via-tsr-vectors">
-<h2><a class="toc-backref" href="#id20">通过TSR矢量移动</a><a class="headerlink" href="#moving-via-tsr-vectors" title="永久链接至标题">¶</a></h2>
+<h2><a class="toc-backref" href="#id22">通过TSR矢量移动</a><a class="headerlink" href="#moving-via-tsr-vectors" title="永久链接至标题">¶</a></h2>
 <p>有时用下面格式的矢量来移动物体是很方便的：</p>
 <blockquote>
 <div><span class="math">\([T_x, T_y, T_z, S, R_x, R_y, R_z, R_w]\)</span></div></blockquote>
@@ -883,15 +902,15 @@
 <p>该向量可通过 <cite>tsr</cite> 模块以及经由 <cite>transform</cite> 模块的  <cite>set_tsr()</cite>/<cite>get_tsr()</cite>  的方法操作。</p>
 </div>
 <div class="section" id="line-rendering">
-<span id="id3"></span><h2><a class="toc-backref" href="#id21">Line Rendering</a><a class="headerlink" href="#line-rendering" title="永久链接至标题">¶</a></h2>
-<p>Blend4Web engine also features an option to render lines defined by sets of points.</p>
+<span id="id3"></span><h2><a class="toc-backref" href="#id23">线渲染</a><a class="headerlink" href="#line-rendering" title="永久链接至标题">¶</a></h2>
+<p>Blend4Web 引擎还具有功能选项能够渲染点集定义的线。</p>
 <a class="reference internal image-reference" href="_images/objects_line_rendering.png"><img alt="_images/objects_line_rendering.png" class="align-center" src="_images/objects_line_rendering.png" style="width: 100%;" /></a>
-<p>API methods used for line rendering itself are located in the <a class="reference external" href="https://www.blend4web.com/api_doc/module-geometry.html">geometry</a> module, while the style of a rendered line (i.e. its color and thickness) can be set with the <a class="reference external" href="https://www.blend4web.com/api_doc/module-material.html#.set_line_params">set_line_params()</a> method of the <a class="reference external" href="https://www.blend4web.com/api_doc/module-material.html">material</a> module.</p>
-<p>To use line rendering, at least one <code class="docutils literal"><span class="pre">Empty</span></code> type object with enabled <code class="docutils literal"><span class="pre">Line</span> <span class="pre">Rendering</span></code> option needs to be present in the scene.</p>
-<p>To render a line, you first have to <a class="reference internal" href="#get-object-api"><span>retrieve a link</span></a> to an <code class="docutils literal"><span class="pre">Empty</span></code> object. The origin point of this object will then be used as a center of coordinates when rendering lines.</p>
-<p>The line itself can be rendered by calling the <a class="reference external" href="https://www.blend4web.com/api_doc/module-geometry.html#.draw_line">draw_line()</a> API method. Its first parameter is a link to an <code class="docutils literal"><span class="pre">Empty</span></code> object (see above), while the second one is an array of vertices that will be used for building a line. The method is also has a third, optional, parameter, that defines the rendering mode: whether the method will produce a single line or a set of lines defined by pairs of vertices (in the latter case, the total number of vertices should be even).</p>
-<p>If an <code class="docutils literal"><span class="pre">Empty</span></code> object is used to render more than one line at a time, only the last one will be visible. To render multiple lines, you will need to use multiple <code class="docutils literal"><span class="pre">Empty</span></code> objects.</p>
-<p>The following example shows a part of the coordinate axes object in the picture above rendered using lines:</p>
+<p>用于渲染线的API 方法位于 <a class="reference external" href="https://www.blend4web.com/api_doc/module-geometry.html">geometry</a>  模块，可以设置渲染线的样式（即其颜色和厚度）需要用 <a class="reference external" href="https://www.blend4web.com/api_doc/module-material.html#.set_line_params">set_line_params()</a> 的方法，位于 <a class="reference external" href="https://www.blend4web.com/api_doc/module-material.html">material</a> 模块。</p>
+<p>若要使用线条的渲染效果，至少需要在场景中存在一个 <code class="docutils literal"><span class="pre">Empty</span></code> 类型物体启用了 <code class="docutils literal"><span class="pre">线渲染</span></code> 选项。</p>
+<p>要渲染一条线，你首先必须 <a class="reference internal" href="#get-object-api"><span>获取链接</span></a> 到 <code class="docutils literal"><span class="pre">Empty</span></code> 物体。此物体的起始点将用作线在渲染时的中心坐标。</p>
+<p>可以通过调用 <a class="reference external" href="https://www.blend4web.com/api_doc/module-geometry.html#.draw_line">draw_line()</a> API 方法渲染线条。其第一个参数是指向  <code class="docutils literal"><span class="pre">Empty</span></code> 物体 （见上面），而第二个是用于建立一条线的一列顶点数组。该方法也拥有第三个可选的参数，定义渲染模式︰ 方法由成对的顶点定义生成一条或一组线 （后一种情况下的顶点总数应该是偶数）。</p>
+<p>如果一个 <code class="docutils literal"><span class="pre">Empty</span></code> 物体在一条线渲染中不止一次使用，只有最后一个将可见。要渲染多条线，您将需要使用多个 <code class="docutils literal"><span class="pre">Empty</span></code> 物体。</p>
+<p>下面的示例演示了使用线渲染上面的图片中的坐标轴物体的一部分︰</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_scenes</span>    <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_material</span>  <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;material&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_geometry</span>  <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;geometry&quot;</span><span class="p">);</span>
@@ -913,7 +932,61 @@
 <span class="nx">m_geometry</span><span class="p">.</span><span class="nx">draw_line</span><span class="p">(</span><span class="nx">line_1</span><span class="p">,</span> <span class="nx">points_1</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>This code listing produces only the main axes of the object, because listing all of its elements will make the code long and repetitive. The other elements of the object are drawn it the same way.</p>
+<p>这个代码列表生成只有物体的主轴，因为列出所有元素将都使代码过长和重复。绘制物体的其他元素它以同样的方式。</p>
+</div>
+<div class="section" id="levels-of-detail">
+<span id="lods"></span><h2><a class="toc-backref" href="#id24">Levels Of Detail</a><a class="headerlink" href="#levels-of-detail" title="永久链接至标题">¶</a></h2>
+<div class="section" id="overview">
+<h3><a class="toc-backref" href="#id25">Overview</a><a class="headerlink" href="#overview" title="永久链接至标题">¶</a></h3>
+<p>LODs, or levels of detail, are versions of a single object with various amounts of detail. Levels of detail are used for the purpose of optimization, and the idea here is that if an object is far from the camera, you can render more simple version of it – for example, the one with less polygons and simpler material. This can reduce the burden on the GPU without decreasing the quality of the render, as most of the details of the original object won’t be visible from the distance.</p>
+<p>LODs are often used in large-scale scenes with high object count. More compact scenes may not gain a major performance boost from using this feature. Video game locations such as islands, countrysides or town streets are most suitable for using LODs.</p>
+<p>LODs can be set up directly in Blender at the <code class="docutils literal"><span class="pre">Levels</span> <span class="pre">of</span> <span class="pre">Detail</span></code> <a class="reference internal" href="#object-settings-lod"><span>panel</span></a>.</p>
+<a class="reference internal image-reference" href="_images/objects_lod_list.png"><img alt="_images/objects_lod_list.png" class="align-center" src="_images/objects_lod_list.png" style="width: 100%;" /></a>
+<p>There, you can set levels of detail and distances at which they will be used for an individual object. Each level of detail is a separate object. The main rule is obvious: the lower the level of detail is positioned in the list, the simpler the corresponding object should be.</p>
+<p>You can make your objects simpler in different ways: by decreasing its polycount, by making the materials less complex (this is especially true for node materials) or by turning off various effect such as <a class="reference internal" href="lighting.html#shadows"><span>shadows</span></a>, <a class="reference internal" href="animation.html#animation"><span>animations</span></a> or <a class="reference internal" href="outdoor_rendering.html#wind"><span>Wind Bending</span></a>.</p>
+<p>The number of levels can be set as you see fit, depending on the overall scale of the scene.</p>
+<div class="figure align-center" id="id4">
+<a class="reference internal image-reference" href="_images/objects_levels_compare.png"><img alt="_images/objects_levels_compare.png" src="_images/objects_levels_compare.png" style="width: 100%;" /></a>
+<p class="caption"><span class="caption-text"><em>Levels of detail for trees: original object at the left, its LOD on the right</em></span></p>
+</div>
+</div>
+<div class="section" id="specifics-and-differences-from-bge">
+<h3><a class="toc-backref" href="#id26">Specifics and Differences From BGE</a><a class="headerlink" href="#specifics-and-differences-from-bge" title="永久链接至标题">¶</a></h3>
+<p>Setting up LODs and using them in the engine has some specifics. Also, BGE mode in Blender has its own LOD system that is mostly identical to the one used in Blend4Web, but still has some differences that are mentioned below.</p>
+<ol class="arabic simple">
+<li>When you are applying a LOD object to some other object, the position of the LOD object will not change. So, if you want the objects to occupy the same place in the runtime, you should manually place them in the same location in Blender. This is different from BGE, where a selected LOD object is automatically moved to the center of the main object.</li>
+<li>If you need to set the same LOD object for multiple different objects (for example, same-type trees, building, cars or shrubs), you should make a copy of it for every object (i.e., make as many copies as there are objects that will use this object as a LOD) and set these copies as LODs. Unlike BGE, copies are not generated automatically when you select the same LOD object for multiple base objects. To simplify creating same-type object, we recommend to put the base object and all its LODs to one group and then duplicate this group using Empty objects.</li>
+<li>If the object is supposed to change its position in the runtime, you should attach its LODs to it in Blender using parent-child link so LOD object would copy its transformations.</li>
+</ol>
+</div>
+<div class="section" id="smooth-lod-switching">
+<h3><a class="toc-backref" href="#id27">Smooth LOD Switching</a><a class="headerlink" href="#smooth-lod-switching" title="永久链接至标题">¶</a></h3>
+<p>One of the most notable shortcomings of the LOD system is the abrupt switching between levels of detail which is easy to notice and can be annoying.</p>
+<p>The engine supports smooth transition between LODs based on alpha test.</p>
+<div class="figure align-center" id="id5">
+<a class="reference internal image-reference" href="_images/objects_lod_smoothing.png"><img alt="_images/objects_lod_smoothing.png" src="_images/objects_lod_smoothing.png" style="width: 100%;" /></a>
+<p class="caption"><span class="caption-text"><em>Smooth transition between the original object and its LOD.</em></span></p>
+</div>
+<p>The option used for this is called <code class="docutils literal"><span class="pre">LOD</span> <span class="pre">Smooth</span> <span class="pre">Transitions</span></code> and can be found on the <code class="docutils literal"><span class="pre">Scene-&gt;Object</span> <span class="pre">Clustering</span> <span class="pre">&amp;</span> <span class="pre">LOD</span></code> <a class="reference internal" href="scene_settings.html#scene-batching"><span>panel</span></a>.</p>
+<p>It is intended for enabling smooth LOD transition and setting object types that this transition will be applied to. It should be noted that enabling this option might significantly decrease performance (it depends on the number of LOD objects and their materials).</p>
+<div class="admonition note">
+<p class="first admonition-title">注解</p>
+<p>Smooth LOD transition is not always required. For example, if you instantly transport your camera to some distant object, you probably don’t want LOD switching to occur right in front of it. In cases like this, the <code class="docutils literal"><span class="pre">lod_leap_smooth_threshold</span></code> parameter should be used. It defines the threshold distance (in meters) that the camera can cover in one frame. If this value is exceeded, LODs are switched instantaneously. This can be used to disable smooth LOD transition when camera is teleported to a new location or simply moves very fast.</p>
+<blockquote class="last">
+<div><div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
+
+<span class="nx">m_cfg</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;lod_leap_smooth_threshold&quot;</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span> <span class="c1">// 5 meters</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="hysteresis">
+<h3><a class="toc-backref" href="#id28">Hysteresis</a><a class="headerlink" href="#hysteresis" title="永久链接至标题">¶</a></h3>
+<p>LODs are switched at certain distances from the object. These level borders are set up on the <code class="docutils literal"><span class="pre">Levels</span> <span class="pre">of</span> <span class="pre">Detail</span></code> panel. If the camera is moving near a border like this, it can cross it often, which results in frequent LOD switching. Under such circumstances, LOD switching becomes very apparent and thus undesirable.</p>
+<p>This problem can be negated with the <code class="docutils literal"><span class="pre">Max</span> <span class="pre">LOD</span> <span class="pre">Hysteresis</span> <span class="pre">Interval</span></code> parameter located on the <code class="docutils literal"><span class="pre">Scene-&gt;Object</span> <span class="pre">Clustering</span> <span class="pre">&amp;</span> <span class="pre">LOD</span></code> <a class="reference internal" href="scene_settings.html#scene-batching"><span>panel</span></a>. It sets an interval (in meters) that is used as a gap between two LOD levels.</p>
+<p>For example, if <code class="docutils literal"><span class="pre">Max</span> <span class="pre">LOD</span> <span class="pre">Hysteresis</span> <span class="pre">Interval</span></code> is set to 4 meters while the distance between detail levels is equal to the 20 meters, one level will be turned on at the distance of 18 meters and the other, at the distance of 22 meters. Using this option eliminates frequent LOD switching, as levels of detail no longer have definite border between them. The setting is adaptive and can adjust to different LOD distances, reducing the set interval, if needed.</p>
+</div>
 </div>
 </div>
 
@@ -936,8 +1009,8 @@
 
   <div role="contentinfo">
     <p>
-        &copy; 版权所有 2014-2016, Triumph.
-      最后更新于 2017-03-07.
+        &copy; 版权所有 2014-2017, Triumph.
+      最后更新于 2017-04-26.
 
     </p>
   </div>
@@ -993,7 +1066,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.02.1',
+            VERSION:'v17.04',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

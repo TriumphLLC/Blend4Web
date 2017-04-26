@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Управление проектами &mdash; Руководство пользователя Blend4Web 17.02.1</title>
+  <title>Управление проектами &mdash; Руководство пользователя Blend4Web 17.04</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 17.02.1" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 17.04" href="index.html"/>
         <link rel="next" title="Просмотрщик сцен" href="viewer.html"/>
         <link rel="prev" title="Рабочий процесс" href="workflow.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v17.02.1
+              v17.04
             </div>
           
         
@@ -542,7 +542,7 @@
 <span id="project-edit"></span><h3><a class="toc-backref" href="#id14">Редактирование проекта</a><a class="headerlink" href="#project-editing" title="Ссылка на этот заголовок">¶</a></h3>
 <p>По ссылке <code class="docutils literal"><span class="pre">[edit]</span></code> рядом с названием проекта доступен простой веб-интерфейс для редактирования файлов проекта.</p>
 <a class="reference internal image-reference" href="_images/project_manager_edit_project.png"><img alt="_images/project_manager_edit_project.png" class="align-center" src="_images/project_manager_edit_project.png" style="width: 100%;" /></a>
-<p>Левая часть окна редактора содержит список всех <code class="docutils literal"><span class="pre">.html</span></code>-, <code class="docutils literal"><span class="pre">.css</span></code>- и <code class="docutils literal"><span class="pre">.js</span></code>-файлов, находящихся в директории проекта (<code class="docutils literal"><span class="pre">projects/&lt;мой_проект&gt;</span></code>). Правая часть содержит текст выбранного файла (по умолчанию файл не выбран) с посвеченным синтаксисом.</p>
+<p>Левая часть окна редактора содержит список всех <code class="docutils literal"><span class="pre">.html</span></code>-, <code class="docutils literal"><span class="pre">.css</span></code>- и <code class="docutils literal"><span class="pre">.js</span></code>-файлов, находящихся в директории проекта (<code class="docutils literal"><span class="pre">projects/&lt;мой_проект&gt;</span></code>). Правая часть содержит текст выбранного файла (по умолчанию файл не выбран) с подсвеченным синтаксисом.</p>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
 <p class="last">Этот интерфейс может использоваться только для редактирования файлов версии для разработки, но не файлов собранной версии.</p>
@@ -735,7 +735,7 @@
 </div>
 <div class="section" id="advanced-project-management">
 <span id="id6"></span><h2><a class="toc-backref" href="#id19">Расширенное управление проектами</a><a class="headerlink" href="#advanced-project-management" title="Ссылка на этот заголовок">¶</a></h2>
-<p>Расширенное управление проектами используется опытными разработчикам, которым необходима как большая степень гибкости, так и возвожность автоматизировать все рабочие процессы, связанные с разработкой приложений.</p>
+<p>Расширенное управление проектами используется опытными разработчикам, которым необходима как большая степень гибкости, так и возможность автоматизировать все рабочие процессы, связанные с разработкой приложений.</p>
 <p>Для расширенного управления проектами следует использовать скрипт <em>project.py</em> и ручное редактирование конфигурационных файлов <em>.b4w_project</em>.</p>
 <p>Скрипт <em>project.py</em> расположен в Blend4Web SDK в директории <code class="docutils literal"><span class="pre">./apps_dev/</span></code>. Если при создании проекта была выбрана опция <code class="docutils literal"><span class="pre">Copy</span> <span class="pre">Project</span> <span class="pre">Management</span> <span class="pre">Script</span></code>, то в директории самого проекта будет находится копия этого скрипта.</p>
 <div class="section" id="dependencies">
@@ -833,7 +833,7 @@ ignore =
 override =
 </pre></div>
 </div>
-<p>Это станадртный конфигурационный INI-файл, состоящий из разделов, включающих параметры и их значения.</p>
+<p>Это стандартный конфигурационный INI-файл, состоящий из разделов, включающих параметры и их значения.</p>
 <div class="section" id="section-info">
 <h4>Раздел <code class="docutils literal"><span class="pre">[info]</span></code><a class="headerlink" href="#section-info" title="Ссылка на этот заголовок">¶</a></h4>
 <p>Содержит метаданные проекта:</p>
@@ -1015,8 +1015,6 @@ override =
 </li>
 <li><p class="first"><code class="docutils literal"><span class="pre">&quot;-o</span> <span class="pre">|</span> <span class="pre">--optimization&quot;</span></code> (необязательная) используется для указания метода оптимизации js-файлов. Доступные варианты: <code class="docutils literal"><span class="pre">whitespace</span></code>, <code class="docutils literal"><span class="pre">simple</span></code> (по умолчанию) и <code class="docutils literal"><span class="pre">advanced</span></code>.</p>
 </li>
-<li><p class="first">&#8220;-t | &#8211;engine-type&#8221; (необязательная) определяет тип компилируемого приложения. Доступны четыре варианта: <code class="docutils literal"><span class="pre">external</span></code> (по умолчанию), <code class="docutils literal"><span class="pre">copy</span></code>, <code class="docutils literal"><span class="pre">compile</span></code> и <code class="docutils literal"><span class="pre">update</span></code>.</p>
-</li>
 <li><p class="first"><code class="docutils literal"><span class="pre">&quot;-v</span> <span class="pre">|</span> <span class="pre">--version&quot;</span></code> добавляет версию к адресам скриптов и стилей.</p>
 </li>
 </ul>
@@ -1069,7 +1067,7 @@ override =
 </li>
 <li><p class="first"><code class="docutils literal"><span class="pre">&quot;-o</span> <span class="pre">|</span> <span class="pre">--override&quot;</span></code> удаляет директорию, если она существует.</p>
 </li>
-<li><p class="first"><code class="docutils literal"><span class="pre">&quot;-s</span> <span class="pre">|</span> <span class="pre">--assets&quot;</span></code> записывет в конфигурационный файл путь к файлам ресурсов.</p>
+<li><p class="first"><code class="docutils literal"><span class="pre">&quot;-s</span> <span class="pre">|</span> <span class="pre">--assets&quot;</span></code> записывает в конфигурационный файл путь к файлам ресурсов.</p>
 </li>
 <li><p class="first"><code class="docutils literal"><span class="pre">&quot;-t</span> <span class="pre">|</span> <span class="pre">--engine-type&quot;</span></code> (необязательная) записывает в конфигурационный файл тип движка.</p>
 </li>
@@ -1142,8 +1140,8 @@ override =
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2014-2016, Триумф.
-      Обновлено: 2017-03-07.
+        &copy; Copyright 2014-2017, Триумф.
+      Обновлено: 2017-04-26.
 
     </p>
   </div>
@@ -1199,7 +1197,7 @@ override =
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.02.1',
+            VERSION:'v17.04',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

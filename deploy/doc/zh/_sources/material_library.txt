@@ -22,12 +22,26 @@
 
     * 如何只添加核心材质
 
-    * 如何将材质库添加到项目
-
 材质库是用户可以在其中找到基本和最常用的材质，在他或她的项目中使用或创
 建他或她自己的基于这些材质的材质库。
 
-该材质库可以在  "/blender/material_library/" 在SDK根目录文件夹中找到。
+当创建一个新的项目，你可以插入材质库进去，然后直接从那里插入材质。
+
+[图片]
+
+To do this, check the "Use Material Library" box when creating the
+project using the Project Manager. Then, an entire material library
+will be automatically copied to the "/assets/material_library/" folder
+in the new project’s directory.
+
+注解: It is also possible to use Material Library in a pre-existing
+  project. All you have to do is copy files from the
+  "/blender/material_library/" folder to the "/assets/" folder in your
+  project’s directory. Then you can link the files that contain
+  materials you need to your scene file and use them in the scene.
+
+注解: Materials (or any other objects) can be both *linked* or
+  *appended* to the scene. The difference is described here.
 
 
 库结构
@@ -162,14 +176,3 @@ from Library" 或者 "Link from Library" 。
 
 注解: 每一个材质不仅考虑遮罩和纹理，而且顶点颜色和UV贴图也有自己的要
   求。
-
-
-如何将材质库添加到项目
-----------------------
-
-当创建一个新的项目，你可以插入材质库进去，然后直接从那里插入材质。
-
-[图片]
-
-要做到这一点，使用创建项目时使用  Project Manager 勾选上 "Use Material
-Library" ，然后，整个材质库将被自动复制到新的项目，和所有的依赖一起。

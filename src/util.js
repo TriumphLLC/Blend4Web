@@ -28,6 +28,7 @@ var m_mat3  = require("__mat3");
 var m_mat4  = require("__mat4");
 var m_math  = require("__math");
 var m_print = require("__print");
+var m_tbn   = require("__tbn");
 var m_tsr   = require("__tsr");
 var m_quat  = require("__quat");
 var m_vec3  = require("__vec3");
@@ -98,9 +99,6 @@ var INV_CUBE_VIEW_MATRS =
      new Float32Array([-1, 0,  0, 0, 0, -1,  0, 0,  0,  0,  1, 0, 0, 0, 0, 1])];
 
 var GAMMA = 2.2;
-
-// offset > 2/65535 to prevent zeroes when converting to short
-var ZERO_TBN_QUAT_EPSILON = 0.000031;
 
 exports.VEC3_IDENT = VEC3_IDENT;
 exports.QUAT4_IDENT = QUAT4_IDENT;
@@ -782,86 +780,10 @@ exports.unique_name = function(name_base) {
 exports.create_empty_va_frame = function() {
     var va_frame = {
         "a_position": new Float32Array(0),
-        "a_tbn_quat": new Float32Array(0)
+        "a_tbn": m_tbn.create(0)
     }
 
     return va_frame;
-}
-
-exports.gen_tbn_quats = function(normals, tangents, dest) {
-    tangents = tangents || create_non_smi_array();
-    var use_tangent = tangents.length;
-    var count = normals.length / 3;
-    dest = dest || new Float32Array(4 * count);
-
-    for (var i = 0; i < count; ++i) {
-        var norm = _vec3_tmp;
-        norm[0] = normals[3 * i];
-        norm[1] = normals[3 * i + 1];
-        norm[2] = normals[3 * i + 2];
-
-        var tan;
-        if (use_tangent) {
-            tan = _vec4_tmp2;
-            tan[0] = tangents[4 * i];
-            tan[1] = tangents[4 * i + 1];
-            tan[2] = tangents[4 * i + 2];
-            tan[3] = tangents[4 * i + 3];
-        } else
-            // tangents === []
-            tan = tangents;
-        get_tbn_quat(norm, tan, dest.subarray(4 * i, 4 * (i + 1)));
-    }
-    return dest;
-}
-
-exports.get_tbn_quat = get_tbn_quat;
-function get_tbn_quat(normal, tangent, dest) {
-    var use_tangent = tangent.length;
-
-    var norm = _vec3_tmp;
-    norm[0] = normal[0];
-    norm[1] = normal[1];
-    norm[2] = normal[2];
-    m_vec3.normalize(norm, norm);
-
-    if (use_tangent) {
-        var tan = _vec4_tmp2;
-        tan[0] = tangent[0];
-        tan[1] = tangent[1];
-        tan[2] = tangent[2];
-        tan[3] = tangent[3];
-
-        var binorm = m_vec3.cross(tan, norm, _vec3_tmp3);
-        m_vec3.normalize(binorm, binorm);
-        m_vec3.cross(norm, binorm, tan);
-
-        var mat = _mat3_tmp;
-        mat[0] = tan[0];
-        mat[1] = tan[1];
-        mat[2] = tan[2];
-        mat[3] = norm[0];
-        mat[4] = norm[1];
-        mat[5] = norm[2];
-        mat[6] = binorm[0];
-        mat[7] = binorm[1];
-        mat[8] = binorm[2];
-        m_quat.fromMat3(mat, dest);
-
-        // NOTE: fixes +/- issues with zeroes
-        if (dest[3] > 0)
-            dest[3] += ZERO_TBN_QUAT_EPSILON;
-        else
-            dest[3] -= ZERO_TBN_QUAT_EPSILON;
-
-        // save handedness
-        if (dest[3] > 0 && tan[3] < 0 || dest[3] < 0 && tan[3] > 0)
-            m_quat.scale(dest, -1, dest);
-        m_quat.normalize(dest, dest);
-    } else
-        m_quat.rotationTo(AXIS_Y, norm, dest);
-
-    return dest;
 }
 
 /**

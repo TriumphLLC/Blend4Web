@@ -41,7 +41,7 @@
 
 #var USE_DERIVATIVES_EXT 0
 
-# if USE_DERIVATIVES_EXT
+# if GLSL1 && USE_DERIVATIVES_EXT
 #extension GL_OES_standard_derivatives: enable
 # endif
 

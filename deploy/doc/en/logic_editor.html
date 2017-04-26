@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Logic Editor &mdash; Blend4Web 17.02.1 User Manual</title>
+  <title>Logic Editor &mdash; Blend4Web 17.04 User Manual</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.02.1 User Manual" href="index.html"/>
+    <link rel="top" title="Blend4Web 17.04 User Manual" href="index.html"/>
         <link rel="next" title="Lighting, Shadows and Background" href="lighting.html"/>
         <link rel="prev" title="Node Materials" href="node_materials.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v17.02.1
+              v17.04
             </div>
           
         
@@ -461,7 +461,7 @@
 <dt><em>&lt;object name&gt; Hit</em></dt>
 <dd>This parameter will pass the control to the next node if the user selects (with a mouse or by touch) an object mentioned in the parameter’s name. The <code class="docutils literal"><span class="pre">Switch</span> <span class="pre">Select</span></code> node has one such parameter by default, but you can add new ones and remove existing ones (the node can even have no such parameters).</dd>
 <dt><em>Miss</em></dt>
-<dd>This parameter will pass the control to the next node if the user hasn’t selected any of the objects specified in the <code class="docutils literal"><span class="pre">Switch</span> <span class="pre">Select</span></code> node.</dd>
+<dd>This parameter will pass the control to the next node when the user selects any object with the <code class="docutils literal"><span class="pre">Selectable</span></code> property enabled (or used by another <code class="docutils literal"><span class="pre">Switch</span> <span class="pre">Select</span></code> node), but not specified in the <code class="docutils literal"><span class="pre">Switch</span> <span class="pre">Select</span></code> node.</dd>
 </dl>
 </div>
 <div class="section" id="id4">
@@ -524,18 +524,20 @@
 <dt><em>Condition</em></dt>
 <dd><p class="first">Logical condition. Can have one of the following types:</p>
 <ul class="last simple">
-<li><em>Equal</em> - first operand is equal to the second.</li>
-<li><em>Not Equal</em> - first operand is not equal to the second.</li>
-<li><em>Less Than</em> - first operand is less than the second.</li>
-<li><em>Greater Than</em> - first operand is greater than the second.</li>
-<li><em>Less Than Or Equal</em> - first operand is less than or equal to the second.</li>
-<li><em>Greater Than Or Equal</em> - first operand is greater than or equal to the second.</li>
+<li><em>Equal (=)</em> - first operand is equal to the second.</li>
+<li><em>Not Equal (!=)</em> - first operand is not equal to the second.</li>
+<li><em>Less Than (&lt;)</em> - first operand is less than the second.</li>
+<li><em>Greater Than (&gt;)</em> - first operand is greater than the second.</li>
+<li><em>Less Than Or Equal (&lt;=)</em> - first operand is less than or equal to the second.</li>
+<li><em>Greater Than Or Equal (=&gt;)</em> - first operand is greater than or equal to the second.</li>
 </ul>
 </dd>
 <dt><em>Operand1</em></dt>
-<dd>First operand of the logical condition. Should have a numeric value. Can be specified in the node or can be a link to one of the variables.</dd>
+<dd>First operand of the logical condition. Contains a numeric value of a string (if the <code class="docutils literal"><span class="pre">String</span> <span class="pre">Operators</span></code> parameter is enabled). Can be specified in the node or can be a link to one of the variables (if the <code class="docutils literal"><span class="pre">Variable</span></code> parameter at the right of it is enabled).</dd>
 <dt><em>Operand2</em></dt>
 <dd>Second operand of the logical condition. Works the same way as the first.</dd>
+<dt><em>String Operands</em></dt>
+<dd>If this parameter is enabled, first and second operands can use strings (set manually or by a variable) as their values.</dd>
 </dl>
 </div>
 </div>
@@ -575,7 +577,7 @@
 <p class="last">An array that consists of the output parameters serves as the second argument of the callback function.</p>
 </dd>
 <dt><em>Param &lt;param_number&gt;</em></dt>
-<dd>Specifies one of the variables that will be used as an output parameter. By default, <code class="docutils literal"><span class="pre">R1</span></code> varaible is used.</dd>
+<dd>Specifies one of the variables that will be used as an output parameter. By default, <code class="docutils literal"><span class="pre">R1</span></code> variable is used.</dd>
 </dl>
 </div>
 </div>
@@ -879,7 +881,7 @@
 <ul class="simple">
 <li><code class="docutils literal"><span class="pre">World</span></code> - global coordinate space.</li>
 <li><code class="docutils literal"><span class="pre">Parent</span></code> - local coordinate system of the parent of the object specified by the <code class="docutils literal"><span class="pre">Object</span></code> parameter. Parent object&#8217;s origin point is used as the center of coordinates, while its angles of rotation define the directions of the coordinate axes.</li>
-<li><code class="docutils literal"><span class="pre">Local</span></code> - local coordinate space of the selected object. Similar to the <code class="docutils literal"><span class="pre">Parent</span></code> coordinate space, but in this case, the origin point of the object itelf is used as the origin of coordinates.</li>
+<li><code class="docutils literal"><span class="pre">Local</span></code> - local coordinate space of the selected object. Similar to the <code class="docutils literal"><span class="pre">Parent</span></code> coordinate space, but in this case, the origin point of the object itself is used as the origin of coordinates.</li>
 </ul>
 <p class="last">Set to <code class="docutils literal"><span class="pre">World</span></code> by default.</p>
 </dd>
@@ -1117,22 +1119,22 @@
 <dt><em>Operation</em></dt>
 <dd><p class="first">Mathematical operation. Can have one of the following types:</p>
 <ul class="last simple">
-<li><em>Random</em> generates random value greater than the first operand and less than the second.</li>
-<li><em>Add</em> sums the operands.</li>
-<li><em>Multiply</em> multiplies the operands.</li>
-<li><em>Subtract</em> subtracts the second operand from the first.</li>
-<li><em>Divide</em> divides first operand by the second.</li>
-<li><em>Sin</em> returns the sine of an angle (measured in radians) defined by the first operand.</li>
-<li><em>Cos</em> returns the cosine of an angle (measured in radians) defined by the first operand</li>
-<li><em>Tan</em> returns the tangent of an angle (measured in radians) defined by the first operand.</li>
-<li><em>ArcSin</em> returns the arcsine value of the first operand.</li>
-<li><em>ArcCos</em> returns the arccosine value of the first operand.</li>
-<li><em>ArcTan</em> returns the arctangent value of the first operand.</li>
-<li><em>Log</em> returns the logarithmic value of the first operand with the second operand used as the base.</li>
-<li><em>Min</em> returns the lesser one of the two operands.</li>
-<li><em>Max</em> returns the greater one of the two operands.</li>
-<li><em>Round</em> rounds the first operator.</li>
-<li><em>Mod</em> returns the remainder after division of the first operand by the second.</li>
+<li><em>Random</em> generates random value greater than the first operand and less than the second,</li>
+<li><em>Add</em> sums the operands,</li>
+<li><em>Multiply</em> multiplies the operands,</li>
+<li><em>Subtract</em> subtracts the second operand from the first,</li>
+<li><em>Divide</em> divides first operand by the second,</li>
+<li><em>Sin</em> returns the sine of an angle (measured in radians) defined by the first operand,</li>
+<li><em>Cos</em> returns the cosine of an angle (measured in radians) defined by the first operand,</li>
+<li><em>Tan</em> returns the tangent of an angle (measured in radians) defined by the first operand,</li>
+<li><em>ArcSin</em> returns the arcsine value of the first operand,</li>
+<li><em>ArcCos</em> returns the arccosine value of the first operand,</li>
+<li><em>ArcTan</em> returns the arctangent value of the first operand,</li>
+<li><em>Log</em> returns the logarithmic value of the first operand with the second operand used as the base,</li>
+<li><em>Min</em> returns the lesser one of the two operands,</li>
+<li><em>Max</em> returns the greater one of the two operands,</li>
+<li><em>Round</em> rounds the first operator,</li>
+<li><em>Mod</em> returns the remainder after division of the first operand by the second,</li>
 <li><em>Abs</em> returns the absolute value of the first operand.</li>
 </ul>
 </dd>
@@ -1352,7 +1354,7 @@
 <div class="section" id="using-json-logic-node-to-decode-json-object">
 <h4>Using JSON logic node to decode JSON object<a class="headerlink" href="#using-json-logic-node-to-decode-json-object" title="Permalink to this headline">¶</a></h4>
 <a class="reference internal image-reference" href="_images/logic_editor_json_decode_example.png"><img alt="_images/logic_editor_json_decode_example.png" class="align-center" src="_images/logic_editor_json_decode_example.png" style="width: 100%;" /></a>
-<p>The picture above shows a logic node setup that recieves a JSON object from the server, stores it in the <code class="docutils literal"><span class="pre">R1</span></code> variable and then decodes it. Such a JSON object looks like this:</p>
+<p>The picture above shows a logic node setup that receives a JSON object from the server, stores it in the <code class="docutils literal"><span class="pre">R1</span></code> variable and then decodes it. Such a JSON object looks like this:</p>
 <div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
     <span class="nt">&quot;a&quot;</span><span class="p">:</span> <span class="p">{</span>
         <span class="nt">&quot;b&quot;</span><span class="p">:</span> <span class="mi">17</span><span class="p">,</span>
@@ -1543,8 +1545,8 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2014-2016, Triumph.
-      Last updated on 2017-03-07.
+        &copy; Copyright 2014-2017, Triumph.
+      Last updated on 2017-04-26.
 
     </p>
   </div>
@@ -1600,7 +1602,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.02.1',
+            VERSION:'v17.04',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

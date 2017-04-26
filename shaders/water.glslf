@@ -7,10 +7,6 @@
 
 #var USE_FOG 0
 #var USE_TBN_SHADING 0
-#var NORM_FOAM0 0
-#var NORM_FOAM1 0
-#var NORM_FOAM2 0
-#var NORM_FOAM3 0
 
 #var DEBUG_WIREFRAME 0
 #var NUM_NORMALMAPS 0
@@ -235,13 +231,12 @@ GLSL_OUT vec4 GLSL_OUT_FRAG_COLOR;
 #include <fog.glslf>
 #endif
 
-vec3 reflection (in vec2 screen_coord, in vec3 normal, in vec3 eye_dir,
-                 in vec3 light_energies, out float mirror_factor) {
+vec3 reflection (in vec2 screen_coord, in vec3 normal, in vec3 eye_reflected,
+                 in vec3 light_energies, out float mirror_factor,
+                 in float fresnel_factor) {
 
     // NOTE: set up out variables to prevent IE 11 linking crash
     mirror_factor = 0.0;
-
-    vec3 eye_reflected = reflect(-eye_dir, normal);
 
 #if REFLECTION_TYPE == REFL_PLANE
     vec2 reflect_coord = screen_coord.xy + normal.xy * REFL_BUMP
@@ -255,8 +250,6 @@ vec3 reflection (in vec2 screen_coord, in vec3 normal, in vec3 eye_dir,
 # else
         reflect_color = u_diffuse_color.rgb;
 # endif
-        //float eye_dot_norm = dot(eye_dir, normal);
-        //mirror_factor *= max(1.0 - 1.0 / eye_dot_norm, 0.0);
     } else {
         reflect_color = GLSL_TEXTURE(u_plane_reflection, reflect_coord).rgb;
         srgb_to_lin(reflect_color);
@@ -271,14 +264,7 @@ vec3 reflection (in vec2 screen_coord, in vec3 normal, in vec3 eye_dir,
     srgb_to_lin(reflect_color);
 #endif // REFLECTION_TYPE == REFL_PLANE
 
-    // calculate mirror factor using fresnel
-    vec3 reflected_halfway = normalize(eye_reflected + eye_dir);
-    float one_minus_cos_theta = 1.0 - dot(eye_dir, reflected_halfway);
-    float r0 = u_fresnel_params[3];
-    float N = u_fresnel_params[2];
-    float r = r0 + (1.0 - r0) * pow(one_minus_cos_theta, N);
-
-    mirror_factor = min(mirror_factor * r, 1.0);
+    mirror_factor = min(mirror_factor * fresnel_factor, 1.0);
 
     return reflect_color;
 }
@@ -324,63 +310,29 @@ void main(void) {
 #if NUM_NORMALMAPS > 0
     // wave motion
     vec3 n_sum = vec3(0.0);
-    vec3 tex_norm = GLSL_TEXTURE(u_normalmap0, texcoord * u_normalmap0_scale
-                              + vec2(0.3, 0.5) * u_water_norm_uv_velocity * u_time).xyz - 0.5;
-    n_sum += tex_norm;
-# if FOAM
-    vec3 n_foam = vec3(0.0);
-#  if NORM_FOAM0
-    n_foam += tex_norm;
-#  endif
-# endif
+    n_sum += GLSL_TEXTURE(u_normalmap0, texcoord * u_normalmap0_scale
+                          + vec2(0.3, 0.5) * u_water_norm_uv_velocity * u_time).xyz - 0.5;
 #endif
 #if NUM_NORMALMAPS > 1
-    tex_norm = GLSL_TEXTURE(u_normalmap0, texcoord * u_normalmap1_scale
-                         + vec2(-0.3, 0.7) * u_water_norm_uv_velocity * u_time).xyz - 0.5;
-    n_sum += tex_norm;
-# if FOAM
-#  if NORM_FOAM1
-    n_foam += tex_norm;
-#  endif
-# endif
+    n_sum +=  GLSL_TEXTURE(u_normalmap0, texcoord * u_normalmap1_scale
+                          + vec2(-0.3, 0.7) * u_water_norm_uv_velocity * u_time).xyz - 0.5;
 #endif
 #if NUM_NORMALMAPS > 2
-    tex_norm = GLSL_TEXTURE(u_normalmap0, texcoord * u_normalmap2_scale
-                         + vec2(0.0, 1.1) * u_water_norm_uv_velocity * u_time).xyz - 0.5;
-    n_sum += tex_norm;
-# if FOAM
-#  if NORM_FOAM2
-    n_foam += tex_norm;
-#  endif
-# endif
+    n_sum += GLSL_TEXTURE(u_normalmap0, texcoord * u_normalmap2_scale
+                          + vec2(0.0, 1.1) * u_water_norm_uv_velocity * u_time).xyz - 0.5;
 #endif
 #if NUM_NORMALMAPS > 3
-    tex_norm = GLSL_TEXTURE(u_normalmap0, texcoord * u_normalmap3_scale
+    n_sum += GLSL_TEXTURE(u_normalmap0, texcoord * u_normalmap3_scale
                          + vec2(-0.66, -0.3) * u_water_norm_uv_velocity * u_time).xyz - 0.5;
-    n_sum += tex_norm;
-# if FOAM
-#  if NORM_FOAM3
-    n_foam += tex_norm;
-#  endif
-# endif
 #endif
 
 #if NUM_NORMALMAPS > 0
-    // converting normals to tangent space
-# if FOAM
-    // TODO: check directives NORM_FOAM0, ...
-    vec3 n_foam_world_norm = tbn_matrix * n_foam;
-    if (!is_equal3f(n_foam_world_norm, vec3(0.0)))
-        n_foam_world_norm = normalize(n_foam_world_norm);
-
-    vec3 normal_foam = mix(normal, n_foam_world_norm, 0.2);
-    normal_foam = normalize(normal_foam);
-# endif
-#  if DYNAMIC
+    // normals to tangent space
+# if DYNAMIC
     normal = mix(normal, normalize(tbn_matrix * n_sum), 0.3);
-#  else
+# else
     normal = mix(normal, normalize(tbn_matrix * n_sum), 0.5);
-#  endif
+# endif
     normal = normalize(normal);
 #endif
 
@@ -388,6 +340,8 @@ void main(void) {
 
 #if REFLECTION_TYPE == REFL_PLANE || REFRACTIVE
     vec2 screen_coord = v_tex_pos_clip.xy/v_tex_pos_clip.z;
+#else
+    vec2 screen_coord = vec2(0.0);
 #endif
 
 #if REFRACTIVE
@@ -459,8 +413,8 @@ void main(void) {
     // add foam to directional waves
     vec3 dir_shore = normalize(vec3(v_shore_params.rg, 0.0));
     vec3 foam_dir = normalize(mix(UP_VECTOR, dir_shore, 0.8));
-    float foam_shore_waves = 1.25*max(dot(normal_foam, foam_dir) - 0.2, 0.0);
-    foam_shore_waves += max(dot(normal_foam, -UP_VECTOR), 0.0);
+    float foam_shore_waves = 1.25*max(dot(normal, foam_dir) - 0.2, 0.0);
+    foam_shore_waves += max(dot(normal, -UP_VECTOR), 0.0);
     foam_factor += foam_shore_waves * (1.0 - v_shore_params.b);
     foam_waves_factor *= (1.0 - 0.95 * pow(v_shore_params.b, 0.1));
 
@@ -489,13 +443,18 @@ void main(void) {
     vec3 light_energies = A + u_sun_intensity;
 
     float mirror_factor;
-#if REFLECTION_TYPE == REFL_PLANE
-    vec3 reflect_color = reflection(screen_coord, normal, eye_dir,
-                                    light_energies, mirror_factor);
-#else
-    vec3 reflect_color = reflection(vec2(0.0), normal, eye_dir,
-                                    light_energies, mirror_factor);
-#endif
+
+
+    // calculate mirror factor using fresnel
+    vec3 eye_reflected = reflect(-eye_dir, normal);
+    vec3 reflected_halfway = normalize(eye_reflected + eye_dir);
+    float one_minus_cos_theta = 1.0 - dot(eye_dir, reflected_halfway);
+    float r0 = u_fresnel_params[3];
+    float N = u_fresnel_params[2];
+    float fresnel_fac = r0 + (1.0 - r0) * pow(one_minus_cos_theta, N);
+
+    vec3 reflect_color = reflection(screen_coord, normal, eye_reflected,
+                                    light_energies, mirror_factor, fresnel_fac);
 
     /*==========================================================================
                             Apply all needed colors

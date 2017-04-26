@@ -380,8 +380,7 @@ Distance Map" 面板。设定参数：到岸最大距离（"最大Distance"）�
 
 Fog settings are described in the Scene Settings chapter.
 
-When a dynamic skydome is used, the fog color is defined by the sky
-color.
+当使用动态天穹，雾的颜色是由天空的颜色定义。
 
 
 当日时间

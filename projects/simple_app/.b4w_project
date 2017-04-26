@@ -1,0 +1,28 @@
+[info]
+author = 
+icon = .b4w_icon.png
+name = simple_app
+title = Interactive Web Application
+
+[paths]
+assets_dirs = projects/simple_app/assets;
+blend_dirs = projects/simple_app/blender;
+blender_exec = blender
+build_dir = projects/simple_app/build
+deploy_dir = 
+
+[compile]
+apps = 
+css_ignore = 
+engine_type = copy
+ignore = 
+js_ignore = 
+optimization = simple
+use_physics = True
+
+[deploy]
+assets_path_dest = assets
+assets_path_prefix = assets
+ignore = 
+override = 
+

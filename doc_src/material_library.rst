@@ -1,4 +1,4 @@
-.. material_library:
+.. _material_library:
 
 ****************
 Material Library
@@ -10,7 +10,23 @@ Material Library
 
 The material library is a library where a user can find basic and the most commonly used materials to use in his or her projects or create his or her own materials based on these materials.
 
-The material library can be found in the ``/blender/material_library/`` folder in the SDK root directory.
+When creating a new project, you can plug the material library into it, and then plug in materials directly from there.
+
+.. image:: src_images/material_library/material_library_use.png
+   :align: center
+   :width: 100%
+
+To do this, check the ``Use Material Library`` box when creating the project using the :ref:`Project Manager <project_management>`. Then, an entire material library will be automatically copied to the ``/assets/material_library/`` folder in the new project’s directory.
+
+.. note::
+
+    It is also possible to use Material Library in a pre-existing project. All you have to do is copy files from the ``/blender/material_library/`` folder to the ``/assets/`` folder in your project’s directory. Then you can link the files that contain materials you need to your scene file and use them in the scene.
+
+.. note::
+
+    Materials (or any other objects) can be both *linked* or *appended* to the scene. The difference is described :ref:`here <material_add>`.
+
+.. _library_structure:
 	
 Library Structure
 =================
@@ -20,6 +36,8 @@ All materials are structured by folder (by categories of materials) and by a sep
 .. image:: src_images/material_library/material_library_main.png
    :align: center
    :width: 100%
+
+.. _material_structure:
 
 Material Structure
 ==================
@@ -40,7 +58,7 @@ Material Structure
 
     These masks are not used in every material, only when they are needed for the shader to appear a specific way.
 #. The ``Mapping`` node is used to control the parameters of the UV maps.
-#. The ``RGB Curve`` nodes can be used to correct masks before pulgging them into the material core.
+#. The ``RGB Curve`` nodes can be used to correct masks before plugging them into the material core.
 #. Specific specular map settings are used right after the ``Material`` node to achieve various degrees of specular blur.
 #. The baked ambient occlusion map is added to the shader right before the Output node.
 #. The ``Output`` node.
@@ -49,6 +67,8 @@ Material Core
 -------------
 
 This is the main node group containing the node structure that form a shader. Essentially, this is the material itself in its true form, with all complex node interactions packed into one group for convenient use. This node group has certain inputs and outputs, as well as specific input parameters, to set it up.
+
+.. _material_example:
 
 An Example of Using a Material
 ------------------------------
@@ -81,6 +101,8 @@ Now, let's take a look at a case of using the same material on a different objec
 
 .. note::
     It should be noted that the material core hasn't changed and was not altered to fit different geometry.
+
+.. _material_add:
 
 Adding Material to a Scene
 ==========================
@@ -123,16 +145,5 @@ Now this node group can be found in the list of node groups that you can add to 
 
 .. note::
     Every material has its own requirements considering not only masks and textures, but also vertex colors and UV maps.
-
-How to Add the Material Library to a Project
---------------------------------------------
-
-When creating a new project, you can plug the material library into it, and then plug in materials directly from there.
-
-.. image:: src_images/material_library/material_library_use.png
-   :align: center
-   :width: 100%
-
-To do this, check the ``Use Material Library`` box when creating the project using the :ref:`Project Manager <project_management>`. Then, an entire material library will be automatically copied to the new project along with all the dependencies.
 
 

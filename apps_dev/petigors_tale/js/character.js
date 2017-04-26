@@ -21,13 +21,10 @@ var m_cam   = require("camera");
 var m_cont  = require("container");
 var m_mat   = require("material");
 
-var m_quat  = require("quat");
-
 var m_conf = require("game_config");
 var m_combat = require("combat");
 var m_interface = require("interface");
 var m_bonuses = require("bonuses");
-var m_env = require("environment");
 
 var _level_conf = null; // specified during initialization
 
@@ -202,7 +199,6 @@ exports.run_victory = function() {
     var cam_params = {pivot: pivot};
     m_cam.target_setup(camobj, cam_params);
 
-    var elapsed_sensor = m_ctl.create_elapsed_sensor();
     function cam_rotate_cb(obj, id, pulse) {
         var angles = m_cam.get_camera_angles(obj, _vec2_tmp);
         var dist = m_cam.target_get_distance(obj);
@@ -405,23 +401,21 @@ function setup_movement(up_arrow, down_arrow, left_arrow, right_arrow, on_ground
         if (_char_wrapper.state == m_conf.CH_ATTACK)
             return;
 
-        var on_ground = m_ctl.get_sensor_value(obj, id, 0);
-
         var cur_anim = m_anim.get_current_anim_name(_char_wrapper.rig);
         var required_anim = m_conf.CHAR_IDLE_ANIM;
 
         if (_char_wrapper.state == m_conf.CH_JUMP) {
-            var required_anim = m_conf.CHAR_JUMP_ANIM;
+            required_anim = m_conf.CHAR_JUMP_ANIM;
         } else if (move_state.forw_back == 1) {
-            var required_anim = m_conf.CHAR_RUN_ANIM;
+            required_anim = m_conf.CHAR_RUN_ANIM;
         } else if (move_state.forw_back == -1) {
-            var required_anim = m_conf.CHAR_RUN_ANIM;
+            required_anim = m_conf.CHAR_RUN_ANIM;
             m_anim.set_speed(_char_wrapper.rig, -1);
         } else if (move_state.left_right == 1) {
-            var required_anim = m_conf.CHAR_STRAFE;
+            required_anim = m_conf.CHAR_STRAFE;
             m_anim.set_speed(_char_wrapper.rig, -1);
         } else if (move_state.left_right == -1) {
-            var required_anim = m_conf.CHAR_STRAFE;
+            required_anim = m_conf.CHAR_STRAFE;
         }
 
         if (cur_anim != required_anim) {
@@ -455,8 +449,8 @@ function setup_jumping(touch_jump, on_ground_sens) {
             _char_wrapper.state = m_conf.CH_JUMP;
             m_phy.character_jump(obj);
 
-            var id = Math.floor(_char_jump_spks.length * Math.random());
-            m_sfx.play_def(_char_jump_spks[id]);
+            var jump_id = Math.floor(_char_jump_spks.length * Math.random());
+            m_sfx.play_def(_char_jump_spks[jump_id]);
 
             m_anim.apply(_char_wrapper.rig, m_conf.CHAR_JUMP_ANIM);
             m_anim.set_behavior(_char_wrapper.rig, m_anim.AB_FINISH_STOP);
@@ -560,7 +554,6 @@ function disable_controls() {
         m_ctl.remove_sensor_manifold(_char_wrapper.phys_body);
     m_phy.set_character_move_dir(_char_wrapper.phys_body, 0, 0);
     m_sfx.stop(_char_run_spk);
-    var canvas_elem = m_cont.get_canvas();
 
     if (!m_main.detect_mobile())
         m_mouse.exit_pointerlock();

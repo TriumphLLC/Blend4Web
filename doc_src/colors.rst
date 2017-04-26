@@ -15,7 +15,7 @@ The essence of gamma correction is packing the image brightness channel into  8 
 
 Standard (non-HDR) images are always stored in non-linear color space where the darker components are encoded using more bits than the brighter ones. That means that a bigger RGB value corresponds to 0.5 of the real light intensity (a physical quantity called illuminance) - in the simplest case this value equals to 0.5 ^ (1/2.2) = 0.73.
 
-Overwise, 8 bit of information will not be enough to encode the light intensity. This will result in incorrect rendering of darker tones. For example, dark  gradients will look stepped.
+Otherwise, 8 bit of information will not be enough to encode the light intensity. This will result in incorrect rendering of darker tones. For example, dark  gradients will look stepped.
 
 Therefore, web browsers, as well as many other programs for viewing and manipulating images, work in non-linear space. However, 3D engines and renderers work in linear space, because it is the only correct way to represent light behavior in the real world. For example, the illuminance from two identical lamps exceeds the illuminance from one lamp exactly by two times.
 
@@ -122,7 +122,7 @@ Alpha Compositing
 Overview
 --------
 
-Physically correct alpha compositing is performed according to the formula [`source <http://wwwnew.cs.princeton.edu/courses/archive/spring05/cos426/papers/smith95a.pdf>`_]:
+Physically correct alpha compositing is performed according to the formula [`source <http://www.cs.princeton.edu/courses/archive/spring05/cos426/papers/smith95a.pdf>`_]:
 
     :math:`C_o = C_a \alpha_a + C_b \alpha_b (1 - \alpha_a)`.
 
@@ -136,7 +136,7 @@ The last formula is used also to calculate the resulting :math:`\alpha_o` value:
 
     :math:`\alpha_o = \alpha_a + \alpha_b (1 - \alpha_a)`.
     
-Preliminary multiplication of the color channels by the :math:`\alpha`  values allows to save two multiplication operations. The more significant thing is that the derived formula can be used repeatedly without the need to divide the :math:`C_o` color by the αoαo value on each consequent iteration.
+Preliminary multiplication of the color channels by the :math:`\alpha` values allows to save two multiplication operations. The more significant thing is that the derived formula can be used repeatedly without the need to divide the :math:`C_o` color by the :math:`\alpha_o` value on each consequent iteration.
 
 
 Implementation

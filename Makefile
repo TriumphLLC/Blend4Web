@@ -78,6 +78,7 @@ convert_resources:
 	@echo "Converting resources"
 	@$(SH) ./$(SCRIPTSDIR)/converter.py resize_textures
 	@$(SH) ./$(SCRIPTSDIR)/converter.py convert_dds
+	@$(SH) ./$(SCRIPTSDIR)/converter.py convert_pvr
 	@$(SH) ./$(SCRIPTSDIR)/converter.py convert_media
 
 .PHONY: doc

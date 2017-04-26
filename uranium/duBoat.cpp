@@ -159,7 +159,8 @@ void duBoat::updateBoat( btScalar step )
 
 void duBoat::setSteeringValue(btScalar steering)
 {
-    m_steeringValue = steering;
+    // NOTE: in Z-up configuration it goes in reverse direction
+    m_steeringValue = -steering;
 }
 
 btScalar duBoat::getSteeringValue() const

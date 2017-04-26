@@ -50,7 +50,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'Blend4Web. User Manual'
-copyright = u'2014-2016, Triumph'
+copyright = u'2014-2017, Triumph'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -75,6 +75,7 @@ gettext_compact = False
 
 gettext_enables = ['index']
 gettext_additional_targets = ['index']
+gettext_location = False
 
 # There are two options for replacing |today|: either, you set today to some
 # non-false value, then it is used:

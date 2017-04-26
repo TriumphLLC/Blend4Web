@@ -40,12 +40,14 @@
         
             <div class="description">API for the engine's global configuration.
 
-<p>Use the set()/get() method to change/get the value of a property.
-Use the reset() method to reset all properties to their default state.
-Any change in configuration must occur before engine initialization. Keep in
-mind that some of the properties are affected by the quality profile and
-the user's hardware/browser. In the former case use the CUSTOM profile
-in order to change such properties.</p>
+<p>Use the <a href="module-config.html#.set">set()</a>/<a href="module-config.html#.get">get()</a> 
+method to change/get the value of a property. Use the 
+<a href="module-config.html#.reset">reset()</a> method to reset all properties to their 
+default state. Any change in configuration must occur before engine 
+initialization. Keep in mind that some of the properties are affected by the 
+quality profile and the user's hardware/browser. In the former case use the 
+<a href="module-config.html#.P_CUSTOM">P_CUSTOM</a> profile in order to change such 
+properties.</p>
 
 <p>Normally, the users should not alter these parameters.</p>
 
@@ -54,8 +56,8 @@ in order to change such properties.</p>
 <dt>allow_cors
 <dd>Boolean, allow cross-origin resource sharing.
 <dt>allow_hidpi
-<dd>Boolean, allow HIDPI mode on supported devices (use the CUSTOM profile
-in order to change this parameter).
+<dd>Boolean, allow HIDPI mode on supported devices (use the 
+<a href="module-config.html#.P_CUSTOM">P_CUSTOM</a> profile in order to change this parameter).
 <dt>alpha
 <dd>Boolean, enable WebGL canvas transparency.
 <dt>alpha_sort
@@ -63,116 +65,153 @@ in order to change this parameter).
 <dt>alpha_sort_threshold
 <dd>Number, camera distance threshold for transparency z-sorting.
 <dt>anaglyph_use
-<dd>Boolean, enable anaglyph stereo rendering. Deprecated, use stereo
-instead.
+<dd><span style="color: red;"> Deprecated, use "stereo" instead.</span> 
+Boolean, enable anaglyph stereo rendering.
 <dt>animation_framerate
 <dd>Number, animation framerate.
-<dt> anisotropic_filtering
-<dd>Boolean, enable anisotropic filtering
+<dt>anisotropic_filtering
+<dd>Boolean, enable anisotropic filtering.
 <dt>antialiasing
-<dd>Boolean, enable postprocess-based anti-aliasing (use the CUSTOM profile
-in order to change this parameter).
-<dt>assets_path
-<dd>String, path to assets directory (for get_assets_path() and get_std_assets_path()).
+<dd>Boolean, enable postprocess-based anti-aliasing (use the 
+<a href="module-config.html#.P_CUSTOM">P_CUSTOM</a> profile in order to change this parameter).
 <dt>assets_dds_available
 <dd>Boolean, allow the engine to use compressed DDS textures.
-<dt>assets_pvr_available
-<dd>Boolean, allow the engine to use compressed PVRST textures.
-textures should be present near the source textures in order to be picked up.
+<dt>assets_gzip_available
+<dd>Boolean, enable loading gzipped versions of json/bin/dds/pvr files. It's worth 
+doing it if gzip compression is not set up on a server. A gzipped file must be 
+placed near the original one and its name must be the same as the name of the 
+original file + the ".gz" extension. For example: 
+<pre>
+ my_folder/
+     my_project.json
+     my_project.json.gz
+     my_project.bin
+     my_project.bin.gz
+</pre>
 <dt>assets_min50_available
 <dd>Boolean, allow the engine to use halved textures. The halved
 textures should be present near the source textures in order to be picked up.
+<dt>assets_path
+<dd>String, path to the assets directory (for 
+<a href="module-config.html#.get_assets_path">get_assets_path()</a> and 
+<a href="module-config.html#.get_std_assets_path">get_std_assets_path()</a>).
+<dt>assets_pvr_available
+<dd>Boolean, allow the engine to use compressed PVRTC textures.
+These textures should be present near the source textures in order to be picked up.
 <dt>audio
 <dd>Boolean, enable Web Audio.
 <dt>background_color
 <dd>Array, RGBA values to use as a background color for the WebGL
 canvas.
+<dt>bloom
+<dd>Boolean, enable bloom.
 <dt>built_in_module_name
 <dd>String, name of the module which stores exported data (HTML export only).
-<dt>shadow_blur_samples
-<dd>String, number of shadow border blur samples. It can be '16x', '8x' or '4x'
 <dt>canvas_resolution_factor
-<dd>Boolean, set the resolution factor for the canvas.
+<dd>Number, set the resolution factor for the canvas. Requires the following call
+to apply changes:
+<a href="module-container.html#.resize_to_container">container.resize_to_container(true)</a>.
+<dt>compositing
+<dd>Boolean, enable compositing.
 <dt>console_verbose
 <dd>Boolean, print more debug info in the browser console.
-<dt> compositing
-<dd>Boolean, enable compositing.
+<dt>debug_view
+<dd>Boolean, enable debug view mode.
 <dt>dof
-<dd>Boolean, enable DOF
-<dt>god_rays
-<dd>Boolean, enable god rays
-<dt>bloom
-<dd>Boolean, enable bloom
-<dt>motion_blur
-<dd>Boolean, enable motion_blur
+<dd>Boolean, enable the Depth of Field effect.
 <dt>do_not_load_resources
 <dd>Boolean, disable loading of assets (textures and sounds).
-<dt>enable_selectable
-<dd>Boolean, enable selecting of objects.
+<dt>glow_materials
+<dd>Boolean, enable glow materials.
+<dt>god_rays
+<dd>Boolean, enable god rays.
 <dt>enable_outlining
-<dd>Boolean, enable outlining of object.
+<dd>Boolean, enable object outlining.
+<dt>enable_selectable
+<dd>Boolean, enable object selection.
+<dt>gl_debug
+<dd>Boolean, enable gl errors check. Very slow.
 <dt>is_mobile_device
-<dd>Boolean, check mobile device.
+<dd>Boolean, check mobile device. Read-only.
+<dt>lod_leap_smooth_threshold
+<dd>Number, the maximum amount of the camera movement (in meters) that 
+still can trigger a smooth transition during the LOD switching. Low values can
+be useful to prevent noticeable smooth transitions while teleporting. High 
+values can be useful to keep smooth transitions for fast moving cameras 
+(e.g. flight simulators).
+<dt>lod_smooth_transitions
+<dd>Boolean, enable smooth transitions between LOD levels.
 <dt>max_fps
-<dd>Number, maximum FPS limit
+<dd>Number, maximum FPS limit.
 <dt>max_fps_physics
-<dd>Number, maximum physics FPS limit
+<dd>Number, maximum physics FPS limit.
 <dt>media_auto_activation
-<dd>Boolean, activate media data context on mobile devices using popup dialog.
+<dd>Boolean, activate media data context on mobile devices using a popup dialog.
+<dt>motion_blur
+<dd>Boolean, enable motion_blur.
 <dt>outlining_overview_mode
-<dd>Boolean, make all objects selectable, enable outlining and
-outlining on select.
+<dd>Boolean, make all objects selectable, enable object outlining and
+outlining on selection.
+<dt>physics_calc_fps
+<dd>Boolean, return physics FPS in the <a href="module-main.html#~FPSCallback">FPSCallback</a>.
 <dt>physics_enabled
 <dd>Boolean, use the uranium.js physics engine.
 <dt>physics_uranium_path
-<dd>String, path to the uranium.js file. If not specified, search in the
+<dd>String, path to the directory of uranium.js file. If not specified, search in the
 directory with the engine's sources.
-<dt>physics_calc_fps
-<dd>Boolean, return physics FPS in <a href="module-main.html#~FPSCallback">FPS callback</a>.
 <dt>physics_use_workers
 <dd>Boolean, simulate physics in workers (default) or not.
+<dt>physics_use_wasm
+<dd>Boolean, use WebAssembly for physics or not(default).
 <dt>precision
-<dd>String, preferred GLSL floating point precision (use the CUSTOM profile
-in order to change this parameter).
+<dd>String, preferred GLSL floating point precision (use the 
+<a href="module-config.html#.P_CUSTOM">P_CUSTOM</a> profile in order to change this parameter).
 <dt>prevent_caching
 <dd>Boolean, prevent assets caching by appending timestamp suffix to their
 URLs (default) or not.
 <dt>quality
-<dd>Number, preferred rendering quality profile (one of P_LOW, P_HIGH,
-P_ULTRA, P_CUSTOM enums).
+<dd>Number, preferred rendering quality profile (one of 
+<a href="module-config.html#.P_LOW">P_LOW</a>, <a href="module-config.html#.P_HIGH">P_HIGH</a>,
+<a href="module-config.html#.P_ULTRA">P_ULTRA</a>, <a href="module-config.html#.P_CUSTOM">P_CUSTOM</a> enums).
 <dt>reflections
-<dd>Boolean, enable reflections
+<dd>Boolean, enable reflections.
 <dt>reflection_quality
-<dd>String, quality of reflections. It can be 'LOW', 'MEDIUM' or 'HIGH'
+<dd>String, quality of reflections. It can be "LOW", "MEDIUM" or "HIGH".
 <dt>refractions
-<dd>Boolean, enable refractions
+<dd>Boolean, enable refractions.
 <dt>sfx_mix_mode
 <dd>Boolean, enable the mixer mode in the SFX subsystem.
 <dt>shaders_path
 <dd>String, path to the shaders directory (developer version only).
 <dt>shadows
-<dd>Boolean, enable shadows
+<dd>Boolean, enable shadows.
+<dt>shadow_blur_samples
+<dd>String, number of shadow border blur samples. It can be "16x", "8x" or "4x".
 <dt>show_hud_debug_info
 <dd>Boolean, show HUD with debug information.
 <dt>smaa
-<dd>Boolean, enable SMAA anti-aliasing (use the CUSTOM profile
-in order to change this parameter).
-<dt>smaa_search_texture_path
-<dd>String, path to the SMAA "search" texture. If not specified, search in
-the directory with the engine's sources.
+<dd><span style="color: red;">Deprecated.</span> Boolean, enable SMAA 
+anti-aliasing (use the <a href="module-config.html#.P_CUSTOM">P_CUSTOM</a> 
+profile in order to change this parameter).
 <dt>smaa_area_texture_path
-<dd>String, path to the SMAA "area" texture. If not specified, search in the
-directory with the engine's sources.
+<dd><span style="color: red;">Deprecated.</span> String, path to the SMAA 
+"area" texture. If not specified, search in the directory with the engine's 
+sources.
+<dt>smaa_search_texture_path
+<dd><span style="color: red;">Deprecated.</span> String, path to the SMAA 
+"search" texture. If not specified, search in the directory with the engine's 
+sources.
+<dt>srgb_type
+<dd>String, the quality of the "Linear <-> sRGB" color conversions. Can be 
+one of the following: "SRGB_SIMPLE" - a bit faster, but less accurate, which 
+is especially noticeable for the dark tones; "SRGB_PROPER" - a bit slower, 
+but more precise.
 <dt>ssao
-<dd>Boolean, enable SSAO
+<dd>Boolean, enable SSAO.
 <dt>stereo
 <dd>String, stereoscopic mode: "ANAGLYPH", "HMD" or "NONE".
-<dt>debug_view
-<dd>Boolean, enable debug view mode.
 <dt>use_min50
 <dd>Boolean, enable min50 textures.
-<dt>gl_debug
-<dd>Boolean, enable gl errors check. Very slow.
 </dl></div>
         
 
@@ -400,7 +439,7 @@ auto configurators.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line196">line 196</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line235">line 235</a>
     </li></ul></dd>
     
 
@@ -477,7 +516,7 @@ auto configurators.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line190">line 190</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line229">line 229</a>
     </li></ul></dd>
     
 
@@ -554,7 +593,7 @@ auto configurators.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line178">line 178</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line217">line 217</a>
     </li></ul></dd>
     
 
@@ -631,7 +670,7 @@ auto configurators.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line172">line 172</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line211">line 211</a>
     </li></ul></dd>
     
 
@@ -708,7 +747,7 @@ auto configurators.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line184">line 184</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line223">line 223</a>
     </li></ul></dd>
     
 
@@ -851,7 +890,7 @@ auto configurators.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line245">line 245</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line284">line 284</a>
     </li></ul></dd>
     
 
@@ -1008,7 +1047,7 @@ auto configurators.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line211">line 211</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line250">line 250</a>
     </li></ul></dd>
     
 
@@ -1165,7 +1204,7 @@ auto configurators.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line236">line 236</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line275">line 275</a>
     </li></ul></dd>
     
 
@@ -1280,7 +1319,7 @@ auto configurators.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line230">line 230</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line269">line 269</a>
     </li></ul></dd>
     
 
@@ -1366,7 +1405,7 @@ auto configurators.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line219">line 219</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line258">line 258</a>
     </li></ul></dd>
     
 
@@ -1452,7 +1491,7 @@ auto configurators.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line225">line 225</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line264">line 264</a>
     </li></ul></dd>
     
 
@@ -1610,7 +1649,7 @@ auto configurators.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line203">line 203</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line242">line 242</a>
     </li></ul></dd>
     
 
@@ -1690,7 +1729,7 @@ auto configurators.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line167">line 167</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line206">line 206</a>
     </li></ul></dd>
     
 
@@ -1728,7 +1767,7 @@ auto configurators.
 <br class="clear">
 
 <footer>
-    Blend4Web API Reference (generated by JSDoc 3.4.0 on Tue Mar 07 2017 11:35:18 GMT+0300 (MSK))
+    Blend4Web API Reference (generated by JSDoc 3.4.0 on Wed Apr 26 2017 11:05:10 GMT+0300 (MSK))
     <a href="https://www.blend4web.com">www.blend4web.com</a>
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">

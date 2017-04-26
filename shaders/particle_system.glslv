@@ -37,7 +37,7 @@
                                 SHADER INTERFACE
 ==============================================================================*/
 GLSL_IN vec3 a_position;
-GLSL_IN vec4 a_tbn_quat;
+GLSL_IN vec4 a_tbn;
 GLSL_IN vec3 a_p_data;
 GLSL_IN vec4 a_p_vels;
 GLSL_IN vec2 a_p_bb_vertex;

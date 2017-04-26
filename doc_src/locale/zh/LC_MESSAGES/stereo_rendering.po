@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2016-10-21 15:38+0300\n"
+"POT-Creation-Date: 2017-04-20 16:04+0300\n"
 "PO-Revision-Date: 2016-10-29 13:56+0800\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Chinese <info [at] blend4web.com>\n"
@@ -15,8 +15,6 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.3.4\n"
-"Language: zh\n"
-"X-Generator: Poedit 1.8.9\n"
 
 #: ../stereo_rendering.rst:8
 msgid "Stereo Rendering"
@@ -28,16 +26,15 @@ msgstr "目录"
 
 #: ../stereo_rendering.rst:14
 msgid ""
-"The stereoscopic rendering mode is intended for viewing the content using "
-"special glasses. It is activated by an application via API."
+"The stereoscopic rendering mode is intended for viewing the content using"
+" special glasses. It is activated by an application via API."
 msgstr "立体渲染模式适用于使用特殊眼镜观看的内容。它是应用程序通过API来激活。"
 
 #: ../stereo_rendering.rst:16
 msgid ""
-"Blend4Web supports two techniques of the stereo image rendering - anaglyph image "
-"and the HMD (head-mounted display)."
-msgstr ""
-"Blend4Web支持立体图像渲染的两种技术 -  立体图像（红/蓝）和HMD（头戴式显示器）。"
+"Blend4Web supports two techniques of the stereo image rendering - "
+"anaglyph image and the HMD (head-mounted display)."
+msgstr "Blend4Web支持立体图像渲染的两种技术 -  立体图像（红/蓝）和HMD（头戴式显示器）。"
 
 #: ../stereo_rendering.rst:20
 msgid "Anaglyph:"
@@ -49,8 +46,8 @@ msgstr "HMD："
 
 #: ../stereo_rendering.rst:36
 msgid ""
-"HMD is an experimental feature, for now it works only with the ``Eye`` type "
-"cameras."
+"HMD is an experimental feature, for now it works only with the ``Eye`` "
+"type cameras."
 msgstr "HMD是一个实验性的功能，现在它只能用于 ``Eye`` 类型摄像机。"
 
 #: ../stereo_rendering.rst:39
@@ -59,53 +56,53 @@ msgstr "激活"
 
 #: ../stereo_rendering.rst:41
 msgid ""
-"To use HMD stereo rendering, you need to install Oculus's `runtime utility "
-"<https://developer.oculus.com/downloads/>`_ (two versions are supported: the "
-"`chromium_webvr_v1_win64.7z` in the root directory and the one in the "
-"`Deprecated API` folder). Windows and macOS versions can be found on the Oculus "
-"website in binary format, while Linux version should be compiled from the source "
-"code."
+"To use HMD stereo rendering, you need to install Oculus' `runtime utility"
+" <https://developer.oculus.com/downloads/>`_ (two versions are supported:"
+" the `chromium_webvr_v1_win64.7z` in the root directory and the one in "
+"the `Deprecated API` folder). Windows and macOS versions can be found on "
+"the Oculus website in binary format, while Linux version should be "
+"compiled from the source code."
 msgstr ""
-"要使用HMD立体渲染，您需要安装 Oculus 的 `运行时工具 <https://developer.oculus."
-"com/downloads/>`_ (支持两个版本：根目录下的 `chromium_webvr_v1_win64.7z` 和在 "
-"`Deprecated API` 文件夹下的). Windows和MacOS的二进制格式版本，可以在Oculus公司"
-"的网站上找到，而Linux版本应该从源代码进行编译。"
+"要使用HMD立体渲染，您需要安装 Oculus 的 `运行时工具 "
+"<https://developer.oculus.com/downloads/>`_ (支持两个版本：根目录下的 "
+"`chromium_webvr_v1_win64.7z` 和在 `Deprecated API` 文件夹下的). "
+"Windows和MacOS的二进制格式版本，可以在Oculus公司的网站上找到，而Linux版本应该从源代码进行编译。"
 
 #: ../stereo_rendering.rst:43
 msgid ""
-"For now, the HMD is supported by the `Chromium experimental builds <https://"
-"webvr.info/get-chrome/>`_ and in the `Firefox nightly builds <https://nightly."
-"mozilla.org/>`_."
+"For now, the HMD is supported by the `Chromium experimental builds "
+"<https://webvr.info/get-chrome/>`_ and in the `Firefox nightly builds "
+"<https://nightly.mozilla.org/>`_."
 msgstr ""
-"就目前而言，HMD的支持在 `Chromium实验性版本 <http://blog.tojicode.com/2014/07/"
-"bringing-vr-to-chrome.html>`_ 和 `Firefox 每日版 <https://nightly.mozilla.org/"
-">`_."
+"就目前而言，HMD的支持在 `Chromium实验性版本 <http://blog.tojicode.com/2014/07/bringing-"
+"vr-to-chrome.html>`_ 和 `Firefox 每日版 <https://nightly.mozilla.org/>`_."
 
 #: ../stereo_rendering.rst:45
 msgid ""
-"`Chromium settings. <https://docs.google.com/document/"
-"d/1g02qHfX85vSRSOkWm9k33I0b7VuyN79md9U9t6MIa4E/edit>`_"
+"`Chromium settings. "
+"<https://docs.google.com/document/d/1g02qHfX85vSRSOkWm9k33I0b7VuyN79md9U9t6MIa4E/edit>`_"
 msgstr ""
-"`Chromium 设置. <https://docs.google.com/document/"
-"d/1g02qHfX85vSRSOkWm9k33I0b7VuyN79md9U9t6MIa4E/edit>`_"
+"`Chromium 设置. "
+"<https://docs.google.com/document/d/1g02qHfX85vSRSOkWm9k33I0b7VuyN79md9U9t6MIa4E/edit>`_"
 
 #: ../stereo_rendering.rst:47
 msgid ""
-"`Firefox settings. <https://developer.mozilla.org/en-US/docs/Web/API/WebVR_API>`_"
+"`Firefox settings. <https://developer.mozilla.org/en-"
+"US/docs/Web/API/WebVR_API>`_"
 msgstr ""
-"`Firefox 设置. <https://developer.mozilla.org/en-US/docs/Web/API/WebVR_API>`_"
+"`Firefox 设置. <https://developer.mozilla.org/en-"
+"US/docs/Web/API/WebVR_API>`_"
 
 #: ../stereo_rendering.rst:49
 msgid ""
-"To turn the stereo rendering on, you need to choose certain option in the "
-"settings, in the third column from the right, as shown on the picture."
-msgstr ""
-"要打开立体渲染，你需要选择某些特定选项中的设置，从右边的起第三栏，如图所示。"
+"To turn the stereo rendering on, you need to choose certain option in the"
+" settings, in the third column from the right, as shown on the picture."
+msgstr "要打开立体渲染，你需要选择某些特定选项中的设置，从右边的起第三栏，如图所示。"
 
 #: ../stereo_rendering.rst:55
 msgid ""
-"For stereo rendering to work correctly, switching to the full screen mode is "
-"recommended."
+"For stereo rendering to work correctly, switching to the full screen mode"
+" is recommended."
 msgstr "要让立体渲染正常工作，建议切换到全屏模式。"
 
 #: ../stereo_rendering.rst:58
@@ -122,31 +119,28 @@ msgstr "HMD设置"
 
 #: ../stereo_rendering.rst:71
 msgid ""
-"This group of settings allows a user to change various parameters in order to "
-"adjust whatever VR device they have to better view a certain 3D application or "
-"scene. There are two ways these settings can be accessed:"
-msgstr ""
-"这组设置允许用户改变各种参数，以调整任何虚拟现实设备，让他们更好地查看某个三维应"
-"用程序或场景。有两种方法可以访问这些设置："
+"This group of settings allows a user to change various parameters in "
+"order to adjust whatever VR device they have to better view a certain 3D "
+"application or scene. There are two ways these settings can be accessed:"
+msgstr "这组设置允许用户改变各种参数，以调整任何虚拟现实设备，让他们更好地查看某个三维应用程序或场景。有两种方法可以访问这些设置："
 
 #: ../stereo_rendering.rst:73
 msgid ""
-"Firstly, it can be found in the :ref:`Blend4Web Viewer <viewer>` application "
-"under the :ref:`Stereo View tab <stereo_view>`."
-msgstr ""
-"首先，它可以在 :ref:`Blend4Web 查看器 <viewer>` 应用的 :ref:`立体视觉面板 "
-"<stereo_view>` 下找到。"
+"Firstly, it can be found in the :ref:`Blend4Web Viewer <viewer>` "
+"application under the :ref:`Stereo View tab <stereo_view>`."
+msgstr "首先，它可以在 :ref:`Blend4Web 查看器 <viewer>` 应用的 :ref:`立体视觉面板 <stereo_view>` 下找到。"
 
 #: ../stereo_rendering.rst:75
 msgid ""
-"And secondly, it can also be shown in an application by using the :b4wref:"
-"`hmd_conf.show` method of the :b4wmod:`hmd_conf` module, but doing this requires "
-"some programming. Examples of this method can be found in the ``viewer.js`` and "
-"``webplayer.js`` applications (in the ``m_hmd_conf`` object)."
+"And secondly, it can also be shown in an application by using the "
+":b4wref:`hmd_conf.show` method of the :b4wmod:`hmd_conf` module, but "
+"doing this requires some programming. Examples of this method can be "
+"found in the ``viewer.js`` and ``webplayer.js`` applications (in the "
+"``m_hmd_conf`` object)."
 msgstr ""
-"其次，它也可以在使用的应用程序中通过 :b4wmod:`hmd_conf` 模块的 :b4wref:`hmd_conf."
-"show` 方法显示，但这样做需要一些编程。该方法的实例可在 ``viewer.js`` 和 "
-"``webplayer.js`` 应用程序（在 ``m_hmd_conf`` 对象）中发现。"
+"其次，它也可以在使用的应用程序中通过 :b4wmod:`hmd_conf` 模块的 :b4wref:`hmd_conf.show` "
+"方法显示，但这样做需要一些编程。该方法的实例可在 ``viewer.js`` 和 ``webplayer.js`` 应用程序（在 "
+"``m_hmd_conf`` 对象）中发现。"
 
 #: ../stereo_rendering.rst:78
 msgid "Profile"
@@ -154,8 +148,8 @@ msgstr "配置"
 
 #: ../stereo_rendering.rst:80
 msgid ""
-"This allows user to select a profile for a specific device. Currently, the "
-"following profiles are available:"
+"This allows user to select a profile for a specific device. Currently, "
+"the following profiles are available:"
 msgstr "这允许用户选择用于特定装置的配置文件。目前，以下模式可供选择："
 
 #: ../stereo_rendering.rst:83
@@ -184,8 +178,8 @@ msgstr "*托盘镜片中心的距离*"
 
 #: ../stereo_rendering.rst:93
 msgid ""
-"This parameter specifies the distance between the phone frame and the center of "
-"the camera lenses."
+"This parameter specifies the distance between the phone frame and the "
+"center of the camera lenses."
 msgstr "此参数指定手机屏幕和摄像机透镜的中心之间的距离。"
 
 #: ../stereo_rendering.rst:95
@@ -198,8 +192,8 @@ msgstr "*瞳距*"
 
 #: ../stereo_rendering.rst:98
 msgid ""
-"This parameter specifies the distance between the pupils of the user's eyes. "
-"Measured in millimeters."
+"This parameter specifies the distance between the pupils of the user's "
+"eyes. Measured in millimeters."
 msgstr "此参数指定用户的眼睛的瞳孔之间的距离。测量单位为毫米。"
 
 #: ../stereo_rendering.rst:100
@@ -207,13 +201,13 @@ msgid "This value can vary from 0 to 100. Default value is 64."
 msgstr "这个值可以从0到100变化，默认值是64。"
 
 #: ../stereo_rendering.rst:105
-msgid "*Screen to lense distance*"
+msgid "*Screen to lens distance*"
 msgstr "*屏幕到镜片距离*"
 
 #: ../stereo_rendering.rst:103
 msgid ""
-"This specifies the distance between the screen of the phone and the camera "
-"lenses."
+"This specifies the distance between the screen of the phone and the "
+"camera lenses."
 msgstr "这指定了电话的屏幕和照相机透镜之间的距离。"
 
 #: ../stereo_rendering.rst:105
@@ -262,8 +256,8 @@ msgstr "*失真系数*"
 
 #: ../stereo_rendering.rst:123
 msgid ""
-"This is used in order to compensate image distortion produced by the VR device "
-"lenses."
+"This is used in order to compensate image distortion produced by the VR "
+"device lenses."
 msgstr "这样做是为了用于补偿由VR设备透镜产生的图像失真。"
 
 #: ../stereo_rendering.rst:125
@@ -303,3 +297,4 @@ msgstr "恢复默认设置。"
 #: ../stereo_rendering.rst:2
 msgid "anaglyph"
 msgstr "立体影片"
+

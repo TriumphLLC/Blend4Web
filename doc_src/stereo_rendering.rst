@@ -38,7 +38,7 @@ HMD is an experimental feature, for now it works only with the ``Eye`` type came
 Activation
 ----------
 
-To use HMD stereo rendering, you need to install Oculus's `runtime utility <https://developer.oculus.com/downloads/>`_ (two versions are supported: the `chromium_webvr_v1_win64.7z` in the root directory and the one in the `Deprecated API` folder). Windows and macOS versions can be found on the Oculus website in binary format, while Linux version should be compiled from the source code.
+To use HMD stereo rendering, you need to install Oculus' `runtime utility <https://developer.oculus.com/downloads/>`_ (two versions are supported: the `chromium_webvr_v1_win64.7z` in the root directory and the one in the `Deprecated API` folder). Windows and macOS versions can be found on the Oculus website in binary format, while Linux version should be compiled from the source code.
 
 For now, the HMD is supported by the `Chromium experimental builds <https://webvr.info/get-chrome/>`_ and in the `Firefox nightly builds <https://nightly.mozilla.org/>`_.
 
@@ -99,7 +99,7 @@ Rendering Settings
 
     This value can vary from 0 to 100. Default value is 64.
 
-*Screen to lense distance*
+*Screen to lens distance*
     This specifies the distance between the screen of the phone and the camera lenses.
 
     This value can vary from 0 to 100. Default value is 50.

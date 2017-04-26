@@ -83,8 +83,10 @@ var ST_HMD_POSITION      = 220;
 var ST_CALLBACK          = 230;
 var ST_GAMEPAD_BTNS      = 240;
 var ST_GMPD_AXIS         = 250
-var ST_PLOCK_MOUSE_MOVE  = 260;
-var ST_PLOCK             = 270;
+var ST_GAMEPAD_POSITION  = 260;
+var ST_GAMEPAD_ORIENTATION = 270;
+var ST_PLOCK_MOUSE_MOVE  = 280;
+var ST_PLOCK             = 290;
 
 // control types
 exports.CT_POSITIVE   = 10;
@@ -241,6 +243,12 @@ function init_sensor(type, element) {
 
         // for ST_GAMEPAD_BTNS
         gamepad_id: 0,
+
+        // for ST_GAMEPAD_POSITION
+        position: m_vec3.create(),
+
+        // for ST_GAMEPAD_ORIENTATION
+        orientation: m_quat.create(),
 
         // for ST_CALLBACK
         callback: function() {}
@@ -848,6 +856,30 @@ exports.create_gamepad_axis_sensor = function(axis, id) {
     return sensor;
 }
 
+exports.create_gamepad_position_sensor = function(id) {
+    var element = document;
+    var sensor = init_sensor(ST_GAMEPAD_POSITION, element);
+
+    id = id === undefined ? m_input.get_first_gmpd_id() : id;
+
+    sensor.gamepad_id = id;
+    sensor.do_activation = true;
+    sensor.payload = m_vec3.create();
+    return sensor;
+}
+
+exports.create_gamepad_orientation_sensor = function(id) {
+    var element = document;
+    var sensor = init_sensor(ST_GAMEPAD_ORIENTATION, element);
+
+    id = id === undefined ? m_input.get_first_gmpd_id() : id;
+
+    sensor.gamepad_id = id;
+    sensor.do_activation = true;
+    sensor.payload = m_quat.create();
+    return sensor;
+}
+
 /**
  * @cc_externs coll_obj coll_pos coll_norm coll_dist
  */
@@ -1380,6 +1412,16 @@ function update_sensor(sensor, timeline, elapsed) {
         var device = get_gmpd_device_by_id(sensor.gamepad_id);
         sensor.value = m_input.get_gamepad_axis_value(device, sensor.key);
         break;
+    case ST_GAMEPAD_POSITION:
+        var device = get_gmpd_device_by_id(sensor.gamepad_id);
+        m_input.get_gamepad_position(device, sensor.payload);
+        sensor_set_value(sensor, 1);
+        break;
+    case ST_GAMEPAD_ORIENTATION:
+        var device = get_gmpd_device_by_id(sensor.gamepad_id);
+        m_input.get_gamepad_orientation(device, sensor.payload);
+        sensor_set_value(sensor, 1);
+        break;
     case ST_CALLBACK:
         sensor_set_value(sensor, sensor.callback());
         break;
@@ -1892,6 +1934,8 @@ function activate_sensor(sensor) {
             register_accum_value(accumulator, "orientation_quat");
             break;
         case ST_GAMEPAD_BTNS:
+        case ST_GAMEPAD_POSITION:
+        case ST_GAMEPAD_ORIENTATION:
             if (sensor.gamepad_id == 0)
                 m_input.get_device_by_type_element(m_input.DEVICE_GAMEPAD0);
             else if (sensor.gamepad_id == 1)

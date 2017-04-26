@@ -19,12 +19,14 @@
 /**
  * API for the engine's global configuration.
  *
- * <p>Use the set()/get() method to change/get the value of a property.
- * Use the reset() method to reset all properties to their default state.
- * Any change in configuration must occur before engine initialization. Keep in
- * mind that some of the properties are affected by the quality profile and
- * the user's hardware/browser. In the former case use the CUSTOM profile
- * in order to change such properties.</p>
+ * <p>Use the {@link module:config.set|set()}/{@link module:config.get|get()} 
+ * method to change/get the value of a property. Use the 
+ * {@link module:config.reset|reset()} method to reset all properties to their 
+ * default state. Any change in configuration must occur before engine 
+ * initialization. Keep in mind that some of the properties are affected by the 
+ * quality profile and the user's hardware/browser. In the former case use the 
+ * {@link module:config.P_CUSTOM|P_CUSTOM} profile in order to change such 
+ * properties.</p>
  *
  * <p>Normally, the users should not alter these parameters.</p>
  *
@@ -33,8 +35,8 @@
  * <dt>allow_cors
  * <dd>Boolean, allow cross-origin resource sharing.
  * <dt>allow_hidpi
- * <dd>Boolean, allow HIDPI mode on supported devices (use the CUSTOM profile
- * in order to change this parameter).
+ * <dd>Boolean, allow HIDPI mode on supported devices (use the 
+ * {@link module:config.P_CUSTOM|P_CUSTOM} profile in order to change this parameter).
  * <dt>alpha
  * <dd>Boolean, enable WebGL canvas transparency.
  * <dt>alpha_sort
@@ -42,134 +44,171 @@
  * <dt>alpha_sort_threshold
  * <dd>Number, camera distance threshold for transparency z-sorting.
  * <dt>anaglyph_use
- * <dd>Boolean, enable anaglyph stereo rendering. Deprecated, use stereo
- * instead.
+ * <dd><span style="color: red;"> Deprecated, use "stereo" instead.</span> 
+ * Boolean, enable anaglyph stereo rendering.
  * <dt>animation_framerate
  * <dd>Number, animation framerate.
- * <dt> anisotropic_filtering
- * <dd>Boolean, enable anisotropic filtering
+ * <dt>anisotropic_filtering
+ * <dd>Boolean, enable anisotropic filtering.
  * <dt>antialiasing
- * <dd>Boolean, enable postprocess-based anti-aliasing (use the CUSTOM profile
- * in order to change this parameter).
- * <dt>assets_path
- * <dd>String, path to assets directory (for get_assets_path() and get_std_assets_path()).
+ * <dd>Boolean, enable postprocess-based anti-aliasing (use the 
+ * {@link module:config.P_CUSTOM|P_CUSTOM} profile in order to change this parameter).
  * <dt>assets_dds_available
  * <dd>Boolean, allow the engine to use compressed DDS textures.
- * <dt>assets_pvr_available
- * <dd>Boolean, allow the engine to use compressed PVRST textures.
- * textures should be present near the source textures in order to be picked up.
+ * <dt>assets_gzip_available
+ * <dd>Boolean, enable loading gzipped versions of json/bin/dds/pvr files. It's worth 
+ * doing it if gzip compression is not set up on a server. A gzipped file must be 
+ * placed near the original one and its name must be the same as the name of the 
+ * original file + the ".gz" extension. For example: 
+ * <pre>
+ *  my_folder/
+ *      my_project.json
+ *      my_project.json.gz
+ *      my_project.bin
+ *      my_project.bin.gz
+ * </pre>
  * <dt>assets_min50_available
  * <dd>Boolean, allow the engine to use halved textures. The halved
  * textures should be present near the source textures in order to be picked up.
+ * <dt>assets_path
+ * <dd>String, path to the assets directory (for 
+ * {@link module:config.get_assets_path|get_assets_path()} and 
+ * {@link module:config.get_std_assets_path|get_std_assets_path()}).
+ * <dt>assets_pvr_available
+ * <dd>Boolean, allow the engine to use compressed PVRTC textures.
+ * These textures should be present near the source textures in order to be picked up.
  * <dt>audio
  * <dd>Boolean, enable Web Audio.
  * <dt>background_color
  * <dd>Array, RGBA values to use as a background color for the WebGL
  * canvas.
+ * <dt>bloom
+ * <dd>Boolean, enable bloom.
  * <dt>built_in_module_name
  * <dd>String, name of the module which stores exported data (HTML export only).
- * <dt>shadow_blur_samples
- * <dd>String, number of shadow border blur samples. It can be '16x', '8x' or '4x'
  * <dt>canvas_resolution_factor
- * <dd>Boolean, set the resolution factor for the canvas.
+ * <dd>Number, set the resolution factor for the canvas. Requires the following call
+ * to apply changes:
+ * {@link module:container.resize_to_container|container.resize_to_container(true)}.
+ * <dt>compositing
+ * <dd>Boolean, enable compositing.
  * <dt>console_verbose
  * <dd>Boolean, print more debug info in the browser console.
- * <dt> compositing
- * <dd>Boolean, enable compositing.
+ * <dt>debug_view
+ * <dd>Boolean, enable debug view mode.
  * <dt>dof
- * <dd>Boolean, enable DOF
- * <dt>god_rays
- * <dd>Boolean, enable god rays
- * <dt>bloom
- * <dd>Boolean, enable bloom
- * <dt>motion_blur
- * <dd>Boolean, enable motion_blur
+ * <dd>Boolean, enable the Depth of Field effect.
  * <dt>do_not_load_resources
  * <dd>Boolean, disable loading of assets (textures and sounds).
- * <dt>enable_selectable
- * <dd>Boolean, enable selecting of objects.
+ * <dt>glow_materials
+ * <dd>Boolean, enable glow materials.
+ * <dt>god_rays
+ * <dd>Boolean, enable god rays.
  * <dt>enable_outlining
- * <dd>Boolean, enable outlining of object.
+ * <dd>Boolean, enable object outlining.
+ * <dt>enable_selectable
+ * <dd>Boolean, enable object selection.
+ * <dt>gl_debug
+ * <dd>Boolean, enable gl errors check. Very slow.
  * <dt>is_mobile_device
- * <dd>Boolean, check mobile device.
+ * <dd>Boolean, check mobile device. Read-only.
+ * <dt>lod_leap_smooth_threshold
+ * <dd>Number, the maximum amount of the camera movement (in meters) that 
+ * still can trigger a smooth transition during the LOD switching. Low values can
+ * be useful to prevent noticeable smooth transitions while teleporting. High 
+ * values can be useful to keep smooth transitions for fast moving cameras 
+ * (e.g. flight simulators).
+ * <dt>lod_smooth_transitions
+ * <dd>Boolean, enable smooth transitions between LOD levels.
  * <dt>max_fps
- * <dd>Number, maximum FPS limit
+ * <dd>Number, maximum FPS limit.
  * <dt>max_fps_physics
- * <dd>Number, maximum physics FPS limit
+ * <dd>Number, maximum physics FPS limit.
  * <dt>media_auto_activation
- * <dd>Boolean, activate media data context on mobile devices using popup dialog.
+ * <dd>Boolean, activate media data context on mobile devices using a popup dialog.
+ * <dt>motion_blur
+ * <dd>Boolean, enable motion_blur.
  * <dt>outlining_overview_mode
- * <dd>Boolean, make all objects selectable, enable outlining and
- * outlining on select.
+ * <dd>Boolean, make all objects selectable, enable object outlining and
+ * outlining on selection.
+ * <dt>physics_calc_fps
+ * <dd>Boolean, return physics FPS in the {@link module:main~FPSCallback|FPSCallback}.
  * <dt>physics_enabled
  * <dd>Boolean, use the uranium.js physics engine.
  * <dt>physics_uranium_path
- * <dd>String, path to the uranium.js file. If not specified, search in the
+ * <dd>String, path to the directory of uranium.js file. If not specified, search in the
  * directory with the engine's sources.
- * <dt>physics_calc_fps
- * <dd>Boolean, return physics FPS in {@link module:main~FPSCallback|FPS
- * callback}.
  * <dt>physics_use_workers
  * <dd>Boolean, simulate physics in workers (default) or not.
+ * <dt>physics_use_wasm
+ * <dd>Boolean, use WebAssembly for physics or not(default).
  * <dt>precision
- * <dd>String, preferred GLSL floating point precision (use the CUSTOM profile
- * in order to change this parameter).
+ * <dd>String, preferred GLSL floating point precision (use the 
+ * {@link module:config.P_CUSTOM|P_CUSTOM} profile in order to change this parameter).
  * <dt>prevent_caching
  * <dd>Boolean, prevent assets caching by appending timestamp suffix to their
  * URLs (default) or not.
  * <dt>quality
- * <dd>Number, preferred rendering quality profile (one of P_LOW, P_HIGH,
- * P_ULTRA, P_CUSTOM enums).
+ * <dd>Number, preferred rendering quality profile (one of 
+ * {@link module:config.P_LOW|P_LOW}, {@link module:config.P_HIGH|P_HIGH},
+ * {@link module:config.P_ULTRA|P_ULTRA}, {@link module:config.P_CUSTOM|P_CUSTOM} enums).
  * <dt>reflections
- * <dd>Boolean, enable reflections
+ * <dd>Boolean, enable reflections.
  * <dt>reflection_quality
- * <dd>String, quality of reflections. It can be 'LOW', 'MEDIUM' or 'HIGH'
+ * <dd>String, quality of reflections. It can be "LOW", "MEDIUM" or "HIGH".
  * <dt>refractions
- * <dd>Boolean, enable refractions
+ * <dd>Boolean, enable refractions.
  * <dt>sfx_mix_mode
  * <dd>Boolean, enable the mixer mode in the SFX subsystem.
  * <dt>shaders_path
  * <dd>String, path to the shaders directory (developer version only).
  * <dt>shadows
- * <dd>Boolean, enable shadows
+ * <dd>Boolean, enable shadows.
+ * <dt>shadow_blur_samples
+ * <dd>String, number of shadow border blur samples. It can be "16x", "8x" or "4x".
  * <dt>show_hud_debug_info
  * <dd>Boolean, show HUD with debug information.
  * <dt>smaa
- * <dd>Boolean, enable SMAA anti-aliasing (use the CUSTOM profile
- * in order to change this parameter).
- * <dt>smaa_search_texture_path
- * <dd>String, path to the SMAA "search" texture. If not specified, search in
- * the directory with the engine's sources.
+ * <dd><span style="color: red;">Deprecated.</span> Boolean, enable SMAA 
+ * anti-aliasing (use the {@link module:config.P_CUSTOM|P_CUSTOM} 
+ * profile in order to change this parameter).
  * <dt>smaa_area_texture_path
- * <dd>String, path to the SMAA "area" texture. If not specified, search in the
- * directory with the engine's sources.
+ * <dd><span style="color: red;">Deprecated.</span> String, path to the SMAA 
+ * "area" texture. If not specified, search in the directory with the engine's 
+ * sources.
+ * <dt>smaa_search_texture_path
+ * <dd><span style="color: red;">Deprecated.</span> String, path to the SMAA 
+ * "search" texture. If not specified, search in the directory with the engine's 
+ * sources.
+ * <dt>srgb_type
+ * <dd>String, the quality of the "Linear <-> sRGB" color conversions. Can be 
+ * one of the following: "SRGB_SIMPLE" - a bit faster, but less accurate, which 
+ * is especially noticeable for the dark tones; "SRGB_PROPER" - a bit slower, 
+ * but more precise.
  * <dt>ssao
- * <dd>Boolean, enable SSAO
+ * <dd>Boolean, enable SSAO.
  * <dt>stereo
  * <dd>String, stereoscopic mode: "ANAGLYPH", "HMD" or "NONE".
- * <dt>debug_view
- * <dd>Boolean, enable debug view mode.
  * <dt>use_min50
  * <dd>Boolean, enable min50 textures.
- * <dt>gl_debug
- * <dd>Boolean, enable gl errors check. Very slow.
  * </dl>
  * @module config
  * @local QualityProfile
  * @cc_externs allow_cors allow_hidpi alpha alpha_sort
  * @cc_externs alpha_sort_threshold anaglyph_use animation_framerate
- * @cc_externs antialiasing assets_path assets_dds_available assets_min50_available audio
+ * @cc_externs antialiasing assets_path assets_dds_available assets_min50_available 
  * @cc_externs background_color built_in_module_name canvas_resolution_factor
  * @cc_externs console_verbose compositing do_not_load_resources enable_selectable
  * @cc_externs enable_outlining media_auto_activation outlining_overview_mode
  * @cc_externs physics_enabled physics_uranium_path physics_calc_fps physics_use_workers
- * @cc_externs precision prevent_caching quality
+ * @cc_externs precision prevent_caching quality physics_uranium_bin
  * @cc_externs sfx_mix_mode shaders_path show_hud_debug_info
  * @cc_externs smaa smaa_search_texture_path smaa_area_texture_path
  * @cc_externs debug_view url_params stereo gl_debug max_fps max_fps_physics
  * @cc_externs use_min50 anisotropic_filtering shadows reflections refractions
  * @cc_externs ssao dof god_rays bloom motion_blur is_mobile_device shadow_blur_samples
- * @cc_externs reflection_quality
+ * @cc_externs reflection_quality assets_pvr_available audio lod_leap_smooth_threshold
+ * @cc_externs lod_smooth_transitions glow_materials srgb_type physics_use_wasm assets_gzip_available
  */
 b4w.module["config"] = function(exports, require) {
 

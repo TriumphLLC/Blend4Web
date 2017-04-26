@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2017-02-28 15:17+0300\n"
+"POT-Creation-Date: 2017-04-20 16:04+0300\n"
 "PO-Revision-Date: 2015-08-28 10:55+0300\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Russian <info [at] blend4web.com>\n"
@@ -553,7 +553,7 @@ msgstr ""
 msgid ""
 "Version of the .bin file is too old relative to .json file: VER_BIN, "
 ".json file version is VER_JSON. The scene will not be loaded. We "
-"recommend you to reexport yor scene."
+"recommend you to reexport your scene."
 msgstr ""
 "Версия загружаемого .bin-файла сильно устарела по сравнению с "
 ".json-файлом: VER_BIN, версия .json-файла: VER_JSON. Сцена не будет "
@@ -569,7 +569,7 @@ msgstr ""
 msgid ""
 "Version of the .bin file is a bit old relative to .json file: VER_BIN, "
 ".json file version is VER_JSON. Some incompatibility errors can arise. We"
-" recommend you to reexport yor scene."
+" recommend you to reexport your scene."
 msgstr ""
 "Версия загружаемого .bin-файла немного устарела по сравнению с "
 ".json-файлом: VER_BIN, версия .json-файла: VER_JSON. Могут возникнуть "
@@ -874,7 +874,7 @@ msgid "The mesh has vertices assigned to the non-existing vertex group."
 msgstr "Меш содержит вершины, привязанные к несуществующей группе."
 
 #: ../addon.rst:420
-msgid "Incorrect mesh NAME; Wrong vertice positions"
+msgid "Incorrect mesh NAME; Wrong vertex positions"
 msgstr ""
 
 #: ../addon.rst:420
@@ -1277,7 +1277,8 @@ msgstr ""
 msgid ""
 "The NAME action has decimal frames, which isn't supported. Converted to "
 "integer."
-msgstr "Анимация NAME содержит дробные значения кадров, что не поддерживается. "
+msgstr ""
+"Анимация NAME содержит дробные значения кадров, что не поддерживается. "
 "Округлено до целых."
 
 #: ../addon.rst:570
@@ -1459,7 +1460,7 @@ msgid ""
 msgstr ""
 "На вход \"Height Map\" ноды NAME типа ``B4W_PARALLAX`` подаются "
 "некорректные данные. Разрешено подавать только выход из ноды типа "
-"``TEXTURE`` с заполненой текстурой."
+"``TEXTURE`` с непустой текстурой."
 
 #: ../addon.rst:639
 msgid "Wrong texture coordinates type in texture NAME. [Material: NAME.]"
@@ -1989,7 +1990,7 @@ msgstr ""
 
 #: ../addon.rst:181
 msgid "addon"
-msgstr "Адд-он"
+msgstr "Аддон"
 
 #: ../addon.rst:181
 msgid "initialization errors"
@@ -2108,5 +2109,8 @@ msgstr "предупреждения об ошибках экспорта"
 #~ msgstr ""
 
 #~ msgid "TEXTURE_TYPE isn't supported, WORLD_NAME"
+#~ msgstr ""
+
+#~ msgid "Incorrect mesh NAME; Wrong vertice positions"
 #~ msgstr ""
 

@@ -82,6 +82,18 @@ exports.set_hardware_defaults = function(gl, print_warnings) {
     cfg_lim.max_texture_size = gl.getParameter(gl.MAX_TEXTURE_SIZE);
     cfg_lim.max_viewport_dims = gl.getParameter(gl.MAX_VIEWPORT_DIMS);
 
+    var rinfo = m_ext.get_renderer_info();
+    if (rinfo) {
+        var vendor = gl.getParameter(rinfo.UNMASKED_VENDOR_WEBGL);
+        var renderer = gl.getParameter(rinfo.UNMASKED_RENDERER_WEBGL);
+
+        if (vendor.indexOf("Qualcomm") > -1 && renderer.indexOf("330") > -1 &&
+                check_user_agent("Chrome")) {
+            warn("Chrome and Qualcomm 330 detected, force enable WebGL 1.");
+            cfg_def.webgl2 = false;
+        }
+    }
+
     // NOTE: don't use gl.getParameter(gl.DEPTH_BITS)
     cfg_lim.depth_bits = cfg_def.webgl2 ? 24 : 16;
 
@@ -221,15 +233,15 @@ exports.set_hardware_defaults = function(gl, print_warnings) {
         cfg_phy.use_workers = false;
     }
 
-    if (check_user_agent("Firefox") && check_user_agent("Linux")) {
-        warn("Firefox and Linux detected, disable workers.");
+    if (check_user_agent("Firefox")) {
+        warn("Firefox detected, disable workers.");
         cfg_phy.use_workers = false;
     }
 
     if (check_user_agent("Firefox") && check_user_agent("Windows")) {
-        warn("Firefox and Windows detected, use 16 bit depth.");
-        cfg_lim.depth_bits = 16;
-        cfg_def.amd_depth_hack = true;
+        warn("Firefox and Windows detected, applying RGBA shadows, disable SSAO.");
+        cfg_def.ssao = false;
+        cfg_def.rgba_fallback_shadows = true;
     }
 
     // NOTE: check compatibility for particular device
@@ -241,9 +253,9 @@ exports.set_hardware_defaults = function(gl, print_warnings) {
 
         if (renderer.indexOf("AMD") > -1 && check_user_agent("Windows") 
                 && check_user_agent("Chrome") && !(is_ie11() || check_user_agent("Edge"))) {
-            warn("AMD, Windows and Chrome detected, use 16 bit depth and applying depth hack.");
-            cfg_lim.depth_bits = 16;
-            cfg_def.amd_depth_hack = true;
+            warn("AMD, Windows and Chrome detected, applying RGBA shadows, disable SSAO.");
+            cfg_def.ssao = false;
+            cfg_def.rgba_fallback_shadows = true;
         }
 
         if (vendor.indexOf("ARM") > -1 && mali_4x_re.test(renderer)) {
@@ -283,6 +295,7 @@ exports.set_hardware_defaults = function(gl, print_warnings) {
                         + "setting max texture size to 4096.");
                 cfg_lim.max_texture_size = 4096;
                 cfg_lim.max_cube_map_texture_size = 4096;
+                cfg_def.phy_race_condition_hack = true;
             }
         }
         if (vendor.indexOf("NVIDIA") > -1 && renderer.indexOf("Tegra 3") > -1) {
@@ -329,7 +342,6 @@ exports.set_hardware_defaults = function(gl, print_warnings) {
         warn("Vertex textures are not allowed. Disabling vertex textures");
         cfg_def.allow_vertex_textures = false;
     }
-
     if (!depth_tex_available) {
         cfg_def.foam =            false;
         cfg_def.dynamic_grass =   false;
@@ -337,6 +349,7 @@ exports.set_hardware_defaults = function(gl, print_warnings) {
         cfg_def.shore_smoothing = false;
         cfg_def.shore_distance =  false;
         cfg_def.smaa =            false;
+        cfg_def.rgba_fallback_shadows = true;
     }
 
     cfg_def.use_compression = Boolean(m_ext.get_s3tc()) || cfg_def.compress_format == "pvr";

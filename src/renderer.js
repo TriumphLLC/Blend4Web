@@ -44,7 +44,7 @@ var m_vec3     = require("__vec3");
 var USE_BACKFACE_CULLING = true;
 
 // special backgroud color for shadow map
-var SHADOW_BG_COLOR = [1, 1, 1, 1];
+var SHADOW_BG_COLOR = [1, 0, 0, 1];
 var DEPTH_BG_COLOR = [1, 1, 1, 1];
 var COLOR_PICKING_BG_COLOR = [0,0,0,1];
 var BLACK_BG_COLOR = [0,0,0,0];
@@ -233,6 +233,16 @@ function draw_subs(subscene) {
             current_program = shader.program;
         }
 
+        if (ddata.alpha_antialiasing) {
+            _gl.enable(_gl.SAMPLE_ALPHA_TO_COVERAGE);
+            if (!subscene.blend)
+                _gl.enable(_gl.BLEND);
+        } else {
+            _gl.disable(_gl.SAMPLE_ALPHA_TO_COVERAGE);
+            if (!subscene.blend)
+                _gl.disable(_gl.BLEND);
+        }
+
         for (var j = 0; j < bundles.length; j++) {
             var bundle = bundles[j];
             if (bundle.do_render) {
@@ -293,7 +303,6 @@ function prepare_subscene(subscene) {
 
     if (subscene.assign_texture) {
         var tex = camera.color_attachment;
-
         _gl.framebufferTexture2D(_gl.FRAMEBUFFER, _gl.COLOR_ATTACHMENT0,
             tex.w_target, tex.w_texture, 0);
     }
@@ -794,6 +803,7 @@ function assign_uniform_setters(shader) {
             scene_fun = function(gl, loc, subscene, camera) {
                 gl.uniform2f(loc, camera.near, camera.far);
             }
+            transient_uni = true;
             break;
         case "u_csm_center_dists":
             scene_fun = function(gl, loc, subscene, camera) {
@@ -893,6 +903,16 @@ function assign_uniform_setters(shader) {
         case "u_bloom_key":
             scene_fun = function(gl, loc, subscene, camera) {
                 gl.uniform1f(loc, subscene.bloom_key);
+            }
+            break;
+        case "u_average_lum_val":
+            scene_fun = function(gl, loc, subscene, camera) {
+                gl.uniform1f(loc, subscene.average_luminance);
+            }
+            break;
+        case "u_mipmap_1x1":
+            scene_fun = function(gl, loc, subscene, camera) {
+                gl.uniform1f(loc, subscene.last_mip_map_ind);
             }
             break;
         case "u_bloom_edge_lum":
@@ -1332,6 +1352,18 @@ function assign_uniform_setters(shader) {
         case "u_node_rgbs":
             fun = function(gl, loc, obj_render, batch) {
                 gl.uniform3fv(loc, batch.node_rgbs);
+            }
+            transient_uni = true;
+            break;
+        case "u_lod_coverage":
+            fun = function(gl, loc, obj_render, batch) {
+                gl.uniform1f(loc, batch.lod_settings.coverage);
+            }
+            transient_uni = true;
+            break;
+        case "u_lod_cmp_logic":
+            fun = function(gl, loc, obj_render, batch) {
+                gl.uniform1f(loc, batch.lod_settings.cmp_logic);
             }
             transient_uni = true;
             break;
@@ -1861,6 +1893,8 @@ function setup_textures(textures) {
         var tex = textures[i];
         gl.activeTexture(gl.TEXTURE0 + i);
         gl.bindTexture(tex.w_target, tex.w_texture);
+        if (tex.use_mipmap)
+            gl.generateMipmap(tex.w_target);
     }
 }
 

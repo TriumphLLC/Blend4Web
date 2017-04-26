@@ -100,7 +100,8 @@ SRC_FILES = ['src/b4w.js',
              'src/tsr.js',
              'src/util.js',
              'src/sfx.js',
-             'src/input.js']
+             'src/input.js',
+             'src/tbn.js']
 
 SRC_EXT_FILES = ['src/ext/animation.js',
                  'src/ext/anchors.js',
@@ -138,6 +139,7 @@ SRC_EXT_FILES = ['src/ext/animation.js',
 
 SRC_LIBS_FILES = ['src/libs/gl-matrix2.js',
                   'src/libs/md5.js',
+                  'src/libs/pako_inflate.js',
                   'src/libs/shader_texts.js']
 
 EXCLUSION_MODULES = ['src/libs/gpp_parser.js']
@@ -214,7 +216,8 @@ def run():
                        '--jscomp_off=checkTypes',
                        '--jscomp_off=nonStandardJsDocs',
                        '--jscomp_off=reportUnknownTypes',
-                       "--hide_warnings_for=gl-matrix2.js"]
+                       "--hide_warnings_for=gl-matrix2.js",
+                       "--hide_warnings_for=pako_inflate.js"]
 
     if not show_warn:
         compiler_params.append("--warning_level=QUIET")
@@ -224,7 +227,9 @@ def run():
         compiler_params.append("--jscomp_off=checkEventfulObjectDisposal")
         compiler_params.append("--jscomp_off=checkRegExp")
         compiler_params.append("--jscomp_off=const")
-        compiler_params.append("--jscomp_off=constantProperty")
+        # NOTE: forcing jscomp_warning for the "constantProperty" as a workaround 
+        # for the gcc bug with the Element.querySelector method
+        compiler_params.append("--jscomp_warning=constantProperty")
         compiler_params.append("--jscomp_off=deprecated")
         compiler_params.append("--jscomp_off=deprecatedAnnotations")
         compiler_params.append("--jscomp_off=duplicateMessage")
@@ -490,11 +495,11 @@ def refact_config(app_js=False):
 
     for line in config_js_text:
         pattern_1 = "(\"|\')(B4W_ASSETS_PATH=__JS__\/)(?!\'|\")(.*?)(\"|\')"
-        pattern_2 = r'(B4W_URANIUM_PATH=)+(..\/deploy\/apps\/common\/uranium.js)'
+        pattern_2 = r'(B4W_URANIUM_PATH=)+(..\/deploy\/apps\/common\/)'
         pattern_3 = "(\"|\')(B4W_PROJ_ASSETS_PATH=__JS__\/)(?!\'|\")(.*?)(\"|\')"
 
         line = re.sub(pattern_1, r'\1\2\.\.\/\.\.\/assets\/\4', line)
-        line = re.sub(pattern_2, r'\1uranium.js', line)
+        line = re.sub(pattern_2, r'\1\.\/', line)
         line = re.sub(pattern_3, r'\1\2\.\.\/\.\.\/\3\4', line)
 
         if app_js:

@@ -13,6 +13,7 @@
 #var SHADOW_TEX_RES 2048.0
 #var CSM_FADE_LAST_CASCADE 0
 #var CSM_BLEND_BETWEEN_CASCADES 0
+#var RGBA_SHADOWS 0
 
 #var SHADOW_USAGE NO_SHADOWS
 #var NUM_CAST_LAMPS 0
@@ -98,11 +99,16 @@ float calc_poisson_visibility(float poisson_disc_x, float poisson_disc_y,
     if (!is_tex_coords_inside(coords, SINGLE_CASCADE_BORDER_INDENT))
         return 1.0;
 # endif
-#if COMPARED_MODE
+
+# if RGBA_SHADOWS
+    float depth = unpack_float(GLSL_TEXTURE(shadow_map, coords));
+    return step(shadow_coord.z, depth);
+# elif COMPARED_MODE
+    // NOTE: depth texture has only one chanel
     return GLSL_TEXTURE(shadow_map, vec3(coords, shadow_coord.z));
-#else
+# else
     return step(shadow_coord.z, GLSL_TEXTURE(shadow_map, coords).r);
-#endif
+# endif
 }
 
 float shadow_map_visibility(vec3 shadow_coord, PRECISION GLSL_SMPLR2D_SHDW shadow_map,

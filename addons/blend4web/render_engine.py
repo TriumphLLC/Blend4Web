@@ -717,28 +717,28 @@ def INFO_MT_help_draw_new(self, context):
         _INFO_MT_help_draw(self, context)
     else:
         layout = self.layout
-        layout.operator("wm.url_open", text=bpy.app.translations.pgettext_tip(_("Blend4Web Manual")),
-                        icon='HELP').url = bpy.app.translations.pgettext_tip(
-                            _("https://www.blend4web.com/doc/en/index.html"))
-        layout.operator("wm.url_open", text=bpy.app.translations.pgettext_tip(_("API Reference")),
-                        icon='HELP').url = "https://www.blend4web.com/api_doc/index.html"
-        layout.operator("wm.url_open", text=bpy.app.translations.pgettext_tip(_("Release Notes")),
-                        icon='URL').url = bpy.app.translations.pgettext_tip(
-                            _("https://www.blend4web.com/doc/en/release_notes.html"))
+        layout.operator("wm.url_open", text=_("Blend4Web Manual"), text_ctxt="*",
+                icon='HELP').url = bpy.app.translations.pgettext_iface(
+                _("https://www.blend4web.com/doc/en/index.html"))
+        layout.operator("wm.url_open", text=_("API Reference"), text_ctxt="*",
+                icon='HELP').url = "https://www.blend4web.com/api_doc/index.html"
+        layout.operator("wm.url_open", text=_("Release Notes"), text_ctxt="*",
+                icon='URL').url = bpy.app.translations.pgettext_iface(
+                _("https://www.blend4web.com/doc/en/release_notes.html"))
 
         layout.separator()
 
-        layout.operator("wm.url_open", text=bpy.app.translations.pgettext_tip(_("Blend4Web Website")),
-                        icon='URL').url = "https://www.blend4web.com"
-        layout.operator("wm.url_open", text=bpy.app.translations.pgettext_tip(_("Community Forums")),
-                        icon='URL',).url = bpy.app.translations.pgettext_tip(
-                            _("https://www.blend4web.com/en/forums/"))
+        layout.operator("wm.url_open", text=_("Blend4Web Website"), text_ctxt="*",
+                icon='URL').url = "https://www.blend4web.com"
+        layout.operator("wm.url_open", text=_("Community Forums"), text_ctxt="*",
+                icon='URL',).url = bpy.app.translations.pgettext_iface(
+                _("https://www.blend4web.com/en/forums/"))
 
         layout.separator()
 
-        layout.operator("wm.url_open", text=bpy.app.translations.pgettext_tip(_("Report a Bug")),
-                        icon='URL').url = bpy.app.translations.pgettext_tip(
-                            _("https://www.blend4web.com/en/forums/forum/17/"))
+        layout.operator("wm.url_open", text=_("Report a Bug"), text_ctxt="*",
+                icon='URL').url = bpy.app.translations.pgettext_iface(
+                _("https://www.blend4web.com/en/forums/forum/17/"))
 
         layout.separator()
 

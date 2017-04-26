@@ -18,7 +18,7 @@
 
 /** 
  * Head-up display functions.
- * To work properly requres initialization of the separate canvas element.
+ * To work properly requires initialization of the separate canvas element.
  * @see module:main.init
  * @module hud
  */

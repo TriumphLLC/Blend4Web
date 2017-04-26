@@ -128,8 +128,11 @@ mat3 billboard_tsr_global(in vec3 camera_eye, in vec3 wcen, in mat3 view_tsr,
     mat3 bill_tsr = billboard_tsr(camera_eye, wcen, view_tsr);
     // NOTE: translation is already in bill_tsr
     model_tsr[0] = vec3(0.0, 0.0, 0.0);
+# if USE_INSTANCED_PARTCLS
+    bill_tsr[1][0] *= model_tsr[1][0];
+# else 
     bill_tsr = tsr_multiply(bill_tsr, model_tsr);
-
+#endif
     return bill_tsr;
 }
 #endif

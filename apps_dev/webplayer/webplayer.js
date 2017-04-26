@@ -131,51 +131,96 @@ var _player_buttons = [
                  function(){change_quality(m_cfg.P_ULTRA)}]}
 ]
 
+var LOAD_PARAM_STR = "__ASSETS_LOADING_PATH__";
+var PVR_PARAM_STR = "__COMPRESSED_TEXTURES_PVR__";
+var DDS_PARAM_STR = "__COMPRESSED_TEXTURES_DDS__";
+var FPS_PARAM_STR = "__SHOW_FPS__";
+var SOCIAL_PARAM_STR = "__NO_SOCIAL__";
+var ALPHA_PARAM_STR = "__ALPHA__";
+var MIN_CAP_PARAM_STR = "__MIN_CAPABILITIES__";
+var AUTOROTATE_PARAM_STR = "__AUTOROTATE__";
+var GZIP_PARAM_STR = "__COMPRESSED_GZIP__";
+
+var _url_params = {
+    "load": LOAD_PARAM_STR,
+    "compressed_textures_pvr": PVR_PARAM_STR,
+    "compressed_textures_dds": DDS_PARAM_STR,
+    "show_fps": FPS_PARAM_STR,
+    "no_social": SOCIAL_PARAM_STR,
+    "alpha": ALPHA_PARAM_STR,
+    "min_capabilities": MIN_CAP_PARAM_STR,
+    "autorotate": AUTOROTATE_PARAM_STR,
+    "compressed_gzip": GZIP_PARAM_STR,
+};
 
 exports.init = function() {
     var is_debug = (m_version.type() == "DEBUG");
     var is_html = b4w.module_check(m_cfg.get("built_in_module_name"));
 
-    var show_fps = false;
-    var alpha = false;
-    var dds_available = false;
-    var min50_available = false;
     var url_params = m_app.get_url_params();
-    var min_capabilities = false;
-    var pvr_available = false;
 
-    if (url_params && "compressed_textures" in url_params &&
-            !is_html && !is_debug) {
-        dds_available = true;
-        min50_available = true;
-        if ("compressed_textures_pvr" in url_params)
-            pvr_available = true;
-    }
+    var load = "";
 
-    if (url_params && "show_fps" in url_params)
-        show_fps = true;
-
-    if (url_params && "no_social" in url_params)
-        _no_social = true;
-
-    if (url_params && "alpha" in url_params)
-        alpha = true;
-
-    if (url_params && url_params["load"])
-        m_storage.init("b4w_webplayer:" + url_params["load"]);
+    if (_url_params["load"] != LOAD_PARAM_STR)
+        load = _url_params["load"];
     else
-        m_storage.init("b4w_webplayer:" + window.location.href);
+        load = window.location.href;
 
-    if (url_params && "min_capabilities" in url_params)
-        min_capabilities = true;
+    var show_fps = _url_params["show_fps"] != FPS_PARAM_STR;
+    var alpha = _url_params["alpha"] != ALPHA_PARAM_STR;
+    var dds_available = _url_params["compressed_textures_dds"] != DDS_PARAM_STR;
+    var min_capabilities = _url_params["min_capabilities"] != MIN_CAP_PARAM_STR;
+    var pvr_available = _url_params["compressed_textures_pvr"] != PVR_PARAM_STR;
+    var gzip_available = _url_params["compressed_gzip"] != GZIP_PARAM_STR;
 
-    if (url_params && "socials" in url_params) {
-        var socials = url_params["socials"].split("");
+    _no_social = _url_params["no_social"] != SOCIAL_PARAM_STR;
 
-        _socials = socials.filter(function (value, index, array) {
-            return array.indexOf(value) == index;
-        })
+    var min50_available = false;
+
+    if ((dds_available || pvr_available) && !is_html && !is_debug)
+        min50_available = true;
+
+    if (url_params) {
+        if (!is_html && !is_debug) {
+            if (!dds_available && "compressed_textures" in url_params) {
+                min50_available = true;
+                dds_available = true;
+            }
+
+            if (!pvr_available && "compressed_textures_pvr" in url_params) {
+                min50_available = true;
+                pvr_available = true;
+            }
+
+            if (!gzip_available && "compressed_gzip" in url_params)
+                gzip_available = true;
+        }
+
+        if (!show_fps && "show_fps" in url_params)
+            show_fps = true;
+
+        if (!_no_social && "no_social" in url_params)
+            _no_social = true;
+
+        if (!alpha && "alpha" in url_params)
+            alpha = true;
+
+        if ("load" in url_params)
+            load = url_params["load"];
+
+        if (!min_capabilities && "min_capabilities" in url_params)
+            min_capabilities = true;
+
+        if ("socials" in url_params) {
+            var socials = url_params["socials"].split("");
+
+            _socials = socials.filter(function (value, index, array) {
+                return array.indexOf(value) == index;
+            })
+        }
     }
+
+    m_storage.init("b4w_webplayer:" + load);
 
     set_stereo_config();
     set_quality_config();
@@ -200,7 +245,8 @@ exports.init = function() {
         assets_pvr_available: pvr_available,
         assets_dds_available: dds_available,
         assets_min50_available: min50_available,
-        min_capabilities: min_capabilities
+        min_capabilities: min_capabilities,
+        assets_gzip_available: gzip_available
     })
 }
 
@@ -474,6 +520,10 @@ function search_file() {
 
         if (url_params && url_params["load"]) {
             file = url_params["load"];
+
+            return file;
+        } else if(_url_params["load"] && _url_params["load"] != "__ASSETS_LOADING_PATH__") {
+            file = _url_params["load"];
 
             return file;
         } else {
@@ -1117,7 +1167,8 @@ function loaded_callback(data_id, success) {
 
     var url_params = m_app.get_url_params();
 
-    if (url_params && "autorotate" in url_params)
+    if (url_params && "autorotate" in url_params ||
+            _url_params["autorotate"] != AUTOROTATE_PARAM_STR)
         rotate_camera();
 
     var meta_tags = m_scs.get_meta_tags();
@@ -1353,7 +1404,7 @@ function set_quality_config() {
 function set_stereo_config() {
     var stereo = m_storage.get("stereo") || DEFAULT_STEREO;
     _stereo_mode = stereo;
-    if (stereo == "NONE")
+    if (stereo == "NONE" && m_input.can_use_device(m_input.DEVICE_HMD))
         stereo = "HMD";
 
     m_cfg.set("stereo", stereo);

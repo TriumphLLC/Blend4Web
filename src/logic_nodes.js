@@ -761,7 +761,7 @@ function redirect_handler(node, logic, thread_state, timeline, elapsed, start_ti
 
 
 function send_req_handler(node, logic, thread_state, timeline, elapsed, start_time) {
-    function asset_cb(loaded_data, uri, type, path, param) {
+    function asset_cb(loaded_data, id, type, url, param) {
         var resp_string = JSON.stringify(loaded_data);
         set_var(param[0].vars["dst"], logic.variables, thread_state.variables, resp_string);
         param[0].state = 1;
@@ -786,9 +786,10 @@ function send_req_handler(node, logic, thread_state, timeline, elapsed, start_ti
                     var req = convert_variable(
                         get_var(node.vars["dst1"], logic.variables, thread_state.variables), NT_STRING);
 
-                    m_assets.enqueue([{id:url, type:m_assets.AT_JSON, url:url, overwrite_header: header,
-                        request:"POST", post_type:m_assets.AT_JSON, post_data:req,
-                        param:[node, thread_state.variables]}], asset_cb, null, null, null);
+                    m_assets.enqueue([{id:url, type:m_assets.AT_JSON, url:url, 
+                            overwrite_header: header, request_method:"POST", 
+                            post_data:req, param:[node, thread_state.variables]}], 
+                            asset_cb, null, null, null);
             }
             break;
         case NSR_SENDING_REQUEST:

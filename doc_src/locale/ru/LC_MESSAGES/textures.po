@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2017-02-28 14:42+0300\n"
+"POT-Creation-Date: 2017-04-20 16:04+0300\n"
 "PO-Revision-Date: 2015-08-28 10:55+0300\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Russian <info [at] blend4web.com>\n"
@@ -70,7 +70,7 @@ msgid ""
 "In this case, the texture is defined by an image or a video file. "
 "Following file formats are supported:"
 msgstr ""
-"В этом случае текстура задаётся с помщью растрового изображения или "
+"В этом случае текстура задаётся с помощью растрового изображения или "
 "видеофайла. Поддерживаются следующие графические форматы:"
 
 #: ../textures.rst:28
@@ -715,7 +715,7 @@ msgstr ""
 "Существует возможность ускоренного воспроизведения видеозаписей. Для "
 "этого необходимо задать значение свойства ``Scene > Dimensions > Frame "
 "rate`` отличным от значения fps (кадров в секунду) для видеозаписи. При "
-"этом скорость воспроизведения видеозаписи расчитывается как отношение "
+"этом скорость воспроизведения видеозаписи рассчитывается как отношение "
 "Frame rate сцены к fps видеозаписи."
 
 #: ../textures.rst:311
@@ -740,7 +740,7 @@ msgstr "Присутствуют следующие особенности ре�
 
 #: ../textures.rst:318
 msgid ""
-"Normal operation of video textures on iPhones is not possible because "
+"Normal operation of video textures on iPhone is not possible because "
 "these devices play back videos via the standard iOS video player. For "
 "these devices you need to convert your videos to special ``.seq`` format "
 "by using our :ref:`converter <converter>`."
@@ -764,7 +764,7 @@ msgstr ""
 
 #: ../textures.rst:321
 msgid "not all devices support changing the video playback rate."
-msgstr "не на всех устройствах поддерживается ускореное воспроизведение видео."
+msgstr "не на всех устройствах поддерживается ускоренное воспроизведение видео."
 
 #: ../textures.rst:322
 msgid ""

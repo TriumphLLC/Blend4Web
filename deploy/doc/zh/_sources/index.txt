@@ -36,19 +36,19 @@
 
 * 工作流程
 
-  * Creating a New Project
+  * 创建一个新项目
 
-  * Creating Scenes
+  * 创建场景
 
-  * Preparing a Scene to Use in Blend4Web
+  * 准备一个在Blend4Web中使用的场景
 
   * 导出场景
 
   * 应用程序开发
 
-  * Project Building
+  * 构建项目
 
-  * Project Deploying
+  * 项目部署
 
 * 项目管理
 
@@ -130,7 +130,9 @@
 
   * 通过TSR矢量移动
 
-  * Line Rendering
+  * 线渲染
+
+  * Levels Of Detail
 
 * 网格
 
@@ -192,9 +194,9 @@
 
   * 光晕材质
 
-  * Material API
+  * 材质API
 
-  * Inherit Material
+  * 材质继承
 
 * 材质库
 
@@ -392,11 +394,13 @@
 
 * 对应用程序开发人员
 
-  * 应用程序编程
+  * Application Development
 
   * 背景透明
 
   * 资源转换
+
+  * GZIP Compression
 
   * 示例代码
 
@@ -410,9 +414,9 @@
 
   * 品质配置
 
-  * Non-Standard Canvas Position and Orientation
+  * 非标准画布位置和方向
 
-  * Mobile Web Apps
+  * 移动 Web 应用程序
 
 * 对于引擎开发者
 
@@ -469,6 +473,8 @@
   * 已知问题
 
 * 发布说明
+
+  * v17.04
 
   * v17.02
 

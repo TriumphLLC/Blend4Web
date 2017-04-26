@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2016-12-16 15:05+0300\n"
+"POT-Creation-Date: 2017-04-20 16:04+0300\n"
 "PO-Revision-Date: 2016-12-23 18:24+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -16,8 +16,6 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.3.4\n"
-"Language: zh\n"
-"X-Generator: Poedit 1.8.11\n"
 
 #: ../setup.rst:5
 msgid "Installing and Updating"
@@ -33,41 +31,40 @@ msgstr "安装顺序"
 
 #: ../setup.rst:14
 msgid ""
-"There are two versions of the Blend4Web framework: Blend4Web SDK and Blend4Web "
-"Add-On. In order to decide which one best suits your needs, you will need to "
-"decide which kinds of applications you are planning on developing."
+"There are two versions of the Blend4Web framework: Blend4Web SDK and "
+"Blend4Web Add-On. In order to decide which one best suits your needs, you"
+" will need to decide which kinds of applications you are planning on "
+"developing."
 msgstr ""
-"这里有的两个版本的Blend4Web框架：Blend4Web SDK和Blend4Web插件。为了确定哪一种最"
-"适合你的需求，你需要决定哪种你正在计划开发应用程序。"
+"这里有的两个版本的Blend4Web框架：Blend4Web "
+"SDK和Blend4Web插件。为了确定哪一种最适合你的需求，你需要决定哪种你正在计划开发应用程序。"
 
 #: ../setup.rst:16
 msgid ""
-"If you plan on using all features that Blend4Web engine has to offer, you "
-"should install Blend4Web SDK."
+"If you plan on using all features that Blend4Web engine has to offer, you"
+" should install Blend4Web SDK."
 msgstr "如果你打算使用Blend4Web引擎所提供的所有功能，您应该安装Blend4Web SDK。"
 
 #: ../setup.rst:18
 msgid ""
-"If your intention is to develop small-scale projects, or if you are planning on "
-"using only a limited number of features of the Blend4Web engine (the normal "
-"editor, for example), you might consider installing the :ref:`Blend4Web Add-On "
-"<addon>` instead."
+"If your intention is to develop small-scale projects, or if you are "
+"planning on using only a limited number of features of the Blend4Web "
+"engine (the normal editor, for example), you might consider installing "
+"the :ref:`Blend4Web Add-On <addon>` instead."
 msgstr ""
-"如果你的目的是要开发小规模的项目，或者如果您打算只使用的Blend4Web引擎的功能的数"
-"量有限（例如法线编辑器），你可能会考虑安装  :ref:`Blend4Web 插件 <addon>` 来代"
-"替。"
+"如果你的目的是要开发小规模的项目，或者如果您打算只使用的Blend4Web引擎的功能的数量有限（例如法线编辑器），你可能会考虑安装  "
+":ref:`Blend4Web 插件 <addon>` 来代替。"
 
 #: ../setup.rst:20
 msgid ""
-"Note, the Add-On can only export scenes to :ref:`HTML format <export_scene>` "
-"and has limited functionality. For example, it does not include the :ref:"
-"`project manager <project_management>`, example scenes, user manual and other "
-"additional resources. However, it still has everything you might need to create "
-"a simple application."
+"Note, the Add-On can only export scenes to :ref:`HTML format "
+"<export_scene>` and has limited functionality. For example, it does not "
+"include the :ref:`project manager <project_management>`, example scenes, "
+"user manual and other additional resources. However, it still has "
+"everything you might need to create a simple application."
 msgstr ""
-"注意：插件只能导出场景到  :ref:`HTML格式 <export_scene>` 和有限功能 (例如，它没"
-"有  :ref:`项目管理 <project_management>`，示例场景，用户手册，其他额外资源等"
-"等)，但它仍然拥有一切让你可以创建一个简单的应用程序。 "
+"注意：插件只能导出场景到  :ref:`HTML格式 <export_scene>` 和有限功能 (例如，它没有  :ref:`项目管理 "
+"<project_management>`，示例场景，用户手册，其他额外资源等等)，但它仍然拥有一切让你可以创建一个简单的应用程序。 "
 
 #: ../setup.rst:25
 msgid "Installing Blender"
@@ -75,30 +72,28 @@ msgstr "安装Blender"
 
 #: ../setup.rst:27
 msgid ""
-"Authoring 3D scenes is carried out directly in `Blender <http://en.wikipedia."
-"org/wiki/Blender_(software)>`_ which is open source software and is distributed "
-"free of charge."
+"Authoring 3D scenes is carried out directly in `Blender "
+"<http://en.wikipedia.org/wiki/Blender_(software)>`_ which is open source "
+"software and is distributed free of charge."
 msgstr ""
-"直接在 `Blender <http://en.wikipedia.org/wiki/Blender_(software)>`_ 中创作 3D 场"
-"景，这是开放源码软件和免费分发软件。"
+"直接在 `Blender <http://en.wikipedia.org/wiki/Blender_(software)>`_ 中创作 3D "
+"场景，这是开放源码软件和免费分发软件。"
 
 #: ../setup.rst:29
 msgid ""
 "Before installation, please download and install the compatible Blender "
-"version, according to this `table <https://www.blend4web.com/downloads/>`_."
-msgstr ""
-"安装之前，请下载并安装兼容的Blender版本，根据此 `表  <https://www.blend4web.com/"
-"downloads/>`_."
+"version, according to this `table "
+"<https://www.blend4web.com/downloads/>`_."
+msgstr "安装之前，请下载并安装兼容的Blender版本，根据此 `表  <https://www.blend4web.com/downloads/>`_."
 
 #: ../setup.rst:31
 msgid ""
-"A current stable version of Blender should be used. It can be downloaded from "
-"the `official site <http://www.blender.org/download>`_ or from `Blend4Web site "
-"<https://www.blend4web.com/ru/downloads/>`_."
+"A current stable version of Blender should be used. It can be downloaded "
+"from the `official site <http://www.blender.org/download>`_ or from "
+"`Blend4Web site <https://www.blend4web.com/ru/downloads/>`_."
 msgstr ""
-"应使用当前的稳定版本的Blender。它可以从 `官方网站 <http://www.blender.org/"
-"download>`_ 或从  `Blend4Web 网站 <https://www.blend4web.com/ru/downloads/>`_ 下"
-"载 。"
+"应使用当前的稳定版本的Blender。它可以从 `官方网站 <http://www.blender.org/download>`_ 或从  "
+"`Blend4Web 网站 <https://www.blend4web.com/ru/downloads/>`_ 下载 。"
 
 #: ../setup.rst:40
 msgid "Installing Blend4Web SDK"
@@ -139,7 +134,8 @@ msgstr "重新启动Blender。"
 
 #: ../setup.rst:60 ../setup.rst:101
 msgid ""
-"Once again, open the User Preferences panel :file:`File > User Preferences...`."
+"Once again, open the User Preferences panel :file:`File > User "
+"Preferences...`."
 msgstr "打开用户首选项面板  :file:`File > User Preferences...`."
 
 #: ../setup.rst:62 ../setup.rst:91 ../setup.rst:103
@@ -160,11 +156,11 @@ msgstr "*验证是否工作:*"
 
 #: ../setup.rst:74
 msgid ""
-"In the :file:`File > Export` menu, the :file:`Blend4Web (.json)` and :file:"
-"`Blend4Web (.html)` options should appear."
+"In the :file:`File > Export` menu, the :file:`Blend4Web (.json)` and "
+":file:`Blend4Web (.html)` options should appear."
 msgstr ""
-"在 :file:`File > Export` 菜单 :file:`Blend4Web (.json)` 和 :file:`Blend4Web (."
-"html)` 选项应该出现。"
+"在 :file:`File > Export` 菜单 :file:`Blend4Web (.json)` 和 :file:`Blend4Web "
+"(.html)` 选项应该出现。"
 
 #: ../setup.rst:79
 msgid "Installing Blend4Web Add-On"
@@ -172,13 +168,13 @@ msgstr "安装Blend4Web 插件"
 
 #: ../setup.rst:85
 msgid ""
-"It can be installed the same way as any other `Blender addon <https://www."
-"blender.org/manual/advanced/scripting/python/addons.html?highlight=install"
-"%20addon#installation-of-a-3rd-party-add-on>`_."
+"It can be installed the same way as any other `Blender addon "
+"<https://www.blender.org/manual/advanced/scripting/python/addons.html?highlight=install%20addon"
+"#installation-of-a-3rd-party-add-on>`_."
 msgstr ""
-"它可以和其他  `Blender插件 <https://www.blender.org/manual/advanced/scripting/"
-"python/add_ons.html?highlight=addon#installation-of-a-3rd-party-add-on>`_  的安"
-"装方式相同。"
+"它可以和其他  `Blender插件 "
+"<https://www.blender.org/manual/advanced/scripting/python/add_ons.html?highlight=addon"
+"#installation-of-a-3rd-party-add-on>`_  的安装方式相同。"
 
 #: ../setup.rst:93
 msgid "Press the ``Install From File...`` button."
@@ -186,8 +182,8 @@ msgstr "按 ``从文件安装...`` 按钮。"
 
 #: ../setup.rst:95
 msgid ""
-"Select the archive containing Blend4Web add-on and press ``Install From File..."
-"`` button."
+"Select the archive containing Blend4Web add-on and press ``Install From "
+"File...`` button."
 msgstr "选择包含Blend4Web插件的文件，然后按 ``从文件安装...`` 按钮。"
 
 #: ../setup.rst:97 ../setup.rst:163
@@ -228,11 +224,9 @@ msgstr "更新 SDK"
 
 #: ../setup.rst:133
 msgid ""
-"Before updating, we recommend to backup all projects in development using the :"
-"ref:`project export <export_projects>` tools."
-msgstr ""
-"在更新之前，我们建议您使用 :ref:`project export <export_projects>` 工具备份的所"
-"有开发中的项目."
+"Before updating, we recommend to backup all projects in development using"
+" the :ref:`project export <export_projects>` tools."
+msgstr "在更新之前，我们建议您使用 :ref:`project export <export_projects>` 工具备份的所有开发中的项目."
 
 #: ../setup.rst:135
 msgid "To update the SDK, follow these steps:"
@@ -257,11 +251,9 @@ msgstr "禁用 ``Blend4Web`` 插件。"
 #: ../setup.rst:148
 msgid ""
 "We recommend not to use the ``Remove`` button to disable the Add-on for "
-"updating the SDK, as doing so will completely delete the add-on, including its "
-"files in the SDK."
-msgstr ""
-"我们建议不要使用 ``Remove`` 按钮禁用插件来更新SDK，因为这样做会彻底删除插件，包"
-"括它的SDK文件。"
+"updating the SDK, as doing so will completely delete the add-on, "
+"including its files in the SDK."
+msgstr "我们建议不要使用 ``Remove`` 按钮禁用插件来更新SDK，因为这样做会彻底删除插件，包括它的SDK文件。"
 
 #: ../setup.rst:150
 msgid "Unpack the new version of the SDK from the archive."
@@ -273,20 +265,17 @@ msgstr "有两种方法来更新 SDK。"
 
 #: ../setup.rst:155
 msgid ""
-"Firstly, you can completely delete the SDK folder and, after that, extract the "
-"new version folder, as if you were installing the SDK for the first time."
-msgstr ""
-"首先，可以完全删除 SDK 文件夹中，在那之后，提取新版本文件夹并将路径设置为它在"
-"Blender设置，就像你第一次安装 SDK一样。"
+"Firstly, you can completely delete the SDK folder and, after that, "
+"extract the new version folder, as if you were installing the SDK for the"
+" first time."
+msgstr "首先，可以完全删除 SDK 文件夹中，在那之后，提取新版本文件夹并将路径设置为它在Blender设置，就像你第一次安装 SDK一样。"
 
 #: ../setup.rst:157
 msgid ""
-"Secondly, you can simply overwrite the outdated SDK files with the new ones. "
-"This method is considered less \"pure\", but in most cases it should not cause "
-"any problems."
-msgstr ""
-"第二，你可以简单地使用新的覆盖过时的 SDK 文件。此方法被认为是不太 \"纯净\"，但在"
-"大多数情况下，它不应导致任何问题。"
+"Secondly, you can simply overwrite the outdated SDK files with the new "
+"ones. This method is considered less \"pure\", but in most cases it "
+"should not cause any problems."
+msgstr "第二，你可以简单地使用新的覆盖过时的 SDK 文件。此方法被认为是不太 \"纯净\"，但在大多数情况下，它不应导致任何问题。"
 
 #: ../setup.rst:159
 msgid "Open the ``File`` panel in the ``User Preferences`` window."
@@ -310,11 +299,9 @@ msgstr "检查一切正常。"
 
 #: ../setup.rst:177
 msgid ""
-"After updating is complete, you can import all saved projects using the :ref:"
-"`project import <import_projects>` tools."
-msgstr ""
-"完成更新后，您可以使用 :ref:`项目导入 <import_projects>` 工具导入所有已保存的项"
-"目。"
+"After updating is complete, you can import all saved projects using the "
+":ref:`project import <import_projects>` tools."
+msgstr "完成更新后，您可以使用 :ref:`项目导入 <import_projects>` 工具导入所有已保存的项目。"
 
 #: ../setup.rst:182
 msgid "Updating the Addon"
@@ -322,24 +309,25 @@ msgstr "更新插件"
 
 #: ../setup.rst:184
 msgid ""
-"If you are only using the Blend4Web add-on, follow this instruction instead."
+"If you are only using the Blend4Web add-on, follow this instruction "
+"instead."
 msgstr "如果你只使用Blend4Web插件，按照下面使用说明来做。"
 
 #: ../setup.rst:186
 msgid ""
-"Before installing a new version of the add-on, you may firstly remove the "
-"existing one. To do this, unfold the information tab of the Blend4Web addon and "
-"press the ``Remove`` button. Removing the old version is not required before "
-"installing a new one, but doing so makes sure there won't be any coflicts."
+"Before installing a new version of the add-on, you may firstly remove the"
+" existing one. To do this, unfold the information tab of the Blend4Web "
+"addon and press the ``Remove`` button. Removing the old version is not "
+"required before installing a new one, but doing so makes sure there won't"
+" be any conflicts."
 msgstr ""
-"安装新版本的插件之前，您可以先删除现有之一。要做到这一点，展开Blend4Web插件的信"
-"息选项卡，然后按 ``Remove`` 按钮。删除旧版本安装新的不是必需的，但这样做可以确保"
-"不会有任何版本冲突。"
+"安装新版本的插件之前，您可以先删除现有之一。要做到这一点，展开Blend4Web插件的信息选项卡，然后按 ``Remove`` "
+"按钮。删除旧版本安装新的不是必需的，但这样做可以确保不会有任何版本冲突。"
 
 #: ../setup.rst:192
 msgid ""
-"Download the archive that contains the new version of the add-on, and save it "
-"to any place on your hard drive."
+"Download the archive that contains the new version of the add-on, and "
+"save it to any place on your hard drive."
 msgstr "下载包含新版本插件的文件，并将其保存到硬盘上的任何地方。"
 
 #: ../setup.rst:198
@@ -364,12 +352,10 @@ msgstr "更新保存的项目"
 
 #: ../setup.rst:213
 msgid ""
-"After you have updated your SDK (or Add-on), you can import projects that you "
-"exported before updating back to the Project Manager. To do this, follow the "
-"following instructions:"
-msgstr ""
-"你更新你的 SDK （或插件） 后，您可以导入之前导出的项目更新回项目管理器。要执行此"
-"操作，请按照以下说明︰"
+"After you have updated your SDK (or Add-on), you can import projects that"
+" you exported before updating back to the Project Manager. To do this, "
+"follow the following instructions:"
+msgstr "你更新你的 SDK （或插件） 后，您可以导入之前导出的项目更新回项目管理器。要执行此操作，请按照以下说明︰"
 
 #: ../setup.rst:215
 msgid "Open Project Manager."
@@ -380,40 +366,40 @@ msgid "Import your projects using the ``Import Project(s)`` button."
 msgstr "导入您的项目使用 ``Import Project(s)`` 按钮。"
 
 #: ../setup.rst:219
-msgid "Reexport projects's ``.blend`` files using the ``re-export scenes`` link."
+#, fuzzy
+msgid ""
+"Reexport the projects' ``.blend`` files using the ``re-export scenes`` "
+"link."
 msgstr "重新导出项目的  ``.blend`` 文件使用  ``re-export scenes`` 链接。"
 
 #: ../setup.rst:221
 msgid ""
-"Use the ``check modules`` link for every imported project to make sure there "
-"are no missing or unused modules in the program code. If there are, you may try "
-"to fix the poblems using the ``Update Modules`` button."
+"Use the ``check modules`` link for every imported project to make sure "
+"there are no missing or unused modules in the program code. If there are,"
+" you may try to fix the problems using the ``Update Modules`` button."
 msgstr ""
-"对每个导入的项目使用 ``check modules`` 链接来确保在程序代码中有没有缺少或未使用"
-"的模块。如果有，你可以试着使用 ``Update Modules`` 按钮来修复。"
+"对每个导入的项目使用 ``check modules`` 链接来确保在程序代码中有没有缺少或未使用的模块。如果有，你可以试着使用 ``Update"
+" Modules`` 按钮来修复。"
 
 #: ../setup.rst:223
 msgid ""
-"Then use ``build`` command to make the build versions of the imported projects "
-"work again."
+"Then use ``build`` command to make the build versions of the imported "
+"projects work again."
 msgstr "然后使用 ``build`` 命令， 生成版本使导入的项目再次工作。"
 
 #: ../setup.rst:225
 msgid ""
-"The developer version of the projects using ``Copy`` or ``Compile`` engine "
-"binding type should also be build to properly work with the new version of the "
-"SDK (the developer versions of the projects with other bindning types should "
-"work fine without it)."
+"The developer version of the projects using ``Copy`` or ``Compile`` "
+"engine binding type should also be build to properly work with the new "
+"version of the SDK (the developer versions of the projects with other "
+"binding types should work fine without it)."
 msgstr ""
-"开发者版本的项目使用 ``Copy`` 或 ``Compile`` 引擎绑定类型也可以构建出与新版本的 "
-"SDK一起正常工作 （与其他绑定类型的项目的开发版本没有它也可以工作）。"
+"开发者版本的项目使用 ``Copy`` 或 ``Compile`` 引擎绑定类型也可以构建出与新版本的 SDK一起正常工作 "
+"（与其他绑定类型的项目的开发版本没有它也可以工作）。"
 
 #~ msgid "Unpacking the Archive"
 #~ msgstr "解压缩文件归档"
 
 #~ msgid ""
-#~ "If you are planning to use only the normal editor, you might consider "
-#~ "installing the :ref:`Blend4Web addon <addon>` instead of the SDK."
 #~ msgstr ""
-#~ "如果您打算使用只用法线编辑器，你可以考虑安装  :ref:`Blend4Web 插件 <addon>` "
-#~ "而不是 SDK。"
+

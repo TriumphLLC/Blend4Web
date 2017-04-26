@@ -22,7 +22,7 @@
  * <dl>
  * <dt>Sensor</dt>
  *
- * <dd>Sensor is a programming entity intended for detecting events occured in
+ * <dd>Sensor is a programming entity intended for detecting events occurred in
  * the scene. Some sensors may carry a payload. For example the
  * ray-tracing sensor (Ray Sensor)
  * provides the relative length of the intersection ray.</dd>
@@ -86,7 +86,7 @@ var m_print = require("__print");
 /**
  * Ray sensor payload.
  * @callback RayPayload
- * @param {number} hit_fract Fraction of ray length where hit has occured (0-1)
+ * @param {number} hit_fract Fraction of ray length where hit has occurred (0-1)
  * or -1 if there is no hit anymore.
  * @param {?Object3D} obj_hit The hit object.
  * @param {number} hit_time Time the hit happened.
@@ -658,6 +658,22 @@ exports.create_gamepad_btn_sensor = m_ctl.create_gamepad_btn_sensor;
  * @returns {Sensor} Sensor object
  */
 exports.create_gamepad_axis_sensor = m_ctl.create_gamepad_axis_sensor;
+
+/**
+ * Create a gamepad position sensor.
+ * @method module:controls.create_gamepad_position_sensor
+ * @param {number} [number] Connected gamepad number
+ * @returns {Sensor} Sensor object
+ */
+exports.create_gamepad_position_sensor = m_ctl.create_gamepad_position_sensor;
+/**
+ * Create a gamepad orientation sensor.
+ * @method module:controls.create_gamepad_orientation_sensor
+ * @param {number} [number] Connected gamepad number
+ * @returns {Sensor} Sensor object
+ */
+exports.create_gamepad_orientation_sensor = m_ctl.create_gamepad_orientation_sensor;
+
 /**
  * Create a custom sensor.
  * A custom sensor can be controlled manually by using the get_custom_sensor()
@@ -830,7 +846,7 @@ exports.create_touch_rotate_sensor = m_ctl.create_touch_rotate_sensor;
 
 /**
  * Create a touch click sensor.
- * The sensor's value is 1 for a touched fouchscreen.the sensor's payload is an object
+ * The sensor's value is 1 for a touched touchscreen. The sensor's payload is an object
  * with useful properties like coordinates
  * @method module:controls.create_touch_click_sensor
  * @param {HTMLElement} [element=Canvas container element] HTML element
