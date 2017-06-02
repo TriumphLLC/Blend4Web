@@ -1502,10 +1502,10 @@ function init_cube_sky_dim(scene, world_obj) {
                 if (sky_batch && sky_batch.has_nodes) {
                     var ngraph_proxy = m_nodemat.get_ngraph_proxy_cached(sky_batch.ngraph_proxy_id);
                     var ngraph = ngraph_proxy.graph;
-                    var node_env_tex_size = m_nodemat.get_max_env_texture_size(ngraph);
+                    var node_env_tex_height = m_nodemat.get_max_env_texture_height(ngraph);
 
-                    if (node_env_tex_size != -1)
-                        tex_size = node_env_tex_size;
+                    if (node_env_tex_height != -1)
+                        tex_size = m_textures.calc_pot_size(node_env_tex_height / 2);
 
                 } else {
                     var sc_render = scene._render;
@@ -1515,8 +1515,7 @@ function init_cube_sky_dim(scene, world_obj) {
                         tex_size = tex_param.tex_size;
                 }
 
-                tex_size *= 2;
-                tex_size = Math.min(tex_size, cfg_lim.max_cube_map_texture_size / 4);
+                tex_size = Math.min(tex_size, cfg_lim.max_cube_map_texture_size);
                 subs_sky.camera.width  = tex_size;
                 subs_sky.camera.height = tex_size;
 
@@ -1531,28 +1530,28 @@ function update_cube_sky_dim(world, texture) {
     var scenes_data = world.scenes_data;
     for (var i = 0; i < scenes_data.length; i++) {
         var scene = scenes_data[i].scene;
+        var graph = scene._render.graph;
+        var subs_sky = m_scgraph.find_subs(scene._render.graph, m_subs.SKY);
 
-        if (scene && scene._render && scene._render.graph) {
-            var graph = scene._render.graph;
-            var subs_sky = m_scgraph.find_subs(scene._render.graph, m_subs.SKY);
+        if (subs_sky) {
+            var sky_cube_texture = null;
 
-            if (subs_sky) {
-                var sky_cube_texture = null;
-
-                m_scgraph.traverse_slinks(graph, function(slink, internal, subs1, subs2) {
-                    if (slink.from == "CUBEMAP" && subs1.type == m_subs.SKY && subs2.type == m_subs.SINK) {
-                        sky_cube_texture = slink.texture;
-                        return true;
-                    }
-                });
-
-                if (sky_cube_texture) {
-                    var tex_size = Math.min(texture.height, cfg_lim.max_cube_map_texture_size / 4);
-                    subs_sky.camera.width  = tex_size;
-                    subs_sky.camera.height = tex_size;
-
-                    m_tex.set_cubemap_tex_size(sky_cube_texture, tex_size);
+            m_scgraph.traverse_slinks(graph, function(slink, internal, subs1, subs2) {
+                if (slink.from == "CUBEMAP" && subs1.type == m_subs.SKY && subs2.type == m_subs.SINK) {
+                    sky_cube_texture = slink.texture;
+                    return true;
                 }
+            });
+
+            if (sky_cube_texture) {
+                // same for cubemaps and spheremaps
+                var tex_size = m_textures.calc_pot_size(texture.height / 2);
+                tex_size = Math.min(tex_size, cfg_lim.max_cube_map_texture_size);
+
+                subs_sky.camera.width  = tex_size;
+                subs_sky.camera.height = tex_size;
+
+                m_tex.set_cubemap_tex_size(sky_cube_texture, tex_size);
             }
         }
     }

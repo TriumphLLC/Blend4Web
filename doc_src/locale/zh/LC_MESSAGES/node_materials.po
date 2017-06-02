@@ -8,13 +8,15 @@ msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
 "POT-Creation-Date: 2017-04-20 16:04+0300\n"
-"PO-Revision-Date: 2017-02-24 22:13+0800\n"
+"PO-Revision-Date: 2017-04-28 23:53+0800\n"
 "Last-Translator: kidux <yuzukyo@gmail.com>\n"
 "Language-Team: Chinese <info [at] blend4web.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.3.4\n"
+"Language: zh\n"
+"X-Generator: Poedit 1.8.12\n"
 
 #: ../node_materials.rst:7
 msgid "Node Materials"
@@ -26,10 +28,11 @@ msgstr "目录"
 
 #: ../node_materials.rst:14
 msgid ""
-"Shader nodes extend significantly the potential of Blender’s standard "
-"materials by means of presenting shading as a batch of basic "
-"transformations."
-msgstr "着色器节点通过将现有的着色器进行基本变换和批处理，显著地扩展了Blender的标准材质的潜力。"
+"Shader nodes extend significantly the potential of Blender’s standard materials "
+"by means of presenting shading as a batch of basic transformations."
+msgstr ""
+"着色器节点通过将现有的着色器进行基本变换和批处理，显著地扩展了Blender的标准材质的"
+"潜力。"
 
 #: ../node_materials.rst:24
 msgid "Standard Nodes"
@@ -37,20 +40,22 @@ msgstr "标准节点"
 
 #: ../node_materials.rst:28
 msgid ""
-"Blend4Web supports all standard Blender nodes, but some of them do not "
-"work fast enough and are not recommended to use in real time "
-"applications. Creating very complex materials, especially using large "
-"numbers of ``Geometry`` and ``Texture`` nodes, is also not recommended."
+"Blend4Web supports all standard Blender nodes, but some of them do not work fast "
+"enough and are not recommended to use in real time applications. Creating very "
+"complex materials, especially using large numbers of ``Geometry`` and "
+"``Texture`` nodes, is also not recommended."
 msgstr ""
-"Blend4Web支持所有标准的Blender节点，但他们中的一些工作的不够快，因此不建议在实时应用程序中使用。创建非常复杂的材质，尤其是使用大量的"
-" ``Geometry`` 和 ``Texture`` 节点，也不推荐。"
+"Blend4Web支持所有标准的Blender节点，但他们中的一些工作的不够快，因此不建议在实时"
+"应用程序中使用。创建非常复杂的材质，尤其是使用大量的 ``Geometry`` 和 ``Texture`` "
+"节点，也不推荐。"
 
 #: ../node_materials.rst:30
 msgid ""
-"The engine also has partial support for some of the Cycles nodes. This "
-"subject is more thoroughly described in the :ref:`corresponding chapter "
+"The engine also has partial support for some of the Cycles nodes. This subject "
+"is more thoroughly described in the :ref:`corresponding chapter <cycles_nodes>`."
+msgstr ""
+"引擎能部分支持某些Cycles节点。本内容的更详尽描述在  :ref:`相应章节 "
 "<cycles_nodes>`."
-msgstr "引擎能部分支持某些Cycles节点。本内容的更详尽描述在  :ref:`相应章节 <cycles_nodes>`."
 
 #: ../node_materials.rst:36
 msgid "Standard node performance and degree of support is described in the table."
@@ -84,20 +89,18 @@ msgstr "用于从活动的摄像头获取的数据"
 #: ../node_materials.rst:65 ../node_materials.rst:72 ../node_materials.rst:76
 #: ../node_materials.rst:82 ../node_materials.rst:85 ../node_materials.rst:89
 #: ../node_materials.rst:93 ../node_materials.rst:103 ../node_materials.rst:106
-#: ../node_materials.rst:109 ../node_materials.rst:116
-#: ../node_materials.rst:118 ../node_materials.rst:121
-#: ../node_materials.rst:124 ../node_materials.rst:128
-#: ../node_materials.rst:132 ../node_materials.rst:135
-#: ../node_materials.rst:139 ../node_materials.rst:142
-#: ../node_materials.rst:145 ../node_materials.rst:149
+#: ../node_materials.rst:109 ../node_materials.rst:116 ../node_materials.rst:118
+#: ../node_materials.rst:121 ../node_materials.rst:124 ../node_materials.rst:128
+#: ../node_materials.rst:132 ../node_materials.rst:135 ../node_materials.rst:139
+#: ../node_materials.rst:142 ../node_materials.rst:145 ../node_materials.rst:149
 msgid "Full"
 msgstr "全部"
 
 #: ../node_materials.rst:41 ../node_materials.rst:44 ../node_materials.rst:49
 #: ../node_materials.rst:58 ../node_materials.rst:78 ../node_materials.rst:82
 #: ../node_materials.rst:85 ../node_materials.rst:106 ../node_materials.rst:109
-#: ../node_materials.rst:112 ../node_materials.rst:118
-#: ../node_materials.rst:142 ../node_materials.rst:149
+#: ../node_materials.rst:112 ../node_materials.rst:118 ../node_materials.rst:142
+#: ../node_materials.rst:149
 msgid "Average"
 msgstr "平均"
 
@@ -111,9 +114,8 @@ msgstr "用来产生梯度"
 
 #: ../node_materials.rst:45
 msgid ""
-"``B-Spline``, ``Cardinal`` and ``Ease`` interpolation modes are not "
-"supported"
-msgstr "``B-Spline``，``Cardinal`` 和``Ease`` 插值模式不支持"
+"``B-Spline``, ``Cardinal`` and ``Ease`` interpolation modes are not supported"
+msgstr "``B-Spline``，``Cardinal`` 和 ``Ease`` 插值模式不支持"
 
 #: ../node_materials.rst:49
 msgid "Combine HSV"
@@ -133,9 +135,8 @@ msgstr "从给定的红色，绿色和蓝色通道值组合彩色"
 
 #: ../node_materials.rst:53 ../node_materials.rst:65 ../node_materials.rst:76
 #: ../node_materials.rst:89 ../node_materials.rst:103 ../node_materials.rst:116
-#: ../node_materials.rst:121 ../node_materials.rst:124
-#: ../node_materials.rst:128 ../node_materials.rst:132
-#: ../node_materials.rst:139 ../node_materials.rst:145
+#: ../node_materials.rst:121 ../node_materials.rst:124 ../node_materials.rst:128
+#: ../node_materials.rst:132 ../node_materials.rst:139 ../node_materials.rst:145
 msgid "High"
 msgstr "高"
 
@@ -145,14 +146,14 @@ msgstr "扩展材质"
 
 #: ../node_materials.rst:58
 msgid ""
-"Used to add a material to the node program. Has more input and output "
-"channels than the basic ``Material`` node"
+"Used to add a material to the node program. Has more input and output channels "
+"than the basic ``Material`` node"
 msgstr "用于将材质添加到节点程序。具有比基本 ``Material`` 节点更多的输入和输出通道"
 
 #: ../node_materials.rst:60
 msgid ""
-"``Ambient`` and ``SpecTra`` inputs are not supported. ``AO`` output is "
-"not supported."
+"``Ambient`` and ``SpecTra`` inputs are not supported. ``AO`` output is not "
+"supported."
 msgstr "``Ambient`` 和 ``SpecTra`` 输入不支持。 ``AO`` 输出不支持。"
 
 #: ../node_materials.rst:65
@@ -245,11 +246,11 @@ msgstr "混合两个给定的颜色"
 
 #: ../node_materials.rst:93
 msgid ""
-"Low in the ``Burn``, ``Dodge``, ``Value``, ``Saturation``, ``Hue`` and "
-"``Color`` modes, high in the rest of the modes"
+"Low in the ``Burn``, ``Dodge``, ``Value``, ``Saturation``, ``Hue`` and ``Color`` "
+"modes, high in the rest of the modes"
 msgstr ""
-"``Burn``，``Dodge``，``Value``，``Saturation``，``Hue`` 和 ``Color`` "
-"模式性能低，其余模式性能高。"
+"``Burn``，``Dodge``，``Value``，``Saturation``，``Hue`` 和 ``Color`` 模式性能低，"
+"其余模式性能高。"
 
 #: ../node_materials.rst:103
 msgid "Normal"
@@ -373,37 +374,36 @@ msgstr "矢量变换 [#f2]_"
 
 #: ../node_materials.rst:149
 msgid ""
-"Converts Vector, Point or Normal between World, Camera and Object "
-"coordinate spaces"
+"Converts Vector, Point or Normal between World, Camera and Object coordinate "
+"spaces"
 msgstr "在世界，相机和物体坐标空间中转换矢量，点或法线。"
 
 #: ../node_materials.rst:155
 msgid ""
-"The ``Color Space`` parameter of a normal map used with this node should "
-"be set to ``Non-Color``. Not doing so may lead to unpredictable results "
-"(although it won't crash the engine)."
+"The ``Color Space`` parameter of a normal map used with this node should be set "
+"to ``Non-Color``. Not doing so may lead to unpredictable results (although it "
+"won't crash the engine)."
 msgstr ""
-"这个节点的法线贴图使用的 ``Color Space`` 参数需要设置为 ``Non-Color``. "
-"如果没设置会引起各种不可预见的效果（尽管不会将引起弄崩溃）"
+"这个节点的法线贴图使用的 ``Color Space`` 参数需要设置为 ``Non-Color``. 如果没设置"
+"会引起各种不可预见的效果（尽管不会将引起弄崩溃）"
 
 #: ../node_materials.rst:157
 msgid ""
-"If at least one of the internal parameters, ``Space to convert from...`` "
-"or ``Space to convert to...`` is set to ``Object``, then any object that "
-"uses the material will be considered :ref:`dynamic "
-"<static_dynamic_objects>`."
+"If at least one of the internal parameters, ``Space to convert from...`` or "
+"``Space to convert to...`` is set to ``Object``, then any object that uses the "
+"material will be considered :ref:`dynamic <static_dynamic_objects>`."
 msgstr ""
-"如果至少一个内部参数 ``Space to convert from...`` 或 ``Space to convert to...`` 设置为 "
-"``Object``, 那么所有使用这个材质的物体都会被考虑为  :ref:`动态<static_dynamic_objects>`."
+"如果至少一个内部参数 ``Space to convert from...`` 或 ``Space to convert to...`` "
+"设置为 ``Object``, 那么所有使用这个材质的物体都会被考虑为  :ref:`动态"
+"<static_dynamic_objects>`."
 
 #: ../node_materials.rst:163
 msgid ""
-"Standard node performance and degree of support is described in the "
-"`table <https://www.blend4web.com/doc/ru/node_materials.html#node-"
-"performance>`_."
+"Standard node performance and degree of support is described in the `table "
+"<https://www.blend4web.com/doc/ru/node_materials.html#node-performance>`_."
 msgstr ""
-"标准节点性能和支持度在  `表中描述 <https://www.blend4web.com/doc/ru/node_materials.html"
-"#node-performance>`_."
+"标准节点性能和支持度在  `表中描述 <https://www.blend4web.com/doc/ru/"
+"node_materials.html#node-performance>`_."
 
 #: ../node_materials.rst:168
 msgid "Engine-Specific Nodes"
@@ -411,14 +411,14 @@ msgstr "游戏引擎特定节点"
 
 #: ../node_materials.rst:172
 msgid ""
-"Engine-specific nodes extend functionality of the standard nodes to "
-"support extra features. These nodes are created as node groups (``Node "
-"Groups`` or ``Node Tree``) with specially determined names and input "
-"formats. For convenience, all special nodes are added to a blend file "
-"when it is opened."
+"Engine-specific nodes extend functionality of the standard nodes to support "
+"extra features. These nodes are created as node groups (``Node Groups`` or "
+"``Node Tree``) with specially determined names and input formats. For "
+"convenience, all special nodes are added to a blend file when it is opened."
 msgstr ""
-"引擎特定的节点扩展标准节点以支持额外的功能。这些节点采用特殊命名的名称和输入格式创建为节点组（``节点组`` 或 "
-"``节点树``）。为方便起见，被打开时，所有的特殊节点已经添加到Blend文件。"
+"引擎特定的节点扩展标准节点以支持额外的功能。这些节点采用特殊命名的名称和输入格式"
+"创建为节点组（``节点组`` 或 ``节点树``）。为方便起见，被打开时，所有的特殊节点已"
+"经添加到Blend文件。"
 
 #: ../node_materials.rst:180
 msgid "Clamp (B4W_CLAMP)"
@@ -426,16 +426,14 @@ msgstr "钳制（B4W_CLAMP）"
 
 #: ../node_materials.rst:182
 msgid ""
-"The node limits the output value. As a result all the output vector "
-"components take values from 0 to 1 inclusive."
+"The node limits the output value. As a result all the output vector components "
+"take values from 0 to 1 inclusive."
 msgstr "节点限制输出值。其结果是所有的输出矢量分量取从0到1中间的值。"
 
-#: ../node_materials.rst:189 ../node_materials.rst:212
-#: ../node_materials.rst:237 ../node_materials.rst:260
-#: ../node_materials.rst:295 ../node_materials.rst:321
-#: ../node_materials.rst:356 ../node_materials.rst:382
-#: ../node_materials.rst:414 ../node_materials.rst:438
-#: ../node_materials.rst:488
+#: ../node_materials.rst:189 ../node_materials.rst:212 ../node_materials.rst:237
+#: ../node_materials.rst:260 ../node_materials.rst:295 ../node_materials.rst:321
+#: ../node_materials.rst:356 ../node_materials.rst:382 ../node_materials.rst:414
+#: ../node_materials.rst:438 ../node_materials.rst:488
 msgid "Input Parameters"
 msgstr "输入参数"
 
@@ -447,11 +445,9 @@ msgstr "*图像*"
 msgid "Incident vector."
 msgstr "关联向量"
 
-#: ../node_materials.rst:195 ../node_materials.rst:278
-#: ../node_materials.rst:304 ../node_materials.rst:332
-#: ../node_materials.rst:365 ../node_materials.rst:395
-#: ../node_materials.rst:419 ../node_materials.rst:467
-#: ../node_materials.rst:494
+#: ../node_materials.rst:195 ../node_materials.rst:278 ../node_materials.rst:304
+#: ../node_materials.rst:332 ../node_materials.rst:365 ../node_materials.rst:395
+#: ../node_materials.rst:419 ../node_materials.rst:467 ../node_materials.rst:494
 msgid "Output Parameters"
 msgstr "输出参数"
 
@@ -467,7 +463,9 @@ msgstr "夜光输出（B4W_GLOW_OUTPUT）"
 msgid ""
 "Applies the :ref:`Glow effect <glow>` to the node material. Besides the "
 "*B4W_GLOW_OUTPUT* node, the node material should have the *Output* node."
-msgstr "应用  :ref:`发光效果 <glow>` 到节点材质。除了 *B4W_GLOW_OUTPUT* 节点，该节点材质应具有 *输出* 节点。"
+msgstr ""
+"应用  :ref:`发光效果 <glow>` 到节点材质。除了 *B4W_GLOW_OUTPUT* 节点，该节点材质"
+"应具有 *输出* 节点。"
 
 #: ../node_materials.rst:215
 msgid "*Glow Color*"
@@ -499,10 +497,12 @@ msgstr "质量层级（B4W_LEVELS_OF_QUALITY）"
 
 #: ../node_materials.rst:228
 msgid ""
-"Sets up the output color based on the current image quality settings. Can"
-" be used to, for example, replace complex material with more simple one "
-"if the application is running on a mobile device."
-msgstr "设置根据当前的图像质量设置输出颜色。可用于，例如，与如果应用程序在移动装置上运行用更简单材质的更换复杂材质。"
+"Sets up the output color based on the current image quality settings. Can be "
+"used to, for example, replace complex material with more simple one if the "
+"application is running on a mobile device."
+msgstr ""
+"设置根据当前的图像质量设置输出颜色。可用于，例如，与如果应用程序在移动装置上运行"
+"用更简单材质的更换复杂材质。"
 
 #: ../node_materials.rst:234
 msgid ":ref:`quality_settings`"
@@ -514,8 +514,8 @@ msgstr "*高质量*"
 
 #: ../node_materials.rst:240
 msgid ""
-"Node links this parameter to ``Color`` parameter in case of high and "
-"maximum quality usage."
+"Node links this parameter to ``Color`` parameter in case of high and maximum "
+"quality usage."
 msgstr "节点链接这个参数到 ``Color`` 参数高，最高的质量使用的情况。"
 
 #: ../node_materials.rst:243
@@ -524,8 +524,7 @@ msgstr "*低*"
 
 #: ../node_materials.rst:243
 msgid ""
-"Node links this parameter to ``Color`` parameter in case of low quality "
-"usage."
+"Node links this parameter to ``Color`` parameter in case of low quality usage."
 msgstr "节点链接这个参数到 ``Color`` 参数低质量的使用情况。"
 
 #: ../node_materials.rst:246
@@ -534,13 +533,14 @@ msgstr "*系数*"
 
 #: ../node_materials.rst:246
 msgid ""
-"This value specifies what quality setting (``HIGH`` or ``LOW``) will be "
-"visible in the Blender viewport. Can change from 0 to 1. If the value is "
-"lower than 0.5, the ``HIGH`` setting will be visible, if it is 0.5 or "
-"higher, the ``LOW`` setting will be visible."
+"This value specifies what quality setting (``HIGH`` or ``LOW``) will be visible "
+"in the Blender viewport. Can change from 0 to 1. If the value is lower than 0.5, "
+"the ``HIGH`` setting will be visible, if it is 0.5 or higher, the ``LOW`` "
+"setting will be visible."
 msgstr ""
-"此值指定什么质量设置（``HIGH`` 或 ``LOW``）将在Blender视口中可见。可以从0变化到1，如果该值低于0.5时，``HIGH``"
-" 设置将是可见的，如果它是0.5或更高时，``LOW`` 设置将是可见的。"
+"此值指定什么质量设置（``HIGH`` 或 ``LOW``）将在Blender视口中可见。可以从0变化到"
+"1，如果该值低于0.5时，``HIGH`` 设置将是可见的，如果它是0.5或更高时，``LOW`` 设置"
+"将是可见的。"
 
 #: ../node_materials.rst:251
 msgid "Parallax (B4W_PARALLAX)"
@@ -580,8 +580,8 @@ msgstr "*步进*"
 
 #: ../node_materials.rst:272
 msgid ""
-"The number of steps for iterative generation of texture coordinates "
-"offset. The bigger this value is the better is the final quality."
+"The number of steps for iterative generation of texture coordinates offset. The "
+"bigger this value is the better is the final quality."
 msgstr "迭代产生纹理的步数坐标偏移。这个值越大最后的质量越好。"
 
 #: ../node_materials.rst:275
@@ -594,8 +594,7 @@ msgstr "从相距距离最远开始，效果能被观察到。"
 
 #: ../node_materials.rst:281
 msgid ""
-"Resulting texture coordinates which are used as input for the texture "
-"nodes."
+"Resulting texture coordinates which are used as input for the texture nodes."
 msgstr "结果是纹理坐标用着输入纹理节点。"
 
 #: ../node_materials.rst:286
@@ -604,28 +603,28 @@ msgstr "反射 (B4W_REFLECT)"
 
 #: ../node_materials.rst:288
 msgid ""
-"Calculates the reflection direction for an incident vector and a normal "
-"vector. Can be used to apply a cubemap to an object."
+"Calculates the reflection direction for an incident vector and a normal vector. "
+"Can be used to apply a cubemap to an object."
 msgstr "计算入射矢量和法线矢量之间的反射方向。可用方块贴图应用到物体。"
 
-#: ../node_materials.rst:298 ../node_materials.rst:301
-#: ../node_materials.rst:307 ../node_materials.rst:491
-#: ../node_materials.rst:497
+#: ../node_materials.rst:298 ../node_materials.rst:301 ../node_materials.rst:307
+#: ../node_materials.rst:491 ../node_materials.rst:497
 msgid "*Vector*"
 msgstr "*矢量*"
 
 #: ../node_materials.rst:298
 msgid ""
-"Incident vector. Should be connected to the ``View`` socket of the "
-"``Geometry`` node."
+"Incident vector. Should be connected to the ``View`` socket of the ``Geometry`` "
+"node."
 msgstr "入射向量。应连接至 ``Geometry`` 节点的 ``View`` 插座。"
 
 #: ../node_materials.rst:301
 msgid ""
-"Normal vector. Should be normalized in order to achieve the desired "
-"result. Should be connected to the ``Normal`` socket of the ``Geometry`` "
-"node."
-msgstr "法向量。需要进行归一化以达到所期望的结果。应连接至 ``Geometry`` 节点的 ``Normal`` 插座。"
+"Normal vector. Should be normalized in order to achieve the desired result. "
+"Should be connected to the ``Normal`` socket of the ``Geometry`` node."
+msgstr ""
+"法向量。需要进行归一化以达到所期望的结果。应连接至 ``Geometry`` 节点的 "
+"``Normal`` 插座。"
 
 #: ../node_materials.rst:307
 msgid ""
@@ -639,8 +638,8 @@ msgstr "折射（B4W_REFRACTION）"
 
 #: ../node_materials.rst:314
 msgid ""
-"Applies refraction effect to an object. This effect works only in the "
-"Blend4Web engine and not in the Blender’s viewport."
+"Applies refraction effect to an object. This effect works only in the Blend4Web "
+"engine and not in the Blender’s viewport."
 msgstr "一个物体产生折射效果。这种效果仅在Blend4Web引擎，而不是在Blender的视口。"
 
 #: ../node_materials.rst:324
@@ -663,8 +662,7 @@ msgstr "扰动强度值。"
 msgid "The default value is 0.001."
 msgstr "默认值是0"
 
-#: ../node_materials.rst:335 ../node_materials.rst:368
-#: ../node_materials.rst:441
+#: ../node_materials.rst:335 ../node_materials.rst:368 ../node_materials.rst:441
 msgid "*Color*"
 msgstr "*Color*"
 
@@ -674,12 +672,12 @@ msgstr "对物体后面的材质产生扰动。"
 
 #: ../node_materials.rst:339
 msgid ""
-"It’s necessary to set the ``Refractions`` option from the ``Render > "
-"Reflections and Refractions`` panel to value ``AUTO`` or ``ON``. The "
-"object’s transparency type must be set to ``Alpha Blend``."
+"It’s necessary to set the ``Refractions`` option from the ``Render > Reflections "
+"and Refractions`` panel to value ``AUTO`` or ``ON``. The object’s transparency "
+"type must be set to ``Alpha Blend``."
 msgstr ""
-"需要在 ``Render > Reflections and Refractions`` 面板设置 ``Refractions`` 选项值为 "
-"``AUTO`` 或 ``ON`` 。物体的透明度类型必须设置为 ``Alpha Blend``."
+"需要在 ``Render > Reflections and Refractions`` 面板设置 ``Refractions`` 选项值"
+"为 ``AUTO`` 或 ``ON`` 。物体的透明度类型必须设置为 ``Alpha Blend``."
 
 #: ../node_materials.rst:340
 msgid ":ref:`alpha_blend`"
@@ -691,27 +689,28 @@ msgstr "替换（B4W_REPLACE）"
 
 #: ../node_materials.rst:347
 msgid ""
-"The node replaces the inputs depending on the working environment (i.e. "
-"Blender viewport or Blend4Web). When working in Blender the ``Color1`` "
-"input is connected to the ``Color`` output and the ``Color2`` input is "
-"ignored. On the contrary when working in the engine the inputs are "
-"interchanged (the ``Color1`` one is ignored and the ``Color2`` one is "
-"connected to the output). The node is intended to display one node "
-"structure in the viewport and another - in the engine."
+"The node replaces the inputs depending on the working environment (i.e. Blender "
+"viewport or Blend4Web). When working in Blender the ``Color1`` input is "
+"connected to the ``Color`` output and the ``Color2`` input is ignored. On the "
+"contrary when working in the engine the inputs are interchanged (the ``Color1`` "
+"one is ignored and the ``Color2`` one is connected to the output). The node is "
+"intended to display one node structure in the viewport and another - in the "
+"engine."
 msgstr ""
-"节点替换取决于工作环境（即Blender视口或Blend4Web）的输入。在Blender工作时，``Color1`` "
-"输入被连接到``Color`` 输出和 ``Color2`` 输入被忽略。相反在引擎中输入被替换时（这时 ``Color1`` "
-"被忽略，``Color2`` 被连接到输出）。节点意欲在视口中显示的一个节点的结构和其他 - 在引擎中。"
+"节点替换取决于工作环境（即Blender视口或Blend4Web）的输入。在Blender工作时，"
+"``Color1`` 输入被连接到 ``Color`` 输出和 ``Color2`` 输入被忽略。相反在引擎中输入被"
+"替换时（这时 ``Color1`` 被忽略，``Color2`` 被连接到输出）。节点意欲在视口中显示的"
+"一个节点的结构和其他 - 在引擎中。"
 
 #: ../node_materials.rst:353
 msgid ""
-"As a rule it is used for normal mapping. Blender’s node materials do not "
-"support a tangent space of coordinates. Therefore, the only possible "
-"method to display normal maps in the viewport correctly is their usage "
-"inside the ``Material`` nodes."
+"As a rule it is used for normal mapping. Blender’s node materials do not support "
+"a tangent space of coordinates. Therefore, the only possible method to display "
+"normal maps in the viewport correctly is their usage inside the ``Material`` "
+"nodes."
 msgstr ""
-"作为一项规则是用于法线贴图。 Blender的节点材质不支持坐标的切线空间。因此，唯一可能的在视口中来显示法线贴图正确的方法是在 "
-"``Material`` 节点内的使用。"
+"作为一项规则是用于法线贴图。 Blender的节点材质不支持坐标的切线空间。因此，唯一可"
+"能的在视口中来显示法线贴图正确的方法是在 ``Material`` 节点内的使用。"
 
 #: ../node_materials.rst:359
 msgid "*Color1*"
@@ -731,8 +730,8 @@ msgstr "节点设置，就可以在Blend4Web引擎可见。"
 
 #: ../node_materials.rst:368
 msgid ""
-"Should be connected to the ``Color`` socket of the ``Material`` or "
-"``Extended Material`` node."
+"Should be connected to the ``Color`` socket of the ``Material`` or ``Extended "
+"Material`` node."
 msgstr "应连接到 ``Material`` 或 ``扩展Material`` 节点的 ``Color`` 插座。"
 
 #: ../node_materials.rst:373
@@ -741,12 +740,10 @@ msgstr "平滑步进（B4W_SMOOTHSTEP）"
 
 #: ../node_materials.rst:375
 msgid ""
-"Performs smooth interpolation between two input values based on first "
-"value."
+"Performs smooth interpolation between two input values based on first value."
 msgstr "进行基于第一值的两个输入值之间的平滑内插。"
 
-#: ../node_materials.rst:385 ../node_materials.rst:398
-#: ../node_materials.rst:422
+#: ../node_materials.rst:385 ../node_materials.rst:398 ../node_materials.rst:422
 msgid "*Value*"
 msgstr "*值*"
 
@@ -776,8 +773,8 @@ msgstr "插值。"
 
 #: ../node_materials.rst:401
 msgid ""
-"For the correct interpolation input ``Value`` had to be between ``Edge0``"
-" and ``Edge1``."
+"For the correct interpolation input ``Value`` had to be between ``Edge0`` and "
+"``Edge1``."
 msgstr "对于正确的插值，输入 ``Value`` 必须在 ``Edge0`` 和 ``Edge1`` 之间。"
 
 #: ../node_materials.rst:406
@@ -786,10 +783,12 @@ msgstr "时间（B4W_TIME）"
 
 #: ../node_materials.rst:408
 msgid ""
-"Provides the timeline counting from the engine start (in seconds). Can be"
-" used for animating any parameters in node materials, such as UV "
-"coordinates, mixing factors, transparency etc."
-msgstr "提供时间表，从引擎起动计数（以秒计）。可用于在节点的材质，如UV坐标动画任何参数，混合的因子，透明度等。"
+"Provides the timeline counting from the engine start (in seconds). Can be used "
+"for animating any parameters in node materials, such as UV coordinates, mixing "
+"factors, transparency etc."
+msgstr ""
+"提供时间表，从引擎起动计数（以秒计）。可用于在节点的材质，如UV坐标动画任何参数，"
+"混合的因子，透明度等。"
 
 #: ../node_materials.rst:416
 msgid "None."
@@ -809,19 +808,22 @@ msgstr "半透明（B4W_TRANSLUCENCY）"
 
 #: ../node_materials.rst:431
 msgid ""
-"The node implements a translucency effect (with respect to light sources "
-"only) for thin objects such as cloth, leaves, paper etc. The effect "
-"consists of two parts: 1) brightening of the object side which is "
-"opposite to the light source and 2) appearance of a light spot right in "
-"the light source place."
-msgstr "节点实现了一个半透明效果（只对于光源）的薄的物体，如布，树叶，纸张等的效果，由两部分组成：1）物体侧的增亮这是相对的光源和2）光点就在光源处的外观。"
+"The node implements a translucency effect (with respect to light sources only) "
+"for thin objects such as cloth, leaves, paper etc. The effect consists of two "
+"parts: 1) brightening of the object side which is opposite to the light source "
+"and 2) appearance of a light spot right in the light source place."
+msgstr ""
+"节点实现了一个半透明效果（只对于光源）的薄的物体，如布，树叶，纸张等的效果，由两"
+"部分组成：1）物体侧的增亮这是相对的光源和2）光点就在光源处的外观。"
 
 #: ../node_materials.rst:441
 msgid ""
-"One-channel texture which defines material heterogeneity - the white "
-"color denotes maximum translucency effect while the black color denotes "
-"its absence. White color is used by default."
-msgstr "它定义了材质异质性单通道纹理 - 白色表示最大的半透明效果，而黑色代表不存在。白色默认情况下使用。"
+"One-channel texture which defines material heterogeneity - the white color "
+"denotes maximum translucency effect while the black color denotes its absence. "
+"White color is used by default."
+msgstr ""
+"它定义了材质异质性单通道纹理 - 白色表示最大的半透明效果，而黑色代表不存在。白色默"
+"认情况下使用。"
 
 #: ../node_materials.rst:450
 msgid "*Backside Factor*"
@@ -829,10 +831,10 @@ msgstr "*背面因子*"
 
 #: ../node_materials.rst:444
 msgid ""
-"Material color correction coefficient for the side which is opposite to "
-"the light source. It describes the color richness effect for the "
-"translucent areas."
-msgstr "为这是相对的光源侧的材质颜色校正系数。它描述了半透明区域的颜色丰富性的效果。"
+"Material color correction coefficient for the side which is opposite to the "
+"light source. It describes the color richness effect for the translucent areas."
+msgstr ""
+"为这是相对的光源侧的材质颜色校正系数。它描述了半透明区域的颜色丰富性的效果。"
 
 #: ../node_materials.rst:446
 msgid "*Backside Factor < 1* - brightening"
@@ -856,8 +858,8 @@ msgstr "*光点硬度*"
 
 #: ../node_materials.rst:453
 msgid ""
-"Light spot blurring factor. The bigger this value is the smaller is the "
-"spot and the sharper are the spot edges. The default value is 1000."
+"Light spot blurring factor. The bigger this value is the smaller is the spot and "
+"the sharper are the spot edges. The default value is 1000."
 msgstr "光点模糊的系数。这个值越大就越小，当场和更清晰的现货边缘。缺省值为1000。"
 
 #: ../node_materials.rst:456
@@ -866,8 +868,8 @@ msgstr "*斑点强度*"
 
 #: ../node_materials.rst:456
 msgid ""
-"Light spot intensity. The bigger this value is the brighter is the light "
-"spot. The default value is 1."
+"Light spot intensity. The bigger this value is the brighter is the light spot. "
+"The default value is 1."
 msgstr "光斑强度。这个值越亮越大，光点。默认值是1。"
 
 #: ../node_materials.rst:464
@@ -892,8 +894,8 @@ msgstr "*半透明*"
 
 #: ../node_materials.rst:470
 msgid ""
-"The output should be connected to the ``Translucency`` input of the "
-"``Extended Material`` node."
+"The output should be connected to the ``Translucency`` input of the ``Extended "
+"Material`` node."
 msgstr "输出应被连接到 ``扩展Material`` 节点的 ``Translucency`` 输入。"
 
 #: ../node_materials.rst:474
@@ -909,13 +911,14 @@ msgstr "矢量视图（B4W_VECTOR_VIEW）"
 #: ../node_materials.rst:481
 msgid ""
 "The node transforms a vector into the camera’s space of coordinates. "
-"Transformation is necessary because the engine defines most vectors in "
-"the world space of coordinates. If normal vector is being transformed by "
-"this node it should be used only for effects and not for connecting to "
-"the output of the ``Material`` or ``Extended Material`` nodes."
+"Transformation is necessary because the engine defines most vectors in the world "
+"space of coordinates. If normal vector is being transformed by this node it "
+"should be used only for effects and not for connecting to the output of the "
+"``Material`` or ``Extended Material`` nodes."
 msgstr ""
-"该节点将一个向量坐标转换到相机的空间。转换是必要的，因为引擎定义矢量坐标系在世界空间。如果正常矢量是由该节点转变它应该只对影响，不用于连接到 "
-"``Material`` 或 ``扩展Material`` 节点的输出。"
+"该节点将一个向量坐标转换到相机的空间。转换是必要的，因为引擎定义矢量坐标系在世界"
+"空间。如果正常矢量是由该节点转变它应该只对影响，不用于连接到 ``Material`` 或 ``扩"
+"展Material`` 节点的输出。"
 
 #: ../node_materials.rst:491
 msgid "Vector coordinates in the world-space."
@@ -931,14 +934,15 @@ msgstr "线性到 SRGB和SRGB线性（已取消）"
 
 #: ../node_materials.rst:504
 msgid ""
-"Converts colors from linear space to sRGB or vice versa. This function "
-"has been declared deprecated since the version 15.04. In the newer "
-"versions, the native ``Gamma`` node with the value of 2.200 should be "
-"used to convert color from sRGB to linear space, and the same node with "
-"the value of 0.455 to convert color from linear space to sRGB."
+"Converts colors from linear space to sRGB or vice versa. This function has been "
+"declared deprecated since the version 15.04. In the newer versions, the native "
+"``Gamma`` node with the value of 2.200 should be used to convert color from sRGB "
+"to linear space, and the same node with the value of 0.455 to convert color from "
+"linear space to sRGB."
 msgstr ""
-"从sRGB到线性空间转换颜色反之亦然。 从版本15.04这个功能已经被宣布弃用。在较新的版本，具有2.200的数值内置 ``Gamma`` "
-"节点应使用将颜色从sRGB转换为线性空间，并用0.455的值相同的节点将颜色从线性空间转换为sRGB。"
+"从sRGB到线性空间转换颜色反之亦然。 从版本15.04这个功能已经被宣布弃用。在较新的版"
+"本，具有2.200的数值内置 ``Gamma`` 节点应使用将颜色从sRGB转换为线性空间，并用0.455"
+"的值相同的节点将颜色从线性空间转换为sRGB。"
 
 #: ../node_materials.rst:510
 msgid ":ref:`gamma_node_materials`"
@@ -950,16 +954,17 @@ msgstr "Cycles 节点"
 
 #: ../node_materials.rst:518
 msgid ""
-"Cycles node support is an experimental feature that is not yet "
-"recommended for using in production environment."
+"Cycles node support is an experimental feature that is not yet recommended for "
+"using in production environment."
 msgstr "Cycles节点的支持是不建议在生产中使用环境的实验性功能。"
 
 #: ../node_materials.rst:520
 msgid ""
-"It should also be noted that using Cycles nodes in Blend4Web will produce"
-" images similar, but not identical to the ones created using Cycles "
-"renderer itself."
-msgstr "此外应指出的是，在 Blend4Web 中使用Cycles节点会产生相似的图像，但不是完全跟使用Cycles渲染器本身创建的图像一样。"
+"It should also be noted that using Cycles nodes in Blend4Web will produce images "
+"similar, but not identical to the ones created using Cycles renderer itself."
+msgstr ""
+"此外应指出的是，在 Blend4Web 中使用Cycles节点会产生相似的图像，但不是完全跟使用"
+"Cycles渲染器本身创建的图像一样。"
 
 #: ../node_materials.rst:522
 msgid "The engine support the following ``Cycles`` nodes:"
@@ -967,8 +972,7 @@ msgstr "引擎支持以下 ``Cycles`` 节点︰"
 
 #: ../node_materials.rst:524
 msgid ""
-"``Material Output`` (only ``Surface`` and ``Displacement`` inputs are "
-"supported);"
+"``Material Output`` (only ``Surface`` and ``Displacement`` inputs are supported);"
 msgstr "``材质输出`` (只支持 ``Surface`` 和  ``Displacement`` 输入）;"
 
 #: ../node_materials.rst:526
@@ -977,13 +981,13 @@ msgstr "``BSDF Diffuse``;"
 
 #: ../node_materials.rst:528
 msgid ""
-"``BSDF Glossy`` (only ``GGX`` distribution is supported; the "
-"``Roughness`` parameter does not influence the reflections);"
+"``BSDF Glossy`` (only ``GGX`` distribution is supported; the ``Roughness`` "
+"parameter does not influence the reflections);"
 msgstr "``BSDF Glossy`` (只支持 ``GGX`` 分布;  ``Roughness`` 参数不影响反射);"
 
 #: ../node_materials.rst:530
 msgid "``Transparent BSDF``;"
-msgstr ""
+msgstr "``透明BSDF``;"
 
 #: ../node_materials.rst:532
 msgid "``Mix Shader``;"
@@ -1027,8 +1031,7 @@ msgstr "``UV Map`` (``From Dupli`` 参数不支持);"
 
 #: ../node_materials.rst:552
 msgid ""
-"``Geometry`` (the ``Pointness`` and ``Parametric`` parameters are not "
-"supported)."
+"``Geometry`` (the ``Pointness`` and ``Parametric`` parameters are not supported)."
 msgstr "``Geometry`` (  ``Pointness`` 和 ``Parametric`` 参数不支持)."
 
 #: ../node_materials.rst:554
@@ -1037,13 +1040,14 @@ msgstr "``Emission`` (不会影响场景中的打灯效果)."
 
 #: ../node_materials.rst:556
 msgid ""
-"Other ``Cycles`` nodes will not, in most cases, work in Blend4Web the "
-"same way they do in Blender. They also might not work at all or even "
-"cause material in which they are used to work incorrectly. However, using"
-" these nodes will not cause instabilities in the application workflow."
+"Other ``Cycles`` nodes will not, in most cases, work in Blend4Web the same way "
+"they do in Blender. They also might not work at all or even cause material in "
+"which they are used to work incorrectly. However, using these nodes will not "
+"cause instabilities in the application workflow."
 msgstr ""
-"其他 ``Cycles`` "
-"节点在大多数情况下在不会在Blend4Web中跟他们在Blender中一样良好工作。他们不会工作也可能引起材质的不正常显示和工作。但是，使用这些节点不会在应用程序工作流中导致不稳定。"
+"其他 ``Cycles`` 节点在大多数情况下在不会在Blend4Web中跟他们在Blender中一样良好工"
+"作。他们不会工作也可能引起材质的不正常显示和工作。但是，使用这些节点不会在应用程"
+"序工作流中导致不稳定。"
 
 #: ../node_materials.rst:1 ../node_materials.rst:26 ../node_materials.rst:170
 msgid "materials"
@@ -1052,4 +1056,3 @@ msgstr "材质"
 #: ../node_materials.rst:1 ../node_materials.rst:26 ../node_materials.rst:170
 msgid "nodes"
 msgstr "节点"
-

@@ -829,7 +829,7 @@ function prepare_bpy_scenes(bpy_data, thread) {
 function check_scene_physics(bpy_scene) {
     if (cfg_def.phy_race_condition_hack)
         return true;
-    var bpy_objects = bpy_scene["objects"];
+    var bpy_objects = combine_scene_bpy_objects(bpy_scene, "ALL");
     for (var i = 0; i < bpy_objects.length; i++) {
         if (bpy_objects[i]["b4w_collision"])
             return true;
@@ -1405,7 +1405,7 @@ function process_scenes(bpy_data, thread, stage, cb_param, cb_finish,
             }
             m_scenes.generate_auxiliary_batches(scene_dst, scene_graph);
             var wls = scene_dst._render.world_light_set;
-            if (wls && wls.use_environment_light)
+            if (wls && (wls.use_environment_light || wls.ngraph_proxy_id))
                 m_batch.append_cube_sky_batch_to_world(scene_dst, bpy_world._object);
         }
 

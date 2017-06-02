@@ -141,7 +141,7 @@ exports.set_nodemat_value = function(obj, name_list, value) {
     }
 
     var ind = m_batch.get_node_ind_by_name_list(batch_main.node_value_inds,
-                                                name_list);
+                                                name_list, 1);
     if (ind === null) {
         m_print.error("Value node \"" + name_list[name_list.length - 1] +
         "\" was not found in the object \"" + obj.name + "\".");
@@ -178,7 +178,7 @@ exports.get_nodemat_value = function(obj, name_list) {
     }
 
     var ind = m_batch.get_node_ind_by_name_list(batch_main.node_value_inds,
-                                                name_list);
+                                                name_list, 1);
     if (ind === null) {
         m_print.error("Value node \"" + name_list[name_list.length - 1] +
         "\" was not found in the object \"" + obj.name + "\".");
@@ -217,7 +217,7 @@ exports.set_nodemat_rgb = function(obj, name_list, r, g, b) {
 
     // node index is assumed to be similar for all batches with the same material
     var ind = m_batch.get_node_ind_by_name_list(batch_main.node_rgb_inds,
-                                                name_list);
+                                                name_list, 1);
     if (ind === null) {
         m_print.error("RGB node \"" + name_list[name_list.length - 1] +
                       "\" was not found in the object \"" + obj.name + "\".");

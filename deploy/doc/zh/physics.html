@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>物理 &mdash; Blend4Web 17.04 用户手册</title>
+  <title>物理 &mdash; Blend4Web 17.04.1 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.04 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 17.04.1 用户手册" href="index.html"/>
         <link rel="next" title="对应用程序开发人员" href="developers.html"/>
         <link rel="prev" title="音频" href="audio.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v17.04
+              v17.04.1
             </div>
           
         
@@ -130,9 +130,9 @@
 <li class="toctree-l2"><a class="reference internal" href="#characters">角色</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#character-settings">角色设置</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#basic-character">基本角色</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#controlling-characters-with-api">Controlling Characters with API</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#character-states">Character States</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#action-binding">Action Binding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#controlling-characters-with-api">使用API​​控制角色</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#character-states">角色状态</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#action-binding">动作绑定</a></li>
 </ul>
 </li>
 </ul>
@@ -216,7 +216,7 @@
 <li><a class="reference internal" href="#characters" id="id17">角色</a><ul>
 <li><a class="reference internal" href="#character-settings" id="id18">角色设置</a></li>
 <li><a class="reference internal" href="#basic-character" id="id19">基本角色</a></li>
-<li><a class="reference internal" href="#controlling-characters-with-api" id="id20">Controlling Characters with API</a></li>
+<li><a class="reference internal" href="#controlling-characters-with-api" id="id20">使用API​​控制角色</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#navigation-meshes" id="id21">导航网格</a><ul>
@@ -447,42 +447,42 @@
 </div>
 </div>
 <div class="section" id="controlling-characters-with-api">
-<h3><a class="toc-backref" href="#id20">Controlling Characters with API</a><a class="headerlink" href="#controlling-characters-with-api" title="永久链接至标题">¶</a></h3>
-<p>Basic character described above can only provide generic functionality. If you need more control over character behavior, you should use methods from the <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html">fps</a> module.</p>
-<p>The most important of them is the <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.enable_fps_controls">enable_fps_controls()</a> method which, as its name suggests, is used to initialize characters in the scene. It can be used as follows:</p>
+<h3><a class="toc-backref" href="#id20">使用API​​控制角色</a><a class="headerlink" href="#controlling-characters-with-api" title="永久链接至标题">¶</a></h3>
+<p>上述基本角色只能提供通用功能。如果您需要更多的角色行为控制，您应该使用 <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html">fps</a>  模块的以下方法。</p>
+<p>其中最重要的是 <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.enable_fps_controls">enable_fps_controls()</a> 方法，就像它名称一样，方法用于初始化场景中的角色。它可以如下使用：</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_fps</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;fps&quot;</span><span class="p">);</span>
 
 <span class="nx">m_fps</span><span class="p">.</span><span class="nx">enable_fps_controls</span><span class="p">();</span>
 </pre></div>
 </div>
-<p>This method should be used at the start of the application (in the <strong>load_cb</strong> function) to enable character controls.</p>
+<p>应该在应用程序开始时使用此方法（在  <strong>load_cb</strong> 函数中）来启用角色控制。</p>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
-<p class="last">This method may conflict with the <a class="reference external" href="https://www.blend4web.com/api_doc/module-app.html#.enable_camera_controls">enable_camera_controls()</a> method which is used to enable basic character described in the previous section. These two methods should not be used simultaneously.</p>
+<p class="last">此方法可能与前述的启用基本角色  <a class="reference external" href="https://www.blend4web.com/api_doc/module-app.html#.enable_camera_controls">enable_camera_controls()</a>  方法冲突。这两种方法不能同时使用。</p>
 </div>
-<p>The method also has the following optional parameters:</p>
+<p>该方法还具有以下可选参数：</p>
 <blockquote>
-<div><p><code class="docutils literal"><span class="pre">character</span></code> sets the character object. The link to the character can be retrieved by calling the <a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.get_first_character">get_first_character()</a> method. Should be used if more then one character is present in the scene.</p>
-<p><code class="docutils literal"><span class="pre">element</span></code> specifies the HTML element to which the method adds listeners.</p>
-<p><code class="docutils literal"><span class="pre">motion_cb</span></code> specifies the callback function that is called when character changes its direction.</p>
-<p><code class="docutils literal"><span class="pre">gamepad_id</span></code> specifies the ID of the gamepad plugged to the system.</p>
-<p><code class="docutils literal"><span class="pre">forward_sens</span></code>, <code class="docutils literal"><span class="pre">backward_sens</span></code>, <code class="docutils literal"><span class="pre">right_sens</span></code>, <code class="docutils literal"><span class="pre">left_sens</span></code>, <code class="docutils literal"><span class="pre">jump_sens</span></code>, <code class="docutils literal"><span class="pre">fly_sens</span></code> - these parameters are used to set arrays of sensor types for specific character action like walking in different directions, jumping and so on.</p>
-<p><code class="docutils literal"><span class="pre">rotation_cb</span></code> specifies the callback function that is called when a character or camera rotates.</p>
-<p><code class="docutils literal"><span class="pre">lock_camera</span></code> - setting this parameter to <code class="docutils literal"><span class="pre">true</span></code> will parent the scene camera to the character.</p>
+<div><p><code class="docutils literal"><span class="pre">character</span></code> 设置角色物体。可以通过调用  <a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.get_first_character">get_first_character()</a>  方法检索到角色的链接。如果场景中存在多个角色，则应该使用它。</p>
+<p><code class="docutils literal"><span class="pre">element</span></code>  指定HTML元素添加侦听器的方法。</p>
+<p><code class="docutils literal"><span class="pre">motion_cb</span></code> 指定当角色改变方向时调用的回调函数。</p>
+<p><code class="docutils literal"><span class="pre">gamepad_id</span></code> 指定插入系统的游戏手柄的ID。</p>
+<p><code class="docutils literal"><span class="pre">forward_sens</span></code>, <code class="docutils literal"><span class="pre">backward_sens</span></code>, <code class="docutils literal"><span class="pre">right_sens</span></code>, <code class="docutils literal"><span class="pre">left_sens</span></code>, <code class="docutils literal"><span class="pre">jump_sens</span></code>, <code class="docutils literal"><span class="pre">fly_sens</span></code> - 这些参数用来设置一列传感器的类型来指定角色行为如在不同的方向走，跳跃等等。</p>
+<p><code class="docutils literal"><span class="pre">rotation_cb</span></code> 指定当一个角色或者相机旋转时调用的回调函数。</p>
+<p><code class="docutils literal"><span class="pre">lock_camera</span></code> - 将此参数设置为 <code class="docutils literal"><span class="pre">true</span></code>  将会将场景摄像头父物体设置为角色。</p>
 </div></blockquote>
-<p>Other important methods are <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.set_cam_sensitivity">set_cam_sensitivity()</a> and <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.set_cam_smooth_factor">set_cam_smooth_factor()</a>. The first one of them sets the sensitivity of the camera (defined by a numeric value in the range from zero to 100). The second method defines how smooth the camera moves (defined by a value in the range from 0 to 1.0).</p>
+<p>其他重要的方法是 <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.set_cam_sensitivity">set_cam_sensitivity()</a> 和 <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.set_cam_smooth_factor">set_cam_smooth_factor()</a>.  第一个设置相机的灵敏度（由数字值在零到100之间定义）。第二种方法定义了相机移动的平滑度（由0到1.0之间的值定义）。</p>
 <div class="section" id="character-states">
-<h4>Character States<a class="headerlink" href="#character-states" title="永久链接至标题">¶</a></h4>
-<p>Character states are constant values that represent current behavior of the character (does it currently walk or fly or do anything else). Every character present in a scene always have one and only one state.</p>
-<p>Available character states:</p>
+<h4>角色状态<a class="headerlink" href="#character-states" title="永久链接至标题">¶</a></h4>
+<p>角色状态是表示角色当前行为的常数值（它当前是否走动或执行任何其他操作）。场景中的每个角色总是也仅能拥有一个状态。</p>
+<p>可用角色状态：</p>
 <blockquote>
-<div><p><a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.CS_CLIMB">CS_CLIMB</a> - a character is climbing.</p>
-<p><a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.CS_FLY">CS_FLY</a> - a character is flying.</p>
-<p><a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.CS_RUN">CS_RUN</a> - a character is running.</p>
-<p><a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.CS_STAY">CS_STAY</a> - a character does not move.</p>
-<p><a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.CS_WALK">CS_WALK</a> - a character is walking.</p>
+<div><p><a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.CS_CLIMB">CS_CLIMB</a> - 一个角色正在爬。</p>
+<p><a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.CS_FLY">CS_FLY</a> - 一个角色正在飞行。</p>
+<p><a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.CS_RUN">CS_RUN</a> - 一个角色正在跑。</p>
+<p><a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.CS_STAY">CS_STAY</a> - 一个角色不动。</p>
+<p><a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.CS_WALK">CS_WALK</a> - 一个角色在走路。</p>
 </div></blockquote>
-<p>Current state of a specific character can be retrieved using the <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.get_character_state">get_character_state()</a> method, while a specific state can be assigned to a character with the <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.switch_state">switch_state()</a> method. The following example shows how these two methods can be used:</p>
+<p>可以使用  <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.get_character_state">get_character_state()</a> 方法检索特定角色的当前状态，而特定状态可以通过  <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.switch_state">switch_state()</a> 方法分配给角色。以下示例显示了如何使用这两种方法：</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_fps</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;fps&quot;</span><span class="p">);</span>
 
 <span class="kd">var</span> <span class="nx">current_state</span> <span class="o">=</span> <span class="nx">m_fps</span><span class="p">.</span><span class="nx">get_character_state</span><span class="p">();</span>
@@ -493,8 +493,8 @@
 </div>
 </div>
 <div class="section" id="action-binding">
-<h4>Action Binding<a class="headerlink" href="#action-binding" title="永久链接至标题">¶</a></h4>
-<p>The <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html">fps</a> module also provides means for binding various actions to character events. The <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.bind_action">bind_action()</a> method is used for this:</p>
+<h4>动作绑定<a class="headerlink" href="#action-binding" title="永久链接至标题">¶</a></h4>
+<p><a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html">fps</a> 模块还提供了将各种动作绑定到角色事件的手段。以下是  <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.bind_action">bind_action()</a> 方法的使用：</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_fps</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;fps&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_ctl</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;controls&quot;</span><span class="p">);</span>
 
@@ -505,17 +505,17 @@
 <span class="nx">m_fps</span><span class="p">.</span><span class="nx">bind_action</span><span class="p">(</span><span class="nx">m_fps</span><span class="p">.</span><span class="nx">AT_PRESSED</span><span class="p">,</span> <span class="p">[</span><span class="nx">m_ctl</span><span class="p">.</span><span class="nx">KEY_Q</span><span class="p">],</span> <span class="nx">action_cb</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>This method features the following parameters:</p>
+<p>该方法具有以下参数：</p>
 <blockquote>
 <div><ul>
-<li><p class="first">the first parameter is the type of action:</p>
-<p><a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.AT_CONTINUOUS">AT_CONTINUOUS</a> - an input type that detects a continuous user action such as mouse movement, keyboard key held down, gamepad stick tilt etc.</p>
-<p><a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.AT_PRESSED">AT_PRESSED</a> - this input type detects a discrete user action, e.g. pressing a button.</p>
-<p><a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.AT_RELEASED">AT_RELEASED</a> - an input type that detects button (mouse, gamepad or keyboard) being released.</p>
+<li><p class="first">第一个参数是动作的类型：</p>
+<p><a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.AT_CONTINUOUS">AT_CONTINUOUS</a> - 一种输入类型，用于检测连续的用户操作，例如鼠标移动，键盘按键，手柄按钮倾斜等。</p>
+<p><a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.AT_PRESSED">AT_PRESSED</a> -  此输入类型检测离散的用户操作，例如按下按钮。</p>
+<p><a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.AT_RELEASED">AT_RELEASED</a> -  检测按钮（鼠标，游戏手柄或键盘）被释放的输入类型。</p>
 </li>
-<li><p class="first">the second parameter defines an array of sensor types (such as keyboard keys, gamepad buttons or mouse actions).</p>
+<li><p class="first">第二个参数定义了一组传感器类型（如键盘键，游戏键按钮或鼠标动作）。</p>
 </li>
-<li><p class="first"><strong>action_cb</strong> is a callback function that will be called each time user performs action defined by the first parameter.</p>
+<li><p class="first"><strong>action_cb</strong> 是一个回调函数，将在每次用户执行第一个参数定义的动作时被调用。</p>
 </li>
 </ul>
 </div></blockquote>
@@ -645,7 +645,7 @@
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2017, Triumph.
-      最后更新于 2017-04-26.
+      最后更新于 2017-05-15.
 
     </p>
   </div>
@@ -701,7 +701,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.04',
+            VERSION:'v17.04.1',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

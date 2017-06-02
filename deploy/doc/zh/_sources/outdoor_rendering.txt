@@ -378,7 +378,7 @@ Distance Map" 面板。设定参数：到岸最大距离（"最大Distance"）�
 该引擎支持位于 "World > Mist" 面板上的标准参数。除此之外，可能覆盖雾的
 颜色。
 
-Fog settings are described in the Scene Settings chapter.
+雾设置在 场景设置 章节中描述。
 
 当使用动态天穹，雾的颜色是由天空的颜色定义。
 

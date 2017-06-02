@@ -1050,7 +1050,7 @@ exports.get_line_params = function(obj) {
  * @param {Object3D} obj Object 3D
  * @param {string[]} name_list List consisting of the material name, the names of
  * nested node groups (if any) and the name of the Value node itself. Should
- * have at least 2 elements ["Mat","Node"]
+ * have at least 2 elements ["Mat","Node"]. For world material name is missing
  * @param {number} value The value to set the Value node to
  * @example 
  * var m_mat = require("material");
@@ -1061,26 +1061,41 @@ exports.get_line_params = function(obj) {
  */
 exports.set_nodemat_value = function(obj, name_list, value) {
 
-    if (!m_obj_util.is_dynamic_mesh(obj)) {
+    if (m_obj_util.is_dynamic_mesh(obj)) {
+        var mat_name = name_list[0];
+        var node_name_prefix_offset = 1;
+
+        var mat_batch = m_batch.find_batch_material_any(obj, mat_name, "MAIN");
+        if (mat_batch === null) {
+            m_print.error("Material \"" + mat_name +
+                          "\" was not found in the object \"" + obj.name + "\".");
+            return;
+        }
+
+    } else if(m_obj_util.is_world(obj)) {
+        var active_scene = m_scenes.get_active();
+        var mat_name = "";
+        var node_name_prefix_offset = 0;
+
+        var mat_batch = m_batch.get_batch_by_type(obj, "SKY", active_scene);
+        if (mat_batch === null) {
+            m_print.error("Sky node material was not found in the world object \"" + obj.name + "\".");
+            return;
+        }
+
+
+    } else  {
         m_print.error("The type of the object \"" + obj.name +
-            "\" is not \"MESH\" or it is not dynamic.");
+            "\" is not \"MESH\" or \"WORLD\" or it is not dynamic.");
         return;
     }
 
-    var mat_name = name_list[0];
-    var batch_main = m_batch.find_batch_material_any(obj, mat_name, "MAIN");
-    if (batch_main === null) {
-        m_print.error("Material \"" + mat_name +
-                      "\" was not found in the object \"" + obj.name + "\".");
-        return null;
-    }
-
-    var ind = m_batch.get_node_ind_by_name_list(batch_main.node_value_inds,
-                                                name_list);
+    var ind = m_batch.get_node_ind_by_name_list(mat_batch.node_value_inds,
+                                                name_list, node_name_prefix_offset);
     if (ind === null) {
         m_print.error("Value node \"" + name_list[name_list.length - 1] +
         "\" was not found in the object \"" + obj.name + "\".");
-        return null;
+        return;
     }
 
     m_batch.set_nodemat_value(obj, mat_name, ind, value)
@@ -1092,7 +1107,7 @@ exports.set_nodemat_value = function(obj, name_list, value) {
  * @param {Object3D} obj Object 3D
  * @param {string[]} name_list List consisting of the material name, the names of
  * nested node groups (if any) and the name of the Value node itself. Should
- * have at least 2 elements ["Mat","Node"]
+ * have at least 2 elements ["Mat","Node"]. For world material name is missing
  * @returns {number} Value.
  * @example var m_scenes = require("scenes");
  * var m_mat  = require("material");
@@ -1102,29 +1117,44 @@ exports.set_nodemat_value = function(obj, name_list, value) {
  */
 exports.get_nodemat_value = function(obj, name_list) {
 
-    if (!m_obj_util.is_dynamic_mesh(obj)) {
+    if (m_obj_util.is_dynamic_mesh(obj)) {
+        var mat_name = name_list[0];
+        var node_name_prefix_offset = 1;
+
+        var mat_batch = m_batch.find_batch_material_any(obj, mat_name, "MAIN");
+        if (mat_batch === null) {
+            m_print.error("Material \"" + mat_name +
+                          "\" was not found in the object \"" + obj.name + "\".");
+            return 0;
+        }
+
+    } else if(m_obj_util.is_world(obj)) {
+        var active_scene = m_scenes.get_active();
+        var mat_name = "";
+        var node_name_prefix_offset = 0;
+
+        var mat_batch = m_batch.get_batch_by_type(obj, "SKY", active_scene);
+        if (mat_batch === null) {
+            m_print.error("Sky node material was not found in the world object \"" + obj.name + "\".");
+            return 0;
+        }
+
+
+    } else  {
         m_print.error("The type of the object \"" + obj.name +
-            "\" is not \"MESH\" or it is not dynamic.");
+            "\" is not \"MESH\" or \"WORLD\" or it is not dynamic.");
         return 0;
     }
 
-    var mat_name = name_list[0];
-    var batch_main = m_batch.find_batch_material_any(obj, mat_name, "MAIN");
-    if (batch_main === null) {
-        m_print.error("Material \"" + mat_name +
-                      "\" was not found in the object \"" + obj.name + "\".");
-        return 0;
-    }
-
-    var ind = m_batch.get_node_ind_by_name_list(batch_main.node_value_inds,
-                                                name_list);
+    var ind = m_batch.get_node_ind_by_name_list(mat_batch.node_value_inds,
+                                                name_list, node_name_prefix_offset);
     if (ind === null) {
         m_print.error("Value node \"" + name_list[name_list.length - 1] +
         "\" was not found in the object \"" + obj.name + "\".");
         return 0;
     }
 
-    return m_batch.get_nodemat_value(batch_main, ind);
+    return m_batch.get_nodemat_value(mat_batch, ind);
 }
 
 /**
@@ -1132,7 +1162,8 @@ exports.get_nodemat_value = function(obj, name_list) {
  * @method module:material.set_nodemat_rgb
  * @param {Object3D} obj Object 3D
  * @param {string[]} name_list List consisting of the material name, the names of
- * nested node groups (if any) and the name of the RGB node itself
+ * nested node groups (if any) and the name of the RGB node itself.
+ * For world material name is missing
  * @param {number} r The value to set the red channel of the RGB node to [0..1]
  * @param {number} g The value to set the green channel of the RGB node to [0..1]
  * @param {number} b The value to set the blue channel of the RGB node to [0..1]
@@ -1145,23 +1176,37 @@ exports.get_nodemat_value = function(obj, name_list) {
  */
 exports.set_nodemat_rgb = function(obj, name_list, r, g, b) {
 
-    if (!m_obj_util.is_dynamic_mesh(obj)) {
+    if (m_obj_util.is_dynamic_mesh(obj)) {
+        var mat_name = name_list[0];
+        var node_name_prefix_offset = 1;
+
+        var mat_batch = m_batch.find_batch_material_any(obj, mat_name, "MAIN");
+        if (mat_batch === null) {
+            m_print.error("Material \"" + mat_name +
+                          "\" was not found in the object \"" + obj.name + "\".");
+            return;
+        }
+
+    } else if(m_obj_util.is_world(obj)) {
+        var active_scene = m_scenes.get_active();
+        var mat_name = "";
+        var node_name_prefix_offset = 0;
+
+        var mat_batch = m_batch.get_batch_by_type(obj, "SKY", active_scene);
+        if (mat_batch === null) {
+            m_print.error("Sky node material was not found in the world object \"" + obj.name + "\".");
+            return;
+        }
+
+
+    } else  {
         m_print.error("The type of the object \"" + obj.name +
-            "\" is not \"MESH\" or it is not dynamic.");
+            "\" is not \"MESH\" or \"WORLD\" or it is not dynamic.");
         return;
     }
 
-    var mat_name = name_list[0];
-    var batch_main = m_batch.find_batch_material_any(obj, mat_name, "MAIN");
-    if (batch_main === null) {
-        m_print.error("Material \"" + mat_name +
-                      "\" was not found in the object \"" + obj.name + "\".");
-        return;
-    }
-
-    // node index is assumed to be similar for all batches with the same material
-    var ind = m_batch.get_node_ind_by_name_list(batch_main.node_rgb_inds,
-                                                name_list);
+    var ind = m_batch.get_node_ind_by_name_list(mat_batch.node_rgb_inds,
+                                                name_list, node_name_prefix_offset);
     if (ind === null) {
         m_print.error("RGB node \"" + name_list[name_list.length - 1] +
                       "\" was not found in the object \"" + obj.name + "\".");
@@ -1176,7 +1221,8 @@ exports.set_nodemat_rgb = function(obj, name_list, r, g, b) {
  * @method module:material.get_nodemat_rgb
  * @param {Object3D} obj Object 3D
  * @param {string[]} name_list List consisting of the material name, the names of
- * nested node groups (if any) and the name of the RGB node itself
+ * nested node groups (if any) and the name of the RGB node itself.
+ * For world material name is missing
  * @param {Vec3} [dest] Destination color
  * @returns {RGB} Destination color
  * @example var m_scenes = require("scenes");
@@ -1187,22 +1233,37 @@ exports.set_nodemat_rgb = function(obj, name_list, r, g, b) {
  */
 exports.get_nodemat_rgb = function(obj, name_list, dest) {
 
-    if (!m_obj_util.is_dynamic_mesh(obj)) {
+    if (m_obj_util.is_dynamic_mesh(obj)) {
+        var mat_name = name_list[0];
+        var node_name_prefix_offset = 1;
+
+        var mat_batch = m_batch.find_batch_material_any(obj, mat_name, "MAIN");
+        if (mat_batch === null) {
+            m_print.error("Material \"" + mat_name +
+                          "\" was not found in the object \"" + obj.name + "\".");
+            return null;
+        }
+
+    } else if(m_obj_util.is_world(obj)) {
+        var active_scene = m_scenes.get_active();
+        var mat_name = "";
+        var node_name_prefix_offset = 0;
+
+        var mat_batch = m_batch.get_batch_by_type(obj, "SKY", active_scene);
+        if (mat_batch === null) {
+            m_print.error("Sky node material was not found in the world object \"" + obj.name + "\".");
+            return null;
+        }
+
+
+    } else  {
         m_print.error("The type of the object \"" + obj.name +
-            "\" is not \"MESH\" or it is not dynamic.");
+            "\" is not \"MESH\" or \"WORLD\" or it is not dynamic.");
         return null;
     }
 
-    var mat_name = name_list[0];
-    var batch_main = m_batch.find_batch_material_any(obj, mat_name, "MAIN");
-    if (batch_main === null) {
-        m_print.error("Material \"" + mat_name +
-                      "\" was not found in the object \"" + obj.name + "\".");
-        return null;
-    }
-
-    var ind = m_batch.get_node_ind_by_name_list(batch_main.node_rgb_inds,
-                                                name_list);
+    var ind = m_batch.get_node_ind_by_name_list(mat_batch.node_rgb_inds,
+                                                name_list, node_name_prefix_offset);
     if (ind === null) {
         m_print.error("RGB node \"" + name_list[name_list.length - 1] +
                       "\" was not found in the object \"" + obj.name + "\".");
@@ -1212,7 +1273,7 @@ exports.get_nodemat_rgb = function(obj, name_list, dest) {
     if (!dest)
         dest = new Float32Array(3);
 
-    return m_batch.get_nodemat_rgb(batch_main, ind, dest);
+    return m_batch.get_nodemat_rgb(mat_batch, ind, dest);
 }
 
 }
@@ -1232,7 +1293,7 @@ exports.get_nodemat_rgb = function(obj, name_list, dest) {
 <br class="clear">
 
 <footer>
-    Blend4Web API Reference (generated by JSDoc 3.4.0 on Wed Apr 26 2017 11:05:09 GMT+0300 (MSK))
+    Blend4Web API Reference (generated by JSDoc 3.4.0 on Mon May 15 2017 11:38:28 GMT+0300 (MSK))
     <a href="https://www.blend4web.com">www.blend4web.com</a>
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">

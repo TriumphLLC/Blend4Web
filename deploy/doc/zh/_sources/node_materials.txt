@@ -242,9 +242,9 @@ Blend4Web支持所有标准的Blender节点，但他们中的一些工作的不�
 -------------------
 
 节点替换取决于工作环境（即Blender视口或Blend4Web）的输入。在Blender工
-作时，"Color1" 输入被连接到``Color`` 输出和 "Color2" 输入被忽略。相反
-在引擎中输入被替换时（这时 "Color1" 被忽略，"Color2" 被连接到输出）。
-节点意欲在视口中显示的一个节点的结构和其他 - 在引擎中。
+作时，"Color1" 输入被连接到 "Color" 输出和 "Color2" 输入被忽略。相反在
+引擎中输入被替换时（这时 "Color1" 被忽略，"Color2" 被连接到输出）。节
+点意欲在视口中显示的一个节点的结构和其他 - 在引擎中。
 
 [图片]
 
@@ -430,7 +430,7 @@ Cycles 节点
 
 * "BSDF Glossy" (只支持 "GGX" 分布;  "Roughness" 参数不影响反射);
 
-* "Transparent BSDF";
+* "透明BSDF";
 
 * "Mix Shader";
 

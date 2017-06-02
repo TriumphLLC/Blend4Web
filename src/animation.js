@@ -446,7 +446,7 @@ function get_actions(obj) {
 
         if (act_render.type == OBJ_ANIM_TYPE_OBJECT)
             act_list.push(action);
-        else if (action._render.type == OBJ_ANIM_TYPE_MATERIAL && obj.type == "MESH")
+        else if (action._render.type == OBJ_ANIM_TYPE_MATERIAL && (obj.type == "MESH" || obj.type == "WORLD"))
             act_list.push(action);
         else if (act_render.type == OBJ_ANIM_TYPE_ARMATURE && obj.type == "ARMATURE")
             act_list.push(action);

@@ -119,7 +119,7 @@ SDK的首页的 *工具* 项中可以运行 *项目管理* 应用 。启动后�
       1. 如果一个或多个API模块从项目的文件夹中丢失，将会显示以下信
          息：
 
-         *模块 'module_name' 在 'project_name.html' 项目丢失，请包括它
+         *模块 `module_name` 在 `project_name.html` 项目丢失，请包括它
          或运行  `Update Modules`.*
 
       [图片]

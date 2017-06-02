@@ -20,6 +20,7 @@ NO_CONV_NAME = ".b4w_no_conv"
 
 DEPENDENCIES = ["avconv", "identify", "nvcompress", "convert", "ffmpeg", 
         "ffprobe", "PVRTexToolCLI"]
+WINDOWS_EXTERNAL_DEPS = ["PVRTexToolCLI"]
 
 WHITE  = "\033[97m"
 YELLOW = "\033[93m"
@@ -64,7 +65,11 @@ def print_flush():
 def check_dependencies(dependencies):
 
     if platform.system() == "Windows":
-        return True
+        deps_intersection = list(set(dependencies) & set(WINDOWS_EXTERNAL_DEPS))
+        if len(deps_intersection):
+            dependencies = deps_intersection
+        else:
+            return True
 
     missing_progs = get_missing_progs(dependencies)
     if "ffmpeg" in missing_progs and not "avconv" in missing_progs:

@@ -99,13 +99,13 @@ var CUBE_MAP_TARGETS = [
 
 /* offsets for Blender-packed Environment map
  ----------------
- | -X | -Z | +X |
+ | -X | -Y | +X |
  ----------------
- | +Y | -Y | +Z |
+ | -Z | +Z | +Y |
  ----------------
 */
-var CUBE_MAP_OFFSETS = [[2, 0], [0, 0], [1, 1],
-                        [0, 1], [1, 0], [2, 1]];
+var CUBE_MAP_OFFSETS = [[2, 0], [0, 0], [2, 1],
+                        [1, 0], [1, 1], [0, 1]];
 
 /**
  * Setup WebGL context
@@ -839,20 +839,24 @@ function resize_cube_map_canvas(texture, image_data, img_dim, pot_dim) {
         tmpcanvas.width = pot_dim;
         tmpcanvas.height = pot_dim;
         var ctx = tmpcanvas.getContext("2d");
+        ctx.translate(pot_dim / 2, pot_dim / 2);
 
-        // OpenGL ES 2.0 Spec, 3.7.5 Cube Map Texture Selection
-        // vertical flip for Y, horizontal flip for X and Z
-        if (target == "TEXTURE_CUBE_MAP_POSITIVE_Y" ||
-                target == "TEXTURE_CUBE_MAP_NEGATIVE_Y") {
-            ctx.translate(0, pot_dim);
+        if (target == "TEXTURE_CUBE_MAP_POSITIVE_X") {
+            ctx.rotate(Math.PI/2);
             ctx.scale(1, -1);
-        } else {
-            ctx.translate(pot_dim, 0);
+        } else if (target == "TEXTURE_CUBE_MAP_NEGATIVE_X") {
+            ctx.rotate(Math.PI/2);
+            ctx.scale(-1, 1);
+        } else if (target == "TEXTURE_CUBE_MAP_POSITIVE_Y" ||
+                target == "TEXTURE_CUBE_MAP_POSITIVE_Z") {
+            ctx.scale(1, -1);
+        } else if (target == "TEXTURE_CUBE_MAP_NEGATIVE_Y" ||
+                target == "TEXTURE_CUBE_MAP_NEGATIVE_Z") {
             ctx.scale(-1, 1);
         }
 
         ctx.drawImage(image_data, offset[0] * img_dim, offset[1] * img_dim,
-                      img_dim, img_dim, 0, 0, pot_dim, pot_dim);
+                      img_dim, img_dim, -pot_dim/2, -pot_dim/2, pot_dim, pot_dim);
 
         _gl.texImage2D(_gl[target], 0, _gl.RGBA, _gl.RGBA, _gl.UNSIGNED_BYTE,
                         tmpcanvas);

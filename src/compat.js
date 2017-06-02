@@ -87,9 +87,9 @@ exports.set_hardware_defaults = function(gl, print_warnings) {
         var vendor = gl.getParameter(rinfo.UNMASKED_VENDOR_WEBGL);
         var renderer = gl.getParameter(rinfo.UNMASKED_RENDERER_WEBGL);
 
-        if (vendor.indexOf("Qualcomm") > -1 && renderer.indexOf("330") > -1 &&
+        if (vendor.indexOf("Qualcomm") > -1 && renderer.indexOf("Adreno") > -1 &&
                 check_user_agent("Chrome")) {
-            warn("Chrome and Qualcomm 330 detected, force enable WebGL 1.");
+            warn("Chrome and Qualcomm Adreno detected, force enable WebGL 1.");
             cfg_def.webgl2 = false;
         }
     }
@@ -349,6 +349,7 @@ exports.set_hardware_defaults = function(gl, print_warnings) {
         cfg_def.shore_smoothing = false;
         cfg_def.shore_distance =  false;
         cfg_def.smaa =            false;
+        cfg_def.ssao =            false;
         cfg_def.rgba_fallback_shadows = true;
     }
 
@@ -373,6 +374,7 @@ exports.set_hardware_defaults = function(gl, print_warnings) {
     if (is_ie11() || check_user_agent("Edge")) {
         cfg_def.ie_edge_anchors_floor_hack = true;
         cfg_def.ie11_edge_mouseoffset_hack = true;
+        cfg_def.resize_cubemap_canvas_hack = true;
     }
 
     if (detect_mobile() && check_user_agent("Firefox")) {

@@ -1639,6 +1639,9 @@ function rotate_eye_camera(obj, phi, theta, phi_is_abs, theta_is_abs) {
         }
 
         m_quat.multiply(rot_quat, cam_quat, cam_quat);
+        // NOTE: It fixes the issue, when objects dance, when camera change
+        // vertical angle sign (+-)
+        m_quat.normalize(cam_quat, cam_quat);
     }
 }
 

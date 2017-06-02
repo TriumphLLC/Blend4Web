@@ -132,7 +132,7 @@
 
   * 线渲染
 
-  * Levels Of Detail
+  * 层次细节
 
 * 网格
 
@@ -250,7 +250,7 @@
 
   * 阴影
 
-  * Background
+  * 背景
 
 * 后期处理效果
 
@@ -394,13 +394,13 @@
 
 * 对应用程序开发人员
 
-  * Application Development
+  * 应用程序开发
 
   * 背景透明
 
   * 资源转换
 
-  * GZIP Compression
+  * GZIP压缩
 
   * 示例代码
 

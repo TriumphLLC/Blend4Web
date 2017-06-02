@@ -8,9 +8,9 @@
 
 * 对应用程序开发人员
 
-  * Application Development
+  * 应用程序开发
 
-    * Application Code Structure
+    * 应用程序代码结构
 
   * 背景透明
 
@@ -24,7 +24,7 @@
 
     * 数据格式
 
-  * GZIP Compression
+  * GZIP压缩
 
   * 示例代码
 
@@ -47,27 +47,22 @@
   * 移动 Web 应用程序
 
 
-Application Development
-=======================
+应用程序开发
+============
 
-To simplify development process, we recommend to use Project Manager.
-It can be used to quickly create a simple application with a generic
-code that is enough to load a simple scene and enable basic camera
-controls.
+为了简化开发过程，我们建议使用 项目管理器. 它可以用于快速  创建  一个
+简单的应用程序，其通用代码足以加载简单的场景并启用基本的相机控件。
 
 
-Application Code Structure
---------------------------
+应用程序代码结构
+----------------
 
-The process of initializing and loading an application is separated
-into several stages, which is reflected in the code of the
-application. If you are using Project Manager, a newly created "Copy"
-or "Compile" type project will include a main JS file, which will be
-placed in the SDK. The path to the file will look like this:
+初始化和加载应用程序的过程分为几个阶段，这反映在应用程序的代码中。如果
+您正在使用项目管理器，新创建的 "Copy" 或 "Compile" 类型项目将包含一个
+主要的JS文件，它将放在SDK中。该文件的路径如下所示：
 "./projects/PROJECT_NAME/PROJECT_NAME.js".
 
-This file contains generic code shaped as a module. This module can be
-registered using the certain structure:
+此文件包含通用代码作为模块。该模块可以使用一定的结构进行注册：
 
    b4w.register("my_module", function(exports, require) {
 
@@ -76,24 +71,19 @@ registered using the certain structure:
 
    });
 
-So, the code of a module is contained within a function that accepts
-"exports" and "require" parameters.
+因此，模块的代码包含在接受 "exports" 和 "require"  参数的函数中。
 
-1. "require" is the method used for loading engine modules. The
-   generic example mentioned above loads several modules:
+1. "require" 是用于加载引擎模块的方法。上面提到的通用示例加载了几个
+   模 块：
 
-      The most important ones of them are the "app" and "data"
-      modules. The "app" module simplifies application initialization
-      while the "data" module contains API methods for loading 3D
-      scene data.
+      其中最重要的是  "app" 和 "data" 模块。 "app" 模块简化了应用程序
+      初始化，而 "data" 模块包含用于加载3D场景数据的API方法。
 
-      注解: To make module naming more convenient, "m_" prefix is
-        often used ("m_app", "m_data" etc.) to show that the variable
-        is an engine module.
+      注解: 为了使模块命名更加方便，通常使用 "m_" 前缀 ("m_app",
+        "m_data" 等）来表明变量是一个引擎模块。
 
-2. "exports" is an object used for gaining access to module’s
-   functions from outside (for example, from other modules). In this
-   case, only the "init" function has been made external:
+2. "exports" 是用于从外部访问模块函数的对象（例如，从其他模块）。在
+   这 种情况下，只有 "init" 函数是外部的：
 
          b4w.register("my_module", function(exports, require) {
 
@@ -112,8 +102,7 @@ So, the code of a module is contained within a function that accepts
          ...
          });
 
-Application initialization begins with this function, and it is called
-outside of the module:
+应用程序初始化从此函数开始，它在模块外调用：
 
    b4w.register("my_module", function(exports, require) {
 
@@ -135,21 +124,16 @@ outside of the module:
    // import the app module and start the app by calling the init method
    b4w.require("my_module").init();
 
-After this, the app.init method is called. It creates Canvas HTML
-element and performs all necessary action for initializing WebGL. This
-method has many different attributes, the most important ones of which
-are:
+之后，调用 app.init 方法。它创建画布 HTML元素，并执行用于初始化WebGL的
+所有必要操作。这种方法有很多不同的属性，其中最重要的是：
 
-* "canvas_container_id" set the id of the HTML element that acts as
-  a container for the Canvas element. By default, an element with the
-  "main_canvas_container" ID is used (this element is located in the
-  main HTML file of the application).
+* "canvas_container_id" 设置作为画布元素容器的HTML元素的id。默认情况
+  下 ，使用具有 "main_canvas_container" ID的元素（该元素位于应用程序的
+  主 HTML文件中）。
 
-* "callback" is the function that is called after finishing
-  initialization.
+* "callback" 是完成初始化后调用的函数。
 
-When application initialization is completed, the init_cb function set
-by the "callback" parameter is called:
+当应用程序初始化完成后，调用由 "callback" 参数设置的  init_cb 函数：
 
    function init_cb(canvas_elem, success) {
 
@@ -170,22 +154,18 @@ by the "callback" parameter is called:
       load();
    }
 
-It has following parameters:
+它具有以下参数：
 
-* canvas_elem is the created Canvas HTML element that will be used
-  for rendering 3D content
+* canvas_elem 是用于渲染3D内容的创建的画布 HTML元素
 
-* success it the flag that indicates the success of the
-  initialization. The "false" value meant that the application is
-  unable to work due to initialization errors (for example, WebGL is
-  not supported by the device).
+* 成功是表示初始化成功的标志。"false" 值意味着应用程序由于初始化错误
+  而 无法工作（例如，设备不支持WebGL）。
 
-注解: The app.init methods sets initialization to the
-  "window.onload" event, so the "init_cb" function will have access to
-  the entire DOM tree of the HTML document.
+注解: app.init  方法将初始化设置为 "window.onload" 事件，所以
+  "init_cb" 函 数可以访问HTML文档的整个DOM树。
 
-Now we can begin loading 3D scene. This is done in the "load" function
-that is called from the "init_cb":
+现在我们可以开始加载3D场景了。这个是在 "init_cb" 中调用 "load" 来完成
+。
 
    var APP_ASSETS_PATH = m_cfg.get_assets_path("my_project");
 
@@ -195,16 +175,12 @@ that is called from the "init_cb":
        m_data.load(APP_ASSETS_PATH + "my_project.json", load_cb, preloader_cb);
    }
 
-The data.load method is used for loading. The first parameter of this
-method is the path to a 3D scene file. The path to a JSON file should
-be relative to the main HTML application file. Projects created in
-Project Manager have a dedicated asset folder, and you can easily
-obtain the path to it. This is done in the generic example code by
-introducing the "APP_ASSETS_PATH" global variable that is later used
-in the data.load.
+data.load 方法用于加载。该方法的第一个参数是3D场景文件的路径。 JSON文
+件的路径应该是相对于主要的HTML应用程序文件。在项目管理器中创建的项目具
+有专用的资产文件夹，您可以轻松获取其路径。这通过引入 "APP_ASSETS_PATH"
+全局变量在通用示例代码中完成，该变量稍后用于 data.load.
 
-The second parameter of the method is the load_cb function which is
-called after the 3D scene is loaded and prepared for rendering.
+该方法的第二个参数是 load_cb 函数，在3D场景加载调用后并准备渲染。
 
    function load() {
        m_data.load(APP_ASSETS_PATH + "my_project.json", load_cb, preloader_cb);
@@ -223,28 +199,22 @@ called after the 3D scene is loaded and prepared for rendering.
 
    }
 
-Calling this function means that the application has finished loading
-and now starts scene rendering. As this is the very first moment when
-the 3D scene data will be available, it is a suitable moment for
-initializing and preparing everything related to the scene, its
-object, animations and other things. For example, standard camera
-controls can be enabled here with the enable_camera_controls method.
+调用此函数意味着应用程序已完成加载，现在开始场景渲染。由于这是3D场景数
+据可用的最初阶段，它是初始化和准备与场景及它的物体、动画和其他内容相关
+的所有内容的适当时刻。例如，可以使用以下命令启用标准摄像头控件
+enable_camera_controls  方法。
 
 
-Writing Application Logic
-~~~~~~~~~~~~~~~~~~~~~~~~~
+编写应用程序逻辑
+~~~~~~~~~~~~~~~~
 
-After initializing and loading 3D scene the application will proceed
-to work according to the logic set by the programmer such as
-interacting with input devices, manipulating scene objects,
-controlling camera behavior and so on.
+在初始化和加载3D场景后，应用程序将根据程序员设置的逻辑进行工作，例如与
+输入设备交互，操纵场景物体，控制摄像机行为等。
 
-By observing the application loading process, we can determine several
-places suitable for performing various tasks.
+通过观察  应用程序加载过程, 我们可以确定几个适合执行各种任务的地方。
 
-1. The app.init method used for starting the initialization accepts
-   engine configuration parameters. So you can configure the engine
-   right before calling this method using URL attributes as a base:
+1. 用于启动初始化的 app.init 方法接受引擎配置参数。因此，您可以在使
+   用 URL属性作为基础调用此方​​法之前配置引擎：
 
          b4w.register("my_module", function(exports, require) {
 
@@ -269,53 +239,39 @@ places suitable for performing various tasks.
          });
          b4w.require("my_module").init();
 
-2. Initialization is started by the "window.onload" action, which
-   means that after it is completed, the init_cb function will have
-   access to the whole DOM tree. At this moment, you already can
-   perform some preparations such as creating and setting up interface
-   elements. However, the 3D scene itself is not yet loaded, and its
-   objects are not yet available.
+2. 初始化由 "window.onload" 操作启动，这意味着完成之后 init_cb  函
+   数将 可以访问整个DOM树。此时，您可以执行一些准备工作，例如创建和设
+   置界面 元素。然而，3D场景本身尚未加载，并且它的物体也没有加载。
 
-3. After the 3D scene is loaded, the load_cb function is called. At
-   this moment, all scene objects become available, thus any action
-   that concerns them can be implemented in this function. Some
-   examples can be found in the  Code Snippets application.
+3. 加载3D场景后，将调用 load_cb 函数。此时，所有场景物体变得可用，
+   因此 可以在此功能中实现与之相关的任何操作。一些例子可以在 代码片段
+   应用 程序中找到。
 
-Logic can be added to the application by using either browser or
-engine API:
+可以使用浏览器或引擎API将逻辑添加到应用程序中：
 
-1. Basic keyboard/mouse/gamepad input can be implemented with
-   standard event handlers by using the "addEventListener" method. In
-   more complex cases you can use the input API module. The engine
-   also features the add_click_listener method that registers both
-   mouse clicks and touch screen events which makes it useful for
-   writing applications compatible with desktop and mobile devices
-   alike.
+1. 基本的键盘/鼠标/游戏键盘输入可以通过使用 "addEventListener" 方法
+   用 标准的事件处理程序来实现。在更复杂的情况下，您可以使用 input API
+   模 块。引擎还具有以下功能 add_click_listener 方法，注册鼠标点击和触
+   摸 屏幕事件，这使得它有助于编写与桌面和移动设备兼容的应用程序。
 
-2. Time-stretched events that have to be performed at every frame
-   (procedural animation, for example) can be implemented with methods
-   such as set_render_callback, append_loop_cb, animate and
-   set_timeout. Standard "setTimeout" and "setInterval" methods can
-   also be used.
+2. 必须在每个帧执行时间延长的事件（例如程序动画）可以使用以下方法来
+   实 现 set_render_callback，append_loop_cb, animate 和 set_timeout.
+   也 可以使用标准的 "setTimeout" 和 "setInterval" 方法。
 
-3. For complex logic that takes into account both user actions and
-   the state of the 3D scene can use engine’s event-driven model that
-   is based on sensor system.
+3. 对于考虑用户操作和3D场景状态的复杂逻辑，可以使用引擎的 事件驱动
+   模型 ，这是基于传感器系统。
 
 
 模块系统
 ~~~~~~~~
 
-Blend4Web engine is built upon modular structure: all engine API
-methods are separated into several modules. If necessary, a module can
-be plugged into the application with the "require" method. We
-recommend to structure the code of the actual application into modules
-as well.
+Blend4Web引擎基于模块化结构：所有引擎API方法都分为多个模块。如果需要，
+可以使用 "require"  方法将模块插入应用程序。我们建议也将实际应用程序的
+代码结构化为模块。
 
-1. Registering Modules
+1. 注册模块
 
-A module is essentially a code block wrapped by a specific structure
-that is used to register it:
+一个模块基本上是一个由特定结构包装的代码块，用于注册它：
 
    b4w.register("my_module1", function(exports, require) {
 
@@ -331,10 +287,9 @@ that is used to register it:
 
    ...
 
-The register method is used for registering modules. You can only
-register custom modules if their names do not coincide with the
-regular API modules. If necessary, the module_check method to check if
-a module with a given name is present:
+register 方法用于注册模块。如果名称与常规API模块不符，则只能注册自定义
+模块。如果需要，可以使用 module_check 方法检查是否存在具有给定名称的模
+块：
 
    if (b4w.module_check("my_module"))
        throw "Failed to register module: my_module";
@@ -346,10 +301,9 @@ a module with a given name is present:
 
    });
 
-2. Loading Modules
+2. 加载模块
 
-Custom modules, just like regular ones, can be plugged in with the
-"require" method:
+自定义模块，就像常规模块一样，可以使用 "require" 方法插入：
 
    b4w.register("my_module1", function(exports, require) {
 
@@ -358,35 +312,29 @@ Custom modules, just like regular ones, can be plugged in with the
        ...
    });
 
-3. Application Initialization
+3. 应用程序初始化
 
-Application initialization in Blend4Web is usually done with a call
-like this:
+Blend4Web中的应用程序初始化通常使用以下调用：
 
    b4w.require("my_module").init();
 
-Here, the "my_module" custom module and its "init" external function
-do, in a certain sense, act as the entry point to the application.
+这里， "my_module" 定制模块及其 "init"  外部函数在某种意义上作为应用程
+序的入口点。
 
-注解: In the global visibility scope a module can be loaded with the
-  same require method available as a method of the global "b4w"
-  object: "b4w.require("MODULE_NAME")".
+注解: 在全局可视范围内，可以使用相同的模块加载模块  require 方法作为
+  全局 "b4w" 对象的方法："b4w.require("MODULE_NAME")".
 
-4. Using Multiple Modules
+4. 使用多个模块
 
-After a project is created in the Project Manager, its generic
-application JS-file will contain only one module. However, while
-developing the application, you might need to separate your code into
-several logic parts. In this case, you can either create several
-modules inside one file, or you can create several files each one of
-them contain one module.
+当一个项目在  项目管理器 中被创建, 其通用应用程序JS文件只包含一个模块
+。但是，在开发应用程序时，您可能需要将代码分成几个逻辑部分。在这种情况
+下，您可以在一个文件中创建多个模块，也可以创建多个文件，每个文件包含一
+个模块。
 
-If your application uses multiple modules, keep in mind that every one
-of them should be properly registered before initialization starts, or
-you will get an engine error if you try to call a module that is not
-yet registered. If you are using several JS files, the script that
-starts the initialization (contains application entry point) should
-the last one to be plugged into the main HTML application file.
+如果您的应用程序使用多个模块，请记住，在初始化开始之前，应该正确注册每
+个模块，否则，如果您尝试调用尚未注册的模块，您将收到引擎报告错误。如果
+您使用的是几个JS文件，那么启动初始化的脚本（包含应用程序入口点）最后一
+个要插入到主应用程序文件中。
 
 
 背景透明
@@ -502,8 +450,8 @@ transparency (alpha)"  参数 。
 
 * "convert_media" 将音频和视频文件转换为 替换格式.
 
-* "convert_gzip" generates GZIP-compressed versions of ".json" and
-  ".bin" scene files and ".dds" and ".pvr" textures.
+* "convert_gzip" 生成GZIP压缩版本的 ".json" 和 ".bin" 场景文件和
+  ".dds" 和 ".pvr" 纹理。
 
 资源清理命令：
 
@@ -517,8 +465,7 @@ transparency (alpha)"  参数 。
 * "cleanup_media" 删除由 "convert_media" 命令生成的替换格式的音频和
   视 频文件。
 
-* "cleanup_gzip" removes GZIP-compressed files generated by the
-  "convert_gzip" command.
+* "cleanup_gzip" 删除 "convert_gzip" 命令生成的GZIP压缩文件。
 
 图像压缩命令:
 
@@ -648,10 +595,9 @@ macOS 用户可以安装  brew 包管理器，然后再安装任何缺失的软�
 输入文件的实例："file_name.jpg"，例如一个输出文件：
 "file_name.altconv.jpg.dds"。
 
-For the purpose of optimizing application performance it's possible to
-use "min50" (halved) and "DDS" or "PVRTC" (compressed) textures. In
-order to do this, we need to pass the following parameters during
-initialization of the application:
+为了优化应用性能的目的，有可能使用 "min50" （减半）和 "DDS" 或者
+"PVRTC" (压缩) 纹理。为了做到这一点，我们需要在应用程序的初始化期间传
+递下列参数：
 
    exports.init = function() {
        m_app.init({
@@ -671,8 +617,7 @@ initialization of the application:
 
         assets_pvr_available: true,
 
-  This will tell the engine to load PVRTC textures, if such are
-  present in the "./assets/" folder.
+  这将告诉引擎加载PVRTC纹理，如果这些都存在于 "../assets/" 文件夹中。
 
 
 DDS纹理压缩
@@ -681,7 +626,7 @@ DDS纹理压缩
 "DDS" 纹理需要较少的内存 （4 倍少 "RGBA" 数据，6 倍 RGB 数据），但使用
 它们具有以下缺点 ︰
 
-   * 'DDS' 纹理可能无法工作在一些设备上，尤其是移动的并不是所有支持
+   * "DDS" 纹理可能无法工作在一些设备上，尤其是移动的并不是所有支持
      "WEBGL_compressed_texture_s3tc" 延伸;
 
    * "DDS" 是一种有损压缩格式，压缩文物可能是可见的尤其是在 ︰ 正常
@@ -747,34 +692,27 @@ SEQ视频格式
 您还可以使用的免费和跨平台的应用 Miro视频转换器 转换媒体文件。
 
 
-GZIP Compression
-================
+GZIP压缩
+========
 
-Typical Blend4Web application can use various resource formats from
-standard  HTML, JS, CSS, PNG or JPEG files to engine-specific JSON-
-and BIN-files that contain scene data. Compressed  DDS/PVR image
-formats are also an option. Both big and small applications benefit
-from decreasing the size of the resources, as this also decreases the
-loading time.
+典型的Blend4Web应用程序可以使用标准HTML，JS，CSS，PNG或JPEG文件的各种
+资源格式到包含场景数据的引擎特定的JSON和BIN文件。压缩的DDS / PVR图像格
+式也是一种选择。大小应用程序都可以减少资源的大小，这也减少了装载时间。
 
-Usually, loading time can be decreased by setting up caching on the
-server that contains web application. You can also enable GZIP
-compression for various file types.
+通常，可以通过在包含Web应用程序的服务器上设置缓存来减少加载时间。您还
+可以为各种文件类型启用GZIP压缩。
 
-Speaking of the specific file types, GZIP compression should be used
-for  JSON, BIN, DDS and PVR files. JSON and BIN files, being the main
-scene files, can contain large amounts of data, while DDS and PVR also
-can be quite large (at least when compared to standard PNG and JPEG
-files), and there can be quite a lot of them.
+说到具体的文件类型，GZIP压缩应该用于JSON，BIN，DDS和PVR文件。作为主要
+场景文件的JSON和BIN文件可以包含大量数据，而DDS和PVR也可能相当大（至少
+与标准PNG和JPEG文件相比），并且可能有相当多的数据。
 
-But if for some reason GZIP compression cannot be set up on the
-server, it can be enabled in the application itself.
+但是，如果由于某种原因GZIP压缩无法在服务器上设置，则可以在应用程序中启
+用它。
 
-The engine can load compressed resources in the form of ".gz" files.
-To use this feature in a "WebPlayer JSON" type project, you need to
-pass the "compressed_gzip" URL parameter. If you are developing your
-own application, you need to pass the "assets_gzip_available"
-configuration parameter during the initialization.
+引擎可以以 ".gz" 文件的形式加载压缩资源。要在 "WebPlayer JSON" 类型的
+项目中使用此功能，您需要传递 "compressed_gzip" 的URL参数。如果您正在开
+发自己的应用程序，则需要在初始化期间传递 "assets_gzip_available" 配置
+参数。
 
       var m_app = require("app");
 
@@ -787,8 +725,7 @@ configuration parameter during the initialization.
           assets_gzip_available: true
       });
 
-Compressed ".gz" files should be placed alongside the original ones,
-for example, like this:
+压缩的 ".gz" 文件应该放在原来的文件旁边，例如：
 
       my_project/
           assets/
@@ -797,17 +734,16 @@ for example, like this:
               my_scene.bin
               my_scene.bin.gz
 
-This also applies to the ".dds" and ".pvr" files and their compressed
-counterparts ".dds.gz" and ".pvr.gz".
+这也适用于  ".dds" 和 ".pvr" 文件和它们的压缩对象 ".dds.gz" 和
+".pvr.gz".
 
-注解: If a compressed ".gz" is not present, engine will load the
-  original file and output a corresponding message to the console.
+注解: 如果压缩的 ".gz"  不存在，引擎将加载原始文件并将相应的消息输出
+  到控制 台。
 
-GZIP compressed files can be generated with the "convert resources"
-command that can be found in the Project Manager interface. This can
-also be done in the console by running the ./scripts/converter.py
-script with the "compress_gzip" (for compressing resources) or the
-"cleanup_gzip" (for removing compressed files) command.
+GZIP 压缩文件可以使用 "convert resources" 来生成 command ，可以在项目
+管理器界面中找到。这也可以通过在控制台中运行 ./scripts/converter.py 使
+用 "compress_gzip" （用于压缩资源）或 "cleanup_gzip" 用于删除压缩文件
+）命令来完成。
 
 
 示例代码
@@ -849,7 +785,7 @@ SDK中包含的代码片段应用程序，它演示了如何使用引擎的功�
 
    * Ray Test - 光线投射的障碍物检测使用
 
-   * VR - a VR application example
+   * VR  -  VR应用示例
 
    * 网络摄像头 - 利用来自Web摄像头的媒体流
 

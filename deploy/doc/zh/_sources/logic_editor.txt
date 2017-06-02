@@ -130,10 +130,9 @@
    ）。
 
 *未击中*
-   This parameter will pass the control to the next node when the user
-   selects any object with the "Selectable" property enabled (or used
-   by another "Switch Select" node), but not specified in the "Switch
-   Select" node.
+   当用户选择任何具有 "Selectable" 属性的物体（或使用另一个  "Switch
+   Select" 节点）时，该参数将控制传递给下一个节点，但在 "Switch
+   Select"  节点中未指定。
 
 
 内部参数
@@ -219,17 +218,16 @@
    * *Greater Than Or Equal (=>)* - 第一个操作数是大于或等于第二个。
 
 *Operand1*
-   First operand of the logical condition. Contains a numeric value of
-   a string (if the "String Operators" parameter is enabled). Can be
-   specified in the node or can be a link to one of the variables (if
-   the "Variable" parameter at the right of it is enabled).
+   逻辑条件的第一个操作数。包含字符串的数值（如果 "String Operators"
+   参数已启用）。可以在节点中指定，也可以是指向其中一个变量的链接（如
+   果右侧的 "Variable" 参数被启用）。
 
 *Operand2*
    逻辑条件的第二个操作数。和第一个以同样的方式工作。
 
-*String Operands*
-   If this parameter is enabled, first and second operands can use
-   strings (set manually or by a variable) as their values.
+*字符串操作数*
+   如果启用此参数，则第一个和第二个操作数可以使用字符串（手动设置或由
+   变量设置）作为它们的值。
 
 
 JS 回调
@@ -1268,7 +1266,7 @@ JSON物体如下：
 
 这解码JSON物体的 "JSON" 逻辑节点 "var0"，"var1" 和 "var2" 三个变量命名
 的结果（你不必事先创建的变量）将包含JSON物体的各个部分。在这个例子中，
-"var1" 变量的值是17，则 "var2" 变量的值是 "abc"，而``var0`` 变量包含
+"var1" 变量的值是17，则 "var2" 变量的值是 "abc"，而 "var0" 变量包含
 JSON物体的以下片段：
 
    {
@@ -1305,9 +1303,8 @@ JSON物体的以下片段：
 *参数名称*
    网页参数的名称。
 
-   If the parameter specified in this field is presented in the URL,
-   then its value will be saved to a variable specified by the
-   "Destination" parameter.
+   如果该字段中指定的参数在URL中显示，则其值将被保存到 "Destination"
+   参数指定的变量中。
 
 *目标*
    将用来保存参数的变量。

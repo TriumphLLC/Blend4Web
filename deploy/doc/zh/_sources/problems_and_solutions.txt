@@ -49,13 +49,13 @@ WebGL的支持
 
    * Android版Chrome浏览（25节或更高版本）
 
-   * Internet Explorer（11或更高）
+   * Internet Explorer（11或更高版本）
 
    * Microsoft Edge
 
-   * Opera (v. 12 or higher)
+   * Opera (v. 12 或更高版本)
 
-   * UC Browser (experimental)
+   * UC Browser (实验性)
 
    * Yandex 浏览器
 

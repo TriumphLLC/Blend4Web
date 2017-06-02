@@ -1478,7 +1478,7 @@ function set_shader_node_param_handler(node, logic, thread_state, timeline, elap
 
         if (node.shader_nd_type == "ShaderNodeRGB") {
             var ind = m_batch.get_node_ind_by_name_list(batch_main.node_rgb_inds,
-                                                        name_list);
+                                                        name_list, 1);
             m_batch.set_nodemat_rgb(obj, mat_name, ind,
                 node.bools["id0"] ?
                     convert_variable(get_var(node.vars["id0"], logic.variables, thread_state.variables), NT_NUMBER) : node.floats["id0"],
@@ -1490,7 +1490,7 @@ function set_shader_node_param_handler(node, logic, thread_state, timeline, elap
 
         if (node.shader_nd_type == "ShaderNodeValue") {
             var ind = m_batch.get_node_ind_by_name_list(batch_main.node_value_inds,
-                                                        name_list);
+                                                        name_list, 1);
             m_batch.set_nodemat_value(obj, mat_name, ind,
                 node.bools["id0"] ?
                     convert_variable(get_var(node.vars["id0"], logic.variables, thread_state.variables), NT_NUMBER) : node.floats["id0"]);

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>逻辑编辑器 &mdash; Blend4Web 17.04 用户手册</title>
+  <title>逻辑编辑器 &mdash; Blend4Web 17.04.1 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.04 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 17.04.1 用户手册" href="index.html"/>
         <link rel="next" title="照明、 阴影和背景" href="lighting.html"/>
         <link rel="prev" title="节点材质" href="node_materials.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v17.04
+              v17.04.1
             </div>
           
         
@@ -465,7 +465,8 @@
 <dd><p class="first last">如果用户选择（用鼠标或触摸）一个物体的参数名称被设置关注，这个参数将传递到下一个节点的控制。该 <code class="docutils literal"><span class="pre">Switch</span> <span class="pre">Select</span></code>  节点在默认情况下有一个这样的参数，但可以添加新的和删除现有（节点甚至可以没有这样的参数）。</p>
 </dd>
 <dt><em>未击中</em></dt>
-<dd>This parameter will pass the control to the next node when the user selects any object with the <code class="docutils literal"><span class="pre">Selectable</span></code> property enabled (or used by another <code class="docutils literal"><span class="pre">Switch</span> <span class="pre">Select</span></code> node), but not specified in the <code class="docutils literal"><span class="pre">Switch</span> <span class="pre">Select</span></code> node.</dd>
+<dd><p class="first last">当用户选择任何具有 <code class="docutils literal"><span class="pre">Selectable</span></code> 属性的物体（或使用另一个  <code class="docutils literal"><span class="pre">Switch</span> <span class="pre">Select</span></code> 节点）时，该参数将控制传递给下一个节点，但在 <code class="docutils literal"><span class="pre">Switch</span> <span class="pre">Select</span></code>  节点中未指定。</p>
+</dd>
 </dl>
 </div>
 <div class="section" id="id4">
@@ -550,12 +551,14 @@
 </ul>
 </dd>
 <dt><em>Operand1</em></dt>
-<dd>First operand of the logical condition. Contains a numeric value of a string (if the <code class="docutils literal"><span class="pre">String</span> <span class="pre">Operators</span></code> parameter is enabled). Can be specified in the node or can be a link to one of the variables (if the <code class="docutils literal"><span class="pre">Variable</span></code> parameter at the right of it is enabled).</dd>
+<dd><p class="first last">逻辑条件的第一个操作数。包含字符串的数值（如果 <code class="docutils literal"><span class="pre">String</span> <span class="pre">Operators</span></code> 参数已启用）。可以在节点中指定，也可以是指向其中一个变量的链接（如果右侧的 <code class="docutils literal"><span class="pre">Variable</span></code> 参数被启用）。</p>
+</dd>
 <dt><em>Operand2</em></dt>
 <dd><p class="first last">逻辑条件的第二个操作数。和第一个以同样的方式工作。</p>
 </dd>
-<dt><em>String Operands</em></dt>
-<dd>If this parameter is enabled, first and second operands can use strings (set manually or by a variable) as their values.</dd>
+<dt><em>字符串操作数</em></dt>
+<dd><p class="first last">如果启用此参数，则第一个和第二个操作数可以使用字符串（手动设置或由变量设置）作为它们的值。</p>
+</dd>
 </dl>
 </div>
 </div>
@@ -1532,7 +1535,7 @@
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>这解码JSON物体的 <code class="docutils literal"><span class="pre">JSON</span></code> 逻辑节点 <code class="docutils literal"><span class="pre">var0</span></code>，<code class="docutils literal"><span class="pre">var1</span></code> 和 <code class="docutils literal"><span class="pre">var2</span></code> 三个变量命名的结果（你不必事先创建的变量）将包含JSON物体的各个部分。在这个例子中，<code class="docutils literal"><span class="pre">var1</span></code> 变量的值是17，则 <code class="docutils literal"><span class="pre">var2</span></code> 变量的值是 &#8220;abc&#8221;，而``var0`` 变量包含JSON物体的以下片段：</p>
+<p>这解码JSON物体的 <code class="docutils literal"><span class="pre">JSON</span></code> 逻辑节点 <code class="docutils literal"><span class="pre">var0</span></code>，<code class="docutils literal"><span class="pre">var1</span></code> 和 <code class="docutils literal"><span class="pre">var2</span></code> 三个变量命名的结果（你不必事先创建的变量）将包含JSON物体的各个部分。在这个例子中，<code class="docutils literal"><span class="pre">var1</span></code> 变量的值是17，则 <code class="docutils literal"><span class="pre">var2</span></code> 变量的值是 &#8220;abc&#8221;，而 <code class="docutils literal"><span class="pre">var0</span></code> 变量包含JSON物体的以下片段：</p>
 <div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
     <span class="nt">&quot;b&quot;</span><span class="p">:</span> <span class="mi">17</span><span class="p">,</span>
     <span class="nt">&quot;c&quot;</span><span class="p">:</span> <span class="s2">&quot;abc&quot;</span>
@@ -1566,7 +1569,7 @@
 <dl class="docutils">
 <dt><em>参数名称</em></dt>
 <dd><p class="first">网页参数的名称。</p>
-<p class="last">If the parameter specified in this field is presented in the URL, then its value will be saved to a variable specified by the <code class="docutils literal"><span class="pre">Destination</span></code> parameter.</p>
+<p class="last">如果该字段中指定的参数在URL中显示，则其值将被保存到 <code class="docutils literal"><span class="pre">Destination</span></code> 参数指定的变量中。</p>
 </dd>
 <dt><em>目标</em></dt>
 <dd><p class="first last">将用来保存参数的变量。</p>
@@ -1726,7 +1729,7 @@
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2017, Triumph.
-      最后更新于 2017-04-26.
+      最后更新于 2017-05-15.
 
     </p>
   </div>
@@ -1782,7 +1785,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.04',
+            VERSION:'v17.04.1',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

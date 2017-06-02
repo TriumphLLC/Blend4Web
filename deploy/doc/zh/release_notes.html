@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>发布说明 &mdash; Blend4Web 17.04 用户手册</title>
+  <title>发布说明 &mdash; Blend4Web 17.04.1 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.04 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 17.04.1 用户手册" href="index.html"/>
         <link rel="prev" title="存在的问题及解决方案" href="problems_and_solutions.html"/> 
 
   
@@ -60,7 +60,7 @@
           
           
             <div class="version">
-              v17.04
+              v17.04.1
             </div>
           
         
@@ -362,73 +362,71 @@
 <div class="section" id="new-features">
 <h3>新功能<a class="headerlink" href="#new-features" title="永久链接至标题">¶</a></h3>
 <ul>
-<li><p class="first">Support for world materials in <code class="docutils literal"><span class="pre">Cycles</span></code>.</p>
+<li><p class="first">在 <code class="docutils literal"><span class="pre">Cycles</span></code> 材质中支持世界材质。</p>
 <blockquote>
-<div><p>Now, sky rendering can be set up via <code class="docutils literal"><span class="pre">Cycles</span></code> material nodes. <code class="docutils literal"><span class="pre">Background</span></code> node is used to control the resulting color of the environment. Spherical environment maps with <code class="docutils literal"><span class="pre">Equirectangular</span></code> and <code class="docutils literal"><span class="pre">Mirror</span> <span class="pre">Ball</span></code> projection types are also supported. World materials can be animated using <code class="docutils literal"><span class="pre">Value</span></code> and <code class="docutils literal"><span class="pre">RGB</span></code> nodes both directly or by NLA. <code class="docutils literal"><span class="pre">Use</span> <span class="pre">Nodes</span></code> option for world objects is duplicated in the <code class="docutils literal"><span class="pre">World</span></code> properties panel.</p>
+<div><p>现在，可以通过 <code class="docutils literal"><span class="pre">Cycles</span></code> 材质节点设置天空渲染。 <code class="docutils literal"><span class="pre">Background</span></code> 节点用于控制环境的颜色。还支持带有 <code class="docutils literal"><span class="pre">Equirectangular</span></code> 和 <code class="docutils literal"><span class="pre">Mirror</span> <span class="pre">Ball</span></code> 投影类型的球形环境贴图。世界的材质可以直接或由NLA使用  <code class="docutils literal"><span class="pre">Value</span></code> 和 <code class="docutils literal"><span class="pre">RGB</span></code> 节点产生动画。世界物体的 <code class="docutils literal"><span class="pre">Use</span> <span class="pre">Nodes</span></code> 选项在  <code class="docutils literal"><span class="pre">World</span></code>  属性面板中复制。</p>
 </div></blockquote>
 </li>
-<li><p class="first">Experimental WebAssembly support for physics engine.</p>
+<li><p class="first">实验性的 WebAssembly支持物理引擎。</p>
 <blockquote>
-<div><p>From now on you can use the optimized version of the Uranium.js physics engine (our JavaScript port of the Bullet engine) compiled with WebAssembly. The new <code class="docutils literal"><span class="pre">physics_use_wasm</span></code> config property is available to enable this feature. The feature is considered experimental and disabled by default.</p>
+<div><p>从现在开始，您可以使用WebAssembly编译的Uranium.js物理引擎（我们的Bullet引擎的JavaScript移植版）的优化版本。新的  <code class="docutils literal"><span class="pre">physics_use_wasm</span></code>  配置属性可用于启用此功能。该功能被认为是实验性的，默认情况下禁用。</p>
 </div></blockquote>
 </li>
-<li><p class="first">Experimental support for VR controllers.</p>
+<li><p class="first">VR控制器的实验性支持。</p>
 <blockquote>
-<div><p>Added <a class="reference external" href="https://www.blend4web.com/api_doc/module-hmd.html#.enable_controllers">enable_controllers</a>. VR code snippet has been updated.
-The <a class="reference external" href="https://www.blend4web.com/api_doc/module-controls.html#.create_gamepad_orientation_sensor">create_gamepad_orientation_sensor</a> and
-<a class="reference external" href="https://www.blend4web.com/api_doc/module-controls.html#.create_gamepad_position_sensor">create_gamepad_position_sensor</a> methods have been added.</p>
+<div><p>添加 <a class="reference external" href="https://www.blend4web.com/api_doc/module-hmd.html#.enable_controllers">enable_controllers</a> 。 VR代码片段已更新。   <a class="reference external" href="https://www.blend4web.com/api_doc/module-controls.html#.create_gamepad_orientation_sensor">create_gamepad_orientation_sensor</a> 和 <a class="reference external" href="https://www.blend4web.com/api_doc/module-controls.html#.create_gamepad_position_sensor">create_gamepad_position_sensor</a> 方法已添加。</p>
 </div></blockquote>
 </li>
-<li><p class="first">Support for Alpha Anti-Aliasing blend mode for materials.</p>
+<li><p class="first">支持Alpha 抗锯齿混合模式的材质。</p>
 <blockquote>
-<div><p>This is a variant of the Alpha Clipping technique which looks much better on compatible hardware. This mode requires that MSAA is enabled, hence it can work only on WebGL2-capable devices. In other cases, <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Clip</span></code> blend mode will be used as a fallback.</p>
+<div><p>这是Alpha 裁剪技术的一个变体，在兼容硬件上看起来更好。此模式要求MSAA启用，因此它只能在具有WebGL2功能的设备上工作。在其他情况下，<code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Clip</span></code> 混合模式将被调用。</p>
 </div></blockquote>
 </li>
-<li><p class="first">Support for loading of GZIP-compressed resources.</p>
+<li><p class="first">支持加载GZIP压缩资源。</p>
 <blockquote>
-<div><p>Instead of the standard &#8221;.json&#8221; and &#8221;.bin&#8221; files, the application can also load compressed files &#8221;.json.gz&#8221; and &#8221;.bin.gz&#8221;. The same applies to DDS and PVR textures. This can be turned on in the Web Player by using the &#8220;compressed_gzip&#8221; <a class="reference internal" href="web_player.html#webplayer-attributes"><span>URL parameter</span></a>. To do this in a custom application, one should pass the &#8220;assets_gzip_available&#8221; flag in the <a class="reference external" href="https://www.blend4web.com/api_doc/module-app.html#.init">init</a> method. Compressed files can be generated by the Project Manager command &#8220;convert resources&#8221;. However, GZIP-compressed resources should be used only if it&#8217;s not possible to set up such compression on a server. More information can be found in the corresponding documentation section: <a class="reference internal" href="developers.html#gzip"><span>GZIP Compression</span></a>.</p>
+<div><p>除开标准的 &#8221;.json&#8221; 和 &#8221;.bin&#8221; 文件，该应用程序还可以加载压缩文件  &#8221;.json.gz&#8221; 和 &#8221;.bin.gz&#8221;. 同样适用于DDS和PVR纹理。这可以打开的网页播放器采用 &#8220;compressed_gzip&#8221; <a class="reference internal" href="web_player.html#webplayer-attributes"><span>URL 参数</span></a>.  在自定义应用程序中，应该在通过 <a class="reference external" href="https://www.blend4web.com/api_doc/module-app.html#.init">init</a> 方法传递  &#8220;assets_gzip_available&#8221; 标记。压缩文件可以由项目管理器命令  &#8220;转换资源&#8221; 生成。但是，gzip压缩资源应该只有在服务器上没法建立这样的压缩的时候使用。更多的信息可以在相应的文档部分发现：<a class="reference internal" href="developers.html#gzip"><span>GZIP 压缩</span></a>.</p>
 </div></blockquote>
 </li>
-<li><p class="first">LOD system improvements.</p>
+<li><p class="first">LOD系统改进。</p>
 <blockquote>
-<div><p>From now on LOD level switching can be performed smoothly by using alpha test, which makes the transitions less noticeable. The corresponding option is called <code class="docutils literal"><span class="pre">LOD</span> <span class="pre">Smooth</span> <span class="pre">Transitions</span></code> and can be tuned in the <code class="docutils literal"><span class="pre">Scene</span> <span class="pre">-&gt;</span> <span class="pre">Object</span> <span class="pre">Clustering</span> <span class="pre">&amp;</span> <span class="pre">LOD</span></code> panel. Keep in mind that enabling this for all objects can significantly reduce application performance.</p>
-<p>Also, a new option called <code class="docutils literal"><span class="pre">Max</span> <span class="pre">LOD</span> <span class="pre">Hysteresis</span> <span class="pre">Interval</span></code> has been added. Its intent is to eliminate continuous LOD switching when the camera moves near the border between 2 LOD levels. This option replaced the old <code class="docutils literal"><span class="pre">LOD</span> <span class="pre">Transition</span> <span class="pre">Ratio</span></code> parameter from the <code class="docutils literal"><span class="pre">Object-&gt;Levels</span> <span class="pre">of</span> <span class="pre">Detail</span></code> panel.</p>
-<p>See the documentation for detailed information: <a class="reference internal" href="objects.html#lods"><span>Levels Of Detail</span></a>.</p>
+<div><p>从现在开始，可以通过使用alpha测试来平滑地进行LOD层次切换，这使得转换不太明显。相应的选项称为 <code class="docutils literal"><span class="pre">LOD</span> <span class="pre">平滑切换</span></code> ，可以在 <code class="docutils literal"><span class="pre">Scene</span> <span class="pre">-&gt;</span> <span class="pre">Object</span> <span class="pre">Clustering</span> <span class="pre">&amp;</span> <span class="pre">LOD</span></code> 面板中调用。请记住，为所有物体启用此功能可能显着降低应用程序性能。</p>
+<p>此外，还添加了一个名为  <code class="docutils literal"><span class="pre">Max</span> <span class="pre">LOD</span> <span class="pre">Hysteresis</span> <span class="pre">Interval</span></code> 的新选项。其目的是为了消除当相机移动到两个LOD之间的边界附近时连续的LOD切换 。该选项从 <code class="docutils literal"><span class="pre">Object-&gt;Levels</span> <span class="pre">of</span> <span class="pre">Detail</span></code>  面板中替换了旧的 <code class="docutils literal"><span class="pre">LOD</span> <span class="pre">Transition</span> <span class="pre">Ratio</span></code> 参数。</p>
+<p>有关详细信息，请参阅文档: <a class="reference internal" href="objects.html#lods"><span>层次细节</span></a>.</p>
 </div></blockquote>
 </li>
-<li><p class="first">RGBA shadows support.</p>
+<li><p class="first">RGBA阴影支持。</p>
 <blockquote>
-<div><p>It allows shadows on some devices that do not support depth texture.</p>
+<div><p>支持某些不支持深度纹理的设备上的有阴影。</p>
 </div></blockquote>
 </li>
-<li><p class="first">Bloom effect improvements.</p>
+<li><p class="first">泛光效果改善。</p>
 <blockquote>
-<div><p>New bloom algorithm has been implemented. Now it works with all lamp types and is not dependent on the direction of light. Also, adaptive average luminance calculation is available.</p>
+<div><p>新开发泛光算法已经实现。现在它适用于所有灯类型，不依赖于光的方向。此外，自适应平均亮度计算可用。</p>
 </div></blockquote>
 </li>
-<li><p class="first">Supported <code class="docutils literal"><span class="pre">Non-Colour</span> <span class="pre">Data</span></code> textures in Filmic Blender.</p>
+<li><p class="first">在Filmic Blender中支持 <code class="docutils literal"><span class="pre">非色彩数据</span></code> 纹理。</p>
 </li>
-<li><p class="first">Fallback for compressed textures.</p>
+<li><p class="first">压缩纹理的调用。</p>
 <blockquote>
-<div><p>When a server returns the 404 error for gzip/dds/pvr textures, the engine now tries to load non-compressed images.</p>
+<div><p>当服务器返回gzip / dds / pvr纹理的404错误时，引擎现在尝试加载非压缩图像。</p>
 </div></blockquote>
 </li>
-<li><p class="first">Loading stages debug flag</p>
+<li><p class="first">加载阶段调试标志</p>
 <blockquote>
-<div><p>The <a class="reference external" href="https://www.blend4web.com/api_doc/module-app.html#.init">init</a> method now has the <code class="docutils literal"><span class="pre">debug_loading</span></code> flag which allows to track and debug loading stages through the console.</p>
+<div><p><a class="reference external" href="https://www.blend4web.com/api_doc/module-app.html#.init">init</a> 方法现在有 <code class="docutils literal"><span class="pre">debug_loading</span></code> 标志，可以通过控制台跟踪和调试加载阶段。</p>
 </div></blockquote>
 </li>
-<li><p class="first">Improvements in <code class="docutils literal"><span class="pre">Normal</span> <span class="pre">Editor</span></code>.</p>
+<li><p class="first"><code class="docutils literal"><span class="pre">法线编辑器</span></code> 的改进。</p>
 <blockquote>
-<div><p><code class="docutils literal"><span class="pre">Factor</span></code> option has been added for some operators for blending the initial and resulting states of normals.</p>
-<p>The option to use <code class="docutils literal"><span class="pre">Face</span></code>  operator with multiple polygons has been added.</p>
-<p>New operator <code class="docutils literal"><span class="pre">Scale</span></code> has been added for scaling normal along axes.</p>
-<p>The functionality of some operators has been improved and they have been renamed in correspondence to their new possibilities: <code class="docutils literal"><span class="pre">Tree</span></code> -&gt; <code class="docutils literal"><span class="pre">Cursor</span> <span class="pre">3D</span></code>, <code class="docutils literal"><span class="pre">Foliage</span></code> -&gt; <code class="docutils literal"><span class="pre">Axis</span></code>.</p>
+<div><p>已经为一些运算符添加了 <code class="docutils literal"><span class="pre">因子</span></code> 选项，用于混合法线的初始状态和结果状态。</p>
+<p>已添加使用带有多个多边形的 <code class="docutils literal"><span class="pre">面</span></code> 运算符的选项。</p>
+<p>添加了新的运算符 <code class="docutils literal"><span class="pre">Scale</span></code> ，用于沿轴进行缩放。</p>
+<p>一些运算符的功能得到了改进，它们已经重命名以匹配它们的新可能用法：<code class="docutils literal"><span class="pre">Tree</span></code> -&gt; <code class="docutils literal"><span class="pre">Cursor</span> <span class="pre">3D</span></code>, <code class="docutils literal"><span class="pre">Foliage</span></code> -&gt; <code class="docutils literal"><span class="pre">Axis</span></code>.</p>
 </div></blockquote>
 </li>
-<li><p class="first">Added API for rendering normals of dynamic objects.</p>
+<li><p class="first">添加了用于渲染动态物体的法线的API。</p>
 <blockquote>
-<div><p>The <a class="reference external" href="https://www.blend4web.com/api_doc/module-debug.html#.show_normals">show_normals</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-debug.html#.hide_normals">hide_normals</a> methods of the <a class="reference external" href="https://www.blend4web.com/api_doc/module-debug.html">debug</a> module have been added.</p>
+<div><p>在 <a class="reference external" href="https://www.blend4web.com/api_doc/module-debug.html">debug</a> 模块中 <a class="reference external" href="https://www.blend4web.com/api_doc/module-debug.html#.show_normals">show_normals</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-debug.html#.hide_normals">hide_normals</a> 方法已经添加。</p>
 </div></blockquote>
 </li>
 </ul>
@@ -436,38 +434,63 @@ The <a class="reference external" href="https://www.blend4web.com/api_doc/module
 <div class="section" id="changes">
 <h3>变更<a class="headerlink" href="#changes" title="永久链接至标题">¶</a></h3>
 <ul class="simple">
-<li>Removed warnings for the force fields of the <code class="docutils literal"><span class="pre">None</span></code> type.</li>
-<li>The <a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.get_sky_params">get_sky_params</a> method now returns null for non-procedural sky.</li>
-<li>The <code class="docutils literal"><span class="pre">Use</span> <span class="pre">Custom</span> <span class="pre">Color</span></code> property in the <code class="docutils literal"><span class="pre">Mist</span></code> panel is now disabled by default.</li>
-<li>The <a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.append_object">append_object</a> method now works for non-copied objects as well.</li>
-<li>SSAO <code class="docutils literal"><span class="pre">Influence</span></code> upper limit has been increased to 2.0.</li>
-<li>Canvas is no longer resized to 320x240 if one or both of its sizes have zero dimensions.</li>
-<li>Dimensions of the cube sky render target are adjusted dynamically after an environment texture image is changed.</li>
+<li><p class="first">删除了 <code class="docutils literal"><span class="pre">None</span></code> 类型的力场的警告。</p>
+</li>
+<li><p class="first"><a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.get_sky_params">get_sky_params</a> 方法现在为非程序天空返回null。</p>
+</li>
+<li><p class="first">默认的 <code class="docutils literal"><span class="pre">Mist</span></code> 面板中的 <code class="docutils literal"><span class="pre">使用自定义颜色</span></code> 属性已禁用。</p>
+</li>
+<li><p class="first">现在 <a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.append_object">append_object</a> 方法也适用于非复制物体。</p>
+</li>
+<li><p class="first">SSAO <code class="docutils literal"><span class="pre">影响</span></code> 的上限已经提高到2.0。</p>
+</li>
+<li><p class="first">如果画布一个或两个尺寸的尺寸为零，则不再调整为320x240。</p>
+</li>
+<li><p class="first">在环境纹理图像更改后动态调整立方体天空渲染目标的尺寸。</p>
+</li>
 </ul>
 </div>
 <div class="section" id="fixes">
 <h3>修复<a class="headerlink" href="#fixes" title="永久链接至标题">¶</a></h3>
 <ul class="simple">
-<li>Improved Russian translation for addon entries in the Help menu.</li>
-<li>Fixed some inaccuracies in the API documentation.</li>
-<li>Fixed <code class="docutils literal"><span class="pre">Do</span> <span class="pre">Not</span> <span class="pre">Export</span></code> option for objects used as LOD levels. Previously, it didn&#8217;t work.</li>
-<li>Fixed problem with FPS decreasing in the Viewer app after selecting an object.</li>
-<li>Fixed LOD switching for dynamic objects, when more than one LOD level was rendered at the same time.</li>
-<li>Identical packed images/sounds are unpacked during export into a single file instead of multiple identical files.</li>
-<li>Fixed Normal Map node strength clamping. Values less than 0 now have no influence on the normal.</li>
-<li>Unnecessary fog updates for world animation were removed.</li>
-<li><code class="docutils literal"><span class="pre">Empty</span></code> objects with dynamic materials no longer crash the engine.</li>
-<li>Fixed texture cloning bug which caused memory leaks.</li>
-<li>Fixed batch sorting by alpha_clip param.</li>
-<li>Fixed Foam + ShoreMap texture crash in water material.</li>
-<li><p class="first">着色器分析仪进行了改进。</p>
+<li><p class="first">在帮助菜单中改进了插件的俄语翻译。</p>
 </li>
-<li>Fixed <code class="docutils literal"><span class="pre">Project</span> <span class="pre">Manager</span></code> server behavior for nonstandard python environment.</li>
-<li>Fixed incorrect rendering of materials that use normal mapping.</li>
-<li>Fixed texture filtering for right eye in VR mode.</li>
-<li>Fixed crashes on IE11 in case of using <a class="reference external" href="https://www.blend4web.com/api_doc/module-container.html#.client_to_element_coords">client_to_element_coords</a>.</li>
-<li>Fixed <a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.is_hideable">is_hideable</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.show_object">show_object</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.hide_object">hide_object</a> methods.</li>
-<li>Fixed crash for <code class="docutils literal"><span class="pre">Cycles</span></code> materials with non-connected <code class="docutils literal"><span class="pre">Surface</span></code> outputs.</li>
+<li><p class="first">修复了API文档中的一些不准确之处。</p>
+</li>
+<li><p class="first">修复了为用作LOD级别的物体 <code class="docutils literal"><span class="pre">不要导出</span></code> 选项。以前，它没有工作。</p>
+</li>
+<li><p class="first">修复了在选择物体后，查看器应用程序中FPS减少的问题。</p>
+</li>
+<li><p class="first">修复了动态物体的LOD切换，当同时渲染多个LOD级别时。</p>
+</li>
+<li><p class="first">相同的打包图像/声音解包后导出到单个文件而不是多个相同文件。</p>
+</li>
+<li><p class="first">修复法线贴图节点强度钳制。小于0的值现在对法线值没有影响。</p>
+</li>
+<li><p class="first">世界动画的不必要的雾更新已被删除。</p>
+</li>
+<li><p class="first">带动态材质的 <code class="docutils literal"><span class="pre">空</span></code> 物体不再使引擎崩溃。</p>
+</li>
+<li><p class="first">修复导致内存泄漏的纹理克隆错误。</p>
+</li>
+<li><p class="first">修复通过alpha_clip参数批次排序。</p>
+</li>
+<li><p class="first">修复水材质中的泡沫+海岸贴图纹理崩溃问题。</p>
+</li>
+<li><p class="first">修复了 <code class="docutils literal"><span class="pre">法线编辑器</span></code> 中的空间转换。</p>
+</li>
+<li><p class="first">修复了非标准python环境下 <code class="docutils literal"><span class="pre">项目管理器</span></code> 服务器行为。</p>
+</li>
+<li><p class="first">修正了使用法线贴图材质渲染不正确的错误。</p>
+</li>
+<li><p class="first">修复了在VR模式下右眼的纹理过滤。</p>
+</li>
+<li><p class="first">修复了使用  <a class="reference external" href="https://www.blend4web.com/api_doc/module-container.html#.client_to_element_coords">client_to_element_coords</a> 导致IE11的崩溃的问题。</p>
+</li>
+<li><p class="first">修复了 <a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.is_hideable">is_hideable</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.show_object">show_object</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.hide_object">hide_object</a> 方法。</p>
+</li>
+<li><p class="first">修复了 <code class="docutils literal"><span class="pre">Cycles</span></code> 材质有未连接的 <code class="docutils literal"><span class="pre">Surface</span></code> 输出会崩溃的问题。</p>
+</li>
 </ul>
 </div>
 </div>
@@ -500,7 +523,7 @@ The <a class="reference external" href="https://www.blend4web.com/api_doc/module
 </li>
 <li><p class="first">扩展了材质继承。</p>
 <blockquote>
-<div><p>The <a class="reference external" href="https://www.blend4web.com/api_doc/module-material.html#.inherit_material">inherit_material</a> method was greatly improved to support node materials. It requires the source and the target objects to have the <code class="docutils literal"><span class="pre">Dynamic</span> <span class="pre">Geometry</span> <span class="pre">&amp;</span> <span class="pre">Materials</span></code> option (which previously was named <code class="docutils literal"><span class="pre">Dynamic</span> <span class="pre">Geometry</span></code>) enabled on the <code class="docutils literal"><span class="pre">Object</span></code> panel. This option also means that all UV and vertex color layers are exported to be available to use in any material that is applied to the target object. More information about using this functionality can be found in the <a class="reference internal" href="materials.html#material-inherit"><span>corresponding chapter</span></a> in the documentation.</p>
+<div><p><a class="reference external" href="https://www.blend4web.com/api_doc/module-material.html#.inherit_material">inherit_material</a> 方法大大提高了支持节点材质。它需要源和目标物体有 &#8216;动态几何和材质&#8217; 选项（以前被命名为 &#8216;动态几何&#8217; ）在 &#8216;物体&#8217; 面板启用。这个选项也意味着所有的UV和顶点颜色层都被导出到可以被应用到目标物体的任何材质上。有关使用此功能的更多信息，可以发现在文档的 <a class="reference internal" href="materials.html#material-inherit"><span>相应章节</span></a> 中找到。</p>
 </div></blockquote>
 </li>
 <li><p class="first">&#8220;代码片段&#8221; 改进。</p>
@@ -581,7 +604,7 @@ The <a class="reference external" href="https://www.blend4web.com/api_doc/module
 <div><p>此外，新的段落 <a class="reference internal" href="developers.html#mobile-web-apps"><span>移动网络应用程序</span></a> 添加，描述有关的方向和一个浏览器页缩放的某些方面。</p>
 </div></blockquote>
 </li>
-<li><p class="first">The <a class="reference internal" href="materials.html#material-api"><span>Material API</span></a> paragraph has been added to the user manual. It describes how object materials can be adjusted using API methods from the <a class="reference external" href="https://www.blend4web.com/api_doc/module-material.html">material</a> module.</p>
+<li><p class="first"><a class="reference internal" href="materials.html#material-api"><span>材质 API</span></a> 段落已添加到用户手册中。它描述了如何使用  <a class="reference external" href="https://www.blend4web.com/api_doc/module-material.html">material</a>  模块的API方法调整物体材质。</p>
 </li>
 <li><p class="first">使用在 <a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.set_ssao_params">set_ssao_params</a> 和 <a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.get_ssao_params">get_ssao_params</a> 方法中的 <code class="docutils literal"><span class="pre">SSAOParams</span></code> 物体的结构修改得更加一致。</p>
 </li>
@@ -976,7 +999,7 @@ The <a class="reference external" href="https://www.blend4web.com/api_doc/module
 </li>
 <li><p class="first">一些移动设备（包括IOS）现在不强制使用低质量的节点材质。</p>
 </li>
-<li><p class="first">API documentation for <a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#~BloomParams">BloomParams</a> has been added. Some parameters have been renamed.</p>
+<li><p class="first">AIP文档添加 <a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#~BloomParams">BloomParams</a> 。一些参数已经改名。</p>
 </li>
 <li><p class="first">更改 mouse_click，MOUSE_MOVE，touch_click和TOUCH_MOVE传感器装置。现在是一个字典，包含绝对坐标（<code class="docutils literal"><span class="pre">coords</span></code>）对上述所有; <code class="docutils literal"><span class="pre">which</span></code> 为点击鼠标; <code class="docutils literal"><span class="pre">gesture</span></code> 为TOUCH_MOVE。</p>
 </li>
@@ -4583,7 +4606,7 @@ as long as they are dynamic.</p>
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2017, Triumph.
-      最后更新于 2017-04-26.
+      最后更新于 2017-05-15.
 
     </p>
   </div>
@@ -4639,7 +4662,7 @@ as long as they are dynamic.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.04',
+            VERSION:'v17.04.1',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

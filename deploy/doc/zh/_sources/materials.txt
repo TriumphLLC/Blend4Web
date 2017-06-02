@@ -124,13 +124,10 @@
    面。此操作计算代价昂贵。建议将此功能用于封闭透明几何 （瓶、 汽车玻
    璃等）。
 
-*Alpha Anti-Aliasing*
-   Transparent with a gradient. This feature is implemented with the
-   help of the Alpha to coverage technique. It's available only if
-   MSAA is enabled (only on WebGL2-capable devices). The sorting of
-   triangles is not performed. It is recommended to use this feature
-   with a mask texture to visualize smaller details (tree leaves,
-   grass).
+*Alpha抗锯齿*
+   透明渐变。这个功能是在Alpha覆盖技术的帮助下实现的。仅当启用MSAA（仅
+   在支持WebGL2的设备上）时才可用。不执行三角形排序。建议该功能在可视
+   化遮罩纹理较小的细节（树叶，草）时使用。
 
 *Alpha 混合*
    带渐变透明。不执行三角形排序。建议在无封闭透明几何体 （水表面，贴花

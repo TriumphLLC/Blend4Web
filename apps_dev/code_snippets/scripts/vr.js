@@ -21,6 +21,7 @@ var m_scenes    = require("scenes");
 var m_quat      = require("quat");
 var m_scs       = require("scenes");
 var m_screen    = require("screen");
+var m_sfx       = require("sfx");
 var m_trans     = require("transform");
 var m_tsr       = require("tsr");
 var m_util      = require("util");
@@ -38,6 +39,10 @@ var _tsr_tmp2 = m_tsr.create();
 var _tsr_tmp3 = m_tsr.create();
 
 var _pline_tmp = m_math.create_pline();
+
+var PHYSICS_OBJ_NAMES = ["cone_1", "cone_2",
+        "cube_1_1", "cube_1_2", "cube_1_3", "cube_1_4", "cube_2",
+        "cube_3_1", "cube_3_2", "cube_3_3", "cylinder", "cylinder.001", "cylinder.002", "sphere_1", "sphere_2"];
 
 var RAY_ORIGIN = new Float32Array([0, 0, 0]);
 var RAY_DEST = new Float32Array([0, 0, -50]);
@@ -184,6 +189,8 @@ function load_cb(data_id, success) {
     }
 
     m_app.enable_camera_controls(false, false, false, null, false, true);
+
+    enable_stroke_sound();
 }
 
 function second_sensor_logic(s) {return s[1] > 0;};
@@ -221,10 +228,12 @@ function setup_movement(ray_caster, destination_name, gamepad_id) {
         m_math.set_pline_directional_vec(pline, cast_dir);
 
         var intersection_pos = m_math.line_plane_intersect(m_util.AXIS_MZ, 0, pline, _vec3_tmp);
-        intersection_pos[0] = m_util.clamp(intersection_pos[0], -8, 8);
-        intersection_pos[1] = m_util.clamp(intersection_pos[1], -8, 8);
-        intersection_pos[2] = 0.1;
-        m_trans.set_translation_v(obj, intersection_pos);
+        if (intersection_pos) {
+            intersection_pos[0] = m_util.clamp(intersection_pos[0], -8, 8);
+            intersection_pos[1] = m_util.clamp(intersection_pos[1], -8, 8);
+            intersection_pos[2] = 0.1;
+            m_trans.set_translation_v(obj, intersection_pos);
+        }
     }
 
     var pad_s = m_ctl.create_gamepad_btn_sensor(m_input.GMPD_TRACKPAD_BUTTON,
@@ -366,6 +375,36 @@ function enable_gamepad_control() {
 
     setup_pickup(gamepad_1, gamepad_id_1);
     setup_pickup(gamepad_2, gamepad_id_2);
+}
+
+function enable_stroke_sound() {
+    var speaker = m_scs.get_object_by_name("stroke");
+    for (var i = 0; i < PHYSICS_OBJ_NAMES.length; i++) {
+        var obj = m_scs.get_object_by_name(PHYSICS_OBJ_NAMES[i]);
+        create_stroke_sensors(obj, speaker, 2);
+    }
+}
+
+
+function create_stroke_sensors(obj, stroke_spk, speed_threshold) {
+    var mot = m_ctl.create_motion_sensor(obj, speed_threshold, 100.0);
+    var pck = m_ctl.create_collision_sensor(obj, "PICKUP", false);
+    var flr = m_ctl.create_collision_sensor(obj, "FLOOR", false);
+
+    var stroke_sens_array = [mot, pck, flr];
+    var stroke_sens_logic = function(s) {
+        return s[0] && (s[1] || s[2]);
+    };
+
+    var stroke_cb = function(obj, id, pulse, param) {
+        var obj_trans = m_trans.get_translation(obj);
+        m_trans.set_translation_v(param, obj_trans);
+        m_sfx.play_def(param);
+    }
+
+    m_ctl.create_sensor_manifold(obj, "STROKE_" + m_scs.get_object_name(obj),
+            m_ctl.CT_SHOT, stroke_sens_array, stroke_sens_logic, stroke_cb,
+            stroke_spk);
 }
 
 });

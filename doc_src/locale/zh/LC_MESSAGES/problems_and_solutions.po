@@ -9,15 +9,15 @@ msgstr ""
 "Project-Id-Version: Blend4Web. User Manual v16.03\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-12-16 15:05+0300\n"
-"PO-Revision-Date: 2016-12-23 18:07+0800\n"
-"Last-Translator: \n"
+"PO-Revision-Date: 2017-04-27 17:06+0800\n"
+"Last-Translator: kidux <yuzukyo@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.3.4\n"
 "Language: zh\n"
-"X-Generator: Poedit 1.8.11\n"
+"X-Generator: Poedit 1.8.12\n"
 
 #: ../problems_and_solutions.rst:5
 msgid "Problems and Solutions"
@@ -96,7 +96,7 @@ msgstr "Android版Chrome浏览（25节或更高版本）"
 
 #: ../problems_and_solutions.rst:36
 msgid "Internet Explorer (v. 11 or higher)"
-msgstr "Internet Explorer（11或更高）"
+msgstr "Internet Explorer（11或更高版本）"
 
 #: ../problems_and_solutions.rst:37
 msgid "Microsoft Edge"
@@ -104,11 +104,11 @@ msgstr "Microsoft Edge"
 
 #: ../problems_and_solutions.rst:38
 msgid "Opera (v. 12 or higher)"
-msgstr "Opera (v. 12 or higher)"
+msgstr "Opera (v. 12 或更高版本)"
 
 #: ../problems_and_solutions.rst:39
 msgid "UC Browser (experimental)"
-msgstr "UC Browser (experimental)"
+msgstr "UC Browser (实验性)"
 
 #: ../problems_and_solutions.rst:40
 msgid "Yandex Browser"

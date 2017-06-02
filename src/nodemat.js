@@ -4771,17 +4771,17 @@ function create_node_textures(nmat_graph) {
         curves_nodes[i].data.texture = tex;
 }
 
-exports.get_max_env_texture_size = get_max_env_texture_size
-function get_max_env_texture_size(graph) {
-    var max_size = -1;
+exports.get_max_env_texture_height = get_max_env_texture_height;
+function get_max_env_texture_height(graph) {
+    var max_height = -1;
     m_graph.traverse(graph, function(id, node) {
         if (node.type == "TEXTURE_ENVIRONMENT_EQUIRECTANGULAR" || node.type == "TEXTURE_ENVIRONMENT_MIRROR_BALL") {
-            var tex_size = m_tex.calc_pot_size(node.data.value.width / 3);
-            max_size = Math.max(max_size, tex_size);
+            var tex_height = node.data.value.height;
+            max_height = Math.max(max_height, tex_height);
         }
     });
 
-    return  max_size;
+    return  max_height;
 }
 
 function check_curve_usage(bpy_node, ind, start, end) {

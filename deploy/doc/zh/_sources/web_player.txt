@@ -114,9 +114,8 @@ Blend4Web SDK分布和您的网站进行部署。您可以将导出的场景文�
 7. 该 "compressed_textures_pvr" 可选参数用于启用加载压缩为PVRTC格式
    的 材质，该参数用在 "compressed_textures" 参数中。
 
-8. the "compressed_gzip" optional parameter is used to enable
-   loading of GZIP compressed resources such as ".json.gz", ".bin.gz",
-   ".dds.gz" and ".pvr.gz".
+8. "compressed_gzip" 可选参数用于启用加载GZIP压缩资源，如
+   ".json.gz", ".bin.gz", ".dds.gz" 和 ".pvr.gz".
 
 9. 可选 "alpha" 参数用于启用对描画区域的透明度。
 

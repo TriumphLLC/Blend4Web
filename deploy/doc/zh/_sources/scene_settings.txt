@@ -56,9 +56,9 @@
 
     * 物理
 
-    * Object Clustering & LOD
+    * 物体簇和LOD
 
-    * Object Selection
+    * 选择物体
 
     * 锚
 
@@ -80,7 +80,7 @@
 
     * 导出选项
 
-定义整个场景的外观和行为（不只是一个单一的对象）所有参数都能在三个面板
+定义整个场景的外观和行为（不只是一个单一的物体）所有参数都能在三个面板
 里找到："Render" 面板时，"Scene" 面板和 "World" 面板。
 
 
@@ -120,8 +120,8 @@
    * 设置主摄像头适合 **垂直** 。
 
 *世界空间着色*
-   此选项打开和关闭 **世界空间着色** （照明数据的世界空间演绎将用于对
-   象阴影）。默认情况下禁用。
+   此选项打开和关闭 **世界空间着色** （照明数据的世界空间演绎将用于物
+   体阴影）。默认情况下禁用。
 
 
 阴影
@@ -395,59 +395,48 @@ Meta标签
    允许在应用程序中使用物理。默认情况下启用。
 
 
-Object Clustering & LOD
------------------------
+物体簇和LOD
+-----------
 
-Settings for object clustering and Levels Of Detail.
+物体簇和层次细节的设置。
 
 [图片]
 
 *簇大小*
-   The size of the cluster used for batching (in meters). Can be used
-   for optimization purposes. If this parameter is set to zero, the
-   engine will try to combine all objects in the scene. Set to zero by
-   default.
+   簇的大小用于批量（尺寸：米）的处理。如果该参数被设置为零，引擎将场
+   景中所有物体合并。默认设置为零。
 
 *LOD簇大小乘数*
-   This parameter is used to subdivide clusters (based on LOD distance
-   specified individually for each object) into smaller ones to make
-   transitions between different levels of detail less noticeable. The
-   size of that smaller clusters is defined by object LOD distance
-   multiplied by the value of this parameter. Higher values lead to
-   bigger clusters which increases performance but makes transition
-   between LODs more noticeable, while lower values make said
-   transitions less noticeable at the cost of decreased performance.
-   Can be used for optimization purposes. Set to 0.5 by default.
+   该参数用于细分簇（基于每个物体指定的LOD距离）到较小的部分使得不同情
+   况的层次细节切换不被引起注意。小簇的大小是由物体的LOD距离乘以这个参
+   数的值定义。较高的值导致更大的簇，提高性能但使得过渡比较明显，而较
+   低的值让变换不被引起注意但是以性能降低为代价。可以用来作为优化的手
+   段。默认设置为0.5。
 
-*LOD Smooth Transitions*
-   Defines what objects will use smooth transitions while switching
-   their LOD levels. Has the following options:
+*LOD平滑过渡*
+   定义物体将使用切换其 LOD 层次时使用平滑过渡。有以下选项︰
 
-   * OFF - smooth transitions are disabled (fastest).
+   * OFF - 滑过渡被禁用 （最快）。
 
-   * NON-OPAQUE - use smooth transitions for objects with "Add",
-     "Alpha Clip", "Alpha Blend", "Alpha Sort" and "Alpha Anti-
-     Aliasing" materials.
+   * NON-OPAQUE -  使用平滑过渡在 "Add", "Alpha Clip", "Alpha
+     Blend", "Alpha Sort" 和 "Alpha Anti-Aliasing" 材质.
 
-   * ALL - smooth transitions will be used for all objects
-     (slowest).
+   * ALL - 平滑过渡将用于所有物体 （慢）。
 
-   Choosing the "ALL" value can noticeably decrease application
-   performance, so use it with caution. Default value is "NON-OPAQUE".
+   选择 "ALL" 值可以明显降低应用程序的性能，所以小心使用。默认值是
+   "NON-OPAQUE".
 
-*Max LOD Hysteresis Interval*
+*最大 LOD 滞后区间*
 
-   The length of the interval (in meters) used for switching LOD
-   levels. The half of this value is added/subtracted from the
-   distance threshold in order to make two different thresholds for
-   switching to the lower and to the higher LOD level. This should
-   reduce LOD "popping" effect. Set to 4.0 by default.
+   用于切换LOD级别的间隔（米）的长度。这个值的一半从距离阈值添加/减去
+   ，产生两个不同的阈值切换到较低的和更高的LOD级。这应该减少LOD
+   "popping" 的效果。默认设置为4。
 
 
-Object Selection
-----------------
+选择物体
+--------
 
-物体选择设置。对象可以使用API​​函数来选择两种 pick_object() 并用 逻辑
+物体选择设置。物体可以使用API​​函数来选择两种 pick_object() 并用 逻辑
 节点。
 
 注解: 在 场景查看器, 选择默认情况下启用。您可以在 "工具和除错" 面板

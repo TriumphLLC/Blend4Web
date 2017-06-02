@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>节点材质 &mdash; Blend4Web 17.04 用户手册</title>
+  <title>节点材质 &mdash; Blend4Web 17.04.1 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.04 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 17.04.1 用户手册" href="index.html"/>
         <link rel="next" title="逻辑编辑器" href="logic_editor.html"/>
         <link rel="prev" title="材质库" href="material_library.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v17.04
+              v17.04.1
             </div>
           
         
@@ -283,7 +283,7 @@
 <tr class="row-odd"><td>ColorRamp</td>
 <td><p class="first last">用来产生梯度</p>
 </td>
-<td><p class="first last"><code class="docutils literal"><span class="pre">B-Spline</span></code>，<code class="docutils literal"><span class="pre">Cardinal</span></code> 和``Ease`` 插值模式不支持</p>
+<td><p class="first last"><code class="docutils literal"><span class="pre">B-Spline</span></code>，<code class="docutils literal"><span class="pre">Cardinal</span></code> 和 <code class="docutils literal"><span class="pre">Ease</span></code> 插值模式不支持</p>
 </td>
 <td><p class="first last">平均</p>
 </td>
@@ -712,7 +712,7 @@
 </div>
 <div class="section" id="replace-b4w-replace">
 <span id="node-replace"></span><h3><a class="toc-backref" href="#id32">替换（B4W_REPLACE）</a><a class="headerlink" href="#replace-b4w-replace" title="永久链接至标题">¶</a></h3>
-<p>节点替换取决于工作环境（即Blender视口或Blend4Web）的输入。在Blender工作时，<code class="docutils literal"><span class="pre">Color1</span></code> 输入被连接到``Color`` 输出和 <code class="docutils literal"><span class="pre">Color2</span></code> 输入被忽略。相反在引擎中输入被替换时（这时 <code class="docutils literal"><span class="pre">Color1</span></code> 被忽略，<code class="docutils literal"><span class="pre">Color2</span></code> 被连接到输出）。节点意欲在视口中显示的一个节点的结构和其他 - 在引擎中。</p>
+<p>节点替换取决于工作环境（即Blender视口或Blend4Web）的输入。在Blender工作时，<code class="docutils literal"><span class="pre">Color1</span></code> 输入被连接到 <code class="docutils literal"><span class="pre">Color</span></code> 输出和 <code class="docutils literal"><span class="pre">Color2</span></code> 输入被忽略。相反在引擎中输入被替换时（这时 <code class="docutils literal"><span class="pre">Color1</span></code> 被忽略，<code class="docutils literal"><span class="pre">Color2</span></code> 被连接到输出）。节点意欲在视口中显示的一个节点的结构和其他 - 在引擎中。</p>
 <a class="reference internal image-reference" href="_images/node_materials_replace.png"><img alt="_images/node_materials_replace.png" class="align-center" src="_images/node_materials_replace.png" style="width: 100%;" /></a>
 <p>作为一项规则是用于法线贴图。 Blender的节点材质不支持坐标的切线空间。因此，唯一可能的在视口中来显示法线贴图正确的方法是在 <code class="docutils literal"><span class="pre">Material</span></code> 节点内的使用。</p>
 <div class="section" id="id12">
@@ -885,7 +885,8 @@
 <li><code class="docutils literal"><span class="pre">BSDF</span> <span class="pre">Diffuse</span></code>;</li>
 <li><p class="first"><code class="docutils literal"><span class="pre">BSDF</span> <span class="pre">Glossy</span></code> (只支持 <code class="docutils literal"><span class="pre">GGX</span></code> 分布;  <code class="docutils literal"><span class="pre">Roughness</span></code> 参数不影响反射);</p>
 </li>
-<li><code class="docutils literal"><span class="pre">Transparent</span> <span class="pre">BSDF</span></code>;</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">透明BSDF</span></code>;</p>
+</li>
 <li><code class="docutils literal"><span class="pre">Mix</span> <span class="pre">Shader</span></code>;</li>
 <li><code class="docutils literal"><span class="pre">Fresnel</span></code>;</li>
 <li><code class="docutils literal"><span class="pre">Layer</span> <span class="pre">Weight</span></code>;</li>
@@ -929,7 +930,7 @@
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2017, Triumph.
-      最后更新于 2017-04-26.
+      最后更新于 2017-05-15.
 
     </p>
   </div>
@@ -985,7 +986,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.04',
+            VERSION:'v17.04.1',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

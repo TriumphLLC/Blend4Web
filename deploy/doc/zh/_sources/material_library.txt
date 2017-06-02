@@ -29,19 +29,17 @@
 
 [图片]
 
-To do this, check the "Use Material Library" box when creating the
-project using the Project Manager. Then, an entire material library
-will be automatically copied to the "/assets/material_library/" folder
-in the new project’s directory.
+要做到这一点，使用创建项目时使用  Project Manager 勾选上 "Use Material
+Library" ，然后，整个材质库将被自动复制到新的项目文件夹下面的
+"/assets/material_library/" 文件夹中。
 
-注解: It is also possible to use Material Library in a pre-existing
-  project. All you have to do is copy files from the
-  "/blender/material_library/" folder to the "/assets/" folder in your
-  project’s directory. Then you can link the files that contain
-  materials you need to your scene file and use them in the scene.
+注解: 也可以在已经存在的项目中使用材质库。你需要做的是将文件从
+  "/blender/material_library/" 文件夹复制到项目目录中的 "/assets/" 文
+  件夹中。然后，您可以将包含所需材质的文件链接到场景文件，并在场景中使
+  用这些材质。
 
-注解: Materials (or any other objects) can be both *linked* or
-  *appended* to the scene. The difference is described here.
+注解: 材质（或任何其他物体）可以 *链接* 或者  *附加* 到场景。这两种
+  方法的 区别描述如下  here.
 
 
 库结构

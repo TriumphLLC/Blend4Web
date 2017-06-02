@@ -5448,8 +5448,7 @@ exports.set_nodemat_value = function(obj, mat_name, ind, value) {
         var batches = obj.scenes_data[i].batches;
         for (var j = 0; j < batches.length; j++) {
             var batch = batches[j];
-            if (batch.material_names.indexOf(mat_name) == -1
-                    || !batch.node_values)
+            if (!batch.node_values)
                 continue;
 
             batch.node_values[ind] = value;
@@ -5462,8 +5461,7 @@ exports.set_nodemat_rgb = function(obj, mat_name, ind, r, g, b) {
         var batches = obj.scenes_data[i].batches;
         for (var j = 0; j < batches.length; j++) {
             var batch = batches[j];
-            if (batch.material_names.indexOf(mat_name) == -1
-                    || !batch.node_rgbs)
+            if (!batch.node_rgbs)
                 continue;
             batch.node_rgbs[3 * ind]     = r;
             batch.node_rgbs[3 * ind + 1] = g;
@@ -5484,18 +5482,18 @@ exports.get_nodemat_rgb = function (batch, ind, dest) {
 }
 
 exports.get_node_ind_by_name_list = get_node_ind_by_name_list;
-function get_node_ind_by_name_list(inds, name_list) {
-    var id = node_id_from_name_list(name_list);
+function get_node_ind_by_name_list(inds, name_list, prefix_offset) {
+    var id = node_id_from_name_list(name_list, prefix_offset);
     for (var i = 0; i < inds.length; i+=2) {
         if (inds[i] == id)
-            return inds[i+1]
+            return inds[i+1];
     }
     return null;
 }
 
-function node_id_from_name_list(name_list) {
-    var id = name_list[1]
-    for (var i = 2; i < name_list.length; i++)
+function node_id_from_name_list(name_list, prefix_offset) {
+    var id = name_list[prefix_offset];
+    for (var i = prefix_offset+1; i < name_list.length; i++)
         id += "%join%" + name_list[i];
     return id;
 }
