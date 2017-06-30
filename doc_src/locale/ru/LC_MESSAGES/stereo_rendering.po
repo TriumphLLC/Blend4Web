@@ -46,7 +46,7 @@ msgstr "Анаглиф:"
 
 #: ../stereo_rendering.rst:30
 msgid "HMD:"
-msgstr ""
+msgstr "HMD:"
 
 #: ../stereo_rendering.rst:36
 msgid ""
@@ -163,7 +163,7 @@ msgstr ""
 
 #: ../stereo_rendering.rst:78
 msgid "Profile"
-msgstr ""
+msgstr "Profile"
 
 #: ../stereo_rendering.rst:80
 msgid ""
@@ -175,15 +175,15 @@ msgstr ""
 
 #: ../stereo_rendering.rst:83
 msgid "Custom"
-msgstr ""
+msgstr "Custom"
 
 #: ../stereo_rendering.rst:84
 msgid "Cardboard (2014)"
-msgstr ""
+msgstr "Cardboard (2014)"
 
 #: ../stereo_rendering.rst:85
 msgid "Cardboard (2015)"
-msgstr ""
+msgstr "Cardboard (2015)"
 
 #: ../stereo_rendering.rst:87
 msgid "By default, `Custom` profile is selected."
@@ -195,7 +195,7 @@ msgstr "Настройки рендеринга"
 
 #: ../stereo_rendering.rst:95
 msgid "*Tray to lens-center distance*"
-msgstr ""
+msgstr "*Tray to lens-center distance*"
 
 #: ../stereo_rendering.rst:93
 msgid ""
@@ -209,7 +209,7 @@ msgstr "Значение может меняться от 0 до 50. Значе�
 
 #: ../stereo_rendering.rst:100
 msgid "*Interpupillary distance*"
-msgstr ""
+msgstr "*Interpupillary distance*"
 
 #: ../stereo_rendering.rst:98
 msgid ""
@@ -223,7 +223,7 @@ msgstr "Значение может меняться от 0 до 100. Значе
 
 #: ../stereo_rendering.rst:105
 msgid "*Screen to lens distance*"
-msgstr ""
+msgstr "*Screen to lens distance*"
 
 #: ../stereo_rendering.rst:103
 msgid ""
@@ -237,7 +237,7 @@ msgstr "Значение может меняться от 0 до 100. Значе
 
 #: ../stereo_rendering.rst:110
 msgid "*Screen height*"
-msgstr ""
+msgstr "*Screen height*"
 
 #: ../stereo_rendering.rst:108
 msgid "The height of the screen."
@@ -249,7 +249,7 @@ msgstr "Значение может меняться от 0 до 150. Значе
 
 #: ../stereo_rendering.rst:115
 msgid "*Screen width*"
-msgstr ""
+msgstr "*Screen width*"
 
 #: ../stereo_rendering.rst:113
 msgid "The width of the screen."
@@ -261,7 +261,7 @@ msgstr "Значение может меняться от 0 до 200. Значе
 
 #: ../stereo_rendering.rst:120
 msgid "*Bevel width*"
-msgstr ""
+msgstr "*Bevel width*"
 
 #: ../stereo_rendering.rst:118
 msgid "The thickness of the border around the image."
@@ -273,7 +273,7 @@ msgstr "Значение может меняться от 0 до 20. Значе�
 
 #: ../stereo_rendering.rst:125
 msgid "*Distortion coefficients*"
-msgstr ""
+msgstr "*Distortion coefficients*"
 
 #: ../stereo_rendering.rst:123
 msgid ""
@@ -297,7 +297,7 @@ msgstr "Другие инструменты управления"
 
 #: ../stereo_rendering.rst:131
 msgid "*Save*"
-msgstr ""
+msgstr "*Save*"
 
 #: ../stereo_rendering.rst:131
 msgid "Saves the settings."
@@ -305,7 +305,7 @@ msgstr "Сохраняет настройки."
 
 #: ../stereo_rendering.rst:134
 msgid "*Cancel*"
-msgstr ""
+msgstr "*Cancel*"
 
 #: ../stereo_rendering.rst:134
 msgid "Closes the setting interface without saving the settings."
@@ -313,7 +313,7 @@ msgstr "Закрывает окно настроек без сохранения
 
 #: ../stereo_rendering.rst:137
 msgid "*Reset*"
-msgstr ""
+msgstr "*Reset*"
 
 #: ../stereo_rendering.rst:137
 msgid "Restores default settings."

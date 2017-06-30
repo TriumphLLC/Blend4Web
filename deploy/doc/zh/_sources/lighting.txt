@@ -171,6 +171,19 @@
    和 "World > Zenith Color"  颜色选取器指定的地平线和天顶角变化的颜色
    。建议以激活 "World > Blend Sky" 选项为更好的颜色选择。
 
+*World > Use Nodes (Cycles)*
+   If this option is enabled, "Cycles" nodes can be used to set up the
+   environment. Disabled by default.
+
+*World > Reflect World*
+   If this parameter is enabled, environment will also be rendered for
+   reflections (i.e., it will be reflected by mirror surfaces).
+   Disabled by default.
+
+*World > Render Only Reflection*
+   If this parameter is enabled, environment will be rendered for
+   reflections, but not for the scene itself. Disabled by default.
+
 
 环境贴图方法
 ------------

@@ -174,7 +174,7 @@ Contains methods to control parameters of materials.</div>
 
         
             
-<li> <a href="#.get_material_extended_params">get_material_extended_params<span class="signature">(obj, mat_name)</span><span class="type-signature"> &rarr; {MaterialExtParams|null}</span></a></li>
+<li> <a href="#.get_material_extended_params">get_material_extended_params<span class="signature">(obj, mat_name)</span><span class="type-signature"> &rarr; (nullable) {<a href="module-material.html#~MaterialExtParams">module:material~MaterialExtParams}</span></a></li>
 
         
             
@@ -182,7 +182,7 @@ Contains methods to control parameters of materials.</div>
 
         
             
-<li> <a href="#.get_nodemat_rgb">get_nodemat_rgb<span class="signature">(obj, name_list, dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {RGB}</span></a></li>
+<li> <a href="#.get_nodemat_rgb">get_nodemat_rgb<span class="signature">(obj, name_list, dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; (nullable) {RGB}</span></a></li>
 
         
             
@@ -206,11 +206,19 @@ Contains methods to control parameters of materials.</div>
 
         
             
-<li> <a href="#.get_water_material_params">get_water_material_params<span class="signature">(obj, water_mat_name)</span><span class="type-signature"> &rarr; {WaterMaterialParams|null}</span></a></li>
+<li> <a href="#.get_water_material_params">get_water_material_params<span class="signature">(obj, mat_name)</span><span class="type-signature"> &rarr; (nullable) {<a href="module-material.html#~WaterMaterialParams">module:material~WaterMaterialParams}</span></a></li>
 
         
             
 <li> <a href="#.inherit_material">inherit_material<span class="signature">(obj_from, mat_from_name, obj_to, mat_to_name)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.is_node_material">is_node_material<span class="signature">(obj, mat_name)</span><span class="type-signature"> &rarr; {boolean}</span></a></li>
+
+        
+            
+<li> <a href="#.is_water_material">is_water_material<span class="signature">(obj, mat_name)</span><span class="type-signature"> &rarr; {boolean}</span></a></li>
 
         
             
@@ -270,7 +278,7 @@ Contains methods to control parameters of materials.</div>
 
         
             
-<li> <a href="#.set_water_material_params">set_water_material_params<span class="signature">(obj, water_mat_name, water_mat_params)</span><span class="type-signature"></span></a></li>
+<li> <a href="#.set_water_material_params">set_water_material_params<span class="signature">(obj, mat_name, water_mat_params)</span><span class="type-signature"></span></a></li>
 
         
         </ul>
@@ -282,6 +290,14 @@ Contains methods to control parameters of materials.</div>
         
                 
 <li> <a href="#~LineParams">LineParams</a></li>
+
+            
+                
+<li> <a href="#~MaterialExtParams">MaterialExtParams</a></li>
+
+            
+                
+<li> <a href="#~WaterMaterialParams">WaterMaterialParams</a></li>
 
             
         </ul>
@@ -444,6 +460,8 @@ Contains methods to control parameters of materials.</div>
     
 
     
+        <dt class="important tag-deprecated">Deprecated since 17.06:</dt><dd><ul class="dummy"><li>not needed anymore.</li></ul></dd>
+    
 
     
 
@@ -456,7 +474,7 @@ Contains methods to control parameters of materials.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line410">line 410</a>
+        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line665">line 665</a>
     </li></ul></dd>
     
 
@@ -633,6 +651,8 @@ var has_specular_hardness = m_mat.check_specular_hardness(cube, "MyMaterial");</
     
 
     
+        <dt class="important tag-deprecated">Deprecated since 17.06:</dt><dd><ul class="dummy"><li>not needed anymore.</li></ul></dd>
+    
 
     
 
@@ -645,7 +665,7 @@ var has_specular_hardness = m_mat.check_specular_hardness(cube, "MyMaterial");</
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line348">line 348</a>
+        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line569">line 569</a>
     </li></ul></dd>
     
 
@@ -684,7 +704,7 @@ var has_specular_intensity = m_mat.check_specular_intensity(cube, "MyMaterial");
 <div class="item_description">
 
 <div class="description">
-    Get the diffuse alpha factor for the object material.
+    Get the diffuse alpha factor for the object non-node material.
 </div>
 
 
@@ -834,7 +854,7 @@ var has_specular_intensity = m_mat.check_specular_intensity(cube, "MyMaterial");
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line589">line 589</a>
+        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line951">line 951</a>
     </li></ul></dd>
     
 
@@ -873,7 +893,7 @@ var alpha_factor = m_mat.get_alpha_factor(cube, "MyMaterial");</code></pre>
 <div class="item_description">
 
 <div class="description">
-    Get the ambient factor for the object material.
+    Get the ambient factor for the object non-node material.
 </div>
 
 
@@ -1023,7 +1043,7 @@ var alpha_factor = m_mat.get_alpha_factor(cube, "MyMaterial");</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line496">line 496</a>
+        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line800">line 800</a>
     </li></ul></dd>
     
 
@@ -1062,7 +1082,7 @@ var ambient_factor = m_mat.get_ambient_factor(cube, "MyMaterial");</code></pre>
 <div class="item_description">
 
 <div class="description">
-    Get the diffuse color and alpha for the object material.
+    Get the diffuse color and alpha for the object non-node material.
 </div>
 
 
@@ -1212,7 +1232,7 @@ var ambient_factor = m_mat.get_ambient_factor(cube, "MyMaterial");</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line143">line 143</a>
+        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line225">line 225</a>
     </li></ul></dd>
     
 
@@ -1251,7 +1271,7 @@ var diffuse_color = m_mat.get_diffuse_color(cube, "MyMaterial");</code></pre>
 <div class="item_description">
 
 <div class="description">
-    Get the diffuse color factor for the object material.
+    Get the diffuse color factor for the object non-node material.
 </div>
 
 
@@ -1401,7 +1421,7 @@ var diffuse_color = m_mat.get_diffuse_color(cube, "MyMaterial");</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line542">line 542</a>
+        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line875">line 875</a>
     </li></ul></dd>
     
 
@@ -1440,7 +1460,7 @@ var diffuse_color_factor = m_mat.get_diffuse_color_factor(cube, "MyMaterial");</
 <div class="item_description">
 
 <div class="description">
-    Get the diffuse color intensity for the object material.
+    Get the diffuse color intensity for the object non-node material.
 </div>
 
 
@@ -1590,7 +1610,7 @@ var diffuse_color_factor = m_mat.get_diffuse_color_factor(cube, "MyMaterial");</
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line188">line 188</a>
+        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line303">line 303</a>
     </li></ul></dd>
     
 
@@ -1629,7 +1649,7 @@ var diffuse_intensity = m_mat.get_diffuse_intensity(cube, "MyMaterial");</code><
 <div class="item_description">
 
 <div class="description">
-    Get the emit factor for the object material.
+    Get the emit factor for the object non-node material.
 </div>
 
 
@@ -1779,7 +1799,7 @@ var diffuse_intensity = m_mat.get_diffuse_intensity(cube, "MyMaterial");</code><
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line451">line 451</a>
+        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line725">line 725</a>
     </li></ul></dd>
     
 
@@ -1818,7 +1838,7 @@ var emit_factor = m_mat.get_emit_factor(cube, "MyMaterial");</code></pre>
 <div class="item_description">
 
 <div class="description">
-    Get line params or null in case of error.
+    Get the parameters of a LINE object.
 </div>
 
 
@@ -1870,7 +1890,7 @@ var emit_factor = m_mat.get_emit_factor(cube, "MyMaterial");</code></pre>
 
             
 
-            <td class="description last">Line object</td>
+            <td class="description last">Line object 3D</td>
         </tr>
 
     
@@ -1894,7 +1914,7 @@ var emit_factor = m_mat.get_emit_factor(cube, "MyMaterial");</code></pre>
 
         
 <div class="param-desc">
-    Line params
+    Line parameters
 </div>
 
 
@@ -1945,7 +1965,7 @@ var emit_factor = m_mat.get_emit_factor(cube, "MyMaterial");</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line993">line 993</a>
+        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line1397">line 1397</a>
     </li></ul></dd>
     
 
@@ -1976,7 +1996,7 @@ var line_params = m_mat.get_line_params(line_object);</code></pre>
 
     
 
-    <h4 class="name" id=".get_material_extended_params">get_material_extended_params<span class="signature">(obj, mat_name)</span><span class="type-signature"> &rarr; {MaterialExtParams|null}</span></h4>
+    <h4 class="name" id=".get_material_extended_params">get_material_extended_params<span class="signature">(obj, mat_name)</span><span class="type-signature"> &rarr; (nullable) {<a href="module-material.html#~MaterialExtParams">MaterialExtParams</a>}</span></h4>
 
     
 
@@ -1984,7 +2004,7 @@ var line_params = m_mat.get_line_params(line_object);</code></pre>
 <div class="item_description">
 
 <div class="description">
-    Get the material extended params
+    Get the material extended params for the object non-node material.
 </div>
 
 
@@ -2036,7 +2056,7 @@ var line_params = m_mat.get_line_params(line_object);</code></pre>
 
             
 
-            <td class="description last">Object</td>
+            <td class="description last">Object 3D</td>
         </tr>
 
     
@@ -2094,10 +2114,7 @@ var line_params = m_mat.get_line_params(line_object);</code></pre>
     </dt>
     <dd>
         
-<span class="param-type">MaterialExtParams</span>
-|
-
-<span class="param-type">null</span>
+<span class="param-type"><a href="module-material.html#~MaterialExtParams">MaterialExtParams</a></span>
 
 
     </dd>
@@ -2137,7 +2154,7 @@ var line_params = m_mat.get_line_params(line_object);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line611">line 611</a>
+        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line987">line 987</a>
     </li></ul></dd>
     
 
@@ -2176,7 +2193,7 @@ var extended_parameters = m_mat.get_material_extended_params(cube, "MyMaterial")
 <div class="item_description">
 
 <div class="description">
-    Get materials' names for the given object
+    Get materials' names for the given object.
 </div>
 
 
@@ -2303,7 +2320,7 @@ var extended_parameters = m_mat.get_material_extended_params(cube, "MyMaterial")
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line91">line 91</a>
+        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line151">line 151</a>
     </li></ul></dd>
     
 
@@ -2334,7 +2351,7 @@ var material_list = m_mat.get_materials_names(cube);</code></pre>
 
     
 
-    <h4 class="name" id=".get_nodemat_rgb">get_nodemat_rgb<span class="signature">(obj, name_list, dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="global.html#RGB">RGB</a>}</span></h4>
+    <h4 class="name" id=".get_nodemat_rgb">get_nodemat_rgb<span class="signature">(obj, name_list, dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; (nullable) {<a href="global.html#RGB">RGB</a>}</span></h4>
 
     
 
@@ -2437,7 +2454,7 @@ var material_list = m_mat.get_materials_names(cube);</code></pre>
 
             <td class="description last">List consisting of the material name, the names of
 nested node groups (if any) and the name of the RGB node itself.
-For world material name is missing</td>
+For a world node material the material name should be omitted.</td>
         </tr>
 
     
@@ -2545,7 +2562,7 @@ For world material name is missing</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line1191">line 1191</a>
+        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line1622">line 1622</a>
     </li></ul></dd>
     
 
@@ -2661,7 +2678,8 @@ var rgb_node_values = m_mat.get_nodemat_rgb(cube, ["MyMaterial", "MyRGB"]);</cod
 
             <td class="description last">List consisting of the material name, the names of
 nested node groups (if any) and the name of the Value node itself. Should
-have at least 2 elements ["Mat","Node"]. For world material name is missing</td>
+have at least 2 elements ["Mat","Node"]. For a world node material the 
+material name should be omitted.</td>
         </tr>
 
     
@@ -2736,7 +2754,7 @@ have at least 2 elements ["Mat","Node"]. For world material name is missing</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line1076">line 1076</a>
+        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line1494">line 1494</a>
     </li></ul></dd>
     
 
@@ -2775,7 +2793,7 @@ var node_value = m_mat.get_nodemat_value(cube, ["MyMaterial", "MyValue"]);</code
 <div class="item_description">
 
 <div class="description">
-    Get the specular color for the object material.
+    Get the specular color for the object non-node material.
 </div>
 
 
@@ -2925,7 +2943,7 @@ var node_value = m_mat.get_nodemat_value(cube, ["MyMaterial", "MyValue"]);</code
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line234">line 234</a>
+        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line379">line 379</a>
     </li></ul></dd>
     
 
@@ -2964,7 +2982,7 @@ var specular_color = m_mat.get_specular_color(cube, "MyMaterial");</code></pre>
 <div class="item_description">
 
 <div class="description">
-    Get the specular color factor for the object material.
+    Get the specular color factor for the object non-node material.
 </div>
 
 
@@ -3114,7 +3132,7 @@ var specular_color = m_mat.get_specular_color(cube, "MyMaterial");</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line281">line 281</a>
+        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line457">line 457</a>
     </li></ul></dd>
     
 
@@ -3153,7 +3171,7 @@ var specular_color_factor = m_mat.get_specular_color_factor(cube, "MyMaterial");
 <div class="item_description">
 
 <div class="description">
-    Get the specular color hardness for the object material.
+    Get the specular color hardness for the object non-node material.
 </div>
 
 
@@ -3303,7 +3321,7 @@ var specular_color_factor = m_mat.get_specular_color_factor(cube, "MyMaterial");
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line389">line 389</a>
+        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line629">line 629</a>
     </li></ul></dd>
     
 
@@ -3342,7 +3360,7 @@ var specular_hardness = m_mat.get_specular_hardness(cube, "MyMaterial");</code><
 <div class="item_description">
 
 <div class="description">
-    Get the specular color intensity for the object material.
+    Get the specular color intensity for the object non-node material.
 </div>
 
 
@@ -3492,7 +3510,7 @@ var specular_hardness = m_mat.get_specular_hardness(cube, "MyMaterial");</code><
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line327">line 327</a>
+        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line533">line 533</a>
     </li></ul></dd>
     
 
@@ -3523,7 +3541,7 @@ var specular_intensity = m_mat.get_specular_intensity(cube, "MyMaterial");</code
 
     
 
-    <h4 class="name" id=".get_water_material_params">get_water_material_params<span class="signature">(obj, water_mat_name)</span><span class="type-signature"> &rarr; {WaterMaterialParams|null}</span></h4>
+    <h4 class="name" id=".get_water_material_params">get_water_material_params<span class="signature">(obj, mat_name)</span><span class="type-signature"> &rarr; (nullable) {<a href="module-material.html#~WaterMaterialParams">WaterMaterialParams</a>}</span></h4>
 
     
 
@@ -3531,7 +3549,7 @@ var specular_intensity = m_mat.get_specular_intensity(cube, "MyMaterial");</code
 <div class="item_description">
 
 <div class="description">
-    Get params for the water material
+    Get the parameters of a water non-node material.
 </div>
 
 
@@ -3583,14 +3601,14 @@ var specular_intensity = m_mat.get_specular_intensity(cube, "MyMaterial");</code
 
             
 
-            <td class="description last">Object</td>
+            <td class="description last">Object 3D</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>water_mat_name</code></td>
+                <td class="name"><code>mat_name</code></td>
             
 
             <td class="type">
@@ -3630,7 +3648,7 @@ var specular_intensity = m_mat.get_specular_intensity(cube, "MyMaterial");</code
 
         
 <div class="param-desc">
-    Water material params or null
+    Water material params or null.
 </div>
 
 
@@ -3641,10 +3659,7 @@ var specular_intensity = m_mat.get_specular_intensity(cube, "MyMaterial");</code
     </dt>
     <dd>
         
-<span class="param-type">WaterMaterialParams</span>
-|
-
-<span class="param-type">null</span>
+<span class="param-type"><a href="module-material.html#~WaterMaterialParams">WaterMaterialParams</a></span>
 
 
     </dd>
@@ -3684,7 +3699,7 @@ var specular_intensity = m_mat.get_specular_intensity(cube, "MyMaterial");</code
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line653">line 653</a>
+        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line1099">line 1099</a>
     </li></ul></dd>
     
 
@@ -3695,6 +3710,15 @@ var specular_intensity = m_mat.get_specular_intensity(cube, "MyMaterial");</code
     
 </dl>
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scenes = require("scenes");
+var m_mat = require("material");
+
+var water = m_scenes.get_object_by_name("MyWater");
+var water_params = m_mat.get_water_material_params(water, "MyMaterial");</code></pre>
 
 
 </div>
@@ -3888,7 +3912,7 @@ var specular_intensity = m_mat.get_specular_intensity(cube, "MyMaterial");</code
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line31">line 31</a>
+        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line103">line 103</a>
     </li></ul></dd>
     
 
@@ -3920,6 +3944,384 @@ m_mat.inherit_material(cube, "MyMaterial_1", cube_001, "MyMaterial_2");</code></
 
     
 
+    <h4 class="name" id=".is_node_material">is_node_material<span class="signature">(obj, mat_name)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Check if the object's material is a node material.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Object 3D</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>mat_name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Material name</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    The result of the checking.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line1688">line 1688</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scenes = require("scenes");
+var m_mat = require("material");
+
+var cube = m_scenes.get_object_by_name("Cube");
+var has_nodes = m_mat.is_node_material(cube, "MyMaterial");</code></pre>
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".is_water_material">is_water_material<span class="signature">(obj, mat_name)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Check if the object's material is a water material.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Object 3D</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>mat_name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Material name</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    The result of the checking.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line1718">line 1718</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scenes = require("scenes");
+var m_mat = require("material");
+
+var cube = m_scenes.get_object_by_name("Cube");
+var is_water = m_mat.is_water_material(cube, "MyMaterial");</code></pre>
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
     <h4 class="name" id=".set_alpha_factor">set_alpha_factor<span class="signature">(obj, mat_name, alpha_factor)</span><span class="type-signature"></span></h4>
 
     
@@ -3928,7 +4330,7 @@ m_mat.inherit_material(cube, "MyMaterial_1", cube_001, "MyMaterial_2");</code></
 <div class="item_description">
 
 <div class="description">
-    Set the alpha factor for the object material.
+    Set the alpha factor for the object non-node material.
 </div>
 
 
@@ -4079,7 +4481,7 @@ m_mat.inherit_material(cube, "MyMaterial_1", cube_001, "MyMaterial_2");</code></
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line564">line 564</a>
+        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line911">line 911</a>
     </li></ul></dd>
     
 
@@ -4118,7 +4520,7 @@ m_mat.set_alpha_factor(cube, "MyMaterial", 0.2);</code></pre>
 <div class="item_description">
 
 <div class="description">
-    Set the ambient factor for the object material.
+    Set the ambient factor for the object non-node material.
 </div>
 
 
@@ -4269,7 +4671,7 @@ m_mat.set_alpha_factor(cube, "MyMaterial", 0.2);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line473">line 473</a>
+        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line761">line 761</a>
     </li></ul></dd>
     
 
@@ -4308,7 +4710,7 @@ m_mat.set_ambient_factor(cube, "MyMaterial", 0.6);</code></pre>
 <div class="item_description">
 
 <div class="description">
-    Set the diffuse color and alpha for the object material.
+    Set the diffuse color and alpha for the object non-node material.
 </div>
 
 
@@ -4459,7 +4861,7 @@ m_mat.set_ambient_factor(cube, "MyMaterial", 0.6);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line118">line 118</a>
+        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line184">line 184</a>
     </li></ul></dd>
     
 
@@ -4499,7 +4901,7 @@ m_mat.set_diffuse_color(cube, "MyMaterial", m_rgba.from_values(1.0, 0.0, 0.0, 1.
 <div class="item_description">
 
 <div class="description">
-    Set the diffuse color factor for the object material.
+    Set the diffuse color factor for the object non-node material.
 </div>
 
 
@@ -4650,7 +5052,7 @@ m_mat.set_diffuse_color(cube, "MyMaterial", m_rgba.from_values(1.0, 0.0, 0.0, 1.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line518">line 518</a>
+        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line836">line 836</a>
     </li></ul></dd>
     
 
@@ -4689,7 +5091,7 @@ m_mat.set_diffuse_color_factor(cube, "MyMaterial", 0.05);</code></pre>
 <div class="item_description">
 
 <div class="description">
-    Set the diffuse color intensity for the object material.
+    Set the diffuse color intensity for the object non-node material.
 </div>
 
 
@@ -4840,7 +5242,7 @@ m_mat.set_diffuse_color_factor(cube, "MyMaterial", 0.05);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line165">line 165</a>
+        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line264">line 264</a>
     </li></ul></dd>
     
 
@@ -4879,7 +5281,7 @@ m_mat.set_diffuse_intensity(cube, "MyMaterial", 0.5);</code></pre>
 <div class="item_description">
 
 <div class="description">
-    Set the emit factor for the object material.
+    Set the emit factor for the object non-node material.
 </div>
 
 
@@ -5030,7 +5432,7 @@ m_mat.set_diffuse_intensity(cube, "MyMaterial", 0.5);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line427">line 427</a>
+        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line685">line 685</a>
     </li></ul></dd>
     
 
@@ -5069,7 +5471,7 @@ m_mat.set_emit_factor(cube, "MyMaterial", 1);</code></pre>
 <div class="item_description">
 
 <div class="description">
-    Set line params.
+    Set parameters for a LINE object.
 </div>
 
 
@@ -5121,7 +5523,7 @@ m_mat.set_emit_factor(cube, "MyMaterial", 1);</code></pre>
 
             
 
-            <td class="description last">Line object</td>
+            <td class="description last">Line object 3D</td>
         </tr>
 
     
@@ -5144,7 +5546,7 @@ m_mat.set_emit_factor(cube, "MyMaterial", 1);</code></pre>
 
             
 
-            <td class="description last">Line params</td>
+            <td class="description last">Line parameters</td>
         </tr>
 
     
@@ -5197,7 +5599,7 @@ m_mat.set_emit_factor(cube, "MyMaterial", 1);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line967">line 967</a>
+        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line1362">line 1362</a>
     </li></ul></dd>
     
 
@@ -5239,7 +5641,7 @@ m_mat.set_line_params(empty, {
 <div class="item_description">
 
 <div class="description">
-    Set the material params
+    Set the material extended params for the object non-node material.
 </div>
 
 
@@ -5291,7 +5693,7 @@ m_mat.set_line_params(empty, {
 
             
 
-            <td class="description last">Object</td>
+            <td class="description last">Object 3D</td>
         </tr>
 
     
@@ -5327,7 +5729,7 @@ m_mat.set_line_params(empty, {
             <td class="type">
             
                 
-<span class="param-type">MaterialExtParams</span>
+<span class="param-type"><a href="module-material.html#~MaterialExtParams">MaterialExtParams</a></span>
 
 
             
@@ -5390,7 +5792,7 @@ m_mat.set_line_params(empty, {
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line736">line 736</a>
+        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line1032">line 1032</a>
     </li></ul></dd>
     
 
@@ -5409,11 +5811,13 @@ m_mat.set_line_params(empty, {
 var m_mat = require("material");
 
 var cube = m_scenes.get_object_by_name("Cube");
-m_mat.set_material_extended_params(cube, "MyMaterial", {fresnel: 0,
-                                                        fresnel_factor: 1.25,
-                                                        parallax_scale: 0,
-                                                        parallax_steps: "5.0",
-                                                        reflect_factor: 0});</code></pre>
+m_mat.set_material_extended_params(cube, "MyMaterial", {
+    fresnel: 0,
+    fresnel_factor: 1.25,
+    parallax_scale: 0,
+    parallax_steps: 5,
+    reflect_factor: 0
+});</code></pre>
 
 
 </div>
@@ -5509,8 +5913,8 @@ m_mat.set_material_extended_params(cube, "MyMaterial", {fresnel: 0,
             
 
             <td class="description last">List consisting of the material name, the names of
-nested node groups (if any) and the name of the RGB node itself.
-For world material name is missing</td>
+nested node groups (if any) and the name of the RGB node itself. For a world 
+node material the material name should be omitted.</td>
         </tr>
 
     
@@ -5632,7 +6036,7 @@ For world material name is missing</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line1132">line 1132</a>
+        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line1557">line 1557</a>
     </li></ul></dd>
     
 
@@ -5748,7 +6152,8 @@ m_mat.set_nodemat_rgb(cube, ["MyMaterial", "RGB.001"], 1, 0, 1);</code></pre>
 
             <td class="description last">List consisting of the material name, the names of
 nested node groups (if any) and the name of the Value node itself. Should
-have at least 2 elements ["Mat","Node"]. For world material name is missing</td>
+have at least 2 elements ["Mat","Node"]. For a world node material the 
+material name should be omitted.</td>
         </tr>
 
     
@@ -5824,7 +6229,7 @@ have at least 2 elements ["Mat","Node"]. For world material name is missing</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line1019">line 1019</a>
+        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line1430">line 1430</a>
     </li></ul></dd>
     
 
@@ -5863,7 +6268,7 @@ m_mat.set_nodemat_value(cube, ["MyMaterial", "Value.001"], 20);</code></pre>
 <div class="item_description">
 
 <div class="description">
-    Set the specular color for the object material.
+    Set the specular color for the object non-node material.
 </div>
 
 
@@ -6014,7 +6419,7 @@ m_mat.set_nodemat_value(cube, ["MyMaterial", "Value.001"], 20);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line210">line 210</a>
+        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line339">line 339</a>
     </li></ul></dd>
     
 
@@ -6053,7 +6458,7 @@ m_mat.set_specular_color(cube, "MyMaterial", [0, 0.8, 0]);</code></pre>
 <div class="item_description">
 
 <div class="description">
-    Set the specular color factor for the object material.
+    Set the specular color factor for the object non-node material.
 </div>
 
 
@@ -6204,7 +6609,7 @@ m_mat.set_specular_color(cube, "MyMaterial", [0, 0.8, 0]);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line258">line 258</a>
+        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line418">line 418</a>
     </li></ul></dd>
     
 
@@ -6243,7 +6648,7 @@ m_mat.set_specular_color_factor(cube, "MyMaterial", 0.8);</code></pre>
 <div class="item_description">
 
 <div class="description">
-    Set the specular color hardness for the object material.
+    Set the specular color hardness for the object non-node material.
 </div>
 
 
@@ -6394,7 +6799,7 @@ m_mat.set_specular_color_factor(cube, "MyMaterial", 0.8);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line365">line 365</a>
+        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line589">line 589</a>
     </li></ul></dd>
     
 
@@ -6433,7 +6838,7 @@ m_mat.set_specular_hardness(cube, "MyMaterial", 0.8);</code></pre>
 <div class="item_description">
 
 <div class="description">
-    Set the specular color intensity for the object material.
+    Set the specular color intensity for the object non-node material.
 </div>
 
 
@@ -6584,7 +6989,7 @@ m_mat.set_specular_hardness(cube, "MyMaterial", 0.8);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line303">line 303</a>
+        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line493">line 493</a>
     </li></ul></dd>
     
 
@@ -6615,7 +7020,7 @@ m_mat.set_specular_intensity(cube, "MyMaterial", 0.7);</code></pre>
 
     
 
-    <h4 class="name" id=".set_water_material_params">set_water_material_params<span class="signature">(obj, water_mat_name, water_mat_params)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".set_water_material_params">set_water_material_params<span class="signature">(obj, mat_name, water_mat_params)</span><span class="type-signature"></span></h4>
 
     
 
@@ -6623,7 +7028,7 @@ m_mat.set_specular_intensity(cube, "MyMaterial", 0.7);</code></pre>
 <div class="item_description">
 
 <div class="description">
-    Set params for the water material
+    Set parameters for a water non-node material.
 </div>
 
 
@@ -6675,14 +7080,14 @@ m_mat.set_specular_intensity(cube, "MyMaterial", 0.7);</code></pre>
 
             
 
-            <td class="description last">Object</td>
+            <td class="description last">Object 3D</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>water_mat_name</code></td>
+                <td class="name"><code>mat_name</code></td>
             
 
             <td class="type">
@@ -6711,7 +7116,7 @@ m_mat.set_specular_intensity(cube, "MyMaterial", 0.7);</code></pre>
             <td class="type">
             
                 
-<span class="param-type">WaterMaterialParams</span>
+<span class="param-type"><a href="module-material.html#~WaterMaterialParams">WaterMaterialParams</a></span>
 
 
             
@@ -6721,7 +7126,7 @@ m_mat.set_specular_intensity(cube, "MyMaterial", 0.7);</code></pre>
 
             
 
-            <td class="description last">Water material params</td>
+            <td class="description last">Water material parameters.</td>
         </tr>
 
     
@@ -6774,7 +7179,7 @@ m_mat.set_specular_intensity(cube, "MyMaterial", 0.7);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line809">line 809</a>
+        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line1197">line 1197</a>
     </li></ul></dd>
     
 
@@ -6785,6 +7190,19 @@ m_mat.set_specular_intensity(cube, "MyMaterial", 0.7);</code></pre>
     
 </dl>
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scenes = require("scenes");
+var m_mat = require("material");
+
+var water = m_scenes.get_object_by_name("MyWater");
+var water_params = m_mat.set_water_material_params(water, "MyMaterial", {
+    waves_height: 2, 
+    waves_length: 20, 
+    shallow_water_col: [0, 0.3, 0.8]
+});</code></pre>
 
 
 </div>
@@ -6839,6 +7257,8 @@ m_mat.set_specular_intensity(cube, "MyMaterial", 0.7);</code></pre>
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
         
 
@@ -6864,6 +7284,14 @@ m_mat.set_specular_intensity(cube, "MyMaterial", 0.7);</code></pre>
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
 
             
 
@@ -6886,6 +7314,14 @@ m_mat.set_specular_intensity(cube, "MyMaterial", 0.7);</code></pre>
             
             </td>
 
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
             
 
             
@@ -6929,7 +7365,1145 @@ m_mat.set_specular_intensity(cube, "MyMaterial", 0.7);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line23">line 23</a>
+        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line25">line 25</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+</div>
+</div>
+
+            
+                
+<div class="item_container">
+<div class="item_name">
+<h4 class="name" id="~MaterialExtParams">MaterialExtParams</h4>
+
+</div>
+
+<div class="item_description">
+
+<div class="description">
+    Additional group of parameters for a non-node material.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>fresnel</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Power of Fresnel for mirror reflection.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>fresnel_factor</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Blending factor for Fresnel.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>parallax_scale</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Scale parameter for texture wrapping. 
+Available if the parallax effect is enabled on the material's normal map texture.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>parallax_steps</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Number of steps taken to build a parallax surface.
+Available if the parallax effect is enabled on the material's normal map texture.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>reflect_factor</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Amount of mirror reflection.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line33">line 33</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+</div>
+</div>
+
+            
+                
+<div class="item_container">
+<div class="item_name">
+<h4 class="name" id="~WaterMaterialParams">WaterMaterialParams</h4>
+
+</div>
+
+<div class="item_description">
+
+<div class="description">
+    Parameters for a water material.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>shore_smoothing</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Perform the smoothing between the water 
+and the shore objects. Can be used only for Add, Alpha Blend and Alpha Sort 
+materials.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>absorb_factor</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Water absorb factor. Used only if the 
+"shore_smoothing" parameter is true for this material.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>foam_factor</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Water foam intensity factor. Can be used if 
+there is a foam texture in this material.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>shallow_water_col</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#RGB">RGB</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Color of the shallow water.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>shore_water_col</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#RGB">RGB</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Color of the shore water.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>shallow_water_col_fac</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Shallow water color factor.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>shore_water_col_fac</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Shore water color factor.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>norm_uv_velocity</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Water normalmap UV velocity. Can be used 
+if there is a normalmap texture in this material.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>water_dynamic</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Dynamic water surface. If disabled in the 
+blend-file, then this option cannot be enabled via API.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>sss_strength</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Strength of subsurface scattering. Used if 
+the "water_dynamic" parameter is true.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>sss_width</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Width of subsurface scattering. Used if the 
+"water_dynamic" parameter is true.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>waves_height</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Waves height. Used if the "water_dynamic" 
+parameter is true.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>waves_length</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Waves length. Used if the "water_dynamic" 
+parameter is true.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>dst_noise_scale0</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Distant waves noise scale (first 
+component). Used if the "water_dynamic" parameter is true.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>dst_noise_scale1</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Distant waves noise scale (second 
+component). Used if the "water_dynamic" parameter is true.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>dst_noise_freq0</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Distant waves noise frequency (first 
+component). Used if the "water_dynamic" parameter is true.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>dst_noise_freq1</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Distant waves noise frequency (second 
+component). Used if the "water_dynamic" parameter is true.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>dir_min_shore_fac</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Minimum shore factor for directional 
+waves. Used if the "water_dynamic" parameter is true.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>dir_freq</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Directional waves frequency. Used if the 
+"water_dynamic" parameter is true.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>dir_noise_scale</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Directional waves noise scale. Used if the 
+"water_dynamic" parameter is true.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>dir_noise_freq</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Directional waves noise frequency. Used if 
+the"water_dynamic" parameter is true.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>dir_min_noise_fac</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Directional waves minimum noise factor. 
+Used if the "water_dynamic" parameter is true.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>dst_min_fac</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Distant waves min factor. Used if the
+"water_dynamic" parameter is true.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>waves_hor_fac</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Strength of horizontal waves inclination. 
+Used if the "water_dynamic" parameter is true.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_material.js.html">ext/material.js</a>, <a href="ext_material.js.html#line46">line 46</a>
     </li></ul></dd>
     
 
@@ -6967,7 +8541,7 @@ m_mat.set_specular_intensity(cube, "MyMaterial", 0.7);</code></pre>
 <br class="clear">
 
 <footer>
-    Blend4Web API Reference (generated by JSDoc 3.4.0 on Mon May 15 2017 11:38:29 GMT+0300 (MSK))
+    Blend4Web API Reference (generated by JSDoc 3.4.0 on Fri Jun 30 2017 14:29:58 GMT+0300 (MSK))
     <a href="https://www.blend4web.com">www.blend4web.com</a>
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">

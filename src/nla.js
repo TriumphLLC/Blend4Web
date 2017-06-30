@@ -230,7 +230,7 @@ exports.update_scene = function(scene, is_cyclic, data_id) {
                         + texture.frame_duration, 0, nla.frame_end);
             }
 
-            ev.anim_name = textures[i].name;
+            ev.anim_name = textures[i]["name"];
             nla.textures.push(texture);
         }
     }

@@ -44,7 +44,7 @@ exports.set_frame = function(frame) {
             m_nla.get_frame_end());
 
     if (m_nla.check_logic_nodes()) {
-        m_print.error("The active scene is using NLA script.");
+        m_print.error("The active scene is using the Logic Editor.");
         return;
     }
     m_nla.set_frame(frame, m_time.get_timeline());
@@ -64,7 +64,7 @@ exports.get_frame = function() {
  */
 exports.stop = function() {
     if (m_nla.check_logic_nodes()) {
-        m_print.error("The active scene is using NLA script.");
+        m_print.error("The active scene is using the Logic Editor.");
         return;
     }
     m_nla.stop_nla();
@@ -77,7 +77,7 @@ exports.stop = function() {
  */
 exports.play = function(callback) {
     if (m_nla.check_logic_nodes()) {
-        m_print.error("The active scene is using NLA script.");
+        m_print.error("The active scene is using the Logic Editor.");
         return;
     }
 
@@ -135,7 +135,7 @@ exports.check_logic_nodes = function() {
 exports.set_range = function(start_frame, end_frame) {
 
     if (m_nla.check_logic_nodes()) {
-        m_print.error("The active scene is using NLA script.");
+        m_print.error("The active scene is using the Logic Editor.");
         return;
     }
 
@@ -156,7 +156,7 @@ exports.set_range = function(start_frame, end_frame) {
  */
 exports.reset_range = function() {
     if (m_nla.check_logic_nodes()) {
-        m_print.error("The active scene is using NLA script.");
+        m_print.error("The active scene is using the Logic Editor.");
         return;
     }
     m_nla.reset_range();
@@ -168,7 +168,7 @@ exports.reset_range = function() {
  */
 exports.set_cyclic = function(is_cyclic) {
     if (m_nla.check_logic_nodes()) {
-        m_print.error("The active scene is using NLA script.");
+        m_print.error("The active scene is using the Logic Editor.");
         return;
     }
     m_nla.set_cyclic(is_cyclic);
@@ -179,7 +179,7 @@ exports.set_cyclic = function(is_cyclic) {
  */
 exports.clear_callback = function() {
     if (m_nla.check_logic_nodes()) {
-        m_print.error("The active scene is using NLA script.");
+        m_print.error("The active scene is using the Logic Editor.");
         return;
     }
     m_nla.clear_callback();

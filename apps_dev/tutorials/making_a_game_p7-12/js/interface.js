@@ -16,7 +16,7 @@ exports.init_interface = function() {
 
 exports.update_hp_bar = function(hp) {
 
-    var hp = m_char.get_wrapper().hp
+    hp = m_char.get_wrapper().hp
 
     var green_elem = document.getElementById("life_bar_green");
     var red_elem = document.getElementById("life_bar_red");
@@ -48,7 +48,6 @@ exports.setup_touch_controls = function (right_arrow, up_arrow, left_arrow,
     function touch_start_cb(event) {
         event.preventDefault();
 
-        var h = window.innerHeight;
         var w = window.innerWidth;
 
         var touches = event.changedTouches;
@@ -107,7 +106,6 @@ exports.setup_touch_controls = function (right_arrow, up_arrow, left_arrow,
         m_ctl.set_custom_sensor(left_arrow, 0);
         m_ctl.set_custom_sensor(right_arrow, 0);
 
-        var h = window.innerHeight;
         var w = window.innerWidth;
 
         var touches = event.changedTouches;

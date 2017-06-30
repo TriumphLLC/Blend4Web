@@ -116,6 +116,8 @@
 
   * 设置
 
+  * Object Constraints
+
   * 锚设置
 
   * 物体变换API
@@ -152,7 +154,9 @@
 
   * 显示法线
 
-  * 旋转
+  * Rotate
+
+  * Scale
 
   * 绝对和偏移模式
 
@@ -162,7 +166,7 @@
 
   * 恢复
 
-  * Tree（树），Foliage（树叶） 和 Face（面）
+  * 3D Cursor, Axis and Face
 
   * Copy（复制）/Paste（粘贴）
 
@@ -213,6 +217,8 @@
   * 游戏引擎特定节点
 
   * Cycles 节点
+
+  * Limitations
 
 * 逻辑编辑器
 
@@ -473,6 +479,8 @@
   * 已知问题
 
 * 发布说明
+
+  * v17.06
 
   * v17.04
 

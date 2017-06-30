@@ -880,9 +880,6 @@ exports.create_gamepad_orientation_sensor = function(id) {
     return sensor;
 }
 
-/**
- * @cc_externs coll_obj coll_pos coll_norm coll_dist
- */
 exports.create_collision_sensor = function(obj, collision_id,
                                            calc_pos_norm) {
     if (!(obj && m_phy.obj_has_physics(obj))) {
@@ -936,9 +933,6 @@ exports.create_collision_impulse_sensor = function(obj) {
     return sensor;
 }
 
-/**
- * @cc_externs hit_fract obj_hit hit_time hit_pos hit_norm
- */
 exports.create_ray_sensor = function(obj_src, from, to, collision_id,
         is_binary_value, calc_pos_norm, ign_src_rot) {
 
@@ -981,9 +975,6 @@ exports.create_ray_sensor = function(obj_src, from, to, collision_id,
     return sensor;
 }
 
-/**
- * @cc_externs coords which
- */
 exports.create_mouse_click_sensor = function(element) {
     var sensor = init_sensor(ST_MOUSE_CLICK, element);
     sensor.do_activation = true;
@@ -997,9 +988,6 @@ exports.create_mouse_wheel_sensor = function(element) {
     return sensor;
 }
 
-/**
- * @cc_externs coords
- */
 exports.create_mouse_move_sensor = function(axis, element) {
     var sensor = init_sensor(ST_MOUSE_MOVE, element);
     sensor.axis = axis || "XY";
@@ -1008,9 +996,6 @@ exports.create_mouse_move_sensor = function(axis, element) {
     return sensor;
 }
 
-/**
- * @cc_externs coords gesture
- */
 exports.create_touch_move_sensor = function(axis, element) {
     var sensor = init_sensor(ST_TOUCH_MOVE, element);
     sensor.axis = axis || "XY";
@@ -1033,9 +1018,6 @@ exports.create_touch_rotate_sensor = function(element) {
     return sensor;
 }
 
-/**
- * @cc_externs coords
- */
 exports.create_touch_click_sensor = function(element) {
     var sensor = init_sensor(ST_TOUCH_CLICK, element);
     sensor.payload = {coords: new Float32Array(2)};
@@ -1216,9 +1198,6 @@ exports.create_callback_sensor = function(callback, value) {
     return sensor;
 }
 
-/**
- * @cc_externs coords
- */
 exports.create_plock_mouse_sensor = function(element) {
     var sensor = init_sensor(ST_PLOCK_MOUSE_MOVE, element);
     sensor.payload = {coords: new Float32Array(2)};

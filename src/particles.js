@@ -46,7 +46,7 @@ var _vec3_tmp = new Float32Array(3);
 
 var _particles_objs_cache = [];
 
-function create_particles_data(name, type) {
+function init_particles_data(name, type) {
     var pdata = {
         name: name,
         p_type: type,
@@ -93,6 +93,57 @@ function create_particles_data(name, type) {
     }
 
     return pdata;
+}
+
+exports.clone_particles_data = clone_particles_data;
+function clone_particles_data(particles_data) {
+
+    var particles_data_new = init_particles_data(particles_data.name, 
+            particles_data.type);
+
+    particles_data_new.time = particles_data.time;
+    particles_data_new.prev_time = particles_data.prev_time;
+    particles_data_new.use_world_space = particles_data.use_world_space;
+    particles_data_new.count_factor = particles_data.count_factor;
+
+    particles_data_new.frame_start = particles_data.frame_start;
+    particles_data_new.frame_end = particles_data.frame_end;
+    particles_data_new.time_length = particles_data.time_length;
+    particles_data_new.lifetime_frames = particles_data.lifetime_frames;
+    particles_data_new.lifetime = particles_data.lifetime;
+    particles_data_new.cyclic = particles_data.cyclic;
+
+    particles_data_new.mass = particles_data.mass;
+    particles_data_new.nfactor = particles_data.nfactor;
+    particles_data_new.gravity = particles_data.gravity;
+    particles_data_new.fade_in = particles_data.fade_in;
+    particles_data_new.fade_out = particles_data.fade_out;
+    particles_data_new.wind_factor = particles_data.wind_factor;
+
+    particles_data_new.size = particles_data.size;
+    particles_data_new.alpha_start = particles_data.alpha_start;
+    particles_data_new.alpha_end = particles_data.alpha_end;
+    particles_data_new.color_ramp_length = particles_data.color_ramp_length;
+    particles_data_new.color_ramp.set(particles_data.color_ramp);
+
+    particles_data_new.need_buffers_update = particles_data.need_buffers_update;
+
+    particles_data_new.positions = m_util.clone_object_r(particles_data.positions);
+    particles_data_new.positions_cache = m_util.clone_object_r(
+            particles_data.positions_cache);
+    particles_data_new.tbn = m_util.clone_object_r(particles_data.tbn);
+    particles_data_new.tbn_cache = m_util.clone_object_r(particles_data.tbn_cache);
+    particles_data_new.delay_attrs = m_util.clone_object_r(particles_data.delay_attrs);
+    particles_data_new.delay_attrs_masked = m_util.clone_object_r(
+            particles_data.delay_attrs_masked);
+    particles_data_new.emitter_tsr_snapshots = m_util.clone_object_r(
+            particles_data.emitter_tsr_snapshots);
+    particles_data_new.p_data = m_util.clone_object_r(particles_data.p_data);
+
+    particles_data_new.tilt = particles_data.tilt;
+    particles_data_new.tilt_rand = particles_data.tilt_rand;
+
+    return particles_data_new;
 }
 
 var _rand = function() {
@@ -183,8 +234,8 @@ exports.has_dynamic_grass_particles = function(bpy_obj) {
     return false;
 }
 
-exports.init_particles_data = function(batch, psystem, pmaterial) {
-    var pdata = batch.particles_data = create_particles_data(psystem["name"],
+exports.create_particles_data = function(batch, psystem, pmaterial) {
+    var pdata = batch.particles_data = init_particles_data(psystem["name"],
             psystem["settings"]["type"]);
     pdata.frame_start = psystem["settings"]["frame_start"];
     pdata.frame_end = psystem["settings"]["frame_end"];

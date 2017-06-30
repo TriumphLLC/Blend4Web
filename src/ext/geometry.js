@@ -34,8 +34,8 @@ var m_tbn    = require("__tbn");
  * @method module:geometry.extract_vertex_array
  * @param {Object3D} obj Object 3D
  * @param {string} mat_name Material name
- * @param {string} attrib_name Attribute name (a_position, a_tbn)
- * @returns {Float32Array|Int16Array|Uint8Array} Vertex array
+ * @param {string} attrib_name Attribute name (a_position, a_tbn, a_normal)
+ * @returns {Float32Array} Vertex array
  */
 exports.extract_vertex_array = function(obj, mat_name, attrib_name) {
 
@@ -47,9 +47,10 @@ exports.extract_vertex_array = function(obj, mat_name, attrib_name) {
     var batch = m_batch.find_batch_material(obj, mat_name, "MAIN");
     if (batch) {
         var bufs_data = batch.bufs_data;
-        if (bufs_data && bufs_data.pointers
-                && bufs_data.pointers[attrib_name]) {
-            return m_geom.extract_array(bufs_data, attrib_name);
+        if (bufs_data && bufs_data.pointers &&
+                (attrib_name == "a_normal" && bufs_data.pointers["a_tbn"] ||
+                bufs_data.pointers[attrib_name])) {
+            return m_geom.extract_array_float(bufs_data, attrib_name);
         } else {
             m_print.error("Attribute not found:" + attrib_name);
             return null;
@@ -95,21 +96,12 @@ exports.extract_index_array = function(obj, mat_name) {
  * @method module:geometry.update_vertex_array
  * @param {Object3D} obj Object 3D
  * @param {string} mat_name Material name
- * @param {string} attrib_name Attribute name (a_position, a_tbn)
- * @param {Float32Array|Int16Array|Uint8Array} array The new array
+ * @param {string} attrib_name Attribute name (a_position, a_tbn, a_normal)
+ * @param {Float32Array} array The new array
  */
 exports.update_vertex_array = function(obj, mat_name, attrib_name, array) {
     if (!m_geom.has_dyn_geom(obj)) {
         m_print.error("Wrong object:", obj.name);
-        return;
-    }
-
-    var vbo_type = m_geom.get_vbo_type_by_attr_name(attrib_name);
-    var constructor = m_geom.get_constructor_by_type(vbo_type);
-
-    if (constructor != array.constructor) {
-        m_print.error("Wrong input array type '" + array.constructor.name 
-                + "' for the given attribute. Should be '" + constructor.name + "'.");
         return;
     }
 
@@ -122,8 +114,9 @@ exports.update_vertex_array = function(obj, mat_name, attrib_name, array) {
         if (batch) {
             var bufs_data = batch.bufs_data;
 
-            if (bufs_data && bufs_data.pointers
-                    && bufs_data.pointers[attrib_name])
+            if (bufs_data && bufs_data.pointers &&
+                    (attrib_name == "a_normal" && bufs_data.pointers["a_tbn"] ||
+                    bufs_data.pointers[attrib_name]))
                 m_geom.update_bufs_data_array(bufs_data, attrib_name, 0, array);
         }
     }

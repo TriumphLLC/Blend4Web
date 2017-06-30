@@ -117,7 +117,7 @@ msgstr "Нодовые материалы"
 
 #: ../engine_features.rst:51
 msgid "Parallax Offset Mapping"
-msgstr ""
+msgstr "Parallax Offset Mapping"
 
 #: ../engine_features.rst:52
 msgid "Render-To-Texture"

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Освещение, тени и фон &mdash; Руководство пользователя Blend4Web 17.04.1</title>
+  <title>Освещение, тени и фон &mdash; Руководство пользователя Blend4Web 17.06</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 17.04.1" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 17.06" href="index.html"/>
         <link rel="next" title="Спецэффекты" href="postprocessing_effects.html"/>
         <link rel="prev" title="Редактор логики" href="logic_editor.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v17.04.1
+              v17.06
             </div>
           
         
@@ -307,7 +307,7 @@
 <li><p class="first">Освещение с помощью <a class="reference internal" href="textures.html#environment-map"><span>карты окружения</span></a> - т.н. методика image-based lighting.</p>
 </li>
 </ol>
-<p>Обратите внимание, что освещение от окружающей среды рассчитывается по упрощённой модели, в которой объекты не затеняют друг друга.&#8221;</p>
+<p>Обратите внимание, что освещение от окружающей среды рассчитывается по упрощённой модели, в которой объекты не затеняют друг друга.</p>
 <div class="section" id="activation">
 <h3><a class="toc-backref" href="#id10">Активация</a><a class="headerlink" href="#activation" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Включить опцию <code class="docutils literal"><span class="pre">Environment</span> <span class="pre">Lighting</span></code> во вкладке <code class="docutils literal"><span class="pre">World</span></code>.</p>
@@ -324,6 +324,15 @@
 </dd>
 <dt><em>World &gt; Horizon Color</em> и <em>World &gt; Zenith Color</em></dt>
 <dd><p class="first last">Если выбрана полусферическая модель рассеянного освещения <code class="docutils literal"><span class="pre">Sky</span> <span class="pre">Color</span></code>, цвет горизонта и цвет зенита задаются цветоподборщиками <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Horizon</span> <span class="pre">Color</span></code> (цвет горизонта) и <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Zenith</span> <span class="pre">Color</span></code> (цвет зенита). При выборе цвета рекомендуется активировать опцию <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Blend</span> <span class="pre">Sky</span></code>.</p>
+</dd>
+<dt><em>World &gt; Use Nodes (Cycles)</em></dt>
+<dd><p class="first last">Если эта опция включена, ноды <code class="docutils literal"><span class="pre">Cycles</span></code> могут использоваться для настройки окружающей среды. По умолчанию отключено.</p>
+</dd>
+<dt><em>World &gt; Reflect World</em></dt>
+<dd><p class="first last">Если эта опция включена, окружающая среда будет отображаться при рендеринге отражений (т.е., будет отражаться в зеркальных поверхностях). По умолчанию отключено.</p>
+</dd>
+<dt><em>World &gt; Render Only Reflection</em></dt>
+<dd><p class="first last">Если эта опция включена, окружающая среда будет визуализироваться для отражений, но не для самой сцены. По умолчанию отключено.</p>
 </dd>
 </dl>
 </div>
@@ -572,7 +581,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Триумф.
-      Обновлено: 2017-05-15.
+      Обновлено: 2017-06-30.
 
     </p>
   </div>
@@ -628,7 +637,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.04.1',
+            VERSION:'v17.06',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

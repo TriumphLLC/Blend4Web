@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Объекты &mdash; Руководство пользователя Blend4Web 17.04.1</title>
+  <title>Объекты &mdash; Руководство пользователя Blend4Web 17.06</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 17.04.1" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 17.06" href="index.html"/>
         <link rel="next" title="Меши" href="meshes.html"/>
         <link rel="prev" title="Параметры сцены" href="scene_settings.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v17.04.1
+              v17.06
             </div>
           
         
@@ -117,6 +117,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#physics-tab">Вкладка Physics</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#object-constraints">Ограничители объектов</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#anchor-settings">Настройки якорей</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#object-transform-api">Управление перемещением объектов</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#get-object-api">Выбор объектов</a></li>
@@ -219,27 +220,28 @@
 <li><a class="reference internal" href="#physics-tab" id="id11">Вкладка Physics</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#anchor-settings" id="id12">Настройки якорей</a></li>
-<li><a class="reference internal" href="#object-transform-api" id="id13">Управление перемещением объектов</a></li>
-<li><a class="reference internal" href="#get-object-api" id="id14">Выбор объектов</a></li>
-<li><a class="reference internal" href="#object-selection" id="id15">Выделение объектов</a></li>
-<li><a class="reference internal" href="#copying-objects-instancing" id="id16">Копирование объектов (инстансинг)</a><ul>
-<li><a class="reference internal" href="#making-a-simple-copy" id="id17">Простое копирование</a></li>
-<li><a class="reference internal" href="#making-a-deep-copy" id="id18">Глубокое копирование</a></li>
-<li><a class="reference internal" href="#removing-objects" id="id19">Удаление объектов</a></li>
+<li><a class="reference internal" href="#object-constraints" id="id12">Ограничители объектов</a></li>
+<li><a class="reference internal" href="#anchor-settings" id="id13">Настройки якорей</a></li>
+<li><a class="reference internal" href="#object-transform-api" id="id14">Управление перемещением объектов</a></li>
+<li><a class="reference internal" href="#get-object-api" id="id15">Выбор объектов</a></li>
+<li><a class="reference internal" href="#object-selection" id="id16">Выделение объектов</a></li>
+<li><a class="reference internal" href="#copying-objects-instancing" id="id17">Копирование объектов (инстансинг)</a><ul>
+<li><a class="reference internal" href="#making-a-simple-copy" id="id18">Простое копирование</a></li>
+<li><a class="reference internal" href="#making-a-deep-copy" id="id19">Глубокое копирование</a></li>
+<li><a class="reference internal" href="#removing-objects" id="id20">Удаление объектов</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#quaternions" id="id20">Кватернионы</a><ul>
-<li><a class="reference internal" href="#quaternion-example" id="id21">Пример работы с кватернионами</a></li>
+<li><a class="reference internal" href="#quaternions" id="id21">Кватернионы</a><ul>
+<li><a class="reference internal" href="#quaternion-example" id="id22">Пример работы с кватернионами</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#moving-via-tsr-vectors" id="id22">Перемещение с помощью векторов TSR</a></li>
-<li><a class="reference internal" href="#line-rendering" id="id23">Визуализация линий</a></li>
-<li><a class="reference internal" href="#levels-of-detail" id="id24">Уровни детализации (LOD)</a><ul>
-<li><a class="reference internal" href="#overview" id="id25">Общая информация</a></li>
-<li><a class="reference internal" href="#specifics-and-differences-from-bge" id="id26">Специфика и отличия от BGE</a></li>
-<li><a class="reference internal" href="#smooth-lod-switching" id="id27">Плавная смена ЛОДов</a></li>
-<li><a class="reference internal" href="#hysteresis" id="id28">Гистерезис</a></li>
+<li><a class="reference internal" href="#moving-via-tsr-vectors" id="id23">Перемещение с помощью векторов TSR</a></li>
+<li><a class="reference internal" href="#line-rendering" id="id24">Визуализация линий</a></li>
+<li><a class="reference internal" href="#levels-of-detail" id="id25">Уровни детализации (LOD)</a><ul>
+<li><a class="reference internal" href="#overview" id="id26">Общая информация</a></li>
+<li><a class="reference internal" href="#specifics-and-differences-from-bge" id="id27">Специфика и отличия от BGE</a></li>
+<li><a class="reference internal" href="#smooth-lod-switching" id="id28">Плавная смена ЛОДов</a></li>
+<li><a class="reference internal" href="#hysteresis" id="id29">Гистерезис</a></li>
 </ul>
 </li>
 </ul>
@@ -575,8 +577,37 @@
 </dl>
 </div>
 </div>
+<div class="section" id="object-constraints">
+<span id="objects-constraints"></span><h2><a class="toc-backref" href="#id12">Ограничители объектов</a><a class="headerlink" href="#object-constraints" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Движок Blend4Web поддерживает следующие ограничители объектов:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">Copy</span> <span class="pre">Location</span></code>,</li>
+<li><code class="docutils literal"><span class="pre">Copy</span> <span class="pre">Rotation</span></code>,</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">Copy</span> <span class="pre">Transforms</span></code> и</p>
+</li>
+<li><code class="docutils literal"><span class="pre">Track</span> <span class="pre">To</span></code>.</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Примечание</p>
+<p class="last">При использовании ограничителей объектов в Blend4Web параметр <code class="docutils literal"><span class="pre">Space</span></code> игнорируется (его значение всегда считается равным <code class="docutils literal"><span class="pre">World</span> <span class="pre">Space</span></code>).</p>
+</div>
+<p>Эти ограничители могут быть настроены непосредственно в Blender. Другие типы ограничителей не поддерживаются, однако некоторые методы из модуля <a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html">constraints</a> работают схожим образом. Среди них:</p>
+<ul class="simple">
+<li><p class="first">Метод <a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html#.append_copy_loc">append_copy_loc()</a> работает так же, как ограничитель <code class="docutils literal"><span class="pre">Copy</span> <span class="pre">Location</span></code></p>
+</li>
+<li><p class="first">Метод <a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html#.append_copy_rot">append_copy_rot()</a> работает так же, как ограничитель <code class="docutils literal"><span class="pre">Copy</span> <span class="pre">Rotation</span></code></p>
+</li>
+<li><p class="first">Метод <a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html#.append_copy_trans">append_copy_trans()</a> работает так же, как ограничитель <code class="docutils literal"><span class="pre">Copy</span> <span class="pre">Transforms</span></code></p>
+</li>
+<li><p class="first">Метод <a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html#.append_follow">append_follow()</a> работает почти так же, как ограничитель <code class="docutils literal"><span class="pre">Limit</span> <span class="pre">Distance</span></code>, однако следует заметить, что этот метод не задаёт точного расстояния между объектами (вместо этого он использует минимальную и максимальную дистанции).</p>
+</li>
+<li><p class="first">В качестве аналога ограничителя <code class="docutils literal"><span class="pre">Track</span> <span class="pre">To</span></code> может использоваться метод <a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html#.append_track">append_track()</a>.</p>
+</li>
+</ul>
+<p>Прочие ограничители не имеют прямых аналогов, однако в определённой степени их поведение можно воспроизвести при помощи методов API.</p>
+</div>
 <div class="section" id="anchor-settings">
-<span id="objects-anchors"></span><h2><a class="toc-backref" href="#id12">Настройки якорей</a><a class="headerlink" href="#anchor-settings" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="objects-anchors"></span><h2><a class="toc-backref" href="#id13">Настройки якорей</a><a class="headerlink" href="#anchor-settings" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Якоря могут применяться для добавления поясняющих надписей к 3D-объектам. Вне зависимости от позиции камеры, надпись всегда располагается рядом с объектом и следует за ним в случае его анимации.</p>
 <a class="reference internal image-reference" href="_images/objects_anchors_example.png"><img alt="_images/objects_anchors_example.png" class="align-center" src="_images/objects_anchors_example.png" style="width: 100%;" /></a>
 <p>Аннотация может быть полностью создана в Blender. Для этого достаточно разместить в нужном месте объект  типа <code class="docutils literal"><span class="pre">Empty</span></code> и включить его использование в качестве &#8220;якоря&#8221;. Текст аннотации можно изменить в полях <code class="docutils literal"><span class="pre">Title</span></code> и <code class="docutils literal"><span class="pre">Description</span></code>, доступных на вкладке <code class="docutils literal"><span class="pre">Meta</span> <span class="pre">Tags</span></code>.</p>
@@ -609,7 +640,7 @@
 </dl>
 </div>
 <div class="section" id="object-transform-api">
-<span id="index-0"></span><h2><a class="toc-backref" href="#id13">Управление перемещением объектов</a><a class="headerlink" href="#object-transform-api" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="index-0"></span><h2><a class="toc-backref" href="#id14">Управление перемещением объектов</a><a class="headerlink" href="#object-transform-api" title="Ссылка на этот заголовок">¶</a></h2>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
 <p class="last">Необходимо обеспечить, чтобы объект, над которым выполняется преобразование, был <a class="reference internal" href="#static-dynamic-objects"><span>динамическим</span></a>.</p>
@@ -667,7 +698,7 @@
 </dl>
 </div>
 <div class="section" id="get-object-api">
-<span id="index-1"></span><span id="id2"></span><h2><a class="toc-backref" href="#id14">Выбор объектов</a><a class="headerlink" href="#get-object-api" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="index-1"></span><span id="id2"></span><h2><a class="toc-backref" href="#id15">Выбор объектов</a><a class="headerlink" href="#get-object-api" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Для того, чтобы производить какие-либо манипуляции с трёхмерным объектом, необходимо получить ссылку на него. Для этого используется ряд функций API. Ссылка на объект имеет тип <code class="docutils literal"><span class="pre">Object3D</span></code>.</p>
 <dl class="docutils">
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.get_object_by_name">get_object_by_name()</a></dt>
@@ -737,7 +768,7 @@
 </dl>
 </div>
 <div class="section" id="object-selection">
-<span id="mesh-selection"></span><h2><a class="toc-backref" href="#id15">Выделение объектов</a><a class="headerlink" href="#object-selection" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="mesh-selection"></span><h2><a class="toc-backref" href="#id16">Выделение объектов</a><a class="headerlink" href="#object-selection" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Чтобы разрешить выделение конкретного объекта, необходимо установить флаг <code class="docutils literal"><span class="pre">Selectable</span></code> в панели <code class="docutils literal"><span class="pre">Selection</span> <span class="pre">and</span> <span class="pre">Outlining</span></code>.</p>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
@@ -752,7 +783,7 @@
 <span class="c1">// ...</span>
 </pre></div>
 </div>
-<p>или с использованием <a class="reference internal" href="logic_editor.html#nla-switch-select"><span>редактора логики</span></a>.</p>
+<p>или с использованием <a class="reference internal" href="logic_editor.html#logic-switch-select"><span>редактора логики</span></a>.</p>
 <p>Если для выделяемого объекта в панели <code class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Selection</span> <span class="pre">and</span> <span class="pre">Outlining</span></code> установлены флаги <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">Outlining</span></code> и <code class="docutils literal"><span class="pre">Outline</span> <span class="pre">on</span> <span class="pre">Select</span></code>, то вызов функции <code class="docutils literal"><span class="pre">pick_object</span></code> приведет к активации <a class="reference internal" href="postprocessing_effects.html#outline"><span>Outline-анимации</span></a>.</p>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
@@ -760,7 +791,7 @@
 </div>
 </div>
 <div class="section" id="copying-objects-instancing">
-<span id="mesh-copy"></span><h2><a class="toc-backref" href="#id16">Копирование объектов (инстансинг)</a><a class="headerlink" href="#copying-objects-instancing" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="mesh-copy"></span><h2><a class="toc-backref" href="#id17">Копирование объектов (инстансинг)</a><a class="headerlink" href="#copying-objects-instancing" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Часто возникает необходимость копирования объектов (инстансинг) во время работы приложения.</p>
 <dl class="docutils">
 <dt>Существует ряд ограничений на копируемые объекты:</dt>
@@ -775,11 +806,11 @@
 </dd>
 </dl>
 <div class="section" id="making-a-simple-copy">
-<h3><a class="toc-backref" href="#id17">Простое копирование</a><a class="headerlink" href="#making-a-simple-copy" title="Ссылка на этот заголовок">¶</a></h3>
+<h3><a class="toc-backref" href="#id18">Простое копирование</a><a class="headerlink" href="#making-a-simple-copy" title="Ссылка на этот заголовок">¶</a></h3>
 <p>В случае простого копирования для объекта-копии будет использоваться геометрия объекта, с которого осуществлялось копирование. При изменении геометрии на исходном объекте, геометрия изменится и на объекте-копии.</p>
 </div>
 <div class="section" id="making-a-deep-copy">
-<h3><a class="toc-backref" href="#id18">Глубокое копирование</a><a class="headerlink" href="#making-a-deep-copy" title="Ссылка на этот заголовок">¶</a></h3>
+<h3><a class="toc-backref" href="#id19">Глубокое копирование</a><a class="headerlink" href="#making-a-deep-copy" title="Ссылка на этот заголовок">¶</a></h3>
 <p>При глубоком копировании новый объект будет обладать уникальными для него свойствами, а именно, он будет иметь свою собственную геометрию. То есть при изменении геометрии на объекте-оригинале у объекта-копии геометрия изменяться не будет. Также при глубоком копировании canvas-текстуры на копиях - именно разные текстуры, в то время как при простом копировании - одна и та же. Для такого типа копирования на исходном объекте нужно дополнительно выставить опцию <a class="reference internal" href="#dynamic-geom"><span>Rendering Properties &gt; Dynamic Geometry</span></a>.</p>
 <p>Для копирования объектов в модуле <code class="docutils literal"><span class="pre">objects.js</span></code> предусмотрена функция <code class="docutils literal"><span class="pre">copy</span></code>, в которую надо передать идентификатор копируемого объекта, уникальное имя нового объекта и булеву переменную, определяющую тип копирования: <code class="docutils literal"><span class="pre">true</span></code> - глубокое, <code class="docutils literal"><span class="pre">false</span></code> - простое. По умолчанию будет осуществлено простое копирование.</p>
 <p>Созданный при копировании объект необходимо добавить на сцену. Для этого в модуле <code class="docutils literal"><span class="pre">scenes.js</span></code> существует функция <code class="docutils literal"><span class="pre">append_object</span></code>, куда нужно передать объект, полученный копированием.</p>
@@ -792,7 +823,7 @@
 </div>
 </div>
 <div class="section" id="removing-objects">
-<h3><a class="toc-backref" href="#id19">Удаление объектов</a><a class="headerlink" href="#removing-objects" title="Ссылка на этот заголовок">¶</a></h3>
+<h3><a class="toc-backref" href="#id20">Удаление объектов</a><a class="headerlink" href="#removing-objects" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Для удаления объектов, в модуле <code class="docutils literal"><span class="pre">scenes.js</span></code> предусмотрена функция <code class="docutils literal"><span class="pre">remove_object</span></code>, куда надо передать объект. Возможно удаление динамических mesh- и empty-объектов.</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
 <span class="nx">m_objects</span><span class="p">.</span><span class="nx">remove_object</span><span class="p">(</span><span class="nx">new_obj</span><span class="p">);</span>
@@ -802,7 +833,7 @@
 </div>
 </div>
 <div class="section" id="quaternions">
-<span id="index-2"></span><h2><a class="toc-backref" href="#id20">Кватернионы</a><a class="headerlink" href="#quaternions" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="index-2"></span><h2><a class="toc-backref" href="#id21">Кватернионы</a><a class="headerlink" href="#quaternions" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Кватернионы представляют собой четырёхмерные векторы, используемые для осуществления поворотов. Использование кватернионов обладает рядом преимуществ перед другими способами представления поворотов:</p>
 <blockquote>
 <div><ul class="simple">
@@ -844,7 +875,7 @@
 </dd>
 </dl>
 <div class="section" id="quaternion-example">
-<h3><a class="toc-backref" href="#id21">Пример работы с кватернионами</a><a class="headerlink" href="#quaternion-example" title="Ссылка на этот заголовок">¶</a></h3>
+<h3><a class="toc-backref" href="#id22">Пример работы с кватернионами</a><a class="headerlink" href="#quaternion-example" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Требуется повернуть объект на 60 градусов в горизонтальной плоскости вправо. В программе Blender имеется соответствующая модель с названием &#8220;Cessna&#8221;.</p>
 <a class="reference internal image-reference" href="_images/objects_aircraft.png"><img alt="_images/objects_aircraft.png" class="align-center" src="_images/objects_aircraft.png" style="width: 100%;" /></a>
 <div class="line-block">
@@ -893,7 +924,7 @@
 </div>
 </div>
 <div class="section" id="moving-via-tsr-vectors">
-<h2><a class="toc-backref" href="#id22">Перемещение с помощью векторов TSR</a><a class="headerlink" href="#moving-via-tsr-vectors" title="Ссылка на этот заголовок">¶</a></h2>
+<h2><a class="toc-backref" href="#id23">Перемещение с помощью векторов TSR</a><a class="headerlink" href="#moving-via-tsr-vectors" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Удобным способом управления перемещением объектов является использование специальных векторов, имеющих следующий формат:</p>
 <blockquote>
 <div><span class="math">\([T_x, T_y, T_z, S, R_x, R_y, R_z, R_w]\)</span></div></blockquote>
@@ -901,7 +932,7 @@
 <p>Для работы с данными векторами существует специальный модуль <cite>tsr</cite>, а также методы <cite>set_tsr()</cite>/<cite>get_tsr()</cite> модуля <cite>transform</cite>.</p>
 </div>
 <div class="section" id="line-rendering">
-<span id="id3"></span><h2><a class="toc-backref" href="#id23">Визуализация линий</a><a class="headerlink" href="#line-rendering" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="id3"></span><h2><a class="toc-backref" href="#id24">Визуализация линий</a><a class="headerlink" href="#line-rendering" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Движок Blend4Web также способен визуализировать линии, заданные в виде набора точек.</p>
 <a class="reference internal image-reference" href="_images/objects_line_rendering.png"><img alt="_images/objects_line_rendering.png" class="align-center" src="_images/objects_line_rendering.png" style="width: 100%;" /></a>
 <p>Методы API для собственно рендеринга линий находятся в модуле <a class="reference external" href="https://www.blend4web.com/api_doc/module-geometry.html">geometry</a>, а стиль (т.е. толщина и цвет) линии устанавливается с помощью метода <a class="reference external" href="https://www.blend4web.com/api_doc/module-material.html#.set_line_params">set_line_params()</a> из модуля <a class="reference external" href="https://www.blend4web.com/api_doc/module-material.html">material</a>.</p>
@@ -934,9 +965,9 @@
 <p>Этот фрагмент кода визуализирует только главные координатные оси, т.к. полный код был бы слишком длинным и монотонным. Прочие элементы объекта создаются тем же образом.</p>
 </div>
 <div class="section" id="levels-of-detail">
-<span id="lods"></span><h2><a class="toc-backref" href="#id24">Уровни детализации (LOD)</a><a class="headerlink" href="#levels-of-detail" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="lods"></span><h2><a class="toc-backref" href="#id25">Уровни детализации (LOD)</a><a class="headerlink" href="#levels-of-detail" title="Ссылка на этот заголовок">¶</a></h2>
 <div class="section" id="overview">
-<h3><a class="toc-backref" href="#id25">Общая информация</a><a class="headerlink" href="#overview" title="Ссылка на этот заголовок">¶</a></h3>
+<h3><a class="toc-backref" href="#id26">Общая информация</a><a class="headerlink" href="#overview" title="Ссылка на этот заголовок">¶</a></h3>
 <p>ЛОДы (Levels Of Detail) представляют собой несколько уровней детализации одного объекта. Они применяются для оптимизации, которая состоит в том, что при удалении отрисовывается менее детальный объект, например, низкополигональный с примитивным материалом. Это позволяет снизить нагрузку на видеокарту, при этом не сильно потеряв в качестве изображения, т.к. на дальней дистанции многие детали оригинального объекта все равно не будут различимы.</p>
 <p>Использование ЛОДов оправдано на больших сценах со множеством объектов, в других случаях выигрыш в FPS может быть и не таким существенным. Наиболее подходят для этого крупные игровые локации, вроде острова, сельской местности, города и т.д.</p>
 <p>Настройка ЛОДов осуществляется в Блендере при помощи <a class="reference internal" href="#object-settings-lod"><span>панели</span></a> <code class="docutils literal"><span class="pre">Levels</span> <span class="pre">of</span> <span class="pre">Detail</span></code>.</p>
@@ -950,8 +981,8 @@
 </div>
 </div>
 <div class="section" id="specifics-and-differences-from-bge">
-<h3><a class="toc-backref" href="#id26">Специфика и отличия от BGE</a><a class="headerlink" href="#specifics-and-differences-from-bge" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Есть ряд рекомендаций по настройке ЛОДов для использования их в движке. Также, как известно, в Блендере в режиме BGE присутствует и своя система ЛОДов, настраиваемая похожим образом, но с существенными отличиями, которые стоят упоминания.</p>
+<h3><a class="toc-backref" href="#id27">Специфика и отличия от BGE</a><a class="headerlink" href="#specifics-and-differences-from-bge" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Есть ряд рекомендаций по настройке ЛОДов для использования их в движке. Также, как известно, в Blender в режиме BGE присутствует и своя система ЛОДов, настраиваемая похожим образом, но с существенными отличиями, которые стоят упоминания.</p>
 <ol class="arabic simple">
 <li><p class="first">При назначении ЛОД-объекта на другой объект, позиция ЛОДа никак не изменится. Поэтому, чтобы в движке объекты совпали, необходимо вручную разместить их в одном и том же месте в Блендере. Здесь кроется отличие от BGE, где при выборе ЛОДа, он автоматически смещается в центр объекта, который его использует.</p>
 </li>
@@ -962,18 +993,18 @@
 </ol>
 </div>
 <div class="section" id="smooth-lod-switching">
-<h3><a class="toc-backref" href="#id27">Плавная смена ЛОДов</a><a class="headerlink" href="#smooth-lod-switching" title="Ссылка на этот заголовок">¶</a></h3>
+<h3><a class="toc-backref" href="#id28">Плавная смена ЛОДов</a><a class="headerlink" href="#smooth-lod-switching" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Один из наиболее заметных недостатков системы ЛОДов - резкая смена уровней детализации, очевидный и иногда раздражающий эффект.</p>
 <p>В движке доступна возможность плавной смены уровней на основе альфа-теста.</p>
 <div class="figure align-center" id="id5">
 <a class="reference internal image-reference" href="_images/objects_lod_smoothing.png"><img alt="_images/objects_lod_smoothing.png" src="_images/objects_lod_smoothing.png" style="width: 100%;" /></a>
 <p class="caption"><span class="caption-text"><em>Постепенная смена оригинального объекта ЛОДом</em></span></p>
 </div>
-<p>The option used for this is called <code class="docutils literal"><span class="pre">LOD</span> <span class="pre">Smooth</span> <span class="pre">Transitions</span></code> and can be found on the <code class="docutils literal"><span class="pre">Scene-&gt;Object</span> <span class="pre">Clustering</span> <span class="pre">&amp;</span> <span class="pre">LOD</span></code> <a class="reference internal" href="scene_settings.html#scene-batching"><span>panel</span></a>.</p>
+<p>Соответствующая настройка находится на <a class="reference internal" href="scene_settings.html#scene-batching"><span>панели</span></a> <code class="docutils literal"><span class="pre">Scene-&gt;Object</span> <span class="pre">Clustering</span> <span class="pre">&amp;</span> <span class="pre">LOD</span></code> и называется <code class="docutils literal"><span class="pre">LOD</span> <span class="pre">Smooth</span> <span class="pre">Transitions</span></code>.</p>
 <p>С её помощью можно указать движку использовать ли плавную смену, и если да, то для каких типов объектов. Стоит отметить, что её включение может ощутимо снизить производительность приложения в зависимости от количества настроенных ЛОД-объектов и их материалов.</p>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
-<p>Smooth LOD transition is not always required. For example, if you instantly transport your camera to some distant object, you probably don’t want LOD switching to occur right in front of it. In cases like this, the <code class="docutils literal"><span class="pre">lod_leap_smooth_threshold</span></code> parameter should be used. It defines the threshold distance (in meters) that the camera can cover in one frame. If this value is exceeded, LODs are switched instantaneously. This can be used to disable smooth LOD transition when camera is teleported to a new location or simply moves very fast.</p>
+<p>Плавная смена ЛОДов не всегда желательна. Например, при телепортировании камеры издалека к интересующему объекту не хотелось бы, чтобы смена уровня детализации происходила прямо перед глазами. Для этого существует настройка конфигурации движка <code class="docutils literal"><span class="pre">lod_leap_smooth_threshold</span></code>, указывающая порог расстояния (в метрах), которое может пройти камера в течение одного кадра. Если он будет превышен, то смена ЛОДов произойдет моментально. Таким образом можно убрать плавную смену ЛОДов при резком движении/телепортации камеры.</p>
 <blockquote class="last">
 <div><div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
 
@@ -984,9 +1015,9 @@
 </div>
 </div>
 <div class="section" id="hysteresis">
-<h3><a class="toc-backref" href="#id28">Гистерезис</a><a class="headerlink" href="#hysteresis" title="Ссылка на этот заголовок">¶</a></h3>
+<h3><a class="toc-backref" href="#id29">Гистерезис</a><a class="headerlink" href="#hysteresis" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Смена уровней детализации происходит на определённых дистанциях от объекта, иными словами, границах между уровнями, которые настраиваются на панели <code class="docutils literal"><span class="pre">Levels</span> <span class="pre">of</span> <span class="pre">Detail</span></code>. Если камера движется непосредственно вблизи такой границы, то может её часто пересекать, а значит и часто активировать смену ЛОД-объектов. Такая ситуация сделает процесс переключения уровней детализации очень заметной, что нежелательно.</p>
-<p>This problem can be negated with the <code class="docutils literal"><span class="pre">Max</span> <span class="pre">LOD</span> <span class="pre">Hysteresis</span> <span class="pre">Interval</span></code> parameter located on the <code class="docutils literal"><span class="pre">Scene-&gt;Object</span> <span class="pre">Clustering</span> <span class="pre">&amp;</span> <span class="pre">LOD</span></code> <a class="reference internal" href="scene_settings.html#scene-batching"><span>panel</span></a>. It sets an interval (in meters) that is used as a gap between two LOD levels.</p>
+<p>Для устранения этой проблемы используется настройка <code class="docutils literal"><span class="pre">Max</span> <span class="pre">LOD</span> <span class="pre">Hysteresis</span> <span class="pre">Interval</span></code> на <a class="reference internal" href="scene_settings.html#scene-batching"><span>панели</span></a> <code class="docutils literal"><span class="pre">Scene-&gt;Object</span> <span class="pre">Clustering</span> <span class="pre">&amp;</span> <span class="pre">LOD</span></code>. Она задает интервал в метрах, который будет служить зазором при переключении от одного ЛОДа к другому и обратно.</p>
 <p>Например, при настройке <code class="docutils literal"><span class="pre">Max</span> <span class="pre">LOD</span> <span class="pre">Hysteresis</span> <span class="pre">Interval</span></code> равной 4м. и границе между уровнями детализации 20 м. переключение между ними в одну сторону будет происходить на расстоянии 18 м., а в другую - на 22 м. Таким образом будет решена проблема частого переключения между ЛОДами, благодаря тому, что между ними не будет четкой границы. Данная настройка адаптивна и подстроится под разную дистанцию ЛОД-объектов, уменьшая установленный интервал, если потребуется.</p>
 </div>
 </div>
@@ -1012,7 +1043,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Триумф.
-      Обновлено: 2017-05-15.
+      Обновлено: 2017-06-30.
 
     </p>
   </div>
@@ -1068,7 +1099,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.04.1',
+            VERSION:'v17.06',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

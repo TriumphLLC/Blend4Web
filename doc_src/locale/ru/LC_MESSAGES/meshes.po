@@ -112,7 +112,7 @@ msgstr ""
 
 #: ../meshes.rst:45
 msgid "Override Bounding Volumes"
-msgstr ""
+msgstr "Override Bounding Volumes"
 
 #: ../meshes.rst:47
 msgid ""
@@ -135,7 +135,7 @@ msgstr ""
 
 #: ../meshes.rst:55
 msgid "*Show Boundings*"
-msgstr ""
+msgstr "*Show Boundings*"
 
 #: ../meshes.rst:62
 msgid ""
@@ -161,7 +161,7 @@ msgstr ""
 
 #: ../meshes.rst:69
 msgid "*Override Mesh Boundings*"
-msgstr ""
+msgstr "*Override Mesh Boundings*"
 
 #: ../meshes.rst:76
 msgid ""

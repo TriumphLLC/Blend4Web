@@ -29,6 +29,7 @@ var m_anim      = require("__animation");
 var m_assets    = require("__assets");
 var m_batch     = require("__batch");
 var m_cfg       = require("__config");
+var m_cons      = require("__constraints");
 var m_ctl       = require("__controls");
 var m_texcomp   = require("__texcomp");
 var m_debug     = require("__debug");
@@ -91,12 +92,12 @@ var _canvas_container_z_index = 0;
 var _media_data_init = false;
 var _init_media = null;
 
-var SECONDARY_LOAD_TYPES_DISABLED = ["LAMP", "CAMERA"];
+var SECONDARY_LOAD_TYPES_DISABLED = ["LAMP"];
 var ADD_PHY_TYPES = ["MESH", "CAMERA", "EMPTY"];
 
 var B4W_HEADER_OFFSET = 12;
 
-var FORCING_BSDF_TYPES = ["BSDF_GLOSSY", "BSDF_TRANSPARENT"];
+var FORCING_BSDF_TYPES = ["BSDF_GLOSSY", "BSDF_DIFFUSE", "BSDF_TRANSPARENT"];
 
 var _canvas = null;
 
@@ -874,7 +875,7 @@ function prepare_bpy_objects(bpy_data, thread) {
     for (var i = 0; i < bpy_objects.length; i++) {
         var bpy_obj = bpy_objects[i];
 
-        // NOTE: disable parenting to LAMP or CAMERA objects
+        // NOTE: disable parenting to LAMP objects
         if (!thread.is_primary && bpy_obj["parent"] &&
                 SECONDARY_LOAD_TYPES_DISABLED.indexOf(bpy_obj["parent"]["type"]) > -1)
             bpy_obj["parent"] = "";
@@ -1177,7 +1178,7 @@ function create_bpy_hierarchy_cache_iter(bpy_objects, grp_num, is_primary,
         // initialize new parent level
         group_level[pnum] = group_level[pnum] || [];
 
-        // don't process LAMP and CAMERA objects on secondary load
+        // don't process LAMP objects on secondary load
         if (is_primary || SECONDARY_LOAD_TYPES_DISABLED.indexOf(bpy_obj["type"]) == -1)
             // push unique (other scenes may link to same object)
             if (group_level[pnum].indexOf(bpy_obj) == -1)
@@ -1246,6 +1247,7 @@ function process_objects(bpy_data, thread, stage, cb_param, cb_finish,
         var bpy_obj = bpy_objects[i];
         var obj = bpy_obj._object;
         if (!obj.is_hair_dupli) {
+            m_cons.prepare_object_relations(bpy_obj, obj);
             m_obj.update_object_relations(bpy_obj, obj);
             m_trans.update_transform(obj);
         }
@@ -1683,7 +1685,7 @@ function duplicate_objects_iter(obj_links, origin_obj, obj_ids, grp_ids, cluster
             // proxy objects, so try to use constraints of proxy source
             var consts = proxy["constraints"];
             for (var j = 0; j < consts.length; j++) {
-                var new_cons = m_util.clone_object_json(consts[j]);
+                var new_cons = m_util.clone_object_r(consts[j]);
                 new_cons.name = new_cons.name + "_CLONE";
                 bpy_obj["constraints"].push(new_cons);
             }
@@ -1693,7 +1695,7 @@ function duplicate_objects_iter(obj_links, origin_obj, obj_ids, grp_ids, cluster
                     bpy_obj["b4w_proxy_inherit_anim"]) {
                 var anim_data = bpy_obj["animation_data"];
                 if (anim_data)
-                    proxy["animation_data"] = m_util.clone_object_json(bpy_obj["animation_data"]);
+                    proxy["animation_data"] = m_util.clone_object_r(bpy_obj["animation_data"]);
 
                 proxy["b4w_use_default_animation"] = bpy_obj["b4w_use_default_animation"];
                 proxy["b4w_auto_skel_anim"] = bpy_obj["b4w_auto_skel_anim"];
@@ -1723,7 +1725,7 @@ function duplicate_objects_iter(obj_links, origin_obj, obj_ids, grp_ids, cluster
             var obj_link = obj_links[i];
             var bpy_obj = obj_ids[obj_link["uuid"]];
 
-            var bpy_obj_new = m_util.clone_object_json(bpy_obj);
+            var bpy_obj_new = m_util.clone_object_r(bpy_obj);
             var name = ("origin_name" in bpy_obj) ? bpy_obj["origin_name"] :
                     bpy_obj["name"];
             bpy_obj_new["name"] = m_obj_util.gen_dupli_name(origin_obj["name"], name);
@@ -1749,7 +1751,7 @@ function duplicate_objects_iter(obj_links, origin_obj, obj_ids, grp_ids, cluster
             var grp_link = bpy_obj["dupli_group"];
             var grp = grp_ids[grp_link["uuid"]];
 
-            var grp_new = m_util.clone_object_json(grp);
+            var grp_new = m_util.clone_object_r(grp);
             grp_new["name"] = m_util.unique_name(grp["name"]+"_CLONE");
             assign_grp_id(grp_new);
             grp_ids[grp_new["uuid"]] = grp_new;
@@ -3530,6 +3532,25 @@ function end_objects_adding(bpy_data, thread, stage, cb_param, cb_finish,
     cb_finish(thread, stage);
 }
 
+function init_cube_sky_dynamic_props(bpy_data, thread, stage, cb_param, cb_finish,
+        cb_set_rate) {
+
+    if (thread.is_primary) {
+        var scenes = m_scenes.get_rendered_scenes();
+        for (var i = 0; i < scenes.length; i++) {
+            var scene = scenes[i];
+            var worlds = m_obj.get_scene_objs(scene, "WORLD", 0);
+            for (var j = 0; j < worlds.length; j++) {
+                var world = worlds[j];
+                m_scenes.init_cube_sky_dim(scene, world);
+                m_scenes.update_world_texture(scene);
+            }
+        }
+    }
+
+    cb_finish(thread, stage);
+}
+
 function init_logic_nodes(bpy_data, thread, stage, cb_param, cb_finish,
         cb_set_rate) {
 
@@ -3849,6 +3870,15 @@ exports.load = function(path, loaded_cb, stageload_cb, wait_complete_loading,
                 added_objects: [],
                 obj_counter: 0
             }
+        },
+        "init_cube_sky_dynamic_props": {
+            priority: m_loader.SYNC_PRIORITY,
+            background_loading: false,
+            inputs: ["add_objects", "load_images"],
+            is_resource: false,
+            relative_size: 50,
+            primary_only: false,
+            cb_before: init_cube_sky_dynamic_props,
         },
         "init_logic_nodes": {
             priority: m_loader.SYNC_PRIORITY,

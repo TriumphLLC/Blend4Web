@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Workflow &mdash; Blend4Web 17.04.1 User Manual</title>
+  <title>Workflow &mdash; Blend4Web 17.06 User Manual</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.04.1 User Manual" href="index.html"/>
+    <link rel="top" title="Blend4Web 17.06 User Manual" href="index.html"/>
         <link rel="next" title="Project Management" href="project_manager.html"/>
         <link rel="prev" title="Installing and Updating" href="setup.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v17.04.1
+              v17.06
             </div>
           
         
@@ -193,6 +193,17 @@
 different skills and experience. However, no matter how complex it is and
 what is the target it&#8217;s always possible to separate the production stage in
 which the bulk of assets and source code is authored.</p>
+<p>Any work with the Blend4Web engine should start with running Blender.</p>
+<p>Select <code class="docutils literal"><span class="pre">Blend4Web</span></code> from the render engine list at the top panel in the main Blender window, and you will see how the program interface have changed. Some parameters will disappear, and new ones will take their place. The most important of these new parameters are located in the <code class="docutils literal"><span class="pre">Properties</span></code> window (usually placed at the right side of the main window), on the Render panel.</p>
+<a class="reference internal image-reference" href="_images/workflow_development_tools.png"><img alt="_images/workflow_development_tools.png" class="align-center" src="_images/workflow_development_tools.png" style="width: 100%;" /></a>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>If the <code class="docutils literal"><span class="pre">Development</span> <span class="pre">Tools</span></code> tab shows the Development server is off message, this means that the development server is not working. It can be enabled with the <code class="docutils literal"><span class="pre">Start</span> <span class="pre">Server</span></code> button on the same panel. The server can also be configured to run on startup with the <code class="docutils literal"><span class="pre">Run</span> <span class="pre">On</span> <span class="pre">Startup</span></code> option found in the add-on settings (<code class="docutils literal"><span class="pre">User</span> <span class="pre">Preferences</span> <span class="pre">→</span> <span class="pre">Add-Ons</span> <span class="pre">→</span> <span class="pre">Blend4Web</span></code>).</p>
+<p class="last">If any problems occur as you try to run development server, please consult the <a class="reference internal" href="problems_and_solutions.html#problems-and-solutions"><span>Problems and Solutions</span></a> chapter.</p>
+</div>
+<p>The <code class="docutils literal"><span class="pre">SDK</span> <span class="pre">Index</span></code> button opens the <a class="reference internal" href="addon.html#getting-started-launching-viewer"><span>index page</span></a> that can be found by this address: <a class="reference external" href="http://localhost:6687">http://localhost:6687</a>.</p>
+<p>The <code class="docutils literal"><span class="pre">Fast</span> <span class="pre">Preview</span></code> button opens the <a class="reference internal" href="viewer.html#viewer"><span>Scene Viewer</span></a> and loads the scene that is open in Blender at the moment. This is a useful feature for planning and debugging your scenes.</p>
+<p>The <code class="docutils literal"><span class="pre">Project</span> <span class="pre">Manager</span></code> button opens the <a class="reference internal" href="project_manager.html#project-management"><span>Project Manager</span></a> — a powerful and easy to use tool  for working with Blend4Web projects. Using Project Manager is the most simple way to start working with Blend4Web.</p>
 <p>When using Blend4Web the workflow is the following:</p>
 <ol class="arabic simple">
 <li>Creating a New Project.</li>
@@ -206,7 +217,7 @@ which the bulk of assets and source code is authored.</p>
 <div class="section" id="creating-a-new-project">
 <h2><a class="toc-backref" href="#id2">Creating a New Project</a><a class="headerlink" href="#creating-a-new-project" title="Permalink to this headline">¶</a></h2>
 <p>The work on a project, of course, should always start with creating it.</p>
-<p>The easiest way to create a new project is to use the <a class="reference internal" href="project_manager.html#project-manager"><span>Project Manager</span></a>. To do it, press the Create New Project button at the top of the Project Manager’s main window.</p>
+<p>The easiest way to create a new project is to use the <a class="reference internal" href="project_manager.html#project-manager"><span>Project Manager</span></a>. To do it, run the Project Manager (either from Blender or from index page) and press the Create New Project button at the top of the Project Manager’s main window.</p>
 <p>The other way is to use the <em>project.py</em> command line script, which is more versatile. Working with this script is described <a class="reference internal" href="project_manager.html#creating-a-project"><span>here</span></a>.</p>
 </div>
 <div class="section" id="creating-scenes">
@@ -229,7 +240,7 @@ should be prepared for working in the engine.</p>
 <li>Images and media files should be external and located in the <code class="docutils literal"><span class="pre">projects/project_name/assets</span></code> directory.</li>
 <li>Files from which you export should contain resources which are actually required in your application (objects, materials, textures, animation etc).</li>
 <li>Scene components should have distinct names. They should not be named &#8220;Cube.001&#8221;, &#8220;Material&#8221; or &#8220;Armature&#8221;.</li>
-<li>We recommend you to practice linking components from other files (libraries).</li>
+<li>We recommend you to link components from other files (libraries).</li>
 </ol>
 </div>
 <div class="section" id="preparing-a-scene-to-use-in-blend4web">
@@ -309,7 +320,7 @@ given in the <a class="reference internal" href="developers.html#developers"><sp
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Triumph.
-      Last updated on 2017-05-15.
+      Last updated on 2017-06-30.
 
     </p>
   </div>
@@ -365,7 +376,7 @@ given in the <a class="reference internal" href="developers.html#developers"><sp
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.04.1',
+            VERSION:'v17.06',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

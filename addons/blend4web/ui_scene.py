@@ -23,7 +23,7 @@ import cProfile
 import bgl
 import blend4web
 
-from bpy.types import Panel
+from bpy.types import (Panel, Menu)
 
 b4w_modules = ["translator"]
 for m in b4w_modules:
@@ -55,6 +55,13 @@ class B4W_SCENE_PT_scene(SceneButtonsPanel, Panel):
         row = layout.row()
         row.prop(scene, "background_set", text=_("Background"))
 
+class SCENE_MT_units_length_presets(Menu):
+    """Unit of measure for properties that use length values"""
+    bl_label = "Unit Presets"
+    preset_subdir = "units_length"
+    preset_operator = "script.execute_preset"
+    draw = Menu.draw_preset
+
 class B4W_SCENE_PT_unit(SceneButtonsPanel, Panel):
     bl_label = _("Units")
 
@@ -63,14 +70,29 @@ class B4W_SCENE_PT_unit(SceneButtonsPanel, Panel):
 
         unit = context.scene.unit_settings
 
-        col = layout.column()
-        col.row().prop(unit, "system", expand=True)
-        col.row().prop(unit, "system_rotation", expand=True)
+        row = layout.row(align=True)
+        row.menu("SCENE_MT_units_length_presets", text=SCENE_MT_units_length_presets.bl_label)
+        row.operator("scene.units_length_preset_add", text="", icon='ZOOMIN')
+        row.operator("scene.units_length_preset_add", text="", icon='ZOOMOUT').remove_active = True
 
-        if unit.system != 'NONE':
-            row = layout.row()
-            row.prop(unit, "scale_length", text=_("Scale"))
-            row.prop(unit, "use_separate")
+        layout.separator()
+
+        split = layout.split(percentage=0.35)
+        split.label("Length:")
+        split.prop(unit, "system", text="")
+        split = layout.split(percentage=0.35)
+        split.label("Angle:")
+        split.prop(unit, "system_rotation", text="")
+
+        col = layout.column()
+        col.enabled = unit.system != 'NONE'
+        split = col.split(percentage=0.35)
+        split.label("Unit Scale:")
+        split.prop(unit, "scale_length", text="")
+        split = col.split(percentage=0.35)
+        split.row()
+        split.prop(unit, "use_separate")
+
 
 class B4W_SceneAudio(SceneButtonsPanel, Panel):
     bl_label = _("Audio")

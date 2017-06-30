@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Содержание &mdash; Руководство пользователя Blend4Web 17.04.1</title>
+  <title>Содержание &mdash; Руководство пользователя Blend4Web 17.06</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 17.04.1" href="#"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 17.06" href="#"/>
         <link rel="next" title="Общие сведения" href="about.html"/> 
 
   
@@ -60,7 +60,7 @@
           
           
             <div class="version">
-              v17.04.1
+              v17.06
             </div>
           
         
@@ -187,7 +187,7 @@
 <li class="toctree-l2"><a class="reference internal" href="workflow.html#exporting-scenes">Экспорт сцен</a></li>
 <li class="toctree-l2"><a class="reference internal" href="workflow.html#application-development">Разработка приложения</a></li>
 <li class="toctree-l2"><a class="reference internal" href="workflow.html#project-building">Сборка проекта</a></li>
-<li class="toctree-l2"><a class="reference internal" href="workflow.html#project-deploying">Размещение проекта.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="workflow.html#project-deploying">Размещение проекта</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">Управление проектами</a><ul>
@@ -233,6 +233,7 @@
 <li class="toctree-l2"><a class="reference internal" href="objects.html#types">Типы</a></li>
 <li class="toctree-l2"><a class="reference internal" href="objects.html#static-and-dynamic-objects">Статические и динамические объекты</a></li>
 <li class="toctree-l2"><a class="reference internal" href="objects.html#settings">Настройка</a></li>
+<li class="toctree-l2"><a class="reference internal" href="objects.html#object-constraints">Ограничители объектов</a></li>
 <li class="toctree-l2"><a class="reference internal" href="objects.html#anchor-settings">Настройки якорей</a></li>
 <li class="toctree-l2"><a class="reference internal" href="objects.html#object-transform-api">Управление перемещением объектов</a></li>
 <li class="toctree-l2"><a class="reference internal" href="objects.html#get-object-api">Выбор объектов</a></li>
@@ -255,12 +256,13 @@
 <li class="toctree-l2"><a class="reference internal" href="normal_editor.html#interface">Интерфейс</a></li>
 <li class="toctree-l2"><a class="reference internal" href="normal_editor.html#activate">Activate</a></li>
 <li class="toctree-l2"><a class="reference internal" href="normal_editor.html#show-normals">Show Normals</a></li>
-<li class="toctree-l2"><a class="reference internal" href="normal_editor.html#rotation">Rotation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="normal_editor.html#rotate">Rotate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="normal_editor.html#scale">Scale</a></li>
 <li class="toctree-l2"><a class="reference internal" href="normal_editor.html#absolute-and-offset-modes">Режимы Absolute и Offset</a></li>
 <li class="toctree-l2"><a class="reference internal" href="normal_editor.html#split-normals">Split Normals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="normal_editor.html#average">Average</a></li>
 <li class="toctree-l2"><a class="reference internal" href="normal_editor.html#restore">Restore</a></li>
-<li class="toctree-l2"><a class="reference internal" href="normal_editor.html#tree-foliage-and-face">Tree, Foliage и Face</a></li>
+<li class="toctree-l2"><a class="reference internal" href="normal_editor.html#d-cursor-axis-and-face">3D Cursor, Axis и Face</a></li>
 <li class="toctree-l2"><a class="reference internal" href="normal_editor.html#copy-paste">Copy/Paste</a></li>
 <li class="toctree-l2"><a class="reference internal" href="normal_editor.html#copy-from-mesh">Copy From Mesh</a></li>
 </ul>
@@ -294,6 +296,7 @@
 <li class="toctree-l2"><a class="reference internal" href="node_materials.html#standard-nodes">Стандартные ноды</a></li>
 <li class="toctree-l2"><a class="reference internal" href="node_materials.html#engine-specific-nodes">Дополнительные ноды</a></li>
 <li class="toctree-l2"><a class="reference internal" href="node_materials.html#cycles-nodes">Ноды Сycles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="node_materials.html#limitations">Ограничения</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Редактор логики</a><ul>
@@ -377,7 +380,7 @@
 <li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Природные эффекты</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="outdoor_rendering.html#water">Вода</a></li>
 <li class="toctree-l2"><a class="reference internal" href="outdoor_rendering.html#atmosphere">Атмосфера</a></li>
-<li class="toctree-l2"><a class="reference internal" href="outdoor_rendering.html#lens-flare">Lens Flare</a></li>
+<li class="toctree-l2"><a class="reference internal" href="outdoor_rendering.html#lens-flare">Блик (Lens Flare)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="outdoor_rendering.html#wind">Ветер</a></li>
 </ul>
 </li>
@@ -458,6 +461,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Замечания к релизам</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#v17-06">v17.06</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v17-04">v17.04</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v17-02">v17.02</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v16-12">v16.12</a></li>
@@ -516,7 +520,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Триумф.
-      Обновлено: 2017-05-15.
+      Обновлено: 2017-06-30.
 
     </p>
   </div>
@@ -572,7 +576,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.04.1',
+            VERSION:'v17.06',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

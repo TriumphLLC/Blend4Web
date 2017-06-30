@@ -332,7 +332,7 @@ function smooth_cb(obj, id, pulse, rot_callback) {
 function default_rotation_cb(rot_x, rot_y) {
     var character = m_scs.get_first_character();
     var camera    = m_scs.get_active_camera();
-    m_cam.eye_rotate(camera, rot_x, rot_y);
+    m_cam.rotate_camera(camera, rot_x, rot_y);
     if (character) {
         var angles = m_cam.get_camera_angles_char(camera, _vec2_tmp);
         m_phy.set_character_rotation(character, angles[0], angles[1]);
@@ -395,7 +395,10 @@ function objects_outline(e) {
 exports.get_coords_x = get_coords_x;
 function get_coords_x(event, target_touches, relative_canvas) {
 
-    var touches = target_touches ? event.targetTouches : event.touches;
+    if (event.type == "touchend")
+        var touches = event.changedTouches;
+    else
+        var touches = target_touches ? event.targetTouches : event.touches;
 
     if (relative_canvas) {
         if ("clientX" in event && "clientY" in event)
@@ -426,7 +429,10 @@ function get_coords_x(event, target_touches, relative_canvas) {
 exports.get_coords_y = get_coords_y;
 function get_coords_y(event, target_touches, relative_canvas) {
 
-    var touches = target_touches ? event.targetTouches : event.touches;
+    if (event.type == "touchend")
+        var touches = event.changedTouches;
+    else
+        var touches = target_touches ? event.targetTouches : event.touches;
 
     if (relative_canvas) {
         if ("clientX" in event && "clientY" in event)

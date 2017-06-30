@@ -70,13 +70,17 @@ exports.defaults = {
 
     force_low_quality_nodes    : false,
 
+    anisotropic_available      : true,
+
     anisotropic_filtering      : true,
+
+    texture_lod_available      : false,
 
     // init and show HUD on canvas provided by app
     show_hud_debug_info        : false,
 
     // required for shadows
-    depth_textures             : true,
+    depth_tex_available        : true,
 
     shadows                    : true,
 
@@ -188,6 +192,8 @@ exports.defaults = {
 
     resize_cubemap_canvas_hack : false,
 
+    resize_texture_canvas_hack : false,
+
     chrome_html_bkg_music_hack : false,
 
     ie_edge_anchors_floor_hack : false,
@@ -223,6 +229,8 @@ exports.defaults = {
     debug_loading              : false,
 
     phy_race_condition_hack    : false,
+
+    ff_compositing_hack        : false
 }
 
 exports.defaults_save = m_util.clone_object_r(exports.defaults);

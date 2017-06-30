@@ -179,6 +179,38 @@ exports.setup_context = function(gl) {
     _gl = gl;
 }
 
+exports.init_shaders_info = init_shaders_info;
+function init_shaders_info() {
+    var shaders_info = {
+        vert: "",
+        frag: "",
+        directives: [],
+        node_elements: [],
+        status: VALID,
+        attribute_count: 0,
+        texture_count: 0
+    }
+
+    return shaders_info;
+}
+
+exports.clone_shaders_info = clone_shaders_info;
+function clone_shaders_info(shaders_info) {
+    var shaders_info_new = init_shaders_info();
+
+    shaders_info_new.vert = shaders_info.vert;
+    shaders_info_new.frag = shaders_info.frag;
+
+    shaders_info_new.directives = m_util.clone_object_r(shaders_info.directives);
+    shaders_info_new.node_elements = m_util.clone_object_r(shaders_info.node_elements);
+
+    shaders_info_new.status = shaders_info.status;
+    shaders_info_new.attribute_count = shaders_info.attribute_count;
+    shaders_info_new.texture_count = shaders_info.texture_count;
+
+    return shaders_info_new;
+}
+
 exports.set_directive = set_directive;
 /**
  * Override existing directive for Shaders Info object.
@@ -256,7 +288,7 @@ function get_shader_default_vars(vert_name, frag_name) {
  */
 exports.set_default_directives = function(sinfo) {
 
-    sinfo.directives = m_util.clone_object_json(get_shader_default_vars(sinfo.vert, sinfo.frag));
+    sinfo.directives = m_util.clone_object_r(get_shader_default_vars(sinfo.vert, sinfo.frag));
     set_directive(sinfo, "PRECISION", m_cfg.defaults.precision);
 
     if (m_cfg.defaults.precision == "highp")
@@ -741,10 +773,10 @@ function get_gpp_parser() {
     return require("__gpp_parser").parser;
 }
 
-function set_shader_texts(shader_name, shadet_text) {
+function set_shader_texts(shader_name, shader_text) {
     if (!_shader_texts)
         _shader_texts = {};
-    _shader_texts[shader_name] = shadet_text;
+    _shader_texts[shader_name] = shader_text;
 }
 
 exports.load_shaders = function() {
@@ -808,6 +840,8 @@ function combine_dir_tokens(type, shaders_info) {
         dirs["GLSL_TEXTURE"] = ["texture"];
         dirs["GLSL_TEXTURE_CUBE"] = ["texture"];
         dirs["GLSL_TEXTURE_PROJ"] = ["textureProj"];
+        dirs["GLSL_TEXTURE_LOD"] = ["textureLod"];
+        dirs["GLSL_TEXTURE_CUBE_LOD"] = ["textureLod"];
     } else {
         dirs["GLSL1"] = ["1"];
         dirs["GLSL3"] = ["0"];
@@ -822,6 +856,14 @@ function combine_dir_tokens(type, shaders_info) {
         dirs["GLSL_TEXTURE"] = ["texture2D"];
         dirs["GLSL_TEXTURE_CUBE"] = ["textureCube"];
         dirs["GLSL_TEXTURE_PROJ"] = ["texture2DProj"];
+        dirs["GLSL_TEXTURE_LOD"] = ["textureLod"];
+        if (cfg_def.texture_lod_available) {
+            dirs["GLSL_TEXTURE_LOD"] = ["texture2DLodEXT"];
+            dirs["GLSL_TEXTURE_CUBE_LOD"] = ["textureCubeLodEXT"];
+        } else {
+            dirs["GLSL_TEXTURE_LOD"] = ["texture2D"];
+            dirs["GLSL_TEXTURE_CUBE_LOD"] = ["textureCube"];
+        }
     }
 
     if (cfg_def.compared_mode_depth && !cfg_def.rgba_fallback_shadows)
@@ -1604,7 +1646,7 @@ function init_shader(gl, vshader_text, fshader_text,
         transient_sc_uniform_setters : m_util.create_non_smi_array(),
 
         // NOTE: for debug purposes
-        shaders_info: m_util.clone_object_json(shaders_info),
+        shaders_info: clone_shaders_info(shaders_info),
 
         shader_id: shader_id,
 

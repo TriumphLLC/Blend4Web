@@ -207,7 +207,7 @@ typedef struct ParticleCollisionElement {
 typedef struct ParticleCollision {
 	struct Object *current;
 	struct Object *hit;
-	struct Object *skip[PARTICLE_COLLISION_MAX_COLLISIONS+1];
+	struct Object *skip[PARTICLE_COLLISION_MAX_COLLISIONS + 1];
 	struct Object *emitter;
 
 	struct CollisionModifierData *md; // collision modifier for current object;
@@ -324,7 +324,7 @@ struct ParticleSystemModifierData *psys_get_modifier(struct Object *ob, struct P
 struct ModifierData *object_add_particle_system(struct Scene *scene, struct Object *ob, const char *name);
 void object_remove_particle_system(struct Scene *scene, struct Object *ob);
 struct ParticleSettings *psys_new_settings(const char *name, struct Main *main);
-struct ParticleSettings *BKE_particlesettings_copy(struct Main *bmain, struct ParticleSettings *part);
+struct ParticleSettings *BKE_particlesettings_copy(struct Main *bmain, const struct ParticleSettings *part);
 void BKE_particlesettings_make_local(struct Main *bmain, struct ParticleSettings *part, const bool lib_local);
 
 void psys_reset(struct ParticleSystem *psys, int mode);
@@ -384,7 +384,7 @@ void psys_get_birth_coords(struct ParticleSimulationData *sim, struct ParticleDa
 void particle_system_update(struct Scene *scene, struct Object *ob, struct ParticleSystem *psys, const bool use_render_params);
 
 /* Callback format for performing operations on ID-pointers for particle systems */
-typedef void (*ParticleSystemIDFunc)(struct ParticleSystem *psys, struct ID **idpoin, void *userdata, int cd_flag);
+typedef void (*ParticleSystemIDFunc)(struct ParticleSystem *psys, struct ID **idpoin, void *userdata, int cb_flag);
 
 void BKE_particlesystem_id_loop(struct ParticleSystem *psys, ParticleSystemIDFunc func, void *userdata);
 

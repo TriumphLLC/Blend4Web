@@ -222,6 +222,7 @@ function init_subs(type) {
         sun_quaternion: new Float32Array(4),
         sky_tex_color: new Float32Array(3),
         sky_ngraph_proxy_id: "",
+        bsdf_cube_sky_dim: 0,
 
         // outline properties
         outline_factor: 0,
@@ -232,11 +233,8 @@ function init_subs(type) {
         // water properties
         water: false,
         cam_water_depth: 0,
-        water_fog_color_density: null,
-        water_waves_height: 0,
-        water_waves_length: 0,
+        water_fog_color_density: new Float32Array(4),
         water_level: 0,
-        water_params: null,
         caustics: false,
         caust_scale: 0,
         caust_speed: new Float32Array(2),
@@ -359,13 +357,186 @@ function init_subs(type) {
 }
 
 exports.clone_subs = function(subs) {
-    var cam = subs.camera;
-    subs.camera = null;
+    var subs_new = init_subs(subs.type);
 
-    var subs_new = m_util.clone_object_r(subs);
+    subs_new.subtype = subs.subtype;
 
-    subs.camera = cam;
-    subs_new.camera = m_cam.clone_camera(cam, true);
+    // rendering flags
+    subs_new.force_do_not_render = subs.force_do_not_render;
+    subs_new.do_render = subs.do_render;
+    subs_new.enqueue = subs.enqueue;
+    subs_new.clear_color = subs.clear_color;
+    subs_new.clear_depth = subs.clear_depth;
+    subs_new.depth_test = subs.depth_test;
+    subs_new.blend = subs.blend;
+    subs_new.pack = subs.pack;
+
+    // assign webgl texture before rendering
+    subs_new.assign_texture = subs.assign_texture;
+    subs_new.need_fog_update = subs.need_fog_update;
+    subs_new.need_perm_uniforms_update = subs.need_perm_uniforms_update;
+
+    // common properties
+    // no need to copy that
+    subs_new.debug_render_calls = 0;
+    subs_new.debug_render_time = 0;
+    subs_new.debug_render_time_queries = [];
+    
+    // properties for DEBUG_VIEW subs
+    subs_new.debug_view_mode = subs.debug_view_mode;
+    subs_new.debug_colors_seed = subs.debug_colors_seed;
+    subs_new.debug_render_time_threshold = subs.debug_render_time_threshold;
+    
+    subs_new.do_not_debug = subs.do_not_debug;
+    subs_new.time = subs.time;
+
+    subs_new.camera = m_cam.clone_camera(subs.camera, true);
+
+    subs_new.cube_view_matrices = m_util.clone_object_r(subs.cube_view_matrices);
+    subs_new.cube_cam_frustums = m_util.clone_object_r(subs.cube_cam_frustums);
+    subs_new.draw_data = m_util.clone_object_r(subs.draw_data);
+    subs_new.slinks_internal = m_util.clone_object_r(subs.slinks_internal);
+    subs_new.textures_internal = m_util.clone_object_r(subs.textures_internal);
+
+    subs_new.wind.set(subs.wind);
+    subs_new.grass_map_dim.set(subs.grass_map_dim);
+    subs_new.fog_color_density.set(subs.fog_color_density);
+    subs_new.fog_params.set(subs.fog_params);
+    subs_new.cube_fog.set(subs.cube_fog);
+
+    // environment and world properties
+    subs_new.sky_tex_default_value = subs.sky_tex_default_value;
+    subs_new.environment_energy = subs.environment_energy;
+    subs_new.num_lights = subs.num_lights;
+    subs_new.light_directions = m_util.clone_object_r(subs.light_directions);
+    subs_new.light_positions = m_util.clone_object_r(subs.light_positions);
+    subs_new.light_color_intensities = m_util.clone_object_r(subs.light_color_intensities);
+    subs_new.light_factors = m_util.clone_object_r(subs.light_factors);
+    subs_new.horizon_color.set(subs.horizon_color);
+    subs_new.zenith_color.set(subs.zenith_color);
+    subs_new.sky_tex_fac.set(subs.sky_tex_fac);
+    subs_new.sun_intensity.set(subs.sun_intensity);
+    subs_new.sun_direction.set(subs.sun_direction);
+    subs_new.sun_quaternion.set(subs.sun_quaternion);
+    subs_new.sky_tex_color.set(subs.sky_tex_color);
+    subs_new.sky_ngraph_proxy_id = subs.sky_ngraph_proxy_id;
+    subs_new.bsdf_cube_sky_dim = subs.bsdf_cube_sky_dim;
+
+    // outline properties
+    subs_new.outline_factor = subs.outline_factor;
+    subs_new.draw_outline_flag = subs.draw_outline_flag;
+    subs_new.is_for_outline = subs.is_for_outline;
+    subs_new.outline_color.set(subs.outline_color);
+
+    // water properties
+    subs_new.water = subs.water;
+    subs_new.cam_water_depth = subs.cam_water_depth;
+
+    subs_new.water_fog_color_density.set(subs.water_fog_color_density);
+    subs_new.water_level = subs.water_level;
+    subs_new.caustics = subs.caustics;
+    subs_new.caust_scale = subs.caust_scale;
+    subs_new.caust_speed.set(subs.caust_speed);
+    subs_new.caust_brightness = subs.caust_brightness;
+
+    // sky properties
+    subs_new.procedural_skydome = subs.procedural_skydome;
+    subs_new.use_as_environment_lighting = subs.use_as_environment_lighting;
+    subs_new.mie_brightness = subs.mie_brightness;
+    subs_new.rayleigh_brightness = subs.rayleigh_brightness;
+    subs_new.spot_brightness = subs.spot_brightness;
+    subs_new.mie_strength = subs.mie_strength;
+    subs_new.rayleigh_strength = subs.rayleigh_strength;
+    subs_new.scatter_strength = subs.scatter_strength;
+    subs_new.mie_collection_power = subs.mie_collection_power;
+    subs_new.rayleigh_collection_power = subs.rayleigh_collection_power;
+    subs_new.mie_distribution = subs.mie_distribution;
+    subs_new.sky_color.set(subs.sky_color);
+
+    // ssao properties
+    subs_new.ssao_hemisphere = subs.ssao_hemisphere;
+    subs_new.ssao_blur_depth = subs.ssao_blur_depth;
+    subs_new.ssao_blur_discard_value = subs.ssao_blur_discard_value;
+    subs_new.ssao_radius_increase = subs.ssao_radius_increase;
+    subs_new.ssao_influence = subs.ssao_influence;
+    subs_new.ssao_dist_factor = subs.ssao_dist_factor;
+    subs_new.ssao_samples = subs.ssao_samples;
+    subs_new.ssao_only = subs.ssao_only;
+    subs_new.ssao_white = subs.ssao_white;
+
+    // color correction properties
+    subs_new.brightness = subs.brightness;
+    subs_new.contrast = subs.contrast;
+    subs_new.exposure = subs.exposure;
+    subs_new.saturation = subs.saturation;
+
+    // god rays properties
+    subs_new.god_rays_intensity = subs.god_rays_intensity;
+    subs_new.max_ray_length = subs.max_ray_length;
+    subs_new.radial_blur_step = subs.radial_blur_step;
+    subs_new.steps_per_pass = subs.steps_per_pass;
+
+    // shadow map properties
+    subs_new.csm_index = subs.csm_index;
+    subs_new.self_shadow_polygon_offset = subs.self_shadow_polygon_offset;
+    subs_new.self_shadow_normal_offset = subs.self_shadow_normal_offset;
+
+    subs_new.v_light_ts = m_util.clone_object_r(subs.v_light_ts);
+    subs_new.v_light_r = m_util.clone_object_r(subs.v_light_r);
+    subs_new.v_light_tsr = m_util.clone_object_r(subs.v_light_tsr);
+    subs_new.p_light_matrix = m_util.clone_object_r(subs.p_light_matrix);
+
+    // other postprocessing properties
+    subs_new.is_pp = subs.is_pp;
+    subs_new.fxaa_quality = subs.fxaa_quality;
+    subs_new.bloom_key = subs.bloom_key;
+    subs_new.bloom_blur = subs.bloom_blur;
+    subs_new.bloom_edge_lum = subs.bloom_edge_lum;
+    subs_new.adaptive_bloom = subs.adaptive_bloom;
+    subs_new.average_luminance = subs.average_luminance;
+    subs_new.blur_texel_size_mult = subs.blur_texel_size_mult;
+    subs_new.ext_texel_size_mult = subs.ext_texel_size_mult;
+    subs_new.mb_decay_threshold = subs.mb_decay_threshold;
+    subs_new.mb_factor = subs.mb_factor;
+    subs_new.motion_blur_exp = subs.motion_blur_exp;
+    subs_new.pp_effect = subs.pp_effect;
+    subs_new.coc_type = subs.coc_type;
+
+    subs_new.jitter_projection_space.set(subs.jitter_projection_space);
+    subs_new.last_mip_map_ind = subs.last_mip_map_ind;
+    subs_new.bloom_blur_num = subs.bloom_blur_num;
+    subs_new.bloom_blur_scale = subs.bloom_blur_scale;
+
+    subs_new.small_glow_mask_width = subs.small_glow_mask_width;
+    subs_new.large_glow_mask_width = subs.large_glow_mask_width;
+    subs_new.small_glow_mask_coeff = subs.small_glow_mask_coeff;
+    subs_new.large_glow_mask_coeff = subs.large_glow_mask_coeff;
+
+    subs_new.texel_size_multiplier = subs.texel_size_multiplier;
+    subs_new.texel_size.set(subs.texel_size);
+    subs_new.texel_mask.set(subs.texel_mask);
+
+    // head-mounted display params
+    subs_new.distortion_params.set(subs.distortion_params);
+    subs_new.chromatic_aberration_coefs.set(subs.chromatic_aberration_coefs);
+    subs_new.enable_hmd_stereo = subs.enable_hmd_stereo;
+
+    subs_new.shadow_lamp_index = subs.shadow_lamp_index;
+
+    subs_new.need_draw_data_sort = subs.need_draw_data_sort;
+
+    // sky props
+    subs_new.sky_invert = subs.sky_invert;
+    subs_new.sky_use_rgb_to_intensity = subs.sky_use_rgb_to_intensity;
+    subs_new.sky_use_map_blend = subs.sky_use_map_blend;
+    subs_new.sky_use_map_horizon = subs.sky_use_map_horizon;
+    subs_new.sky_use_map_zenith_up = subs.sky_use_map_zenith_up;
+    subs_new.sky_use_map_zenith_down = subs.sky_use_map_zenith_down;
+    subs_new.sky_blend_type = subs.sky_blend_type;
+    subs_new.use_sky_blend = subs.use_sky_blend;
+    subs_new.use_sky_paper = subs.use_sky_paper;
+    subs_new.use_sky_real = subs.use_sky_real;
+
     return subs_new;
 }
 
@@ -469,6 +640,7 @@ exports.create_subs_glow_combine = function(cam, sc_render) {
     subs.large_glow_mask_width = sc_render.glow_params.large_glow_mask_width;
 
     subs.camera = cam;
+
     subs.is_pp = true;
 
     return subs;
@@ -539,17 +711,13 @@ exports.create_subs_main = function(main_type, cam, opaque_do_clear_depth,
 }
 
 function assign_water_params(subs, water_params, sun_exist) {
-    subs.water_params = water_params;
-
     var wp = water_params;
 
     // water fog
     if (wp.fog_color_density)
-        subs.water_fog_color_density = new Float32Array(wp.fog_color_density);
+        subs.water_fog_color_density.set(wp.fog_color_density);
 
     // dynamics
-    subs.water_waves_height = wp.waves_height;
-    subs.water_waves_length = wp.waves_length;
     subs.water_level        = wp.water_level;
 
     // caustics
@@ -647,7 +815,7 @@ exports.create_subs_ssao = function(cam, wfs_params, ssao_params) {
 
     // by link
     subs.fog_color_density = wfs_params.fog_color_density;
-    subs.water_fog_color_density = new Float32Array(wfs_params.fog_color_density);
+    subs.water_fog_color_density.set(wfs_params.fog_color_density);
 
     subs.ssao_radius_increase = ssao_params.radius_increase;
     subs.ssao_hemisphere = ssao_params.hemisphere;
@@ -1198,12 +1366,13 @@ function init_draw_data(shader, rb, alpha_antialiasing, offset_z, is_sky) {
     };
 }
 
-exports.init_bundle = function(batch, render) {
+exports.init_bundle = function(batch, render, world_bounds) {
     var bundle = {
         do_render: true,
         do_render_cube: [true, true, true, true, true, true],
         obj_render: render,
         batch: batch,
+        world_bounds: world_bounds || null,
         info_for_z_sort_updates: null
     };
 
@@ -1216,7 +1385,7 @@ exports.init_bundle = function(batch, render) {
             median_world_cache: new Float32Array(indices.length),
             dist_cache: new Float32Array(indices.length/3),
             zsort_eye_last: new Float32Array(3),
-            bb_min_side: m_bounds.calc_min_bb_side(batch.bb_local)
+            bb_min_side: m_bounds.calc_min_bb_side(batch.bounds_local.bb)
         };
     }
 

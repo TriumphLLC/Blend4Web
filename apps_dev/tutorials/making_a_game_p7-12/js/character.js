@@ -287,7 +287,7 @@ function setup_jumping(touch_jump, on_ground_sens) {
             m_phy.character_jump(obj);
             var island = m_ctl.get_sensor_value(obj, id, 2);
             if (island) {
-                var id = Math.floor(2 * Math.random());
+                id = Math.floor(2 * Math.random());
                 m_sfx.play_def(_char_jump_spks[id]);
 
                 m_anim.apply(_char_wrapper.rig, "character_jump");
@@ -503,7 +503,6 @@ function kill() {
 }
 
 exports.add_gem = function(gem_wrapper) {
-    var gem_empty = gem_wrapper.empty;
     if (_char_wrapper.gem_slot) {
         if (_char_wrapper.gem_slot == gem_wrapper)
             return;

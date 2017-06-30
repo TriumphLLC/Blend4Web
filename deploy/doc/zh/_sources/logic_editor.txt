@@ -218,9 +218,10 @@
    * *Greater Than Or Equal (=>)* - 第一个操作数是大于或等于第二个。
 
 *Operand1*
-   逻辑条件的第一个操作数。包含字符串的数值（如果 "String Operators"
-   参数已启用）。可以在节点中指定，也可以是指向其中一个变量的链接（如
-   果右侧的 "Variable" 参数被启用）。
+   First operand of the logical condition. Contains a numeric value or
+   a string (if the "String Operators" parameter is enabled). Can be
+   specified in the node or can be a link to one of the variables (if
+   the "Variable" parameter at the right of it is enabled).
 
 *Operand2*
    逻辑条件的第二个操作数。和第一个以同样的方式工作。
@@ -543,6 +544,62 @@ JS 回调
 
 *z*
    相机的目标/轴心点的 "Z" 分量。
+
+
+Set Camera Limits
+-----------------
+
+This node can be used to set limits of the selected camera. The node
+lists all available limits, but only ones that are compatible with the
+type of the camera are applied.
+
+[图片]
+
+
+输入参数
+~~~~~~~~
+
+*上一个*
+   前一个节点。
+
+
+输出参数
+~~~~~~~~
+
+*下一个*
+   下一个节点。
+
+
+内部参数
+~~~~~~~~
+
+*相机*
+   This parameter specifies a camera to which the limits will be
+   applied.
+
+*Distance Limits*
+   Sets the "Distance Limits" parameter native to the Target and Hover
+   camera types.
+
+*Hor. Rotation Limits*
+   Sets "Horizontal Rotation Limits" parameter native to Target and
+   Eye camera types.
+
+*Vert. Rotation Limits*
+   Sets "Vertical Rotation Limits" parameter native to Target, Hover
+   and Eye camera types.
+
+*Pivot Translation Limits*
+   Sets "Pivot Translation Limits" parameter native to Target camera
+   type.
+
+*Hor. Translation Limits*
+   Sets "Horizontal Translation Limits" parameter native to Hover
+   camera type.
+
+*Vert. Translation Limits*
+   Sets "Vertical Translation Limits" parameter native to Hover camera
+   type.
 
 
 物体

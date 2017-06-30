@@ -2,9 +2,11 @@ APIDOCDIR = deploy/api_doc
 DOCSRCDIR = doc_src 
 APPDIR = apps_dev
 APIDOCRESDIR = doc_src/api_doc/jsdoc_resources
+PROJDIR = projects
 SCRIPTSDIR = scripts
 
-PROJECTS = \
+PROJECTS_APPS_DEV = \
+	AR \
 	capri \
 	code_snippets \
 	dairy_plant \
@@ -22,12 +24,14 @@ PROJECTS = \
 	website \
 	tutorials/cartoon_interior \
 	tutorials/firstperson \
-	tutorials/interactive_web_application \
 	tutorials/making_a_game_p1-3 \
 	tutorials/making_a_game_p4 \
 	tutorials/making_a_game_p5-6 \
 	tutorials/making_a_game_p7-12 \
-	tutorials/web_page_integration
+	tutorials/web_page_integration \
+
+PROJECTS = \
+	simple_app \
 
 DISTFILESDIR = distfiles
 DISTS_SDK = dist_ce dist_pro dist_ce_lite dist_pro_lite
@@ -65,12 +69,15 @@ compile_b4w:
 	@$(SH) ./scripts/compile_b4w.py -o advanced -b -w
 
 
-.PHONY: build_projects $(PROJECTS)
+.PHONY: build_projects $(PROJECTS_APPS_DEV) $(PROJECTS)
 
-build_projects: $(PROJECTS)
+build_projects: $(PROJECTS_APPS_DEV) $(PROJECTS)
+
+$(PROJECTS_APPS_DEV):
+	-@$(SH) ./$(APPDIR)/project.py -p $(APPDIR)/$@ build -v $(VERSION) -w
 
 $(PROJECTS):
-	-@$(SH) ./$(APPDIR)/project.py -p $(APPDIR)/$@ build -v $(VERSION) -w
+	-@$(SH) ./$(APPDIR)/project.py -p $(PROJDIR)/$@ build -v $(VERSION) -w
 
 
 .PHONY: convert_resources

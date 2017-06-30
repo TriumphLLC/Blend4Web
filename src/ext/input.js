@@ -230,7 +230,7 @@ exports.GMPD_TRIGGER_BUTTON = m_input.GMPD_TRIGGER_BUTTON;
 exports.GMPD_GRIPS_BUTTON = m_input.GMPD_GRIPS_BUTTON;
 /**
  * Gamepad grips ID.
- * @const {number} module:input.GMPD_GRIPS_BUTTON
+ * @const {number} module:input.GMPD_MENU_BUTTON
  */
 exports.GMPD_MENU_BUTTON = m_input.GMPD_MENU_BUTTON;
 /**
@@ -644,7 +644,8 @@ CONF[m_input.DEVICE_HMD] = [m_input.HMD_DISTORTION,
  * The callback for the Euler angles of the gyroscope orientation corresponding
  * to the {@link module:input.GYRO_ORIENTATION_ANGLES|GYRO_ORIENTATION_ANGLES} param.
  * @callback GyroscopeAnglesCallback
- * @param {Euler} angles Euler angles corresponding to the gyroscope orientation.
+ * @param {Euler} angles Euler angles (in radians) corresponding to the gyroscope 
+ * orientation.
  * @example
  * var m_input = require("input");
  * 

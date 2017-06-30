@@ -116,21 +116,21 @@ exports.setup_controls = function (elapsed_sensor) {
     var offset = new Float32Array(m_conf.CAM_OFFSET);
     var dist = m_vec3.length(offset);
 
-    var clamp_left  = 0;
-    var clamp_right = 0;
+    var clamp_left  = -Math.PI / 2;
+    var clamp_right = Math.PI / 2;
     var clamp_up    = Math.PI / 3;
     var clamp_down  = 0.01;
 
     function rotation_cb(rot_x, rot_z) {
         m_phy.character_rotation_inc(_char_wrapper.phys_body, rot_x, 0);
         if (rot_z) {
-            m_cam.eye_rotate(camobj, 0, rot_z);
+            m_cam.rotate_camera(camobj, 0, rot_z);
 
             m_cam.get_camera_angles(camobj, _vec3_tmp);
             offset[1] =  dist * Math.cos(_vec3_tmp[1]);
             offset[2] = -dist * Math.sin(_vec3_tmp[1]);
 
-            m_cons.append_semi_stiff_cam(camobj, _char_wrapper.target, offset, null,
+            m_cons.append_semi_stiff(camobj, _char_wrapper.target, offset, null,
                                  clamp_left, clamp_right, clamp_up, clamp_down);
         }
     }
@@ -148,7 +148,7 @@ exports.setup_controls = function (elapsed_sensor) {
     setup_attack(touch_attack, elapsed_sensor);
 
     var targ_pos = m_trans.get_translation(_char_wrapper.target, _vec3_tmp);
-    m_cons.append_semi_stiff_cam(camobj, _char_wrapper.target, offset, null,
+    m_cons.append_semi_stiff(camobj, _char_wrapper.target, offset, null,
                         clamp_left, clamp_right, clamp_up, clamp_down);
     m_cam.eye_set_look_at(camobj, null, targ_pos);
 
@@ -211,7 +211,7 @@ exports.run_victory = function() {
         else
             var vert_angle = 0;
 
-        m_cam.target_rotate(obj, hor_angle, vert_angle);
+        m_cam.rotate_camera(obj, hor_angle, vert_angle);
 
         if (dist > _level_conf.VICT_CAM_DIST) {
             dist -= elapsed;

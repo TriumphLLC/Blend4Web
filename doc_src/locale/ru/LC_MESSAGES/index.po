@@ -22,9 +22,9 @@ msgstr "Содержание"
 
 #: ../index.rst:45
 msgid ":ref:`genindex`"
-msgstr ""
+msgstr ":ref:`genindex`"
 
 #: ../index.rst:46
 msgid ":ref:`search`"
-msgstr ""
+msgstr ":ref:`search`"
 

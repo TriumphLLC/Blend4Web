@@ -87,7 +87,7 @@ The ``Collision Mask`` field defines all physics groups with which this object w
 
 For the camera object the ``Physics Type`` = ``Dynamic`` parameter must be used, and the ``Object Physics`` checkbox must be enabled.
 
-.. _constraints:
+.. _physics_constraints:
 
 Constraints
 ===========

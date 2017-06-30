@@ -128,7 +128,7 @@ exports.setup_falling_rocks = function(elapsed_sensor) {
                     function(s){return s[0] || s[1]}, mark_pos_cb, mark);
 
             set_random_rock_position(rock);
-            var rock_name = m_scs.get_object_name(rock);
+            rock_name = m_scs.get_object_name(rock);
             falling_time[rock_name] = 0;
         }
     }

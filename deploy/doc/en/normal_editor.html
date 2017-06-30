@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Normal Editor &mdash; Blend4Web 17.04.1 User Manual</title>
+  <title>Normal Editor &mdash; Blend4Web 17.06 User Manual</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.04.1 User Manual" href="index.html"/>
+    <link rel="top" title="Blend4Web 17.06 User Manual" href="index.html"/>
         <link rel="next" title="Camera" href="camera.html"/>
         <link rel="prev" title="Meshes" href="meshes.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v17.04.1
+              v17.06
             </div>
           
         
@@ -99,7 +99,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#interface">Interface</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#activate">Activate</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#show-normals">Show Normals</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#rotation">Rotation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rotate">Rotate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#scale">Scale</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#absolute-and-offset-modes">Absolute and Offset Modes</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#absolute-mode">Absolute Mode</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#offset-mode">Offset Mode</a></li>
@@ -108,7 +109,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#split-normals">Split Normals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#average">Average</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#restore">Restore</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#tree-foliage-and-face">Tree, Foliage and Face</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#d-cursor-axis-and-face">3D Cursor, Axis and Face</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#copy-paste">Copy/Paste</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#copy-from-mesh">Copy From Mesh</a></li>
 </ul>
@@ -185,14 +186,15 @@
 <li><a class="reference internal" href="#interface" id="id3">Interface</a></li>
 <li><a class="reference internal" href="#activate" id="id4">Activate</a></li>
 <li><a class="reference internal" href="#show-normals" id="id5">Show Normals</a></li>
-<li><a class="reference internal" href="#rotation" id="id6">Rotation</a></li>
-<li><a class="reference internal" href="#absolute-and-offset-modes" id="id7">Absolute and Offset Modes</a></li>
-<li><a class="reference internal" href="#split-normals" id="id8">Split Normals</a></li>
-<li><a class="reference internal" href="#average" id="id9">Average</a></li>
-<li><a class="reference internal" href="#restore" id="id10">Restore</a></li>
-<li><a class="reference internal" href="#tree-foliage-and-face" id="id11">Tree, Foliage and Face</a></li>
-<li><a class="reference internal" href="#copy-paste" id="id12">Copy/Paste</a></li>
-<li><a class="reference internal" href="#copy-from-mesh" id="id13">Copy From Mesh</a></li>
+<li><a class="reference internal" href="#rotate" id="id6">Rotate</a></li>
+<li><a class="reference internal" href="#scale" id="id7">Scale</a></li>
+<li><a class="reference internal" href="#absolute-and-offset-modes" id="id8">Absolute and Offset Modes</a></li>
+<li><a class="reference internal" href="#split-normals" id="id9">Split Normals</a></li>
+<li><a class="reference internal" href="#average" id="id10">Average</a></li>
+<li><a class="reference internal" href="#restore" id="id11">Restore</a></li>
+<li><a class="reference internal" href="#d-cursor-axis-and-face" id="id12">3D Cursor, Axis and Face</a></li>
+<li><a class="reference internal" href="#copy-paste" id="id13">Copy/Paste</a></li>
+<li><a class="reference internal" href="#copy-from-mesh" id="id14">Copy From Mesh</a></li>
 </ul>
 </li>
 </ul>
@@ -242,15 +244,23 @@
 <p>You just need to push the Show Normals button either on the normal editor panel or on the Blender&#8217;s right panel in the Mesh Display section. You can also set the convenient length of normals by tweaking the Size.</p>
 <a class="reference internal image-reference" href="_images/show_normals.gif"><img alt="_images/show_normals.gif" class="align-center" src="_images/show_normals.gif" style="width: 100%;" /></a>
 </div>
-<div class="section" id="rotation">
-<h2><a class="toc-backref" href="#id6">Rotation</a><a class="headerlink" href="#rotation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="rotate">
+<h2><a class="toc-backref" href="#id6">Rotate</a><a class="headerlink" href="#rotate" title="Permalink to this headline">¶</a></h2>
 <p>Using these instruments you can change direction of the normals. The <code class="docutils literal"><span class="pre">Rotate</span></code> function is also available through the <code class="docutils literal"><span class="pre">Shift+Ctrl+R</span></code> hotkeys, which allows rotation of vertex normals similarly to Blender.</p>
-<a class="reference internal image-reference" href="_images/rotation.gif"><img alt="_images/rotation.gif" class="align-center" src="_images/rotation.gif" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/rotate.gif"><img alt="_images/rotate.gif" class="align-center" src="_images/rotate.gif" style="width: 100%;" /></a>
 <p>Select one or more vertices that you want to edit and then rotate their normals using the visual sphere or specify the direction as numerical values.</p>
 <p>The <code class="docutils literal"><span class="pre">Rotate</span></code> button provides a more convenient way to manipulate normals. The rotation is performed in the screen space. Nevertheless, as with any other rotations in Blender, you can isolate the desired axis during rotation (by typing <code class="docutils literal"><span class="pre">X</span></code>, <code class="docutils literal"><span class="pre">Y</span></code> or <code class="docutils literal"><span class="pre">Z</span></code>) and type the angle of rotation using numerical keys.</p>
 </div>
+<div class="section" id="scale">
+<h2><a class="toc-backref" href="#id7">Scale</a><a class="headerlink" href="#scale" title="Permalink to this headline">¶</a></h2>
+<p>This function can be used to change the scale of the normals and is available both from the Tool panel and by pressing the <code class="docutils literal"><span class="pre">Shift</span> <span class="pre">+</span> <span class="pre">Ctrl</span> <span class="pre">+</span> <span class="pre">S</span></code> hot keys. The length of a normal can be set with numeric keys, while <code class="docutils literal"><span class="pre">X</span></code>, <code class="docutils literal"><span class="pre">Y</span></code> and <code class="docutils literal"><span class="pre">Z</span></code> keys are used to set the coordinate axis along which the normal is scaled.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Keep in mind that the visible length of any normal never changes and is always defined by the <code class="docutils literal"><span class="pre">Size</span></code> parameter.</p>
+</div>
+</div>
 <div class="section" id="absolute-and-offset-modes">
-<h2><a class="toc-backref" href="#id7">Absolute and Offset Modes</a><a class="headerlink" href="#absolute-and-offset-modes" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id8">Absolute and Offset Modes</a><a class="headerlink" href="#absolute-and-offset-modes" title="Permalink to this headline">¶</a></h2>
 <p>Normal Editor can operate in two different modes: Absolute mode and Offset mode. The currently selected mode can be switched by pressing one of the two buttons placed under the <code class="docutils literal"><span class="pre">Rotate</span></code> button that has been described above. By default, <code class="docutils literal"><span class="pre">Absolute</span></code> mode is used.</p>
 <div class="section" id="absolute-mode">
 <h3>Absolute Mode<a class="headerlink" href="#absolute-mode" title="Permalink to this headline">¶</a></h3>
@@ -265,39 +275,40 @@
 </div>
 </div>
 <div class="section" id="split-normals">
-<h2><a class="toc-backref" href="#id8">Split Normals</a><a class="headerlink" href="#split-normals" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id9">Split Normals</a><a class="headerlink" href="#split-normals" title="Permalink to this headline">¶</a></h2>
 <p>The <code class="docutils literal"><span class="pre">Split</span> <span class="pre">Normals</span></code> mode allows to edit vertex normals separately for each <code class="docutils literal"><span class="pre">face</span></code> that form the <code class="docutils literal"><span class="pre">vertex</span></code>. Index allows you to navigate between the split normals.</p>
 <a class="reference internal image-reference" href="_images/split_normals.gif"><img alt="_images/split_normals.gif" class="align-center" src="_images/split_normals.gif" style="width: 100%;" /></a>
 <p>Turn on the <code class="docutils literal"><span class="pre">Split</span> <span class="pre">Normals</span></code> mode, select the vertex and change the direction of its normals. Firstly, the normal which has the zero index in the queue will be modified. Then, by switching between indexes you can go to the next normal of this vertex and edit it, then to the next and so on.</p>
 </div>
 <div class="section" id="average">
-<h2><a class="toc-backref" href="#id9">Average</a><a class="headerlink" href="#average" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id10">Average</a><a class="headerlink" href="#average" title="Permalink to this headline">¶</a></h2>
 <p>The <code class="docutils literal"><span class="pre">Average</span></code> button averages the direction of the vertex normals which was modified.</p>
-<a class="reference internal image-reference" href="_images/average_split.gif"><img alt="_images/average_split.gif" class="align-center" src="_images/average_split.gif" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/average.gif"><img alt="_images/average.gif" class="align-center" src="_images/average.gif" style="width: 100%;" /></a>
 <p>To combine several split vertex normals into one, in order to obtain the average direction of these normals, you just need to select the desired vertex and press the <code class="docutils literal"><span class="pre">Average</span> <span class="pre">Split</span></code> button.</p>
 </div>
 <div class="section" id="restore">
-<h2><a class="toc-backref" href="#id10">Restore</a><a class="headerlink" href="#restore" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id11">Restore</a><a class="headerlink" href="#restore" title="Permalink to this headline">¶</a></h2>
 <p>The <code class="docutils literal"><span class="pre">Restore</span></code> button restores the original direction of normals for the selected vertices.</p>
 <a class="reference internal image-reference" href="_images/restore.gif"><img alt="_images/restore.gif" class="align-center" src="_images/restore.gif" style="width: 100%;" /></a>
 <p>In order to restore the normal&#8217;s direction to its original (which is calculated on the basis of face normals), you need to select the desired vertices and click the Restore button.</p>
 </div>
-<div class="section" id="tree-foliage-and-face">
-<h2><a class="toc-backref" href="#id11">Tree, Foliage and Face</a><a class="headerlink" href="#tree-foliage-and-face" title="Permalink to this headline">¶</a></h2>
-<p>The <code class="docutils literal"><span class="pre">Tree</span></code> button directs the normals of the selected vertices away from the 3D cursor. The <code class="docutils literal"><span class="pre">Foliage</span></code> button directs the normals of the vertices strictly up. The <code class="docutils literal"><span class="pre">Face</span></code> button directs the normals of the selected face parallel to the normal of this face.</p>
-<a class="reference internal image-reference" href="_images/tree_foliage_face.gif"><img alt="_images/tree_foliage_face.gif" class="align-center" src="_images/tree_foliage_face.gif" style="width: 100%;" /></a>
-<p>In order to use the <code class="docutils literal"><span class="pre">Tree</span></code> function, select the desired vertices and place the 3D cursor in the desired position. Then click the <code class="docutils literal"><span class="pre">Tree</span></code> button so all the selected vertices will turn their direction away from the cursor, as if they were shot from one point.</p>
-<p>The <code class="docutils literal"><span class="pre">Foliage</span></code> function is very easy to use: just select the vertices and press the button, so the function will direct their normals straight up.</p>
-<p>In order to direct the normals parallel to the face normal, just select the desired face and click the <code class="docutils literal"><span class="pre">Face</span></code> button. The normals of the vertices which form the face will be directed parallel to the face normal. This function works only with one selected face at a time.</p>
+<div class="section" id="d-cursor-axis-and-face">
+<h2><a class="toc-backref" href="#id12">3D Cursor, Axis and Face</a><a class="headerlink" href="#d-cursor-axis-and-face" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal"><span class="pre">3D</span> <span class="pre">Cursor</span></code> button directs the normals of the selected vertices away from the 3D cursor or toward it (if the <code class="docutils literal"><span class="pre">Towards</span></code> parameter in the <code class="docutils literal"><span class="pre">Vertex</span> <span class="pre">Normal</span> <span class="pre">Cursor</span></code> panel is enabled). The <code class="docutils literal"><span class="pre">Axis</span></code> button directs the normals of the vertices along a coordinate axis (the axis can be selected in the same <code class="docutils literal"><span class="pre">Vertex</span> <span class="pre">Normal</span> <span class="pre">Cursor</span></code> panel). The <code class="docutils literal"><span class="pre">Face</span></code> button directs the normals of the selected face parallel to the normal of this face.</p>
+<a class="reference internal image-reference" href="_images/3dcursor.gif"><img alt="_images/3dcursor.gif" class="align-center" src="_images/3dcursor.gif" style="width: 100%;" /></a>
+<p>In order to use the <code class="docutils literal"><span class="pre">3D</span> <span class="pre">Cursor</span></code> function, select the desired vertices and place the 3D cursor in the desired position. Then click the <code class="docutils literal"><span class="pre">3D</span> <span class="pre">Cursor</span></code> button so all the selected vertices will turn their direction away from the cursor, as if they were shot from one point. Then you may check the <code class="docutils literal"><span class="pre">Towards</span></code> option in the <code class="docutils literal"><span class="pre">Vertex</span> <span class="pre">Normal</span> <span class="pre">Cursor</span></code> panel, which will make the normals to turn in the direction of the cursor.</p>
+<p>The <code class="docutils literal"><span class="pre">Axis</span></code> function is very easy to use: just select the vertices and press the button, so the function will direct their normals along the coordinate axis set in the <code class="docutils literal"><span class="pre">Vertex</span> <span class="pre">Normal</span> <span class="pre">Cursor</span></code> panel (Z axis is selected by default) or away from it, if you disable the <code class="docutils literal"><span class="pre">Towards</span></code> parameter on the same panel.</p>
+<p>In order to direct the normals parallel to the face normal, just select the desired face (or several faces) and click the <code class="docutils literal"><span class="pre">Face</span></code> button. The normals of the vertices which form the face will be directed parallel to the face normal. This function works only with one selected face at a time.</p>
+<p>The <code class="docutils literal"><span class="pre">3D</span> <span class="pre">Cursor</span></code>, <code class="docutils literal"><span class="pre">Axis</span></code> and <code class="docutils literal"><span class="pre">Face</span></code> operators also possess the <code class="docutils literal"><span class="pre">Factor</span></code> parameter which is used to mix the initial position of the normals with the resulting position. The default value of this parameter is 1.0 (the resulting position is used).</p>
 </div>
 <div class="section" id="copy-paste">
-<h2><a class="toc-backref" href="#id12">Copy/Paste</a><a class="headerlink" href="#copy-paste" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id13">Copy/Paste</a><a class="headerlink" href="#copy-paste" title="Permalink to this headline">¶</a></h2>
 <p>Copies the normal direction from one vertex to another.</p>
-<a class="reference internal image-reference" href="_images/copy_paste.gif"><img alt="_images/copy_paste.gif" class="align-center" src="_images/copy_paste.gif" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/copypaste.gif"><img alt="_images/copypaste.gif" class="align-center" src="_images/copypaste.gif" style="width: 100%;" /></a>
 <p>Select the vertex you want to copy from and click the <code class="docutils literal"><span class="pre">Copy</span></code> button. Then, select the vertex you want to copy to and click the <code class="docutils literal"><span class="pre">Paste</span></code> button. You may copy information from one selected vertex to many different vertices. The buttons are not active in the <code class="docutils literal"><span class="pre">Split</span> <span class="pre">Mode</span></code> and do not copy data of split vertices.</p>
 </div>
 <div class="section" id="copy-from-mesh">
-<h2><a class="toc-backref" href="#id13">Copy From Mesh</a><a class="headerlink" href="#copy-from-mesh" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id14">Copy From Mesh</a><a class="headerlink" href="#copy-from-mesh" title="Permalink to this headline">¶</a></h2>
 <p>This function allows you to copy the normals from one object to another. There are two modes: <code class="docutils literal"><span class="pre">Matched</span> <span class="pre">Vertices</span></code> and <code class="docutils literal"><span class="pre">Nearest</span> <span class="pre">Vertices</span></code>.</p>
 <p>The <code class="docutils literal"><span class="pre">Matched</span> <span class="pre">Vertices</span></code> mode copies the normals from the vertices of one object to another object&#8217;s vertices only if they have the same coordinates; the other vertices are ignored. The <code class="docutils literal"><span class="pre">Nearest</span> <span class="pre">Vertices</span></code> mode copies the normals of the nearest vertices of the source object.</p>
 <a class="reference internal image-reference" href="_images/copy_from_mesh.gif"><img alt="_images/copy_from_mesh.gif" class="align-center" src="_images/copy_from_mesh.gif" style="width: 100%;" /></a>
@@ -325,7 +336,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Triumph.
-      Last updated on 2017-05-15.
+      Last updated on 2017-06-30.
 
     </p>
   </div>
@@ -381,7 +392,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.04.1',
+            VERSION:'v17.06',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

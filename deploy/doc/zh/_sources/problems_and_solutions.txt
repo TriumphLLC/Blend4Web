@@ -247,3 +247,7 @@ WebGL的无法初始化
      Blender更新它们来解决。
 
 * Mali 400系列的GPU上谷歌Chrome浏览器渲染Alpha混合物体不正确。
+
+* Using several application instances in a single page can lead to
+  excessive memory usage or even a tab crash in Chrome 59. However,
+  this is fixed in Chrome 60.

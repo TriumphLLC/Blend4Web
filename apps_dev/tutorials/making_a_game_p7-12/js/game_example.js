@@ -8,22 +8,15 @@ b4w.register("game_example_main", function(exports, require) {
 
 var m_app   = require("app");
 var m_cfg   = require("config");
-var m_main  = require("main");
 var m_data  = require("data");
-var m_cont  = require("container");
 var m_ctl   = require("controls");
 var m_cons  = require("constraints");
-var m_input = require("input");
 var m_scs   = require("scenes");
 var m_print = require("print");
 var m_sfx   = require("sfx");
 
-var m_vec3  = require("vec3");
-var m_quat  = require("quat");
-
 var m_conf = require("game_config");
 var m_char = require("character");
-var m_combat = require("combat");
 var m_bonuses = require("bonuses");
 var m_interface = require("interface");
 var m_golems = require("golems");
@@ -31,14 +24,6 @@ var m_obelisks = require("obelisks");
 var m_gems = require("gems");
 var m_env = require("environment");
 
-var _char_wrapper = null;
-
-var _vec3_tmp = new Float32Array(3);
-var _vec3_tmp_2 = new Float32Array(3);
-var _vec3_tmp_3 = new Float32Array(3);
-var _vec3_tmp_4 = new Float32Array(3);
-var _quat4_tmp = new Float32Array(4);
-var _quat4_tmp2 = new Float32Array(4);
 
 exports.init = function() {
     
@@ -138,7 +123,7 @@ function detect_mobile() {
 function setup_camera() {
     var camera = m_scs.get_active_camera();
     var target = m_scs.get_object_by_dupli_name("character", "camera_target");
-    m_cons.append_semi_soft_cam(camera, target, m_conf.CAM_OFFSET, m_conf.CAM_SOFTNESS);
+    m_cons.append_semi_soft(camera, target, m_conf.CAM_OFFSET, m_conf.CAM_SOFTNESS);
 }
 
 function setup_music() {

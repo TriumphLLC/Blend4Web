@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Lighting, Shadows and Background &mdash; Blend4Web 17.04.1 User Manual</title>
+  <title>Lighting, Shadows and Background &mdash; Blend4Web 17.06 User Manual</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.04.1 User Manual" href="index.html"/>
+    <link rel="top" title="Blend4Web 17.06 User Manual" href="index.html"/>
         <link rel="next" title="Postprocessing Effects" href="postprocessing_effects.html"/>
         <link rel="prev" title="Logic Editor" href="logic_editor.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v17.04.1
+              v17.06
             </div>
           
         
@@ -301,6 +301,12 @@
 <dd>Selection of the environment lighting simulation method: <code class="docutils literal"><span class="pre">White</span></code> - flat white lighting, <code class="docutils literal"><span class="pre">Sky</span> <span class="pre">Color</span></code> - hemispherical model, <code class="docutils literal"><span class="pre">Sky</span> <span class="pre">Texture</span></code> - lighting using an <a class="reference internal" href="textures.html#environment-map"><span>environment map</span></a>. The default value is <code class="docutils literal"><span class="pre">White</span></code>.</dd>
 <dt><em>World &gt; Horizon Color</em> and <em>World &gt; Zenith Color</em></dt>
 <dd>If the hemispherical model (<code class="docutils literal"><span class="pre">Sky</span> <span class="pre">Color</span></code>) is selected the horizon and zenith colors can be specified by means of the <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Horizon</span> <span class="pre">Color</span></code> and <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Zenith</span> <span class="pre">Color</span></code> color pickers. It is recommended to activate the <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Blend</span> <span class="pre">Sky</span></code> option for better color selection.</dd>
+<dt><em>World &gt; Use Nodes (Cycles)</em></dt>
+<dd>If this option is enabled, <code class="docutils literal"><span class="pre">Cycles</span></code> nodes can be used to set up the environment. Disabled by default.</dd>
+<dt><em>World &gt; Reflect World</em></dt>
+<dd>If this parameter is enabled, environment will also be rendered for reflections (i.e., it will be reflected by mirror surfaces). Disabled by default.</dd>
+<dt><em>World &gt; Render Only Reflection</em></dt>
+<dd>If this parameter is enabled, environment will be rendered for reflections, but not for the scene itself. Disabled by default.</dd>
 </dl>
 </div>
 <div class="section" id="environment-map-method">
@@ -518,7 +524,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Triumph.
-      Last updated on 2017-05-15.
+      Last updated on 2017-06-30.
 
     </p>
   </div>
@@ -574,7 +580,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.04.1',
+            VERSION:'v17.06',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

@@ -1,0 +1,66 @@
+body {
+  background-color: #000;
+  margin: 0;
+  overflow: hidden;
+}
+
+#main_canvas_container {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+}
+
+.control {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    display: grid;
+}
+
+.control select {
+  background-color: #323232;
+  border: 2px solid rgba(98, 98, 98, .2);
+  border-radius: 2px;
+  min-height: 30px;
+  display: block;
+  float: left;
+  font-size: 16px;
+  font-weight: normal;
+  color: #fff;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: left;
+  padding-left: 8px;
+  line-height: 28px;
+  margin-bottom: 4px;
+  box-shadow: 0px 0px 4px 0px rgba(98, 98, 98, .8);
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -webkit-transition: opacity .1s ease-in-out;
+  transition: opacity .1s ease-in-out;
+}
+
+#error {
+  background-color: #AA0000;
+  border: 2px solid rgba(98, 98, 98, .2);
+  border-radius: 2px;
+  min-height: 30px;
+  display: block;
+  float: left;
+  font-size: 16px;
+  font-weight: normal;
+  color: #fff;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: left;
+  padding-left: 8px;
+  line-height: 28px;
+  margin-bottom: 4px;
+  box-shadow: 0px 0px 4px 0px rgba(98, 98, 98, .8);
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -webkit-transition: opacity .1s ease-in-out;
+  transition: opacity .1s ease-in-out;
+}

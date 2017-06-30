@@ -8,15 +8,11 @@ b4w.register("game_example_main", function(exports, require) {
 var m_anim  = require("animation");
 var m_app   = require("app");
 var m_cfg   = require("config");
-var m_main  = require("main");
 var m_data  = require("data");
 var m_ctl   = require("controls");
-var m_cont  = require("container");
-var m_input = require("input");
 var m_phy   = require("physics");
 var m_cons  = require("constraints");
 var m_scs   = require("scenes");
-var m_trans = require("transform");
 
 var _character = null;
 var _character_rig = null;
@@ -157,7 +153,7 @@ function setup_jumping() {
 
 function setup_camera() {
     var camera = m_scs.get_active_camera();
-    m_cons.append_semi_soft_cam(camera, _character, CAMERA_OFFSET);
+    m_cons.append_semi_soft(camera, _character, CAMERA_OFFSET);
 }
 
 });

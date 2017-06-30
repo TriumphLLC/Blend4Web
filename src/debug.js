@@ -25,6 +25,7 @@
  */
 b4w.module["__debug"] = function(exports, require) {
 
+var m_batch  = require("__batch");
 var m_compat = require("__compat");
 var m_cfg    = require("__config");
 var m_ext    = require("__extensions");
@@ -156,9 +157,8 @@ exports.print_batches_stat = function() {
     
     // properties that don't affect batching
     var excluded_props = [
-        "bb_local", "bb_world", "be_local", "be_world", "bs_local", "bs_world", 
-        "bufs_data", "id", "attribute_setters", "num_vertices", "num_triangles",
-        "material_names", "shader", "bpy_tex_names"
+        "bounds_local", "bufs_data", "id", "attribute_setters", "num_vertices", 
+        "num_triangles", "material_names", "shader", "bpy_tex_names"
     ];
 
     var static_count = 0;
@@ -169,7 +169,7 @@ exports.print_batches_stat = function() {
         for (var j = 0; j < objs[i].scenes_data.length; j++)
             for (var k = 0; k < objs[i].scenes_data[j].batches.length; k++) {
 
-                var batch = m_util.clone_object_json(objs[i].scenes_data[j].batches[k]);
+                var batch = m_batch.clone_batch(objs[i].scenes_data[j].batches[k]);
                 
                 var shader_pair = batch.shaders_info.vert + "/" + batch.shaders_info.frag;
                 batch["shaders_info.directives"] = batch.shaders_info.directives;

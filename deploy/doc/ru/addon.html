@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Аддон &mdash; Руководство пользователя Blend4Web 17.04.1</title>
+  <title>Аддон &mdash; Руководство пользователя Blend4Web 17.06</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 17.04.1" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 17.06" href="index.html"/>
         <link rel="next" title="Параметры сцены" href="scene_settings.html"/>
         <link rel="prev" title="Веб-плеер" href="web_player.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v17.04.1
+              v17.06
             </div>
           
         
@@ -230,8 +230,28 @@
 </div>
 <div class="section" id="running-viewer-and-demos">
 <span id="getting-started-launching-viewer"></span><span id="index-1"></span><h2><a class="toc-backref" href="#id6">Запуск просмотрщика сцен и демо-приложений</a><a class="headerlink" href="#running-viewer-and-demos" title="Ссылка на этот заголовок">¶</a></h2>
-<p>На обзорной странице имеются ссылки для запуска просмотрщика сцен и демо-приложений. Для их запуска необходим <a class="reference internal" href="about.html#browser-webgl-support"><span>браузер с поддержкой WebGL</span></a>.</p>
-<a class="reference internal image-reference" href="_images/setup_sdk_index.png"><img alt="_images/setup_sdk_index.png" class="align-center" src="_images/setup_sdk_index.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/addon_sdk_index.png"><img alt="_images/addon_sdk_index.png" class="align-center" src="_images/addon_sdk_index.png" style="width: 100%;" /></a>
+<p>Обзорная страница содержит следующие ссылки:</p>
+<ul class="simple">
+<li><p class="first"><a class="reference internal" href="project_manager.html#project-management"><span>Менеджер проектов</span></a>;</p>
+</li>
+<li><p class="first"><a class="reference internal" href="developers.html#code-snippets"><span>Примеры кода</span></a>: список демонстрационных приложений. Для их запуска необходим <a class="reference internal" href="about.html#browser-webgl-support"><span>браузер с поддержкой WebGL</span></a>.</p>
+</li>
+<li><p class="first">Страница WebGL Report, с помощью которой вы можете проверить степень поддержки WebGL вашим браузером;</p>
+</li>
+<li><p class="first"><a class="reference internal" href="about.html#about"><span>Документация</span></a> на трёх разных языках, доступная как в HTML-, так и в PDF-формате;</p>
+</li>
+<li><p class="first">Документация API, содержащая описания всех модулей и методов API, доступных в движке Blend4Web;</p>
+</li>
+<li><p class="first">Уроки</p>
+</li>
+<li><p class="first">Страница &#8220;Вопрос-Ответ&#8221;, на которой вы можете найти ответы на некоторые общие вопросы, связанные с использованием движка;</p>
+</li>
+<li><p class="first">Форумы сообщества;</p>
+</li>
+<li><p class="first">Адрес электронной почты поддержки (доступен только для PRO-версии).</p>
+</li>
+</ul>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -685,9 +705,10 @@ data. Converted to EMPTY.</td>
 <td><p class="first last">Объект с именем &#8220;NAME&#8221; является вырожденным, например, не имеет полигонов, поэтому его тип изменён на EMPTY.</p>
 </td>
 </tr>
-<tr class="row-odd"><td>Object constraint has no target.
-Check &#8220;CONST_HOLDER_NAME&#8221;.</td>
-<td><p class="first last">Для ограничителя объекта (вкладка <code class="docutils literal"><span class="pre">Object</span> <span class="pre">Constraints</span></code>) не установлено свойство <code class="docutils literal"><span class="pre">Target</span> <span class="pre">Object</span></code>.</p>
+<tr class="row-odd"><td>Object: &#8220;NAME&#8221; &gt; Constraint:
+&#8220;CONSTRAINT_TYPE&#8221;. Check
+constraint settings.</td>
+<td><p class="first last">Ограничитель типа &#8220;CONSTRAINT_TYPE&#8221;, назначенный объекту &#8220;NAME&#8221;, не настроен должным образом.</p>
 </td>
 </tr>
 <tr class="row-even"><td>Object &#8220;NAME&#8221; has the mesh with
@@ -959,40 +980,46 @@ for &#8220;ANIM_NAME&#8221;.</td>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td>Missing active camera or wrong
+<tr class="row-even"><td>Material tangent shading is
+enabled, but object&#8217;s mesh has no
+UV map.</td>
+<td><p class="first last">Для материала выставлена опция &#8220;Tangent Shading&#8221;, которая требует наличия UV-развёртки.</p>
+</td>
+</tr>
+<tr class="row-odd"><td>Missing active camera or wrong
 active camera object</td>
 <td><p class="first last">На сцене отсутствует активная камера (свойство <code class="docutils literal"><span class="pre">Camera</span></code> на вкладке <code class="docutils literal"><span class="pre">Scene</span></code>).</p>
 </td>
 </tr>
-<tr class="row-odd"><td>Missing world or wrong active world
+<tr class="row-even"><td>Missing world or wrong active world
 object</td>
 <td><p class="first last">На сцене должен быть хотя бы один мир.</p>
 </td>
 </tr>
-<tr class="row-even"><td>NAME particle settings has the NAME
+<tr class="row-odd"><td>NAME particle settings has the NAME
 texture rendering a scene. It has
 been replaced by the default
 texture.</td>
 <td><p class="first last">NAME система частиц имеет NAME текстуру, которая отображает сцену. Эта текстура была заменена на стандартную.</p>
 </td>
 </tr>
-<tr class="row-odd"><td>The action NAME has no fcurves.</td>
+<tr class="row-even"><td>The action NAME has no fcurves.</td>
 <td><p class="first last">В анимации с именем &#8220;NAME&#8221; нет ни одного канала.</p>
 </td>
 </tr>
-<tr class="row-even"><td>The &#8220;NAME&#8221; camera has unsupported
+<tr class="row-odd"><td>The &#8220;NAME&#8221; camera has unsupported
 PANORAMIC type. Changed to
 PERSPECTIVE type.&#8221;</td>
 <td><p class="first last">Панорамная камера не поддерживается. Будет использована перспективная камера.</p>
 </td>
 </tr>
-<tr class="row-odd"><td>Unsupported texture type or texture
+<tr class="row-even"><td>Unsupported texture type or texture
 is missing for Lens Flare material
 &#8220;NAME&#8221;</td>
 <td><p class="first last">Текстура для материала Lens Flare с именем &#8220;NAME&#8221; отсутствует или имеет неподдерживаемый формат.</p>
 </td>
 </tr>
-<tr class="row-even"><td>Use of ENVIRONMENT_MAP as diffuse
+<tr class="row-odd"><td>Use of ENVIRONMENT_MAP as diffuse
 color is not supported. Use as
 mirror instead.</td>
 <td><p class="first last">Текстура типа ENVIRONMENT MAP не может быть использована как источник диффузного цвета. Чтобы использовать текстуру в качестве карты зеркального отражения (mirror map), отключите настройку Diffuse &gt; Color и включите Shading &gt; Mirror на панели Textures &gt; Influence.</p>
@@ -1021,127 +1048,168 @@ mirror instead.</td>
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td>ru_RU.po</td>
-<td>Russian</td>
+<td><p class="first last">Русский</p>
+</td>
 </tr>
 <tr class="row-odd"><td>ja_JP.po</td>
-<td>Japanese</td>
+<td><p class="first last">Японский</p>
+</td>
 </tr>
 <tr class="row-even"><td>en_US.po</td>
-<td>English</td>
+<td><p class="first last">Английский</p>
+</td>
 </tr>
 <tr class="row-odd"><td>nl_NL.po</td>
-<td>Dutch</td>
+<td><p class="first last">Нидерландский</p>
+</td>
 </tr>
 <tr class="row-even"><td>it_IT.po</td>
-<td>Italian</td>
+<td><p class="first last">Итальянский</p>
+</td>
 </tr>
 <tr class="row-odd"><td>de_DE.po</td>
-<td>German</td>
+<td><p class="first last">Немецкий</p>
+</td>
 </tr>
 <tr class="row-even"><td>fi_FI.po</td>
-<td>Finnish</td>
+<td><p class="first last">Финский</p>
+</td>
 </tr>
 <tr class="row-odd"><td>sv_SE.po</td>
-<td>Swedish</td>
+<td><p class="first last">Шведский</p>
+</td>
 </tr>
 <tr class="row-even"><td>fr_FR.po</td>
-<td>French</td>
+<td><p class="first last">Французский</p>
+</td>
 </tr>
 <tr class="row-odd"><td>es.po</td>
-<td>Spanish</td>
+<td><p class="first last">Испанский</p>
+</td>
 </tr>
 <tr class="row-even"><td>ca_AD.po</td>
-<td>Catalan</td>
+<td><p class="first last">Каталанский</p>
+</td>
 </tr>
 <tr class="row-odd"><td>cs_CZ.po</td>
-<td>Czech</td>
+<td><p class="first last">Чешский</p>
+</td>
 </tr>
 <tr class="row-even"><td>pt_PT.po</td>
-<td>Portuguese</td>
+<td><p class="first last">Португальский</p>
+</td>
 </tr>
 <tr class="row-odd"><td>zh_CN.po</td>
-<td>Simplified Chinese</td>
+<td><p class="first last">Упрощённый китайский</p>
+</td>
 </tr>
 <tr class="row-even"><td>zh_TW.po</td>
-<td>Traditional Chinese</td>
+<td><p class="first last">Традиционный китайский</p>
+</td>
 </tr>
 <tr class="row-odd"><td>hr_HR.po</td>
-<td>Croatian</td>
+<td><p class="first last">Хорватский</p>
+</td>
 </tr>
 <tr class="row-even"><td>sr_RS.po</td>
-<td>Serbian</td>
+<td><p class="first last">Сербский</p>
+</td>
 </tr>
 <tr class="row-odd"><td>uk_UA.po</td>
-<td>Ukrainian</td>
+<td><p class="first last">Украинский</p>
+</td>
 </tr>
 <tr class="row-even"><td>pl_PL.po</td>
-<td>Polish</td>
+<td><p class="first last">Польский</p>
+</td>
 </tr>
 <tr class="row-odd"><td>ro_RO.po</td>
-<td>Romanian</td>
+<td><p class="first last">Румынский</p>
+</td>
 </tr>
 <tr class="row-even"><td>ar_EG.po</td>
-<td>Arabic</td>
+<td><p class="first last">Арабский</p>
+</td>
 </tr>
 <tr class="row-odd"><td>bg_BG.po</td>
-<td>Bulgarian</td>
+<td><p class="first last">Болгарский</p>
+</td>
 </tr>
 <tr class="row-even"><td>el_GR.po</td>
-<td>Greek</td>
+<td><p class="first last">Греческий</p>
+</td>
 </tr>
 <tr class="row-odd"><td>ko_KR.po</td>
-<td>Korean</td>
+<td><p class="first last">Корейский</p>
+</td>
 </tr>
 <tr class="row-even"><td>ne_NP.po</td>
-<td>Nepali</td>
+<td><p class="first last">Непальский</p>
+</td>
 </tr>
 <tr class="row-odd"><td>fa_IR.po</td>
-<td>Persian</td>
+<td><p class="first last">Персидский</p>
+</td>
 </tr>
 <tr class="row-even"><td>id_ID.po</td>
-<td>Indonesian</td>
+<td><p class="first last">Индонезийский</p>
+</td>
 </tr>
 <tr class="row-odd"><td>sr_RS&#64;latin.po</td>
-<td>Serbian Latin</td>
+<td><p class="first last">Сербский латинский</p>
+</td>
 </tr>
 <tr class="row-even"><td>ky_KG.po</td>
-<td>Kyrgyz</td>
+<td><p class="first last">Киргизский</p>
+</td>
 </tr>
 <tr class="row-odd"><td>tr_TR.po</td>
-<td>Turkish</td>
+<td><p class="first last">Турецкий</p>
+</td>
 </tr>
 <tr class="row-even"><td>hu_HU.po</td>
-<td>Hungarian</td>
+<td><p class="first last">Венгерский</p>
+</td>
 </tr>
 <tr class="row-odd"><td>pt_BR.po</td>
-<td>Brazilian Portuguese</td>
+<td><p class="first last">Бразильский португальский</p>
+</td>
 </tr>
 <tr class="row-even"><td>he_IL.po</td>
-<td>Hebrew</td>
+<td><p class="first last">Иврит</p>
+</td>
 </tr>
 <tr class="row-odd"><td>et_EE.po</td>
-<td>Estonian</td>
+<td><p class="first last">Эстонский</p>
+</td>
 </tr>
 <tr class="row-even"><td>eo.po</td>
-<td>Esperanto</td>
+<td><p class="first last">Эсперанто</p>
+</td>
 </tr>
 <tr class="row-odd"><td>es_ES.po</td>
-<td>Spanish from Spain</td>
+<td><p class="first last">Испанский в Испании</p>
+</td>
 </tr>
 <tr class="row-even"><td>am_ET.po</td>
-<td>Amharic</td>
+<td><p class="first last">Амхарский</p>
+</td>
 </tr>
 <tr class="row-odd"><td>uz_UZ.po</td>
-<td>Uzbek</td>
+<td><p class="first last">Узбекский</p>
+</td>
 </tr>
 <tr class="row-even"><td>uz_UZ&#64;cyrillic.po</td>
-<td>Uzbek Cyrillic</td>
+<td><p class="first last">Узбекский кириллический</p>
+</td>
 </tr>
 <tr class="row-odd"><td>hi_IN.po</td>
-<td>Hindi</td>
+<td><p class="first last">Хинди</p>
+</td>
 </tr>
 <tr class="row-even"><td>vi_VN.po</td>
-<td>Vietnamese</td>
+<td><p class="first last">Вьетнамский</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -1170,7 +1238,7 @@ mirror instead.</td>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Триумф.
-      Обновлено: 2017-05-15.
+      Обновлено: 2017-06-30.
 
     </p>
   </div>
@@ -1226,7 +1294,7 @@ mirror instead.</td>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.04.1',
+            VERSION:'v17.06',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

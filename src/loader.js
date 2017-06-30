@@ -269,7 +269,7 @@ exports.update_scheduler = function(bpy_data_array) {
             if (thread.status == THREAD_IDLE) {
                 thread.status = THREAD_LOADING;
                 thread.time_load_start = performance.now();
-                thread.stageload_cb(0, 0);
+                thread.stageload_cb(0, 0, thread.id);
                 if (cfg_def.debug_loading)
                     m_print.log("%cTHREAD " + thread.id 
                             + ": 0% LOADING START 0ms", DEBUG_COLOR);
@@ -520,7 +520,8 @@ function stage_loading_action(thread, stage, rate) {
         var percents = get_load_percents(thread);
 
         if (thread.curr_percents != percents || rate == 1) {
-            thread.stageload_cb(percents, performance.now() - thread.time_load_start);
+            thread.stageload_cb(percents, performance.now() 
+                    - thread.time_load_start, thread.id);
             thread.curr_percents = percents;
 
             // NOTE: skip next thread iteration to liquidate loading bar 
@@ -557,9 +558,6 @@ function get_stage_by_name(thread, name) {
 
 function skip_stage(stage) {
     stage.skip = true;
-    // force stage to coincide with total amount of loading data;
-    // (for stages that need to be calculated)
-    stage.load_rate = 1;
 }
 
 // release some thread properties not needed after thread is over; 

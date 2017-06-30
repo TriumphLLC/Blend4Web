@@ -55,7 +55,6 @@ var COL_NUM_COMP = 3;
 var TCO_NUM_COMP = 2;
 var SHD_TAN_NUM_COMP = 3;
 
-// deprecated
 var INFLUENCE_NUM_COMP = 4;
 
 // draw modes
@@ -324,7 +323,12 @@ function init_bufs_data() {
  * Append or replace attribute array
  * @param {Float32Array|Int16Array|Uint8Array} array Attribute array
  */
-exports.update_bufs_data_array = function(bufs_data, attrib_name, num_comp, array) {
+exports.update_bufs_data_array = update_bufs_data_array;
+function update_bufs_data_array(bufs_data, attrib_name, num_comp, array) {
+    if (attrib_name == "a_normal") {
+        var tbn = m_tbn.from_norm_tan(array);
+        return update_bufs_data_array(bufs_data, "a_tbn", num_comp, tbn);
+    }
 
     var pointers = bufs_data.pointers;
 
@@ -365,20 +369,33 @@ exports.update_bufs_data_array = function(bufs_data, attrib_name, num_comp, arra
     return bufs_data;
 }
 
-exports.extract_array = extract_array;
+exports.extract_array_float = extract_array_float;
 /**
  * Get VBO buffer view by attribute name.
  * @methodOf geometry
  * @returns Link to VBO subarray
  */
-function extract_array(bufs_data, name) {
-    var pointer = bufs_data.pointers[name];
-    if (pointer) {
-        var type = get_vbo_type_by_attr_name(name);
-        var vbo_source = get_vbo_source_by_type(bufs_data.vbo_source_data, type);
-        return vbo_source.subarray(pointer.offset, pointer.offset + pointer.length);
-    } else
-        m_util.panic("extract_array() failed; invalid name: " + name);
+function extract_array_float(bufs_data, name) {
+    if (name == "a_normal") {
+        var a_tbn = extract_array_float(bufs_data, "a_tbn");
+        var count = m_tbn.get_items_count(a_tbn);
+        var a_normal = new Float32Array(count * 3);
+        for (var i = 0; i < count; i++) {
+            var normal = m_tbn.get_norm(a_tbn, i, _vec3_tmp);
+            a_normal.set(normal, i * 3);
+        }
+        return a_normal;
+    } else {
+        var pointer = bufs_data.pointers[name];
+        if (pointer) {
+            var type = get_vbo_type_by_attr_name(name);
+            var vbo_source = get_vbo_source_by_type(bufs_data.vbo_source_data, type);
+            return array_vbo_to_float(name,
+                    vbo_source.subarray(pointer.offset,pointer.offset + pointer.length),
+                    new Float32Array(pointer.length));
+        } else
+            m_util.panic("extract_array_float() failed; invalid name: " + name);
+    }
 }
 
 /**
@@ -930,11 +947,11 @@ function submesh_list_join_prepare_dest(submeshes) {
 }
 
 /**
- * Extract and clone submesh by given transforms.
+ * Extract and propagate submesh by given transforms.
  * well-suited for hair particles
  * ignore transform/center positions
  */
-exports.make_clone_submesh = function(src_submesh, params, transforms) {
+exports.make_propagated_submesh = function(src_submesh, params, transforms) {
 
     // ignore empty submeshes
     if (!src_submesh.base_length)
@@ -1638,7 +1655,7 @@ exports.update_buffers_movable = function(bufs_data, z_sort_info, world_tsr, eye
 
     // retrieve data required for update
     var indices = bufs_data.ibo_array;
-    var positions = extract_array(bufs_data, "a_position");
+    var positions = extract_array_float(bufs_data, "a_position");
 
     var median_cache = z_sort_info.median_cache;
     var median_world_cache = z_sort_info.median_world_cache;
@@ -2551,6 +2568,25 @@ function init_submesh(name) {
     };
 }
 
+exports.clone_submesh = function(submesh) {
+    var submesh_new = init_submesh(submesh.name);
+
+    submesh_new.base_length = submesh.base_length;
+    submesh_new.indices = m_util.clone_object_r(submesh.indices);
+    submesh_new.va_frames = m_util.clone_object_r(submesh.va_frames);
+    submesh_new.va_common = m_util.clone_object_r(submesh.va_common);
+    submesh_new.shape_keys = m_util.clone_object_r(submesh.shape_keys);
+
+    m_bounds.copy_bb(submesh.submesh_bd.bb_local, submesh_new.submesh_bd.bb_local);
+    m_bounds.copy_be(submesh.submesh_bd.be_local, submesh_new.submesh_bd.be_local);
+    m_bounds.copy_bs(submesh.submesh_bd.bs_local, submesh_new.submesh_bd.bs_local);
+    m_bounds.copy_rot_bb(submesh.submesh_bd.bbr_local, submesh_new.submesh_bd.bbr_local);
+
+    submesh_new.instanced_array_data = m_util.clone_object_r(submesh.instanced_array_data);
+
+    return submesh_new;
+}
+
 exports.reset = function() {
     _gl = null;
 }
@@ -2678,19 +2714,8 @@ function vbo_source_data_set_attr(vbo_source_data, attr_name, array, offset) {
     var type = get_vbo_type_by_attr_name(attr_name);
     var index = search_vbo_index_by_type(vbo_source_data, type);
 
-    switch (type) {
-    case VBO_FLOAT:
-        vbo_source_data[index].vbo_source.set(array, offset);
-        break;
-    case VBO_SHORT:
-        for (var i = 0; i < array.length; i++)
-            vbo_source_data[index].vbo_source[offset + i] = m_util.float_to_short(array[i]);
-        break;
-    case VBO_UBYTE:
-        for (var i = 0; i < array.length; i++)
-            vbo_source_data[index].vbo_source[offset + i] = m_util.ufloat_to_ubyte(array[i]);
-        break;    
-    }
+    array_float_to_vbo(attr_name, array,
+            vbo_source_data[index].vbo_source.subarray(offset));
 }
 
 exports.value_vbo_to_float = value_vbo_to_float;
@@ -2723,6 +2748,48 @@ function value_float_to_vbo(attr_name, val) {
     }
 
     return val;
+}
+
+exports.array_vbo_to_float = array_vbo_to_float;
+function array_vbo_to_float(attr_name, source, dest) {
+    var type = get_vbo_type_by_attr_name(attr_name);
+
+    switch (type) {
+    case VBO_FLOAT:
+        dest.set(source);
+        break;
+    case VBO_SHORT:
+        for (var i = 0; i < source.length; i++)
+            dest[i] = m_util.short_to_float(source[i]);
+        break;
+    case VBO_UBYTE:
+        for (var i = 0; i < source.length; i++)
+            dest[i] = m_util.ubyte_to_ufloat(source[i]);
+        break;
+    }
+
+    return dest;
+}
+
+exports.array_float_to_vbo = array_float_to_vbo;
+function array_float_to_vbo(attr_name, source, dest) {
+    var type = get_vbo_type_by_attr_name(attr_name);
+
+    switch (type) {
+    case VBO_FLOAT:
+        dest.set(source);
+        break;
+    case VBO_SHORT:
+        for (var i = 0; i < source.length; i++)
+            dest[i] = m_util.float_to_short(source[i]);
+        break;
+    case VBO_UBYTE:
+        for (var i = 0; i < source.length; i++)
+            dest[i] = m_util.ufloat_to_ubyte(source[i]);
+        break;
+    }
+
+    return dest;
 }
 
 }

@@ -172,9 +172,14 @@ class B4W_PARTICLE_PT_context_particles(ParticleButtonsPanel, Panel):
                 row.prop(pset, "hair_step")
                 if psys is not None and psys.is_edited:
                     if psys.is_global_hair:
-                        layout.operator("particle.connect_hair")
+                        row = layout.row(align=True)
+                        row.operator("particle.connect_hair").all = False
+                        row.operator("particle.connect_hair", text="Connect All").all = True
                     else:
-                        layout.operator("particle.disconnect_hair")
+                        row = layout.row(align=True)
+                        row.operator("particle.disconnect_hair").all = False
+                        row.operator("particle.disconnect_hair", text="Disconnect All").all = True
+
             else:
                 if not ob.b4w_use_default_animation:
                     layout.label(text=_("Particle emission is disabled."), icon="ERROR")
@@ -224,7 +229,7 @@ class B4W_PARTICLE_PT_emission(ParticleButtonsPanel, Panel):
             col.prop(pset, "lifetime_random", slider=True)
 
         layout.label(text=_("Emit From:"))
-        layout.prop(pset, "emit_from", expand=True)
+        layout.row().prop(pset, "emit_from", expand=True)
 
         if pset.type == "HAIR":
             row = layout.row()
@@ -232,7 +237,7 @@ class B4W_PARTICLE_PT_emission(ParticleButtonsPanel, Panel):
             
             if pset.emit_from == 'FACE' or pset.emit_from == 'VOLUME':
                 row.prop(pset, "use_even_distribution")
-                layout.prop(pset, "distribution", expand=True)
+                layout.row().prop(pset, "distribution", expand=True)
 
                 row = layout.row()
                 if pset.distribution == 'JIT':
@@ -398,7 +403,7 @@ class B4W_PARTICLE_PT_physics(ParticleButtonsPanel, Panel):
         layout.enabled = particle_panel_enabled(context, psys)
 
         if pset.type == "HAIR":
-            layout.prop(pset, "physics_type", expand=True)
+            layout.row().prop(pset, "physics_type", expand=True)
 
             row = layout.row()
             col = row.column(align=True)
@@ -568,8 +573,8 @@ class B4W_PARTICLE_PT_physics(ParticleButtonsPanel, Panel):
                 subsub.operator("particle.target_remove", icon='ZOOMOUT', text="")
                 sub = col.row()
                 subsub = sub.column(align=True)
-                subsub.operator("particle.target_move_up", icon='MOVE_UP_VEC', text="")
-                subsub.operator("particle.target_move_down", icon='MOVE_DOWN_VEC', text="")
+                subsub.operator("particle.target_move_up", icon='TRIA_UP', text="")
+                subsub.operator("particle.target_move_down", icon='TRIA_DOWN', text="")
 
                 key = psys.active_particle_target
                 if key:
@@ -591,7 +596,7 @@ class B4W_PARTICLE_PT_physics(ParticleButtonsPanel, Panel):
                         sub.prop(key, "object", text="")
                         sub.prop(key, "system", text=_("System"))
 
-                        layout.prop(key, "alliance", expand=True)
+                        layout.row().prop(key, "alliance", expand=True)
                     elif pset.physics_type == 'FLUID':
                         sub = row.row()
                         #doesn't work yet
@@ -666,8 +671,8 @@ class B4W_PARTICLE_PT_render(ParticleButtonsPanel, Panel):
                     subsub = sub.column(align=True)
                     subsub.operator("particle.dupliob_copy", icon='ZOOMIN', text="")
                     subsub.operator("particle.dupliob_remove", icon='ZOOMOUT', text="")
-                    subsub.operator("particle.dupliob_move_up", icon='MOVE_UP_VEC', text="")
-                    subsub.operator("particle.dupliob_move_down", icon='MOVE_DOWN_VEC', text="")
+                    subsub.operator("particle.dupliob_move_up", icon='TRIA_UP', text="")
+                    subsub.operator("particle.dupliob_move_down", icon='TRIA_DOWN', text="")
 
                     weight = pset.active_dupliweight
                     if weight:

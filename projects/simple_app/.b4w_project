@@ -18,11 +18,13 @@ engine_type = copy
 ignore = 
 js_ignore = 
 optimization = simple
-use_physics = True
+use_physics = False
 
 [deploy]
 assets_path_dest = assets
 assets_path_prefix = assets
 ignore = 
 override = 
+
+[url_params]
 

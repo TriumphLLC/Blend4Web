@@ -62,7 +62,7 @@
  */
 
 /**
- * Euler vector representing rotation.
+ * Euler vector representing rotation (in radians).
  * <!--
  * <p>The euler angles specified in intrinsic form (rotating space) and have the following meaning:
  * <ul>

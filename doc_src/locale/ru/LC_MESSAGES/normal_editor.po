@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2016-09-01 16:56+0300\n"
+"POT-Creation-Date: 2017-06-16 16:18+0300\n"
 "PO-Revision-Date: 2015-08-28 10:55+0300\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Russian <info [at] blend4web.com>\n"
@@ -16,15 +16,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.3.4\n"
 
-#: ../normal_editor.rst:7
 msgid "Normal Editor"
 msgstr "Редактор нормалей"
 
-#: ../normal_editor.rst
 msgid "Table of Contents"
 msgstr "Содержание"
 
-#: ../normal_editor.rst:13
 msgid ""
 "Editing the selected normals is a pretty easy and effective way to "
 "customize 3d model shading without complicating its geometry."
@@ -33,7 +30,6 @@ msgstr ""
 "изменить собственное затенение трехмерной модели, не усложняя ее "
 "геометрию."
 
-#: ../normal_editor.rst:15
 msgid ""
 "In some cases, using the normal editor you may achieve the effect which "
 "is similar to the result of using :ref:`normal maps <normal_map>`. At the"
@@ -45,11 +41,9 @@ msgstr ""
 "При этом метод редактирования нормалей является более предпочтительным с "
 "точки зрения потребления вычислительных ресурсов и видео-памяти."
 
-#: ../normal_editor.rst:17
 msgid "Normal editor workflow example:"
 msgstr "Пример работы редактора нормалей:"
 
-#: ../normal_editor.rst:23
 msgid ""
 "Simple geometry shading is to the left, a tree with edited normals is to "
 "the right."
@@ -57,7 +51,6 @@ msgstr ""
 "Слева - обычное затенение геометрии, справа - дерево с редактированными "
 "нормалями."
 
-#: ../normal_editor.rst:30
 msgid ""
 "To the left - gates with common shading; at the center - gates with "
 "edited normals; to the right - gates geometry with a wireframe."
@@ -65,7 +58,6 @@ msgstr ""
 "Слева - ворота с обычным затенением, в центре - ворота с редактированными"
 " нормалями, справа - геометрия модели ворот с сеткой."
 
-#: ../normal_editor.rst:36
 msgid ""
 "To the left - common grass geometry shading; to the right - grass with "
 "edited normals."
@@ -73,7 +65,6 @@ msgstr ""
 "Слева - обычное затенение геометрии травы, справа - трава с "
 "редактированными нормалями."
 
-#: ../normal_editor.rst:42
 msgid ""
 "To the left - glasses with common shading; to the right - geometry with "
 "edited normals shading."
@@ -81,11 +72,9 @@ msgstr ""
 "Слева - очки с обычным затенением, справа - затенение геометрии с "
 "редактированными нормалями."
 
-#: ../normal_editor.rst:45
 msgid "Main Features of the Normal Editor"
 msgstr "Основные особенности редактора нормалей:"
 
-#: ../normal_editor.rst:47
 msgid ""
 "native Blender storage is used as a container for edited vertices normals"
 " directions (it appeared in Blender 2.74);"
@@ -93,7 +82,6 @@ msgstr ""
 "для хранилища массива данных с направлениями вертексных нормалей "
 "используется “родной” блок данных Blender (появился в версии 2.74);"
 
-#: ../normal_editor.rst:48
 msgid ""
 "normals editing and shading visualization are processed in ``Edit Mode`` "
 "now;"
@@ -101,11 +89,9 @@ msgstr ""
 "редактирование нормалей и отображение затенения теперь происходит в "
 "режиме редактирования (``Edit Mode``);"
 
-#: ../normal_editor.rst:49
 msgid "all changes are being saved automatically;"
 msgstr "все изменения записываются сразу же автоматически;"
 
-#: ../normal_editor.rst:50
 msgid ""
 "selected vertex normal rotation can be performed directly in the Viewport"
 " window with ``Shift+Ctrl+R`` hotkey, similarly to other rotation "
@@ -115,15 +101,12 @@ msgstr ""
 " окне Viewport’a по горячим клавишам ``Shift+Ctrl+R``, подобно остальным "
 "операциям вращения в Blender;"
 
-#: ../normal_editor.rst:51
 msgid "edited normals are being exported automatically."
 msgstr "редактированные нормали экспортируются автоматически."
 
-#: ../normal_editor.rst:54
 msgid "Interface"
 msgstr "Интерфейс"
 
-#: ../normal_editor.rst:56
 msgid ""
 "The interface of the normal editor is located on the tools panel "
 "``Blend4Web > Normal Editor``. The ``Shading: Smooth`` mode should be "
@@ -137,15 +120,12 @@ msgstr ""
 "``Activate`` на панели редактора нормалей или выставить галочку ``Auto "
 "Smooth`` в настройках меша."
 
-#: ../normal_editor.rst:63
 msgid "Activate"
-msgstr ""
+msgstr "Activate"
 
-#: ../normal_editor.rst:65
 msgid "The ``Activate`` button turns on vertex normal editing mode."
 msgstr "Кнопка ``Activate`` включает режим редактирования вертекных нормалей."
 
-#: ../normal_editor.rst:67
 msgid ""
 "You can just press ``Activate`` button while in ``Edit Mode`` and start "
 "editing vertex normals. As it is active, object shading and its export "
@@ -161,11 +141,9 @@ msgstr ""
 "внесения изменений, для их отображения во Viewport’е Blender и в движке "
 "Blend4Web кнопка должна быть оставлена активной."
 
-#: ../normal_editor.rst:70
 msgid "Show Normals"
-msgstr ""
+msgstr "Show Normals"
 
-#: ../normal_editor.rst:72
 msgid ""
 "This button actually duplicates the original Blender's button. It turns "
 "on displaying the normals in the viewport, while the Size field allows "
@@ -175,7 +153,6 @@ msgstr ""
 "включающая отображение маркеров вертексных нормалей во Viewport’е, а так "
 "же настройка их длины."
 
-#: ../normal_editor.rst:74
 msgid ""
 "You just need to push the Show Normals button either on the normal editor"
 " panel or on the Blender's right panel in the Mesh Display section. You "
@@ -186,11 +163,9 @@ msgstr ""
 "разделе ``Mesh Display`` и настроить комфортную длину маркера в поле "
 "``Size``."
 
-#: ../normal_editor.rst:89
-msgid "Rotation"
-msgstr ""
+msgid "Rotate"
+msgstr "Rotate"
 
-#: ../normal_editor.rst:91
 msgid ""
 "Using these instruments you can change direction of the normals. The "
 "``Rotate`` function is also available through the ``Shift+Ctrl+R`` "
@@ -201,7 +176,6 @@ msgstr ""
 "``Shift+Ctrl+R`` и позволяет вращать вертексные нормали в привычном для "
 "пользователя Blender режиме."
 
-#: ../normal_editor.rst:105
 msgid ""
 "Select one or more vertices that you want to edit and then rotate their "
 "normals using the visual sphere or specify the direction as numerical "
@@ -211,7 +185,6 @@ msgstr ""
 "их, используя визуальную сферу на панели редактора вертексных нормалей "
 "Blend4Web, или задайте направление каждой координате в цифровом значении."
 
-#: ../normal_editor.rst:107
 msgid ""
 "The ``Rotate`` button provides a more convenient way to manipulate "
 "normals. The rotation is performed in the screen space. Nevertheless, as "
@@ -225,27 +198,45 @@ msgstr ""
 "изолировать нужную ось координат и вращать только по ней (нажав ``X``, "
 "``Y`` или ``Z``) и вводить угол поворота при помощи цифровых клавиш."
 
-#: ../normal_editor.rst:110
+msgid "Scale"
+msgstr "Scale"
+
+msgid ""
+"This function can be used to change the scale of the normals and is "
+"available both from the Tool panel and by pressing the ``Shift + Ctrl + "
+"S`` hot keys. The length of a normal can be set with numeric keys, while "
+"``X``, ``Y`` and ``Z`` keys are used to set the coordinate axis along "
+"which the normal is scaled."
+msgstr ""
+"Эта функция используется для масштабирования нормалей и доступна как из "
+"панели Tool, так и при помощи клавиш ``Shift + Ctrl + S``. Масштаб "
+"нормали задаётся при помощи цифровых клавиш; клавиши ``X``, ``Y`` и ``Z``"
+" задают ось координат, вдоль которой осуществляется масштабирование."
+
+msgid ""
+"Keep in mind that the visible length of any normal never changes and is "
+"always defined by the ``Size`` parameter."
+msgstr ""
+"Обратите внимание, что видимая длинна нормали определяется параметром "
+"``Size`` и не меняется при масштабировании."
+
 msgid "Absolute and Offset Modes"
 msgstr "Режимы Absolute и Offset"
 
-#: ../normal_editor.rst:112
 msgid ""
 "Normal Editor can operate in two different modes: Absolute mode and "
 "Offset mode. The currently selected mode can be switched by pressing one "
 "of the two buttons placed under the ``Rotate`` button that has been "
 "described above. By default, ``Absolute`` mode is used."
 msgstr ""
-"Редактор нормалей может функционировать в двух режимах: режиме Absolute и "
-"режиме Offset. Режим может быть выбран с помощью двух кнопок, расположенных "
-"прямо под вышеописанной кнопкой ``Rotate``. По умолчанию используется режим "
-"``Absolute``."
+"Редактор нормалей может функционировать в двух режимах: режиме Absolute и"
+" режиме Offset. Режим может быть выбран с помощью двух кнопок, "
+"расположенных прямо под вышеописанной кнопкой ``Rotate``. По умолчанию "
+"используется режим ``Absolute``."
 
-#: ../normal_editor.rst:115
 msgid "Absolute Mode"
 msgstr "Режим Absolute"
 
-#: ../normal_editor.rst:121
 msgid ""
 "This is the default mode of the Normal Editor. In this mode, the "
 "coordinates of a normal vector are absolute and can be set using the "
@@ -257,30 +248,27 @@ msgstr ""
 "``Y`` и ``Z`` либо с помощью сферического контроллера, расположенного "
 "рядом с ними."
 
-#: ../normal_editor.rst:124
 msgid "Offset Mode"
 msgstr "Режим Offset"
 
-#: ../normal_editor.rst:130
 msgid "In this mode, a user-defined value is added to the normal vector."
-msgstr "В этом режиме к нормальному вектору прибавляется вектор, заданный пользователем."
+msgstr ""
+"В этом режиме к нормальному вектору прибавляется вектор, заданный "
+"пользователем."
 
-#: ../normal_editor.rst:132
 msgid ""
 "The ``X``, ``Y`` and ``Z`` fields can be used for setting the "
 "corresponding components of the vector, while the ``Sub`` and ``Add`` "
 "buttons define whether the vector should be subtracted from the normal "
 "vector or added to it."
 msgstr ""
-"Поля ``X``, ``Y`` и ``Z`` используются для задания соответствующих компонент "
-"вектора, а кнопки ``Sub`` и ``Add`` определяют, вычитается ли пользовательский "
-"вектор из нормального или складывается с ним."
+"Поля ``X``, ``Y`` и ``Z`` используются для задания соответствующих "
+"компонент вектора, а кнопки ``Sub`` и ``Add`` определяют, вычитается ли "
+"пользовательский вектор из нормального или складывается с ним."
 
-#: ../normal_editor.rst:135
 msgid "Split Normals"
-msgstr ""
+msgstr "Split Normals"
 
-#: ../normal_editor.rst:137
 msgid ""
 "The ``Split Normals`` mode allows to edit vertex normals separately for "
 "each ``face`` that form the ``vertex``. Index allows you to navigate "
@@ -291,7 +279,6 @@ msgstr ""
 "редактируемую вершину (``Vertex`` в Blender). Переключатель вертексных "
 "индексов позволяет перемещаться между нормалями разделенного вертекса."
 
-#: ../normal_editor.rst:151
 msgid ""
 "Turn on the ``Split Normals`` mode, select the vertex and change the "
 "direction of its normals. Firstly, the normal which has the zero index in"
@@ -305,11 +292,9 @@ msgstr ""
 "редактируемого вертекса. Далее, перемещаясь по индексам, перейдите на "
 "следующую нормаль этого вертекса и редактируйте ее."
 
-#: ../normal_editor.rst:154
 msgid "Average"
-msgstr ""
+msgstr "Average"
 
-#: ../normal_editor.rst:156
 msgid ""
 "The ``Average`` button averages the direction of the vertex normals which"
 " was modified."
@@ -317,7 +302,6 @@ msgstr ""
 "``Average`` усредняет направление вертексной нормали, исходя из "
 "направлений нормалей, разделенных функцией ``Split Normals``."
 
-#: ../normal_editor.rst:170
 msgid ""
 "To combine several split vertex normals into one, in order to obtain the "
 "average direction of these normals, you just need to select the desired "
@@ -327,11 +311,9 @@ msgstr ""
 "одну так, чтобы она имела их среднее направление, достаточно выделить "
 "нужный вертекс и нажать Average ``Split``."
 
-#: ../normal_editor.rst:173
 msgid "Restore"
-msgstr ""
+msgstr "Restore"
 
-#: ../normal_editor.rst:175
 msgid ""
 "The ``Restore`` button restores the original direction of normals for the"
 " selected vertices."
@@ -339,7 +321,6 @@ msgstr ""
 "Кнопка ``Restore`` восстанавливает исходное направление нормалей "
 "выделенных вертексов."
 
-#: ../normal_editor.rst:189
 msgid ""
 "In order to restore the normal's direction to its original (which is "
 "calculated on the basis of face normals), you need to select the desired "
@@ -349,64 +330,82 @@ msgstr ""
 "раcсчитывается на основе нормалей полигонов), нужно выделить нужные "
 "вертексы и нажать кнопку ``Restore``."
 
-#: ../normal_editor.rst:192
-msgid "Tree, Foliage and Face"
-msgstr "Tree, Foliage и Face"
+msgid "3D Cursor, Axis and Face"
+msgstr "3D Cursor, Axis и Face"
 
-#: ../normal_editor.rst:194
 msgid ""
-"The ``Tree`` button directs the normals of the selected vertices away "
-"from the 3D cursor. The ``Foliage`` button directs the normals of the "
-"vertices strictly up. The ``Face`` button directs the normals of the "
-"selected face parallel to the normal of this face."
+"The ``3D Cursor`` button directs the normals of the selected vertices "
+"away from the 3D cursor or toward it (if the ``Towards`` parameter in the"
+" ``Vertex Normal Cursor`` panel is enabled). The ``Axis`` button directs "
+"the normals of the vertices along a coordinate axis (the axis can be "
+"selected in the same ``Vertex Normal Cursor`` panel). The ``Face`` button"
+" directs the normals of the selected face parallel to the normal of this "
+"face."
 msgstr ""
-"Функция ``Tree`` направляет нормали выделенных вертексов в сторону от "
-"3D-курсора. ``Foliage`` направляет нормали вертекcов строго вверх по "
-"глобальной оси ``Z``. ``Face`` направляет нормали вертексов выделенного "
-"полигона параллельно нормали этого полигона."
+"Кнопка ``3D Cursor`` ориентирует нормали выбранных вершин по направлению "
+"к 3D-курсору (если активирован параметр ``Towards`` на панели ``Vertex "
+"Normal Cursor``) или в противоположную сторону. Кнопка ``Axis`` направляет"
+" нормали вдоль одной из осей координат (ось задаётся на той же панели "
+"``Vertex Normal Cursor``). Кнопка ``Face`` ориентирует нормали всех "
+"вершин выбранной грани параллельно нормали этой грани."
 
-#: ../normal_editor.rst:216
 msgid ""
-"In order to use the ``Tree`` function, select the desired vertices and "
-"place the 3D cursor in the desired position. Then click the ``Tree`` "
-"button so all the selected vertices will turn their direction away from "
-"the cursor, as if they were shot from one point."
+"In order to use the ``3D Cursor`` function, select the desired vertices "
+"and place the 3D cursor in the desired position. Then click the ``3D "
+"Cursor`` button so all the selected vertices will turn their direction "
+"away from the cursor, as if they were shot from one point. Then you may "
+"check the ``Towards`` option in the ``Vertex Normal Cursor`` panel, which"
+" will make the normals to turn in the direction of the cursor."
 msgstr ""
-"Чтобы воспользоваться функцией ``Tree``, выделите нужные вертексы и "
-"расположите курсор в нужном вам месте. После нажатия кнопки ``Tree`` все "
-"выделенные вертексы будут направлены в сторону от курсора, как будто бы "
-"они выстреливают из одной точки."
+"Чтобы воспользоваться функцией ``3D Cursor``, выделите нужные вертексы и "
+"расположите курсор в нужном вам месте. После нажатия кнопки ``3D Cursor``"
+" все выделенные вертексы будут направлены в сторону от курсора, как будто"
+" бы они выстреливают из одной точки. После этого можно также включить "
+"опцию ``Towards`` на панели ``Vertex Normal Cursor``; эта опция "
+"разворачивает нормали по направлению к курсору."
 
-#: ../normal_editor.rst:218
 msgid ""
-"The ``Foliage`` function is very easy to use: just select the vertices "
-"and press the button, so the function will direct their normals straight "
-"up."
+"The ``Axis`` function is very easy to use: just select the vertices and "
+"press the button, so the function will direct their normals along the "
+"coordinate axis set in the ``Vertex Normal Cursor`` panel (Z axis is "
+"selected by default) or away from it, if you disable the ``Towards`` "
+"parameter on the same panel."
 msgstr ""
-"Функция ``Foliage`` очень проста в использовании: выделите нужные "
-"вертексы и нажмите кнопку, и функция направит их строго вверх."
+"Использовать функцию ``Axis`` очень просто: достаточно выбрать вершины и "
+"нажать кнопку, после чего функция направит нормали этих вершин вдоль оси "
+"координат, выбранной на панели ``Vertex Normal Cursor`` (по умолчанию "
+"выбрана ось Z) или в противоположном направлении (если отключить опцию "
+"``Towards`` на той же панели)."
 
-#: ../normal_editor.rst:220
 msgid ""
 "In order to direct the normals parallel to the face normal, just select "
-"the desired face and click the ``Face`` button. The normals of the "
-"vertices which form the face will be directed parallel to the face "
-"normal. This function works only with one selected face at a time."
+"the desired face (or several faces) and click the ``Face`` button. The "
+"normals of the vertices which form the face will be directed parallel to "
+"the face normal. This function works only with one selected face at a "
+"time."
 msgstr ""
-"Чтобы направить нормали вертексов параллельно нормали полигона, выделите "
-"нужный полигон и нажмите ``Face``. Все нормали вертексов, образующих этот"
-" полигон, будут направлены параллельно нормали самого полигона. Эта "
-"функция работает только с одним выделенным полигоном одновременно."
+"Чтобы направить нормали вертексов параллельно нормали грани, выделите "
+"нужную грань (или несколько граней) и нажмите ``Face``. Все нормали "
+"вертексов, образующих эту грань, будут направлены параллельно нормали "
+"самого полигона."
 
-#: ../normal_editor.rst:223
+msgid ""
+"The ``3D Cursor``, ``Axis`` and ``Face`` operators also possess the "
+"``Factor`` parameter which is used to mix the initial position of the "
+"normals with the resulting position. The default value of this parameter "
+"is 1.0 (the resulting position is used)."
+msgstr ""
+"Функции ``3D Cursor``, ``Axis`` и ``Face`` также обладают параметром "
+"``Factor``, который используется для смешивания начальной позиции "
+"нормалей с окончательной. По умолчанию значение этого параметра равно 1.0"
+" (используется окончательная позиция)."
+
 msgid "Copy/Paste"
-msgstr ""
+msgstr "Copy/Paste"
 
-#: ../normal_editor.rst:225
 msgid "Copies the normal direction from one vertex to another."
 msgstr "Копирует направление нормали с одного вертекса на другой."
 
-#: ../normal_editor.rst:239
 msgid ""
 "Select the vertex you want to copy from and click the ``Copy`` button. "
 "Then, select the vertex you want to copy to and click the ``Paste`` "
@@ -420,11 +419,9 @@ msgstr ""
 "Кнопки не активны в режиме ``Split Mode`` и не переносят данные уже "
 "“разделенных” нормалей на другие вертексы."
 
-#: ../normal_editor.rst:242
 msgid "Copy From Mesh"
-msgstr ""
+msgstr "Copy From Mesh"
 
-#: ../normal_editor.rst:244
 msgid ""
 "This function allows you to copy the normals from one object to another. "
 "There are two modes: ``Matched Vertices`` and ``Nearest Vertices``."
@@ -433,7 +430,6 @@ msgstr ""
 "геометрии на другую. Существует два режима копирования, ``Matched "
 "Vertices`` и ``Nearest Vertices``."
 
-#: ../normal_editor.rst:246
 msgid ""
 "The ``Matched Vertices`` mode copies the normals from the vertices of one"
 " object to another object's vertices only if they have the same "
@@ -445,7 +441,6 @@ msgstr ""
 "вертексы игнорируются. В режиме ``Nearest Vertices`` копируются нормали с"
 " ближайших вертексов другой модели."
 
-#: ../normal_editor.rst:260
 msgid ""
 "This function works in Blender's object mode. At first, you need to "
 "select the object you need to copy from, then the object you need to copy"
@@ -458,17 +453,36 @@ msgstr ""
 "вертексы целевого объекта, на которые необходимо произвести перенос "
 "направления нормалей."
 
-#: ../normal_editor.rst:3
 msgid "normals"
-msgstr ""
+msgstr "normals"
 
-#: ../normal_editor.rst:3
 msgid "editor"
-msgstr ""
+msgstr "editor"
 
 #~ msgid "Interface of the Vertex Normal Editor"
 #~ msgstr "Интерфейс редактора вертексных нормалей"
 
 #~ msgid "Average Split"
+#~ msgstr ""
+
+#~ msgid "Rotation"
+#~ msgstr ""
+
+#~ msgid "Tree, Foliage and Face"
+#~ msgstr "Tree, Foliage и Face"
+
+#~ msgid ""
+#~ msgstr ""
+
+#~ msgid "This."
+#~ msgstr ""
+
+#~ msgid "Cursor 3D, Axis and Face"
+#~ msgstr ""
+
+#~ msgid "Factor"
+#~ msgstr ""
+
+#~ msgid "The ``Factor`` parameter"
 #~ msgstr ""
 

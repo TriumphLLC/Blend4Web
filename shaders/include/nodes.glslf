@@ -461,8 +461,8 @@ float fresnel_dielectric(vec3 inc, vec3 norm, float eta)
     #node_out vec3 normal
     #node_out vec4 bsdf_params
     #node_out vec4 shadow_factor
+    #node_out vec3 d_color_out
     #node_out vec3 s_color_out
-    #node_out float metalness_out
     #node_out vec3 e_color_out
     #node_out float emission_out
     #node_out vec3 a_color_out
@@ -474,8 +474,8 @@ float fresnel_dielectric(vec3 inc, vec3 norm, float eta)
     S = s_color;
 
     normal = normal_in;
+    d_color_out = d_color;
     s_color_out = s_color;
-    metalness_out = metalness;
     e_color_out = e_color;
     emission_out = emission;
     a_color_out = a_color;
@@ -499,22 +499,26 @@ float fresnel_dielectric(vec3 inc, vec3 norm, float eta)
     #node_in vec4 color_in
     #node_in vec3 specular_in
     #node_in vec3 normal
+    #node_in vec4 bsdf_params
+    #node_in vec3 d_color
     #node_in vec3 s_color
-    #node_in float metalness
     #node_in vec3 e_color
     #node_in float emission
     #node_in vec3 a_color
     #node_in float alpha_in
     #node_out vec3 color_out
 
-# node_if REFLECTION_TYPE == REFL_CUBE
-    color_out = apply_mirror_bsdf(color_in.rgb, s_color, nin_eye_dir, normal,
-                                   metalness, mat3(_0_0));
-# node_elif REFLECTION_TYPE == REFL_PLANE
-    color_out = apply_mirror_bsdf(color_in.rgb, s_color, nin_eye_dir, normal,
-                                   metalness, u_view_tsr_frag);
-# node_else
+    float s_roughness = clamp(bsdf_params[1], _0_0, _1_0);
+    float metalness = bsdf_params[2];
+
     color_out = color_in.rgb;
+
+# node_if REFLECTION_TYPE == REFL_CUBE
+    color_out += apply_mirror_bsdf(d_color, s_color, nin_eye_dir, normal,
+                                   metalness, s_roughness, mat3(_0_0));
+# node_elif REFLECTION_TYPE == REFL_PLANE
+    color_out += apply_mirror_bsdf(d_color, s_color, nin_eye_dir, normal,
+                                   metalness, u_view_tsr_frag);
 # node_endif
 
     // color_out = mix(color_out, e_color, emission);
@@ -537,7 +541,7 @@ float fresnel_dielectric(vec3 inc, vec3 norm, float eta)
 //      http://blog.selfshadow.com/publications/s2013-shading-course/
 //
 //  GGX optimization:
-//      http://www.filmicworlds.com/2014/04/21/optimizing-ggx-shaders-with-dotlh/
+//      http://filmicworlds.com/blog/optimizing-ggx-shaders-with-dotlh/
 #node BSDF_COMPUTE
     #node_var MAT_USE_TBN_SHADING 0
     #node_in vec3 ldir
@@ -594,7 +598,9 @@ float fresnel_dielectric(vec3 inc, vec3 norm, float eta)
             }
         } else
             lfactor = dot_nl;
-        lfactor = max(lfactor, _0_0);
+        // energy conservation is broken
+        // but it looks closer to Blender
+        lfactor = max(lfactor, _0_0) / M_PI;
     }
 
     // specular GGX
@@ -664,6 +670,7 @@ float fresnel_dielectric(vec3 inc, vec3 norm, float eta)
     d_roughness = roughness_in;
     metalness = _0_0;
     emission = _0_0;
+    alpha = _1_0;
 # node_if USE_NORMAL_IN
     normal = normal_in;
 # node_else
@@ -671,12 +678,12 @@ float fresnel_dielectric(vec3 inc, vec3 norm, float eta)
 # node_endif
 
     // NOTE: using unused variable to pass shader verification
+    // + explicit zeroing to prevent glitches in some browsers
     surface;
-    s_color;
-    s_roughness;
-    e_color;
-    a_color;
-    alpha;
+    s_color = vec3(_0_0);
+    s_roughness = _0_0;
+    e_color = vec3(_0_0);
+    a_color = vec3(_0_0);
 #endnode
 
 #node BSDF_GLASS
@@ -713,6 +720,7 @@ float fresnel_dielectric(vec3 inc, vec3 norm, float eta)
     s_roughness = roughness_in;
     metalness = _1_0;
     emission = _0_0;
+    alpha = _1_0;
 # node_if USE_NORMAL_IN
     normal = normal_in;
 # node_else
@@ -720,12 +728,12 @@ float fresnel_dielectric(vec3 inc, vec3 norm, float eta)
 # node_endif
 
     // NOTE: using unused variable to pass shader verification
+    // + explicit zeroing to prevent glitches in some browsers
     surface;
-    d_color;
-    d_roughness;
-    e_color;
-    a_color;
-    alpha;
+    d_color = vec3(_0_0);
+    d_roughness = _0_0;
+    e_color = vec3(_0_0);
+    a_color = vec3(_0_0);
 #endnode
 
 #node BSDF_HAIR
@@ -762,12 +770,13 @@ float fresnel_dielectric(vec3 inc, vec3 norm, float eta)
     normal = nin_normal;
 
     // NOTE: using unused variable to pass shader verification
+    // + explicit zeroing to prevent glitches in some browsers
     surface;
-    d_color;
-    d_roughness;
-    s_color;
-    s_roughness;
-    e_color;
+    d_color = vec3(_0_0);
+    d_roughness = _0_0;
+    s_color = vec3(_0_0);
+    s_roughness = _0_0;
+    e_color = vec3(_0_0);
 #endnode
 
 #node BSDF_TRANSLUCENT
@@ -853,14 +862,15 @@ float fresnel_dielectric(vec3 inc, vec3 norm, float eta)
     e_color = strength_in * color_in;
     metalness = _0_0;
     emission = _1_0;
+    alpha = _1_0;
     normal = nin_normal;
     // NOTE: using unused variable to pass shader verification
+    // + explicit zeroing to prevent glitches in some browsers
     surface;
-    d_color;
-    d_roughness;
-    s_color;
-    s_roughness;
-    alpha;
+    d_color = vec3(_0_0);
+    d_roughness = _0_0;
+    s_color = vec3(_0_0);
+    s_roughness = _0_0;
 #endnode
 
 #node AMBIENT_OCCLUSION

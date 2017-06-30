@@ -313,6 +313,26 @@ exports.apply_torque = function(obj, tx_local, ty_local, tz_local) {
     }
     m_phy.apply_torque(obj, tx_local, ty_local, tz_local);
 }
+
+/**
+ * Set object's angular velocity.
+ * @method module:physics.set_angular_velocity
+ * @param {Object3D} obj Object 3D
+ * @param {number} av_x X projection of angular velocity in the local space
+ * @param {number} av_y Y projection of angular velocity in the local space
+ * @param {number} av_z Z projection of angular velocity in the local space
+ * @example var m_physics = require("physics");
+ *
+ * var obj = m_scenes.get_object_by_name("Cube");
+ * m_physics.set_angular_velocity(obj, 0.0, 0.0, 0.5);
+ */
+exports.set_angular_velocity = function(obj, av_x, av_y, av_z) {
+    if (!m_phy.obj_has_physics(obj)) {
+        m_print.error_once("No physics for object " + obj.name);
+        return;
+    }
+    m_phy.set_angular_velocity(obj, av_x, av_y, av_z);
+}
 /**
  * Apply throttle to vehicle.
  * @method module:physics.vehicle_throttle
@@ -660,8 +680,8 @@ exports.character_jump = function(obj) {
  * Increment the character rotation
  * @method module:physics.character_rotation_inc
  * @param {Object3D} obj Object 3D
- * @param {number} h_angle Angle in horizontal plane
- * @param {number} v_angle Angle in vertical plane
+ * @param {number} h_angle Angle (in radians) in horizontal plane
+ * @param {number} v_angle Angle (in radians) in vertical plane
  */
 exports.character_rotation_inc = function(obj, h_angle, v_angle) {
     if (!m_phy.obj_has_physics(obj)) {
@@ -674,8 +694,8 @@ exports.character_rotation_inc = function(obj, h_angle, v_angle) {
  * Set the character rotation in horizontal and vertical planes
  * @method module:physics.set_character_rotation
  * @param {Object3D} obj Object 3D
- * @param {number} angle_h Angle in horizontal plane
- * @param {number} angle_v Angle in vertical plane
+ * @param {number} angle_h Angle (in radians) in horizontal plane
+ * @param {number} angle_v Angle (in radians) in vertical plane
  */
 exports.set_character_rotation = function(obj, angle_h, angle_v) {
     if (!m_phy.obj_has_physics(obj)) {
@@ -688,7 +708,7 @@ exports.set_character_rotation = function(obj, angle_h, angle_v) {
  * Set the character vertical rotation
  * @method module:physics.set_character_rotation_v
  * @param {Object3D} obj Object 3D
- * @param {number} angle Angle in vertical plane
+ * @param {number} angle Angle (in radians) in vertical plane
  */
 exports.set_character_rotation_v = function(obj, angle) {
     if (!m_phy.obj_has_physics(obj)) {
@@ -701,7 +721,7 @@ exports.set_character_rotation_v = function(obj, angle) {
  * Set the character horizontal rotation
  * @method module:physics.set_character_rotation_h
  * @param {Object3D} obj Object 3D
- * @param {number} angle Angle in horizontal plane
+ * @param {number} angle Angle (in radians) in horizontal plane
  */
 exports.set_character_rotation_h = function(obj, angle) {
     if (!m_phy.obj_has_physics(obj)) {

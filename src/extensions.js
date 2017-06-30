@@ -82,6 +82,15 @@ exports.get_aniso = function() {
     return ext_aniso;
 }
 
+exports.get_texture_lod = function() {
+
+    if (cfg_def.webgl2)
+        return webgl2_get("EXT_shader_texture_lod");
+
+    var ext_tex_lod = get("EXT_shader_texture_lod");
+    return ext_tex_lod;
+}
+
 /**
  * Request WEBGL_debug_shaders extension
  * @methodOf extensions
@@ -134,7 +143,7 @@ exports.get_standard_derivatives = function() {
  */
 exports.get_disjoint_timer_query = function() {
     if (cfg_def.webgl2)
-        var ext = webgl2_get("EXT_disjoint_timer_query");
+        var ext = webgl2_get("EXT_disjoint_timer_query_webgl2");
     else
         var ext = get("EXT_disjoint_timer_query");
 
@@ -265,16 +274,15 @@ function webgl2_get(name) {
     case "WEBGL_depth_texture":
     case "OES_element_index_uint":
     case "OES_standard_derivatives":
+    case "EXT_shader_texture_lod":
         var ext = {};
         break;
     case "ANGLE_instanced_arrays":
     case "OES_vertex_array_object":
         var ext = _gl;
         break;
-    case "EXT_disjoint_timer_query":
-        var ext = _gl.getExtension("EXT_disjoint_timer_query") || null;
-        if (!ext)
-            ext = _gl.getExtension("EXT_disjoint_timer_query_webgl2") || null;
+    default:
+        var ext = _gl.getExtension(name) || null;
         break;
     }
 

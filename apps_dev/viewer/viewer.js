@@ -704,10 +704,13 @@ function prepare_scenes() {
 
     // ui for changing material color
     _object_selected_callback = function(obj) {
-        var mat_names = m_mat.get_materials_names(obj);
-        fill_select_options("material_name", mat_names);
-        get_material_params(obj, mat_names[0]);
-        get_water_material_params(obj, mat_names[0]);
+
+        if (m_obj.is_dynamic(obj) && m_obj.is_mesh(obj)) {
+            var mat_names = m_mat.get_materials_names(obj);
+            fill_select_options("material_name", mat_names);
+            get_material_params(obj, mat_names[0]);
+            get_water_material_params(obj, mat_names[0]);
+        }
         get_wind_bending_params(obj);
     };
 
@@ -1795,7 +1798,10 @@ function hide_element(obj) {
 }
 
 function get_material_params(obj, mat_name) {
-    var mparams = m_mat.get_material_extended_params(obj, mat_name);
+    
+    var mparams = null;     
+    if (!m_mat.is_node_material(obj, mat_name))
+        mparams = m_mat.get_material_extended_params(obj, mat_name);
 
     var mat_param_names = ["material_diffuse_color",
                            "material_name",
@@ -1839,19 +1845,15 @@ function set_material_params(value) {
     var material_ext_params = {};
 
     if ("material_reflectivity" in value)
-        material_ext_params["material_reflectivity"]
-                = value["material_reflectivity"];
+        material_ext_params.reflect_factor = value["material_reflectivity"];
     if ("material_fresnel" in value)
-        material_ext_params["material_fresnel"] = value["material_fresnel"];
+        material_ext_params.fresnel = value["material_fresnel"];
     if ("material_fresnel_factor" in value)
-        material_ext_params["material_fresnel_factor"]
-                = value["material_fresnel_factor"];
+        material_ext_params.fresnel_factor = value["material_fresnel_factor"];
     if ("material_parallax_scale" in value)
-        material_ext_params["material_parallax_scale"]
-                = value["material_parallax_scale"];
+        material_ext_params.parallax_scale = value["material_parallax_scale"];
     if ("material_parallax_steps" in value)
-        material_ext_params["material_parallax_steps"]
-                = value["material_parallax_steps"];
+        material_ext_params.parallax_steps = value["material_parallax_steps"];
     m_mat.set_material_extended_params(obj, $("#material_name").val(),
             material_ext_params);
 
@@ -1861,7 +1863,7 @@ function set_material_params(value) {
 function set_wind_bending_params(value) {
     var obj = get_selected_object();
 
-    if (!obj)
+    if (!obj || !m_obj.is_dynamic(obj))
         return;
 
     var wb_params = {};
@@ -1893,22 +1895,28 @@ function get_wind_bending_params(obj) {
                           "wind_bending_detail_frequency",
                           "wind_bending_branch_amplitude"];
 
-    if (!wb_params) {
-        forbid_params(wb_param_names, "disable");
-        show_element("object_warning");
-        return null;
+    if (wb_params) {
+        set_slider("wind_bending_angle",            wb_params["angle"]);
+        set_slider("wind_bending_main_frequency",   wb_params["main_frequency"]);
+        set_slider("wind_bending_detail_amplitude", wb_params["detail_amplitude"]);
+        set_slider("wind_bending_detail_frequency", wb_params["detail_frequency"]);
+        set_slider("wind_bending_branch_amplitude", wb_params["branch_amplitude"]);
     }
-    forbid_params(wb_param_names, "enable");
 
-    set_slider("wind_bending_angle",            wb_params["angle"]);
-    set_slider("wind_bending_main_frequency",   wb_params["main_frequency"]);
-    set_slider("wind_bending_detail_amplitude", wb_params["detail_amplitude"]);
-    set_slider("wind_bending_detail_frequency", wb_params["detail_frequency"]);
-    set_slider("wind_bending_branch_amplitude", wb_params["branch_amplitude"]);
+    if (m_obj.is_dynamic(obj))
+        forbid_params(wb_param_names, "enable");
+    else {
+        show_element("object_warning");
+        forbid_params(wb_param_names, "disable");
+    }
 }
 
 function get_water_material_params(obj, mat_name) {
-    var mparams = m_mat.get_water_material_params(obj, mat_name);
+
+    var mparams = null;
+    if (m_mat.is_water_material(obj, mat_name))
+        mparams = m_mat.get_water_material_params(obj, mat_name);
+    
     var water_param_names = ["shallow_water_col",
                              "shallow_water_col_fac",
                              "shore_water_col",

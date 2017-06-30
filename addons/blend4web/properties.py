@@ -3348,7 +3348,7 @@ def add_material_properties():
     )
     mat_type.b4w_shore_water_col = bpy.props.FloatVectorProperty(
         name = _("B4W: shore water color"),
-        description = _("Color of the shallow water"),
+        description = _("Color of the shore water"),
         default = (0.0, 0.9, 0.2),
         min = 0,
         soft_min = 0,
@@ -3578,7 +3578,7 @@ def add_texture_properties():
 
     tex_type.b4w_parallax_scale = bpy.props.FloatProperty(
         name = _("B4W: parallax scale"),
-        description = _("Scale parameter for texture warping. Height (e.g. 3 cm) is devided by the texture covering size (e.g. 1.5 m)"),
+        description = _("Scale parameter for texture warping. Height (e.g. 3 cm) is divided by the texture covering size (e.g. 1.5 m)"),
         default = 0.02,
         min = 0.0,
         soft_max = 0.1,

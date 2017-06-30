@@ -18,6 +18,8 @@
 
     * 物理标签
 
+  * Object Constraints
+
   * 锚设置
 
   * 物体变换API
@@ -406,6 +408,49 @@ Blend4Web的特殊属性。
    启用物体的角色物理特性。角色设置详细描述在  物理 一节.。
 
 
+Object Constraints
+==================
+
+Blend4Web engine supports the following object constraints:
+
+* "Copy Location",
+
+* "Copy Rotation",
+
+* "Copy Transforms" and
+
+* "Track To".
+
+注解: When object constraints are used in Blend4Web, the "Space"
+  parameter is not taken into account (it is always set to "World
+  Space").
+
+These constraints can be set up directly in Blender. Other types of
+constraints are not currently supported, but some API methods from the
+constraints module act similarly. This include:
+
+* the "Copy Location" constraint can be emulated with the
+  append_copy_loc()
+
+* the "Copy Rotation" constraint works similarly to the
+  append_copy_rot() method.
+
+* the "Copy Transforms" constraint works similarly to the
+  append_copy_trans() method.
+
+* The "Limit Distance" constraint can be emulated with the
+  append_follow() method, though it should be noted that this method
+  does not set a precise distance between objects (instead, it set a
+  minimum and maximum possible distances).
+
+* the "Track To" constraint can be replaced with the append_track()
+  method.
+
+Other constraints do not have distinctive counterparts in the API,
+although their behavior can be to certain extent imitated using API
+methods.
+
+
 锚设置
 ======
 
@@ -600,7 +645,7 @@ get_object_name()
    var obj = m_scenes.pick_object(x, y);
    // ...
 
-或使用 逻辑编辑器.
+or using the Logic Editor.
 
 如果选择的物体已启用了 "Object > Selection" 和轮廓面板上的 "Enable
 Outlining" 和 "Outline on Select" 选框，那么 "pick_object" 函数调用将

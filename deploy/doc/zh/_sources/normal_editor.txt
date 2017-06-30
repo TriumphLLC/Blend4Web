@@ -16,7 +16,9 @@
 
   * 显示法线
 
-  * 旋转
+  * Rotate
+
+  * Scale
 
   * 绝对和偏移模式
 
@@ -26,7 +28,7 @@
 
   * 恢复
 
-  * Tree（树），Foliage（树叶） 和 Face（面）
+  * 3D Cursor, Axis and Face
 
   * Copy（复制）/Paste（粘贴）
 
@@ -102,8 +104,8 @@ Display（网格显示）里的法线显示。您也可以经由设置Size栏来
 线长度。
 
 
-旋转
-====
+Rotate
+======
 
 使用这些工具，您可以更改法线的方向。Rotate（旋转）的功能也可通过
 Shift+Ctrl+R热键，允许类似于Blender的顶点法线旋转。
@@ -114,6 +116,19 @@ Shift+Ctrl+R热键，允许类似于Blender的顶点法线旋转。
 Rotate 按钮提供了更简便的方法来操纵法线。旋转在屏幕空间执行。然而，正
 如任何在Blender的其他旋转，您可在旋转过程中隔离所需的轴 (通过键入 X、
 Y 或 Z)。
+
+
+Scale
+=====
+
+This function can be used to change the scale of the normals and is
+available both from the Tool panel and by pressing the "Shift + Ctrl +
+S" hot keys. The length of a normal can be set with numeric keys,
+while "X", "Y" and "Z" keys are used to set the coordinate axis along
+which the normal is scaled.
+
+注解: Keep in mind that the visible length of any normal never
+  changes and is always defined by the "Size" parameter.
 
 
 绝对和偏移模式
@@ -173,20 +188,40 @@ Restore（还原）按钮将还原所选顶点法线的原始方向。
 然后单击 Restore 按钮。
 
 
-Tree（树），Foliage（树叶） 和 Face（面）
-=========================================
+3D Cursor, Axis and Face
+========================
 
-Tree按钮将选择的顶点法线导离3D游标。 Foliage按钮将法线硬直地朝上。Face
-按钮将法线方向平行于面的法线。
+The "3D Cursor" button directs the normals of the selected vertices
+away from the 3D cursor or toward it (if the "Towards" parameter in
+the "Vertex Normal Cursor" panel is enabled). The "Axis" button
+directs the normals of the vertices along a coordinate axis (the axis
+can be selected in the same "Vertex Normal Cursor" panel). The "Face"
+button directs the normals of the selected face parallel to the normal
+of this face.
 
-为了使用Tree功能，请选择所需的顶点并将3D游标放于所需位置。然后单击Tree
-按钮，接着所有选定的顶点仿佛他们从一个点射出般，均朝着游标的反方向。
+In order to use the "3D Cursor" function, select the desired vertices
+and place the 3D cursor in the desired position. Then click the "3D
+Cursor" button so all the selected vertices will turn their direction
+away from the cursor, as if they were shot from one point. Then you
+may check the "Towards" option in the "Vertex Normal Cursor" panel,
+which will make the normals to turn in the direction of the cursor.
 
-Foliage功能相当容易使用:只需选择顶点按下按钮，此功能会将它们的法线笔直
-地朝上。
+The "Axis" function is very easy to use: just select the vertices and
+press the button, so the function will direct their normals along the
+coordinate axis set in the "Vertex Normal Cursor" panel (Z axis is
+selected by default) or away from it, if you disable the "Towards"
+parameter on the same panel.
 
-为了将法线方向平行于面的法向量，只需选取所要的面并单击Face按钮。面的顶
-点法线将平行朝向面的法线。此功能仅适用于一次选取一个面。
+In order to direct the normals parallel to the face normal, just
+select the desired face (or several faces) and click the "Face"
+button. The normals of the vertices which form the face will be
+directed parallel to the face normal. This function works only with
+one selected face at a time.
+
+The "3D Cursor", "Axis" and "Face" operators also possess the "Factor"
+parameter which is used to mix the initial position of the normals
+with the resulting position. The default value of this parameter is
+1.0 (the resulting position is used).
 
 
 Copy（复制）/Paste（粘贴）

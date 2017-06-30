@@ -75,7 +75,7 @@ if (data.defaultvalue && (data.defaultvaluetype === 'object' || data.defaultvalu
     <?js } ?>
 
     <?js if (data.deprecated) { ?>
-        <dt class="important tag-deprecated">Deprecated:</dt><?js
+        <dt class="important tag-deprecated">Deprecated <?js if (data.b4w_deprecated_since !== "") ?>since <?js= data.b4w_deprecated_since ?>:</dt><?js
             if (data.deprecated === true) { ?><dd class="yes-def tag-deprecated"><ul class="dummy"><li>Yes</li></ul></dd><?js }
             else { ?><dd><ul class="dummy"><li><?js= data.deprecated ?></li></ul></dd><?js }
         ?>

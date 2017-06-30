@@ -468,17 +468,17 @@ As...]" в нижней части страницы.
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 *Apps*
-   The list of the project's ".HTML" files that are used for compiling
-   applications. Each ".HTML" file is considered a separate
-   application.
+   Список ".HTML" файлов проекта, используемых при компиляции
+   приложений. Каждый ".HTML" файл, указанный здесь, будет считаться
+   отдельным независимым приложением.
 
 *Use Physics*
-   Enables and disables adding physics engine files to the project.
-   Can be turned off if the project does not use physics.
+   Определяет, добавлять ли файлы физического движка в проект. Может
+   быть отключено в случае, если проект не использует физику.
 
-   This parameter is always disabled for a WebPlayer HTML type project
-   and always enabled for a WebPlayer JSON type. For other types of
-   projects, it can be set manually.
+   Данная опция всегда отключена для проектов типа WebPlayer HTML и
+   всегда включена для типа WebPlayer JSON. У проектов всех остальных
+   типов может быть установлена вручную.
 
 *Application Type*
    Тип собираемого проекта.
@@ -489,8 +489,8 @@ As...]" в нижней части страницы.
 *JavaScript Obfuscation Level*
    Уровень оптимизации JavaScript для компиляции приложения.
 
-   This parameter is read-only for the None, WebPlayer HTML and
-   WebPlayer JSON type projects.
+   Для проектов типа None, WebPlayer HTML и WebPlayer JSON доступен
+   только для чтения.
 
 *JS Compilation Pass-Through List*
    Список исключений для компиляции JavaScript-файлов проекта.
@@ -514,7 +514,7 @@ As...]" в нижней части страницы.
    Путь к скомпилированному приложению.
 
 *Blend Directory(s)*
-   Path(s) to the blend file directory(ies).
+   Путь(и) к каталогу(ам) blend-файлов.
 
 *Assets Directory(s)*
    Путь(и) к каталогу(ам) медиаресурсов.

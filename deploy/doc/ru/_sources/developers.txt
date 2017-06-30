@@ -3,8 +3,8 @@
 ************************
 
 
-Table of Contents
-^^^^^^^^^^^^^^^^^
+Содержание
+^^^^^^^^^^
 
 * Разработчикам приложений
 
@@ -526,8 +526,8 @@ module_check:
 * "convert_media" преобразует аудио- и видеофайлы в альтернативные
   форматы.
 
-* "convert_gzip" generates GZIP-compressed versions of ".json" and
-  ".bin" scene files and ".dds" and ".pvr" textures.
+* "convert_gzip" сжимает при помощи GZIP-компрессии ".json" и ".bin"
+  файлы сцены, а также ".dds" и ".pvr" текстуры.
 
 Команды для чистки:
 

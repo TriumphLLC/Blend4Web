@@ -42,26 +42,22 @@ var m_obj      = require("__objects");
 var m_obj_util = require("__obj_util");
 var m_phy      = require("__physics");
 var m_print    = require("__print");
-var m_quat     = require("__quat");
 var m_render   = require("__renderer");
 var m_scenes   = require("__scenes");
 var m_scgraph  = require("__scenegraph");
 var m_sfx      = require("__sfx");
 var m_shaders  = require("__shaders");
 var m_subs     = require("__subscene");
-var m_tbn      = require("__tbn");
 var m_textures = require("__textures");
 var m_trans    = require("__transform");
 var m_tsr      = require("__tsr");
 var m_util     = require("__util");
 var m_vec3     = require("__vec3");
-var m_vec4     = require("__vec4");
 
-var _quat_tmp = m_quat.create();
 var _tsr_tmp = m_tsr.create();
+var _vec2_tmp = new Float32Array(2);
 var _vec3_tmp = m_vec3.create();
 var _vec3_tmp2 = m_vec3.create();
-var _vec4_tmp = m_vec4.create();
 
 var _normal_line = null;
 
@@ -71,9 +67,14 @@ var PERF_NUM_CALLS = 5;
 var EPS = 0.000001;
 
 var _called_funcs = [];
-var _tested_func_name = "";
+var _last_warn_message = "";
+var _last_err_message = "";
+var _warn_got = false;
+var _err_got = false;
 var _test_result = true;
-var _vec2_tmp = new Float32Array(2);
+
+var _pixel = new Uint8Array(4);
+
 /**
  * Debug view mode.
  * @typedef {number} DebugViewMode
@@ -1180,7 +1181,6 @@ exports.print_batches_stat = m_debug.print_batches_stat;
 function call(func, name) {
     var decor_func = function() {
         _called_funcs.push(decor_func);
-        _tested_func_name = name;
         return func.apply(func, arguments);
 
     }
@@ -1195,9 +1195,11 @@ exports.start_debug = function(module_name) {
         if (typeof module[name] === "function")
             module[name] = call(module[name], name);
 }
+
 exports.check_debug_result = function() {
     return _test_result;
 }
+
 /**
  * Test code.
  * @method module:debug.test
@@ -1205,14 +1207,43 @@ exports.check_debug_result = function() {
  * @param {CodeTestCallback} callback Callback
  */
 exports.test = function(test_name, callback) {
+
+    var m_print = require("__print");
+    var print_err_func = m_print.error;
+    var print_err_once_func = m_print.error_once;
+    var print_warn_func = m_print.warn;
+
+    m_print.error = m_print.error_once = function error() {
+        var args = m_print.compose_args_prefix(arguments, "B4W ERROR");
+        _last_err_message = args.join(" ");
+        _err_got = true;
+    }
+
+    m_print.warn = function warn() {
+        var args = m_print.compose_args_prefix(arguments, "B4W WARN");
+        _last_warn_message = args.join(" ");
+        _warn_got = true;
+    }
+
+    _warn_got = false;
+    _err_got = false;
+
     try {
         callback();
-        return true;
+        var success = true;
     } catch(e) {
         _test_result = false;
-        console.error(test_name + " test was failed. ", e);
-        return false;
+        console.error("Test \"" + test_name + "\" failed with exception: \"" + e + "\"");
+        var success = false;
+        _warn_got = false;
+        _err_got = false;
     }
+
+    m_print.error = print_err_func;
+    m_print.error_once = print_err_once_func;
+    m_print.warn = print_warn_func;
+
+    return success;
 }
 
 /**
@@ -1240,52 +1271,106 @@ exports.pix = function(ref_color) {
 
     viewport_xy[1] = cam.height - viewport_xy[1];
     var color = m_render.read_pixels(cam.framebuffer, viewport_xy[0],
-            viewport_xy[1]);
+            viewport_xy[1], 1, 1, _pixel);
 
     eqv(ref_color, color, 1);
 }
 
-exports.eqs = function(result, exp_result) {
+exports.eqs = function(result, exp_result, expected_err, expected_warn) {
     if (JSON.stringify(result) != JSON.stringify(exp_result))
-        throw "Wrong result. Function: " + _tested_func_name;
+        throw "debug.eqs: wrong result";
+
+    check_err_warn_messages(expected_err, expected_warn, "eqs");
 }
 
 exports.eqv = eqv;
-function eqv(result, exp_result, eps) {
+function eqv(result, exp_result, eps, expected_err, expected_warn) {
     if (typeof exp_result != typeof result)
-        throw "Wrong expected data type.";
+        throw "debug.eqv: wrong expected data type";
     if (result.length != exp_result.length)
-        throw "Wrong expected vector length.";
+        throw "debug.eqv: wrong expected vector length";
     eps = eps ? eps : EPS;
     for (var i = 0; i < result.length; i++)
         if (exp_result[i] > result[i] + eps || exp_result[i] < result[i] - eps)
-            throw "Wrong result.";
+            throw "debug.eqv: wrong result";
+
+    check_err_warn_messages(expected_err, expected_warn, "eqv");
 }
 
-exports.eqf = function(result, exp_result, eps) {
+exports.eqf = function(result, exp_result, eps, expected_err, expected_warn) {
     if (typeof exp_result != "number")
-        throw "Wrong expected data type.";
+        throw "debug.eqf: wrong expected data type";
     eps = eps ? eps : EPS;
     if (exp_result > result + eps || exp_result < result - eps)
-        throw "Wrong result.";
+        throw "debug.eqf: wrong result";
+
+    check_err_warn_messages(expected_err, expected_warn, "eqf");
 }
 
-exports.eq = function(result, exp_result) {
+exports.eq = function(result, exp_result, expected_err, expected_warn) {
     if (result !== exp_result)
-        throw "Wrong result.";
+        throw "debug.eq: wrong result";
+
+    check_err_warn_messages(expected_err, expected_warn, "eq");
+}
+
+exports.ok = function(exp, expected_err, expected_warn) {
+
+    if (!Boolean(exp))
+        throw "debug.ok: wrong result";
+
+    check_err_warn_messages(expected_err, expected_warn, "ok");
+}
+
+function check_err_warn_messages(expected_err, expected_warn, func_name) {
+    expected_err = expected_err || "";
+    expected_warn = expected_warn || "";
+
+    if (_err_got) {
+        if (expected_err == "")
+            throw "debug." + func_name + ": no error is expected, but got \"" 
+                    + _last_err_message + "\"";
+        else if (_last_err_message != expected_err)
+            throw "debug." + func_name + ": error \"" + expected_err 
+                    + "\" is expected, but got \"" + _last_err_message + "\"";
+    } else {
+        if (expected_err != "")
+            throw "debug." + func_name + ": error \"" + expected_err 
+                + "\" is expected, but got nothing";
+    }
+    if (_warn_got) {
+        if (expected_warn == "")
+            throw "debug." + func_name + ": no warning is expected, but got \"" 
+                    + _last_warn_message + "\"";
+        else if (_last_warn_message != expected_warn)
+            throw "debug." + func_name + ": warning \"" + expected_warn 
+                    + "\" is expected, but got \"" + _last_warn_message + "\"";
+    } else {
+        if (expected_warn != "")
+            throw "debug." + func_name + ": warning \"" + expected_warn 
+                + "\" is expected, but got nothing";
+    }
+
+    _warn_got = false;
+    _err_got = false;
 }
 
 exports.stat = function(module_name) {
+    var missing_functions = [];
+
     var module = require(module_name);
     for (var name in module)
         if (_called_funcs.indexOf(module[name]) == -1 &&
                 typeof module[name] === "function")
-            console.warn(name + " function wasn't called.");
-}
+            missing_functions.push(name);
 
-exports.ok = function(exp) {
-    if (!Boolean(exp))
-        throw "Wrong result. Function: " + _tested_func_name;
+    if (missing_functions.length) {
+        m_print.groupCollapsed(missing_functions.length + " function(s) not tested.");
+        for (var i = 0; i < missing_functions.length; i++)
+            m_print.log_raw(missing_functions[i]);
+        m_print.groupEnd();
+    } else
+        m_print.group("All functions were tested.");
 }
 
 /**
@@ -1313,8 +1398,8 @@ exports.show_normals = function(obj, mat_name, length, width) {
         return false;
     }
 
-    var positions = m_geom.extract_array(bufs_data, "a_position");
-    var tbn_attr = m_geom.extract_array(bufs_data, "a_tbn");
+    var positions = m_geom.extract_array_float(bufs_data, "a_position");
+    var norms = m_geom.extract_array_float(bufs_data, "a_normal");
 
     var obj_tsr = m_trans.get_tsr(obj, _tsr_tmp);
 
@@ -1331,16 +1416,7 @@ exports.show_normals = function(obj, mat_name, length, width) {
         normals[2 * i + 1] = begin_norm[1];
         normals[2 * i + 2] = begin_norm[2];
 
-        // NOTE: use zero for the last component, actual value isn't needed for quat
-        var tbn = m_vec4.set(
-                m_geom.value_vbo_to_float("a_tbn", tbn_attr[i / 3 * 4]),
-                m_geom.value_vbo_to_float("a_tbn", tbn_attr[i / 3 * 4 + 1]),
-                m_geom.value_vbo_to_float("a_tbn", tbn_attr[i / 3 * 4 + 2]),
-                0, _vec4_tmp);
-        var tbn_quat = m_tbn.get_quat(tbn, 0, _quat_tmp);
-
-        var offset = m_vec3.scale(m_util.AXIS_Y, length, _vec3_tmp2);
-        var dir = m_vec3.transformQuat(offset, tbn_quat, _vec3_tmp2);
+        var dir = m_vec3.scale(norms.subarray(i, i + 3), length, _vec3_tmp2);
         var end_norm_l = m_vec3.add(ver_pos, dir, _vec3_tmp2);
         var end_norm = m_tsr.transform_vec3(end_norm_l, obj_tsr, _vec3_tmp2);
         normals[2 * i + 3] = end_norm[0];

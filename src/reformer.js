@@ -2197,6 +2197,16 @@ exports.check_bpy_data = function(bpy_data) {
             bpy_obj["constraints"] = [];
             report("object", bpy_obj, "constraints");
         }
+        var constraints = bpy_obj["constraints"];
+        for (var j = 0; j < constraints.length; j++) {
+            var cons = constraints[j];
+            if (!("influence" in cons)) {
+                cons["influence"] = 1;
+            }
+            if (!("axes" in cons)) {
+                cons["axes"] = [1, 1, 1];
+            }
+        }
 
         var mods = bpy_obj["modifiers"];
         for (var j = 0; j < mods.length; j++) {
@@ -2663,43 +2673,6 @@ function deform_axis_index(deform_axis) {
     }
 }
 
-/*
- * Modify locations with coords located inside given box.
- * Null interval values means all points along such axis
- */
-function modify_mesh_points_interval(mesh, x_min, x_max, y_min, y_max,
-        z_min, z_max, matrix) {
-
-    var locations = mesh["vertices"]["locations"];
-
-    var loc = new Float32Array(3);
-
-    for (var i = 0; i < locations.length / 3; i++) {
-
-        // retrieve
-        var x = locations[3*i];
-        var y = locations[3*i+1];
-        var z = locations[3*i+2];
-
-        if (((x_max - x_min) == 0 || (x >= x_min && x < x_max)) &&
-            ((y_max - y_min) == 0 || (y >= y_min && y < y_max)) &&
-            ((z_max - z_min) == 0 || (z >= z_min && z < z_max))) {
-
-            // transform
-            loc[0] = x;
-            loc[1] = y;
-            loc[2] = z;
-
-            m_vec3.transformMat4(loc, matrix, loc);
-
-            // save
-            locations[3*i] = loc[0];
-            locations[3*i+1] = loc[1];
-            locations[3*i+2] = loc[2];
-        }
-    }
-}
-
 exports.create_material = function(name) {
     var mat = {
         "name": name,
@@ -2791,7 +2764,7 @@ function mesh_copy(mesh, new_name) {
     mesh["materials"] = null;
     mesh["submeshes"] = null;
 
-    var mesh_new = m_util.clone_object_json(mesh);
+    var mesh_new = m_util.clone_object_r(mesh);
 
     mesh["materials"] = materials;
     mesh["submeshes"] = submeshes;
@@ -2825,7 +2798,7 @@ function mesh_join(mesh, mesh2) {
         submesh["base_length"] += submesh2["base_length"];
 
         for (var prop in submesh) {
-            if (prop == "base_length" || prop == "boundings")
+            if (prop == "base_length" || prop == "boundings" || prop == "uv_layers")
                 continue;
 
             if (prop == "indices") {

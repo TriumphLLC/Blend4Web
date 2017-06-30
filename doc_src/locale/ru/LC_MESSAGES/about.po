@@ -167,33 +167,35 @@ msgstr "Браузеры"
 
 #: ../about.rst:75
 msgid "`Chrome <http://www.google.com/chrome>`_"
-msgstr ""
+msgstr "`Chrome <http://www.google.com/chrome>`_"
 
 #: ../about.rst:76
 msgid "`Yandex Browser <http://browser.yandex.com/>`_"
-msgstr ""
+msgstr "`Yandex Browser <http://browser.yandex.com/>`_"
 
 #: ../about.rst:77
 msgid "`Firefox <http://www.mozilla.org/firefox>`_"
-msgstr ""
+msgstr "`Firefox <http://www.mozilla.org/firefox>`_"
 
 #: ../about.rst:78
 msgid "`Opera <http://www.opera.com/browser>`_"
-msgstr ""
+msgstr "`Opera <http://www.opera.com/browser>`_"
 
 #: ../about.rst:79
 msgid "`Safari <http://www.apple.com/safari/>`_ 8+"
-msgstr ""
+msgstr "`Safari <http://www.apple.com/safari/>`_ 8+"
 
 #: ../about.rst:80
 msgid ""
 "`Internet Explorer <http://windows.microsoft.com/en-us/internet-explorer"
 "/download-ie>`_ 11"
 msgstr ""
+"`Internet Explorer <http://windows.microsoft.com/en-us/internet-explorer"
+"/download-ie>`_ 11"
 
 #: ../about.rst:81
 msgid "`Microsoft Edge <https://www.microsoft.com/en-us/windows/microsoft-edge>`_"
-msgstr ""
+msgstr "`Microsoft Edge <https://www.microsoft.com/en-us/windows/microsoft-edge>`_"
 
 #: ../about.rst:85
 msgid "Mobile Platforms"
@@ -201,31 +203,31 @@ msgstr "Мобильные платформы"
 
 #: ../about.rst:87
 msgid "Android"
-msgstr ""
+msgstr "Android"
 
 #: ../about.rst:88
 msgid "BlackBerry"
-msgstr ""
+msgstr "BlackBerry"
 
 #: ../about.rst:89
 msgid "Firefox OS"
-msgstr ""
+msgstr "Firefox OS"
 
 #: ../about.rst:90
 msgid "iOS 8"
-msgstr ""
+msgstr "iOS 8"
 
 #: ../about.rst:91
 msgid "Sailfish OS"
-msgstr ""
+msgstr "Sailfish OS"
 
 #: ../about.rst:92
 msgid "Tizen"
-msgstr ""
+msgstr "Tizen"
 
 #: ../about.rst:93
 msgid "Ubuntu Touch"
-msgstr ""
+msgstr "Ubuntu Touch"
 
 #: ../about.rst:95
 msgid ""
@@ -653,7 +655,7 @@ msgstr ""
 
 #: ../about.rst:7
 msgid "Blend4Web"
-msgstr ""
+msgstr "Blend4Web"
 
 #: ../about.rst:25
 msgid "engine"
@@ -669,7 +671,7 @@ msgstr "трехмерный движок"
 
 #: ../about.rst:52 ../about.rst:62 ../about.rst:97
 msgid "WebGL"
-msgstr ""
+msgstr "WebGL"
 
 #: ../about.rst:62
 msgid "browser support"
@@ -681,7 +683,7 @@ msgstr "преимущества"
 
 #: ../about.rst:112
 msgid "Blender"
-msgstr ""
+msgstr "Blender"
 
 #: ../about.rst:154
 msgid "browser technologies"

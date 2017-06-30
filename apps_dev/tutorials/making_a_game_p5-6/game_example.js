@@ -9,16 +9,12 @@ b4w.register("game_example_main", function(exports, require) {
 var m_anim  = require("animation");
 var m_app   = require("app");
 var m_cfg   = require("config");
-var m_main  = require("main");
 var m_data  = require("data");
-var m_cont  = require("container");
 var m_ctl   = require("controls");
 var m_phy   = require("physics");
 var m_cons  = require("constraints");
-var m_input = require("input");
 var m_scs   = require("scenes");
 var m_trans = require("transform");
-var m_print = require("print");
 var m_vec3  = require("vec3");
 
 var ROT_SPEED = 1.5;
@@ -213,7 +209,6 @@ function setup_control_events(right_arrow, up_arrow,
     function touch_start_cb(event) {
         event.preventDefault();
 
-        var h = window.innerHeight;
         var w = window.innerWidth;
 
         var touches = event.changedTouches;
@@ -260,7 +255,6 @@ function setup_control_events(right_arrow, up_arrow,
         m_ctl.set_custom_sensor(left_arrow, 0);
         m_ctl.set_custom_sensor(right_arrow, 0);
 
-        var h = window.innerHeight;
         var w = window.innerWidth;
 
         var touches = event.changedTouches;
@@ -434,7 +428,7 @@ function setup_falling_rocks(elapsed_sensor) {
                                         [ray_sens], null, mark_pos_cb, mark);
 
             set_random_position(rock);
-            var rock_name = m_scs.get_object_name(rock);
+            rock_name = m_scs.get_object_name(rock);
             falling_time[rock_name] = 0;
         }
     }
@@ -520,7 +514,7 @@ function detect_mobile() {
 
 function setup_camera() {
     var camera = m_scs.get_active_camera();
-    m_cons.append_semi_soft_cam(camera, _character, CAM_OFFSET, CAM_SOFTNESS);
+    m_cons.append_semi_soft(camera, _character, CAM_OFFSET, CAM_SOFTNESS);
 }
 
 });

@@ -35,9 +35,7 @@ var m_trans   = require("__transform");
 var m_util    = require("__util");
 
 var cfg_def = m_cfg.defaults;
-var cfg_lim = m_cfg.context_limits;
 
-var _gl          = null;
 var _canvas      = null;
 var _canvas_hud  = null;
 var _canvas_cont = null;
@@ -52,14 +50,6 @@ var _viewport_layout = {
     scale: 1,   // divice pixels/css pixels
     offset_top: 0,  // css pixels
     offset_left: 0  // css pixels
-}
-
-/**
- * Setup WebGL context
- * @param gl WebGL context
- */
-exports.setup_context = function(gl) {
-    _gl = gl;
 }
 
 exports.get_canvas = get_canvas;
@@ -180,6 +170,9 @@ function client_to_element_coords(client_x, client_y, element, dest) {
         // Autoconvert client_x/client_y to offsetX/offsetY using custom MouseEvent
         _mouse_event_param.clientX = client_x;
         _mouse_event_param.clientY = client_y;
+
+        // NOTE: needed in Chrome to work properly
+        _mouse_event_param.view = window;
         var event = new MouseEvent("b4w_convert", _mouse_event_param);
         element.dispatchEvent(event);
 
@@ -280,47 +273,10 @@ function resize(width, height, update_canvas_css) {
         m_hud.update_dim();
     }
 
-    var cw = Math.floor(width * cfg_def.canvas_resolution_factor);
-    var ch = Math.floor(height * cfg_def.canvas_resolution_factor);
+    canvas_webgl.width  = width;
+    canvas_webgl.height = height;
 
-    if (is_hidpi()) {
-        cw *= window.devicePixelRatio;
-        ch *= window.devicePixelRatio;
-    }
-
-    // use only main scene for the canvas resizing
-    var main_scene = m_scenes.get_main();
-    if (main_scene) {
-        var sc_render = main_scene._render;
-        cw = Math.floor(cw * sc_render.resolution_factor);
-        ch = Math.floor(ch * sc_render.resolution_factor);
-    }
-
-    canvas_webgl.width  = cw;
-    canvas_webgl.height = ch;
-
-    var width_limit = Math.min(_gl.drawingBufferWidth,
-            cfg_lim.max_renderbuffer_size, cfg_lim.max_viewport_dims[0]);
-    var height_limit = Math.min(_gl.drawingBufferHeight,
-            cfg_lim.max_renderbuffer_size, cfg_lim.max_viewport_dims[1]);
-    if (cw > width_limit || ch > height_limit) {
-        m_print.warn("Canvas size exceeds platform limits, downscaling");
-
-        var downscale = Math.min(width_limit / cw, height_limit / ch);
-
-        cw *= downscale;
-        ch *= downscale;
-
-        canvas_webgl.width  = cw;
-        canvas_webgl.height = ch;
-    }
-
-    if (width)
-        var scale = cw/width;
-    else
-        var scale = 1;
-
-    m_scenes.setup_dim(cw, ch, scale);
+    m_scenes.setup_dim(width, height);
 
     // needed for frustum culling/constraints
     if (m_scenes.check_active())
@@ -372,7 +328,6 @@ exports.resize_to_container = function(force) {
 }
 
 exports.reset = function() {
-    _gl          = null;
     _canvas      = null;
     _canvas_hud  = null;
     _canvas_cont = null;

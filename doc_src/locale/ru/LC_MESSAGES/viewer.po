@@ -105,7 +105,7 @@ msgstr "Базовые кнопки управления"
 
 #: ../viewer.rst:49
 msgid "**Home**"
-msgstr ""
+msgstr "**Home**"
 
 #: ../viewer.rst:49
 msgid ""
@@ -139,7 +139,7 @@ msgstr "Выпадающее меню выбора профиля работы �
 
 #: ../viewer.rst:57
 msgid ":ref:`quality_settings`"
-msgstr ""
+msgstr ":ref:`quality_settings`"
 
 #: ../viewer.rst:60
 msgid "**Pause**"
@@ -159,7 +159,7 @@ msgstr "Возобновление рендеринга."
 
 #: ../viewer.rst:66
 msgid "**Rotate**"
-msgstr ""
+msgstr "**Rotate**"
 
 #: ../viewer.rst:66
 msgid ""
@@ -175,7 +175,7 @@ msgstr "Дополнительные панели"
 
 #: ../viewer.rst:76
 msgid "Tools & Debug"
-msgstr ""
+msgstr "Tools & Debug"
 
 #: ../viewer.rst:78
 msgid "This panel contains a range of debugging tools, including:"
@@ -183,7 +183,7 @@ msgstr "На панели находится ряд инструментов о�
 
 #: ../viewer.rst:81
 msgid "*Overview Outlining Mode*"
-msgstr ""
+msgstr "*Overview Outlining Mode*"
 
 #: ../viewer.rst:81
 msgid ""
@@ -197,7 +197,7 @@ msgstr ""
 
 #: ../viewer.rst:84
 msgid "*Auto View Mode*"
-msgstr ""
+msgstr "*Auto View Mode*"
 
 #: ../viewer.rst:84
 msgid ""
@@ -211,7 +211,7 @@ msgstr ""
 
 #: ../viewer.rst:90
 msgid "*Canvas Resolution Factor*"
-msgstr ""
+msgstr "*Canvas Resolution Factor*"
 
 #: ../viewer.rst:87
 msgid ""
@@ -231,7 +231,7 @@ msgstr "Максимальное доступное разрешение мож�
 
 #: ../viewer.rst:93
 msgid "*Make Screenshot*"
-msgstr ""
+msgstr "*Make Screenshot*"
 
 #: ../viewer.rst:93
 msgid ""
@@ -245,7 +245,7 @@ msgstr ""
 
 #: ../viewer.rst:114
 msgid "*Debug View Modes*"
-msgstr ""
+msgstr "*Debug View Modes*"
 
 #: ../viewer.rst:98
 msgid ""
@@ -335,7 +335,7 @@ msgstr ""
 
 #: ../viewer.rst:117
 msgid "*Change Colors*"
-msgstr ""
+msgstr "*Change Colors*"
 
 #: ../viewer.rst:117
 msgid ""
@@ -351,7 +351,7 @@ msgstr ""
 
 #: ../viewer.rst:120
 msgid "*Render Time Threshold (ms)*"
-msgstr ""
+msgstr "*Render Time Threshold (ms)*"
 
 #: ../viewer.rst:120
 msgid ""
@@ -367,7 +367,7 @@ msgstr ""
 
 #: ../viewer.rst:123
 msgid "*Wireframe Edge Color*"
-msgstr ""
+msgstr "*Wireframe Edge Color*"
 
 #: ../viewer.rst:123
 msgid ""
@@ -379,7 +379,7 @@ msgstr ""
 
 #: ../viewer.rst:156
 msgid "*HUD Info*"
-msgstr ""
+msgstr "*HUD Info*"
 
 #: ../viewer.rst:130
 msgid ""
@@ -389,7 +389,7 @@ msgstr "Показывает список визуализируемых под�
 
 #: ../viewer.rst:133
 msgid "*SCENE*"
-msgstr ""
+msgstr "*SCENE*"
 
 #: ../viewer.rst:133
 msgid "The name of the current scene."
@@ -397,7 +397,7 @@ msgstr "Имя текущей сцены."
 
 #: ../viewer.rst:136
 msgid "*Active*"
-msgstr ""
+msgstr "*Active*"
 
 #: ../viewer.rst:136
 msgid "Shows whether the subscene is active or not."
@@ -405,7 +405,7 @@ msgstr "Показывает, активна ли подсцена."
 
 #: ../viewer.rst:139
 msgid "*Subscene*"
-msgstr ""
+msgstr "*Subscene*"
 
 #: ../viewer.rst:139
 msgid "The name of the subscene."
@@ -413,7 +413,7 @@ msgstr "Имя подсцены."
 
 #: ../viewer.rst:142
 msgid "*Lamps*"
-msgstr ""
+msgstr "*Lamps*"
 
 #: ../viewer.rst:142
 msgid "The number of light sources in the subscene."
@@ -421,7 +421,7 @@ msgstr "Количество источников света в подсцене
 
 #: ../viewer.rst:145
 msgid "*Size*"
-msgstr ""
+msgstr "*Size*"
 
 #: ../viewer.rst:145
 msgid "The size of the render of the subscene."
@@ -429,7 +429,7 @@ msgstr "Разрешение, используемое для рендеринг
 
 #: ../viewer.rst:148
 msgid "*RenderCalls*"
-msgstr ""
+msgstr "*RenderCalls*"
 
 #: ../viewer.rst:148
 msgid "The number of draw calls in the subscene."
@@ -437,7 +437,7 @@ msgstr "Количество вызовов отрисовки в подсцен
 
 #: ../viewer.rst:151 ../viewer.rst:337
 msgid "*Time*"
-msgstr ""
+msgstr "*Time*"
 
 #: ../viewer.rst:151
 msgid "The amount of time the engine spends on rendering the subscene."
@@ -445,7 +445,7 @@ msgstr "Время, которое движок тратит на рендери
 
 #: ../viewer.rst:154
 msgid "*TOTAL ACTIVE*"
-msgstr ""
+msgstr "*TOTAL ACTIVE*"
 
 #: ../viewer.rst:154
 msgid ""
@@ -465,7 +465,7 @@ msgstr ""
 
 #: ../viewer.rst:159
 msgid "*GL Debug*"
-msgstr ""
+msgstr "*GL Debug*"
 
 #: ../viewer.rst:159
 msgid ""
@@ -481,7 +481,7 @@ msgstr ""
 
 #: ../viewer.rst:162
 msgid "*Min Capabilities Mode*"
-msgstr ""
+msgstr "*Min Capabilities Mode*"
 
 #: ../viewer.rst:162
 msgid ""
@@ -498,7 +498,7 @@ msgstr ""
 
 #: ../viewer.rst:167
 msgid "Animation"
-msgstr ""
+msgstr "Animation"
 
 #: ../viewer.rst:169
 msgid ""
@@ -520,7 +520,7 @@ msgstr "Доступные параметры:"
 
 #: ../viewer.rst:174
 msgid "*Play All*"
-msgstr ""
+msgstr "*Play All*"
 
 #: ../viewer.rst:174
 msgid "Pressing this button will play all available animations."
@@ -528,7 +528,7 @@ msgstr "Проигрывает все доступные анимации."
 
 #: ../viewer.rst:177
 msgid "*Stop All*"
-msgstr ""
+msgstr "*Stop All*"
 
 #: ../viewer.rst:177
 msgid ""
@@ -538,7 +538,7 @@ msgstr "Останавливает все анимации, которые во�
 
 #: ../viewer.rst:180 ../viewer.rst:243
 msgid "*Object*"
-msgstr ""
+msgstr "*Object*"
 
 #: ../viewer.rst:180
 msgid "A list of scene objects that have animations."
@@ -546,7 +546,7 @@ msgstr "Список присутствующих в сцене объектов
 
 #: ../viewer.rst:183
 msgid "*Animation Slot*"
-msgstr ""
+msgstr "*Animation Slot*"
 
 #: ../viewer.rst:183
 msgid ""
@@ -558,7 +558,7 @@ msgstr ""
 
 #: ../viewer.rst:186
 msgid "*Animation*"
-msgstr ""
+msgstr "*Animation*"
 
 #: ../viewer.rst:186
 msgid "A list of all animations available for a selected object."
@@ -566,7 +566,7 @@ msgstr "Список всех анимаций, доступных для выб
 
 #: ../viewer.rst:189
 msgid "*Cyclic*"
-msgstr ""
+msgstr "*Cyclic*"
 
 #: ../viewer.rst:189
 msgid ""
@@ -580,7 +580,7 @@ msgstr ""
 
 #: ../viewer.rst:192 ../viewer.rst:219
 msgid "*Range*"
-msgstr ""
+msgstr "*Range*"
 
 #: ../viewer.rst:192
 msgid "This value shows the length of the selected animation."
@@ -588,7 +588,7 @@ msgstr "Длинна выбранной анимации."
 
 #: ../viewer.rst:195 ../viewer.rst:222
 msgid "*Status*"
-msgstr ""
+msgstr "*Status*"
 
 #: ../viewer.rst:195
 msgid ""
@@ -598,7 +598,7 @@ msgstr "Состояние выбранное анимации, т.е. прои�
 
 #: ../viewer.rst:198
 msgid "*Playing Animation > Play*"
-msgstr ""
+msgstr "*Playing Animation > Play*"
 
 #: ../viewer.rst:198
 msgid "Plays the selected animation."
@@ -606,7 +606,7 @@ msgstr "Воспроизводит выбранную анимацию."
 
 #: ../viewer.rst:201
 msgid "*Playing Animation > Stop*"
-msgstr ""
+msgstr "*Playing Animation > Stop*"
 
 #: ../viewer.rst:201
 msgid "Stops the selected animation."
@@ -614,7 +614,7 @@ msgstr "Останавливает выбранную анимацию."
 
 #: ../viewer.rst:204 ../viewer.rst:231
 msgid "*Set Frame*"
-msgstr ""
+msgstr "*Set Frame*"
 
 #: ../viewer.rst:204
 msgid ""
@@ -626,7 +626,7 @@ msgstr ""
 
 #: ../viewer.rst:207
 msgid "*Skeletal Mix Factor*"
-msgstr ""
+msgstr "*Skeletal Mix Factor*"
 
 #: ../viewer.rst:207
 msgid ""
@@ -636,7 +636,7 @@ msgstr "Задаёт степень сvешивания скелетных ан�
 
 #: ../viewer.rst:212
 msgid "NLA"
-msgstr ""
+msgstr "NLA"
 
 #: ../viewer.rst:214
 msgid ""
@@ -657,7 +657,7 @@ msgstr "Состояние NLA-анимации, т.е. проигрываетс
 
 #: ../viewer.rst:225
 msgid "*Playing NLA > Play*"
-msgstr ""
+msgstr "*Playing NLA > Play*"
 
 #: ../viewer.rst:225
 msgid "This button can be used to play NLA animation."
@@ -665,7 +665,7 @@ msgstr "Воспроизводит NLA-анимацию."
 
 #: ../viewer.rst:228
 msgid "*Playing NLA > Stop*"
-msgstr ""
+msgstr "*Playing NLA > Stop*"
 
 #: ../viewer.rst:228
 msgid ""
@@ -683,7 +683,7 @@ msgstr ""
 
 #: ../viewer.rst:236
 msgid "Shape Keys"
-msgstr ""
+msgstr "Shape Keys"
 
 #: ../viewer.rst:238
 msgid ""
@@ -701,7 +701,7 @@ msgstr "Список всех присутствующих в сцене объ�
 
 #: ../viewer.rst:246
 msgid "*Shape Key*"
-msgstr ""
+msgstr "*Shape Key*"
 
 #: ../viewer.rst:246
 msgid "This list contains all Shape Keys attached to a selected object."
@@ -709,7 +709,7 @@ msgstr "Список всех ключей формы, доступных для
 
 #: ../viewer.rst:249
 msgid "*Set Value*"
-msgstr ""
+msgstr "*Set Value*"
 
 #: ../viewer.rst:249
 msgid ""
@@ -721,7 +721,7 @@ msgstr ""
 
 #: ../viewer.rst:254
 msgid "Materials"
-msgstr ""
+msgstr "Materials"
 
 #: ../viewer.rst:256
 msgid ""
@@ -738,7 +738,7 @@ msgstr ""
 
 #: ../viewer.rst:261
 msgid "*Material*"
-msgstr ""
+msgstr "*Material*"
 
 #: ../viewer.rst:261
 msgid "A list of all stack materials present in a scene."
@@ -746,7 +746,7 @@ msgstr "Список всех стековых материалов, прису�
 
 #: ../viewer.rst:264 ../viewer.rst:301
 msgid "*Color*"
-msgstr ""
+msgstr "*Color*"
 
 #: ../viewer.rst:264
 msgid "This parameter defines the base color of a selected material."
@@ -754,7 +754,7 @@ msgstr "Задаёт базовый цвет выбранного материа
 
 #: ../viewer.rst:267
 msgid "*Reflectivity*"
-msgstr ""
+msgstr "*Reflectivity*"
 
 #: ../viewer.rst:267
 msgid ""
@@ -766,7 +766,7 @@ msgstr ""
 
 #: ../viewer.rst:270
 msgid "*Fresnel*"
-msgstr ""
+msgstr "*Fresnel*"
 
 #: ../viewer.rst:270
 msgid ""
@@ -776,7 +776,7 @@ msgstr "Сила эффекта Френеля для отражения. По �
 
 #: ../viewer.rst:273
 msgid "*Fresnel Factor*"
-msgstr ""
+msgstr "*Fresnel Factor*"
 
 #: ../viewer.rst:273
 msgid "A factor of the Fresnel effect. Set to zero by default."
@@ -784,7 +784,7 @@ msgstr "Фактор эффект Френеля. По умолчанию рав
 
 #: ../viewer.rst:276
 msgid "*Parallax Scale*"
-msgstr ""
+msgstr "*Parallax Scale*"
 
 #: ../viewer.rst:276
 msgid ""
@@ -796,7 +796,7 @@ msgstr ""
 
 #: ../viewer.rst:279
 msgid "*Parallax Steps*"
-msgstr ""
+msgstr "*Parallax Steps*"
 
 #: ../viewer.rst:279
 msgid ""
@@ -808,7 +808,7 @@ msgstr ""
 
 #: ../viewer.rst:284
 msgid "Lighting"
-msgstr ""
+msgstr "Lighting"
 
 #: ../viewer.rst:286
 msgid ""
@@ -823,7 +823,7 @@ msgstr ""
 
 #: ../viewer.rst:295
 msgid "*Light*"
-msgstr ""
+msgstr "*Light*"
 
 #: ../viewer.rst:295
 msgid "This list contains all light sources present in the scene."
@@ -831,7 +831,7 @@ msgstr "Список всех источников света, присутст�
 
 #: ../viewer.rst:298
 msgid "*Type*"
-msgstr ""
+msgstr "*Type*"
 
 #: ../viewer.rst:298
 msgid ""
@@ -851,7 +851,7 @@ msgstr ""
 
 #: ../viewer.rst:304
 msgid "*Energy Coarse*"
-msgstr ""
+msgstr "*Energy Coarse*"
 
 #: ../viewer.rst:304
 msgid ""
@@ -864,7 +864,7 @@ msgstr ""
 
 #: ../viewer.rst:307
 msgid "*Energy Precise*"
-msgstr ""
+msgstr "*Energy Precise*"
 
 #: ../viewer.rst:307
 msgid ""
@@ -877,7 +877,7 @@ msgstr ""
 
 #: ../viewer.rst:310
 msgid "*Light Energy*"
-msgstr ""
+msgstr "*Light Energy*"
 
 #: ../viewer.rst:310
 msgid ""
@@ -891,7 +891,7 @@ msgstr ""
 
 #: ../viewer.rst:313
 msgid "*Spot Size*"
-msgstr ""
+msgstr "*Spot Size*"
 
 #: ../viewer.rst:313
 msgid ""
@@ -904,7 +904,7 @@ msgstr ""
 
 #: ../viewer.rst:316
 msgid "*Spot Blend*"
-msgstr ""
+msgstr "*Spot Blend*"
 
 #: ../viewer.rst:316
 msgid ""
@@ -916,7 +916,7 @@ msgstr ""
 
 #: ../viewer.rst:319
 msgid "*Distance*"
-msgstr ""
+msgstr "*Distance*"
 
 #: ../viewer.rst:319
 msgid ""
@@ -936,7 +936,7 @@ msgstr "Следующие настройки доступны только дл
 
 #: ../viewer.rst:328
 msgid "*Real Time Sun Movement > Play*"
-msgstr ""
+msgstr "*Real Time Sun Movement > Play*"
 
 #: ../viewer.rst:328
 msgid "Pressing this button activates real-time sun movement."
@@ -944,7 +944,7 @@ msgstr "Включает движение солнца в реальном вр�
 
 #: ../viewer.rst:331
 msgid "*Real Time Sun Movement > Stop*"
-msgstr ""
+msgstr "*Real Time Sun Movement > Stop*"
 
 #: ../viewer.rst:331
 msgid "Pressing this button stops real-time sun movement."
@@ -952,7 +952,7 @@ msgstr "Останавливает движение солнца в реальн
 
 #: ../viewer.rst:334
 msgid "*Date*"
-msgstr ""
+msgstr "*Date*"
 
 #: ../viewer.rst:334
 msgid "This parameter sets the current date."
@@ -964,7 +964,7 @@ msgstr "Этот параметр задаёт текущее время дня 
 
 #: ../viewer.rst:340
 msgid "*Maximum Sun Vertical Angle*"
-msgstr ""
+msgstr "*Maximum Sun Vertical Angle*"
 
 #: ../viewer.rst:340
 msgid ""
@@ -976,7 +976,7 @@ msgstr ""
 
 #: ../viewer.rst:343
 msgid "*Time Multiplier*"
-msgstr ""
+msgstr "*Time Multiplier*"
 
 #: ../viewer.rst:343
 msgid ""
@@ -989,7 +989,7 @@ msgstr ""
 
 #: ../viewer.rst:346
 msgid "*Horizontal Position*"
-msgstr ""
+msgstr "*Horizontal Position*"
 
 #: ../viewer.rst:346
 msgid "Horizontal position of the sun on the skydome. Default value is 29.82."
@@ -999,7 +999,7 @@ msgstr ""
 
 #: ../viewer.rst:349
 msgid "*Vertical Position*"
-msgstr ""
+msgstr "*Vertical Position*"
 
 #: ../viewer.rst:349
 msgid "Vertical position of the sun on the skydome. Default value is 34.82."
@@ -1009,7 +1009,7 @@ msgstr ""
 
 #: ../viewer.rst:354
 msgid "Ambient"
-msgstr ""
+msgstr "Ambient"
 
 #: ../viewer.rst:356
 msgid ""
@@ -1031,7 +1031,7 @@ msgstr ""
 
 #: ../viewer.rst:363
 msgid "Shadows"
-msgstr ""
+msgstr "Shadows"
 
 #: ../viewer.rst:365
 msgid ""
@@ -1051,7 +1051,7 @@ msgstr ""
 
 #: ../viewer.rst:372
 msgid "Sky"
-msgstr ""
+msgstr "Sky"
 
 #: ../viewer.rst:374
 msgid ""
@@ -1073,7 +1073,7 @@ msgstr ""
 
 #: ../viewer.rst:381
 msgid "Sea"
-msgstr ""
+msgstr "Sea"
 
 #: ../viewer.rst:383
 msgid ""
@@ -1097,7 +1097,7 @@ msgstr ""
 
 #: ../viewer.rst:390
 msgid "Mist"
-msgstr ""
+msgstr "Mist"
 
 #: ../viewer.rst:392
 msgid "Setup for fog parameters."
@@ -1113,7 +1113,7 @@ msgstr ""
 
 #: ../viewer.rst:399
 msgid "Wind"
-msgstr ""
+msgstr "Wind"
 
 #: ../viewer.rst:401
 msgid "Setup for wind parameters, including direction and strength."
@@ -1130,7 +1130,7 @@ msgstr ""
 
 #: ../viewer.rst:408
 msgid "Wind Bending"
-msgstr ""
+msgstr "Wind Bending"
 
 #: ../viewer.rst:410
 msgid "Setup for wind bending effect parameters."
@@ -1146,7 +1146,7 @@ msgstr ""
 
 #: ../viewer.rst:417
 msgid "Screen Space Amb Occlus"
-msgstr ""
+msgstr "Screen Space Amb Occlus"
 
 #: ../viewer.rst:419
 msgid "Setup for ambient occlusion parameters."
@@ -1160,7 +1160,7 @@ msgstr "Все доступные настройки описаны в глав�
 
 #: ../viewer.rst:426
 msgid "God Rays"
-msgstr ""
+msgstr "God Rays"
 
 #: ../viewer.rst:428
 msgid "Setup for crepuscular ray effect parameters."
@@ -1176,7 +1176,7 @@ msgstr ""
 
 #: ../viewer.rst:435
 msgid "Bloom"
-msgstr ""
+msgstr "Bloom"
 
 #: ../viewer.rst:437
 msgid "Setup for bloom effect parameters."
@@ -1192,7 +1192,7 @@ msgstr ""
 
 #: ../viewer.rst:444
 msgid "Motion Blur"
-msgstr ""
+msgstr "Motion Blur"
 
 #: ../viewer.rst:446
 msgid "Motion blur effect settings."
@@ -1210,7 +1210,7 @@ msgstr ""
 
 #: ../viewer.rst:453
 msgid "Glow Materials"
-msgstr ""
+msgstr "Glow Materials"
 
 #: ../viewer.rst:455
 msgid "Glow Material effect settings."
@@ -1224,7 +1224,7 @@ msgstr "Настройки этого эффекта описаны в :ref:`с�
 
 #: ../viewer.rst:462
 msgid "Depth of Field"
-msgstr ""
+msgstr "Depth of Field"
 
 #: ../viewer.rst:464
 msgid "Setup for depth-of-field effect parameters."
@@ -1236,7 +1236,7 @@ msgstr "Настройки описаны в :ref:`соответствующе�
 
 #: ../viewer.rst:471
 msgid "Color correction"
-msgstr ""
+msgstr "Color correction"
 
 #: ../viewer.rst:473
 msgid ""
@@ -1258,7 +1258,7 @@ msgstr ""
 
 #: ../viewer.rst:480
 msgid "Audio"
-msgstr ""
+msgstr "Audio"
 
 #: ../viewer.rst:482
 msgid ""
@@ -1270,7 +1270,7 @@ msgstr ""
 
 #: ../viewer.rst:491
 msgid "*Mixer*"
-msgstr ""
+msgstr "*Mixer*"
 
 #: ../viewer.rst:485
 msgid ""
@@ -1294,7 +1294,7 @@ msgstr "По умолчанию этот параметр деактивиров
 
 #: ../viewer.rst:496
 msgid "Stereo View"
-msgstr ""
+msgstr "Stereo View"
 
 #: ../viewer.rst:498
 msgid "There is a stereoscopic mode switch on the panel."
@@ -1302,7 +1302,7 @@ msgstr "На панели находится переключатель режи
 
 #: ../viewer.rst:511
 msgid "*Stereo Types*"
-msgstr ""
+msgstr "*Stereo Types*"
 
 #: ../viewer.rst:503
 msgid ""
@@ -1335,7 +1335,7 @@ msgstr "По умолчанию используется вариант ``NONE``
 
 #: ../viewer.rst:514
 msgid "*HMD Settings*"
-msgstr ""
+msgstr "*HMD Settings*"
 
 #: ../viewer.rst:514
 msgid "Shows the :ref:`HMD setup window <hmd_settings>`."
@@ -1343,7 +1343,7 @@ msgstr "Показывает :ref:`окно настроек HMD <hmd_settings>`
 
 #: ../viewer.rst:519
 msgid "Input Devices"
-msgstr ""
+msgstr "Input Devices"
 
 #: ../viewer.rst:521
 msgid "This panel contains tools for setting up the input devices."
@@ -1351,7 +1351,7 @@ msgstr "На этой панели находятся средства наст�
 
 #: ../viewer.rst:524
 msgid "*Gyroscope use*"
-msgstr ""
+msgstr "*Gyroscope use*"
 
 #: ../viewer.rst:524
 msgid "Enables the use of the gyroscope in the application. Disabled by default."
@@ -1359,7 +1359,7 @@ msgstr "Включает использование гироскопов в пр
 
 #: ../viewer.rst:531
 msgid "*Gamepad Settings*"
-msgstr ""
+msgstr "*Gamepad Settings*"
 
 #: ../viewer.rst:527
 msgid "Clicking this button shows the gamepad settings window."
@@ -1498,35 +1498,35 @@ msgstr "просмотрщик"
 
 #: ../viewer.rst:71
 msgid "tools"
-msgstr ""
+msgstr "tools"
 
 #: ../viewer.rst:71
 msgid "debug;"
-msgstr ""
+msgstr "debug;"
 
 #: ../viewer.rst:95
 msgid "view"
-msgstr ""
+msgstr "view"
 
 #: ../viewer.rst:95
 msgid "wireframe"
-msgstr ""
+msgstr "wireframe"
 
 #: ../viewer.rst:95
 msgid "boundings"
-msgstr ""
+msgstr "boundings"
 
 #: ../viewer.rst:95
 msgid "cluster"
-msgstr ""
+msgstr "cluster"
 
 #: ../viewer.rst:95
 msgid "batch"
-msgstr ""
+msgstr "batch"
 
 #: ../viewer.rst:95
 msgid "render"
-msgstr ""
+msgstr "render"
 
 #~ msgid ""
 #~ msgstr "Двухуровневый список категорий и сцен из файла ``assets.json``."

@@ -1738,6 +1738,13 @@ exports.get_custom_prop = function() {
  * @method module:scenes.append_object
  * @param {Object3D} obj Object 3D
  * @param {string} [scene_name] Name of the scene
+ * @example var m_scs = require("scenes");
+ * var m_obj = require("objects");
+ *
+ * var src_obj = m_scs.get_object_by_name("Plane");
+ * var deep_copy = m_obj.copy(src_obj, "deep_copy", true); 
+ *
+ * m_scs.append_object(deep_copy);
  */
 exports.append_object = function(obj, scene_name) {
 

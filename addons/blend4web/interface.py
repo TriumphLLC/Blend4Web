@@ -95,7 +95,9 @@ class CustomConstraintsPanel(bpy.types.OBJECT_PT_constraints):
             box = layout.box()
             box.label(get_translate(_("LOCKED_TRACK constraint reserved for ")) + cons.name)
 
-        elif cons.type == 'RIGID_BODY_JOINT':
+        elif (cons.type == "RIGID_BODY_JOINT" or cons.type == "COPY_LOCATION"
+                    or cons.type == "COPY_ROTATION" or cons.type == "COPY_TRANSFORMS"
+                    or cons.type == "TRACK_TO"):
             bpy.types.OBJECT_PT_constraints_new.draw_constraint(self, context, cons)
 
         else:

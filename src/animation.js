@@ -757,7 +757,7 @@ exports.bpy_mesh_empty_is_animatable = function(bpy_obj) {
 }
 
 exports.is_animated = is_animated;
-function is_animated (obj) {
+function is_animated(obj) {
     return Boolean(obj.anim_slots.length);
 }
 
@@ -909,6 +909,23 @@ function get_cached_anim_data(obj, name_list, action) {
             return cache[i+2];
 
     return null;
+}
+
+exports.delete_cached_anim_data_by_mat = delete_cached_anim_data_by_mat;
+function delete_cached_anim_data_by_mat(obj, mat_name) {
+    var cache = obj.action_anim_cache;
+    var cache_filtered = [];
+
+    for (var i = 0; i < cache.length; i += 3) {
+
+        if (cache[i]._render.type == OBJ_ANIM_TYPE_MATERIAL)
+            if (cache[i + 1] === null || cache[i + 1].split("%join%")[0] == mat_name)
+                continue;
+
+        cache_filtered.push(cache[i], cache[i + 1], cache[i + 2]);
+    }
+    
+    obj.action_anim_cache = cache_filtered;
 }
 
 function cache_anim_data(obj, name_list, action, data) {
@@ -1323,15 +1340,9 @@ function animate(obj, elapsed, slot_num, force_update) {
         }
 
         // force sky redrawing
-        if (m_obj_util.is_world(obj)) {
-            var scenes_data = obj.scenes_data;
-            for (var i = 0; i < scenes_data.length; i++) {
-                var scene = obj.scenes_data[i].scene;
-                var subs_sky = m_scs.get_subs(scene, m_subs.SKY);
-                if (subs_sky)
-                    m_scs.update_sky(scene, subs_sky);
-            }
-        }
+        if (m_obj_util.is_world(obj))
+            m_scs.update_sky_texture(obj);
+
         break;
 
     case OBJ_ANIM_TYPE_LIGHT:

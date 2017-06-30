@@ -57,14 +57,16 @@ Lighting Parameters
 *Shading > Shadeless*
     When enabled, a material doesn’t react to light. Disabled by default.
 
+.. _tangent_shading:
+
 *Shading > Tangent Shading*
     When this parameter is enabled, the engine will use the material's tangent vector (instead of normal vector) for calculating the object's color. This can be used for creating anisotropic shading effects.
 
     .. figure:: src_images/materials/materials_tangent_shading_comparison.png
-       :align: center
-       :width: 100%
+        :align: center
+        :width: 100%
  
-    **On the left:** standard shading model; **on the right:** tangent shading model.
+        **On the left:** standard shading model; **on the right:** tangent shading model.
 
 *Shading > Double-Sided Lighting*
     Enables the double-sided lighting mode. This option is useful for non-transparent objects with a single-layered mesh.
@@ -506,6 +508,37 @@ Setting node material parameters:
 
     m_material.set_nodemat_value(cube, ["MyMaterial", "MyValue"], 0.8);   
     m_material.set_nodemat_rgb(cube, ["MyMaterial", "MyRGB"], 0.7, 0.9, 0.3);
+
+Same methods can also be used to adjust the scene environment, if the ``World`` object in the scene uses ``RGB`` or ``Value`` nodes. However, in this case you won't have to use the name of the material. The other difference is that a link to a scene object has to be replaced with a link to the ``World`` object that can be retrieved with the :b4wref:`scenes.get_world_by_name()` method:
+
+.. code-block:: javascript
+
+    var m_scenes    = require("scenes");
+    var m_material  = require("material");
+
+    ...
+
+    var my_world = m_scene.get_world_by_name("World");
+    
+    var world_rgb = m_material.get_nodemat_rgb(my_world, ["My_RGB_3"]);
+
+Replacing Textures
+------------------
+
+API methods also allow you to replace texture images. This can be done using the :b4wref:`textures.change_image()` method from the :b4wmod:`textures` module:
+
+.. code-block:: javascript
+
+    var m_scenes  = require("scenes");
+    var m_tex = require("textures");
+
+    ...
+
+    var my_cube = m_scenes.get_object_by_name("Cube");
+
+    m_tex.change_image(my_cube, "My_Texture", "./test.png");
+
+This method can be applied to replace textures used by the ``World`` object as well. However, in this case the name of the ``Texture`` node should be used instead of the name of a texture.
 
 .. _material_inherit:
 

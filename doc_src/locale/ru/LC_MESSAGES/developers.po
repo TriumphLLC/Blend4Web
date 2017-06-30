@@ -22,7 +22,7 @@ msgstr "Разработчикам приложений"
 
 #: ../developers.rst
 msgid "Table of Contents"
-msgstr ""
+msgstr "Содержание"
 
 #: ../developers.rst:14
 msgid "Application Development"
@@ -507,7 +507,7 @@ msgstr ""
 
 #: ../developers.rst:301
 msgid "``alpha`` = false"
-msgstr ""
+msgstr "``alpha`` = false"
 
 #: ../developers.rst:301
 msgid ""
@@ -520,7 +520,7 @@ msgstr ""
 
 #: ../developers.rst:329
 msgid "``alpha`` = true"
-msgstr ""
+msgstr "``alpha`` = true"
 
 #: ../developers.rst:308
 msgid ""
@@ -537,7 +537,7 @@ msgstr ""
 
 #: ../developers.rst:311
 msgid "background_color[3] = 1"
-msgstr ""
+msgstr "background_color[3] = 1"
 
 #: ../developers.rst:311
 msgid ""
@@ -549,7 +549,7 @@ msgstr ""
 
 #: ../developers.rst:320
 msgid "background_color[3] = 0"
-msgstr ""
+msgstr "background_color[3] = 0"
 
 #: ../developers.rst:314
 msgid "Additive blending is used."
@@ -567,7 +567,7 @@ msgstr ""
 
 #: ../developers.rst:329
 msgid "background_color[3] > 0"
-msgstr ""
+msgstr "background_color[3] > 0"
 
 #: ../developers.rst:323
 msgid ""
@@ -756,6 +756,8 @@ msgid ""
 "``convert_gzip`` generates GZIP-compressed versions of \".json\" and "
 "\".bin\" scene files and \".dds\" and \".pvr\" textures."
 msgstr ""
+"``convert_gzip`` сжимает при помощи GZIP-компрессии \".json\" и "
+"\".bin\" файлы сцены, а также \".dds\" и \".pvr\" текстуры."
 
 #: ../developers.rst:401
 msgid "Commands for resource cleanup:"
@@ -881,11 +883,11 @@ msgstr "Если какая-либо программа отсутствует, 
 
 #: ../developers.rst:445
 msgid "*Couldn't find PROGRAM_NAME.*"
-msgstr ""
+msgstr "*Couldn't find PROGRAM_NAME.*"
 
 #: ../developers.rst:447
 msgid "**Linux**"
-msgstr ""
+msgstr "**Linux**"
 
 #: ../developers.rst:449
 msgid "The list of dependencies is listed in the following table:"
@@ -901,39 +903,39 @@ msgstr "Пакет в дистрибутиве Ubuntu 16.04"
 
 #: ../developers.rst:455
 msgid "ImageMagick"
-msgstr ""
+msgstr "ImageMagick"
 
 #: ../developers.rst:455
 msgid "imagemagick"
-msgstr ""
+msgstr "imagemagick"
 
 #: ../developers.rst:457
 msgid "NVIDIA Texture Tools"
-msgstr ""
+msgstr "NVIDIA Texture Tools"
 
 #: ../developers.rst:457
 msgid "libnvtt-bin"
-msgstr ""
+msgstr "libnvtt-bin"
 
 #: ../developers.rst:459
 msgid "Libav"
-msgstr ""
+msgstr "Libav"
 
 #: ../developers.rst:459
 msgid "libav-tools"
-msgstr ""
+msgstr "libav-tools"
 
 #: ../developers.rst:461
 msgid "FFmpeg"
-msgstr ""
+msgstr "FFmpeg"
 
 #: ../developers.rst:461
 msgid "ffmpeg"
-msgstr ""
+msgstr "ffmpeg"
 
 #: ../developers.rst:463
 msgid "PVRTC"
-msgstr ""
+msgstr "PVRTC"
 
 #: ../developers.rst:463
 msgid "install manually"
@@ -949,7 +951,7 @@ msgstr ""
 
 #: ../developers.rst:470
 msgid "**Windows**"
-msgstr ""
+msgstr "**Windows**"
 
 #: ../developers.rst:472
 msgid ""
@@ -961,7 +963,7 @@ msgstr ""
 
 #: ../developers.rst:474
 msgid "**macOS**"
-msgstr ""
+msgstr "**macOS**"
 
 #: ../developers.rst:476
 msgid ""
@@ -1010,19 +1012,19 @@ msgstr "для аудио (convert_media):"
 
 #: ../developers.rst:515
 msgid "ogg (ogv, oga) -> mp4"
-msgstr ""
+msgstr "ogg (ogv, oga) -> mp4"
 
 #: ../developers.rst:516
 msgid "mp3 -> oga"
-msgstr ""
+msgstr "mp3 -> oga"
 
 #: ../developers.rst:517
 msgid "mp4 (m4v, m4a) -> oga"
-msgstr ""
+msgstr "mp4 (m4v, m4a) -> oga"
 
 #: ../developers.rst:518
 msgid "webm -> m4a"
-msgstr ""
+msgstr "webm -> m4a"
 
 #: ../developers.rst:520
 msgid ""
@@ -1042,19 +1044,19 @@ msgstr "для видео (convert_media):"
 
 #: ../developers.rst:523
 msgid "ogg (ogv, oga) -> m4v / seq"
-msgstr ""
+msgstr "ogg (ogv, oga) -> m4v / seq"
 
 #: ../developers.rst:524
 msgid "mp3 -> webm / seq"
-msgstr ""
+msgstr "mp3 -> webm / seq"
 
 #: ../developers.rst:525
 msgid "mp4 (m4v, m4a) -> webm / seq"
-msgstr ""
+msgstr "mp4 (m4v, m4a) -> webm / seq"
 
 #: ../developers.rst:526
 msgid "webm -> m4v / seq"
-msgstr ""
+msgstr "webm -> m4v / seq"
 
 #: ../developers.rst:528
 msgid ""
@@ -1075,19 +1077,19 @@ msgstr "для изображений (convert_dds):"
 
 #: ../developers.rst:531
 msgid "png -> dds/pvr"
-msgstr ""
+msgstr "png -> dds/pvr"
 
 #: ../developers.rst:532
 msgid "jpg -> dds/pvr"
-msgstr ""
+msgstr "jpg -> dds/pvr"
 
 #: ../developers.rst:533
 msgid "bmp -> dds/pvr"
-msgstr ""
+msgstr "bmp -> dds/pvr"
 
 #: ../developers.rst:534
 msgid "gif -> dds"
-msgstr ""
+msgstr "gif -> dds"
 
 #: ../developers.rst:536
 msgid ""
@@ -1733,11 +1735,11 @@ msgstr "Файловая структура SDK"
 
 #: ../developers.rst:815 ../developers.rst:989
 msgid "**addons**"
-msgstr ""
+msgstr "**addons**"
 
 #: ../developers.rst:815
 msgid "**blend4web**"
-msgstr ""
+msgstr "**blend4web**"
 
 #: ../developers.rst:815
 msgid "Blender addon"
@@ -1745,7 +1747,7 @@ msgstr "аддон Blender"
 
 #: ../developers.rst:884
 msgid "**apps_dev**"
-msgstr ""
+msgstr "**apps_dev**"
 
 #: ../developers.rst:818
 msgid "SDK apps source code"
@@ -1753,7 +1755,7 @@ msgstr "исходный код приложений SDK"
 
 #: ../developers.rst:824
 msgid "**code_snippets**"
-msgstr ""
+msgstr "**code_snippets**"
 
 #: ../developers.rst:821
 msgid "source files of the Code Snippets application"
@@ -1761,7 +1763,7 @@ msgstr "исходные файлы приложения Code Snippets"
 
 #: ../developers.rst:824 ../developers.rst:980
 msgid "**scripts**"
-msgstr ""
+msgstr "**scripts**"
 
 #: ../developers.rst:824
 msgid "Blend4Web API usage examples' source files"
@@ -1769,7 +1771,7 @@ msgstr "исходные файлы самих примеров использо
 
 #: ../developers.rst:827
 msgid "**dairy_plant**"
-msgstr ""
+msgstr "**dairy_plant**"
 
 #: ../developers.rst:827
 msgid "source files of the Dairy Plant demo (available only in SDK Pro)"
@@ -1777,7 +1779,7 @@ msgstr "исходные файлы приложения \"Молочный за
 
 #: ../developers.rst:830
 msgid "**demos_animation**"
-msgstr ""
+msgstr "**demos_animation**"
 
 #: ../developers.rst:830
 msgid "project files of the basic animation demos"
@@ -1785,7 +1787,7 @@ msgstr "исходные файлы анимационных примеров"
 
 #: ../developers.rst:833
 msgid "**demos_environment**"
-msgstr ""
+msgstr "**demos_environment**"
 
 #: ../developers.rst:833
 msgid "project files of the basic environment demos"
@@ -1793,7 +1795,7 @@ msgstr "исходные файлы примеров работы с окруж�
 
 #: ../developers.rst:836
 msgid "**demos_interactivity**"
-msgstr ""
+msgstr "**demos_interactivity**"
 
 #: ../developers.rst:836
 msgid "project files of the basic interactivity demos"
@@ -1801,7 +1803,7 @@ msgstr "исходные файлы примеров интерактивнос�
 
 #: ../developers.rst:839
 msgid "**demos_materials**"
-msgstr ""
+msgstr "**demos_materials**"
 
 #: ../developers.rst:839
 msgid "project files of the basic materials demos"
@@ -1809,7 +1811,7 @@ msgstr "исходные файлы примеров материалов"
 
 #: ../developers.rst:842
 msgid "**demos_media**"
-msgstr ""
+msgstr "**demos_media**"
 
 #: ../developers.rst:842
 msgid "project files of the basic media demos"
@@ -1817,7 +1819,7 @@ msgstr "исходные файлы примеров работы с медиа�
 
 #: ../developers.rst:845
 msgid "**demos_particles**"
-msgstr ""
+msgstr "**demos_particles**"
 
 #: ../developers.rst:845
 msgid "project files of the basic particles demos"
@@ -1825,7 +1827,7 @@ msgstr "исходные файлы примеров работы с части�
 
 #: ../developers.rst:848
 msgid "**demos_physics**"
-msgstr ""
+msgstr "**demos_physics**"
 
 #: ../developers.rst:848
 msgid "project files of the basic physics demos"
@@ -1833,7 +1835,7 @@ msgstr "исходные файлы примеров работы с физик�
 
 #: ../developers.rst:851
 msgid "**demos_postprocessing**"
-msgstr ""
+msgstr "**demos_postprocessing**"
 
 #: ../developers.rst:851
 msgid "project files of the basic postprocessing demos"
@@ -1841,7 +1843,7 @@ msgstr "исходные файлы примеров работы со спец�
 
 #: ../developers.rst:854
 msgid "**farm**"
-msgstr ""
+msgstr "**farm**"
 
 #: ../developers.rst:854
 msgid "source files of the Farm demo (available only in SDK Pro)"
@@ -1849,7 +1851,7 @@ msgstr "исходные файлы приложения \"Ферма\" (дос�
 
 #: ../developers.rst:857
 msgid "**fashion**"
-msgstr ""
+msgstr "**fashion**"
 
 #: ../developers.rst:857
 msgid "source files of the Fashion Show demo (available only in SDK Pro)"
@@ -1857,7 +1859,7 @@ msgstr "исходные файлы приложения \"Показ мод\" (
 
 #: ../developers.rst:860
 msgid "**flight**"
-msgstr ""
+msgstr "**flight**"
 
 #: ../developers.rst:860
 msgid "source files of the Island demo"
@@ -1865,7 +1867,7 @@ msgstr "исходные файлы приложения \"Остров\""
 
 #: ../developers.rst:863
 msgid "**new_year**"
-msgstr ""
+msgstr "**new_year**"
 
 #: ../developers.rst:863
 msgid "source files of the New Year 2015 greeting card"
@@ -1873,7 +1875,7 @@ msgstr "исходные файлы открытки \"С новым годом 
 
 #: ../developers.rst:866
 msgid "**project.py**"
-msgstr ""
+msgstr "**project.py**"
 
 #: ../developers.rst:866
 msgid "script for application developers"
@@ -1881,7 +1883,7 @@ msgstr "скрипт для разработчиков приложений"
 
 #: ../developers.rst:869
 msgid "**space_disaster**"
-msgstr ""
+msgstr "**space_disaster**"
 
 #: ../developers.rst:869
 msgid "source files of the Space Disaster app"
@@ -1889,7 +1891,7 @@ msgstr "исходные файлы приложения Space Disaster"
 
 #: ../developers.rst:872
 msgid "**tutorials**"
-msgstr ""
+msgstr "**tutorials**"
 
 #: ../developers.rst:872
 msgid "source files of the Blend4Web tutorials"
@@ -1897,7 +1899,7 @@ msgstr "исходные файлы обучающих примеров Blend4We
 
 #: ../developers.rst:875
 msgid "**victory_day_2015**"
-msgstr ""
+msgstr "**victory_day_2015**"
 
 #: ../developers.rst:875
 msgid "source files of the V-Day 70 greeting card"
@@ -1905,7 +1907,7 @@ msgstr "исходные файлы открытки \"День победы 70\
 
 #: ../developers.rst:878
 msgid "**viewer**"
-msgstr ""
+msgstr "**viewer**"
 
 #: ../developers.rst:878
 msgid "the sources files of the Viewer application"
@@ -1913,7 +1915,7 @@ msgstr "исходные файлы приложения для просмотр
 
 #: ../developers.rst:881
 msgid "**webplayer**"
-msgstr ""
+msgstr "**webplayer**"
 
 #: ../developers.rst:881
 msgid "source files of the Web Player app"
@@ -1921,7 +1923,7 @@ msgstr "исходные файлы веб-плеера"
 
 #: ../developers.rst:884
 msgid "**website**"
-msgstr ""
+msgstr "**website**"
 
 #: ../developers.rst:884
 msgid "source files of applications from the Blend4Web official website"
@@ -1929,7 +1931,7 @@ msgstr "исходные файлы приложений, размещаемых
 
 #: ../developers.rst:887
 msgid "**blender**"
-msgstr ""
+msgstr "**blender**"
 
 #: ../developers.rst:887
 msgid "source files of the Blender scenes"
@@ -1937,7 +1939,7 @@ msgstr "исходные файлы сцен в формате Blender"
 
 #: ../developers.rst:890
 msgid "**csrc**"
-msgstr ""
+msgstr "**csrc**"
 
 #: ../developers.rst:890
 msgid ""
@@ -1947,7 +1949,7 @@ msgstr "исходный код бинарной части экспортера
 
 #: ../developers.rst:911
 msgid "**deploy**"
-msgstr ""
+msgstr "**deploy**"
 
 #: ../developers.rst:893
 msgid ""
@@ -1959,7 +1961,7 @@ msgstr ""
 
 #: ../developers.rst:896
 msgid "**api_doc**"
-msgstr ""
+msgstr "**api_doc**"
 
 #: ../developers.rst:896
 msgid ""
@@ -1971,7 +1973,7 @@ msgstr ""
 
 #: ../developers.rst:902
 msgid "**apps**"
-msgstr ""
+msgstr "**apps**"
 
 #: ../developers.rst:899
 msgid ""
@@ -1983,7 +1985,7 @@ msgstr ""
 
 #: ../developers.rst:902
 msgid "**common**"
-msgstr ""
+msgstr "**common**"
 
 #: ../developers.rst:902
 msgid ""
@@ -1995,7 +1997,7 @@ msgstr ""
 
 #: ../developers.rst:905
 msgid "**assets**"
-msgstr ""
+msgstr "**assets**"
 
 #: ../developers.rst:905
 msgid "application assets: scenes, textures and sounds"
@@ -2003,7 +2005,7 @@ msgstr "медиаданные приложения: сцены, текстур�
 
 #: ../developers.rst:908
 msgid "**doc**"
-msgstr ""
+msgstr "**doc**"
 
 #: ../developers.rst:908
 msgid "the current user manual in HTML format, built automatically from *doc_src*"
@@ -2013,7 +2015,7 @@ msgstr ""
 
 #: ../developers.rst:911
 msgid "**webglreport**"
-msgstr ""
+msgstr "**webglreport**"
 
 #: ../developers.rst:911
 msgid "WebGL report application"
@@ -2021,7 +2023,7 @@ msgstr "Приложения, выводящее информацию о WebGL"
 
 #: ../developers.rst:914
 msgid "**distfiles**"
-msgstr ""
+msgstr "**distfiles**"
 
 #: ../developers.rst:914
 msgid "distribution builder lists"
@@ -2029,7 +2031,7 @@ msgstr "списки сборщика дистрибутивов"
 
 #: ../developers.rst:917
 msgid "**doc_src**"
-msgstr ""
+msgstr "**doc_src**"
 
 #: ../developers.rst:917
 msgid "source files of the current manual written in reST"
@@ -2045,7 +2047,7 @@ msgstr "файлы главной веб-страницы SDK"
 
 #: ../developers.rst:923
 msgid "**license**"
-msgstr ""
+msgstr "**license**"
 
 #: ../developers.rst:923
 msgid "files with license texts"
@@ -2053,7 +2055,7 @@ msgstr "файлы с текстами лицензионных соглашен
 
 #: ../developers.rst:926
 msgid "**Makefile**"
-msgstr ""
+msgstr "**Makefile**"
 
 #: ../developers.rst:926
 msgid "makefile for building the engine, the applications, and the documentation"
@@ -2061,7 +2063,7 @@ msgstr "файл сборки для компиляции движка, прил
 
 #: ../developers.rst:929
 msgid "**projects**"
-msgstr ""
+msgstr "**projects**"
 
 #: ../developers.rst:929
 msgid "directory for user projects"
@@ -2069,7 +2071,7 @@ msgstr "каталог пользовательских проектов"
 
 #: ../developers.rst:932
 msgid "**README.rst**"
-msgstr ""
+msgstr "**README.rst**"
 
 #: ../developers.rst:932
 msgid "README file"
@@ -2081,7 +2083,7 @@ msgstr "скрипты"
 
 #: ../developers.rst:938
 msgid "**check_resources.py**"
-msgstr ""
+msgstr "**check_resources.py**"
 
 #: ../developers.rst:938
 msgid ""
@@ -2093,7 +2095,7 @@ msgstr ""
 
 #: ../developers.rst:941
 msgid "**compile_b4w.py**"
-msgstr ""
+msgstr "**compile_b4w.py**"
 
 #: ../developers.rst:941
 msgid "script for building engine code and applications"
@@ -2101,7 +2103,7 @@ msgstr "скрипт для сборки кода движка и приложе
 
 #: ../developers.rst:944
 msgid "**converter.py**"
-msgstr ""
+msgstr "**converter.py**"
 
 #: ../developers.rst:944
 msgid ""
@@ -2113,7 +2115,7 @@ msgstr ""
 
 #: ../developers.rst:947
 msgid "**custom_json_encoder.py**"
-msgstr ""
+msgstr "**custom_json_encoder.py**"
 
 #: ../developers.rst:947
 msgid "fork of the json Python module, sorts the keys in reverse order"
@@ -2121,7 +2123,7 @@ msgstr "форк Python-модуля json, сортирует ключи по а
 
 #: ../developers.rst:950
 msgid "**gen_glmatrix.sh**"
-msgstr ""
+msgstr "**gen_glmatrix.sh**"
 
 #: ../developers.rst:950
 msgid ""
@@ -2133,7 +2135,7 @@ msgstr ""
 
 #: ../developers.rst:953
 msgid "**graph.sh**"
-msgstr ""
+msgstr "**graph.sh**"
 
 #: ../developers.rst:953
 msgid "SVG generator for the current scene graph, used for debugging rendering"
@@ -2143,7 +2145,7 @@ msgstr ""
 
 #: ../developers.rst:956
 msgid "**make_dist.py**"
-msgstr ""
+msgstr "**make_dist.py**"
 
 #: ../developers.rst:956
 msgid "distributions builder script"
@@ -2151,7 +2153,7 @@ msgstr "сборщик дистрибутивов"
 
 #: ../developers.rst:959
 msgid "**memory.sh**"
-msgstr ""
+msgstr "**memory.sh**"
 
 #: ../developers.rst:959
 msgid "script for checking memory (RAM) and video memory (VRAM)"
@@ -2159,7 +2161,7 @@ msgstr "скрипт для проверки обычной (RAM) и видео-
 
 #: ../developers.rst:962
 msgid "**mod_list.py**"
-msgstr ""
+msgstr "**mod_list.py**"
 
 #: ../developers.rst:962
 msgid "script for generating the list of modules to use in new applications"
@@ -2167,7 +2169,7 @@ msgstr "скрипт для генерации списка модулей, ис
 
 #: ../developers.rst:965
 msgid "**plot.sh**"
-msgstr ""
+msgstr "**plot.sh**"
 
 #: ../developers.rst:965
 msgid "debugging information graph builder"
@@ -2175,7 +2177,7 @@ msgstr "построитель графиков отладочной инфор�
 
 #: ../developers.rst:968
 msgid "**process_blend.py**"
-msgstr ""
+msgstr "**process_blend.py**"
 
 #: ../developers.rst:968
 msgid "script for automatic reexport of all scenes from the SDK"
@@ -2183,7 +2185,7 @@ msgstr "скрипт для автоматического переэкспор�
 
 #: ../developers.rst:971
 msgid "**remove_alpha_channel.sh**"
-msgstr ""
+msgstr "**remove_alpha_channel.sh**"
 
 #: ../developers.rst:971
 msgid "script for removing the images' alpha channel"
@@ -2191,7 +2193,7 @@ msgstr "скрипт для удаления альфа-канала изобр�
 
 #: ../developers.rst:974
 msgid "**screencast.sh**"
-msgstr ""
+msgstr "**screencast.sh**"
 
 #: ../developers.rst:974
 msgid "script for screen video recording"
@@ -2199,7 +2201,7 @@ msgstr "скрипт для записи видео с экрана"
 
 #: ../developers.rst:977
 msgid "**shader_analyzer.py**"
-msgstr ""
+msgstr "**shader_analyzer.py**"
 
 #: ../developers.rst:977
 msgid ""
@@ -2211,7 +2213,7 @@ msgstr ""
 
 #: ../developers.rst:980
 msgid "**translator.py**"
-msgstr ""
+msgstr "**translator.py**"
 
 #: ../developers.rst:980
 msgid "script for building add-on translations"
@@ -2219,7 +2221,7 @@ msgstr "скрипт для сборки файлов с переводами а
 
 #: ../developers.rst:983
 msgid "**shaders**"
-msgstr ""
+msgstr "**shaders**"
 
 #: ../developers.rst:983
 msgid "GLSL shaders of the engine"
@@ -2227,7 +2229,7 @@ msgstr "GLSL-шейдеры движка"
 
 #: ../developers.rst:995
 msgid "**src**"
-msgstr ""
+msgstr "**src**"
 
 #: ../developers.rst:986
 msgid "main source code of the engine's kernel"
@@ -2239,7 +2241,7 @@ msgstr "исходный код дополнений движка"
 
 #: ../developers.rst:992
 msgid "**ext**"
-msgstr ""
+msgstr "**ext**"
 
 #: ../developers.rst:992
 msgid "source code of the external declarations that form the engine's API"
@@ -2247,7 +2249,7 @@ msgstr "исходный код внешних объявлений, форми�
 
 #: ../developers.rst:995
 msgid "**libs**"
-msgstr ""
+msgstr "**libs**"
 
 #: ../developers.rst:995
 msgid "source code of the libraries"
@@ -2255,7 +2257,7 @@ msgstr "исходный код библиотек"
 
 #: ../developers.rst:998
 msgid "**tmp**"
-msgstr ""
+msgstr "**tmp**"
 
 #: ../developers.rst:998
 msgid "directory for temporary files (e.g. Fast Preview)"
@@ -2263,7 +2265,7 @@ msgstr "директория для временных файлов (напри�
 
 #: ../developers.rst:1017
 msgid "**tools**"
-msgstr ""
+msgstr "**tools**"
 
 #: ../developers.rst:1001
 msgid "various tools for building the engine, apps or convert resources"
@@ -2271,7 +2273,7 @@ msgstr "различные инструменты для сборки движк
 
 #: ../developers.rst:1004
 msgid "**converter_utils**"
-msgstr ""
+msgstr "**converter_utils**"
 
 #: ../developers.rst:1004
 msgid "binary builds of the tools for resource conversion"
@@ -2279,7 +2281,7 @@ msgstr "сборки утилит для конвертации ресурсов
 
 #: ../developers.rst:1007
 msgid "**closure-compiler**"
-msgstr ""
+msgstr "**closure-compiler**"
 
 #: ../developers.rst:1007
 msgid "Google Closure compiler, its externs and their generators"
@@ -2289,11 +2291,11 @@ msgstr ""
 
 #: ../developers.rst:1014
 msgid "**glsl**"
-msgstr ""
+msgstr "**glsl**"
 
 #: ../developers.rst:1011
 msgid "**compiler**"
-msgstr ""
+msgstr "**compiler**"
 
 #: ../developers.rst:1011
 msgid "compiler for the engine's GLSL shaders"
@@ -2301,7 +2303,7 @@ msgstr "компилятор GLSL-шейдеров движка"
 
 #: ../developers.rst:1014
 msgid "**pegjs**"
-msgstr ""
+msgstr "**pegjs**"
 
 #: ../developers.rst:1014
 msgid ""
@@ -2314,7 +2316,7 @@ msgstr ""
 
 #: ../developers.rst:1017
 msgid "**yuicompressor**"
-msgstr ""
+msgstr "**yuicompressor**"
 
 #: ../developers.rst:1017
 msgid "utility for compressing CSS files"
@@ -2322,7 +2324,7 @@ msgstr "утилита для сжатия файлов CSS"
 
 #: ../developers.rst:1020
 msgid "**uranium**"
-msgstr ""
+msgstr "**uranium**"
 
 #: ../developers.rst:1020
 msgid ""
@@ -2332,7 +2334,7 @@ msgstr "исходный код и скрипты сборки физическ�
 
 #: ../developers.rst:1024
 msgid "**VERSION**"
-msgstr ""
+msgstr "**VERSION**"
 
 #: ../developers.rst:1023
 msgid "contains the current version of the engine"

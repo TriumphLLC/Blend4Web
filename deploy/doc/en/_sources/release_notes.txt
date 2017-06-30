@@ -6,6 +6,85 @@ Release Notes
 
 .. index:: release notes
 
+v17.06
+======
+
+New Features
+------------
+
+* Support for essential Blender constraints.
+
+    ``Copy Location``, ``Copy Rotation``, ``Copy Transforms`` and ``Track To``
+    are available to use now. Also the following API methods have been
+    added: :b4wref:`constraints.append_copy_loc`, :b4wref:`constraints.append_copy_rot`
+    and :b4wref:`constraints.append_copy_trans`.
+
+* Experimental Augmented Reality support.
+
+    Check out the AR application to get the look of the feature we're going to improve much in our next releases. The application can be found in the ``apps_dev/AR`` folder and is also available in Project Manager.
+
+* New logic node ``Set Camera Limits``.
+
+    This node allows changing limits of the camera. Each limit can be set separately. Only limits available for current move style of the camera are applied after node execution.
+
+* Improved AA rendering.
+    
+    Scheme of rendering post-processing effects has been changed. It increases performance and quality of the anti-aliasing.
+
+* New experimental environment lighting algorithm for scenes with ``Cycles`` materials.
+
+    Materials with ``Glossy BSDF`` and ``Diffuse BSDF`` nodes automatically enable environment lighting, which takes into account roughness of the glossy component.
+
+    New algorithm requires WebGL 2.0 or WebGL 1.0 with available extension EXT_shader_texture_lod for correct work.
+
+* Optimized rendering of reflections.
+
+    Cube reflections for scenes with no reflexible objects has been optimized. Now in such scenes the sky is used for reflections directly without redrawing for each individual reflective object.
+
+* Support for camera loading.
+
+    From now on it's possible to load additional cameras to the scene using dynamic loading feature. 
+
+* Physics API improvements.
+
+    Added :b4wref:`physics.set_angular_velocity`. It allows to set object's angular velocity.
+
+Changes
+-------
+
+* The "pivot" setting in the "params" parameter for the :b4wref:`camera.target_setup` method has been made optional.
+
+* The Material API was improved to provide more clear messages in the browser console in case of errors. Also two methods have been added: :b4wref:`material.is_node_material` and :b4wref:`material.is_water_material`.
+
+* Sequential video fallback for video textures isn't applied anymore in MS Edge due to the native support for HTMLVideoElement.
+
+Fixes
+-----
+
+* Fixed incorrect rendering of materials with normal mapping.
+
+* Fixed VR code snipped.
+
+* Fixed keyboard events when the engine is working inside an iframe.
+
+* MSAA is disabled from now on for Adreno 4xx/5xx GPUs to prevent some rendering bugs.
+
+* Fixed translating/rotating of non-active cameras.
+
+* Fixed getting coordinates for mouse/touch events via the :b4wref:`mouse.get_coords_x` and :b4wref:`mouse.get_coords_y` methods.
+
+* Fixed bug with looped speakers that couldn't be stopped in Firefox after calling the :b4wref:`sfx.stop` and the :b4wref:`sfx.play` methods sequentially.
+
+* Fixed sky redrawing after world node material parameters change.
+
+* Removed auto applying modifiers for objects with the ``Array`` modifier.
+
+* Fixed rendering artifacts for the transparent node materials in Firefox under Linux.
+
+* Fixed applying a node material animation after material inheritance.
+
+* Workers were disabled for physics simulation in IE11 and MS Edge to improve physics stability.
+
 v17.04
 ======
 
@@ -68,7 +147,7 @@ New Features
 
     New operator ``Scale`` has been added for scaling normal along axes.
 
-    The functionality of some operators has been improved and they have been renamed in correspondence to their new possibilities: ``Tree`` -> ``Cursor 3D``, ``Foliage`` -> ``Axis``.
+    The functionality of some operators has been improved and they have been renamed in correspondence to their new possibilities: ``Tree`` -> ``3D Cursor``, ``Foliage`` -> ``Axis``.
 
 * Added API for rendering normals of dynamic objects.
 

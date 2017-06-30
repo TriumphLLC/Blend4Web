@@ -58,7 +58,7 @@ msgstr "Вкладка Sound"
 
 #: ../audio.rst:33
 msgid "*Mute*"
-msgstr ""
+msgstr "*Mute*"
 
 #: ../audio.rst:35
 msgid "Enabling this parameter mutes the speaker."
@@ -66,7 +66,7 @@ msgstr "Отключает воспроизведение звука."
 
 #: ../audio.rst:37
 msgid "*Speaker Behavior*:"
-msgstr ""
+msgstr "*Speaker Behavior*:"
 
 #: ../audio.rst:39
 msgid "The behavior of the audio source."
@@ -111,7 +111,7 @@ msgstr "На панели ``Sound`` доступны следующие наст
 
 #: ../audio.rst:49
 msgid "*Volume*"
-msgstr ""
+msgstr "*Volume*"
 
 #: ../audio.rst:51
 msgid "Speaker volume"
@@ -119,7 +119,7 @@ msgstr "Громкость источника."
 
 #: ../audio.rst:53
 msgid "*Random Volume*"
-msgstr ""
+msgstr "*Random Volume*"
 
 #: ../audio.rst:55
 msgid ""
@@ -131,7 +131,7 @@ msgstr ""
 
 #: ../audio.rst:57
 msgid "*Pitch*"
-msgstr ""
+msgstr "*Pitch*"
 
 #: ../audio.rst:59
 msgid "Sound playback velocity."
@@ -139,7 +139,7 @@ msgstr "Скорость проигрывания (высота) звука."
 
 #: ../audio.rst:61
 msgid "*Random Pitch*"
-msgstr ""
+msgstr "*Random Pitch*"
 
 #: ../audio.rst:63
 msgid ""
@@ -151,7 +151,7 @@ msgstr ""
 
 #: ../audio.rst:66
 msgid "*Fade-In*"
-msgstr ""
+msgstr "*Fade-In*"
 
 #: ../audio.rst:68
 msgid "Fade-in time interval."
@@ -159,7 +159,7 @@ msgstr "Интервал плавного включения звука."
 
 #: ../audio.rst:70
 msgid "*Fade-Out*"
-msgstr ""
+msgstr "*Fade-Out*"
 
 #: ../audio.rst:72
 msgid "Fade-out time interval."
@@ -167,7 +167,7 @@ msgstr "Интервал плавного выключения звука."
 
 #: ../audio.rst:74
 msgid "*Enable Doppler*"
-msgstr ""
+msgstr "*Enable Doppler*"
 
 #: ../audio.rst:76
 msgid "Turn on the source's frequency shift upon its moving."
@@ -175,7 +175,7 @@ msgstr "Включает смещение частоты источника пр
 
 #: ../audio.rst:78
 msgid "*Auto-play*"
-msgstr ""
+msgstr "*Auto-play*"
 
 #: ../audio.rst:80
 msgid "This option enables default playback."
@@ -183,7 +183,7 @@ msgstr "Включает воспроизведение по умолчанию.
 
 #: ../audio.rst:82
 msgid "*Cyclic Play*"
-msgstr ""
+msgstr "*Cyclic Play*"
 
 #: ../audio.rst:84
 msgid "Loop the sound playback."
@@ -191,7 +191,7 @@ msgstr "Зацикливать воспроизведение звука."
 
 #: ../audio.rst:86
 msgid "*Loop*"
-msgstr ""
+msgstr "*Loop*"
 
 #: ../audio.rst:88
 msgid ""
@@ -206,7 +206,7 @@ msgstr ""
 
 #: ../audio.rst:90
 msgid "*Loop Start*"
-msgstr ""
+msgstr "*Loop Start*"
 
 #: ../audio.rst:92
 msgid ""
@@ -218,7 +218,7 @@ msgstr ""
 
 #: ../audio.rst:94
 msgid "*Loop End*"
-msgstr ""
+msgstr "*Loop End*"
 
 #: ../audio.rst:96
 msgid ""
@@ -230,7 +230,7 @@ msgstr ""
 
 #: ../audio.rst:98
 msgid "*Delay*"
-msgstr ""
+msgstr "*Delay*"
 
 #: ../audio.rst:100
 msgid "Delay before sound playback starts."
@@ -238,7 +238,7 @@ msgstr "Задержка в секундах перед началом прои�
 
 #: ../audio.rst:102
 msgid "*Random Delay*"
-msgstr ""
+msgstr "*Random Delay*"
 
 #: ../audio.rst:104
 msgid ""
@@ -256,7 +256,7 @@ msgstr "Вкладка Distance"
 
 #: ../audio.rst:109
 msgid "*Attenuation*"
-msgstr ""
+msgstr "*Attenuation*"
 
 #: ../audio.rst:111
 msgid ""
@@ -268,7 +268,7 @@ msgstr ""
 
 #: ../audio.rst:113
 msgid "*Maximum*"
-msgstr ""
+msgstr "*Maximum*"
 
 #: ../audio.rst:115
 msgid "Maximum distance for volume calculation."
@@ -276,7 +276,7 @@ msgstr "Максимальная дистанция для расчёта гро
 
 #: ../audio.rst:117
 msgid "*Reference*"
-msgstr ""
+msgstr "*Reference*"
 
 #: ../audio.rst:119
 msgid "This sets the reference distance at which volume is 100%."
@@ -294,7 +294,7 @@ msgstr "Группа параметров Angle:"
 
 #: ../audio.rst:126 ../audio.rst:136
 msgid "*Outer*"
-msgstr ""
+msgstr "*Outer*"
 
 #: ../audio.rst:128
 msgid ""
@@ -308,7 +308,7 @@ msgstr ""
 
 #: ../audio.rst:130
 msgid "*Inner*"
-msgstr ""
+msgstr "*Inner*"
 
 #: ../audio.rst:132
 msgid "Angle of the inner cone in degrees. Inside the cone the volume is 100%."
@@ -346,7 +346,7 @@ msgstr "Доступные параметры:"
 
 #: ../audio.rst:170
 msgid "*DIST_REF*"
-msgstr ""
+msgstr "*DIST_REF*"
 
 #: ../audio.rst:170
 msgid ""
@@ -358,7 +358,7 @@ msgstr ""
 
 #: ../audio.rst:173
 msgid "*ATTENUATION*"
-msgstr ""
+msgstr "*ATTENUATION*"
 
 #: ../audio.rst:173
 msgid ""
@@ -370,7 +370,7 @@ msgstr ""
 
 #: ../audio.rst:176
 msgid "*DIST_MAX*"
-msgstr ""
+msgstr "*DIST_MAX*"
 
 #: ../audio.rst:176
 msgid ""
@@ -386,7 +386,7 @@ msgstr ""
 
 #: ../audio.rst:179
 msgid "*EQ_FREQ*"
-msgstr ""
+msgstr "*EQ_FREQ*"
 
 #: ../audio.rst:179
 msgid "The center frequency of where the boost is applied."
@@ -394,7 +394,7 @@ msgstr "Центральная частота, к которой применя�
 
 #: ../audio.rst:182
 msgid "*EQ_Q*"
-msgstr ""
+msgstr "*EQ_Q*"
 
 #: ../audio.rst:182
 msgid ""
@@ -407,7 +407,7 @@ msgstr ""
 
 #: ../audio.rst:185
 msgid "*EQ_GAIN*"
-msgstr ""
+msgstr "*EQ_GAIN*"
 
 #: ../audio.rst:185
 msgid ""
@@ -419,7 +419,7 @@ msgstr ""
 
 #: ../audio.rst:188
 msgid "*VOLUME*"
-msgstr ""
+msgstr "*VOLUME*"
 
 #: ../audio.rst:188
 msgid "The volume of a sound emitted by the speaker."

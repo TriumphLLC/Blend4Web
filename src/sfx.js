@@ -1014,6 +1014,9 @@ function stop(sobj) {
     } else {
         var source = sfx.source_node;
 
+        // NOTE: suppress ended event in Firefox fired even after disconnect
+        source.onended = function(){};
+
         // NOTE: condition to fix issue with double stop() for loop-range speakers
         if (sfx.duration < source.buffer.duration) {
             if (sfx.fade_out && sfx.state == SPKSTATE_PLAY) {

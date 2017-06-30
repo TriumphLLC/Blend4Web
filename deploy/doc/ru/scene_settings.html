@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Параметры сцены &mdash; Руководство пользователя Blend4Web 17.04.1</title>
+  <title>Параметры сцены &mdash; Руководство пользователя Blend4Web 17.06</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 17.04.1" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 17.06" href="index.html"/>
         <link rel="next" title="Объекты" href="objects.html"/>
         <link rel="prev" title="Аддон" href="addon.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v17.04.1
+              v17.06
             </div>
           
         
@@ -493,11 +493,12 @@
 </div>
 <div class="section" id="object-clustering-lod">
 <span id="scene-batching"></span><h3><a class="toc-backref" href="#id29">Object Clustering &amp; LOD</a><a class="headerlink" href="#object-clustering-lod" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Settings for object clustering and Levels Of Detail.</p>
+<p>Настройки кластеризации объектов и Уровней Детализации (LOD).</p>
 <a class="reference internal image-reference" href="_images/scene_object_clustering.png"><img alt="_images/scene_object_clustering.png" class="align-center" src="_images/scene_object_clustering.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>Cluster Size</em></dt>
-<dd>The size of the cluster used for batching (in meters). Can be used for optimization purposes. If this parameter is set to zero, the engine will try to combine all objects in the scene. Set to zero by default.</dd>
+<dd><p class="first last">Размер кластера, применяемого для объединения объектов (в метрах). Может быть использован в целях оптимизации. Если этот параметр равен нулю, движок будет пытаться объединить все объекты в сцене. Значение по умолчанию - 0.</p>
+</dd>
 <dt><em>LOD Cluster Size Multiplier</em></dt>
 <dd><p class="first last">Этот параметр используется для разбиения кластеров на части (в зависимости от расстояния LOD, которое настраивается индивидуально для каждого объекта) для того, чтобы переходы между различными уровнями детализации были менее заметны. Размеры меньших кластеров определяются на основании расстояний LOD, умноженных на значение этого параметра. Высокие значения увеличивают размер кластеров, что повышает производительность, но делает более заметными переходы между уровнями детализации. Низкие значения делают переходы менее заметными, но снижают производительность. Значение по умолчанию - 0.5.</p>
 </dd>
@@ -692,7 +693,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Триумф.
-      Обновлено: 2017-05-15.
+      Обновлено: 2017-06-30.
 
     </p>
   </div>
@@ -748,7 +749,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.04.1',
+            VERSION:'v17.06',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

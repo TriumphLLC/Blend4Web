@@ -23,6 +23,7 @@
  */
 b4w.module["transform"] = function(exports, require) {
 
+var m_bounds   = require("__boundings");
 var m_obj_util = require("__obj_util");
 var m_phy      = require("__physics");
 var m_print    = require("__print");
@@ -318,9 +319,9 @@ exports.get_rotation_rel = function(obj, opt_dest) {
  * Using euler angles is discouraged, use quaternion instead.
  * @method module:transform.set_rotation_euler
  * @param {Object3D} obj Object 3D
- * @param {number} x Angle X
- * @param {number} y Angle Y
- * @param {number} z Angle Z
+ * @param {number} x Angle X in radians
+ * @param {number} y Angle Y in radians
+ * @param {number} z Angle Z in radians
  */
 exports.set_rotation_euler = function(obj, x, y, z) {
     if (m_obj_util.is_dynamic(obj)) {
@@ -341,7 +342,7 @@ exports.set_rotation_euler = function(obj, x, y, z) {
  * @method module:transform.get_rotation_euler
  * @param {Object3D} obj Object 3D
  * @param {Euler} [dest = new Float32Array(3)] Destination vector
- * @returns {Quat} Vector with Euler angles
+ * @returns {Euler} Vector with Euler angles
  */
 exports.get_rotation_euler = function(obj, dest) {
     if (!dest)
@@ -358,7 +359,7 @@ exports.get_rotation_euler = function(obj, dest) {
  * @method module:transform.get_rotation_euler
  * @param {Object3D} obj Object 3D
  * @param {Euler} [dest = new Float32Array(3)] Destination vector
- * @returns {Quat} Vector with Euler angles
+ * @returns {Euler} Vector with Euler angles
  */
 exports.get_rotation_euler_rel = function(obj, dest) {
     if (!dest)
@@ -374,9 +375,9 @@ exports.get_rotation_euler_rel = function(obj, dest) {
  * Using euler angles is discouraged, use quaternion instead.
  * @method module:transform.set_rotation_euler_rel
  * @param {Object3D} obj Object 3D
- * @param {number} x Angle X
- * @param {number} y Angle Y
- * @param {number} z Angle Z
+ * @param {number} x Angle X in radians
+ * @param {number} y Angle Y in radians
+ * @param {number} z Angle Z in radians
  */
 exports.set_rotation_euler_rel = function(obj, x, y, z) {
     if (m_obj_util.is_dynamic(obj)) {
@@ -558,7 +559,7 @@ exports.move_local = function(obj, dx, dy, dz) {
  * Perform incremental rotation around X axis in the local space.
  * @method module:transform.rotate_x_local
  * @param {Object3D} obj Object 3D
- * @param {number} angle Angle
+ * @param {number} angle Angle in radians
  */
 exports.rotate_x_local = function(obj, angle) {
     if (m_obj_util.is_dynamic(obj)) {
@@ -574,7 +575,7 @@ exports.rotate_x_local = function(obj, angle) {
  * Perform incremental rotation around Y axis in the local space.
  * @method module:transform.rotate_y_local
  * @param {Object3D} obj Object 3D
- * @param {number} angle Angle
+ * @param {number} angle Angle in radians
  */
 exports.rotate_y_local = function(obj, angle) {
     if (m_obj_util.is_dynamic(obj)) {
@@ -590,7 +591,7 @@ exports.rotate_y_local = function(obj, angle) {
  * Perform incremental rotation around Z axis in the local space.
  * @method module:transform.rotate_z_local
  * @param {Object3D} obj Object 3D
- * @param {number} angle Angle
+ * @param {number} angle Angle in radians
  */
 exports.rotate_z_local = function(obj, angle) {
     if (m_obj_util.is_dynamic(obj)) {
@@ -610,7 +611,7 @@ exports.rotate_z_local = function(obj, angle) {
  * @cc_externs max_x min_x max_y min_y max_z min_z
  */
 exports.get_object_bounding_box = function(obj) {
-    return m_trans.get_object_bounding_box(obj);
+    return m_bounds.clone_bb(obj.render.bb_world);
 }
 
 /**

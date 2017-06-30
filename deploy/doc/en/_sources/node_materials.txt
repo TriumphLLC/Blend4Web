@@ -162,6 +162,8 @@ The engine also has partial support for some of the Cycles nodes. This subject i
 
     Standard node performance and degree of support is described in the `table <https://www.blend4web.com/doc/ru/node_materials.html#node-performance>`_.
 
+Please keep in mind that node materials have certain limitations concerning the number of specific nodes in the material. These limitations are described :ref:`here <node_material_limits>`.
+
 .. _custom_node_materials:
 
 Engine-Specific Nodes
@@ -553,5 +555,97 @@ The following nodes are partially supported:
 
 * ``Emission`` (does not influence the lighting of the scene).
 
+``Cycles`` nodes are also supported for ``World`` object. However, at the moment node material does not affect the colors of the environment.
+
 Other ``Cycles`` nodes will not, in most cases, work in Blend4Web the same way they do in Blender. They also might not work at all or even cause material in which they are used to work incorrectly. However, using these nodes will not cause instabilities in the application workflow.
+
+.. _node_material_limits:
+
+Limitations
+===========
+
+Node materials can be complex, but their complexity is limited by the capabilities of the hardware you use. It might not be noticeable most of the time, but if you are making a very complex material, you might exceed the number of textures and varying vectors (vectors that are used by a vertex shader to hand over data to a fragment shader) that your system allows to use in one shader. And even if you won't, some users of your application might not have devices as powerful as yours, so they can experience problems where you will not. 
+
+If you want to know how your scene would behave on a low-end device but don't have one in your possession, there is also a very useful option called ``Min Capabilities Mode``. It is native to :ref:`Scene Viewer <viewer>` and can be found on the :ref:`Tools & Debug <viewer_tools_and_debug>` panel.
+
+The number of textures and varying vectors supported by your device can be viewed on the WebGL Report web page accessible from the :ref:`SDK Index <getting_started_launching_viewer>` page.
+
+The two following tables list various material nodes along with the numbers of textures and varying vectors the engine allocates to them.
+
+**Varying Vectors**
+
++----------------------------------------------------+--------------------------------------------------------+
+| **Node/Effect**                                    | **Allocated Varying Vectors**                          |
++----------------------------------------------------+--------------------------------------------------------+
+| Always reserved                                    | 3                                                      |
++----------------------------------------------------+--------------------------------------------------------+
+| ``Input -> Texture`` node (if the ``Normal``       | 1                                                      |
+| output is used)                                    |                                                        |
++----------------------------------------------------+--------------------------------------------------------+
+| ``Blend4Web -> Parallax`` node                     | 1                                                      |
++----------------------------------------------------+--------------------------------------------------------+
+| ``Vector -> Normal Map`` node                      | 1                                                      |
++----------------------------------------------------+--------------------------------------------------------+
+| ``Input -> Material`` node (if the                 | 1                                                      |
+| ``Shading -> Tangent Shading`` option is enabled   |                                                        |
+| on that material)                                  |                                                        |
++----------------------------------------------------+--------------------------------------------------------+
+| ``Input -> Geometry`` node (if the ``UV`` output   | 1                                                      |
+| is used)                                           |                                                        |
++----------------------------------------------------+--------------------------------------------------------+
+| ``Input -> UV Map`` cycles node                    | 1                                                      |
++----------------------------------------------------+--------------------------------------------------------+
+| ``Input -> Texture Coordinate`` cycles node (if    | 1                                                      |
+| the ``UV`` output is used)                         |                                                        |
++----------------------------------------------------+--------------------------------------------------------+
+| ``Input -> Geometry`` node (if the                 | 1                                                      |
+| ``Vertex Color`` output is used)                   |                                                        |
++----------------------------------------------------+--------------------------------------------------------+
+| Shadows on an object with the ``Alpha Blend``      | 1 - 4                                                  |
+| material                                           |                                                        |
+|                                                    | (depending on the number of                            |
+|                                                    | shadow cascades or shadow casters)                     |
+|                                                    |                                                        |
++----------------------------------------------------+--------------------------------------------------------+
+| Shadows on an object with the``Opaque`` material   | 1                                                      |
+|                                                    |                                                        |
+| Refraction effect on a material                    |                                                        |
+|                                                    |                                                        |
+| Plane Reflections enabled on an object             |                                                        |
++----------------------------------------------------+--------------------------------------------------------+
+| Refraction effect on a material                    | 2                                                      |
++----------------------------------------------------+--------------------------------------------------------+
+
+**Textures**
+
++----------------------------------------------------+--------------------------------------------------------+
+| **Node/Effect**                                    | **Allocated Textures**                                 |
++----------------------------------------------------+--------------------------------------------------------+
+| ``Blend4Web -> Parallax`` node                     | 1                                                      |
++----------------------------------------------------+--------------------------------------------------------+
+| ``Input -> Texture`` node                          | 1                                                      |
++----------------------------------------------------+--------------------------------------------------------+
+| ``Texture -> Environment Texture`` cycles node     | 1                                                      |
++----------------------------------------------------+--------------------------------------------------------+
+| ``Vector -> Vector Curves`` node                   | 1                                                      |
+|                                                    |                                                        |
+| ``Color -> RGB Curves`` node                       |                                                        |
+|                                                    |                                                        |
+| ``Converter -> Color Ramp`` node                   | (the number of the nodes in the material               |
+|                                                    | doesn't matter)                                        |
++----------------------------------------------------+--------------------------------------------------------+
+| Shadows on an object with the ``Alpha Blend``      | 1 - 4                                                  |
+| material                                           |                                                        |
+|                                                    | (depending on the number of shadow                     |
+|                                                    | casters and/or shadow cascades)                        |
++----------------------------------------------------+--------------------------------------------------------+
+| Shadows on an object with an ``Opaque`` material   | 1                                                      |
++----------------------------------------------------+--------------------------------------------------------+
+| Refraction effect on a material                    | 2                                                      |
++----------------------------------------------------+--------------------------------------------------------+
+| ``World -> Environment Lighting -> SkyTexture`` is | 1                                                      |
+| enabled for a World                                |                                                        |
++----------------------------------------------------+--------------------------------------------------------+
+| Reflection effect on an object                     | 1                                                      |
++----------------------------------------------------+--------------------------------------------------------+
 

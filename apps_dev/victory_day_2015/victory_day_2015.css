@@ -16,6 +16,12 @@ body {
     overflow: hidden;
 }
 
+*:active {
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -moz-tap-highlight-color: rgba(0,0,0,0);
+    tap-highlight-color: rgba(0,0,0,0);
+}
+
 div#main_canvas_container {
     position: absolute;
     left: 0px;

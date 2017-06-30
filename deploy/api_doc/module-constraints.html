@@ -138,7 +138,15 @@ as those assigned in Blender.</div>
         <ul>
         
             
-<li> <a href="#.append_copy_trans">append_copy_trans<span class="signature">(obj, target, offset)</span><span class="type-signature"></span></a></li>
+<li> <a href="#.append_copy_loc">append_copy_loc<span class="signature">(obj, target, axes<span class="signature-attributes">opt</span>, use_offset<span class="signature-attributes">opt</span>, influence<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.append_copy_rot">append_copy_rot<span class="signature">(obj, target, axes<span class="signature-attributes">opt</span>, use_offset<span class="signature-attributes">opt</span>, influence<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.append_copy_trans">append_copy_trans<span class="signature">(obj, target, influence<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
 
         
             
@@ -146,39 +154,43 @@ as those assigned in Blender.</div>
 
         
             
-<li> <a href="#.append_semi_soft_cam">append_semi_soft_cam<span class="signature">(obj, target, offset, softness<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
+<li> <a href="#.append_semi_soft">append_semi_soft<span class="signature">(obj, target, offset<span class="signature-attributes">opt</span>, softness<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
 
         
             
-<li> <a href="#.append_semi_stiff">append_semi_stiff<span class="signature">(obj, target, offset, rotation_offset<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
+<li> <a href="#.append_semi_soft_cam">append_semi_soft_cam<span class="signature">(obj, target, offset<span class="signature-attributes">opt</span>, softness<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
 
         
             
-<li> <a href="#.append_semi_stiff_cam">append_semi_stiff_cam<span class="signature">(obj, target, offset, rotation_offset<span class="signature-attributes">opt</span>, clamp_left<span class="signature-attributes">opt</span>, clamp_right<span class="signature-attributes">opt</span>, clamp_up<span class="signature-attributes">opt</span>, clamp_down<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
+<li> <a href="#.append_semi_stiff">append_semi_stiff<span class="signature">(obj, target, offset<span class="signature-attributes">opt</span>, rotation_offset<span class="signature-attributes">opt</span>, clamp_left<span class="signature-attributes">opt</span>, clamp_right<span class="signature-attributes">opt</span>, clamp_up<span class="signature-attributes">opt</span>, clamp_down<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
 
         
             
-<li> <a href="#.append_stiff">append_stiff<span class="signature">(obj, target, offset, rotation_offset<span class="signature-attributes">opt</span>, scale_offset<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
+<li> <a href="#.append_semi_stiff_cam">append_semi_stiff_cam<span class="signature">(obj, target, offset<span class="signature-attributes">opt</span>, rotation_offset<span class="signature-attributes">opt</span>, clamp_left<span class="signature-attributes">opt</span>, clamp_right<span class="signature-attributes">opt</span>, clamp_up<span class="signature-attributes">opt</span>, clamp_down<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
 
         
             
-<li> <a href="#.append_stiff_trans">append_stiff_trans<span class="signature">(obj, target, offset)</span><span class="type-signature"></span></a></li>
+<li> <a href="#.append_stiff">append_stiff<span class="signature">(obj, target, offset<span class="signature-attributes">opt</span>, rotation_offset<span class="signature-attributes">opt</span>, scale_offset<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
 
         
             
-<li> <a href="#.append_stiff_trans_rot">append_stiff_trans_rot<span class="signature">(obj, target, offset, rotation_offset<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
+<li> <a href="#.append_stiff_trans">append_stiff_trans<span class="signature">(obj, target, offset<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
 
         
             
-<li> <a href="#.append_stiff_viewport">append_stiff_viewport<span class="signature">(obj, camobj, positioning)</span><span class="type-signature"></span></a></li>
+<li> <a href="#.append_stiff_trans_rot">append_stiff_trans_rot<span class="signature">(obj, target, offset<span class="signature-attributes">opt</span>, rotation_offset<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
 
         
             
-<li> <a href="#.append_track">append_track<span class="signature">(obj, target)</span><span class="type-signature"></span></a></li>
+<li> <a href="#.append_stiff_viewport">append_stiff_viewport<span class="signature">(obj, camobj, positioning<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
 
         
             
-<li> <a href="#.remove">remove<span class="signature">(obj)</span><span class="type-signature"></span></a></li>
+<li> <a href="#.append_track">append_track<span class="signature">(obj, target, track_axis<span class="signature-attributes">opt</span>, up_axis<span class="signature-attributes">opt</span>, use_target_z<span class="signature-attributes">opt</span>, influence<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.remove">remove<span class="signature">(obj, restore_transform<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
 
         
         </ul>
@@ -206,7 +218,645 @@ as those assigned in Blender.</div>
 
     
 
-    <h4 class="name" id=".append_copy_trans">append_copy_trans<span class="signature">(obj, target, offset)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".append_copy_loc">append_copy_loc<span class="signature">(obj, target, axes<span class="signature-attributes">opt</span>, use_offset<span class="signature-attributes">opt</span>, influence<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Attach the object to the other object using a copy location constraint.
+The child object will move together with its parent, but will not rotate.
+Note that the offset is the object's location in the world space.
+<p>
+This method works similarly to the <b>Copy Location</b> constraint in Blender.
+</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Constrained object</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>target</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Target object</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>axes</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    'XYZ'
+                
+                </td>
+            
+
+            <td class="description last">Copy the target's location</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>use_offset</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    false
+                
+                </td>
+            
+
+            <td class="description last">Add original location into copied location</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>influence</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    1
+                
+                </td>
+            
+
+            <td class="description last">Amount of influence constraint will have on the final solution</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_constraints.js.html">ext/constraints.js</a>, <a href="ext_constraints.js.html#line270">line 270</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scene = require("scenes");
+var m_const = require("constraints");
+
+var my_cube = m_scene.get_object_by_name("cube");
+var my_sphere = m_scene.get_object_by_name("Icosphere");
+
+m_const.append_copy_loc(my_sphere, my_cube, 'XYZ', false, 0.5);</code></pre>
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".append_copy_rot">append_copy_rot<span class="signature">(obj, target, axes<span class="signature-attributes">opt</span>, use_offset<span class="signature-attributes">opt</span>, influence<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Attach the object to the other object using a copy rotation constraint.
+The child object will rotate together with its parent, but will not move.
+Note that the offset is the object's rotation in the world space.
+<p> 
+This method works similarly to the <b>Copy Rotation</b> constraint in Blender.
+</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Constrained object</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>target</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Target object</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>axes</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    'XYZ'
+                
+                </td>
+            
+
+            <td class="description last">Copy the target's location</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>use_offset</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    false
+                
+                </td>
+            
+
+            <td class="description last">Add original location into copied location</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>influence</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    1
+                
+                </td>
+            
+
+            <td class="description last">Amount of influence constraint will have on the final solution</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_constraints.js.html">ext/constraints.js</a>, <a href="ext_constraints.js.html#line346">line 346</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scene = require("scenes");
+var m_const = require("constraints");
+
+var my_cube = m_scene.get_object_by_name("cube");
+var my_sphere = m_scene.get_object_by_name("Icosphere");
+
+m_const.append_copy_rot(my_sphere, my_cube, 'XYZ', 0.5);</code></pre>
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".append_copy_trans">append_copy_trans<span class="signature">(obj, target, influence<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 
@@ -215,9 +865,251 @@ as those assigned in Blender.</div>
 
 <div class="description">
     Attach the object to the other object using a copy translation constraint.
-The child object will move together with its parent, but will not rotate.
-Note that the offset is specified in the world space.
-Example: a light source attached to the character.
+The child object will move and rotate together with its parent.
+<p>
+This method works similarly to the <b>Copy Transforms</b> constraint in Blender.
+</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Constrained object</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>target</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Target object</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>influence</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    1
+                
+                </td>
+            
+
+            <td class="description last">Amount of influence constraint will have on the final solution</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_constraints.js.html">ext/constraints.js</a>, <a href="ext_constraints.js.html#line313">line 313</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scene = require("scenes");
+var m_const = require("constraints");
+
+var my_cube = m_scene.get_object_by_name("cube");
+var my_sphere = m_scene.get_object_by_name("Icosphere");
+
+m_const.append_copy_trans(my_sphere, my_cube, 0.5);</code></pre>
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".append_follow">append_follow<span class="signature">(obj, target, dist_min, dist_max)</span><span class="type-signature"></span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Attach the object to the other object using a follow constraint. The child
+object will track and follow its parent position.
+<p>
+This method works similarly to the <b>Limit Distance</b> constraint in Blender, but, unlike it, does not set a precise distance.
+</p>
+Example: a follow-style camera view for the character.
 </div>
 
 
@@ -293,193 +1185,6 @@ Example: a light source attached to the character.
             
 
             <td class="description last">Target object</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>offset</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Offset, in the parent's world space</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_constraints.js.html">ext/constraints.js</a>, <a href="ext_constraints.js.html#line174">line 174</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-</div>
-</div>
-        
-            
-<div class="item_container">
-<div class="item_name">
-
-    
-
-    <h4 class="name" id=".append_follow">append_follow<span class="signature">(obj, target, dist_min, dist_max)</span><span class="type-signature"></span></h4>
-
-    
-
-</div>
-<div class="item_description">
-
-<div class="description">
-    Attach the object to the other object using a follow constraint. The child
-object will track and follow its parent position.
-
-Example: a follow-style camera view for the character.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>obj</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Constrained object</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>target</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
-|
-
-<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Target object or position vector</td>
         </tr>
 
     
@@ -578,7 +1283,7 @@ Example: a follow-style camera view for the character.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_constraints.js.html">ext/constraints.js</a>, <a href="ext_constraints.js.html#line237">line 237</a>
+        <a href="ext_constraints.js.html">ext/constraints.js</a>, <a href="ext_constraints.js.html#line491">line 491</a>
     </li></ul></dd>
     
 
@@ -591,6 +1296,17 @@ Example: a follow-style camera view for the character.
 
 
 
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scene = require("scenes");
+var m_const = require("constraints");
+
+var my_cube = m_scene.get_object_by_name("cube");
+var my_camera = m_scene.get_object_by_name("Camera");
+
+m_const.append_follow(my_camera, my_cube, 2.0, 4.0);</code></pre>
+
+
 </div>
 </div>
         
@@ -600,7 +1316,284 @@ Example: a follow-style camera view for the character.
 
     
 
-    <h4 class="name" id=".append_semi_soft_cam">append_semi_soft_cam<span class="signature">(obj, target, offset, softness<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".append_semi_soft">append_semi_soft<span class="signature">(obj, target, offset<span class="signature-attributes">opt</span>, softness<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Attach one object to another one using a
+semi-soft constraint. The object will smoothly follow the object's rear.
+Example: third-person character or vehicle views.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Constrained object</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>target</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Target object</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>offset</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Offset, in the parent's local space</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>softness</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    0.25
+                
+                </td>
+            
+
+            <td class="description last">Object smoothness ratio</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_constraints.js.html">ext/constraints.js</a>, <a href="ext_constraints.js.html#line189">line 189</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scene = require("scenes");
+var m_const = require("constraints");
+
+var my_offset_vector = new Float32Array([2.0, 2.0, 2.0]);
+
+var my_cube = m_scene.get_object_by_name("cube");
+var my_sphere = m_scene.get_object_by_name("Icosphere");
+
+m_const.append_semi_soft(my_sphere, my_cube, my_offset_vector, 0.5);</code></pre>
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".append_semi_soft_cam">append_semi_soft_cam<span class="signature">(obj, target, offset<span class="signature-attributes">opt</span>, softness<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 
@@ -735,6 +1728,8 @@ Example: third-person character or vehicle views.
             
                 <td class="attributes">
                 
+                    &lt;optional><br>
+                
 
                 
 
@@ -828,6 +1823,8 @@ Example: third-person character or vehicle views.
     
 
     
+        <dt class="important tag-deprecated">Deprecated since 17.06:</dt><dd><ul class="dummy"><li>Use <a href="module-constraints.html#.append_semi_soft">module:constraints.append_semi_soft</a> instead</li></ul></dd>
+    
 
     
 
@@ -840,7 +1837,7 @@ Example: third-person character or vehicle views.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_constraints.js.html">ext/constraints.js</a>, <a href="ext_constraints.js.html#line122">line 122</a>
+        <a href="ext_constraints.js.html">ext/constraints.js</a>, <a href="ext_constraints.js.html#line166">line 166</a>
     </li></ul></dd>
     
 
@@ -862,7 +1859,7 @@ Example: third-person character or vehicle views.
 
     
 
-    <h4 class="name" id=".append_semi_stiff">append_semi_stiff<span class="signature">(obj, target, offset, rotation_offset<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".append_semi_stiff">append_semi_stiff<span class="signature">(obj, target, offset<span class="signature-attributes">opt</span>, rotation_offset<span class="signature-attributes">opt</span>, clamp_left<span class="signature-attributes">opt</span>, clamp_right<span class="signature-attributes">opt</span>, clamp_up<span class="signature-attributes">opt</span>, clamp_down<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 
@@ -988,6 +1985,8 @@ in the parent's local space. Example: a tank turret.
             
                 <td class="attributes">
                 
+                    &lt;optional><br>
+                
 
                 
 
@@ -1032,6 +2031,138 @@ in the parent's local space. Example: a tank turret.
 
             <td class="description last">Initial rotation offset, in the
 parent's local space</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>clamp_left</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Left object rotation limit, in radians</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>clamp_right</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Right object rotation limit, in radians</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>clamp_up</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Upward object rotation limit, in radians</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>clamp_down</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Downward object rotation limit, in radians</td>
         </tr>
 
     
@@ -1084,7 +2215,7 @@ parent's local space</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_constraints.js.html">ext/constraints.js</a>, <a href="ext_constraints.js.html#line61">line 61</a>
+        <a href="ext_constraints.js.html">ext/constraints.js</a>, <a href="ext_constraints.js.html#line81">line 81</a>
     </li></ul></dd>
     
 
@@ -1097,6 +2228,19 @@ parent's local space</td>
 
 
 
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scene = require("scenes");
+var m_const = require("constraints");
+
+var my_offset_vector = new Float32Array([2.0, 2.0, 2.0]);
+
+var my_cube = m_scene.get_object_by_name("cube");
+var my_sphere = m_scene.get_object_by_name("Icosphere");
+
+m_const.append_semi_stiff(my_sphere, my_cube, my_offset_vector);</code></pre>
+
+
 </div>
 </div>
         
@@ -1106,7 +2250,7 @@ parent's local space</td>
 
     
 
-    <h4 class="name" id=".append_semi_stiff_cam">append_semi_stiff_cam<span class="signature">(obj, target, offset, rotation_offset<span class="signature-attributes">opt</span>, clamp_left<span class="signature-attributes">opt</span>, clamp_right<span class="signature-attributes">opt</span>, clamp_up<span class="signature-attributes">opt</span>, clamp_down<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".append_semi_stiff_cam">append_semi_stiff_cam<span class="signature">(obj, target, offset<span class="signature-attributes">opt</span>, rotation_offset<span class="signature-attributes">opt</span>, clamp_left<span class="signature-attributes">opt</span>, clamp_right<span class="signature-attributes">opt</span>, clamp_up<span class="signature-attributes">opt</span>, clamp_down<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 
@@ -1233,6 +2377,8 @@ Example: first-person vehicle view.
 
             
                 <td class="attributes">
+                
+                    &lt;optional><br>
                 
 
                 
@@ -1450,6 +2596,8 @@ parent's local space</td>
     
 
     
+        <dt class="important tag-deprecated">Deprecated since 17.06:</dt><dd><ul class="dummy"><li>Use <a href="module-constraints.html#.append_semi_stiff">module:constraints.append_semi_stiff</a> instead</li></ul></dd>
+    
 
     
 
@@ -1462,7 +2610,7 @@ parent's local space</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_constraints.js.html">ext/constraints.js</a>, <a href="ext_constraints.js.html#line81">line 81</a>
+        <a href="ext_constraints.js.html">ext/constraints.js</a>, <a href="ext_constraints.js.html#line131">line 131</a>
     </li></ul></dd>
     
 
@@ -1491,7 +2639,7 @@ parent's local space</td>
 
     
 
-    <h4 class="name" id=".append_stiff">append_stiff<span class="signature">(obj, target, offset, rotation_offset<span class="signature-attributes">opt</span>, scale_offset<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".append_stiff">append_stiff<span class="signature">(obj, target, offset<span class="signature-attributes">opt</span>, rotation_offset<span class="signature-attributes">opt</span>, scale_offset<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 
@@ -1629,6 +2777,8 @@ character's hand; the character is sitting in a vehicle.
 
             
                 <td class="attributes">
+                
+                    &lt;optional><br>
                 
 
                 
@@ -1775,7 +2925,7 @@ parent's local space.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_constraints.js.html">ext/constraints.js</a>, <a href="ext_constraints.js.html#line31">line 31</a>
+        <a href="ext_constraints.js.html">ext/constraints.js</a>, <a href="ext_constraints.js.html#line34">line 34</a>
     </li></ul></dd>
     
 
@@ -1788,6 +2938,19 @@ parent's local space.</td>
 
 
 
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scene = require("scenes");
+var m_const = require("constraints");
+
+var my_offset_vector = new Float32Array([2.0, 2.0, 2.0]);
+
+var my_cube = m_scene.get_object_by_name("cube");
+var my_sphere = m_scene.get_object_by_name("Icosphere");
+
+m_const.append_stiff(my_sphere, my_cube, my_offset_vector);</code></pre>
+
+
 </div>
 </div>
         
@@ -1797,7 +2960,7 @@ parent's local space.</td>
 
     
 
-    <h4 class="name" id=".append_stiff_trans">append_stiff_trans<span class="signature">(obj, target, offset)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".append_stiff_trans">append_stiff_trans<span class="signature">(obj, target, offset<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 
@@ -1809,12 +2972,16 @@ parent's local space.</td>
 stiff translation constraint. The child object will move together with
 its parent, but will not rotate. It will be still possible to rotate it
 independently from the parent.
-
+<p>
 Example: attaching the camera to the physics character in order to
-implement the first-person character view. Another example: the character
+implement the first-person character view.
+</p>
+</p>
+Another example: the character
 jumps in water and splashes' particle emitter is attached to the
 first-person camera using this constraint - the bubbles will follow the
 character but will not be rotated with the camera.
+</p>
 </div>
 
 
@@ -1837,6 +3004,8 @@ character but will not be rotated with the camera.
 
         <th>Type</th>
 
+        
+        <th>Attributes</th>
         
 
         
@@ -1863,6 +3032,14 @@ character but will not be rotated with the camera.
             </td>
 
             
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
 
             
 
@@ -1886,6 +3063,14 @@ character but will not be rotated with the camera.
             </td>
 
             
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
 
             
 
@@ -1908,6 +3093,16 @@ character but will not be rotated with the camera.
             
             </td>
 
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
             
 
             
@@ -1965,7 +3160,7 @@ character but will not be rotated with the camera.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_constraints.js.html">ext/constraints.js</a>, <a href="ext_constraints.js.html#line150">line 150</a>
+        <a href="ext_constraints.js.html">ext/constraints.js</a>, <a href="ext_constraints.js.html#line227">line 227</a>
     </li></ul></dd>
     
 
@@ -1978,6 +3173,19 @@ character but will not be rotated with the camera.
 
 
 
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scene = require("scenes");
+var m_const = require("constraints");
+
+var my_offset_vector = new Float32Array([-2.0, 2.0, 2.0]);
+
+var my_cube = m_scene.get_object_by_name("cube");
+var my_sphere_4 = m_scene.get_object_by_name("Icosphere");
+
+m_const.append_stiff_trans(my_sphere, my_cube, my_offset_vector);</code></pre>
+
+
 </div>
 </div>
         
@@ -1987,7 +3195,7 @@ character but will not be rotated with the camera.
 
     
 
-    <h4 class="name" id=".append_stiff_trans_rot">append_stiff_trans_rot<span class="signature">(obj, target, offset, rotation_offset<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".append_stiff_trans_rot">append_stiff_trans_rot<span class="signature">(obj, target, offset<span class="signature-attributes">opt</span>, rotation_offset<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 
@@ -2116,6 +3324,8 @@ are achieved by scaling the emitter.
             
                 <td class="attributes">
                 
+                    &lt;optional><br>
+                
 
                 
 
@@ -2212,7 +3422,7 @@ the parent's local space</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_constraints.js.html">ext/constraints.js</a>, <a href="ext_constraints.js.html#line192">line 192</a>
+        <a href="ext_constraints.js.html">ext/constraints.js</a>, <a href="ext_constraints.js.html#line387">line 387</a>
     </li></ul></dd>
     
 
@@ -2225,6 +3435,18 @@ the parent's local space</td>
 
 
 
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scene = require("scenes");
+var m_const = require("constraints");
+
+var my_sphere = m_scene.get_object_by_name("Icosphere");
+var my_cube = m_scene.get_object_by_name("cube");
+
+var my_offset_vector = new Float32Array([-2.0, 2.0, 2.0]);
+m_const.append_stiff_trans_rot(my_sphere, my_cube, my_offset_vector);</code></pre>
+
+
 </div>
 </div>
         
@@ -2234,7 +3456,7 @@ the parent's local space</td>
 
     
 
-    <h4 class="name" id=".append_stiff_viewport">append_stiff_viewport<span class="signature">(obj, camobj, positioning)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".append_stiff_viewport">append_stiff_viewport<span class="signature">(obj, camobj, positioning<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 
@@ -2268,6 +3490,8 @@ This constraint is used to create onscreen 2D/3D user interfaces.
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
         
 
@@ -2293,6 +3517,14 @@ This constraint is used to create onscreen 2D/3D user interfaces.
             </td>
 
             
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
 
             
 
@@ -2316,6 +3548,14 @@ This constraint is used to create onscreen 2D/3D user interfaces.
             </td>
 
             
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
 
             
 
@@ -2338,6 +3578,16 @@ This constraint is used to create onscreen 2D/3D user interfaces.
             
             </td>
 
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
             
 
             
@@ -2395,7 +3645,7 @@ This constraint is used to create onscreen 2D/3D user interfaces.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_constraints.js.html">ext/constraints.js</a>, <a href="ext_constraints.js.html#line260">line 260</a>
+        <a href="ext_constraints.js.html">ext/constraints.js</a>, <a href="ext_constraints.js.html#line526">line 526</a>
     </li></ul></dd>
     
 
@@ -2408,6 +3658,21 @@ This constraint is used to create onscreen 2D/3D user interfaces.
 
 
 
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scene = require("scenes");
+var m_const = require("constraints");
+
+var sphere_1 = m_scene.get_object_by_name("Icosphere");
+var my_camera = m_scene.get_object_by_name("Camera");
+
+m_const.append_stiff_viewport(sphere_1, my_camera, { 
+     left: 150,
+     top: 100,
+     distance: 1
+ });</code></pre>
+
+
 </div>
 </div>
         
@@ -2417,7 +3682,7 @@ This constraint is used to create onscreen 2D/3D user interfaces.
 
     
 
-    <h4 class="name" id=".append_track">append_track<span class="signature">(obj, target)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".append_track">append_track<span class="signature">(obj, target, track_axis<span class="signature-attributes">opt</span>, up_axis<span class="signature-attributes">opt</span>, use_target_z<span class="signature-attributes">opt</span>, influence<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 
@@ -2425,12 +3690,13 @@ This constraint is used to create onscreen 2D/3D user interfaces.
 <div class="item_description">
 
 <div class="description">
-    Make the object "looking" at the target object or the position. The object's
-facing direction is considered to be the -Z axis that is vertically
-downwards.
+    Make the object "looking" at the target object.
 
 Example: a spot light which is tracking the character; both objects can be
 moved via API or animated.
+<p>
+This method works in a similar way to the <b>Track To</b> constraint in Blender.
+</p>
 </div>
 
 
@@ -2454,7 +3720,11 @@ moved via API or animated.
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
+        
+        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -2479,7 +3749,19 @@ moved via API or animated.
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last">Constrained object</td>
@@ -2496,19 +3778,184 @@ moved via API or animated.
             
                 
 <span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
-|
-
-<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
 
 
             
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
             
 
-            <td class="description last">Target object or position vector</td>
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Target object</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>track_axis</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    'Y'
+                
+                </td>
+            
+
+            <td class="description last">Axis that points to the target object</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>up_axis</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    'Z'
+                
+                </td>
+            
+
+            <td class="description last">Axis that points upward</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>use_target_z</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    false
+                
+                </td>
+            
+
+            <td class="description last">Target's Z axis, not World Z axis, will constraint the Up direction</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>influence</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    1
+                
+                </td>
+            
+
+            <td class="description last">Amount of influence constraint will have on the final solution</td>
         </tr>
 
     
@@ -2561,7 +4008,7 @@ moved via API or animated.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_constraints.js.html">ext/constraints.js</a>, <a href="ext_constraints.js.html#line215">line 215</a>
+        <a href="ext_constraints.js.html">ext/constraints.js</a>, <a href="ext_constraints.js.html#line427">line 427</a>
     </li></ul></dd>
     
 
@@ -2574,6 +4021,17 @@ moved via API or animated.
 
 
 
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scene = require("scenes");
+var m_const = require("constraints");
+
+var my_cube = m_scene.get_object_by_name("cube");  
+var my_camera = m_scene.get_object_by_name("Camera");
+
+m_const.append_track(my_camera, my_cube, "-X", "Z");</code></pre>
+
+
 </div>
 </div>
         
@@ -2583,7 +4041,7 @@ moved via API or animated.
 
     
 
-    <h4 class="name" id=".remove">remove<span class="signature">(obj)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".remove">remove<span class="signature">(obj, restore_transform<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 
@@ -2615,7 +4073,11 @@ moved via API or animated.
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
+        
+        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -2640,10 +4102,61 @@ moved via API or animated.
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last">Constrained object</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>restore_transform</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    false
+                
+                </td>
+            
+
+            <td class="description last">Restore default transform</td>
         </tr>
 
     
@@ -2696,7 +4209,7 @@ moved via API or animated.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_constraints.js.html">ext/constraints.js</a>, <a href="ext_constraints.js.html#line276">line 276</a>
+        <a href="ext_constraints.js.html">ext/constraints.js</a>, <a href="ext_constraints.js.html#line559">line 559</a>
     </li></ul></dd>
     
 
@@ -2707,6 +4220,16 @@ moved via API or animated.
     
 </dl>
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scene = require("scenes");
+var m_const = require("constraints");
+
+var my_sphere = m_scene.get_object_by_name("Icosphere");
+
+m_const.remove(my_sphere);</code></pre>
 
 
 </div>
@@ -2932,6 +4455,8 @@ moved via API or animated.
             
                 <td class="attributes">
                 
+                    &lt;optional><br>
+                
 
                 
                 </td>
@@ -3091,7 +4616,7 @@ moved via API or animated.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_constraints.js.html">ext/constraints.js</a>, <a href="ext_constraints.js.html#line17">line 17</a>
+        <a href="ext_constraints.js.html">ext/constraints.js</a>, <a href="ext_constraints.js.html#line20">line 20</a>
     </li></ul></dd>
     
 
@@ -3129,7 +4654,7 @@ moved via API or animated.
 <br class="clear">
 
 <footer>
-    Blend4Web API Reference (generated by JSDoc 3.4.0 on Mon May 15 2017 11:38:29 GMT+0300 (MSK))
+    Blend4Web API Reference (generated by JSDoc 3.4.0 on Fri Jun 30 2017 14:29:57 GMT+0300 (MSK))
     <a href="https://www.blend4web.com">www.blend4web.com</a>
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">

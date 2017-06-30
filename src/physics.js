@@ -398,7 +398,8 @@ function update_interpolation_data(obj, time, trans, quat, linvel, angvel) {
     var phy = obj.physics;
 
     phy.curr_time = time;
-    m_tsr.set_sep(trans, 1.0, quat, phy.curr_tsr);
+    var scale = m_tsr.get_scale(obj.render.world_tsr);
+    m_tsr.set_sep(trans, scale, quat, phy.curr_tsr);
 
     m_vec3.copy(linvel, phy.linvel);
     m_vec3.copy(angvel, phy.angvel);
@@ -1508,6 +1509,12 @@ function apply_torque(obj, tx_local, ty_local, tz_local) {
     m_ipc.post_msg(worker, m_ipc.OUT_APPLY_TORQUE, body_id, t_world[0], t_world[1], t_world[2]);
 }
 
+exports.set_angular_velocity = function(obj, av_x, av_y, av_z) {
+    var body_id = obj.physics.body_id;
+    var worker = find_worker_by_body_id(body_id);
+    m_ipc.post_msg(worker, m_ipc.OUT_SET_ANGULAR_VELOCITY, body_id, av_x, av_y, av_z);
+}
+
 /**
  * Set character moving direction (may be zero vector).
  * @param forw Apply forward move (may be negative)
@@ -2249,4 +2256,13 @@ exports.remove_object = function(obj) {
 
     m_ipc.post_msg(worker, m_ipc.OUT_REMOVE_BODY, body_id);
 }
+
+exports.has_dynamic_settings = function(obj) {
+    var phy_set = obj.physics_settings;
+
+    return (obj.is_vehicle || obj.is_floating || obj.is_character) ||
+           (obj.use_obj_physics && !phy_set.use_ghost && phy_set.mass > 0 &&
+           (phy_set.physics_type == "DYNAMIC" || phy_set.physics_type == "RIGID_BODY"));
+}
+
 }

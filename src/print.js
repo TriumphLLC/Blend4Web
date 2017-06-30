@@ -50,6 +50,7 @@ exports.log = function() {
     }
 }
 
+exports.compose_args_prefix = compose_args_prefix;
 function compose_args_prefix(args_in, prefix) {
     var args_out = [];
 

@@ -149,6 +149,15 @@ Setup
 *World > Horizon Color* and *World > Zenith Color*
     If the hemispherical model (``Sky Color``) is selected the horizon and zenith colors can be specified by means of the ``World > Horizon Color`` and ``World > Zenith Color`` color pickers. It is recommended to activate the ``World > Blend Sky`` option for better color selection.
 
+*World > Use Nodes (Cycles)*
+    If this option is enabled, ``Cycles`` nodes can be used to set up the environment. Disabled by default.
+
+*World > Reflect World*
+    If this parameter is enabled, environment will also be rendered for reflections (i.e., it will be reflected by mirror surfaces). Disabled by default.
+
+*World > Render Only Reflection*
+    If this parameter is enabled, environment will be rendered for reflections, but not for the scene itself. Disabled by default.
+
 
 Environment map method
 ----------------------

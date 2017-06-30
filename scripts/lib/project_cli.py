@@ -863,8 +863,9 @@ def copy_scene_templates(proj_name, base_dir, blender_dir, assets_dir,
     shutil.copyfile(logo_tpl, logo)
 
     if not shutil.which(blender_exec):
-        print("  Blender executable is not found")
-        print("  please export the scene manually")
+        print(YELLOW + "  Blender executable is not found, please add the path " 
+                + "to Blender into the PATH environment variable")
+        print(YELLOW + "  or export the scene manually.")
         return
 
     print("  exporting " + unix_path(relpath(blend, base_dir)))

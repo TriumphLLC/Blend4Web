@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>法线编辑器 &mdash; Blend4Web 17.04.1 用户手册</title>
+  <title>法线编辑器 &mdash; Blend4Web 17.06 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.04.1 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 17.06 用户手册" href="index.html"/>
         <link rel="next" title="相机" href="camera.html"/>
         <link rel="prev" title="网格" href="meshes.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v17.04.1
+              v17.06
             </div>
           
         
@@ -99,7 +99,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#interface">界面</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#activate">启用</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#show-normals">显示法线</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#rotation">旋转</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rotate">Rotate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#scale">Scale</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#absolute-and-offset-modes">绝对和偏移模式</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#absolute-mode">绝对模式</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#offset-mode">偏置模式</a></li>
@@ -108,7 +109,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#split-normals">分割法线</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#average">平均</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#restore">恢复</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#tree-foliage-and-face">Tree（树），Foliage（树叶） 和 Face（面）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#d-cursor-axis-and-face">3D Cursor, Axis and Face</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#copy-paste">Copy（复制）/Paste（粘贴）</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#copy-from-mesh">从网格复制</a></li>
 </ul>
@@ -185,14 +186,15 @@
 <li><a class="reference internal" href="#interface" id="id3">界面</a></li>
 <li><a class="reference internal" href="#activate" id="id4">启用</a></li>
 <li><a class="reference internal" href="#show-normals" id="id5">显示法线</a></li>
-<li><a class="reference internal" href="#rotation" id="id6">旋转</a></li>
-<li><a class="reference internal" href="#absolute-and-offset-modes" id="id7">绝对和偏移模式</a></li>
-<li><a class="reference internal" href="#split-normals" id="id8">分割法线</a></li>
-<li><a class="reference internal" href="#average" id="id9">平均</a></li>
-<li><a class="reference internal" href="#restore" id="id10">恢复</a></li>
-<li><a class="reference internal" href="#tree-foliage-and-face" id="id11">Tree（树），Foliage（树叶） 和 Face（面）</a></li>
-<li><a class="reference internal" href="#copy-paste" id="id12">Copy（复制）/Paste（粘贴）</a></li>
-<li><a class="reference internal" href="#copy-from-mesh" id="id13">从网格复制</a></li>
+<li><a class="reference internal" href="#rotate" id="id6">Rotate</a></li>
+<li><a class="reference internal" href="#scale" id="id7">Scale</a></li>
+<li><a class="reference internal" href="#absolute-and-offset-modes" id="id8">绝对和偏移模式</a></li>
+<li><a class="reference internal" href="#split-normals" id="id9">分割法线</a></li>
+<li><a class="reference internal" href="#average" id="id10">平均</a></li>
+<li><a class="reference internal" href="#restore" id="id11">恢复</a></li>
+<li><a class="reference internal" href="#d-cursor-axis-and-face" id="id12">3D Cursor, Axis and Face</a></li>
+<li><a class="reference internal" href="#copy-paste" id="id13">Copy（复制）/Paste（粘贴）</a></li>
+<li><a class="reference internal" href="#copy-from-mesh" id="id14">从网格复制</a></li>
 </ul>
 </li>
 </ul>
@@ -247,15 +249,23 @@
 <p>您只要按下法线编辑器里的Show Normals按钮或Blender右侧面板中的Mesh Display（网格显示）里的法线显示。您也可以经由设置Size栏来调整合适的法线长度。</p>
 <a class="reference internal image-reference" href="_images/show_normals.gif"><img alt="_images/show_normals.gif" class="align-center" src="_images/show_normals.gif" style="width: 100%;" /></a>
 </div>
-<div class="section" id="rotation">
-<h2><a class="toc-backref" href="#id6">旋转</a><a class="headerlink" href="#rotation" title="永久链接至标题">¶</a></h2>
+<div class="section" id="rotate">
+<h2><a class="toc-backref" href="#id6">Rotate</a><a class="headerlink" href="#rotate" title="永久链接至标题">¶</a></h2>
 <p>使用这些工具，您可以更改法线的方向。Rotate（旋转）的功能也可通过 Shift+Ctrl+R热键，允许类似于Blender的顶点法线旋转。</p>
-<a class="reference internal image-reference" href="_images/rotation.gif"><img alt="_images/rotation.gif" class="align-center" src="_images/rotation.gif" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/rotate.gif"><img alt="_images/rotate.gif" class="align-center" src="_images/rotate.gif" style="width: 100%;" /></a>
 <p>选择您想要编辑的一个或多个顶点，然后使用圆形视觉操纵器指定他们的法线方向数值。</p>
 <p>Rotate 按钮提供了更简便的方法来操纵法线。旋转在屏幕空间执行。然而，正如任何在Blender的其他旋转，您可在旋转过程中隔离所需的轴 (通过键入 X、 Y 或 Z)。</p>
 </div>
+<div class="section" id="scale">
+<h2><a class="toc-backref" href="#id7">Scale</a><a class="headerlink" href="#scale" title="永久链接至标题">¶</a></h2>
+<p>This function can be used to change the scale of the normals and is available both from the Tool panel and by pressing the <code class="docutils literal"><span class="pre">Shift</span> <span class="pre">+</span> <span class="pre">Ctrl</span> <span class="pre">+</span> <span class="pre">S</span></code> hot keys. The length of a normal can be set with numeric keys, while <code class="docutils literal"><span class="pre">X</span></code>, <code class="docutils literal"><span class="pre">Y</span></code> and <code class="docutils literal"><span class="pre">Z</span></code> keys are used to set the coordinate axis along which the normal is scaled.</p>
+<div class="admonition note">
+<p class="first admonition-title">注解</p>
+<p class="last">Keep in mind that the visible length of any normal never changes and is always defined by the <code class="docutils literal"><span class="pre">Size</span></code> parameter.</p>
+</div>
+</div>
 <div class="section" id="absolute-and-offset-modes">
-<h2><a class="toc-backref" href="#id7">绝对和偏移模式</a><a class="headerlink" href="#absolute-and-offset-modes" title="永久链接至标题">¶</a></h2>
+<h2><a class="toc-backref" href="#id8">绝对和偏移模式</a><a class="headerlink" href="#absolute-and-offset-modes" title="永久链接至标题">¶</a></h2>
 <p>法线编辑器可以在两种不同的模式进行操作：绝对模式和补偿模式。当前选择的模式可以按已上述的``Rotate``按钮下放置在两个按钮中的一个进行切换。默认情况下，使用``Absolute``模式。</p>
 <div class="section" id="absolute-mode">
 <h3>绝对模式<a class="headerlink" href="#absolute-mode" title="永久链接至标题">¶</a></h3>
@@ -270,39 +280,40 @@
 </div>
 </div>
 <div class="section" id="split-normals">
-<h2><a class="toc-backref" href="#id8">分割法线</a><a class="headerlink" href="#split-normals" title="永久链接至标题">¶</a></h2>
+<h2><a class="toc-backref" href="#id9">分割法线</a><a class="headerlink" href="#split-normals" title="永久链接至标题">¶</a></h2>
 <p>Split Normals（分割法线）模式允许分别编辑每一面的顶点法线。Index索引栏允许您在分开的法线间切换。</p>
 <a class="reference internal image-reference" href="_images/split_normals.gif"><img alt="_images/split_normals.gif" class="align-center" src="_images/split_normals.gif" style="width: 100%;" /></a>
 <p>打开Split Normals模式、 选择顶点并更改其法线方向。首先，索引为零的法线将被修改。接着，可以通过切换索引到下一个顶点法线并编辑它，下一步亦是如此。</p>
 </div>
 <div class="section" id="average">
-<h2><a class="toc-backref" href="#id9">平均</a><a class="headerlink" href="#average" title="永久链接至标题">¶</a></h2>
+<h2><a class="toc-backref" href="#id10">平均</a><a class="headerlink" href="#average" title="永久链接至标题">¶</a></h2>
 <p>在 <code class="docutils literal"><span class="pre">Average</span></code> 按钮平均值其中被修改的顶点法线的方向。</p>
-<a class="reference internal image-reference" href="_images/average_split.gif"><img alt="_images/average_split.gif" class="align-center" src="_images/average_split.gif" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/average.gif"><img alt="_images/average.gif" class="align-center" src="_images/average.gif" style="width: 100%;" /></a>
 <p>结合几个分割顶点法线，为了获得这些法线的平均方向，您只需要选择所需的顶点，然后按 <code class="docutils literal"><span class="pre">Average</span> <span class="pre">Split</span></code> 按钮。</p>
 </div>
 <div class="section" id="restore">
-<h2><a class="toc-backref" href="#id10">恢复</a><a class="headerlink" href="#restore" title="永久链接至标题">¶</a></h2>
+<h2><a class="toc-backref" href="#id11">恢复</a><a class="headerlink" href="#restore" title="永久链接至标题">¶</a></h2>
 <p>Restore（还原）按钮将还原所选顶点法线的原始方向。</p>
 <a class="reference internal image-reference" href="_images/restore.gif"><img alt="_images/restore.gif" class="align-center" src="_images/restore.gif" style="width: 100%;" /></a>
 <p>为了还原到其原始(根据面的法线计算)的法线的方向，您需要选择所需的顶点，然后单击 Restore 按钮。</p>
 </div>
-<div class="section" id="tree-foliage-and-face">
-<h2><a class="toc-backref" href="#id11">Tree（树），Foliage（树叶） 和 Face（面）</a><a class="headerlink" href="#tree-foliage-and-face" title="永久链接至标题">¶</a></h2>
-<p>Tree按钮将选择的顶点法线导离3D游标。 Foliage按钮将法线硬直地朝上。Face按钮将法线方向平行于面的法线。</p>
-<a class="reference internal image-reference" href="_images/tree_foliage_face.gif"><img alt="_images/tree_foliage_face.gif" class="align-center" src="_images/tree_foliage_face.gif" style="width: 100%;" /></a>
-<p>为了使用Tree功能，请选择所需的顶点并将3D游标放于所需位置。然后单击Tree按钮，接着所有选定的顶点仿佛他们从一个点射出般，均朝着游标的反方向。</p>
-<p>Foliage功能相当容易使用:只需选择顶点按下按钮，此功能会将它们的法线笔直地朝上。</p>
-<p>为了将法线方向平行于面的法向量，只需选取所要的面并单击Face按钮。面的顶点法线将平行朝向面的法线。此功能仅适用于一次选取一个面。</p>
+<div class="section" id="d-cursor-axis-and-face">
+<h2><a class="toc-backref" href="#id12">3D Cursor, Axis and Face</a><a class="headerlink" href="#d-cursor-axis-and-face" title="永久链接至标题">¶</a></h2>
+<p>The <code class="docutils literal"><span class="pre">3D</span> <span class="pre">Cursor</span></code> button directs the normals of the selected vertices away from the 3D cursor or toward it (if the <code class="docutils literal"><span class="pre">Towards</span></code> parameter in the <code class="docutils literal"><span class="pre">Vertex</span> <span class="pre">Normal</span> <span class="pre">Cursor</span></code> panel is enabled). The <code class="docutils literal"><span class="pre">Axis</span></code> button directs the normals of the vertices along a coordinate axis (the axis can be selected in the same <code class="docutils literal"><span class="pre">Vertex</span> <span class="pre">Normal</span> <span class="pre">Cursor</span></code> panel). The <code class="docutils literal"><span class="pre">Face</span></code> button directs the normals of the selected face parallel to the normal of this face.</p>
+<a class="reference internal image-reference" href="_images/3dcursor.gif"><img alt="_images/3dcursor.gif" class="align-center" src="_images/3dcursor.gif" style="width: 100%;" /></a>
+<p>In order to use the <code class="docutils literal"><span class="pre">3D</span> <span class="pre">Cursor</span></code> function, select the desired vertices and place the 3D cursor in the desired position. Then click the <code class="docutils literal"><span class="pre">3D</span> <span class="pre">Cursor</span></code> button so all the selected vertices will turn their direction away from the cursor, as if they were shot from one point. Then you may check the <code class="docutils literal"><span class="pre">Towards</span></code> option in the <code class="docutils literal"><span class="pre">Vertex</span> <span class="pre">Normal</span> <span class="pre">Cursor</span></code> panel, which will make the normals to turn in the direction of the cursor.</p>
+<p>The <code class="docutils literal"><span class="pre">Axis</span></code> function is very easy to use: just select the vertices and press the button, so the function will direct their normals along the coordinate axis set in the <code class="docutils literal"><span class="pre">Vertex</span> <span class="pre">Normal</span> <span class="pre">Cursor</span></code> panel (Z axis is selected by default) or away from it, if you disable the <code class="docutils literal"><span class="pre">Towards</span></code> parameter on the same panel.</p>
+<p>In order to direct the normals parallel to the face normal, just select the desired face (or several faces) and click the <code class="docutils literal"><span class="pre">Face</span></code> button. The normals of the vertices which form the face will be directed parallel to the face normal. This function works only with one selected face at a time.</p>
+<p>The <code class="docutils literal"><span class="pre">3D</span> <span class="pre">Cursor</span></code>, <code class="docutils literal"><span class="pre">Axis</span></code> and <code class="docutils literal"><span class="pre">Face</span></code> operators also possess the <code class="docutils literal"><span class="pre">Factor</span></code> parameter which is used to mix the initial position of the normals with the resulting position. The default value of this parameter is 1.0 (the resulting position is used).</p>
 </div>
 <div class="section" id="copy-paste">
-<h2><a class="toc-backref" href="#id12">Copy（复制）/Paste（粘贴）</a><a class="headerlink" href="#copy-paste" title="永久链接至标题">¶</a></h2>
+<h2><a class="toc-backref" href="#id13">Copy（复制）/Paste（粘贴）</a><a class="headerlink" href="#copy-paste" title="永久链接至标题">¶</a></h2>
 <p>拷贝一个到另从一个顶点的法线方向。</p>
-<a class="reference internal image-reference" href="_images/copy_paste.gif"><img alt="_images/copy_paste.gif" class="align-center" src="_images/copy_paste.gif" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/copypaste.gif"><img alt="_images/copypaste.gif" class="align-center" src="_images/copypaste.gif" style="width: 100%;" /></a>
 <p>选择您想要复制的来源顶点后单击Copy按钮。接着选择您想要复制的顶点单击Paste按钮。您可从所选的顶点复制信息到许多不同的顶点上。此按钮在Split Mode不启用，亦无法复制分割顶点的数据。</p>
 </div>
 <div class="section" id="copy-from-mesh">
-<h2><a class="toc-backref" href="#id13">从网格复制</a><a class="headerlink" href="#copy-from-mesh" title="永久链接至标题">¶</a></h2>
+<h2><a class="toc-backref" href="#id14">从网格复制</a><a class="headerlink" href="#copy-from-mesh" title="永久链接至标题">¶</a></h2>
 <p>这个功能允许您从一个物体复制法线到另一个上。有两种模式: Matched Vertices（相符顶点） 和 Nearest Vertices（最近顶点）。</p>
 <p>Matched Vertices模式只许在两个物体拥有相同的座标系时复制;其余的顶点将被忽略。Nearest Vertices模式是从来源物体顶点最靠近处复制法线。</p>
 <a class="reference internal image-reference" href="_images/copy_from_mesh.gif"><img alt="_images/copy_from_mesh.gif" class="align-center" src="_images/copy_from_mesh.gif" style="width: 100%;" /></a>
@@ -330,7 +341,7 @@
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2017, Triumph.
-      最后更新于 2017-05-15.
+      最后更新于 2017-06-30.
 
     </p>
   </div>
@@ -386,7 +397,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.04.1',
+            VERSION:'v17.06',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

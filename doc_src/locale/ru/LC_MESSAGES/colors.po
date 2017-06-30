@@ -102,7 +102,7 @@ msgstr "Летом в полдень"
 
 #: ../colors.rst:27
 msgid "17 000"
-msgstr ""
+msgstr "17 000"
 
 #: ../colors.rst:29
 msgid "Winter noon"
@@ -110,7 +110,7 @@ msgstr "Зимой в полдень"
 
 #: ../colors.rst:29
 msgid "5 000"
-msgstr ""
+msgstr "5 000"
 
 #: ../colors.rst:31
 msgid "Dull day"
@@ -118,7 +118,7 @@ msgstr "В пасмурный день"
 
 #: ../colors.rst:31
 msgid "1 000"
-msgstr ""
+msgstr "1 000"
 
 #: ../colors.rst:33
 msgid "In a light room"
@@ -126,7 +126,7 @@ msgstr "В светлой комнате"
 
 #: ../colors.rst:33
 msgid "100"
-msgstr ""
+msgstr "100"
 
 #: ../colors.rst:35
 msgid "Full moon by night"
@@ -134,7 +134,7 @@ msgstr "Ночью в полнолуние"
 
 #: ../colors.rst:35
 msgid "0.2"
-msgstr ""
+msgstr "0.2"
 
 #: ../colors.rst:37
 msgid "Moonless light"
@@ -142,7 +142,7 @@ msgstr "В безлунную ночь"
 
 #: ../colors.rst:37
 msgid "0.001"
-msgstr ""
+msgstr "0.001"
 
 #: ../colors.rst:42
 msgid ""
@@ -217,7 +217,7 @@ msgstr "Используется в следующей упрощенной фо
 
 #: ../colors.rst:60
 msgid "V\\ :sub:`out` = V\\ :sub:`in`\\ :sup:`γ`"
-msgstr ""
+msgstr "V\\ :sub:`out` = V\\ :sub:`in`\\ :sup:`γ`"
 
 #: ../colors.rst:62
 msgid ""
@@ -372,7 +372,7 @@ msgstr ""
 
 #: ../colors.rst:127
 msgid ":math:`C_o = C_a \\alpha_a + C_b \\alpha_b (1 - \\alpha_a)`."
-msgstr ""
+msgstr ":math:`C_o = C_a \\alpha_a + C_b \\alpha_b (1 - \\alpha_a)`."
 
 #: ../colors.rst:129
 msgid ""
@@ -400,7 +400,7 @@ msgstr ""
 
 #: ../colors.rst:133
 msgid ":math:`C_o = C_a + C_b (1 - \\alpha_a)`."
-msgstr ""
+msgstr ":math:`C_o = C_a + C_b (1 - \\alpha_a)`."
 
 #: ../colors.rst:135
 msgid ""
@@ -412,7 +412,7 @@ msgstr ""
 
 #: ../colors.rst:137
 msgid ":math:`\\alpha_o = \\alpha_a + \\alpha_b (1 - \\alpha_a)`."
-msgstr ""
+msgstr ":math:`\\alpha_o = \\alpha_a + \\alpha_b (1 - \\alpha_a)`."
 
 #: ../colors.rst:139
 msgid ""
@@ -466,7 +466,7 @@ msgstr "Дополнительные настройки"
 
 #: ../colors.rst:173
 msgid "*Brightness*"
-msgstr ""
+msgstr "*Brightness*"
 
 #: ../colors.rst:173 ../colors.rst:176
 msgid "The default value is 0.0."
@@ -474,11 +474,11 @@ msgstr "Яркость. Значение по умолчанию 0.0."
 
 #: ../colors.rst:176
 msgid "*Contrast*"
-msgstr ""
+msgstr "*Contrast*"
 
 #: ../colors.rst:179
 msgid "*Exposure*"
-msgstr ""
+msgstr "*Exposure*"
 
 #: ../colors.rst:179 ../colors.rst:182
 msgid "The default value is 1.0."
@@ -486,5 +486,5 @@ msgstr "Экспозиция. Значение по умолчанию 1.0."
 
 #: ../colors.rst:186
 msgid "*Saturation*"
-msgstr ""
+msgstr "*Saturation*"
 

@@ -21,7 +21,6 @@ var m_scenes    = require("scenes");
 var m_quat      = require("quat");
 var m_scs       = require("scenes");
 var m_screen    = require("screen");
-var m_sfx       = require("sfx");
 var m_trans     = require("transform");
 var m_tsr       = require("tsr");
 var m_util      = require("util");
@@ -40,12 +39,14 @@ var _tsr_tmp3 = m_tsr.create();
 
 var _pline_tmp = m_math.create_pline();
 
-var PHYSICS_OBJ_NAMES = ["cone_1", "cone_2",
-        "cube_1_1", "cube_1_2", "cube_1_3", "cube_1_4", "cube_2",
-        "cube_3_1", "cube_3_2", "cube_3_3", "cylinder", "cylinder.001", "cylinder.002", "sphere_1", "sphere_2"];
+var _style = "";
 
 var RAY_ORIGIN = new Float32Array([0, 0, 0]);
 var RAY_DEST = new Float32Array([0, 0, -50]);
+var PLAY_AREA_SIZE = 8;
+var ACTIVATE_SCROLL = 0.3;
+var SCROLL_POW = 0.15;
+var MIN_DISTANCE = 0.3;
 
 var DEBUG = (m_ver.type() == "DEBUG");
 
@@ -130,9 +131,16 @@ function enable_fullscreen_cb() {
     console.log("We are in VR-mode.");
     _switch_vr_button.innerText = "Stop presentation";
     enable_gamepad_control();
+
+    var canvas = m_cont.get_canvas();
+    _style = canvas.style;
+    canvas.style = "";
 }
 
 function disable_fullscreen_cb() {
+    var canvas = m_cont.get_canvas();
+    canvas.style = _style;
+
     console.log("We are in one-eye-mode.");
     _switch_vr_button.innerText = m_input.can_use_device(m_input.DEVICE_HMD) ?
             "Open VR": "VR is not avaliable";
@@ -189,11 +197,7 @@ function load_cb(data_id, success) {
     }
 
     m_app.enable_camera_controls(false, false, false, null, false, true);
-
-    enable_stroke_sound();
 }
-
-function second_sensor_logic(s) {return s[1] > 0;};
 
 function render_cursor_line(gamepad, line_name, line_color) {
     var line = m_obj.create_line(line_name);
@@ -227,20 +231,22 @@ function setup_movement(ray_caster, destination_name, gamepad_id) {
         var cast_dir = m_vec3.transformQuat(m_util.AXIS_MZ, caster_rot, _vec3_tmp);
         m_math.set_pline_directional_vec(pline, cast_dir);
 
-        var intersection_pos = m_math.line_plane_intersect(m_util.AXIS_MZ, 0, pline, _vec3_tmp);
+        var intersection_pos = m_math.line_plane_intersect(m_util.AXIS_MZ, 0,
+                pline, _vec3_tmp);
         if (intersection_pos) {
-            intersection_pos[0] = m_util.clamp(intersection_pos[0], -8, 8);
-            intersection_pos[1] = m_util.clamp(intersection_pos[1], -8, 8);
+            intersection_pos[0] = m_util.clamp(intersection_pos[0],
+                    -PLAY_AREA_SIZE, PLAY_AREA_SIZE);
+            intersection_pos[1] = m_util.clamp(intersection_pos[1],
+                    -PLAY_AREA_SIZE, PLAY_AREA_SIZE);
             intersection_pos[2] = 0.1;
             m_trans.set_translation_v(obj, intersection_pos);
         }
     }
 
-    var pad_s = m_ctl.create_gamepad_btn_sensor(m_input.GMPD_TRACKPAD_BUTTON,
+    var menu_s = m_ctl.create_gamepad_btn_sensor(m_input.GMPD_MENU_BUTTON,
             gamepad_id, true);
     m_ctl.create_sensor_manifold(pointer, "MOVE_" + gamepad_id,
-            m_ctl.CT_TRIGGER, [elapsed_s, pad_s],
-            second_sensor_logic, move_cb);
+            m_ctl.CT_TRIGGER, [menu_s], null, move_cb);
 
     function move_cb(obj, id, pulse) {
         if (pulse > 0) {
@@ -267,7 +273,9 @@ function setup_pickup(ray_caster, gamepad_id) {
 
     var elapsed_s = m_ctl.create_elapsed_sensor();
     var trigger_s = m_ctl.create_gamepad_btn_sensor(m_input.GMPD_TRIGGER_BUTTON,
-            gamepad_id, true);
+            gamepad_id);
+    var trackpad_s = m_ctl.create_gamepad_btn_sensor(m_input.GMPD_TRACKPAD_BUTTON,
+            gamepad_id);
 
     var pickup_ray_sensor = m_ctl.create_ray_sensor(ray_caster,
             RAY_ORIGIN, RAY_DEST, "PICKUP", false, true, false);
@@ -275,13 +283,18 @@ function setup_pickup(ray_caster, gamepad_id) {
         obj: null,
         position: m_vec3.create()
     };
-    m_ctl.create_sensor_manifold(ray_caster, "PICKUP" + gamepad_id,
-            m_ctl.CT_LEVEL, [pickup_ray_sensor, trigger_s, elapsed_s],
-            second_sensor_logic, pickup_cb, picked_obj);
+
+    var buttons_sensor_logic = function(s) {
+        return s[1] > 0 || s[2] > 0;
+    }
+    m_ctl.create_sensor_manifold(ray_caster, "PICKUP_" + gamepad_id,
+            m_ctl.CT_LEVEL, [pickup_ray_sensor, trigger_s, trackpad_s,
+            elapsed_s], buttons_sensor_logic, pickup_cb, picked_obj);
 
     function pickup_cb(obj, id, pulse, picked_obj) {
-        if (m_ctl.get_sensor_value(obj, id, 1)) {
-            if (m_ctl.get_sensor_value(obj, id, 0)) {
+        if (m_ctl.get_sensor_value(obj, id, 1) ||
+                m_ctl.get_sensor_value(obj, id, 2)) {
+            if (m_ctl.get_sensor_value(obj, id, 0) > 0) {
                 var ray_payload = m_ctl.get_sensor_payload(obj, id, 0);
                 picked_obj.obj = ray_payload.obj_hit;
                 m_phys.disable_simulation(picked_obj.obj);
@@ -300,7 +313,7 @@ function setup_pickup(ray_caster, gamepad_id) {
                 m_cons.remove(picked_obj.obj);
 
                 // apply velosity to object after release
-                var elapsed = m_ctl.get_sensor_value(obj, id, 2);
+                var elapsed = m_ctl.get_sensor_value(obj, id, 3);
                 var position = m_trans.get_translation(picked_obj.obj, _vec3_tmp);
                 var delta_trans = m_vec3.subtract(position, picked_obj.position, _vec3_tmp);
                 var velocity = m_vec3.scale(delta_trans, 1 / elapsed, delta_trans);
@@ -316,32 +329,40 @@ function setup_pickup(ray_caster, gamepad_id) {
             "BRING_CLOSER_PICKED_OBJECT" + gamepad_id,
             m_ctl.CT_CONTINUOUS, [elapsed_s, scroll_s], null, scroll_cb, picked_obj);
 
-    var last_axis_v = NaN;
+    function calc_fact_from(fact_to) {
+        return fact_to / (1 - fact_to);
+    }
+
+    function get_trans_dist(dist, axis_v, elapsed) {
+        var fact = Math.abs(axis_v) * elapsed;
+        var move_dist;
+        if (axis_v < 0)
+            if (dist > MIN_DISTANCE)
+                move_dist = -dist * fact;
+            else
+                move_dist = 0;
+        else
+            move_dist = dist * calc_fact_from(fact);
+
+        return move_dist;
+    }
+
     function scroll_cb(obj, id, pulse, picked_obj) {
         if (picked_obj.obj) {
+            var elapsed = m_ctl.get_sensor_value(obj, id, 0);
             var axis_v = m_ctl.get_sensor_value(obj, id, 1);
-            if (last_axis_v !== last_axis_v) {
-                last_axis_v = axis_v;
-            } else {
+
+            if (Math.abs(axis_v) > ACTIVATE_SCROLL) {
                 var tsr_rel = get_tsr_rel(picked_obj.obj, obj, _tsr_tmp);
-
                 var pos_rel = m_tsr.get_trans_view(tsr_rel, _vec3_tmp);
-                var dist = m_vec3.length(pos_rel);
+                var move_dist = get_trans_dist(m_vec3.length(pos_rel), axis_v, elapsed);
+                var dir_rel = m_vec3.scale(m_util.AXIS_MZ, move_dist, _vec3_tmp2);
+                var new_pos_rel = m_vec3.add(pos_rel, dir_rel, _vec3_tmp);
 
-                var dir_rel_norm = m_vec3.normalize(pos_rel, _vec3_tmp2);
-                var delta = axis_v - last_axis_v;
-                last_axis_v = axis_v;
-                if (Math.abs(delta) < 0.3 && (dist + delta) > 0.2) {
-                    var dir_rel = m_vec3.scale(dir_rel_norm, delta, _vec3_tmp2);
-                    var new_pos_rel = m_vec3.add(pos_rel, dir_rel, _vec3_tmp);
-
-                    m_cons.append_stiff(picked_obj.obj, obj,
-                            new_pos_rel,
-                            m_tsr.get_quat_view(tsr_rel));
-                }
+                m_cons.append_stiff(picked_obj.obj, obj,
+                        new_pos_rel, m_tsr.get_quat_view(tsr_rel));
             }
-        } else
-            last_axis_v = NaN;
+        }
     }
 
     m_ctl.create_sensor_manifold(picked_obj,
@@ -375,36 +396,6 @@ function enable_gamepad_control() {
 
     setup_pickup(gamepad_1, gamepad_id_1);
     setup_pickup(gamepad_2, gamepad_id_2);
-}
-
-function enable_stroke_sound() {
-    var speaker = m_scs.get_object_by_name("stroke");
-    for (var i = 0; i < PHYSICS_OBJ_NAMES.length; i++) {
-        var obj = m_scs.get_object_by_name(PHYSICS_OBJ_NAMES[i]);
-        create_stroke_sensors(obj, speaker, 2);
-    }
-}
-
-
-function create_stroke_sensors(obj, stroke_spk, speed_threshold) {
-    var mot = m_ctl.create_motion_sensor(obj, speed_threshold, 100.0);
-    var pck = m_ctl.create_collision_sensor(obj, "PICKUP", false);
-    var flr = m_ctl.create_collision_sensor(obj, "FLOOR", false);
-
-    var stroke_sens_array = [mot, pck, flr];
-    var stroke_sens_logic = function(s) {
-        return s[0] && (s[1] || s[2]);
-    };
-
-    var stroke_cb = function(obj, id, pulse, param) {
-        var obj_trans = m_trans.get_translation(obj);
-        m_trans.set_translation_v(param, obj_trans);
-        m_sfx.play_def(param);
-    }
-
-    m_ctl.create_sensor_manifold(obj, "STROKE_" + m_scs.get_object_name(obj),
-            m_ctl.CT_SHOT, stroke_sens_array, stroke_sens_logic, stroke_cb,
-            stroke_spk);
 }
 
 });

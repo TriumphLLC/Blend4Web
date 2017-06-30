@@ -78,7 +78,7 @@ Point", которая имеет один единственный выход. 
 может быть счётчик проигрываемых анимаций, количество жизней,
 оставшихся у персонажа и т.д.).
 
-Пример использования Logic Editor:
+Пример использования редактора логики:
 
 [рисунок]
 
@@ -146,10 +146,9 @@ Switch Select
    и не иметь ни одного такого параметра).
 
 *Miss*
-   This parameter will pass the control to the next node when the user
-   selects any object with the "Selectable" property enabled (or used
-   by another "Switch Select" node), but not specified in the "Switch
-   Select" node.
+   Этот параметр передаёт управление следующей ноде в случае, если
+   выбран любой из объектов со свойством "Selectable", не из числа
+   объектов,указанных в данной ноде.
 
 
 Внутренние параметры
@@ -243,17 +242,17 @@ Conditional Jump
      второму.
 
 *Operand1*
-   First operand of the logical condition. Contains a numeric value of
-   a string (if the "String Operators" parameter is enabled). Can be
-   specified in the node or can be a link to one of the variables (if
-   the "Variable" parameter at the right of it is enabled).
+   Первый операнд логического выражения. Может быть числом либо
+   строкой (если включена опция "String Operators"). Может быть задан
+   в самой ноде либо с помощью ссылки на одну из переменных (если
+   включена опция "Variable").
 
 *Operand2*
    Второй операнд логического выражения. Аналогичен первому.
 
 *String Operands*
-   If this parameter is enabled, first and second operands can use
-   strings (set manually or by a variable) as their values.
+   Если эта опция включена, то первый и второй операнды могут быть
+   строками (как установленными вручную, так и взятыми из переменной).
 
 
 JS Callback
@@ -602,6 +601,61 @@ Move Style" имеет значение "Static":
 
 *z*
    "Z"-координата цели или точки привязки камеры.
+
+
+Set Camera Limits
+-----------------
+
+Эта нода применяется для настройки ограничений движения камеры. Нода
+содержит список всех ограничений, доступных в движке, но применяет
+только ограничения, совместимые с типом камеры.
+
+[рисунок]
+
+
+Входные параметры
+~~~~~~~~~~~~~~~~~
+
+*Previous*
+   Предыдущая нода.
+
+
+Выходные параметры
+~~~~~~~~~~~~~~~~~~
+
+*Next*
+   Следующая нода.
+
+
+Внутренние параметры
+~~~~~~~~~~~~~~~~~~~~
+
+*Camera*
+   Камера, ограничители движения которой будут изменены.
+
+*Distance Limits*
+   Задаёт параметр "Distance Limits", доступный для камер типов Target
+   и Hover.
+
+*Hor. Rotation Limits*
+   Задаёт параметр "Horizontal Rotation Limits", доступный для камер
+   типов Target и Eye.
+
+*Vert. Rotation Limits*
+   Задаёт параметр "Vertical Rotation Limits", доступный для камер
+   типов Target, Hover и Eye.
+
+*Pivot Translation Limits*
+   Задаёт параметр "Pivot Translation Limits", доступный для камер
+   типа Target.
+
+*Hor. Translation Limits*
+   Задаёт параметр "Horizontal Translation Limits", доступный для
+   камер типа Hover.
+
+*Vert. Translation Limits*
+   Задаёт параметр "Vertical Translation Limits", доступный для камер
+   типа Hover.
 
 
 Object

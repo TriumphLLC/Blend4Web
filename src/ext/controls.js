@@ -778,6 +778,7 @@ exports.create_ray_sensor = function(obj_src, from, to, collision_id,
  * @method module:controls.create_mouse_click_sensor
  * @param {HTMLElement} [element=Canvas container element] HTML element
  * @returns {Sensor} Sensor object
+ * @cc_externs coords which
  */
 exports.create_mouse_click_sensor = m_ctl.create_mouse_click_sensor;
 
@@ -798,6 +799,7 @@ exports.create_mouse_wheel_sensor = m_ctl.create_mouse_wheel_sensor;
  * @param {string} [axis="XY"] Coordinate(s) to track: "X", "Y", "XY"
  * @param {HTMLElement} [element] HTML element. The canvas container will be use by default.
  * @returns {Sensor} Sensor object
+ * @cc_externs coords
  */
 exports.create_mouse_move_sensor = m_ctl.create_mouse_move_sensor;
 /**
@@ -807,6 +809,7 @@ exports.create_mouse_move_sensor = m_ctl.create_mouse_move_sensor;
  * @method module:controls.create_plock_mouse_sensor
  * @param {HTMLElement} [element=Canvas container element] HTML element
  * @returns {Sensor} Sensor object
+ * @cc_externs coords
  */
 exports.create_plock_mouse_sensor = m_ctl.create_plock_mouse_sensor;
 /**
@@ -825,6 +828,7 @@ exports.create_plock_sensor = m_ctl.create_plock_sensor;
  * @param {string} [axis="XY"] Coordinate(s) to track: "X", "Y" or "XY"
  * @param {HTMLElement} [element] HTML element. The canvas container will be use by default.
  * @returns {Sensor} Sensor object
+ * @cc_externs coords gesture
  */
 exports.create_touch_move_sensor = m_ctl.create_touch_move_sensor;
 
@@ -839,7 +843,7 @@ exports.create_touch_zoom_sensor = m_ctl.create_touch_zoom_sensor;
 
 /**
  * Create a touch rotate sensor.
- * The sensor's value is the angle from -PI to PI.
+ * The sensor's value is the angle (in radians) from -PI to PI.
  * @method module:controls.create_touch_rotate_sensor
  * @param {HTMLElement} [element=Canvas container element] HTML element
  * @returns {Sensor} Sensor object
@@ -853,6 +857,7 @@ exports.create_touch_rotate_sensor = m_ctl.create_touch_rotate_sensor;
  * @method module:controls.create_touch_click_sensor
  * @param {HTMLElement} [element=Canvas container element] HTML element
  * @returns {Sensor} Sensor object
+ * @cc_externs coords
  */
 exports.create_touch_click_sensor = m_ctl.create_touch_click_sensor;
 
@@ -883,7 +888,7 @@ exports.create_vertical_velocity_sensor = m_ctl.create_vertical_velocity_sensor;
 
 /**
  * Create a gyroscope angle sensor.
- * The sensor's payload stores the Euler angles of orientation
+ * The sensor's payload stores the Euler angles of orientation (in radians)
  * of a mobile device.
  * @method module:controls.create_gyro_angles_sensor
  * @returns {Sensor} Sensor object
@@ -901,8 +906,8 @@ exports.create_gyro_quat_sensor = m_ctl.create_gyro_quat_sensor;
 
 /**
  * Create a gyroscope delta sensor.
- * The sensor's payload stores the differences between Euler angles of the
- * current orientation and the previous orientation of a mobile device.
+ * The sensor's payload stores the differences (in radians) between Euler angles
+ * of the current orientation and the previous orientation of a mobile device.
  * @method module:controls.create_gyro_delta_sensor
  * @returns {Sensor} Sensor object
  */

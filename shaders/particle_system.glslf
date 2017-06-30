@@ -40,9 +40,14 @@
 #var USE_POSITION_CLIP 0
 
 #var USE_DERIVATIVES_EXT 0
+#var USE_TEXTURE_LOD_EXT 0
 
 # if GLSL1 && USE_DERIVATIVES_EXT
 #extension GL_OES_standard_derivatives: enable
+# endif
+
+# if GLSL1 && USE_TEXTURE_LOD_EXT
+#extension GL_EXT_shader_texture_lod: enable
 # endif
 
 /*==============================================================================

@@ -70,11 +70,29 @@ The server can be stopped by pressing the ``Stop Server`` button. It also stops 
 Running Viewer and Demos
 ------------------------
 
-The index page contains links for launching the scene viewer and the demo applications. A :ref:`WebGL-capable browser <browser_webgl_support>` is required to run these apps.
-
-.. image:: src_images/setup/setup_sdk_index.png
+.. image:: src_images/addon/addon_sdk_index.png
    :align: center
    :width: 100%
+
+The index page contains the following links:
+
+* :ref:`Project Manager <project_management>`;
+
+* :ref:`Code Snippets <code_snippets>`, a list of demo applications. A :ref:`WebGL-capable browser <browser_webgl_support>` is required to run these apps;
+
+* WebGL Report page for checking the level of WebGL support provided by the web browser;
+
+* :ref:`User Manual <about>`, available in both HTML and PDF form in three languages;
+
+* API Reference that contains descriptions for every API module and method provided with the Blend4Web engine;
+
+* Tutorials;
+
+* FAQ page where you can find answers to some of the most basic questions regarding using the engine;
+
+* Community Support Forums;
+
+* Support Email (only available in PRO version).
 
 |
 
@@ -471,9 +489,9 @@ In contrast to the above-listed critical export errors, these errors do not proh
 | data. Converted to EMPTY.           | e.g. has no polygons. The object's type   |
 |                                     | has been changed to EMPTY.                |
 +-------------------------------------+-------------------------------------------+
-| Object constraint has no target.    | The ``Target Object`` property for the    |
-| Check \"CONST_HOLDER_NAME\".        | object constraint (on the                 |
-|                                     | ``Object Constraints`` tab) was not set.  |
+| Object: \"NAME\" > Constraint:      | The object \"NAME\" has a constraint of   |
+| \"CONSTRAINT_TYPE\". Check          | type \"CONSTRAINT_TYPE\", which isn't     |
+| constraint settings.                | configured properly.                      |
 +-------------------------------------+-------------------------------------------+
 | Object \"NAME\" has the mesh with   | An object named \"NAME\" has a mesh with  |
 | shape keys. The property            | shape keys. This mesh has the             |
@@ -670,6 +688,10 @@ These messages can be viewed in the browser console (opens with ``F12``) when a 
 +-------------------------------------+-------------------------------------------+
 | Error Message                       | Cause                                     |
 +=====================================+===========================================+
+| Material tangent shading is         | The material has the option \"Tangent     |
+| enabled, but object's mesh has no   | Shading\" enabled, which always requires  |
+| UV map.                             | a UV map.                                 |
++-------------------------------------+-------------------------------------------+
 | Missing active camera or wrong      | There is no active camera on the scene    |
 | active camera object                | (``Camera`` property on the ``Scene``     |
 |                                     | tab).                                     |

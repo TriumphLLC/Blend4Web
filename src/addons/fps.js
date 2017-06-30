@@ -118,7 +118,7 @@ var _vec3_tmp2 = new Float32Array(3);
 
 function default_rotation_cb(character, rot_x, rot_y) {
     var camera = m_scs.get_active_camera();
-    m_cam.eye_rotate(camera, rot_x, rot_y);
+    m_cam.rotate_camera(camera, rot_x, rot_y);
     var angles = m_cam.get_camera_angles_char(camera, _vec2_tmp);
     m_phy.set_character_rotation(character, angles[0], angles[1]);
 }
@@ -182,16 +182,15 @@ function check_pointerlock(elem) {
 function rotate_cam_by_axis(obj, camobj, id, elapsed) {
     var h_axis = m_ctl.get_sensor_value(obj, id, 1);
     var v_axis = m_ctl.get_sensor_value(obj, id, 2);
-
     var rot_step_value = elapsed * ROT_STEP;
     var vert_axis_val = Math.abs(v_axis) < AXIS_THRESHOLD ? 0 : v_axis;
-    var cam_angls = m_cam.get_camera_angles(camobj, _vec2_tmp);
-    var vert_ang = cam_angls[1] - vert_axis_val * rot_step_value;
+    var vert_ang = - vert_axis_val * rot_step_value;
     var hor_axis_val = Math.abs(h_axis) < AXIS_THRESHOLD ? 0 : h_axis;
     var hor_ang = - hor_axis_val * rot_step_value;
     vert_ang = m_util.clamp(vert_ang, MIN_VERT_ANG, MAX_VERT_ANG);
-    m_cam.eye_rotate(camobj, hor_ang, vert_ang, false, true);
-    m_phy.set_character_rotation(obj, cam_angls[0] + hor_ang + Math.PI, 0);
+    m_cam.rotate_camera(camobj, hor_ang, vert_ang);
+    var cam_angls = m_cam.get_camera_angles(camobj, _vec2_tmp);
+    m_phy.set_character_rotation(obj, cam_angls[0] + Math.PI, 0);
 }
 
 function enable_rotation(elem, character) {
@@ -231,7 +230,6 @@ function enable_rotation(elem, character) {
         m_ctl.create_sensor_manifold(null, "FPS_ACTIVATE_PLOCK", 
                 m_ctl.CT_TRIGGER, [plock_sen],
                 fps_act_logic_func, fps_act_sensor_cb);
-
     } else {
 
         if (m_main.detect_mobile()) {
@@ -871,15 +869,13 @@ function bind_action(action_type, action_controls, action_cb) {
  * @cc_externs move_dir_cd motion_cb
  * @example var m_fps = require("fps");
  *
+ * var character = m_scene.get_first_character();
+ *
  * var move_cb = function(forw_back, right_left) {
  *     console.log(forw_back, right_left);  
  * }
  *
- * m_fps.enable_fps_controls({
- *     character : null,
- *     element : null,
- *     motion_cb : move_cb
- * });
+ * m_fps.enable_fps_controls(character, null, move_cb);
  */
 exports.enable_fps_controls = function(options) {
     options = options || {lock_camera : true};
@@ -916,8 +912,7 @@ exports.enable_fps_controls = function(options) {
         move_dir_cd: move_dir_cd
     };
     _rotation_cb = options.rotation_cb || default_rotation_cb;
-    var lock_camera = options.lock_camera || false;
-
+    var lock_camera = typeof options.lock_camera != "undefined" ? options.lock_camera : true;
     set_characters_camera(character, lock_camera);
     enable_camera_rotation(elem, character);
     enable_movements(elem, character, motion_cb, configs);

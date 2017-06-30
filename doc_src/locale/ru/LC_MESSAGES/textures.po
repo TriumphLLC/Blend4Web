@@ -75,11 +75,11 @@ msgstr ""
 
 #: ../textures.rst:28
 msgid "``.PNG``"
-msgstr ""
+msgstr "``.PNG``"
 
 #: ../textures.rst:29
 msgid "``.JPG``"
-msgstr ""
+msgstr "``.JPG``"
 
 #: ../textures.rst:31
 msgid "It can be used for the following purposes:"
@@ -191,7 +191,7 @@ msgstr ""
 
 #: ../textures.rst:61
 msgid "*Image Mapping > Extension*"
-msgstr ""
+msgstr "*Image Mapping > Extension*"
 
 #: ../textures.rst:61
 msgid ""
@@ -213,7 +213,7 @@ msgstr ""
 
 #: ../textures.rst:66
 msgid "*Mapping > Coordinates*"
-msgstr ""
+msgstr "*Mapping > Coordinates*"
 
 #: ../textures.rst:66
 msgid ""
@@ -230,7 +230,7 @@ msgstr ""
 
 #: ../textures.rst:69
 msgid "*Mapping > Size*"
-msgstr ""
+msgstr "*Mapping > Size*"
 
 #: ../textures.rst:69
 msgid "Scaling the UV map along respective axes. The default values are 1.0."
@@ -240,7 +240,7 @@ msgstr ""
 
 #: ../textures.rst:72
 msgid "*Export Options > Do Not Export*"
-msgstr ""
+msgstr "*Export Options > Do Not Export*"
 
 #: ../textures.rst:72
 msgid "Do not export the texture."
@@ -248,7 +248,7 @@ msgstr "Не экспортировать текстуру."
 
 #: ../textures.rst:77
 msgid "*Export Options > Disable Compression*"
-msgstr ""
+msgstr "*Export Options > Disable Compression*"
 
 #: ../textures.rst:77
 msgid ""
@@ -265,7 +265,7 @@ msgstr ""
 
 #: ../textures.rst:80
 msgid "*Export Options > Shore Distance Map*"
-msgstr ""
+msgstr "*Export Options > Shore Distance Map*"
 
 #: ../textures.rst:80
 msgid "Used in :ref:`outdoor rendering <outdoor_rendering>`."
@@ -273,7 +273,7 @@ msgstr "Используется в :ref:`рендеринге наружных 
 
 #: ../textures.rst:83
 msgid "*Export Options > Anisotropic Filtering*"
-msgstr ""
+msgstr "*Export Options > Anisotropic Filtering*"
 
 #: ../textures.rst:83
 msgid ""
@@ -287,7 +287,7 @@ msgstr ""
 
 #: ../textures.rst:86
 msgid "*Water Foam*"
-msgstr ""
+msgstr "*Water Foam*"
 
 #: ../textures.rst:86
 msgid "The foam texture. Used by the water rendering material."
@@ -329,7 +329,7 @@ msgstr "Дополнительные настройки"
 
 #: ../textures.rst:111
 msgid "*Influence > Diffuse > Color*"
-msgstr ""
+msgstr "*Influence > Diffuse > Color*"
 
 #: ../textures.rst:111
 msgid "Influence of the texture on the diffuse color. The default value is 1.0."
@@ -337,7 +337,7 @@ msgstr "Степень влияния текстуры на диффузный �
 
 #: ../textures.rst:115 ../textures.rst:138
 msgid "*Influence > Blend*"
-msgstr ""
+msgstr "*Influence > Blend*"
 
 #: ../textures.rst:114
 msgid ""
@@ -372,7 +372,7 @@ msgstr "Выставить опцию ``Specular > Color`` на панели ``T
 
 #: ../textures.rst:135
 msgid "*Influence > Specular > Color*"
-msgstr ""
+msgstr "*Influence > Specular > Color*"
 
 #: ../textures.rst:135
 msgid ""
@@ -433,7 +433,7 @@ msgstr "Выставить опцию ``Geometry > Normal`` на панели ``
 
 #: ../textures.rst:164
 msgid "*Influence > Geometry > Normal*"
-msgstr ""
+msgstr "*Influence > Geometry > Normal*"
 
 #: ../textures.rst:163
 msgid ""
@@ -469,7 +469,7 @@ msgstr ""
 
 #: ../textures.rst:188
 msgid "*Parallax > Parallax Scale*"
-msgstr ""
+msgstr "*Parallax > Parallax Scale*"
 
 #: ../textures.rst:188
 msgid "Influence factor for the relief surface effect. The default value is 0.03."
@@ -477,7 +477,7 @@ msgstr "Фактор влияния эффекта рельефной повер
 
 #: ../textures.rst:191
 msgid "*Parallax > Parallax Steps*"
-msgstr ""
+msgstr "*Parallax > Parallax Steps*"
 
 #: ../textures.rst:191
 msgid ""
@@ -490,7 +490,7 @@ msgstr ""
 
 #: ../textures.rst:194
 msgid "*Parallax > Parallax LOD distance*"
-msgstr ""
+msgstr "*Parallax > Parallax LOD distance*"
 
 #: ../textures.rst:194
 msgid "Distance at which the parallax effect is observed."
@@ -643,7 +643,7 @@ msgstr ""
 
 #: ../textures.rst:278
 msgid "*Image > Frames*"
-msgstr ""
+msgstr "*Image > Frames*"
 
 #: ../textures.rst:278
 msgid "Length of the played fragment in frames."
@@ -651,7 +651,7 @@ msgstr "Длина воспроизводимого фрагмента виде�
 
 #: ../textures.rst:281
 msgid "*Image > Offset*"
-msgstr ""
+msgstr "*Image > Offset*"
 
 #: ../textures.rst:281
 msgid "The number of the frame from which the video playback starts."
@@ -659,7 +659,7 @@ msgstr "Номер кадра, с которого будет начинатьс
 
 #: ../textures.rst:284
 msgid "*Image > Cyclic*"
-msgstr ""
+msgstr "*Image > Cyclic*"
 
 #: ../textures.rst:284
 msgid "Start video playback afresh each time it finishes."
@@ -667,7 +667,7 @@ msgstr "Начинать воспроизводить видеозапись з�
 
 #: ../textures.rst:287
 msgid "*Image > Allow NLA*"
-msgstr ""
+msgstr "*Image > Allow NLA*"
 
 #: ../textures.rst:287
 msgid ""
@@ -685,7 +685,7 @@ msgstr "Для текстур, управляемых через NLA будет 
 
 #: ../textures.rst:292
 msgid "*Image > Start*"
-msgstr ""
+msgstr "*Image > Start*"
 
 #: ../textures.rst:292
 msgid "Video playback delay (in frames) when using non-linear animation."
@@ -699,7 +699,7 @@ msgstr "Для текстур, управляемых не через NLA буд
 
 #: ../textures.rst:297
 msgid "*Image > Auto Refresh*"
-msgstr ""
+msgstr "*Image > Auto Refresh*"
 
 #: ../textures.rst:297
 msgid "Play back the video immediately after the scene is loaded."
@@ -879,7 +879,7 @@ msgstr ""
 
 #: ../textures.rst:383
 msgid "*Influence > Shading > Mirror*"
-msgstr ""
+msgstr "*Influence > Shading > Mirror*"
 
 #: ../textures.rst:382
 msgid ""
@@ -1004,7 +1004,7 @@ msgstr ""
 
 #: ../textures.rst:450
 msgid "*Export Options > Source Type*"
-msgstr ""
+msgstr "*Export Options > Source Type*"
 
 #: ../textures.rst:450
 msgid ""
@@ -1018,7 +1018,7 @@ msgstr ""
 
 #: ../textures.rst:453
 msgid "*Export Options > Source ID*"
-msgstr ""
+msgstr "*Export Options > Source ID*"
 
 #: ../textures.rst:453
 msgid ""
@@ -1030,7 +1030,7 @@ msgstr ""
 
 #: ../textures.rst:456
 msgid "*Export Options > Source Size*"
-msgstr ""
+msgstr "*Export Options > Source Size*"
 
 #: ../textures.rst:456
 msgid "Texture resolution."
@@ -1038,7 +1038,7 @@ msgstr "Разрешение текстуры."
 
 #: ../textures.rst:459
 msgid "*Export Options > Extension*"
-msgstr ""
+msgstr "*Export Options > Extension*"
 
 #: ../textures.rst:459
 msgid ""
@@ -1050,7 +1050,7 @@ msgstr ""
 
 #: ../textures.rst:462
 msgid "*Export Options > Enable Mipmapping*"
-msgstr ""
+msgstr "*Export Options > Enable Mipmapping*"
 
 #: ../textures.rst:462
 msgid "Enable mipmapping for the Canvas texture. Enabled by default."
@@ -1229,11 +1229,11 @@ msgstr "настройки"
 
 #: ../textures.rst:63
 msgid "material capture"
-msgstr ""
+msgstr "material capture"
 
 #: ../textures.rst:63
 msgid "matcap"
-msgstr ""
+msgstr "matcap"
 
 #: ../textures.rst:95
 msgid "diffuse"
@@ -1289,7 +1289,7 @@ msgstr "рендеринг в текстуру"
 
 #: ../textures.rst:434
 msgid "RTT"
-msgstr ""
+msgstr "RTT"
 
 #~ msgid "3D scene"
 #~ msgstr "3D сценa"

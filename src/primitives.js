@@ -519,20 +519,6 @@ exports.generate_billboard = function() {
     return submesh;
 }
 
-exports.generate_cube = function() {
-
-    var submesh = m_geom.init_submesh("CUBEMAP_BOARD");
-
-    var va_frame = m_util.create_empty_va_frame();
-    va_frame["a_position"] = new Float32Array([-1, -1, -1, 1, 1, 1, 1, -1]); 
-
-    submesh.va_frames[0] = va_frame;
-    submesh.indices = new Uint32Array([0, 2, 1, 0, 3, 2]);
-    submesh.base_length = 4;
-
-    return submesh;
-}
-
 /**
  * Return uv sphere submesh
  *

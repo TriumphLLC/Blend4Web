@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>物理 &mdash; Blend4Web 17.04.1 用户手册</title>
+  <title>物理 &mdash; Blend4Web 17.06 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.04.1 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 17.06 用户手册" href="index.html"/>
         <link rel="next" title="对应用程序开发人员" href="developers.html"/>
         <link rel="prev" title="音频" href="audio.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v17.04.1
+              v17.06
             </div>
           
         
@@ -192,45 +192,45 @@
            <div itemprop="articleBody">
             
   <div class="section" id="physics">
-<span id="id1"></span><h1><a class="toc-backref" href="#id6">物理</a><a class="headerlink" href="#physics" title="永久链接至标题">¶</a></h1>
+<span id="id1"></span><h1><a class="toc-backref" href="#id5">物理</a><a class="headerlink" href="#physics" title="永久链接至标题">¶</a></h1>
 <div class="contents topic" id="table-of-contents">
 <p class="topic-title first">目录</p>
 <ul class="simple">
-<li><a class="reference internal" href="#physics" id="id6">物理</a><ul>
-<li><a class="reference internal" href="#preparing-for-use" id="id7">使用准备</a></li>
-<li><a class="reference internal" href="#static-physics-type" id="id8">静态物理类型</a></li>
-<li><a class="reference internal" href="#dynamic-physics-type" id="id9">动态物理类型</a></li>
-<li><a class="reference internal" href="#constraints" id="id10">约束</a></li>
-<li><a class="reference internal" href="#wheeled-vehicles" id="id11">轮式的车辆</a><ul>
-<li><a class="reference internal" href="#chassis-settings" id="id12">底盘设置</a></li>
+<li><a class="reference internal" href="#physics" id="id5">物理</a><ul>
+<li><a class="reference internal" href="#preparing-for-use" id="id6">使用准备</a></li>
+<li><a class="reference internal" href="#static-physics-type" id="id7">静态物理类型</a></li>
+<li><a class="reference internal" href="#dynamic-physics-type" id="id8">动态物理类型</a></li>
+<li><a class="reference internal" href="#constraints" id="id9">约束</a></li>
+<li><a class="reference internal" href="#wheeled-vehicles" id="id10">轮式的车辆</a><ul>
+<li><a class="reference internal" href="#chassis-settings" id="id11">底盘设置</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#floating-objects" id="id13">浮动物体</a><ul>
-<li><a class="reference internal" href="#floating-object-settings" id="id14">浮动物体设置</a></li>
+<li><a class="reference internal" href="#floating-objects" id="id12">浮动物体</a><ul>
+<li><a class="reference internal" href="#floating-object-settings" id="id13">浮动物体设置</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#floating-vehicles-aka-watercrafts" id="id15">浮动交通工具或叫船舶</a><ul>
-<li><a class="reference internal" href="#watercraft-settings" id="id16">船舶设置</a></li>
+<li><a class="reference internal" href="#floating-vehicles-aka-watercrafts" id="id14">浮动交通工具或叫船舶</a><ul>
+<li><a class="reference internal" href="#watercraft-settings" id="id15">船舶设置</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#characters" id="id17">角色</a><ul>
-<li><a class="reference internal" href="#character-settings" id="id18">角色设置</a></li>
-<li><a class="reference internal" href="#basic-character" id="id19">基本角色</a></li>
-<li><a class="reference internal" href="#controlling-characters-with-api" id="id20">使用API​​控制角色</a></li>
+<li><a class="reference internal" href="#characters" id="id16">角色</a><ul>
+<li><a class="reference internal" href="#character-settings" id="id17">角色设置</a></li>
+<li><a class="reference internal" href="#basic-character" id="id18">基本角色</a></li>
+<li><a class="reference internal" href="#controlling-characters-with-api" id="id19">使用API​​控制角色</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#navigation-meshes" id="id21">导航网格</a><ul>
-<li><a class="reference internal" href="#creating-navigation-meshes" id="id22">创建导航网格</a></li>
-<li><a class="reference internal" href="#using-navigation-meshes" id="id23">使用导航网格</a></li>
+<li><a class="reference internal" href="#navigation-meshes" id="id20">导航网格</a><ul>
+<li><a class="reference internal" href="#creating-navigation-meshes" id="id21">创建导航网格</a></li>
+<li><a class="reference internal" href="#using-navigation-meshes" id="id22">使用导航网格</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#use-in-applications" id="id24">在应用程序中的使用</a></li>
+<li><a class="reference internal" href="#use-in-applications" id="id23">在应用程序中的使用</a></li>
 </ul>
 </li>
 </ul>
 </div>
 <div class="section" id="preparing-for-use">
-<h2><a class="toc-backref" href="#id7">使用准备</a><a class="headerlink" href="#preparing-for-use" title="永久链接至标题">¶</a></h2>
+<h2><a class="toc-backref" href="#id6">使用准备</a><a class="headerlink" href="#preparing-for-use" title="永久链接至标题">¶</a></h2>
 <p>为了在场景中启用物理，请使用在Blender场景选项卡下 <code class="docutils literal"><span class="pre">Physics</span></code> 面板的 <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">Physics</span></code> 复选框。</p>
 <a class="reference internal image-reference" href="_images/scene_interface_phys_enable.png"><img alt="_images/scene_interface_phys_enable.png" class="align-center" src="_images/scene_interface_phys_enable.png" style="width: 100%;" /></a>
 <div class="line-block">
@@ -238,7 +238,7 @@
 </div>
 </div>
 <div class="section" id="static-physics-type">
-<span id="static-physics"></span><h2><a class="toc-backref" href="#id8">静态物理类型</a><a class="headerlink" href="#static-physics-type" title="永久链接至标题">¶</a></h2>
+<span id="static-physics"></span><h2><a class="toc-backref" href="#id7">静态物理类型</a><a class="headerlink" href="#static-physics-type" title="永久链接至标题">¶</a></h2>
 <p>可以用来限制其他物体的运动，例如与地形、墙壁碰撞等。在物理学中的此类物体的 <code class="docutils literal"><span class="pre">Static</span></code> 值 （默认设置） 设置应选择  <code class="docutils literal"><span class="pre">Physics</span> <span class="pre">Type</span></code> 选项。</p>
 <a class="reference internal image-reference" href="_images/physics_panel_static.png"><img alt="_images/physics_panel_static.png" class="align-center" src="_images/physics_panel_static.png" style="width: 100%;" /></a>
 <div class="line-block">
@@ -260,7 +260,7 @@
 <p><code class="docutils literal"><span class="pre">Collision</span> <span class="pre">Group</span></code> 字段对应于材质属于的物理组。<code class="docutils literal"><span class="pre">Collision</span> <span class="pre">Mask</span></code> 字段定义这种材质将与之交互的所有物理组。</p>
 </div>
 <div class="section" id="dynamic-physics-type">
-<span id="dynamic-physics"></span><h2><a class="toc-backref" href="#id9">动态物理类型</a><a class="headerlink" href="#dynamic-physics-type" title="永久链接至标题">¶</a></h2>
+<span id="dynamic-physics"></span><h2><a class="toc-backref" href="#id8">动态物理类型</a><a class="headerlink" href="#dynamic-physics-type" title="永久链接至标题">¶</a></h2>
 <p>专为刚体运动仿真。</p>
 <a class="reference internal image-reference" href="_images/physics_dynamic.png"><img alt="_images/physics_dynamic.png" class="align-center" src="_images/physics_dynamic.png" style="width: 100%;" /></a>
 <div class="line-block">
@@ -278,7 +278,7 @@
 <p>因为相机物体 <code class="docutils literal"><span class="pre">Physics</span> <span class="pre">Type</span></code> = <code class="docutils literal"><span class="pre">Dynamic</span></code> 参数必须使用，并且必须启用 <code class="docutils literal"><span class="pre">Object</span> <span class="pre">Physics</span></code> 复选框。</p>
 </div>
 <div class="section" id="constraints">
-<span id="id2"></span><h2><a class="toc-backref" href="#id10">约束</a><a class="headerlink" href="#constraints" title="永久链接至标题">¶</a></h2>
+<span id="physics-constraints"></span><h2><a class="toc-backref" href="#id9">约束</a><a class="headerlink" href="#constraints" title="永久链接至标题">¶</a></h2>
 <p>物理约束用来限制物体的自由度。</p>
 <a class="reference internal image-reference" href="_images/physics_constraints.png"><img alt="_images/physics_constraints.png" class="align-center" src="_images/physics_constraints.png" style="width: 100%;" /></a>
 <div class="line-block">
@@ -291,7 +291,7 @@
 </div>
 </div>
 <div class="section" id="wheeled-vehicles">
-<span id="id3"></span><h2><a class="toc-backref" href="#id11">轮式的车辆</a><a class="headerlink" href="#wheeled-vehicles" title="永久链接至标题">¶</a></h2>
+<span id="id2"></span><h2><a class="toc-backref" href="#id10">轮式的车辆</a><a class="headerlink" href="#wheeled-vehicles" title="永久链接至标题">¶</a></h2>
 <p>车辆的模型必须包含 6 单独的物体 - 机箱、 4 个轮子和一个方向盘。机箱的网格中心应该对应于质量的中心。车轮对和方向盘的中心网格应位于旋转轴。方向盘应该面向在本地空间的坐标 -X-旋转轴，Y-向右和 Z-向上。该物体可以具有任何名称。</p>
 <a class="reference internal image-reference" href="_images/physics_vehicle_wheeled.png"><img alt="_images/physics_vehicle_wheeled.png" class="align-center" src="_images/physics_vehicle_wheeled.png" style="width: 100%;" /></a>
 <div class="line-block">
@@ -300,7 +300,7 @@
 <p>所有的6个物体 ︰ 选择  <code class="docutils literal"><span class="pre">Part</span></code>，在 <code class="docutils literal"><span class="pre">Vehicle</span> <span class="pre">Name</span></code> 字段中指定相同的 id，选择正确的物体类型- <code class="docutils literal"><span class="pre">Chassis</span></code>, <code class="docutils literal"><span class="pre">Steering</span> <span class="pre">Wheel</span></code>, <code class="docutils literal"><span class="pre">Back</span> <span class="pre">Right</span> <span class="pre">Wheel</span></code> 等等。 <code class="docutils literal"><span class="pre">Suspension</span> <span class="pre">Rest</span> <span class="pre">Length</span></code> 设置对车轮可用。</p>
 <p>有必要指定机箱的真实质量 （因为默认值是仅 1 公斤）。做这件事先到物理设置，选择物理类型 <code class="docutils literal"><span class="pre">Rigid</span> <span class="pre">Body</span></code> 的 <code class="docutils literal"><span class="pre">Physics</span> <span class="pre">Type</span></code> 选项并指定  <code class="docutils literal"><span class="pre">Mass</span></code>  所需的值 （例如，1000 公斤） 字段。</p>
 <div class="section" id="chassis-settings">
-<h3><a class="toc-backref" href="#id12">底盘设置</a><a class="headerlink" href="#chassis-settings" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id11">底盘设置</a><a class="headerlink" href="#chassis-settings" title="永久链接至标题">¶</a></h3>
 <dl class="docutils">
 <dt><em>Force Max</em></dt>
 <dd><p class="first last">车辆最大驱动力。</p>
@@ -334,7 +334,7 @@
 </div>
 </div>
 <div class="section" id="floating-objects">
-<span id="id4"></span><h2><a class="toc-backref" href="#id13">浮动物体</a><a class="headerlink" href="#floating-objects" title="永久链接至标题">¶</a></h2>
+<span id="id3"></span><h2><a class="toc-backref" href="#id12">浮动物体</a><a class="headerlink" href="#floating-objects" title="永久链接至标题">¶</a></h2>
 <a class="reference internal image-reference" href="_images/physics_floater.png"><img alt="_images/physics_floater.png" class="align-center" src="_images/physics_floater.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -342,7 +342,7 @@
 <p>为了使要浮在水面上 （用 <code class="docutils literal"><span class="pre">Water</span></code> 材质物体） 的物体，就必须使 <code class="docutils literal"><span class="pre">Floater</span></code> 面板启用。有两种类型的浮动物体:  <code class="docutils literal"><span class="pre">Main</span> <span class="pre">Body</span></code> - 动物体本身和  <code class="docutils literal"><span class="pre">Bob</span></code> - 辅助bob-物体让漂浮执行。浮动物体可以有无限的多个 <code class="docutils literal"><span class="pre">Bob</span></code> 物体。可以是网格或 <code class="docutils literal"><span class="pre">Empty</span></code> 物体。</p>
 <p>相同的浮动物体包含的一部分的所有物体必须 <code class="docutils literal"><span class="pre">Floater</span> <span class="pre">Name</span></code> 字段中都具有相同的名称。</p>
 <div class="section" id="floating-object-settings">
-<h3><a class="toc-backref" href="#id14">浮动物体设置</a><a class="headerlink" href="#floating-object-settings" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id13">浮动物体设置</a><a class="headerlink" href="#floating-object-settings" title="永久链接至标题">¶</a></h3>
 <dl class="docutils">
 <dt><em>Floating Factor</em></dt>
 <dd><p class="first last">浮力系数。</p>
@@ -357,14 +357,14 @@
 </div>
 </div>
 <div class="section" id="floating-vehicles-aka-watercrafts">
-<span id="watercrafts"></span><h2><a class="toc-backref" href="#id15">浮动交通工具或叫船舶</a><a class="headerlink" href="#floating-vehicles-aka-watercrafts" title="永久链接至标题">¶</a></h2>
+<span id="watercrafts"></span><h2><a class="toc-backref" href="#id14">浮动交通工具或叫船舶</a><a class="headerlink" href="#floating-vehicles-aka-watercrafts" title="永久链接至标题">¶</a></h2>
 <a class="reference internal image-reference" href="_images/physics_boat.png"><img alt="_images/physics_boat.png" class="align-center" src="_images/physics_boat.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p>船舶使用 <code class="docutils literal"><span class="pre">Vehicle</span></code> 设置的一些参数和  <code class="docutils literal"><span class="pre">Floater</span></code> 设置的所有设置。它是必要的主要物体上 <code class="docutils literal"><span class="pre">Part</span></code> 类型的  <code class="docutils literal"><span class="pre">Hull</span></code> 设置 。类似于浮动物体船只需要辅助  <code class="docutils literal"><span class="pre">Bob</span></code> 物体。</p>
 <div class="section" id="watercraft-settings">
-<h3><a class="toc-backref" href="#id16">船舶设置</a><a class="headerlink" href="#watercraft-settings" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id15">船舶设置</a><a class="headerlink" href="#watercraft-settings" title="永久链接至标题">¶</a></h3>
 <dl class="docutils">
 <dt><em>Force Max</em></dt>
 <dd><p class="first last">车辆最大驱动力。</p>
@@ -385,13 +385,13 @@
 </div>
 </div>
 <div class="section" id="characters">
-<span id="id5"></span><h2><a class="toc-backref" href="#id17">角色</a><a class="headerlink" href="#characters" title="永久链接至标题">¶</a></h2>
+<span id="id4"></span><h2><a class="toc-backref" href="#id16">角色</a><a class="headerlink" href="#characters" title="永久链接至标题">¶</a></h2>
 <a class="reference internal image-reference" href="_images/physics_character_object_example.png"><img alt="_images/physics_character_object_example.png" class="align-center" src="_images/physics_character_object_example.png" style="width: 100%;" /></a>
 <p>这个功能可以通过点击 <code class="docutils literal"><span class="pre">Physics</span></code> 面板上的同名标签的标题 <code class="docutils literal"><span class="pre">Character</span></code> 复选框被激活。</p>
 <p>从引擎的角度来看，角色本身是一类适当的物理物体，该物体可以与其他物理物体发生碰撞或受到物理力如重力和浮力的影响。</p>
 <p>角色物体可以使用多种API方法，由他们的名字 <cite>character</cite> 关键字容易控制。所有这些方法驻留在 <a class="reference external" href="https://www.blend4web.com/api_doc/module-physics.html">physics</a> API模块。</p>
 <div class="section" id="character-settings">
-<h3><a class="toc-backref" href="#id18">角色设置</a><a class="headerlink" href="#character-settings" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id17">角色设置</a><a class="headerlink" href="#character-settings" title="永久链接至标题">¶</a></h3>
 <a class="reference internal image-reference" href="_images/physics_character_settings.png"><img alt="_images/physics_character_settings.png" class="align-center" src="_images/physics_character_settings.png" style="width: 100%;" /></a>
 <p>所有设置列出在这里在激活 <code class="docutils literal"><span class="pre">Character</span></code> 选项卡后可用。</p>
 <dl class="docutils">
@@ -418,7 +418,7 @@
 </dl>
 </div>
 <div class="section" id="basic-character">
-<h3><a class="toc-backref" href="#id19">基本角色</a><a class="headerlink" href="#basic-character" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id18">基本角色</a><a class="headerlink" href="#basic-character" title="永久链接至标题">¶</a></h3>
 <p>Blend4Web引擎有快速建立用户控制的第一人称角色的选项。这样的角色将只有非常基本的功能，但也可以没有任何编程的情况下设置。</p>
 <p>要建立一个基本角色，请按照下列步骤操作：</p>
 <ol class="arabic simple">
@@ -447,7 +447,7 @@
 </div>
 </div>
 <div class="section" id="controlling-characters-with-api">
-<h3><a class="toc-backref" href="#id20">使用API​​控制角色</a><a class="headerlink" href="#controlling-characters-with-api" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id19">使用API​​控制角色</a><a class="headerlink" href="#controlling-characters-with-api" title="永久链接至标题">¶</a></h3>
 <p>上述基本角色只能提供通用功能。如果您需要更多的角色行为控制，您应该使用 <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html">fps</a>  模块的以下方法。</p>
 <p>其中最重要的是 <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.enable_fps_controls">enable_fps_controls()</a> 方法，就像它名称一样，方法用于初始化场景中的角色。它可以如下使用：</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_fps</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;fps&quot;</span><span class="p">);</span>
@@ -523,12 +523,12 @@
 </div>
 </div>
 <div class="section" id="navigation-meshes">
-<h2><a class="toc-backref" href="#id21">导航网格</a><a class="headerlink" href="#navigation-meshes" title="永久链接至标题">¶</a></h2>
+<h2><a class="toc-backref" href="#id20">导航网格</a><a class="headerlink" href="#navigation-meshes" title="永久链接至标题">¶</a></h2>
 <p>导航网格 (通常缩写 <em>navmeshes</em>) 是用来消除需要额外计算比如碰撞等使寻路更加简便的网格物体。</p>
 <a class="reference internal image-reference" href="_images/physics_pathfinding_example.png"><img alt="_images/physics_pathfinding_example.png" class="align-center" src="_images/physics_pathfinding_example.png" style="width: 100%;" /></a>
 <p>在此示例中 （取自代码片段），导航网格用于生成通过迷宫的路径。</p>
 <div class="section" id="creating-navigation-meshes">
-<h3><a class="toc-backref" href="#id22">创建导航网格</a><a class="headerlink" href="#creating-navigation-meshes" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id21">创建导航网格</a><a class="headerlink" href="#creating-navigation-meshes" title="永久链接至标题">¶</a></h3>
 <p>若要将物体生成 navmesh，打开 <code class="docutils literal"><span class="pre">Physics</span></code> 面板的 <code class="docutils literal"><span class="pre">Object</span> <span class="pre">Physics</span></code> 参数 ，从 <code class="docutils literal"><span class="pre">Physics</span> <span class="pre">Type</span></code> 列表中选择 <code class="docutils literal"><span class="pre">Navigation</span> <span class="pre">Mesh</span></code> 。</p>
 <a class="reference internal image-reference" href="_images/physics_navmesh.png"><img alt="_images/physics_navmesh.png" class="align-center" src="_images/physics_navmesh.png" style="width: 100%;" /></a>
 <p>导航网格也可以使用特定的工具手动创建或生成自动。</p>
@@ -602,13 +602,13 @@
 </dl>
 </div>
 <div class="section" id="using-navigation-meshes">
-<h3><a class="toc-backref" href="#id23">使用导航网格</a><a class="headerlink" href="#using-navigation-meshes" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id22">使用导航网格</a><a class="headerlink" href="#using-navigation-meshes" title="永久链接至标题">¶</a></h3>
 <p>Navmesh 创建后，它然后可用于在应用程序中计算两个点之间的运动轨迹。这可以从  <a class="reference external" href="https://www.blend4web.com/api_doc/module-physics.html">physics</a>  模块的两种方法得到 <a class="reference external" href="https://www.blend4web.com/api_doc/module-physics.html#.navmesh_get_island">navmesh_get_island()</a> 和 <a class="reference external" href="https://www.blend4web.com/api_doc/module-physics.html#.navmesh_find_path">navmesh_find_path()</a>. 前者用来检索链接到当前的岛 （最接近独立网段的 navmesh），而后者返回以数组形式的实际路径中的坐标。</p>
 <p>使用导航网格的寻路的例子可以在 <a class="reference internal" href="developers.html#code-snippets"><span>代码摘要</span></a> (相对应的摘要名字叫 <code class="docutils literal"><span class="pre">Pathfinding</span></code>).</p>
 </div>
 </div>
 <div class="section" id="use-in-applications">
-<span id="using-physics"></span><h2><a class="toc-backref" href="#id24">在应用程序中的使用</a><a class="headerlink" href="#use-in-applications" title="永久链接至标题">¶</a></h2>
+<span id="using-physics"></span><h2><a class="toc-backref" href="#id23">在应用程序中的使用</a><a class="headerlink" href="#use-in-applications" title="永久链接至标题">¶</a></h2>
 <p>物理系统是在 <strong>uranium.js</strong> 模块中实现，并分别从引擎的主要代码加载。<strong>Uranium.js</strong> 模块本身是 <a class="reference external" href="http://bulletphysics.org/">Bullet</a> 物理引擎的修改版，移植在浏览器中工作。为了激活物理系统，这就需要将 <strong>uranium.js</strong> 和 <strong>uranium.js.mem</strong> 文件跟应用程序的源代码放在同一个目录。</p>
 <p>另一个方法是通过使用下面的 API 方法显式指定 <strong>uranium.js</strong> 模块的加载路径 ︰</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">m_config</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;physics_uranium_path&quot;</span><span class="p">,</span> <span class="s2">&quot;.../uranium.js&quot;</span><span class="p">);</span>
@@ -645,7 +645,7 @@
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2017, Triumph.
-      最后更新于 2017-05-15.
+      最后更新于 2017-06-30.
 
     </p>
   </div>
@@ -701,7 +701,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.04.1',
+            VERSION:'v17.06',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

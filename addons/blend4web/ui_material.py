@@ -506,8 +506,8 @@ class B4W_WaterMaterial(MaterialButtonsPanel, bpy.types.Panel):
 
         row = layout.row()
         row.active = getattr(mat, "b4w_water_dynamic")
-        row.prop(mat, "b4w_waves_height", text=_("Wave Height"))
-        row.prop(mat, "b4w_waves_length", text=_("Wave Length"))
+        row.prop(mat, "b4w_waves_height", text=_("Waves Height"))
+        row.prop(mat, "b4w_waves_length", text=_("Waves Length"))
 
         row = layout.row()
         row.active = getattr(mat, "b4w_water_dynamic")

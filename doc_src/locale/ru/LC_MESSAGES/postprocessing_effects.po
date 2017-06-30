@@ -58,7 +58,7 @@ msgstr "Дополнительные настройки"
 
 #: ../postprocessing_effects.rst:33 ../postprocessing_effects.rst:260
 msgid "*Factor*"
-msgstr ""
+msgstr "*Factor*"
 
 #: ../postprocessing_effects.rst:33
 msgid ""
@@ -70,7 +70,7 @@ msgstr ""
 
 #: ../postprocessing_effects.rst:37
 msgid "*Decay Threshold*"
-msgstr ""
+msgstr "*Decay Threshold*"
 
 #: ../postprocessing_effects.rst:36
 msgid ""
@@ -132,7 +132,7 @@ msgstr "Дополнительные настройки"
 
 #: ../postprocessing_effects.rst:70
 msgid "*Focus*"
-msgstr ""
+msgstr "*Focus*"
 
 #: ../postprocessing_effects.rst:70
 msgid "Sets the focal object. By default, this field is empty."
@@ -142,7 +142,7 @@ msgstr ""
 
 #: ../postprocessing_effects.rst:73
 msgid "*Distance*"
-msgstr ""
+msgstr "*Distance*"
 
 #: ../postprocessing_effects.rst:73
 msgid ""
@@ -156,7 +156,7 @@ msgstr ""
 
 #: ../postprocessing_effects.rst:78
 msgid "*Front Start*"
-msgstr ""
+msgstr "*Front Start*"
 
 #: ../postprocessing_effects.rst:76
 msgid ""
@@ -177,7 +177,7 @@ msgstr ""
 
 #: ../postprocessing_effects.rst:81
 msgid "*Front End*"
-msgstr ""
+msgstr "*Front End*"
 
 #: ../postprocessing_effects.rst:81
 msgid ""
@@ -191,7 +191,7 @@ msgstr ""
 
 #: ../postprocessing_effects.rst:86
 msgid "*Rear Start*"
-msgstr ""
+msgstr "*Rear Start*"
 
 #: ../postprocessing_effects.rst:84
 msgid ""
@@ -204,7 +204,7 @@ msgstr ""
 
 #: ../postprocessing_effects.rst:89
 msgid "*Rear End*"
-msgstr ""
+msgstr "*Rear End*"
 
 #: ../postprocessing_effects.rst:89
 msgid ""
@@ -218,7 +218,7 @@ msgstr ""
 
 #: ../postprocessing_effects.rst:92
 msgid "*Power*"
-msgstr ""
+msgstr "*Power*"
 
 #: ../postprocessing_effects.rst:92
 msgid ""
@@ -230,7 +230,7 @@ msgstr ""
 
 #: ../postprocessing_effects.rst:103
 msgid "*High Quality (Bokeh)*"
-msgstr ""
+msgstr "*High Quality (Bokeh)*"
 
 #: ../postprocessing_effects.rst:95
 msgid ""
@@ -269,7 +269,7 @@ msgstr "По умолчанию этот параметр деактивиров
 
 #: ../postprocessing_effects.rst:106
 msgid "*Bokeh Intensity*"
-msgstr ""
+msgstr "*Bokeh Intensity*"
 
 #: ../postprocessing_effects.rst:106
 msgid ""
@@ -281,7 +281,7 @@ msgstr ""
 
 #: ../postprocessing_effects.rst:110
 msgid "*Foreground Blur*"
-msgstr ""
+msgstr "*Foreground Blur*"
 
 #: ../postprocessing_effects.rst:109
 msgid ""
@@ -321,7 +321,7 @@ msgstr ""
 
 #: ../postprocessing_effects.rst:134
 msgid "*Radius Increase*"
-msgstr ""
+msgstr "*Radius Increase*"
 
 #: ../postprocessing_effects.rst:134
 msgid ""
@@ -333,7 +333,7 @@ msgstr ""
 
 #: ../postprocessing_effects.rst:137
 msgid "*Use Hemisphere*"
-msgstr ""
+msgstr "*Use Hemisphere*"
 
 #: ../postprocessing_effects.rst:137
 msgid ""
@@ -345,7 +345,7 @@ msgstr ""
 
 #: ../postprocessing_effects.rst:140
 msgid "*Use Blur Depth Test*"
-msgstr ""
+msgstr "*Use Blur Depth Test*"
 
 #: ../postprocessing_effects.rst:140
 msgid ""
@@ -357,7 +357,7 @@ msgstr ""
 
 #: ../postprocessing_effects.rst:143
 msgid "*Blur Depth Test Discard Value*"
-msgstr ""
+msgstr "*Blur Depth Test Discard Value*"
 
 #: ../postprocessing_effects.rst:143
 msgid ""
@@ -370,7 +370,7 @@ msgstr ""
 
 #: ../postprocessing_effects.rst:146
 msgid "*Influence*"
-msgstr ""
+msgstr "*Influence*"
 
 #: ../postprocessing_effects.rst:146
 msgid "SSAO appearance factor. The default value is 0.7."
@@ -380,7 +380,7 @@ msgstr ""
 
 #: ../postprocessing_effects.rst:149
 msgid "*Distance Factor*"
-msgstr ""
+msgstr "*Distance Factor*"
 
 #: ../postprocessing_effects.rst:149
 msgid ""
@@ -392,7 +392,7 @@ msgstr ""
 
 #: ../postprocessing_effects.rst:153
 msgid "*Samples*"
-msgstr ""
+msgstr "*Samples*"
 
 #: ../postprocessing_effects.rst:152
 msgid ""
@@ -420,7 +420,7 @@ msgstr "Активировать панель ``God Rays`` во вкладке `
 
 #: ../postprocessing_effects.rst:177 ../postprocessing_effects.rst:209
 msgid "*Intensity*"
-msgstr ""
+msgstr "*Intensity*"
 
 #: ../postprocessing_effects.rst:177
 msgid "The effect appearance factor. The default value is 0.7."
@@ -428,7 +428,7 @@ msgstr "Степень проявленности эффекта. Значени
 
 #: ../postprocessing_effects.rst:180
 msgid "*Maximum Ray Length*"
-msgstr ""
+msgstr "*Maximum Ray Length*"
 
 #: ../postprocessing_effects.rst:180
 msgid ""
@@ -440,7 +440,7 @@ msgstr ""
 
 #: ../postprocessing_effects.rst:184
 msgid "*Steps Per Pass*"
-msgstr ""
+msgstr "*Steps Per Pass*"
 
 #: ../postprocessing_effects.rst:183
 msgid "Number of steps per single sample. The default value is 10.0."
@@ -465,7 +465,7 @@ msgstr "Активировать панель ``Bloom`` во вкладке ``Re
 
 #: ../postprocessing_effects.rst:206
 msgid "*Use Adaptive*"
-msgstr ""
+msgstr "*Use Adaptive*"
 
 #: ../postprocessing_effects.rst:206
 msgid "Use calculation of adaptive average luminance. Enabled by default."
@@ -477,7 +477,7 @@ msgstr "Интенсивность засветки. По умолчанию р�
 
 #: ../postprocessing_effects.rst:212
 msgid "*Blur*"
-msgstr ""
+msgstr "*Blur*"
 
 #: ../postprocessing_effects.rst:212
 msgid "Bloom blurriness factor. Set to 4.0 by default."
@@ -485,7 +485,7 @@ msgstr "Степень размытия засветки. По умолчани�
 
 #: ../postprocessing_effects.rst:216
 msgid "*Edge Luminance*"
-msgstr ""
+msgstr "*Edge Luminance*"
 
 #: ../postprocessing_effects.rst:215
 msgid ""
@@ -527,7 +527,7 @@ msgstr "На панели ``Object > Selection and Outlining``:"
 
 #: ../postprocessing_effects.rst:242
 msgid "*Enable Outlining*"
-msgstr ""
+msgstr "*Enable Outlining*"
 
 #: ../postprocessing_effects.rst:242
 msgid "Permit using the outline glow effect on this object."
@@ -535,7 +535,7 @@ msgstr "Разрешить использование эффекта подсв�
 
 #: ../postprocessing_effects.rst:245
 msgid "*Duration*"
-msgstr ""
+msgstr "*Duration*"
 
 #: ../postprocessing_effects.rst:245
 msgid "Duration of glow animation, seconds. The default value is 1."
@@ -543,7 +543,7 @@ msgstr "Длительность анимации подсветки, сек. З
 
 #: ../postprocessing_effects.rst:248
 msgid "*Period*"
-msgstr ""
+msgstr "*Period*"
 
 #: ../postprocessing_effects.rst:248
 msgid "Repeat period of glow animation, seconds. The default value is 1."
@@ -551,7 +551,7 @@ msgstr "Период повторения анимации подсветки, �
 
 #: ../postprocessing_effects.rst:251
 msgid "*Relapses*"
-msgstr ""
+msgstr "*Relapses*"
 
 #: ../postprocessing_effects.rst:251
 msgid ""
@@ -563,7 +563,7 @@ msgstr ""
 
 #: ../postprocessing_effects.rst:255
 msgid "*Outline on Select*"
-msgstr ""
+msgstr "*Outline on Select*"
 
 #: ../postprocessing_effects.rst:254
 msgid ""
@@ -620,7 +620,7 @@ msgstr ""
 
 #: ../postprocessing_effects.rst:285
 msgid "*Small Mask: Intensity*"
-msgstr ""
+msgstr "*Small Mask: Intensity*"
 
 #: ../postprocessing_effects.rst:285
 msgid ""
@@ -630,7 +630,7 @@ msgstr "Интенсивность свечения по малой маске. 
 
 #: ../postprocessing_effects.rst:288
 msgid "*Small Mask: Width*"
-msgstr ""
+msgstr "*Small Mask: Width*"
 
 #: ../postprocessing_effects.rst:288
 msgid "Width of glow obtained through the smaller mask. The default value is 2.0."
@@ -638,7 +638,7 @@ msgstr "Ширина свечения по малой маске. Значени
 
 #: ../postprocessing_effects.rst:292
 msgid "*Large Mask: Intensity*"
-msgstr ""
+msgstr "*Large Mask: Intensity*"
 
 #: ../postprocessing_effects.rst:291
 msgid ""
@@ -648,7 +648,7 @@ msgstr "Интенсивность свечения по большой маск
 
 #: ../postprocessing_effects.rst:295
 msgid "*Large Mask: Width*"
-msgstr ""
+msgstr "*Large Mask: Width*"
 
 #: ../postprocessing_effects.rst:295
 msgid "Width of glow obtained through the larger mask. The default value is 6.0."
@@ -656,7 +656,7 @@ msgstr "Ширина свечения по большой маске. Значе
 
 #: ../postprocessing_effects.rst:299
 msgid "*Render Glow Over Transparent Objects*"
-msgstr ""
+msgstr "*Render Glow Over Transparent Objects*"
 
 #: ../postprocessing_effects.rst:298
 msgid "Render the glow effect over transparent objects."
@@ -731,7 +731,7 @@ msgstr "глубина резкости камеры (depth of field)"
 
 #: ../postprocessing_effects.rst:39
 msgid "DOF"
-msgstr ""
+msgstr "DOF"
 
 #: ../postprocessing_effects.rst:112
 msgid "screen-space ambient occlusion"
@@ -739,7 +739,7 @@ msgstr "взаимное затенение (screen-space ambient occlusion)"
 
 #: ../postprocessing_effects.rst:112
 msgid "SSAO"
-msgstr ""
+msgstr "SSAO"
 
 #: ../postprocessing_effects.rst:155
 msgid "crepuscular rays"

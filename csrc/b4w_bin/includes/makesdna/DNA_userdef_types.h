@@ -240,9 +240,9 @@ typedef struct ThemeSpace {
 	char wire[4], wire_edit[4], select[4];
 	char lamp[4], speaker[4], empty[4], camera[4];
 	char active[4], group[4], group_active[4], transform[4];
-	char vertex[4], vertex_select[4], vertex_unreferenced[4];
+	char vertex[4], vertex_select[4], vertex_bevel[4], vertex_unreferenced[4];
 	char edge[4], edge_select[4];
-	char edge_seam[4], edge_sharp[4], edge_facesel[4], edge_crease[4];
+	char edge_seam[4], edge_sharp[4], edge_facesel[4], edge_crease[4], edge_bevel[4];
 	char face[4], face_select[4];	/* solid faces */
 	char face_dot[4];				/*  selected color */
 	char extra_edge_len[4], extra_edge_angle[4], extra_face_angle[4], extra_face_area[4];
@@ -467,13 +467,18 @@ typedef struct UserDef {
 	int audioformat;
 	int audiochannels;
 
-	int scrollback; /* console scrollback limit */
-	int dpi;		/* range 48-128? */
-	char node_margin; /* node insert offset (aka auto-offset) margin, but might be useful for later stuff as well */
+	int scrollback;     /* console scrollback limit */
+	int dpi;            /* range 48-128? */
+	float ui_scale;     /* interface scale */
+	int pad1;
+	char node_margin;   /* node insert offset (aka auto-offset) margin, but might be useful for later stuff as well */
 	char pad2;
 	short transopts;
 	short menuthreshold1, menuthreshold2;
-	
+
+	/* startup template */
+	char app_template[64];
+
 	struct ListBase themes;
 	struct ListBase uifonts;
 	struct ListBase uistyles;
@@ -497,7 +502,6 @@ typedef struct UserDef {
 	int prefetchframes;
 	float pad_rot_angle; /* control the rotation step of the view when PAD2, PAD4, PAD6&PAD8 is use */
 	short frameserverport;
-	short pad4;
 	short obcenter_dia;
 	short rvisize;			/* rotating view icon size */
 	short rvibright;		/* rotating view icon brightness */
@@ -509,6 +513,8 @@ typedef struct UserDef {
 	char  ipo_new;			/* interpolation mode for newly added F-Curves */
 	char  keyhandles_new;	/* handle types for newly added keyframes */
 	char  gpu_select_method;
+	char  gpu_select_pick_deph;
+	char  pad4;
 	char  view_frame_type;
 
 	int view_frame_keyframes; /* number of keyframes to zoom around current frame */
@@ -867,14 +873,6 @@ typedef enum eNdof_Flag {
 
 #define NDOF_PIXELS_PER_SECOND 600.0f
 
-/* compute_device_type */
-typedef enum eCompute_Device_Type {
-	USER_COMPUTE_DEVICE_NONE	= 0,
-	USER_COMPUTE_DEVICE_OPENCL	= 1,
-	USER_COMPUTE_DEVICE_CUDA	= 2,
-} eCompute_Device_Type;
-
-	
 typedef enum eMultiSample_Type {
 	USER_MULTISAMPLE_NONE	= 0,
 	USER_MULTISAMPLE_2	= 2,

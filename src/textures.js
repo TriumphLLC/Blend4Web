@@ -165,7 +165,7 @@ function init_texture() {
         width: 0,
         height: 0,
         compress_ratio: 1,
-        anisotropic_filtering: "",
+        anisotropic_filtering: 0,
 
         source_size: 1024,
         enable_canvas_mipmapping: false,
@@ -387,7 +387,7 @@ function create_texture(type, use_comparison, use_mipmap) {
 /**
  * Create cubemap b4w texture.
  */
-exports.create_cubemap_texture = function(size) {
+exports.create_cubemap_texture = function(size, use_mipmap) {
 
     var w_texture = _gl.createTexture();
 
@@ -397,7 +397,10 @@ exports.create_cubemap_texture = function(size) {
 
     // NOTE: standard params suitable for POT and NPOT textures
     _gl.texParameteri(w_target, _gl.TEXTURE_MAG_FILTER, _gl.LINEAR);
-    _gl.texParameteri(w_target, _gl.TEXTURE_MIN_FILTER, _gl.LINEAR);
+    if (use_mipmap)
+        _gl.texParameteri(w_target, _gl.TEXTURE_MIN_FILTER, LEVELS[cfg_def.texture_min_filter]);
+    else
+        _gl.texParameteri(w_target, _gl.TEXTURE_MIN_FILTER, _gl.LINEAR);
     _gl.texParameteri(w_target, _gl.TEXTURE_WRAP_S, _gl.CLAMP_TO_EDGE);
     _gl.texParameteri(w_target, _gl.TEXTURE_WRAP_T, _gl.CLAMP_TO_EDGE);
 
@@ -416,6 +419,7 @@ exports.create_cubemap_texture = function(size) {
     texture.width = 3*size;
     texture.height = 2*size;
     texture.compress_ratio = 1;
+    texture.use_mipmap = use_mipmap;
 
     texture.w_texture = w_texture;
     texture.w_target = _gl.TEXTURE_CUBE_MAP;
@@ -663,18 +667,18 @@ function (bpy_texture, global_af, bpy_scenes, thread_id, dir_path) {
 
 function setup_anisotropic_filtering(texture, bpy_texture, global_af) {
 
-    // possible values: DEFAULT, OFF, 2x, 4x, 8x, 16x
-    var af = bpy_texture["b4w_anisotropic_filtering"];
+    if (cfg_def.anisotropic_available) {
 
-    // individual textures override global AF value when b4w_anisotropic_filtering is not DEFAULT
-    if (af === "DEFAULT")
-        af = global_af;
+        // possible values: DEFAULT, OFF, 2x, 4x, 8x, 16x
+        var af = bpy_texture["b4w_anisotropic_filtering"];
 
-    if (af !== "OFF" && cfg_def.anisotropic_filtering) {
-        var ext_aniso = m_ext.get_aniso();
-        if (ext_aniso) {
-            af = parseFloat(af.split("x")[0]);
-            texture.anisotropic_filtering = af;
+        // individual textures override global AF value when b4w_anisotropic_filtering is not DEFAULT
+        if (af === "DEFAULT")
+            af = global_af;
+
+        if (af !== "OFF" && cfg_def.anisotropic_filtering) {
+            var af_value = parseFloat(af.split("x")[0]);
+            texture.anisotropic_filtering = af_value;
         }
     }
 }
@@ -858,9 +862,13 @@ function resize_cube_map_canvas(texture, image_data, img_dim, pot_dim) {
         ctx.drawImage(image_data, offset[0] * img_dim, offset[1] * img_dim,
                       img_dim, img_dim, -pot_dim/2, -pot_dim/2, pot_dim, pot_dim);
 
-        _gl.texImage2D(_gl[target], 0, _gl.RGBA, _gl.RGBA, _gl.UNSIGNED_BYTE,
-                        tmpcanvas);
-
+        if (cfg_def.d3d9_canvas_resizing_hack)
+            _gl.texImage2D(_gl[target], 0, _gl.RGBA, pot_dim, pot_dim, 0, 
+                    _gl.RGBA, _gl.UNSIGNED_BYTE, new Uint8Array(ctx.getImageData(
+                    0, 0, pot_dim, pot_dim).data.buffer));
+        else
+            _gl.texImage2D(_gl[target], 0, _gl.RGBA, _gl.RGBA, _gl.UNSIGNED_BYTE,
+                    tmpcanvas);
     }
 }
 
@@ -1027,22 +1035,28 @@ function update_texture(texture, image_data, thread_id) {
 
             width = calc_pot_size(texture.width * texture.scale_fac);
             height = calc_pot_size(texture.height * texture.scale_fac);
-            if (!texture.need_resize)
-                if (!cfg_def.webgl2 && (m_util.check_npot(texture.width) ||
-                        m_util.check_npot(texture.height))) {
-                    draw_resized_image(texture, draw_data, width, height, false);
-                    texture.need_resize = true;
-                } else
-                    _gl.texImage2D(w_target, 0, _gl.RGBA, _gl.RGBA, _gl.UNSIGNED_BYTE, draw_data);
-            else {
+
+            if (texture.need_resize || cfg_def.resize_texture_canvas_hack) {
                 var canvas = get_tmp_canvas();
                 var ctx = canvas.getContext("2d");
                 canvas.width = width;
                 canvas.height = height;
                 ctx.drawImage(draw_data, 0, 0, texture.width, texture.height,
                         0, 0, width, height);
-                _gl.texImage2D(w_target, 0, _gl.RGBA, _gl.RGBA, _gl.UNSIGNED_BYTE, canvas);
-            }
+
+                if (cfg_def.d3d9_canvas_resizing_hack)
+                    _gl.texImage2D(w_target, 0, _gl.RGBA, width, height, 0, _gl.RGBA, _gl.UNSIGNED_BYTE,
+                            new Uint8Array(ctx.getImageData(0, 0, width, height).data.buffer));
+                else
+                    _gl.texImage2D(w_target, 0, _gl.RGBA, _gl.RGBA, _gl.UNSIGNED_BYTE, canvas);
+            
+            } else if (!cfg_def.webgl2 && (m_util.check_npot(texture.width) 
+                    || m_util.check_npot(texture.height))) {
+                draw_resized_image(texture, draw_data, width, height, false);
+                texture.need_resize = true;
+
+            } else
+                _gl.texImage2D(w_target, 0, _gl.RGBA, _gl.RGBA, _gl.UNSIGNED_BYTE, draw_data);
 
             texture.width = width;
             texture.height = height;

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2016-09-01 16:56+0300\n"
+"POT-Creation-Date: 2017-06-22 15:16+0300\n"
 "PO-Revision-Date: 2015-08-28 10:55+0300\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Russian <info [at] blend4web.com>\n"
@@ -16,15 +16,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.3.4\n"
 
-#: ../animation.rst:7
 msgid "Animation"
 msgstr "Анимация"
 
-#: ../animation.rst
 msgid "Table of Content"
 msgstr "Содержание"
 
-#: ../animation.rst:13
 msgid ""
 "In general animation is changing the object's parameters in time. The "
 "engine supports the following types of animation:"
@@ -32,13 +29,11 @@ msgstr ""
 "В общем случае, к анимации относятся изменения параметров объектов во "
 "времени. Движком поддерживаются следующие типы анимации:"
 
-#: ../animation.rst:15
 msgid "Object animation means the transformation of an object as a whole."
 msgstr ""
 "Объектная анимация. Заключается в трансформации объекта в пространстве "
 "как единого целого."
 
-#: ../animation.rst:17
 msgid ""
 "Skeletal Animation, i.e. object deformation using bones. Animation of a "
 "standalone armature object is also supported (for parenting to bones)."
@@ -47,7 +42,6 @@ msgstr ""
 "системы костей (скиннинг). Сюда же относится анимация костей в арматурном"
 " объекте с целью прикрепления объектов к костям."
 
-#: ../animation.rst:20
 msgid ""
 "Vertex animation. An object's deformations can be recorded as frames and "
 "then reproduced in the engine."
@@ -55,7 +49,6 @@ msgstr ""
 "Вертексная анимация. Заключается в покадровой записи деформаций объекта с"
 " их последующим воспроизведением."
 
-#: ../animation.rst:23
 msgid ""
 "Audio sources parametrization. Speaker's ``Volume`` and ``Pitch`` can be "
 "animated."
@@ -63,17 +56,14 @@ msgstr ""
 "Параметризация источников звука. Изменяемые параметры: громкость "
 "(``Volume``) и высота звука (``Pitch``)."
 
-#: ../animation.rst:26
 msgid "Animation of the ``Value`` node output in node materials."
 msgstr "Анимация выходного значения ноды ``Value`` в нодовом материале."
 
-#: ../animation.rst:28
 msgid "Wind bending - a procedural animation. Described :ref:`separately <wind>`."
 msgstr ""
 "Процедурная анимация в виде колебаний объекта под действием ветра. "
 "Описано :ref:`отдельно <wind>`."
 
-#: ../animation.rst:30
 msgid ""
 "Particle emission. Described in the :ref:`corresponding section "
 "<particles>`."
@@ -81,15 +71,12 @@ msgstr ""
 "Эмиссия частиц из источника. Описано в :ref:`соответствующем разделе "
 "<particles>`."
 
-#: ../animation.rst:33
 msgid "Animation Control"
 msgstr "Управление анимацией"
 
-#: ../animation.rst:35
 msgid "There are two ways to control animation in the engine:"
 msgstr "Управление анимацией в движке осуществляется одним из двух способов:"
 
-#: ../animation.rst:37
 msgid ""
 "Automatically, activating the ``Animation`` panel and choosing the "
 "``Behavior`` parameter in the object's properties. In this case an "
@@ -105,11 +92,9 @@ msgstr ""
 "скелетной анимации, по умолчанию воспроизводится актор, назначенный на "
 "объекте в окне ``Action Editor``."
 
-#: ../animation.rst:44
 msgid "In an application via API using the ``animation`` module methods."
 msgstr "Программно, используя функции модуля движка ``animation``."
 
-#: ../animation.rst:46
 msgid ""
 "It's useful to use the ``Animation`` interface for tweaking animation. "
 "This is covered in the :ref:`corresponding section <viewer>`."
@@ -118,11 +103,9 @@ msgstr ""
 "программы-просмотрщика, рассмотренный в :ref:`соответствующем разделе "
 "<viewer>`."
 
-#: ../animation.rst:53
 msgid "Object Animation"
 msgstr "Объектная анимация"
 
-#: ../animation.rst:55
 msgid ""
 "The parameters that can be animated are the center coordinates "
 "(``Location``), ``Rotation`` and ``Scale``."
@@ -130,7 +113,6 @@ msgstr ""
 "Изменяемые параметры: координаты центра (``Location``), поворот "
 "(``Rotation``) и масштабирование (``Scale``)."
 
-#: ../animation.rst:63
 msgid ""
 "Animation keyframes can be added for an object motion in Blender and then"
 " reproduced in the engine."
@@ -138,21 +120,17 @@ msgstr ""
 "Осуществляется с помощью добавления ключей анимации для движения объекта "
 "в программе Blender и их последующего воспроизведения в движке."
 
-#: ../animation.rst:65
 msgid "The following keyframe types are supported:"
 msgstr "Поддерживаются следующие типы ключей:"
 
-#: ../animation.rst:67
 msgid "*Location*"
-msgstr ""
+msgstr "*Location*"
 
-#: ../animation.rst:69
 msgid "*Rotation* -- the ``Quaternion(WXYZ)`` or ``XYZ Euler`` mode is required."
 msgstr ""
 "*Rotation* -- необходимо осуществлять в режиме ``Quaternion(WXYZ)`` либо "
 "``XYZ Euler``."
 
-#: ../animation.rst:71
 msgid ""
 "*Scale* -- for correct results the scale factor should be the same along "
 "all 3 axes."
@@ -160,23 +138,18 @@ msgstr ""
 "*Scale* -- для получения корректных результатов, фактор масштабирования "
 "должен быть одинаковым вдоль любых из осей."
 
-#: ../animation.rst:73
 msgid "*LocRot* -- a combination of *Location* and *Rotation*."
 msgstr "*LocRot* -- комбинация *Location* и *Rotation*."
 
-#: ../animation.rst:75
 msgid "*LocScale* -- a combination of *Location* and *Scale*."
 msgstr "*LocScale* -- комбинация *Location* и *Scale*."
 
-#: ../animation.rst:77
 msgid "*LocRotScale* -- a combination of *Location*, *Rotation* and *Scale*."
 msgstr "*LocRotScale* -- комбинация *Location*, *Rotation* и *Scale*."
 
-#: ../animation.rst:79
 msgid "*RotScale* -- a combination of *Rotation* and *Scale*."
 msgstr "*RotScale* -- комбинация *Rotation* и *Scale*."
 
-#: ../animation.rst:81
 msgid ""
 "If a mesh object is animated it is required to activate the ``Force "
 "Dynamic Object`` option on the ``Rendering Properties`` panel under the "
@@ -186,11 +159,9 @@ msgstr ""
 "Dynamic Object`` панели ``Rendering Properties`` на вкладке свойств "
 "объекта."
 
-#: ../animation.rst:86
 msgid "Skinning and Skeletal Animation"
 msgstr "Скиннинг и скелетная анимация"
 
-#: ../animation.rst:94
 msgid ""
 "For skeletal animation both a mesh object and an armature object are "
 "needed. The four steps should be carried out:"
@@ -198,11 +169,9 @@ msgstr ""
 "Для осуществления скелетной анимации, кроме деформируемого объекта-меша "
 "требуется объект-арматура. Осуществляется в четыре этапа:"
 
-#: ../animation.rst:96
 msgid "Create the object's \"skeleton\" in the armature object."
 msgstr "Создание скелета объекта в арматурном объекте."
 
-#: ../animation.rst:97
 msgid ""
 "Assign vertex groups in the mesh object and link them to the bones. This "
 "can be performed by weight painting f   or example."
@@ -211,7 +180,6 @@ msgstr ""
 "быть осуществлено, например, методом \"раскраски\" весов (weight "
 "painting)."
 
-#: ../animation.rst:98
 msgid ""
 "Animate the bones in the pose mode of the armature object. The same "
 "keyframe types can be used as for the object animation."
@@ -219,7 +187,6 @@ msgstr ""
 "Анимация костей в арматурном объекте. Используются те же ключи, что и в "
 "случае объектной анимации."
 
-#: ../animation.rst:100
 msgid ""
 "When inverse kinematics (IK) or other nontrivial structures are used, an "
 "additional step is required to bake the animations (``Action`` datablocks"
@@ -232,15 +199,12 @@ msgstr ""
 " Skeletal Animation``, расположенного на панели инструментов "
 "``Blend4Web``:"
 
-#: ../animation.rst:113 ../animation.rst:169
 msgid "Baking parameters"
 msgstr "Параметры запекания"
 
-#: ../animation.rst:115
 msgid "Baking is performed with the armature object selected."
 msgstr "Запекание производится при выделенном арматурном объекте."
 
-#: ../animation.rst:117
 msgid ""
 "The actors that will be baked are listed in the window with the list of "
 "actors. If the list is empty, all available actors will be baked."
@@ -248,19 +212,15 @@ msgstr ""
 "В окне со списком запекаемых акторов приводятся те акторы, которые "
 "следует запечь. Если список пуст, запекаются все возможные акторы."
 
-#: ../animation.rst:120 ../animation.rst:172
 msgid "*Name*"
-msgstr ""
+msgstr "*Name*"
 
-#: ../animation.rst:120
 msgid "The current action name from the list of actions being baked."
 msgstr "Имя текущего актора из списка запекаемых акторов."
 
-#: ../animation.rst:124
 msgid "*Optimize Keyframes*"
-msgstr ""
+msgstr "*Optimize Keyframes*"
 
-#: ../animation.rst:123
 msgid ""
 "Optimize the animation keyframes after baking. In case of incorrect "
 "results it's recommended to turn this option off."
@@ -268,11 +228,9 @@ msgstr ""
 "Произвести оптимизацию ключей анимации после запекания. В случае "
 "получения некорректных результатов, рекомендуется отключить опцию."
 
-#: ../animation.rst:128
 msgid "*Use Blender's Native Baker*"
-msgstr ""
+msgstr "*Use Blender's Native Baker*"
 
-#: ../animation.rst:127
 msgid ""
 "Use Blender's animation baker (the ``Bake Action`` option) instead of "
 "Blend4Web's. Blender animation baker's settings differ from Blend4Web's."
@@ -281,11 +239,9 @@ msgstr ""
 "Bake Action), а не Blend4Web. Настройки средства запекания Blender "
 "отличаются от настроек Blend4Web."
 
-#: ../animation.rst:134 ../animation.rst:188
 msgid "*Bake*"
-msgstr ""
+msgstr "*Bake*"
 
-#: ../animation.rst:131
 msgid ""
 "Perform baking. If the process is completed successfully, actions with "
 "names of *B4W_BAKED_ACTOR_NAME* type appear in the scene. These actions "
@@ -299,7 +255,6 @@ msgstr ""
 "движке. Стоит отметить, что работа подобных акторов в Blender не "
 "гарантируется."
 
-#: ../animation.rst:137
 msgid ""
 "The engine supports up to 4 vertex groups per vertex. If the number of "
 "vertex groups exceeds 4, the vertex groups with the most influence are "
@@ -311,7 +266,6 @@ msgstr ""
 "процессе загрузки исходного файла со сценой \"веса\" вертексов проходят "
 "через процедуру нормализации, т.е. их сумма приводится в единице."
 
-#: ../animation.rst:141
 msgid ""
 "To remove vertex groups which are not used by armature, use button "
 "``Remove Clean Unused Vertex Groups``."
@@ -320,7 +274,6 @@ msgstr ""
 "воспользоваться кнопкой ``Clean Unused Vertex Groups`` в одноименной "
 "панели."
 
-#: ../animation.rst:147
 msgid ""
 "Blend4Web also has initial support of the armature constraints. For now, "
 "the only supported constraint type is ``Copy Transform``. It can be used "
@@ -334,11 +287,9 @@ msgstr ""
 "том числе физическим (ragdoll). Поддержка других ограничителей ожидается "
 "в будущих версиях."
 
-#: ../animation.rst:150
 msgid "Vertex Animation"
 msgstr "Вертексная анимация"
 
-#: ../animation.rst:158
 msgid ""
 "Allows to record any geometry changes of a mesh object. Note that every "
 "vertex animation frame counts as a mesh. It's not recommended to make a "
@@ -352,7 +303,6 @@ msgstr ""
 "поскольку это может привести к существенному возрастанию размера "
 "исходного и экспортируемого файлов, а также замедлить работу движка."
 
-#: ../animation.rst:162
 msgid ""
 "A special tool is used for baking vertex animation - ``Bake Vertex "
 "Animation`` - located on the ``Blend4Web`` tools panel."
@@ -360,39 +310,30 @@ msgstr ""
 "Для запекания вертексной анимации предусмотрен инструмент ``Bake Vertex "
 "Animation``, расположенный на панели инструментов ``Blend4Web``."
 
-#: ../animation.rst:172
 msgid "The name that will be assigned to the baked animation."
 msgstr "Имя, которое будет присвоено запеченной анимации."
 
-#: ../animation.rst:175
 msgid "*Start*"
-msgstr ""
+msgstr "*Start*"
 
-#: ../animation.rst:175
 msgid "The baking will start from this frame."
 msgstr "Кадр, с которого начнётся запекание анимации."
 
-#: ../animation.rst:178
 msgid "*End*"
-msgstr ""
+msgstr "*End*"
 
-#: ../animation.rst:178
 msgid "The baking will end at this frame."
 msgstr "Кадр, которым закончится запекание анимации."
 
-#: ../animation.rst:181
 msgid "*Allow NLA*"
-msgstr ""
+msgstr "*Allow NLA*"
 
-#: ../animation.rst:181
 msgid "Allows using :ref:`NLA <nla>` to control the baked animation."
 msgstr "Позволяет управлять запечённой анимацией при помощи :ref:`NLA <nla>`."
 
-#: ../animation.rst:185
 msgid "*Status*"
-msgstr ""
+msgstr "*Status*"
 
-#: ../animation.rst:184
 msgid ""
 "In this string, the number of frames of the baked animation is shown. If "
 "the baking hasn't been performed yet, the word ``Empty`` is shown "
@@ -402,11 +343,9 @@ msgstr ""
 " анимация. Если запекание ещё не было произведено, вместо количества "
 "кадров приводится слово ``Empty``."
 
-#: ../animation.rst:188
 msgid "The animation baking is performed by pressing this button."
 msgstr "Запекание анимации производится при нажатии на эту кнопку."
 
-#: ../animation.rst:191
 msgid ""
 "For vertex animation to work correctly, the ``Export Vertex Animation`` "
 "parameter (``Export Options`` section of the ``Object`` panel) of the "
@@ -416,11 +355,9 @@ msgstr ""
 "``Export Vertex Animation`` (раздел ``Export Options`` панели ``Object``)"
 " у соответствующего объекта."
 
-#: ../animation.rst:197
 msgid "Default Animation"
 msgstr "Анимация по умолчанию"
 
-#: ../animation.rst:199
 msgid ""
 "Blend4Web also has an option to automatically play object's animation. To"
 " do it, you need to enable the ``Apply Default Animation`` parameter in "
@@ -433,31 +370,27 @@ msgstr ""
 "анимацию которого требуется включить. Поддерживается скелетная и "
 "объектная анимация."
 
-#: ../animation.rst:205
 msgid ""
 "Animation starts to play right after the application startup and plays "
-"very similar to the :ref:`Play Timeline <nla_play_timeline>` node, only "
-"without an option to set up the start and end markers (instead, it always"
-" starts from the first frame of the timeline and ends with the last). You"
-" can also set up animation behavior, like in the :ref:`Play Animation "
-"<nla_select_play>` node."
+"very similar to the :ref:`Play Timeline <logic_play_timeline>` node, only"
+" without an option to set up the start and end markers (instead, it "
+"always starts from the first frame of the timeline and ends with the "
+"last). You can also set up animation behavior, like in the :ref:`Play "
+"Animation <logic_select_play>` node."
 msgstr ""
 "Проигрывание анимации начинается сразу после запуска приложения и "
-"осуществляется аналогично ноде :ref:`Play Timeline <nla_play_timeline>`, "
+"осуществляется аналогично ноде :ref:`Play Timeline <logic_play_timeline>`, "
 "но без возможности задать начальный и конечный кадр (в качестве таковых "
 "всегда выступают первый и последний кадры таймлайна). Также присутствует "
 "возможность задать поведение анимации, аналогично ноде :ref:`Play "
-"Animation <nla_select_play>`."
+"Animation <logic_select_play>`."
 
-#: ../animation.rst:210
 msgid "Non-Linear Animation"
 msgstr "Нелинейная анимация"
 
-#: ../animation.rst:215
 msgid "NLA Editor"
 msgstr "Редактор NLA"
 
-#: ../animation.rst:217
 msgid ""
 "The Blender's non-linear editor lets us set the scene's behavior in a "
 "comfortable way. With its help we can implement simple scenarios. This "
@@ -468,47 +401,37 @@ msgstr ""
 "несложные сценарии. Таким образом исключается необходимость "
 "программирования простых сцен и приложений."
 
-#: ../animation.rst:225
 msgid "The engine supports controlling the following entities:"
 msgstr "Движком поддерживается управление следующими сущностями:"
 
-#: ../animation.rst:227
 msgid "Any animation the parameters of which can be presented with Actions"
 msgstr ""
 "Любая анимация, параметры которой могут быть представлены с помощью "
 "`действий` (Action)"
 
-#: ../animation.rst:229
 msgid "Audio playback"
 msgstr "Воспроизведение звуков"
 
-#: ../animation.rst:231
 msgid "Particles emission (in the form of a connection with the global timeline)"
 msgstr "Эмиссия частиц (в виде привязки к глобальной шкале времени)"
 
-#: ../animation.rst:239
 msgid "Usage"
 msgstr "Использование"
 
-#: ../animation.rst:241
 msgid "Activate the ``NLA`` panel under the ``Scene`` tab."
 msgstr "Во вкладке ``Scene`` активировать панель ``NLA``."
 
-#: ../animation.rst:242
 msgid "In the ``NLA Editor`` set up the required behavior for the scene."
 msgstr ""
 "В редакторе ``NLA Editor`` задать необходимую конфигурацию поведения "
 "сцены."
 
-#: ../animation.rst:243
 msgid "Choose the animation time interval on the ``Timeline`` panel."
 msgstr "На панели ``Timeline`` выбрать интервал времени анимации."
 
-#: ../animation.rst:247
 msgid "Additional settings"
 msgstr "Дополнительные настройки"
 
-#: ../animation.rst:249
 msgid ""
 "The *NLA > Cyclic NLA* scene setting activates the cyclic NLA animation "
 "mode."
@@ -516,7 +439,6 @@ msgstr ""
 "Настройка сцены *NLA > Cyclic NLA* позволяет активировать режим "
 "циклической NLA-анимации."
 
-#: ../animation.rst:252
 msgid ""
 "In order to use vertex animation, enable  \"Allow NLA\" option on the "
 ":ref:`vertex animation panel <ver_anim>`."
@@ -524,11 +446,9 @@ msgstr ""
 "Для использования вертексной анимации необходимо выставить опцию \"Allow "
 "NLA\" на :ref:`панели запекания вертексной анимации <ver_anim>`."
 
-#: ../animation.rst:255
 msgid "Limitations"
 msgstr "Ограничения"
 
-#: ../animation.rst:257
 msgid ""
 "A simultaneous playback of different types of animation for the same "
 "object is not supported."
@@ -536,11 +456,9 @@ msgstr ""
 "Одновременное проигрывание различных видов анимации для одного объекта не"
 " поддерживается."
 
-#: ../animation.rst:260
 msgid "Controlling via API"
 msgstr "Управление через API"
 
-#: ../animation.rst:262
 msgid ""
 "Non-linear animation playback can be controlled via API methods of the "
 "``nla.js`` module."
@@ -548,7 +466,6 @@ msgstr ""
 "Для управления нелинейной анимацией через API существует модуль "
 "``nla.js``."
 
-#: ../animation.rst:279
 msgid ""
 "Please note, that if the :ref:`Logic Editor <logic_editor>` is used, the "
 "``set_frame``, ``play``, ``stop`` methods are not available."
@@ -556,11 +473,9 @@ msgstr ""
 "При использовании :ref:`Logic Editor <logic_editor>` функции "
 "``set_frame``, ``play``, ``stop`` недоступны."
 
-#: ../animation.rst:285
 msgid "Audio Source Parametrization"
 msgstr "Параметризация источников звука"
 
-#: ../animation.rst:287
 msgid ""
 "In addition the following animation key types are supported for the "
 "speaker objects:"
@@ -568,25 +483,20 @@ msgstr ""
 "На объектах-спикерах дополнительно поддерживаются следующие типы "
 "анимационных ключей:"
 
-#: ../animation.rst:289
 msgid "*Volume*"
 msgstr "*Volume* -- громкость звука источника."
 
-#: ../animation.rst:291
 msgid "*Pitch*"
 msgstr "*Pitch* -- высота звука источника."
 
-#: ../animation.rst:293
 msgid "Audio sources parametrization in essence follows object animation."
 msgstr ""
 "Параметризация источников звука по своей сути повторяет объектную "
 "анимацию."
 
-#: ../animation.rst:299
 msgid "Animation of Value and RGB Nodes"
 msgstr "Анимация нод Value и RGB"
 
-#: ../animation.rst:301
 msgid ""
 "Playback of keyframes inserted on ``Value`` and ``RGB`` nodes is "
 "supported in node materials."
@@ -594,11 +504,9 @@ msgstr ""
 "В нодовых материалах поддерживается воспроизведение анимационных ключей, "
 "проставленных на нодах ``Value`` и ``RGB``."
 
-#: ../animation.rst:314
 msgid "Animation of numerical and color values on other nodes is not supported."
 msgstr "Анимация числовых и цветовых значений в других нодах не поддерживается."
 
-#: ../animation.rst:316
 msgid ""
 "Can be also used to create tracks in the :ref:`non-linear animation "
 "editor <nla_editor>`. Multiple animated ``Value`` or ``RGB`` nodes are "
@@ -612,11 +520,9 @@ msgstr ""
 " установлены программно с помощью методов ``set_nodemat_value`` и "
 "``set_nodemat_rgb`` модуля ``objects``."
 
-#: ../animation.rst:318
 msgid ":ref:`node_time`"
-msgstr ""
+msgstr ":ref:`node_time`"
 
-#: ../animation.rst:3
 msgid "animation"
 msgstr "анимация"
 

@@ -55,7 +55,7 @@ All available nodes are described below.
 Control Flow
 ============
 
-.. _nla_entry:
+.. _logic_entry:
 
 Entry Point
 -----------
@@ -83,7 +83,7 @@ Internal Parameters
 *Run From Script*
     If this parameter is enabled, the entry point can be triggered via API by using the :b4wref:`logic_nodes.run_entrypoint` method.
 
-.. _nla_switch_select:
+.. _logic_switch_select:
 
 Switch Select
 -------------
@@ -115,7 +115,7 @@ Internal Parameters
 *Object*
     One of the objects that the user can select. These parameters are automatically created and deleted when you create or delete a ``Hit`` parameter. The number of such parameters is always equal to the number of the ``Hit`` parameters.
 
-.. _nla_delay:
+.. _logic_delay:
 
 Delay
 -----
@@ -144,7 +144,7 @@ Internal Parameters
 *Value*
     Time (in seconds) that will pass before the activation of the next node. Set to zero by default. Can be set manually or through a variable (if the ``Variable`` parameter is enabled).
 
-.. _nla_jump:
+.. _logic_jump:
 
 Conditional Jump
 ----------------
@@ -184,13 +184,15 @@ Internal Parameters
     * *Greater Than Or Equal (=>)* - first operand is greater than or equal to the second.
 
 *Operand1*
-    First operand of the logical condition. Contains a numeric value of a string (if the ``String Operators`` parameter is enabled). Can be specified in the node or can be a link to one of the variables (if the ``Variable`` parameter at the right of it is enabled).
+    First operand of the logical condition. Contains a numeric value or a string (if the ``String Operators`` parameter is enabled). Can be specified in the node or can be a link to one of the variables (if the ``Variable`` parameter at the right of it is enabled).
 
 *Operand2*
     Second operand of the logical condition. Works the same way as the first.
 
 *String Operands*
     If this parameter is enabled, first and second operands can use strings (set manually or by a variable) as their values.
+
+.. _logic_callback:
 
 JS Callback
 -----------
@@ -241,7 +243,7 @@ Internal Parameters
 Animation
 =========
 
-.. _nla_play_timeline:
+.. _logic_play_timeline:
 
 Play Timeline and Stop Timeline
 -------------------------------
@@ -273,7 +275,7 @@ Internal Parameters
 *End Marker*
     Last frame of the animation. If not specified, an animation plays to the end of the timeline and may not work correctly.
 
-.. _nla_get_timeline:
+.. _logic_get_timeline:
 
 Get Timeline
 ------------
@@ -305,7 +307,7 @@ Internal Parameters
 *Destination*
     Specifies a variable to store the number of the current frame. Set to ``R1`` by default.
 
-.. _nla_select_play:
+.. _logic_select_play:
 
 Play Animation
 --------------
@@ -360,7 +362,7 @@ Internal Parameters
 *Do Not Wait*
     If this parameter is enabled, the ``Play Animation`` node will pass the control to the next node on starting the animation playback. If it isn’t, the control will be passed to the next node only after playback is finished.
 
-.. _nla_stop_anim:
+.. _logic_stop_anim:
 
 Stop Animation
 --------------
@@ -386,7 +388,7 @@ Internal Parameters
 Camera
 ======
 
-.. _nla_move_camera:
+.. _logic_move_camera:
 
 Move Camera
 -----------
@@ -424,7 +426,7 @@ Internal Parameters
 *Duration*
     Time (in seconds) that the camera will spend being moved to a new location. Set to zero by default (and in this case the camera doesn’t actually move, it simply changes its position). It can be specified manually or as a link to a variable (if the ``Variable`` parameter is enabled).
 
-.. _nla_set_camera_move_style:
+.. _logic_set_camera_move_style:
 
 Set Camera Move Style
 ---------------------
@@ -483,10 +485,57 @@ If the ``Use Object`` parameter is disabled, the following three options become 
 *z*
     The ``Z`` component of the camera's target/pivot point.
 
+.. _logic_set_camera_limits:
+
+Set Camera Limits
+-----------------
+
+This node can be used to set limits of the selected camera. The node lists all available limits, but only ones that are compatible with the type of the camera are applied.
+
+.. image:: src_images/logic_editor/logic_editor_set_camera_limits.png
+    :align: center
+    :width: 100%
+
+Input Parameters
+................
+
+*Previous*
+    Previous node.
+
+Output Parameters
+.................
+
+*Next*
+    Next node.
+
+Internal Parameters
+...................
+
+*Camera*
+    This parameter specifies a camera to which the limits will be applied.
+
+*Distance Limits*
+    Sets the ``Distance Limits`` parameter native to the :ref:`Target <camera_target_type>` and :ref:`Hover <camera_hover_type>` camera types.
+
+*Hor. Rotation Limits*
+    Sets ``Horizontal Rotation Limits`` parameter native to :ref:`Target <camera_target_type>` and :ref:`Eye <camera_eye_type>` camera types.
+
+*Vert. Rotation Limits*
+    Sets ``Vertical Rotation Limits`` parameter native to :ref:`Target <camera_target_type>`, :ref:`Hover <camera_hover_type>` and :ref:`Eye <camera_eye_type>` camera types.
+
+*Pivot Translation Limits*
+    Sets ``Pivot Translation Limits`` parameter native to :ref:`Target <camera_target_type>` camera type.
+
+*Hor. Translation Limits*
+    Sets ``Horizontal Translation Limits`` parameter native to :ref:`Hover <camera_hover_type>` camera type.
+
+*Vert. Translation Limits*
+    Sets ``Vertical Translation Limits`` parameter native to :ref:`Hover <camera_hover_type>` camera type.
+
 Object
 ======
 
-.. _nla_show_object:
+.. _logic_show_object:
 
 Show Object
 -----------
@@ -518,7 +567,7 @@ Internal Parameters
 *Process child objects*
     If this parameter is enabled, child objects will be shown as well.
 
-.. _nla_hide_object:
+.. _logic_hide_object:
 
 Hide Object
 -----------
@@ -549,6 +598,8 @@ Internal Parameters
 
 *Process child objects*
     If this parameter is enabled, child objects will be hidden as well.
+
+.. _logic_transform:
 
 Transform Object
 ----------------
@@ -598,7 +649,7 @@ Internal Parameters
 *Duration*
     Time (in seconds) that the transformation will take. It can be specified both directly or with a variable (to do this, the ``Variable`` parameter should be enabled). Set to zero by default.
 
-.. _nla_move_to:
+.. _logic_move_to:
 
 Move To
 -------
@@ -633,7 +684,7 @@ Internal Parameters
 *Duration*
     Time (in seconds) that the object will spend moving to the new location. By default, this parameter is set to zero (and in this case, the object doesn’t actually move, it just changes its position in a moment). It can be set manually or with a variable (available only if the ``Variable`` parameter is enabled).
 
-.. _nla_shape_key:
+.. _logic_shape_key:
 
 Apply Shape Key
 ---------------
@@ -668,7 +719,7 @@ Internal Parameters
 *Value*
     How much the shape key will influence the object. This value can be set directly in the node or using a variable. The value should be between 0 and 1.
 
-.. _nla_outline:
+.. _logic_outline:
 
 Outline
 -------
@@ -707,7 +758,7 @@ Internal Parameters
 *Intensity*
     Outline intensity. This parameter is only available if the ``Operation`` parameter is set to ``INTENSITY``. The value can be set manually or via variable (if the ``Variable`` parameter is enabled).
 
-.. _nla_shader_node:
+.. _logic_shader_node:
 
 Set Shader Node Param
 ---------------------
@@ -745,7 +796,7 @@ Internal Parameters
 *Parameters*
     Editable parameters of the selected node. They can be set in the node itself or through the variables (if the ``Variable`` parameter is enabled).
 
-.. _nla_inherit_material:
+.. _logic_inherit_material:
 
 Inherit Material
 ----------------
@@ -786,7 +837,7 @@ Internal Parameters
 Operations
 ==========
 
-.. _nla_var_store:
+.. _logic_var_store:
 
 Variable Store
 --------------
@@ -831,7 +882,7 @@ Internal Parameters
 *Num./Str.*
     Numeric or string (depending on the ``Var. type`` parameter value) value of the variable.
 
-.. _nla_math:
+.. _logic_math:
 
 Math Operation
 --------------
@@ -887,7 +938,7 @@ Internal Parameters
 *Destination*
     The result of the operation will be saved in the variable specified by this parameter.
 
-.. _nla_string:
+.. _logic_string:
 
 String Operation
 ----------------
@@ -943,7 +994,7 @@ Internal Parameters
 Sound
 =====
 
-.. _nla_play_sound:
+.. _logic_play_sound:
 
 Play Sound
 ----------
@@ -975,7 +1026,7 @@ Internal Parameters
 *Do Not Wait*
     If this parameter is enabled, the control will pass to the next node right after sound playback starts. If it isn’t enabled, the control will pass only when the playback is finished.
 
-.. _nla_stop_sound:
+.. _logic_stop_sound:
 
 Stop Sound
 ----------
@@ -1007,7 +1058,7 @@ Internal Parameters
 Network
 =======
 
-.. _nla_send_request:
+.. _logic_send_request:
 
 Send Request
 ------------
@@ -1064,7 +1115,7 @@ Internal Parameters
 *Request Params*
     Specifies the variable that contains a JSON object that will be sent to the server.  Available only if the ``Method`` parameter is set to ``POST``. Default value is ``R1``.
 
-.. _nla_json:
+.. _logic_json:
 
 JSON
 ----
@@ -1148,7 +1199,7 @@ Decoding this JSON object with the ``JSON`` logic node results in three variable
         "c": "abc" 
     } 
 
-.. _nla_page_param:
+.. _logic_page_param:
 
 Page Param
 ----------
@@ -1182,7 +1233,7 @@ Internal Parameters
 *Destination*
     A variable that will be used to save the parameter.
 
-.. _nla_page_redirect:
+.. _logic_page_redirect:
 
 Page Redirect
 -------------
@@ -1213,7 +1264,7 @@ Internal Parameters
 Debug
 =====
 
-.. _nla_console_print:
+.. _logic_console_print:
 
 Console Print
 -------------
@@ -1275,7 +1326,7 @@ Wait until the user selects an object (on desktops - with a mouse click, on mobi
 Layout
 ======
 
-.. _nla_empty:
+.. _logic_empty:
 
 Empty
 -----
@@ -1303,7 +1354,7 @@ Internal Parameters
 
 None.
 
-.. _nla_reroute:
+.. _logic_reroute:
 
 Reroute
 -------
@@ -1319,7 +1370,7 @@ Unlike the ``Empty`` node, ``Reroute`` element can only handle a single logic th
 .. note::
     Output parameter can’t be connected to the same node’s input parameter. If you need to do this (to make a cycle, for example), you should use ``Reroute`` elements.
 
-.. _nla_debug:
+.. _logic_debug:
 
 Debugging
 =========

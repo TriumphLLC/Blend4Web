@@ -745,7 +745,7 @@ msgstr ""
 #: ../git_short_manual.rst:290 ../git_short_manual.rst:415
 #: ../git_short_manual.rst:545
 msgid "git"
-msgstr ""
+msgstr "git"
 
 #: ../git_short_manual.rst:50
 msgid "individual settings"

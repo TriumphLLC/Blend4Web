@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-25 17:13+0300\n"
+"POT-Creation-Date: 2017-06-22 16:26+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1603,10 +1603,25 @@ msgstr ""
 msgid "Camera Velocities:"
 msgstr ""
 
+msgid "Camera horizontal limits space"
+msgstr ""
+
+msgid "Camera horizontal rotation limits space"
+msgstr ""
+
 msgid "Camera movement style"
 msgstr ""
 
+msgid "Camera space"
+msgstr ""
+
 msgid "Camera target location for 'TARGET' camera"
+msgstr ""
+
+msgid "Camera vertical limits space"
+msgstr ""
+
+msgid "Camera vertical rotation limits space"
 msgstr ""
 
 msgid "Camera:"
@@ -1742,6 +1757,9 @@ msgid "Color of fog applied to the underwater objects"
 msgstr ""
 
 msgid "Color of the shallow water"
+msgstr ""
+
+msgid "Color of the shore water"
 msgstr ""
 
 msgid "Color:"
@@ -2060,6 +2078,9 @@ msgid "Distance Factor"
 msgstr ""
 
 msgid "Distance Limits"
+msgstr ""
+
+msgid "Distance Limits:"
 msgstr ""
 
 msgid "Distance of the biggest cascade in the water mesh"
@@ -2743,6 +2764,12 @@ msgid "High Quality (Bokeh)"
 msgstr ""
 
 msgid "Hit"
+msgstr ""
+
+msgid "Hor. Rotation Limits:"
+msgstr ""
+
+msgid "Hor. Translation Limits:"
 msgstr ""
 
 msgid "Horizontal Factor"
@@ -3818,6 +3845,9 @@ msgstr ""
 msgid "Pivot Translation Limits"
 msgstr ""
 
+msgid "Pivot Translation Limits:"
+msgstr ""
+
 msgid "Plane"
 msgstr ""
 
@@ -4343,7 +4373,7 @@ msgstr ""
 msgid "Scale of the caustics effect"
 msgstr ""
 
-msgid "Scale parameter for texture warping. Height (e.g. 3 cm) is devided by the texture covering size (e.g. 1.5 m)"
+msgid "Scale parameter for texture warping. Height (e.g. 3 cm) is divided by the texture covering size (e.g. 1.5 m)"
 msgstr ""
 
 msgid "Scale threshold for dynamic grass"
@@ -4421,6 +4451,9 @@ msgstr ""
 msgid "Server stopping error: "
 msgstr ""
 
+msgid "Set Camera Limits"
+msgstr ""
+
 msgid "Set Camera Move Style"
 msgstr ""
 
@@ -4435,6 +4468,9 @@ msgid "Set Shader Node Param"
 msgstr ""
 
 msgid "Set camera Translation and pivot"
+msgstr ""
+
+msgid "Set camera limits"
 msgstr ""
 
 msgid "Set camera move style"
@@ -5263,6 +5299,12 @@ msgstr ""
 msgid "Velocity:"
 msgstr ""
 
+msgid "Vert. Rotation Limits:"
+msgstr ""
+
+msgid "Vert. Translation Limits:"
+msgstr ""
+
 msgid "Vertex Color:"
 msgstr ""
 
@@ -5379,13 +5421,13 @@ msgstr ""
 msgid "Waterline for character in vertical direction"
 msgstr ""
 
-msgid "Wave Height"
-msgstr ""
-
-msgid "Wave Length"
-msgstr ""
-
 msgid "Waves"
+msgstr ""
+
+msgid "Waves Height"
+msgstr ""
+
+msgid "Waves Length"
 msgstr ""
 
 msgid "Waves height"

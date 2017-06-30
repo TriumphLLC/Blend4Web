@@ -35,7 +35,6 @@ var m_mat       = require("material");
 
 var _quat_tmp = m_quat.create();
 var _quat_tmp2 = m_quat.create();
-var _vec2_tmp = new Float32Array(2);
 var _vec3_tmp = m_vec3.create();
 var _vec3_tmp2 = m_vec3.create();
 var _tsr_tmp = m_tsr.create();
@@ -255,11 +254,10 @@ function register_gamepad(is_hmd) {
         if (!is_hmd) {
             _dest_x_trans -= velocity.trans * COCKPIT_TRANS_FACTOR * elapsed * left_vaxis;
             _dest_z_trans += velocity.trans * COCKPIT_TRANS_FACTOR * elapsed * left_haxis;
-            var cam_angles = m_cam.get_camera_angles(obj, _vec2_tmp);
-            var vert_ang = cam_angles[1] - right_haxis * rot_value;
+            var vert_ang = - right_haxis * rot_value;
             var hor_ang = - right_vaxis * rot_value;
 
-            m_cam.eye_rotate(obj, hor_ang, vert_ang, false, true);
+            m_cam.rotate_camera(obj, hor_ang, vert_ang);
         }
     }
 

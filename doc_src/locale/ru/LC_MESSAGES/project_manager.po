@@ -99,7 +99,7 @@ msgstr "Команды для управления проектами наход
 
 #: ../project_manager.rst:44
 msgid "*Back to Index*"
-msgstr ""
+msgstr "*Back to Index*"
 
 #: ../project_manager.rst:44
 msgid "Returns to the Blend4Web SDK index page."
@@ -107,7 +107,7 @@ msgstr "Возвращает на индексную страницу Blend4Web 
 
 #: ../project_manager.rst:47
 msgid "*Create New Project*"
-msgstr ""
+msgstr "*Create New Project*"
 
 #: ../project_manager.rst:47
 msgid "Opens the :ref:`project creation <create_new_project>` wizard."
@@ -115,7 +115,7 @@ msgstr "Открывает мастер :ref:`создания новых про
 
 #: ../project_manager.rst:50
 msgid "*Import Project(s)*"
-msgstr ""
+msgstr "*Import Project(s)*"
 
 #: ../project_manager.rst:50
 msgid "Opens the :ref:`project import <import_projects>` dialogue."
@@ -123,7 +123,7 @@ msgstr "Открывает диалог :ref:`импорта проектов <i
 
 #: ../project_manager.rst:53 ../project_manager.rst:445
 msgid "*Export Project(s)*"
-msgstr ""
+msgstr "*Export Project(s)*"
 
 #: ../project_manager.rst:53
 msgid "Opens the :ref:`project export <export_projects>` page."
@@ -131,7 +131,7 @@ msgstr "Открывает страницу :ref:`экспорта проект�
 
 #: ../project_manager.rst:56 ../project_manager.rst:439
 msgid "*Hide Stock Projects*"
-msgstr ""
+msgstr "*Hide Stock Projects*"
 
 #: ../project_manager.rst:56
 msgid ""
@@ -145,7 +145,7 @@ msgstr ""
 #: ../project_manager.rst:60 ../project_manager.rst:223
 #: ../project_manager.rst:442
 msgid "*Help*"
-msgstr ""
+msgstr "*Help*"
 
 #: ../project_manager.rst:59
 msgid "Opens the :ref:`Help file <project_manager>`."
@@ -198,6 +198,8 @@ msgid ""
 "`Module \\`module_name\\` is missing in the \\`project_name.html\\` "
 "project, please include it or run \\`Update Modules\\`.`"
 msgstr ""
+"`Module \\`module_name\\` is missing in the \\`project_name.html\\` "
+"project, please include it or run \\`Update Modules\\`.`"
 
 #: ../project_manager.rst:82
 msgid ""
@@ -220,6 +222,8 @@ msgid ""
 "`Incorrect module \\`module_name\\` in the \\`project_name.html\\`, "
 "please remove it or run \\`Update Modules\\`.`"
 msgstr ""
+"`Incorrect module \\`module_name\\` in the \\`project_name.html\\`, "
+"please remove it or run \\`Update Modules\\`.`"
 
 #: ../project_manager.rst:91
 msgid ""
@@ -242,6 +246,8 @@ msgid ""
 "`Module check complete. No problems detected in the "
 "\\`module_name.html\\`.`"
 msgstr ""
+"`Module check complete. No problems detected in the "
+"\\`module_name.html\\`.`"
 
 #: ../project_manager.rst:100
 msgid "Re-export blend files from the project."
@@ -304,7 +310,7 @@ msgstr ""
 
 #: ../project_manager.rst:119
 msgid "*Player*"
-msgstr ""
+msgstr "*Player*"
 
 #: ../project_manager.rst:119
 msgid "The application can be played using the Web Player."
@@ -312,7 +318,7 @@ msgstr "Приложение запускается при помощи веб-�
 
 #: ../project_manager.rst:122
 msgid "*Dev*"
-msgstr ""
+msgstr "*Dev*"
 
 #: ../project_manager.rst:122
 msgid "Application for development."
@@ -320,7 +326,7 @@ msgstr "Приложение для разработки"
 
 #: ../project_manager.rst:126
 msgid "*Build*"
-msgstr ""
+msgstr "*Build*"
 
 #: ../project_manager.rst:125
 msgid "Compiled application."
@@ -611,7 +617,7 @@ msgstr "Команды"
 
 #: ../project_manager.rst:220 ../project_manager.rst:436
 msgid "*Back to Projects*"
-msgstr ""
+msgstr "*Back to Projects*"
 
 #: ../project_manager.rst:220
 msgid "Returns to the Project Manager's main page."
@@ -627,7 +633,7 @@ msgstr "Параметры проекта"
 
 #: ../project_manager.rst:229
 msgid "*Project Name*"
-msgstr ""
+msgstr "*Project Name*"
 
 #: ../project_manager.rst:229 ../project_manager.rst:322
 #: ../project_manager.rst:654
@@ -636,11 +642,11 @@ msgstr "Имя проекта"
 
 #: ../project_manager.rst:232
 msgid "*Project Title*"
-msgstr ""
+msgstr "*Project Title*"
 
 #: ../project_manager.rst:235
 msgid "*Project Author / Company*"
-msgstr ""
+msgstr "*Project Author / Company*"
 
 #: ../project_manager.rst:235 ../project_manager.rst:330
 #: ../project_manager.rst:651
@@ -649,7 +655,7 @@ msgstr "Имя автора проекта или название компан�
 
 #: ../project_manager.rst:238
 msgid "*Project Icon*"
-msgstr ""
+msgstr "*Project Icon*"
 
 #: ../project_manager.rst:238 ../project_manager.rst:660
 msgid "The icon of the project."
@@ -657,7 +663,7 @@ msgstr "Пиктограмма проекта."
 
 #: ../project_manager.rst:241
 msgid "*Applications*"
-msgstr ""
+msgstr "*Applications*"
 
 #: ../project_manager.rst:241 ../project_manager.rst:687
 msgid "Project applications."
@@ -665,7 +671,7 @@ msgstr "Приложения проекта."
 
 #: ../project_manager.rst:244
 msgid "*Engine Binding Type*"
-msgstr ""
+msgstr "*Engine Binding Type*"
 
 #: ../project_manager.rst:244 ../project_manager.rst:349
 #: ../project_manager.rst:693
@@ -674,7 +680,7 @@ msgstr "Тип собираемого проекта."
 
 #: ../project_manager.rst:247
 msgid "*Project Path (Development Directory)*"
-msgstr ""
+msgstr "*Project Path (Development Directory)*"
 
 #: ../project_manager.rst:247
 msgid "Project's directory."
@@ -682,7 +688,7 @@ msgstr "Каталог проекта."
 
 #: ../project_manager.rst:250
 msgid "*Project Config*"
-msgstr ""
+msgstr "*Project Config*"
 
 #: ../project_manager.rst:250
 msgid "Project's config file."
@@ -690,7 +696,7 @@ msgstr "Конфигурационный файл проекта."
 
 #: ../project_manager.rst:253
 msgid "*Build Directory*"
-msgstr ""
+msgstr "*Build Directory*"
 
 #: ../project_manager.rst:253 ../project_manager.rst:677
 msgid "Project build directory."
@@ -698,7 +704,7 @@ msgstr "Каталог, содержащий скомпилированный п
 
 #: ../project_manager.rst:256 ../project_manager.rst:379
 msgid "*Blend Directory(s)*"
-msgstr ""
+msgstr "*Blend Directory(s)*"
 
 #: ../project_manager.rst:256 ../project_manager.rst:671
 msgid "Directories where project's blend files are located."
@@ -706,7 +712,7 @@ msgstr "Каталоги, в которых располагаются blend-ф�
 
 #: ../project_manager.rst:259 ../project_manager.rst:382
 msgid "*Assets Directory(s)*"
-msgstr ""
+msgstr "*Assets Directory(s)*"
 
 #: ../project_manager.rst:259 ../project_manager.rst:668
 msgid "Directories where project's media assets are located."
@@ -714,7 +720,7 @@ msgstr "Каталоги, в которых располагаются меди�
 
 #: ../project_manager.rst:262
 msgid "*URL Params*"
-msgstr ""
+msgstr "*URL Params*"
 
 #: ../project_manager.rst:262
 msgid ""
@@ -726,7 +732,7 @@ msgstr ""
 
 #: ../project_manager.rst:265 ../project_manager.rst:356
 msgid "*JavaScript Obfuscation Level*"
-msgstr ""
+msgstr "*JavaScript Obfuscation Level*"
 
 #: ../project_manager.rst:265 ../project_manager.rst:702
 msgid "JavaScript optimization level."
@@ -734,7 +740,7 @@ msgstr "Уровень оптимизации javascript."
 
 #: ../project_manager.rst:268 ../project_manager.rst:359
 msgid "*JS Compilation Pass-Through List*"
-msgstr ""
+msgstr "*JS Compilation Pass-Through List*"
 
 #: ../project_manager.rst:268 ../project_manager.rst:359
 #: ../project_manager.rst:699
@@ -745,7 +751,7 @@ msgstr "Список исключений для компиляции JavaScript
 
 #: ../project_manager.rst:271 ../project_manager.rst:362
 msgid "*CSS Compilation Pass-Through List*"
-msgstr ""
+msgstr "*CSS Compilation Pass-Through List*"
 
 #: ../project_manager.rst:271 ../project_manager.rst:690
 msgid ""
@@ -755,7 +761,7 @@ msgstr "Список исключений для компиляции табли
 
 #: ../project_manager.rst:274 ../project_manager.rst:365
 msgid "*Build Ignore List*"
-msgstr ""
+msgstr "*Build Ignore List*"
 
 #: ../project_manager.rst:274 ../project_manager.rst:365
 #: ../project_manager.rst:696
@@ -764,7 +770,7 @@ msgstr "Список исключений для сборок проекта."
 
 #: ../project_manager.rst:277 ../project_manager.rst:394
 msgid "*Deployment Assets Directory*"
-msgstr ""
+msgstr "*Deployment Assets Directory*"
 
 #: ../project_manager.rst:277 ../project_manager.rst:394
 #: ../project_manager.rst:718
@@ -773,7 +779,7 @@ msgstr "Каталог, который будет содержать медиа�
 
 #: ../project_manager.rst:280 ../project_manager.rst:397
 msgid "*Deployment Assets URL Prefix*"
-msgstr ""
+msgstr "*Deployment Assets URL Prefix*"
 
 #: ../project_manager.rst:280 ../project_manager.rst:397
 #: ../project_manager.rst:721
@@ -786,7 +792,7 @@ msgstr ""
 
 #: ../project_manager.rst:283 ../project_manager.rst:400
 msgid "*Deployment Ignore List*"
-msgstr ""
+msgstr "*Deployment Ignore List*"
 
 #: ../project_manager.rst:283 ../project_manager.rst:400
 #: ../project_manager.rst:724
@@ -871,7 +877,7 @@ msgstr "Группа параметров ``Info``"
 
 #: ../project_manager.rst:324 ../project_manager.rst:454
 msgid "*Name*"
-msgstr ""
+msgstr "*Name*"
 
 #: ../project_manager.rst:324 ../project_manager.rst:373
 msgid "This is a read-only parameter."
@@ -879,15 +885,15 @@ msgstr "Этот параметр доступен только для чтен�
 
 #: ../project_manager.rst:327 ../project_manager.rst:457
 msgid "*Title*"
-msgstr ""
+msgstr "*Title*"
 
 #: ../project_manager.rst:330 ../project_manager.rst:460
 msgid "*Author*"
-msgstr ""
+msgstr "*Author*"
 
 #: ../project_manager.rst:335
 msgid "*Icon*"
-msgstr ""
+msgstr "*Icon*"
 
 #: ../project_manager.rst:333
 msgid "The icon of the project in the Project Manager."
@@ -907,23 +913,27 @@ msgstr "Группа параметров ``Build``"
 
 #: ../project_manager.rst:341
 msgid "*Apps*"
-msgstr ""
+msgstr "*Apps*"
 
 #: ../project_manager.rst:341
 msgid ""
 "The list of the project's ``.HTML`` files that are used for compiling "
 "applications. Each ``.HTML`` file is considered a separate application."
 msgstr ""
+"Список ``.HTML`` файлов проекта, используемых при компиляции приложений. "
+"Каждый ``.HTML`` файл, указанный здесь, будет считаться отдельным независимым приложением."
 
 #: ../project_manager.rst:346
 msgid "*Use Physics*"
-msgstr ""
+msgstr "*Use Physics*"
 
 #: ../project_manager.rst:344
 msgid ""
 "Enables and disables adding physics engine files to the project. Can be "
 "turned off if the project does not use physics."
 msgstr ""
+"Определяет, добавлять ли файлы физического движка в проект. Может быть "
+"отключено в случае, если проект не использует физику."
 
 #: ../project_manager.rst:346
 msgid ""
@@ -931,10 +941,13 @@ msgid ""
 "always enabled for a WebPlayer JSON type. For other types of projects, it"
 " can be set manually."
 msgstr ""
+"Данная опция всегда отключена для проектов типа WebPlayer HTML и всегда "
+"включена для типа WebPlayer JSON. У проектов всех остальных типов может "
+"быть установлена вручную."
 
 #: ../project_manager.rst:351
 msgid "*Application Type*"
-msgstr ""
+msgstr "*Application Type*"
 
 #: ../project_manager.rst:351
 msgid ""
@@ -953,6 +966,8 @@ msgid ""
 "This parameter is read-only for the None, WebPlayer HTML and WebPlayer "
 "JSON type projects."
 msgstr ""
+"Для проектов типа None, WebPlayer HTML и WebPlayer JSON доступен только "
+"для чтения."
 
 #: ../project_manager.rst:362
 msgid "The list of pass-through exceptions for the project's CSS files."
@@ -964,7 +979,7 @@ msgstr "Группа параметров ``Paths``"
 
 #: ../project_manager.rst:373
 msgid "*Developer Project Path*"
-msgstr ""
+msgstr "*Developer Project Path*"
 
 #: ../project_manager.rst:371
 msgid "The path to the application for development."
@@ -972,7 +987,7 @@ msgstr "Путь к версии приложения, предназначен�
 
 #: ../project_manager.rst:376
 msgid "*Build Project Path*"
-msgstr ""
+msgstr "*Build Project Path*"
 
 #: ../project_manager.rst:376
 msgid "The path to the compiled application."
@@ -980,7 +995,7 @@ msgstr "Путь к скомпилированному приложению."
 
 #: ../project_manager.rst:379
 msgid "Path(s) to the blend file directory(ies)."
-msgstr ""
+msgstr "Путь(и) к каталогу(ам) blend-файлов."
 
 #: ../project_manager.rst:382
 msgid "Path(s) to the assets directory(ies)."
@@ -988,7 +1003,7 @@ msgstr "Путь(и) к каталогу(ам) медиаресурсов."
 
 #: ../project_manager.rst:385
 msgid "*Blender Exec*"
-msgstr ""
+msgstr "*Blender Exec*"
 
 #: ../project_manager.rst:385
 msgid "The path to the Blender executable file."
@@ -996,7 +1011,7 @@ msgstr "Путь к исполняемому файлу Blender."
 
 #: ../project_manager.rst:388
 msgid "*Deployment Path*"
-msgstr ""
+msgstr "*Deployment Path*"
 
 #: ../project_manager.rst:388
 msgid "The path to the folder for project final deployment."
@@ -1008,7 +1023,7 @@ msgstr "Группа параметров ``Deploy``"
 
 #: ../project_manager.rst:403
 msgid "*Override Deployment Path*"
-msgstr ""
+msgstr "*Override Deployment Path*"
 
 #: ../project_manager.rst:403
 msgid "Deletes deployment directory, if it already exists."
@@ -1016,7 +1031,7 @@ msgstr "Удалить директорию размещения, если он�
 
 #: ../project_manager.rst:406
 msgid "URL GET Params"
-msgstr ""
+msgstr "URL GET Params"
 
 #: ../project_manager.rst:408
 msgid ""
@@ -1084,7 +1099,7 @@ msgstr "Экспортировать выбранные проекты."
 
 #: ../project_manager.rst:451
 msgid "*Select*"
-msgstr ""
+msgstr "*Select*"
 
 #: ../project_manager.rst:451
 msgid "Shows if the project is selected for export."
@@ -1100,7 +1115,7 @@ msgstr "Заголовок проекта."
 
 #: ../project_manager.rst:463
 msgid "*Archive Name*"
-msgstr ""
+msgstr "*Archive Name*"
 
 #: ../project_manager.rst:463
 msgid "The name of an archive to which exported projects are packed."
@@ -1376,19 +1391,19 @@ msgstr "Содержит метаданные проекта:"
 
 #: ../project_manager.rst:651
 msgid "*author*"
-msgstr ""
+msgstr "*author*"
 
 #: ../project_manager.rst:654
 msgid "*name*"
-msgstr ""
+msgstr "*name*"
 
 #: ../project_manager.rst:657
 msgid "*title*"
-msgstr ""
+msgstr "*title*"
 
 #: ../project_manager.rst:660
 msgid "*icon*"
-msgstr ""
+msgstr "*icon*"
 
 #: ../project_manager.rst:663
 msgid "Section ``[paths]``"
@@ -1400,15 +1415,15 @@ msgstr "Содержи пути проекта:"
 
 #: ../project_manager.rst:668
 msgid "*assets_dirs*"
-msgstr ""
+msgstr "*assets_dirs*"
 
 #: ../project_manager.rst:671
 msgid "*blend_dirs*"
-msgstr ""
+msgstr "*blend_dirs*"
 
 #: ../project_manager.rst:674
 msgid "*blender_exec*"
-msgstr ""
+msgstr "*blender_exec*"
 
 #: ../project_manager.rst:674
 msgid "Path to Blender executable."
@@ -1416,11 +1431,11 @@ msgstr "Путь к исполняемому файлу Blender."
 
 #: ../project_manager.rst:677
 msgid "*build_dir*"
-msgstr ""
+msgstr "*build_dir*"
 
 #: ../project_manager.rst:681
 msgid "*deploy_dir*"
-msgstr ""
+msgstr "*deploy_dir*"
 
 #: ../project_manager.rst:680
 msgid "Project deployment directory."
@@ -1432,31 +1447,31 @@ msgstr "Раздел ``[compile]``"
 
 #: ../project_manager.rst:687
 msgid "*apps*"
-msgstr ""
+msgstr "*apps*"
 
 #: ../project_manager.rst:690
 msgid "*css_ignore*"
-msgstr ""
+msgstr "*css_ignore*"
 
 #: ../project_manager.rst:693
 msgid "*engine_type*"
-msgstr ""
+msgstr "*engine_type*"
 
 #: ../project_manager.rst:696 ../project_manager.rst:724
 msgid "*ignore*"
-msgstr ""
+msgstr "*ignore*"
 
 #: ../project_manager.rst:699
 msgid "*js_ignore*"
-msgstr ""
+msgstr "*js_ignore*"
 
 #: ../project_manager.rst:702
 msgid "*optimization*"
-msgstr ""
+msgstr "*optimization*"
 
 #: ../project_manager.rst:705
 msgid "*use_physics*"
-msgstr ""
+msgstr "*use_physics*"
 
 #: ../project_manager.rst:705
 msgid ""
@@ -1468,7 +1483,7 @@ msgstr ""
 
 #: ../project_manager.rst:708
 msgid "*use_smaa_textures*"
-msgstr ""
+msgstr "*use_smaa_textures*"
 
 #: ../project_manager.rst:708
 msgid ""
@@ -1480,7 +1495,7 @@ msgstr ""
 
 #: ../project_manager.rst:712
 msgid "*version*"
-msgstr ""
+msgstr "*version*"
 
 #: ../project_manager.rst:711
 msgid "Project version."
@@ -1492,15 +1507,15 @@ msgstr "Раздел ``[deploy]``"
 
 #: ../project_manager.rst:718
 msgid "*assets_path_dest*"
-msgstr ""
+msgstr "*assets_path_dest*"
 
 #: ../project_manager.rst:721
 msgid "*assets_path_prefix*"
-msgstr ""
+msgstr "*assets_path_prefix*"
 
 #: ../project_manager.rst:728
 msgid "*override*"
-msgstr ""
+msgstr "*override*"
 
 #: ../project_manager.rst:727
 msgid ""

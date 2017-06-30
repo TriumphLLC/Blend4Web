@@ -116,6 +116,7 @@ _du_remove_action \
 _du_activate \
 _du_disable_deactivation \
 _du_set_linear_velocity \
+_du_set_angular_velocity \
 _du_apply_central_force \
 _du_apply_torque \
 _du_update_vehicle_controls \

@@ -377,6 +377,39 @@ Physics Tab
 *Character*
     Use the object for character physics. The character settings are described in detail in the :ref:`physics <physics>` section.
 
+.. _objects_constraints:
+
+Object Constraints
+==================
+
+Blend4Web engine supports the following object constraints:
+
+* ``Copy Location``,
+
+* ``Copy Rotation``,
+
+* ``Copy Transforms`` and
+
+* ``Track To``.
+
+.. note::
+
+    When object constraints are used in Blend4Web, the ``Space`` parameter is not taken into account (it is always set to ``World Space``).
+
+These constraints can be set up directly in Blender. Other types of constraints are not currently supported, but some API methods from the :b4wmod:`constraints` module act similarly. This include:
+
+* the ``Copy Location`` constraint can be emulated with the :b4wref:`constraints.append_copy_loc()`
+
+* the ``Copy Rotation`` constraint works similarly to the :b4wref:`constraints.append_copy_rot()` method.
+
+* the ``Copy Transforms`` constraint works similarly to the :b4wref:`constraints.append_copy_trans()` method.
+
+* The ``Limit Distance`` constraint can be emulated with the :b4wref:`constraints.append_follow()` method, though it should be noted that this method does not set a precise distance between objects (instead, it set a minimum and maximum possible distances).
+
+* the ``Track To`` constraint can be replaced with the :b4wref:`constraints.append_track()` method.
+
+Other constraints do not have distinctive counterparts in the API, although their behavior can be to certain extent imitated using API methods.
+
 .. _objects_anchors:
 
 Anchor Settings
@@ -579,7 +612,7 @@ Object selection is possible programmatically via API, for example, in the ``sce
     var obj = m_scenes.pick_object(x, y);
     // ...
 
-or using the :ref:`Logic Editor <nla_switch_select>`.
+or using the :ref:`Logic Editor <logic_switch_select>`.
 
 If the selectable object has enabled ``Enable Outlining`` and ``Outline on Select`` checkboxes on the ``Object > Selection`` and Outlining panel, then the ``pick_object`` function call will activate :ref:`outline glow animation <outline>`.
 

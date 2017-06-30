@@ -134,7 +134,7 @@ exports.calc_pline_point = m_math.calc_pline_point;
  * @param {Plane} plane Plane.
  * @returns {number} Distance.
  */
-
+exports.point_plane_dist = m_math.point_plane_dist;
 /**
  * Interpolate value with no easing, no acceleration.
  * @method module:math.linear_tween

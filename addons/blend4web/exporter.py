@@ -547,6 +547,7 @@ def obj_has_nonuniform_scale(obj):
 def obj_auto_apply_modifiers(obj):
     if ('b4w_apply_modifiers' in obj.keys()
             or find_modifier(obj, "ARMATURE")
+            or find_modifier(obj, "ARRAY")
             or obj.b4w_loc_export_vertex_anim):
         return False
     else:
@@ -1462,6 +1463,13 @@ def process_scene_nla(scene, scene_data):
                     else:
                         force_mute_node(slot_data, "Object is not selected or not exported.")
 
+            elif slot['type'] == "SET_CAMERA_LIMITS":
+                obj = logic_node_tree.object_by_path(bpy.data.objects, slot["objects_paths"]["id0"])
+                if (obj and do_export(obj) and object_is_valid(obj)):
+                    pass
+                else:
+                    force_mute_node(slot_data, "Object is not selected or not exported.")
+
             elif slot['type'] == "MOVE_TO":
                 check_objects_paths(slot, slot_data)
 
@@ -1761,8 +1769,7 @@ def process_object(obj, is_curve=False, is_hair=False):
         process_object_modifiers(obj_data["modifiers"], obj.modifiers, obj)
 
     if not is_hair:
-        obj_data["constraints"] = process_constraints(obj.constraints,
-                                        "object: \"" + obj.name + "\"")
+        obj_data["constraints"] = process_constraints(obj, True)
         obj_data["particle_systems"] = process_object_particle_systems(obj, data)
     else:
         obj_data["constraints"] = []
@@ -2161,8 +2168,7 @@ def process_object_pose(obj_data, obj, pose):
             pose_bone_data["matrix_basis"] = round_iterable(mb, 5)
 
             comp_name = "bone: \"" + pose_bone.name + "\" in object: \"" + obj.name + "\""
-            pose_bone_data["constraints"] = process_constraints(pose_bone.constraints,
-                                                                comp_name)
+            pose_bone_data["constraints"] = process_constraints(pose_bone, False)
 
             obj_data["pose"]["bones"].append(pose_bone_data)
 
@@ -3015,7 +3021,12 @@ def process_mesh(mesh, obj_user):
             else:
                 material = get_default_material()
 
+            has_uv = len(mesh.uv_layers) > 0
             use_tnb_shading = check_material_tangent_shading(material)
+            if use_tnb_shading and not has_uv:
+                warn("Object:\"" + _curr_stack["object"][-1].name + "\" > " +
+                        "Material:\"" + material.name + "\". Material " + 
+                        "tangent shading is enabled, but object's mesh has no UV map.")
             if do_export(material):
                 if material.type == "HALO":
                     disab_flat = True
@@ -3024,7 +3035,7 @@ def process_mesh(mesh, obj_user):
                 submesh_data = export_submesh(mesh, mesh_ptr, obj_user,
                         obj_ptr, mat_index, disab_flat, vertex_animation,
                         edited_normals, shape_keys, vertex_groups, mesh_data, 
-                        use_tnb_shading)
+                        use_tnb_shading and has_uv)
                 mesh_data["submeshes"].append(submesh_data)
     else:
         submesh_data = export_submesh(mesh, mesh_ptr, obj_user, obj_ptr, -1,
@@ -4149,49 +4160,98 @@ def process_modifier(modifier_data, mod, current_obj):
 
     return True
 
-def process_constraints(constraints, const_holder_name):
+def process_constraints(obj, do_err):
     """export constraints (target attribute can have link to other objects)"""
-
+    constraints = obj.constraints
     constraints_data = []
     for cons in constraints:
         cons_data = OrderedDict()
         cons_data["name"] = cons.name
-
-        if process_constraint(cons_data, cons, const_holder_name):
+        if process_constraint(cons_data, cons) and (not cons.mute or
+                    cons.type == "LOCKED_TRACK" and cons.name == "REFLECTION PLANE"):
             cons_data["mute"] = cons.mute
             cons_data["type"] = cons.type
-
-            constraints_data.append(cons_data)
+            if check_constr_validation(obj):
+                if cons.is_valid or cons.type == "LOCKED_TRACK" and cons.name == "REFLECTION PLANE":
+                    constraints_data.append(cons_data)
+                elif do_err:
+                    err("Object:\"" + _curr_stack["object"][-1].name + "\" > " +
+                            "Constraint:\"" + cons.name + "\". Check constraint settings.")
+            else:
+                err("Object:\"" + _curr_stack["object"][-1].name
+                        + "\". Constraint recursion is forbidden.")
+        # else:
+        #     err("Object:\"" + _curr_stack["object"][-1].name + "\" > " +
+        #             "Constraint:\"" + cons.name + "\". Unsupported constraint type: " +
+        #             "\"" + cons.type + "\".")
 
     return constraints_data
 
-def process_constraint(cons_data, cons, const_holder_name):
-    result = True
+def check_constr_validation(obj):
+    visited = []
+    processed = [obj]
+    return check_constr_rec_validation(obj, visited, processed)
+
+def check_constr_rec_validation(obj, visited, processed):
+    valid = True
+    for constr in obj.constraints:
+        target = constr.target
+        if constr.is_valid and target:
+            if target in processed:
+                return False
+            else:
+                processed.append(target)
+                valid = valid and check_constr_rec_validation(target, visited, processed)
+                processed.remove(target)
+                visited.append(target)
+    return valid
+
+
+def process_constraint(cons_data, cons):
     if cons.type == "COPY_TRANSFORMS":
 
-        cons_data["target"] = obj_cons_target(cons, const_holder_name)
+        cons_data["target"] = obj_cons_target(cons)
         cons_data["subtarget"] = cons.subtarget
-        result = bool(cons_data["target"])
+        cons_data["influence"] = cons.influence
+
+        return True
 
     elif (cons.type == "COPY_LOCATION" or cons.type == "COPY_ROTATION" or
             cons.type == "COPY_SCALE"):
 
-        cons_data["target"] = obj_cons_target(cons, const_holder_name)
+        cons_data["target"] = obj_cons_target(cons)
         cons_data["subtarget"] = cons.subtarget
-        cons_data["use_x"] = cons.use_x
-        # z <-> y
-        cons_data["use_y"] = cons.use_z
-        cons_data["use_z"] = cons.use_y
-        result = bool(cons_data["target"])
+        cons_data["use_offset"] = cons.use_offset
+        cons_data["influence"] = cons.influence
+        if cons.type != "COPY_SCALE":
+            x = -1 if cons.invert_x else 1
+            x = x if cons.use_x else 0
+            y = -1 if cons.invert_y else 1
+            y = y if cons.use_y else 0
+            z = -1 if cons.invert_z else 1
+            z = z if cons.use_z else 0
+            cons_data["axes"] = [x, y, z]
+        else:
+            cons_data["axes"] = [1, 1, 1]
+
+        return True
+
+    elif cons.type == "TRACK_TO":
+        cons_data["target"] = obj_cons_target(cons)
+        cons_data["track_axis"] = cons.track_axis
+        cons_data["up_axis"] = cons.up_axis
+        cons_data["use_target_z"] = cons.use_target_z
+        cons_data["influence"] = cons.influence
+
+        return True
 
     elif cons.type == "LOCKED_TRACK" and cons.name == "REFLECTION PLANE":
-        if not cons.target:
-            return False
-        cons_data["target"] = obj_cons_target(cons, const_holder_name)
-        result = bool(cons_data["target"])
+        cons_data["target"] = obj_cons_target(cons)
+
+        return True
 
     elif cons.type == "RIGID_BODY_JOINT":
-        cons_data["target"] = obj_cons_target(cons, const_holder_name)
+        cons_data["target"] = obj_cons_target(cons)
 
         cons_data["pivot_type"] = cons.pivot_type
 
@@ -4225,10 +4285,9 @@ def process_constraint(cons_data, cons, const_holder_name):
         cons_data["limit_angle_min_x"] = round_num(cons.limit_angle_min_x, 4)
         cons_data["limit_angle_min_y"] = round_num(cons.limit_angle_min_y, 4)
         cons_data["limit_angle_min_z"] = round_num(cons.limit_angle_min_z, 4)
+        return True
 
-        result = bool(cons_data["target"])
-
-    return result
+    return False
 
 def process_object_lod_levels(obj):
     """export lods"""
@@ -4270,10 +4329,8 @@ def process_object_lod_levels(obj):
 
     return lod_levels_data
 
-def obj_cons_target(cons, const_holder_name):
+def obj_cons_target(cons):
     if not cons.target:
-        err("Object constraint has no target. " +
-                          "Check " + const_holder_name)
         return None
 
     if cons.target and object_is_valid(cons.target):

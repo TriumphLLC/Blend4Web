@@ -1351,8 +1351,12 @@ function mouse_down_cb(event) {
             cb(event.which);
     }
 
-    if (device.prevent_default)
+    if (device.prevent_default) {
+        // need to set focus for keyboard events if the engine works inside an iframe
+        if (window.frameElement)
+            window.frameElement.focus();
         event.preventDefault();
+    }
 
     // remove unused callbacks
     for (var i = 0; i < device.mouse_down_which_cb_list.length; i++)

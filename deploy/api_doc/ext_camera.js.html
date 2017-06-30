@@ -60,7 +60,6 @@
 b4w.module["camera"] = function(exports, require) {
 
 var m_cam      = require("__camera");
-var m_cons     = require("__constraints");
 var m_cont     = require("__container");
 var m_mat4     = require("__mat4");
 var m_math     = require("__math");
@@ -197,7 +196,8 @@ var _limits_tmp2 = {};
  * @typedef {Object} TargetCameraParams
  * @property {?Vec3} [pos=null] Position of the camera. Set to null to keep the 
  * current camera position.
- * @property {Vec3} pivot Camera pivot point.
+ * @property {Vec3} [pivot=null] Camera pivot point. If set to null, when the 
+ * current view vector of unit length will be used to define the pivot point.
  * @property {?HorizontalRotationLimits} [horiz_rot_lim=null] Horizontal 
  * rotation limits. Set to null to disable the limits.
  * @property {?VerticalRotationLimits} [vert_rot_lim=null] Vertical rotation 
@@ -240,9 +240,9 @@ var _limits_tmp2 = {};
  * @property {number} [dist_interval=0] A distance variation around the established 
  * distance to the pivot: distance ± dist_interval/2. The resulted distance 
  * limits are clamped to be in range [0, +∞].
- * @property {number} [angle_interval=0] A hover angle variation around the established
- * hover angle: hover angle ± angle_interval/2. The resulted hover angle limits 
- * are clamped to be in range [-PI/2, 0].
+ * @property {number} [angle_interval=0] A hover angle variation (in radians)
+ * around the established hover angle: hover angle ± angle_interval/2. The 
+ * resulted hover angle limits are clamped to be in range [-PI/2, 0].
  * @property {number} [t=0.5] An optional parameter which lies in range [0, 1] 
  * and defines the disposition of the given angle and distance intervals around 
  * the established values, for example: 
@@ -438,7 +438,7 @@ exports.eye_set_look_at = function(camobj, pos, look_at) {
     else
         m_trans.set_translation(camobj, pos);
 
-    m_cons.correct_up(camobj, camobj.render.vertical_axis, true);
+    m_cam.correct_up(camobj, camobj.render.vertical_axis, true);
 
     m_trans.update_transform(camobj);
     m_phy.sync_transform(camobj);
@@ -447,29 +447,25 @@ exports.eye_set_look_at = function(camobj, pos, look_at) {
 /**
  * Rotate the EYE camera counterclockwise (CCW) around its origin by the given angles.
  * Performs delta rotation or sets the camera's absolute rotation depending on 
- * the "*_is_abs" parameters.
+ * the "is_abs" parameter.
  * @see https://www.blend4web.com/doc/en/camera.html#camera-spherical-coordinates
  * @method module:camera.eye_rotate
  * @param {Object3D} camobj Camera 3D-object.
  * @param {number} phi Azimuth angle in radians.
  * @param {number} theta Elevation angle in radians.
- * @param {boolean} [phi_is_abs=false] Performs delta rotation if FALSE, sets 
+ * @param {boolean} [is_abs=false] Performs delta rotation if FALSE, sets 
  * camera's absolute rotation if TRUE.
- * @param {boolean} [theta_is_abs=false] Performs delta rotation if FALSE, sets 
- * camera's absolute rotation if TRUE.
+ * @deprecated [17.06] Use {@link module:camera.rotate_camera} instead
  */
-exports.eye_rotate = function(camobj, phi, theta, phi_is_abs, theta_is_abs) {
+exports.eye_rotate = function(camobj, phi, theta, is_abs) {
+    m_print.error_deprecated("eye_rotate", "rotate_camera");
     if (!m_cam.is_eye_camera(camobj)) {
         m_print.error("eye_rotate(): Wrong camera object or camera move style");
         return;
     }
 
-    phi_is_abs = phi_is_abs || false;
-    theta_is_abs = theta_is_abs || false;
-    m_cam.rotate_eye_camera(camobj, phi, theta, phi_is_abs, theta_is_abs);
-
-    m_trans.update_transform(camobj);
-    m_phy.sync_transform(camobj);
+    is_abs = is_abs || false;
+    exports.rotate_camera(camobj, phi, theta, is_abs);
 }
 
 /**
@@ -632,7 +628,12 @@ exports.target_setup = function(camobj, params) {
     camobj.render.move_style = m_cam.MS_TARGET_CONTROLS;
 
     var pos = params.pos || m_tsr.get_trans_view(camobj.render.world_tsr);
-    m_cam.setup_target_model(camobj, pos, params.pivot, params.horiz_rot_lim, 
+    var pivot = params.pivot;
+    if (!pivot) {
+        var view_vec = get_view_vector(camobj, _vec3_tmp);
+        pivot = m_vec3.add(pos, view_vec, view_vec);
+    }
+    m_cam.setup_target_model(camobj, pos, pivot, params.horiz_rot_lim, 
             params.vert_rot_lim, params.dist_lim, params.pivot_lim, 
             params.use_panning || false);
 
@@ -647,29 +648,26 @@ exports.target_setup = function(camobj, params) {
  * Rotate the TARGET camera counterclockwise (CCW) around its pivot by the given 
  * angles.
  * Performs delta rotation or sets the camera's absolute rotation depending on 
- * the "*_is_abs" parameters.
+ * the "is_abs" parameter.
  * @see https://www.blend4web.com/doc/en/camera.html#camera-spherical-coordinates
  * @method module:camera.target_rotate
  * @param {Object3D} camobj Camera 3D-object.
  * @param {number} phi Azimuth angle in radians.
  * @param {number} theta Elevation angle in radians.
- * @param {boolean} [phi_is_abs=false] Performs delta rotation if FALSE, sets 
+ * @param {boolean} [is_abs=false] Performs delta rotation if FALSE, sets 
  * camera's absolute rotation if TRUE.
- * @param {boolean} [theta_is_abs=false] Performs delta rotation if FALSE, sets 
- * camera's absolute rotation if TRUE.
+ * @deprecated [17.06] Use {@link module:camera.rotate_camera} instead
  */
-exports.target_rotate = function(camobj, phi, theta, phi_is_abs, theta_is_abs) {
+exports.target_rotate = function(camobj, phi, theta, is_abs) {
+    m_print.error_deprecated("target_rotate", "rotate_camera");
     if (!m_cam.is_target_camera(camobj)) {
         m_print.error("target_rotate(): Wrong camera object or camera move style");
         return;
     }
 
-    phi_is_abs = phi_is_abs || false;
-    theta_is_abs = theta_is_abs || false;
-    m_cam.rotate_target_camera(camobj, phi, theta, phi_is_abs, theta_is_abs);
-
-    m_trans.update_transform(camobj);
-    m_phy.sync_transform(camobj);
+    is_abs = is_abs || false;
+    
+    exports.rotate_camera(camobj, phi, theta, is_abs);
 }
 
 /**
@@ -1174,28 +1172,26 @@ exports.hover_setup = function(camobj, params) {
 /**
  * Rotate the HOVER camera around its pivot by the given angles.
  * Performs delta rotation or sets the camera's absolute rotation depending on 
- * the "*_is_abs" parameters.
+ * the "is_abs" parameter.
  * @see https://www.blend4web.com/doc/en/camera.html#camera-spherical-coordinates
  * @method module:camera.hover_rotate
  * @param {Object3D} camobj Camera 3D-object.
  * @param {number} phi Azimuth angle in radians
  * @param {number} theta Elevation angle in radians
- * @param {boolean} [phi_is_abs=false] Performs delta rotation if FALSE, sets 
+ * @param {boolean} [is_abs=false] Performs delta rotation if FALSE, sets 
  * camera's absolute rotation if TRUE.
- * @param {boolean} [theta_is_abs=false] Performs delta rotation if FALSE, sets 
- * camera's absolute rotation if TRUE.
+ * @deprecated [17.06] Use {@link module:camera.rotate_camera} instead
  */
-exports.hover_rotate = function(camobj, phi, theta, phi_is_abs, theta_is_abs) {
+exports.hover_rotate = function(camobj, phi, theta, is_abs) {
+    m_print.error_deprecated("hover_rotate", "rotate_camera");
     if (!m_cam.is_hover_camera(camobj)) {
         m_print.error("hover_rotate(): Wrong camera object or camera move style");
         return;
     }
 
-    phi_is_abs = phi_is_abs || false;
-    theta_is_abs = theta_is_abs || false;
-    m_cam.rotate_hover_camera(camobj, phi, theta, phi_is_abs, theta_is_abs);
-    m_trans.update_transform(camobj);
-    m_phy.sync_transform(camobj);
+    is_abs = is_abs || false;
+
+    exports.rotate_camera(camobj, phi, theta, is_abs);
 }
 
 /**
@@ -1582,28 +1578,21 @@ exports.get_translation = function(camobj, dest) {
  * @param {Object3D} camobj Camera 3D-object.
  * @param {number} phi Azimuth angle in radians
  * @param {number} theta Elevation angle in radians
- * @param {boolean} [phi_is_abs=false] Performs delta rotation if FALSE, sets camera's absolute rotation if TRUE.
- * @param {boolean} [theta_is_abs=false] Performs delta rotation if FALSE, sets camera's absolute rotation if TRUE.
+ * @param {boolean} [is_abs=false] Performs delta rotation if FALSE, sets camera's absolute rotation if TRUE.
  */
-exports.rotate_camera = function(camobj, phi, theta, phi_is_abs, theta_is_abs) {
+exports.rotate_camera = function(camobj, phi, theta, is_abs) {
     if (!m_obj_util.is_camera(camobj)) {
         m_print.error("rotate_camera(): Wrong camera object");
         return;
     }
 
-    phi_is_abs = phi_is_abs || false;
-    theta_is_abs = theta_is_abs || false;
+    is_abs = is_abs || false;
 
-    if (m_cam.is_target_camera(camobj))
-        m_cam.rotate_target_camera(camobj, phi, theta, phi_is_abs, theta_is_abs);
-    else if (m_cam.is_eye_camera(camobj))
-        m_cam.rotate_eye_camera(camobj, phi, theta, phi_is_abs, theta_is_abs);
-    else if (m_cam.is_hover_camera(camobj))
-        m_cam.rotate_hover_camera(camobj, phi, theta, phi_is_abs, theta_is_abs);
-    else if (m_cam.is_static_camera(camobj))
-        m_print.warn("rotate_camera(): not supported for STATIC cameras");
+    
+    if (is_abs)
+        m_cam.set_rotation_angles(camobj, phi, theta);
     else
-        m_print.error("rotate_camera(): Wrong camera move style");
+        m_cam.rotate_angles(camobj, phi, theta);
 
     m_trans.update_transform(camobj);
     m_phy.sync_transform(camobj);
@@ -1678,8 +1667,8 @@ exports.is_look_up = function(camobj) {
  * @method module:camera.get_camera_angles
  * @param {Object3D} camobj Camera 3D-object.
  * @param {?Vec2} [dest=new Float32Array(2);] Destination vector for the camera
- * angles: [phi, theta], phi: [0, 2Pi], theta: [-Pi, Pi].
- * @returns {?Vec2} Destination vector for the camera angles: [phi, theta].
+ * angles (in radians): [phi, theta], phi: [0, 2Pi], theta: [-Pi, Pi].
+ * @returns {?Vec2} Destination vector for the camera angles (in radians): [phi, theta].
  */
 exports.get_camera_angles = function(camobj, dest) {
     if (!m_obj_util.is_camera(camobj)) {
@@ -1702,8 +1691,8 @@ exports.get_camera_angles = function(camobj, dest) {
  * @method module:camera.get_camera_angles_char
  * @param {Object3D} camobj Camera 3D-object.
  * @param {?Vec2} [dest=new Float32Array(2);] Destination vector for the camera
- * angles: [phi, theta], phi: [0, 2Pi], theta: [-Pi, Pi].
- * @returns {?Vec2} Destination vector for the camera angles: [phi, theta].
+ * angles (in radians): [phi, theta], phi: [0, 2Pi], theta: [-Pi, Pi].
+ * @returns {?Vec2} Destination vector for the camera angles (in radians): [phi, theta].
  */
 exports.get_camera_angles_char = function(camobj, dest) {
     if (!m_obj_util.is_camera(camobj)) {
@@ -1725,8 +1714,8 @@ exports.get_camera_angles_char = function(camobj, dest) {
  * @method module:camera.get_camera_angles_dir
  * @param {Vec3} dir Direction representing the view vector of the camera.
  * @param {?Vec2} [dest=new Float32Array(2);] Destination vector for the camera
- * angles: [phi, theta], phi: [0, 2Pi], theta: [-Pi, Pi].
- * @returns {?Vec2} Destination vector for the camera angles: [phi, theta].
+ * angles (in radians): [phi, theta], phi: [0, 2Pi], theta: [-Pi, Pi].
+ * @returns {?Vec2} Destination vector for the camera angles (in radians): [phi, theta].
  * @example
  * var m_cam = require("camera");
  * var m_vec3 = require("vec3");
@@ -1889,7 +1878,7 @@ exports.get_vertical_axis = function(camobj, dest) {
  * @param {Object3D} camobj Camera 3D-object.
  * @param {number} x X coord (positive - left to right).
  * @param {number} y Y coord (positive - down to up).
- * @param {number} angle Rotation angle (clockwise).
+ * @param {number} angle Rotation angle in radians (clockwise).
  */
 exports.translate_view = function(camobj, x, y, angle) {
     if (!m_obj_util.is_camera(camobj)) {
@@ -1928,7 +1917,8 @@ exports.translate_view = function(camobj, x, y, angle) {
  * @param {?Vec3} [dest=new Float32Array(3);] Destination vector.
  * @returns {?Vec3} Destination vector.
  */
-exports.get_view_vector = function(camobj, dest) {
+exports.get_view_vector = get_view_vector;
+function get_view_vector(camobj, dest) {
     if (!m_obj_util.is_camera(camobj)) {
         m_print.error("get_view_vector(): Wrong camera object");
         return null;
@@ -2014,7 +2004,7 @@ exports.correct_up = function(camobj, z_axis, strict) {
     }
 
     z_axis = z_axis || camobj.render.vertical_axis;
-    m_cons.correct_up(camobj, z_axis, strict || false);
+    m_cam.correct_up(camobj, z_axis, strict || false);
 
     m_trans.update_transform(camobj);
     m_phy.sync_transform(camobj);
@@ -2261,6 +2251,19 @@ exports.get_frustum_planes = function(camobj, planes) {
     return planes;
 }
 
+/**
+ * Set camera projection matrix.
+ * @method module:camera.set_projection
+ * @param {Object3D} camobj Camera object.
+ * @param {Float32Array} matrix Projection matrix.
+ */
+exports.set_projection = function(camobj, matrix) {
+    if (!m_obj_util.is_camera(camobj))
+        m_print.error("set_projection(): Wrong camera object");
+    else
+        m_cam.set_proj_mat(camobj, matrix);
+}
+
 }
 </code></pre>
         </article>
@@ -2278,7 +2281,7 @@ exports.get_frustum_planes = function(camobj, planes) {
 <br class="clear">
 
 <footer>
-    Blend4Web API Reference (generated by JSDoc 3.4.0 on Mon May 15 2017 11:38:28 GMT+0300 (MSK))
+    Blend4Web API Reference (generated by JSDoc 3.4.0 on Fri Jun 30 2017 14:29:57 GMT+0300 (MSK))
     <a href="https://www.blend4web.com">www.blend4web.com</a>
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">

@@ -113,7 +113,7 @@ def print_report(type, preamble, *messages):
 
 def process_json(path):
     try:
-        json_data = open(path)
+        json_data = open(path, encoding="utf-8")
 
         try:
             data = json.load(json_data)
@@ -184,7 +184,7 @@ def report_blender_warnings(output, blend):
             report("WARN", "[ERROR]", blend, line.split("Error: ")[-1])
 
 def process_html(path):
-    html_file = open(path)
+    html_file = open(path, encoding="utf-8")
     html_data  = html_file.read()
 
     html_parser = FindMeta()

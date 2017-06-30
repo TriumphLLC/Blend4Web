@@ -202,7 +202,7 @@ Blend4Web also has an option to automatically play object's animation. To do it,
    :align: center
    :width: 100%
 
-Animation starts to play right after the application startup and plays very similar to the :ref:`Play Timeline <nla_play_timeline>` node, only without an option to set up the start and end markers (instead, it always starts from the first frame of the timeline and ends with the last). You can also set up animation behavior, like in the :ref:`Play Animation <nla_select_play>` node.
+Animation starts to play right after the application startup and plays very similar to the :ref:`Play Timeline <logic_play_timeline>` node, only without an option to set up the start and end markers (instead, it always starts from the first frame of the timeline and ends with the last). You can also set up animation behavior, like in the :ref:`Play Animation <logic_select_play>` node.
 
 .. _nla:
 

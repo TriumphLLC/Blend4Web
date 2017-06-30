@@ -252,7 +252,6 @@ function init_context(canvas, canvas_hud, gl) {
     m_textures.setup_context(gl);
     m_shaders.setup_context(gl);
     m_debug.setup_context(gl);
-    m_cont.setup_context(gl);
     m_data.setup_canvas(canvas);
     m_cont.init(canvas, canvas_hud);
 

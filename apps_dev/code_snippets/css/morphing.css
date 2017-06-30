@@ -1,5 +1,5 @@
 html {
-  font-family: sans-serif;
+  font-family: Arial, sans-serif;
 }
 
 .main_sliders_container {
@@ -46,6 +46,33 @@ html {
   margin-top: 11px;
   margin-left: 8px;
   margin-right: 8px;
+}
+
+/* NOTE: hack for IE11 */
+*::-ms-backdrop, .input_slider {
+  padding-top: 2px;
+}
+
+.slider_container:before,
+.slider_container:after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+@media (max-width: 460px) {
+  .input_slider {
+    width: 220px;
+  }
+
+  .slider_container {
+    height: auto;
+    margin-bottom: 16px;
+  }
+
+  .text_label {
+    float: none;
+  }
 }
 
 .value_label {

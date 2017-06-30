@@ -220,6 +220,7 @@ var _nodes_handlers = {
     "OUTLINE": outline_handler,
     "MOVE_CAMERA": move_camera_handler,
     "SET_CAMERA_MOVE_STYLE": set_camera_move_style_handler,
+    "SET_CAMERA_LIMITS": set_camera_limits_handler,
     "MOVE_TO": move_to_handler,
     "TRANSFORM_OBJECT": transform_object_handler,    
     "SPEAKER_PLAY": speaker_play_handler,
@@ -955,7 +956,7 @@ function move_camera_handler(node, logic, thread_state, timeline, elapsed, start
                 _vec2_tmp[0] += Math.PI;
                 phi -= Math.PI;
             }
-            m_cam.rotate_hover_camera(cam, phi + Math.PI, -theta, true, true);
+            m_cam.set_rotation_hover_angles(cam, phi + Math.PI, -theta);
             break;
         }
 
@@ -1182,6 +1183,179 @@ function set_camera_move_style_handler(node, logic, thread_state, timeline, elap
         // init ortho after the camera was updated
         m_cam.init_ortho_props(cam);
 
+        thread_state.curr_node = node.slot_idx_order;
+        break;
+    }
+}
+
+function set_camera_limits_handler(node, logic, thread_state, timeline, elapsed, start_time) {
+    switch (logic.state) {
+    case INITIALIZATION:
+        var cam = null;
+        cam = node.objects["ca"] =
+            m_obj.get_object(m_obj.GET_OBJECT_BY_DUPLI_NAME_LIST, node.objects_paths["id0"], 0);
+        if(!cam) {
+            m_print.error("Logic script error: object not found. Node: ", node.name);
+            node.mute = true;
+        }
+
+        var render = cam.render;
+        node.cam_state = {
+            target_cam_upside_down      : render.target_cam_upside_down,
+            use_panning                 : render.use_panning,
+            horizontal_limits           : render.horizontal_limits,
+            vertical_limits             : render.vertical_limits,
+            distance_limits             : render.distance_limits,
+            hover_horiz_trans_limits    : render.hover_horiz_trans_limits,
+            hover_vert_trans_limits     : render.hover_vert_trans_limits,
+            pivot_limits                : render.pivot_limits,
+            enable_hover_hor_rotation   : render.enable_hover_hor_rotation
+        };
+
+        break;
+    case RUNNING:
+        var cam = node.objects["ca"];
+        var cam_render = cam.render;
+
+        switch(cam_render.move_style) {
+        case m_cam.MS_TARGET_CONTROLS:
+            if (node.bools["dsl"]) {
+                var dslmin = node.bools["dslmin"] ? convert_variable(
+                    get_var(node.vars['dslmin'], logic.variables, thread_state.variables), NT_NUMBER) : node.floats["dslmin"];
+                var dslmax = node.bools["dslmax"] ? convert_variable(
+                    get_var(node.vars['dslmax'], logic.variables, thread_state.variables), NT_NUMBER) : node.floats["dslmax"];
+
+                var limits = {};
+                limits.min = Math.max(dslmin, 0);
+                limits.max = Math.max(dslmax, 0);
+                m_cam.set_distance_limits(cam, limits);
+            }
+
+            if (node.bools["vrl"]) {
+                var vrldown = node.bools["vrldown"] ? convert_variable(
+                    get_var(node.vars['vrldown'], logic.variables, thread_state.variables), NT_NUMBER) : node.floats["vrldown"];
+                var vrlup = node.bools["vrlup"] ? convert_variable(
+                    get_var(node.vars['vrlup'], logic.variables, thread_state.variables), NT_NUMBER) : node.floats["vrlup"];
+
+                var limits = {};
+                limits.down = vrldown;
+                limits.up = vrlup;
+                limits.camera_space = node.common_usage_names["cam_lim_vert_rot_space_type"] == "CAMERA";
+                m_cam.set_vertical_rot_limits(cam, limits);
+            }
+
+            if (node.bools["hrl"]) {
+                var hrlleft = node.bools["hrlleft"] ? convert_variable(
+                    get_var(node.vars['hrlleft'], logic.variables, thread_state.variables), NT_NUMBER) : node.floats["hrlleft"];
+                var hrlright = node.bools["hrlright"] ? convert_variable(
+                    get_var(node.vars['hrlright'], logic.variables, thread_state.variables), NT_NUMBER) : node.floats["hrlright"];
+
+                var limits = {};
+                limits.left = hrlleft;
+                limits.right = hrlright;
+                limits.camera_space = node.common_usage_names["cam_lim_hor_rot_space_type"] == "CAMERA";
+                m_cam.set_horizontal_rot_limits(cam, limits);
+            }
+
+            if (node.bools["pvl"]) {
+                var pvlmin = node.bools["pvlmin"] ? convert_variable(
+                    get_var(node.vars['pvlmin'], logic.variables, thread_state.variables), NT_NUMBER) : node.floats["pvlmin"];
+                var pvlmax = node.bools["pvlmax"] ? convert_variable(
+                    get_var(node.vars['pvlmax'], logic.variables, thread_state.variables), NT_NUMBER) : node.floats["pvlmax"];
+
+                var limits = {};
+                limits.min_z = pvlmin;
+                limits.max_z = pvlmax;
+                m_cam.set_pivot_limits(cam, limits);
+            }
+
+            break;
+        case m_cam.MS_HOVER_CONTROLS:
+            if (node.bools["htl"]) {
+                var htlmin = node.bools["htlmin"] ? convert_variable(
+                    get_var(node.vars['htlmin'], logic.variables, thread_state.variables), NT_NUMBER) : node.floats["htlmin"];
+                var htlmax = node.bools["htlmax"] ? convert_variable(
+                    get_var(node.vars['htlmax'], logic.variables, thread_state.variables), NT_NUMBER) : node.floats["htlmax"];
+
+                var limits = {};
+                limits.min = htlmin;
+                limits.max = htlmax;
+                m_cam.set_hor_trans_limits(cam, limits);
+            }
+
+            if (node.bools["vtl"]) {
+                var vtlmin = node.bools["vtlmin"] ? convert_variable(
+                    get_var(node.vars['vtlmin'], logic.variables, thread_state.variables), NT_NUMBER) : node.floats["vtlmin"];
+                var vtlmax = node.bools["vtlmax"] ? convert_variable(
+                    get_var(node.vars['vtlmax'], logic.variables, thread_state.variables), NT_NUMBER) : node.floats["vtlmax"];
+
+                var limits = {};
+                limits.min = vtlmin;
+                limits.max = vtlmax;
+                m_cam.set_vert_trans_limits(cam, limits);
+            }
+
+            if (node.bools["vrl"]) {
+                var vrldown = node.bools["vrldown"] ? convert_variable(
+                    get_var(node.vars['vrldown'], logic.variables, thread_state.variables), NT_NUMBER) : node.floats["vrldown"];
+                var vrlup = node.bools["vrlup"] ? convert_variable(
+                    get_var(node.vars['vrlup'], logic.variables, thread_state.variables), NT_NUMBER) : node.floats["vrlup"];
+
+                var limits = {};
+                limits.down = vrldown;
+                limits.up = vrlup;
+                limits.camera_space = node.common_usage_names["cam_lim_vert_rot_space_type"] == "CAMERA";
+                m_cam.hover_set_vertical_limits(cam, limits);
+            }
+
+            if (node.bools["dsl"]) {
+                var dslmin = node.bools["dslmin"] ? convert_variable(
+                    get_var(node.vars['dslmin'], logic.variables, thread_state.variables), NT_NUMBER) : node.floats["dslmin"];
+                var dslmax = node.bools["dslmax"] ? convert_variable(
+                    get_var(node.vars['dslmax'], logic.variables, thread_state.variables), NT_NUMBER) : node.floats["dslmax"];
+
+                var limits = {};
+                limits.min = Math.max(dslmin, 0);
+                limits.max = Math.max(dslmax, 0);
+                m_cam.hover_set_distance_limits(cam, limits);
+            }
+            break;
+        case m_cam.MS_EYE_CONTROLS:
+            if (node.bools["vrl"]) {
+                var vrldown = node.bools["vrldown"] ? convert_variable(
+                    get_var(node.vars['vrldown'], logic.variables, thread_state.variables), NT_NUMBER) : node.floats["vrldown"];
+                var vrlup = node.bools["vrlup"] ? convert_variable(
+                    get_var(node.vars['vrlup'], logic.variables, thread_state.variables), NT_NUMBER) : node.floats["vrlup"];
+
+                var limits = {};
+                limits.down = vrldown;
+                limits.up = vrlup;
+                limits.camera_space = node.common_usage_names["cam_lim_vert_rot_space_type"] == "CAMERA";
+                m_cam.set_vertical_rot_limits(cam, limits);
+            }
+
+            if (node.bools["hrl"]) {
+                var hrlleft = node.bools["hrlleft"] ? convert_variable(
+                    get_var(node.vars['hrlleft'], logic.variables, thread_state.variables), NT_NUMBER) : node.floats["hrlleft"];
+                var hrlright = node.bools["hrlright"] ? convert_variable(
+                    get_var(node.vars['hrlright'], logic.variables, thread_state.variables), NT_NUMBER) : node.floats["hrlright"];
+
+                var limits = {};
+                limits.left = hrlleft;
+                limits.right = hrlright;
+                limits.camera_space = node.common_usage_names["cam_lim_hor_rot_space_type"] == "CAMERA";
+                m_cam.set_horizontal_rot_limits(cam, limits);
+            }
+
+            break;
+        case m_cam.MS_STATIC:
+            break;
+        }
+
+        m_trans.update_transform(cam);
+        m_phy.sync_transform(cam);
+        // init ortho after the camera was updated
+        // m_cam.init_ortho_props(cam);
         thread_state.curr_node = node.slot_idx_order;
         break;
     }
@@ -1477,9 +1651,9 @@ function set_shader_node_param_handler(node, logic, thread_state, timeline, elap
         }
 
         if (node.shader_nd_type == "ShaderNodeRGB") {
-            var ind = m_batch.get_node_ind_by_name_list(batch_main.node_rgb_inds,
+            var ind = m_obj.get_node_ind_by_name_list(batch_main.node_rgb_inds,
                                                         name_list, 1);
-            m_batch.set_nodemat_rgb(obj, mat_name, ind,
+            m_obj.set_nodemat_rgb(obj, mat_name, ind,
                 node.bools["id0"] ?
                     convert_variable(get_var(node.vars["id0"], logic.variables, thread_state.variables), NT_NUMBER) : node.floats["id0"],
                 node.bools["id1"] ?
@@ -1489,9 +1663,9 @@ function set_shader_node_param_handler(node, logic, thread_state, timeline, elap
         }
 
         if (node.shader_nd_type == "ShaderNodeValue") {
-            var ind = m_batch.get_node_ind_by_name_list(batch_main.node_value_inds,
+            var ind = m_obj.get_node_ind_by_name_list(batch_main.node_value_inds,
                                                         name_list, 1);
-            m_batch.set_nodemat_value(obj, mat_name, ind,
+            m_obj.set_nodemat_value(obj, mat_name, ind,
                 node.bools["id0"] ?
                     convert_variable(get_var(node.vars["id0"], logic.variables, thread_state.variables), NT_NUMBER) : node.floats["id0"]);
         }

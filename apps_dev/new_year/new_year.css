@@ -190,3 +190,9 @@ body {
     font-family: congratulatory_font, 'URW Chancery L', cursive;
     overflow: hidden;
 }
+
+*:active {
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -moz-tap-highlight-color: rgba(0,0,0,0);
+    tap-highlight-color: rgba(0,0,0,0);
+}

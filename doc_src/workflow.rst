@@ -13,6 +13,25 @@ different skills and experience. However, no matter how complex it is and
 what is the target it's always possible to separate the production stage in
 which the bulk of assets and source code is authored.
 
+Any work with the Blend4Web engine should start with running Blender.
+
+Select ``Blend4Web`` from the render engine list at the top panel in the main Blender window, and you will see how the program interface have changed. Some parameters will disappear, and new ones will take their place. The most important of these new parameters are located in the ``Properties`` window (usually placed at the right side of the main window), on the Render panel.
+
+.. image:: src_images/workflow/workflow_development_tools.png
+   :align: center
+   :width: 100%
+
+.. note::
+
+    If the ``Development Tools`` tab shows the Development server is off message, this means that the development server is not working. It can be enabled with the ``Start Server`` button on the same panel. The server can also be configured to run on startup with the ``Run On Startup`` option found in the add-on settings (``User Preferences → Add-Ons → Blend4Web``).
+
+    If any problems occur as you try to run development server, please consult the :ref:`Problems and Solutions <problems_and_solutions>` chapter.
+
+The ``SDK Index`` button opens the :ref:`index page <getting_started_launching_viewer>` that can be found by this address: http://localhost:6687.
+
+The ``Fast Preview`` button opens the :ref:`Scene Viewer <viewer>` and loads the scene that is open in Blender at the moment. This is a useful feature for planning and debugging your scenes.
+
+The ``Project Manager`` button opens the :ref:`Project Manager <project_management>` — a powerful and easy to use tool  for working with Blend4Web projects. Using Project Manager is the most simple way to start working with Blend4Web.
 
 When using Blend4Web the workflow is the following:
 
@@ -29,7 +48,7 @@ Creating a New Project
 
 The work on a project, of course, should always start with creating it.
 
-The easiest way to create a new project is to use the :ref:`Project Manager <project_manager>`. To do it, press the Create New Project button at the top of the Project Manager’s main window.
+The easiest way to create a new project is to use the :ref:`Project Manager <project_manager>`. To do it, run the Project Manager (either from Blender or from index page) and press the Create New Project button at the top of the Project Manager’s main window.
 
 The other way is to use the *project.py* command line script, which is more versatile. Working with this script is described :ref:`here <creating_a_project>`.
 
@@ -65,7 +84,7 @@ General recommendations:
 
 #. Scene components should have distinct names. They should not be named \"Cube.001\", \"Material\" or \"Armature\".
 
-#. We recommend you to practice linking components from other files (libraries).
+#. We recommend you to link components from other files (libraries).
 
 Preparing a Scene to Use in Blend4Web
 =====================================

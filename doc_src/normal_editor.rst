@@ -85,8 +85,8 @@ You just need to push the Show Normals button either on the normal editor panel 
        :align: center
        :width: 100%
 
-Rotation
-========
+Rotate
+======
 
 Using these instruments you can change direction of the normals. The ``Rotate`` function is also available through the ``Shift+Ctrl+R`` hotkeys, which allows rotation of vertex normals similarly to Blender.
 
@@ -98,13 +98,22 @@ Using these instruments you can change direction of the normals. The ``Rotate`` 
 
 .. only:: html
 
-    .. image:: src_images/normal_editor/rotation.gif
+    .. image:: src_images/normal_editor/rotate.gif
        :align: center
        :width: 100%
 
 Select one or more vertices that you want to edit and then rotate their normals using the visual sphere or specify the direction as numerical values.
 
 The ``Rotate`` button provides a more convenient way to manipulate normals. The rotation is performed in the screen space. Nevertheless, as with any other rotations in Blender, you can isolate the desired axis during rotation (by typing ``X``, ``Y`` or ``Z``) and type the angle of rotation using numerical keys.
+
+Scale
+=====
+
+This function can be used to change the scale of the normals and is available both from the Tool panel and by pressing the ``Shift + Ctrl + S`` hot keys. The length of a normal can be set with numeric keys, while ``X``, ``Y`` and ``Z`` keys are used to set the coordinate axis along which the normal is scaled.
+
+.. note::
+
+    Keep in mind that the visible length of any normal never changes and is always defined by the ``Size`` parameter.
 
 Absolute and Offset Modes
 =========================
@@ -163,7 +172,7 @@ The ``Average`` button averages the direction of the vertex normals which was mo
 
 .. only:: html
 
-    .. image:: src_images/normal_editor/average_split.gif
+    .. image:: src_images/normal_editor/average.gif
        :align: center
        :width: 100%
 
@@ -188,10 +197,10 @@ The ``Restore`` button restores the original direction of normals for the select
 
 In order to restore the normal's direction to its original (which is calculated on the basis of face normals), you need to select the desired vertices and click the Restore button.
 
-Tree, Foliage and Face
-======================
+3D Cursor, Axis and Face
+========================
 
-The ``Tree`` button directs the normals of the selected vertices away from the 3D cursor. The ``Foliage`` button directs the normals of the vertices strictly up. The ``Face`` button directs the normals of the selected face parallel to the normal of this face.
+The ``3D Cursor`` button directs the normals of the selected vertices away from the 3D cursor or toward it (if the ``Towards`` parameter in the ``Vertex Normal Cursor`` panel is enabled). The ``Axis`` button directs the normals of the vertices along a coordinate axis (the axis can be selected in the same ``Vertex Normal Cursor`` panel). The ``Face`` button directs the normals of the selected face parallel to the normal of this face.
 
 .. only:: latex
 
@@ -209,15 +218,17 @@ The ``Tree`` button directs the normals of the selected vertices away from the 3
 
 .. only:: html
 
-    .. image:: src_images/normal_editor/tree_foliage_face.gif
+    .. image:: src_images/normal_editor/3dcursor.gif
        :align: center
        :width: 100%
 
-In order to use the ``Tree`` function, select the desired vertices and place the 3D cursor in the desired position. Then click the ``Tree`` button so all the selected vertices will turn their direction away from the cursor, as if they were shot from one point.
+In order to use the ``3D Cursor`` function, select the desired vertices and place the 3D cursor in the desired position. Then click the ``3D Cursor`` button so all the selected vertices will turn their direction away from the cursor, as if they were shot from one point. Then you may check the ``Towards`` option in the ``Vertex Normal Cursor`` panel, which will make the normals to turn in the direction of the cursor.
 
-The ``Foliage`` function is very easy to use: just select the vertices and press the button, so the function will direct their normals straight up.
+The ``Axis`` function is very easy to use: just select the vertices and press the button, so the function will direct their normals along the coordinate axis set in the ``Vertex Normal Cursor`` panel (Z axis is selected by default) or away from it, if you disable the ``Towards`` parameter on the same panel.
 
-In order to direct the normals parallel to the face normal, just select the desired face and click the ``Face`` button. The normals of the vertices which form the face will be directed parallel to the face normal. This function works only with one selected face at a time.
+In order to direct the normals parallel to the face normal, just select the desired face (or several faces) and click the ``Face`` button. The normals of the vertices which form the face will be directed parallel to the face normal. This function works only with one selected face at a time.
+
+The ``3D Cursor``, ``Axis`` and ``Face`` operators also possess the ``Factor`` parameter which is used to mix the initial position of the normals with the resulting position. The default value of this parameter is 1.0 (the resulting position is used).
 
 Copy/Paste
 ==========
@@ -232,7 +243,7 @@ Copies the normal direction from one vertex to another.
 
 .. only:: html
 
-    .. image:: src_images/normal_editor/copy_paste.gif
+    .. image:: src_images/normal_editor/copypaste.gif
        :align: center
        :width: 100%
 
@@ -258,5 +269,4 @@ The ``Matched Vertices`` mode copies the normals from the vertices of one object
        :width: 100%
 
 This function works in Blender's object mode. At first, you need to select the object you need to copy from, then the object you need to copy to. It is also necessary to select the target object's vertices to which normals are copied.
-
 

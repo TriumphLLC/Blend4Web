@@ -164,11 +164,13 @@ class GetScenesListHandler(tornado.web.RequestHandler):
                 if os.path.isdir(f_abs_path):
                     scenes_data.append(gen_dir_scene_data(f_abs_path))
                 else:
-                    file_type = f.split(".")[-1]
-                    bin_file = f.split(".")[-2] + ".bin"
-                    if file_type == "json" and os.path.isfile(os.path.join(curr_dir, bin_file)):
-                        scenes_data.append(proj_util.unix_path(relpath(f_abs_path, root)))
-                        #scenes_data.sort()
+                    file_name_list = f.split(".")
+                    if len(file_name_list) >= 2:
+                        file_type = file_name_list[-1]
+                        bin_file = ".".join(file_name_list[:-1]) + ".bin"
+                        if file_type == "json" and os.path.isfile(os.path.join(curr_dir, bin_file)):
+                            scenes_data.append(proj_util.unix_path(relpath(f_abs_path, root)))
+                            #scenes_data.sort()
 
             return scenes_data
 
@@ -1281,7 +1283,8 @@ class RunBlenderHandler(tornado.web.RequestHandler):
         root = get_sdk_root()
 
         if not shutil.which(_blender_path):
-            html_str = "<p>Blender executable is not found, please open the scene manually."
+            html_str = ("<p>Blender executable is not found, please add the path" 
+                    + " to Blender into the PATH environment variable or open the scene manually.")
             self.write(html_str)
             return
 
@@ -1380,7 +1383,6 @@ def daemonize():
         sys.exit(1)
 
     # decouple from parent environment
-    os.chdir("/")
     os.setsid()
     os.umask(0)
 

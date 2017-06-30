@@ -104,6 +104,7 @@ exports.OUT_UPDATE_CAR_CONTROLS          = 145;
 exports.OUT_PING                         = 146;
 exports.OUT_DEBUG                        = 147;
 exports.OUT_UPDATE_WORLD                 = 148;
+exports.OUT_SET_ANGULAR_VELOCITY         = 149;
 
 var OUT_SET_TRANSFORM = exports.OUT_SET_TRANSFORM;
 

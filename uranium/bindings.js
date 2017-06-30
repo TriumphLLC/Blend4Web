@@ -1365,6 +1365,13 @@ function apply_torque(body_id, tx, ty, tz) {
     _du_activate(du_body_id);
 }
 
+function set_angular_velocity(body_id, avx, avy, avz) {
+    var world = active_world();
+    var body = world.bodies[body_id];
+
+    _du_set_angular_velocity(body.du_id, avx, avy, avz);
+}
+
 function update_car_controls(chassis_body_id, engine_force, brake_force, 
         steering_value) {
     var car = get_car(chassis_body_id);
@@ -2175,6 +2182,9 @@ function process_message(worker, msg_id, msg) {
         break;
     case m_ipc.OUT_APPLY_TORQUE:
         apply_torque(msg[1], msg[2], msg[3], msg[4]);
+        break;
+    case m_ipc.OUT_SET_ANGULAR_VELOCITY:
+        set_angular_velocity(msg[1], msg[2], msg[3], msg[4]);
         break;
     case m_ipc.OUT_SET_CHARACTER_MOVE_DIR:
         set_character_move_dir(msg[1], msg[2], msg[3]);

@@ -26,7 +26,6 @@ b4w.module["__tbn"] = function(exports, require) {
 
 // offset > 2/65535 to prevent zeroes when converting to short
 var ZERO_TBN_EPSILON = 0.000031;
-var UNIT_TBN_EPSILON = 1.0 - ZERO_TBN_EPSILON;
 var TBN_NUM_COMP = 4;
 var INIT_ANGLE = 0.5;
 
@@ -44,6 +43,7 @@ var _vec3_tmp = m_vec3.create();
 var _vec3_tmp2 = m_vec3.create();
 var _vec3_tmp3 = m_vec3.create();
 var _vec4_tmp = m_vec4.create();
+var _vec4_tmp2 = m_vec4.create();
 
 exports.from_norm_tan = function(normals, tangents, dest) {
     var use_tangent = !!(tangents && tangents.length);
@@ -58,7 +58,7 @@ exports.from_norm_tan = function(normals, tangents, dest) {
         m_vec3.normalize(norm, norm);
 
         if (use_tangent) {
-            var tan = _vec4_tmp;
+            var tan = _vec4_tmp2;
             tan[0] = tangents[TBN_NUM_COMP * i];
             tan[1] = tangents[TBN_NUM_COMP * i + 1];
             tan[2] = tangents[TBN_NUM_COMP * i + 2];
@@ -72,13 +72,6 @@ exports.from_norm_tan = function(normals, tangents, dest) {
             var new_y = m_vec3.transformQuat(m_util.AXIS_Y, binorm_quat, _vec3_tmp3);
             var norm_quat = m_quat.rotationTo(new_y, norm, _quat_tmp2);
             var quat = m_quat.multiply(norm_quat, binorm_quat, _quat_tmp);
-
-            // NOTE: fixes +/- issues with zeroes
-            if (Math.abs(quat[3]) < ZERO_TBN_EPSILON)
-                if (quat[3] > 0)
-                    quat[3] += ZERO_TBN_EPSILON;
-                else
-                    quat[3] -= ZERO_TBN_EPSILON;
 
             m_quat.normalize(quat, quat);
 
@@ -120,11 +113,8 @@ exports.get_quat = get_quat;
 function get_quat(tbn, index, dest) {
     index = index || 0;
 
-    dest[0] = tbn[index * 4];
-    dest[1] = tbn[index * 4 + 1];
-    dest[2] = tbn[index * 4 + 2];
-    // NOTE: use Math.abs to prevent NaN in case of 1 - ... ~ 0.0
-    dest[3] = Math.sqrt(Math.abs(1 - dest[0] * dest[0] - dest[1] * dest[1] - dest[2] * dest[2]));
+    var cur_tbn = get_item(tbn, index, dest);
+    m_quat.normalize(cur_tbn, dest);
 
     return dest;
 }
@@ -133,11 +123,21 @@ exports.set_quat = set_quat;
 function set_quat(tbn, quat, index) {
     index = index || 0;
 
-    var is_changed_hand = m_util.sign(quat[3] > 0? ZERO_TBN_EPSILON: -ZERO_TBN_EPSILON);
-    tbn[index * 4] = is_changed_hand * quat[0];
-    tbn[index * 4 + 1] = is_changed_hand * quat[1];
-    tbn[index * 4 + 2] = is_changed_hand * quat[2];
+    var cur_tbn = get_item(tbn, index, _vec4_tmp);
 
+    var angle = m_quat.length(cur_tbn);
+
+    var is_changed_hand = m_util.sign(cur_tbn[3]) * m_util.sign(quat[3]) || 1.0;
+    m_quat.scale(quat, is_changed_hand * angle, cur_tbn);
+
+    // NOTE: fixes +/- issues with zeroes
+    if (Math.abs(cur_tbn[3]) < ZERO_TBN_EPSILON)
+        if (cur_tbn[3] > 0)
+            cur_tbn[3] = ZERO_TBN_EPSILON;
+        else
+            cur_tbn[3] = -ZERO_TBN_EPSILON;
+
+    set_item(tbn, cur_tbn, index);
     return tbn;
 }
 
@@ -148,25 +148,46 @@ function get_handedness(tbn, index) {
 }
 
 function set_handedness(tbn, handedness, index) {
-    index = 4 * (index || 0) + 3;
+    index = index || 0;
 
-    tbn[index] = handedness * Math.abs(tbn[index]);
+    var cur_tbn = get_item(tbn, index, _vec4_tmp);
+    var is_changed_hand = m_util.sign(cur_tbn[3]) * handedness;
+    if (is_changed_hand < 0)
+        m_quat.scale(cur_tbn, -1, cur_tbn);
 
+    set_item(tbn, cur_tbn, index);
     return tbn;
 }
 
 function set_angle(tbn, angle, index) {
-    index = 4 * (index || 0) + 3;
+    index = index || 0;
 
-    tbn[index] = m_util.sign(tbn[index]) * m_util.clamp(angle, ZERO_TBN_EPSILON, UNIT_TBN_EPSILON);
+    var cur_tbn = get_item(tbn, index, _vec4_tmp);
+    m_quat.normalize(cur_tbn, cur_tbn);
+    m_quat.scale(cur_tbn, angle, cur_tbn);
 
+    // NOTE: fixes +/- issues with zeroes
+    if (Math.abs(cur_tbn[3]) < ZERO_TBN_EPSILON)
+        if (cur_tbn[3] > 0)
+            cur_tbn[3] += ZERO_TBN_EPSILON;
+        else
+            cur_tbn[3] -= ZERO_TBN_EPSILON;
+
+    set_item(tbn, cur_tbn, index);
     return tbn;
 }
 
 function get_angle(tbn, index) {
     index = index || 0;
 
-    return Math.abs(tbn[index * 4 + 3]);
+    var cur_tbn = get_item(tbn, index, _vec4_tmp);
+
+    return m_quat.length(cur_tbn);
+}
+
+exports.get_norm = function(tbn, index, dest) {
+    var quat = get_quat(tbn, index, _quat_tmp);
+    return m_vec3.transformQuat(m_util.AXIS_Y, quat, dest);
 }
 
 exports.create = create;

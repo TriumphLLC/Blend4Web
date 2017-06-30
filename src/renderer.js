@@ -172,7 +172,6 @@ function draw_cube_reflection_subs(subscene) {
                 var bundle = draw_data[j].bundles[k];
                 bundle.do_render = bundle.do_render_cube[i];
             }
-
         draw_subs(subscene);
     }
 }
@@ -495,6 +494,7 @@ function draw_sky(subscene, batch, shader) {
     var uniforms = shader.uniforms;
     var color_attachment = camera.color_attachment;
     var w_tex            = color_attachment.w_texture;
+    var w_tar            = color_attachment.w_target;
 
     var v_matrs = subscene.cube_view_matrices;
 
@@ -521,6 +521,12 @@ function draw_sky(subscene, batch, shader) {
         }
         if (subscene.need_fog_update && i != CUBEMAP_BOTTOM_SIDE)
             update_subs_sky_fog(subscene, i);
+    }
+
+    if (cfg_def.texture_lod_available) {
+        _gl.bindTexture(w_tar, w_tex);
+        _gl.generateMipmap(w_tar);
+        _gl.texParameteri(w_tar, _gl.TEXTURE_MIN_FILTER, m_textures.TF_LINEAR_MIPMAP_LINEAR);
     }
 }
 
@@ -874,16 +880,6 @@ function assign_uniform_setters(shader) {
             }
             transient_uni = true;
             break;
-        case "u_waves_height":
-            scene_fun = function(gl, loc, subscene, camera) {
-                gl.uniform1f(loc, subscene.water_waves_height);
-            }
-            break;
-        case "u_waves_length":
-            scene_fun = function(gl, loc, subscene, camera) {
-                gl.uniform1f(loc, subscene.water_waves_length);
-            }
-            break;
         case "u_fog_color_density":
             scene_fun = function(gl, loc, subscene, camera) {
                 // NOTE: unused alpha channel
@@ -963,6 +959,12 @@ function assign_uniform_setters(shader) {
             scene_fun = function(gl, loc, subscene, camera) {
                 gl.uniform1f(loc, subscene.environment_energy);
             }
+            break;
+        case "u_bsdf_cube_sky_dim":
+            scene_fun = function(gl, loc, subscene, camera) {
+                gl.uniform1f(loc, subscene.bsdf_cube_sky_dim);
+            }
+            transient_uni = true;
             break;
 
         // sky
@@ -1904,21 +1906,12 @@ exports.read_pixels = read_pixels;
  * @param framebuffer FBO
  * @param x x-coord starting from left
  * @param y y-coord starting from bottom
- * @param [width=1] Width of rectangle to read
- * @param [height=1] Height of rectangle to read
+ * @param width Width of rectangle to read
+ * @param height Height of rectangle to read
  * @param {Uint8Array} storage Destination array of pixel channels
  * @returns {Uint8Array} Destination array of pixel channels
  */
 function read_pixels(framebuffer, x, y, width, height, storage) {
-
-    if (!width)
-        width = 1;
-    if (!height)
-        height = 1;
-    if (!storage)
-        storage = new Uint8Array(4 * width * height);
-    if (storage.length != 4 * width * height)
-        m_util.panic("read_pixels(): Wrong storage");
 
     _gl.bindFramebuffer(_gl.FRAMEBUFFER, framebuffer);
     _gl.readPixels(x, y, width, height, _gl.RGBA, _gl.UNSIGNED_BYTE, storage);

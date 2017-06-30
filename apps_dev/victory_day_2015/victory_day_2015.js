@@ -787,7 +787,7 @@ function init_constraints() {
         rotation: rotation
     });
 
-    m_cons.append_track(_light_point, _bm_13);
+    m_cons.append_track(_light_point, _bm_13, "-Z", "X");
 }
 
 function load_cb(root) {

@@ -146,11 +146,11 @@ exports.track_to_target = function(cam_obj, target, rot_speed, zoom_mult,
                 var smooth_coeff = smooth_function(curr_time / rot_time);
                 var phi_delta = smooth_coeff * phi_angle * elapsed / rot_time;
                 var theta_delta = smooth_coeff * theta_angle * elapsed / rot_time;
-                m_cam.eye_rotate(cam_obj, phi_delta, theta_delta);
+                m_cam.rotate_camera(cam_obj, phi_delta, theta_delta);
             } else if (curr_time < rot_time + zoom_time) {
 
                 if (_stage == 0) {
-                    m_cam.eye_rotate(cam_obj, finish_angles[0], finish_angles[1], true, true);
+                    m_cam.rotate_camera(cam_obj, finish_angles[0], finish_angles[1], true);
                     _stage++;
                 }
 
@@ -159,7 +159,7 @@ exports.track_to_target = function(cam_obj, target, rot_speed, zoom_mult,
                 m_trans.move_local(obj, 0, 0, -delta_dist);
             } else if (curr_time < rot_time + zoom_time + zoom_delay) {
                 if (_stage <= 1) {
-                    m_cam.eye_rotate(cam_obj, finish_angles[0], finish_angles[1], true, true);
+                    m_cam.rotate_camera(cam_obj, finish_angles[0], finish_angles[1], true);
                     m_cam.eye_set_look_at(cam_obj, cam_pos);
                     m_trans.move_local(obj, 0, 0, -zoom_dist);
                     if (zoom_in_cb)
@@ -169,7 +169,7 @@ exports.track_to_target = function(cam_obj, target, rot_speed, zoom_mult,
                 }
             } else if (curr_time < rot_time + zoom_time + zoom_delay + zoom_time) {
                 if (_stage <= 2) {
-                    m_cam.eye_rotate(cam_obj, finish_angles[0], finish_angles[1], true, true);
+                    m_cam.rotate_camera(cam_obj, finish_angles[0], finish_angles[1], true);
                     m_cam.eye_set_look_at(cam_obj, cam_pos);
                     m_trans.move_local(obj, 0, 0, -zoom_dist);
                     _stage++;
@@ -178,7 +178,7 @@ exports.track_to_target = function(cam_obj, target, rot_speed, zoom_mult,
                 var delta_dist = smooth_coeff * zoom_dist * elapsed / zoom_time;
                 m_trans.move_local(obj, 0, 0, delta_dist);
             } else {
-                m_cam.eye_rotate(cam_obj, finish_angles[0], finish_angles[1], true, true);
+                m_cam.rotate_camera(cam_obj, finish_angles[0], finish_angles[1], true);
                 m_cam.eye_set_look_at(cam_obj, cam_pos);
                 disable_cb();
             }
@@ -488,8 +488,8 @@ exports.move_camera_to_point = function(cam_obj, point_obj, cam_lin_speed, cam_a
 /**
  * Smoothly rotate the camera. Intended for non-STATIC cameras.
  * @param {Object3D} cam_obj Camera object 3D
- * @param {number} angle_phi Horizontal rotation angle
- * @param {number} angle_theta Vertical rotation angle
+ * @param {number} angle_phi Horizontal rotation angle (in radians)
+ * @param {number} angle_theta Vertical rotation angle (in radians)
  * @param {number} [time=1000] Rotation time in ms
  * @param {RotateCameraCallback} [cb] Finishing callback
  */

@@ -275,6 +275,8 @@ function add_cont_style(elem) {
     elem.style.cssText +=
         "position:        absolute;" +
         "height:          0;" +
+        "top:             0;" +
+        "left:            0;" +
         "transform-style: preserve-3d;";
 }
 

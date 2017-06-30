@@ -87,14 +87,13 @@ exports.set_hardware_defaults = function(gl, print_warnings) {
         var vendor = gl.getParameter(rinfo.UNMASKED_VENDOR_WEBGL);
         var renderer = gl.getParameter(rinfo.UNMASKED_RENDERER_WEBGL);
 
-        if (vendor.indexOf("Qualcomm") > -1 && renderer.indexOf("Adreno") > -1 &&
+        if (vendor.indexOf("Qualcomm") > -1 && renderer.indexOf("330") > -1 &&
                 check_user_agent("Chrome")) {
-            warn("Chrome and Qualcomm Adreno detected, force enable WebGL 1.");
+            warn("Chrome and Qualcomm 330 detected, force enable WebGL 1.");
             cfg_def.webgl2 = false;
         }
     }
 
-    // NOTE: don't use gl.getParameter(gl.DEPTH_BITS)
     cfg_lim.depth_bits = cfg_def.webgl2 ? 24 : 16;
 
     if (cfg_def.webgl2 && !cfg_dbg.enabled)
@@ -202,8 +201,8 @@ exports.set_hardware_defaults = function(gl, print_warnings) {
         cfg_def.shadows_color_slink_hack = true;
     }
 
-    if (check_user_agent("iPhone") || is_ie11() || check_user_agent("Edge")) {
-        warn("iPhone, IE11 or Edge detected. Enable sequential video fallback for video textures.");
+    if (check_user_agent("iPhone") || is_ie11()) {
+        warn("iPhone or IE11 detected. Enable sequential video fallback for video textures.");
         cfg_def.seq_video_fallback = true;
     }
 
@@ -234,7 +233,14 @@ exports.set_hardware_defaults = function(gl, print_warnings) {
     }
 
     if (check_user_agent("Firefox")) {
-        warn("Firefox detected, disable workers.");
+        warn("Firefox detected, disabling workers, applying compositing hack " 
+                + "for transparent node materials.");
+        cfg_phy.use_workers = false;
+        cfg_def.ff_compositing_hack = true;
+    }
+
+    if (is_ie11() || check_user_agent("Edge")) {
+        warn("IE11 or Edge detected, disabling workers");
         cfg_phy.use_workers = false;
     }
 
@@ -245,17 +251,24 @@ exports.set_hardware_defaults = function(gl, print_warnings) {
     }
 
     // NOTE: check compatibility for particular device
-    var rinfo = m_ext.get_renderer_info();
     if (rinfo) {
         var vendor = gl.getParameter(rinfo.UNMASKED_VENDOR_WEBGL);
         var renderer = gl.getParameter(rinfo.UNMASKED_RENDERER_WEBGL);
         var mali_4x_re = /\b4\d{2}\b/;
 
-        if (renderer.indexOf("AMD") > -1 && check_user_agent("Windows") 
-                && check_user_agent("Chrome") && !(is_ie11() || check_user_agent("Edge"))) {
-            warn("AMD, Windows and Chrome detected, applying RGBA shadows, disable SSAO.");
-            cfg_def.ssao = false;
-            cfg_def.rgba_fallback_shadows = true;
+        if (check_user_agent("Firefox") && check_user_agent("Windows") 
+                && renderer.indexOf("AMD") > -1 && cfg_def.webgl2) {
+            warn("AMD, Windows and Firefox detected under WebGL 2, request depth" 
+                    + " bits value via gl.getParameter.");
+            cfg_lim.depth_bits = gl.getParameter(gl.DEPTH_BITS);
+        }
+
+        if (renderer.indexOf("AMD") > -1 && check_user_agent("Windows")) {
+            if (check_user_agent("Chrome") && !(is_ie11() || check_user_agent("Edge"))) {
+                warn("AMD, Windows and Chrome detected, applying RGBA shadows, disable SSAO.");
+                cfg_def.ssao = false;
+                cfg_def.rgba_fallback_shadows = true;
+            }
         }
 
         if (vendor.indexOf("ARM") > -1 && mali_4x_re.test(renderer)) {
@@ -279,6 +292,11 @@ exports.set_hardware_defaults = function(gl, print_warnings) {
             }
         }
 
+        if (vendor.indexOf("ARM") > -1 && renderer.indexOf("Mali-T720") > -1) {
+            warn("ARM Mali-T720 detected, applying RGBA shadows");
+            cfg_def.rgba_fallback_shadows = true;
+        }
+
         if (vendor.indexOf("Qualcomm") > -1 && renderer.indexOf("Adreno") > -1) {
             warn("Qualcomm Adreno detected, applying shader constants hack.");
             cfg_def.shader_constants_hack = true;
@@ -291,12 +309,20 @@ exports.set_hardware_defaults = function(gl, print_warnings) {
                 cfg_def.precision = "highp";
             }
             if (renderer.indexOf("420") > -1) {
-                warn("Qualcomm Adreno420 detected, setting max cubemap size to 4096, "
-                        + "setting max texture size to 4096.");
-                cfg_lim.max_texture_size = 4096;
-                cfg_lim.max_cube_map_texture_size = 4096;
+                warn("Qualcomm Adreno420 detected, setting max cubemap size to 12288x8192, "
+                        + "setting max texture size to 4096x4096.");
+                cfg_lim.max_texture_size = Math.min(cfg_lim.max_texture_size, 4096);
+                cfg_lim.max_cube_map_texture_size = Math.min(
+                        cfg_lim.max_cube_map_texture_size, 4096);
                 cfg_def.phy_race_condition_hack = true;
             }
+
+            if (check_user_agent("Chrome") && (renderer.match(/4../) 
+                    || renderer.match(/5../))) {
+                warn("Qualcomm Adreno 4xx or 5xx detected, switch MSAA samples to 1.");
+                cfg_def.msaa_samples = 1;
+            }
+
         }
         if (vendor.indexOf("NVIDIA") > -1 && renderer.indexOf("Tegra 3") > -1) {
             warn("NVIDIA Tegra 3 detected, force low quality for "
@@ -307,13 +333,13 @@ exports.set_hardware_defaults = function(gl, print_warnings) {
                 (renderer.match(/NVIDIA GeForce 8..0/) || renderer.match(/NVIDIA GeForce 9..0/)
                 || renderer.match(/NVIDIA GeForce( (G|GT|GTS|GTX))? 2../))) {
             warn("Chrome / Windows / NVIDIA GeForce 8/9/200 series detected, " +
-                         "setting max cubemap size to 256, use canvas for resizing.");
+                         "setting max cubemap size to 768x512, use canvas for resizing.");
             cfg_lim.max_cube_map_texture_size = exports.NVIDIA_OLD_GPU_CUBEMAP_MAX_SIZE;
             cfg_def.resize_cubemap_canvas_hack = true;
         }
 
-        if (renderer.indexOf("PowerVR") > -1) {
-            warn("PowerVR series detected, use canvas for resizing. " +
+        if (renderer.indexOf("PowerVR") > -1 && renderer.indexOf("SGX") > -1) {
+            warn("PowerVR SGX series detected, use canvas for resizing. " +
                     "Disable shadows. " +
                     "Apply skinning hack, disable skin blending between frames.");
             cfg_def.resize_cubemap_canvas_hack = true;
@@ -321,6 +347,13 @@ exports.set_hardware_defaults = function(gl, print_warnings) {
             cfg_def.shadows = false;
             // NOTE: uncomment code below in case of cfg_def.shadows == true;
             // cfg_def.shadows_color_slink_hack = true;
+        }
+
+        if (check_user_agent("Windows") && renderer.indexOf("Direct3D9") > -1) {
+            warn("DirectX 9.0 detected, using canvas for resizing textures/cubemap textures.");
+            cfg_def.d3d9_canvas_resizing_hack = true;
+            cfg_def.resize_cubemap_canvas_hack = true;
+            cfg_def.resize_texture_canvas_hack = true;
         }
 
         var architecture = "";
@@ -379,12 +412,19 @@ exports.set_hardware_defaults = function(gl, print_warnings) {
 
     if (detect_mobile() && check_user_agent("Firefox")) {
         m_print.log("Mobile firefox detected. Applying autoplay media hack."
-                + "Setting max cubemap size to 4096, "
-                + "setting max texture size to 4096.");
+                + "Setting max cubemap size to 12288x8192, "
+                + "setting max texture size to 4096x4096.");
         cfg_def.mobile_firefox_media_hack = true;
-        cfg_lim.max_texture_size = 4096;
-        cfg_lim.max_cube_map_texture_size = 4096;
+        cfg_lim.max_texture_size = Math.min(cfg_lim.max_texture_size, 4096);
+        cfg_lim.max_cube_map_texture_size = Math.min(
+                cfg_lim.max_cube_map_texture_size, 4096);
     }
+
+    var aniso_available = Boolean(m_ext.get_aniso());
+    cfg_def.anisotropic_available = aniso_available;
+
+    var tex_lod_available = Boolean(m_ext.get_texture_lod());
+    cfg_def.texture_lod_available = tex_lod_available;
 }
 
 exports.check_user_agent = check_user_agent;

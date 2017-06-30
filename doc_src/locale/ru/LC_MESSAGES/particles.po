@@ -146,7 +146,7 @@ msgstr "Общие настройки"
 
 #: ../particles.rst:65
 msgid "*Name*"
-msgstr ""
+msgstr "*Name*"
 
 #: ../particles.rst:65
 msgid "Particle system name. The default name is \"ParticleSystem\"."
@@ -154,7 +154,7 @@ msgstr "Название системы частиц. Значение по ум
 
 #: ../particles.rst:68
 msgid "*Settings*"
-msgstr ""
+msgstr "*Settings*"
 
 #: ../particles.rst:68
 msgid ""
@@ -166,7 +166,7 @@ msgstr ""
 
 #: ../particles.rst:71
 msgid "*Type*"
-msgstr ""
+msgstr "*Type*"
 
 #: ../particles.rst:71
 msgid ""
@@ -180,7 +180,7 @@ msgstr ""
 
 #: ../particles.rst:75
 msgid "*Seed*"
-msgstr ""
+msgstr "*Seed*"
 
 #: ../particles.rst:74
 msgid ""
@@ -196,7 +196,7 @@ msgstr "Настройки испускания"
 
 #: ../particles.rst:85
 msgid "*Emission > Number*"
-msgstr ""
+msgstr "*Emission > Number*"
 
 #: ../particles.rst:85
 msgid "Number of particles. The default value is 1000."
@@ -204,7 +204,7 @@ msgstr "Количество частиц. Значение по умолчан�
 
 #: ../particles.rst:88
 msgid "*Emission > Start*"
-msgstr ""
+msgstr "*Emission > Start*"
 
 #: ../particles.rst:88
 msgid ""
@@ -216,7 +216,7 @@ msgstr ""
 
 #: ../particles.rst:91
 msgid "*Emission > End*"
-msgstr ""
+msgstr "*Emission > End*"
 
 #: ../particles.rst:91
 msgid ""
@@ -228,7 +228,7 @@ msgstr ""
 
 #: ../particles.rst:94
 msgid "*Emission > Lifetime*"
-msgstr ""
+msgstr "*Emission > Lifetime*"
 
 #: ../particles.rst:94
 msgid "The lifetime of particles measured in frames. The default value is 50.0."
@@ -236,7 +236,7 @@ msgstr "Время жизни частиц в кадрах. Значение п�
 
 #: ../particles.rst:97
 msgid "*Emission > Lifetime > Random*"
-msgstr ""
+msgstr "*Emission > Lifetime > Random*"
 
 #: ../particles.rst:97
 msgid "The random factor for the lifetime. The default value is 0.0."
@@ -244,7 +244,7 @@ msgstr "Фактор случайности для времени жизни. З
 
 #: ../particles.rst:100
 msgid "*Emission > Emit From*"
-msgstr ""
+msgstr "*Emission > Emit From*"
 
 #: ../particles.rst:100
 msgid ""
@@ -256,7 +256,7 @@ msgstr ""
 
 #: ../particles.rst:103
 msgid "*Emission > Cyclic emission*"
-msgstr ""
+msgstr "*Emission > Cyclic emission*"
 
 #: ../particles.rst:103
 msgid ""
@@ -270,7 +270,7 @@ msgstr ""
 
 #: ../particles.rst:106
 msgid "*Emission > Allow NLA*"
-msgstr ""
+msgstr "*Emission > Allow NLA*"
 
 #: ../particles.rst:106
 msgid ""
@@ -282,7 +282,7 @@ msgstr ""
 
 #: ../particles.rst:110
 msgid "*Emission > Random Delay*"
-msgstr ""
+msgstr "*Emission > Random Delay*"
 
 #: ../particles.rst:109
 msgid ""
@@ -298,7 +298,7 @@ msgstr "Настройки направления"
 
 #: ../particles.rst:116
 msgid "*Velocity > Emitter Geometry > Normal*"
-msgstr ""
+msgstr "*Velocity > Emitter Geometry > Normal*"
 
 #: ../particles.rst:116
 msgid ""
@@ -310,7 +310,7 @@ msgstr ""
 
 #: ../particles.rst:120
 msgid "*Velocity > Other > Random*"
-msgstr ""
+msgstr "*Velocity > Other > Random*"
 
 #: ../particles.rst:119
 msgid "Factor of randomization for emission direction. The default value is 0.0."
@@ -322,7 +322,7 @@ msgstr "Настройки вращения"
 
 #: ../particles.rst:126
 msgid "*Rotation > Angular Velocity > Mode*"
-msgstr ""
+msgstr "*Rotation > Angular Velocity > Mode*"
 
 #: ../particles.rst:126
 msgid ""
@@ -336,7 +336,7 @@ msgstr ""
 
 #: ../particles.rst:130
 msgid "*Rotation > Angular Velocity > Factor*"
-msgstr ""
+msgstr "*Rotation > Angular Velocity > Factor*"
 
 #: ../particles.rst:129
 msgid ""
@@ -352,7 +352,7 @@ msgstr "Настройки физики"
 
 #: ../particles.rst:140
 msgid "*Physics > Type*"
-msgstr ""
+msgstr "*Physics > Type*"
 
 #: ../particles.rst:140
 msgid ""
@@ -366,7 +366,7 @@ msgstr ""
 
 #: ../particles.rst:143
 msgid "*Physics > Size*"
-msgstr ""
+msgstr "*Physics > Size*"
 
 #: ../particles.rst:143
 msgid "Particle size. The default value is 0.05."
@@ -374,7 +374,7 @@ msgstr "Размер частиц. Значение по умолчанию 0.05
 
 #: ../particles.rst:146
 msgid "*Physics > Mass*"
-msgstr ""
+msgstr "*Physics > Mass*"
 
 #: ../particles.rst:146
 msgid ""
@@ -386,7 +386,7 @@ msgstr ""
 
 #: ../particles.rst:150
 msgid "*Physics > Forces > Brownian*"
-msgstr ""
+msgstr "*Physics > Forces > Brownian*"
 
 #: ../particles.rst:149
 msgid "Exported but not used by the engine."
@@ -398,7 +398,7 @@ msgstr "Настройки отображения"
 
 #: ../particles.rst:160
 msgid "*Render > Material*"
-msgstr ""
+msgstr "*Render > Material*"
 
 #: ../particles.rst:160
 msgid ""
@@ -412,7 +412,7 @@ msgstr ""
 
 #: ../particles.rst:163
 msgid "*Render > Emitter*"
-msgstr ""
+msgstr "*Render > Emitter*"
 
 #: ../particles.rst:163
 msgid "Enables emitter rendering on the scene. Enabled by default."
@@ -420,7 +420,7 @@ msgstr "Опция включения отображения эмиттера н
 
 #: ../particles.rst:166
 msgid "*Render > Type*"
-msgstr ""
+msgstr "*Render > Type*"
 
 #: ../particles.rst:166
 msgid ""
@@ -440,7 +440,7 @@ msgstr ""
 
 #: ../particles.rst:169
 msgid "*Render > Billboard Align*"
-msgstr ""
+msgstr "*Render > Billboard Align*"
 
 #: ../particles.rst:169
 msgid ""
@@ -455,7 +455,7 @@ msgstr ""
 
 #: ../particles.rst:178
 msgid "*Render > Tilt*"
-msgstr ""
+msgstr "*Render > Tilt*"
 
 #: ../particles.rst:172
 msgid ""
@@ -467,7 +467,7 @@ msgstr ""
 
 #: ../particles.rst:175
 msgid "*Angle*"
-msgstr ""
+msgstr "*Angle*"
 
 #: ../particles.rst:175
 msgid ""
@@ -481,7 +481,7 @@ msgstr ""
 
 #: ../particles.rst:178
 msgid "*Random*"
-msgstr ""
+msgstr "*Random*"
 
 #: ../particles.rst:178
 msgid ""
@@ -505,7 +505,7 @@ msgstr ""
 
 #: ../particles.rst:184
 msgid "*Render > Coordinate System*"
-msgstr ""
+msgstr "*Render > Coordinate System*"
 
 #: ../particles.rst:184
 msgid ""
@@ -518,7 +518,7 @@ msgstr ""
 
 #: ../particles.rst:187
 msgid "*Render > Soft Particles*"
-msgstr ""
+msgstr "*Render > Soft Particles*"
 
 #: ../particles.rst:187
 msgid ""
@@ -536,7 +536,7 @@ msgstr "Настройки влияния силовых полей"
 
 #: ../particles.rst:195
 msgid "*Field Weights > Gravity*"
-msgstr ""
+msgstr "*Field Weights > Gravity*"
 
 #: ../particles.rst:195
 msgid "Gravity influence factor (Earth's attraction). The default value is 1.0."
@@ -546,7 +546,7 @@ msgstr ""
 
 #: ../particles.rst:199
 msgid "*Field Weights > Wind*"
-msgstr ""
+msgstr "*Field Weights > Wind*"
 
 #: ../particles.rst:198
 msgid ""
@@ -565,7 +565,7 @@ msgstr "Специальные настройки движка"
 
 #: ../particles.rst:206
 msgid "*Export Options > Do not export*"
-msgstr ""
+msgstr "*Export Options > Do not export*"
 
 #: ../particles.rst:205
 msgid "Don't export."

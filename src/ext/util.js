@@ -420,16 +420,26 @@ exports.dir_to_quat = m_util.dir_to_quat;
 
 /**
  * Check if Internet Explorer 11 is using.
+ * @method module:util.is_ie11
  * @returns {boolean} Check result.
  */
 exports.is_ie11 = m_compat.is_ie11;
 
 /**
  * Generate flat array of TBN quaternions
+ * @method module:util.gen_tbn_quats
  * @param {Float32Array} normals Flat array of normals.
  * @param {Float32Array} [tangents] Flat array of tangents.
  * @returns {Float32Array} Flat array of quaternions.
  */
 exports.gen_tbn_quats = m_tbn.get;
+
+/**
+ * Returns the integer part of the given number.
+ * @method module:util.trunc
+ * @param {number} value Original value.
+ * @returns {number} Truncated value.
+ */
+exports.trunc = m_util.trunc;
 
 }

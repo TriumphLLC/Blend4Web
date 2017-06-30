@@ -888,8 +888,9 @@ function add_bsdf_subgraph(graph, data, begin_node_id, end_node_id, translucency
         prev_node_id = lighting_apply_node_id;
     }
 
+    link_edge_by_ident(graph, begin_node_id, end_node_id, "bsdf_params");
+    link_edge_by_ident(graph, begin_node_id, end_node_id, "d_color");
     link_edge_by_ident(graph, begin_node_id, end_node_id, "s_color");
-    link_edge_by_ident(graph, begin_node_id, end_node_id, "metalness");
     link_edge_by_ident(graph, begin_node_id, end_node_id, "e_color");
     link_edge_by_ident(graph, begin_node_id, end_node_id, "emission");
     link_edge_by_ident(graph, begin_node_id, end_node_id, "a_color");
@@ -3428,8 +3429,8 @@ function append_nmat_node(graph, bpy_node, output_num, mat_name, shader_type) {
                                   default_node_inout("normal", "normal", [0, 0, 0], true),
                                   default_node_inout("bsdf_params", "bsdf_params", [0, 0, 0, 0], true),
                                   default_node_inout("shadow_factor", "shadow_factor", 0, true),
+                                  default_node_inout("d_color", "d_color", [0, 0, 0], true),
                                   default_node_inout("s_color", "s_color", [0, 0, 0], true),
-                                  default_node_inout("metalness", "metalness", 0, true),
                                   default_node_inout("e_color", "e_color", [0, 0, 0], true),
                                   default_node_inout("emission", "emission", 0, true),
                                   default_node_inout("a_color", "a_color", [0, 0, 0], true),
@@ -3439,8 +3440,9 @@ function append_nmat_node(graph, bpy_node, output_num, mat_name, shader_type) {
         var bsdf_end_inputs = [default_node_inout("color", "color", [0, 0, 0], true),
                                default_node_inout("specular", "specular", [0, 0, 0], true),
                                default_node_inout("normal", "normal", [0, 0, 0], true),
+                               default_node_inout("bsdf_params", "bsdf_params", [0, 0, 0, 0], true),
+                               default_node_inout("d_color", "d_color", [0, 0, 0], true),
                                default_node_inout("s_color", "s_color", [0, 0, 0], true),
-                               default_node_inout("metalness", "metalness", 0, true),
                                default_node_inout("e_color", "e_color", [0, 0, 0], true),
                                default_node_inout("emission", "emission", 0, true),
                                default_node_inout("a_color", "a_color", [0, 0, 0], true),
@@ -3591,7 +3593,9 @@ function append_nmat_node(graph, bpy_node, output_num, mat_name, shader_type) {
             var tex = m_tex.create_texture(m_tex.TT_RGBA_INT, false);
             tex.repeat = true;
             tex.source = "IMAGE";
-            tex.anisotropic_filtering = 16;
+            if (cfg_def.anisotropic_available)
+                tex.anisotropic_filtering = 16;
+
             m_tex.append_img_info(tex, image);
 
             data = {

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>节点材质 &mdash; Blend4Web 17.04.1 用户手册</title>
+  <title>节点材质 &mdash; Blend4Web 17.06 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.04.1 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 17.06 用户手册" href="index.html"/>
         <link rel="next" title="逻辑编辑器" href="logic_editor.html"/>
         <link rel="prev" title="材质库" href="material_library.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v17.04.1
+              v17.06
             </div>
           
         
@@ -158,6 +158,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#cycles-nodes">Cycles 节点</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#limitations">Limitations</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="logic_editor.html">逻辑编辑器</a></li>
@@ -241,6 +242,7 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#cycles-nodes" id="id38">Cycles 节点</a></li>
+<li><a class="reference internal" href="#limitations" id="id39">Limitations</a></li>
 </ul>
 </li>
 </ul>
@@ -549,6 +551,7 @@
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
+<p>Please keep in mind that node materials have certain limitations concerning the number of specific nodes in the material. These limitations are described <a class="reference internal" href="#node-material-limits"><span>here</span></a>.</p>
 </div>
 <div class="section" id="engine-specific-nodes">
 <span id="custom-node-materials"></span><h2><a class="toc-backref" href="#id25">游戏引擎特定节点</a><a class="headerlink" href="#engine-specific-nodes" title="永久链接至标题">¶</a></h2>
@@ -906,7 +909,126 @@
 <li><p class="first"><code class="docutils literal"><span class="pre">Emission</span></code> (不会影响场景中的打灯效果).</p>
 </li>
 </ul>
+<p><code class="docutils literal"><span class="pre">Cycles</span></code> nodes are also supported for <code class="docutils literal"><span class="pre">World</span></code> object. However, at the moment node material does not affect the colors of the environment.</p>
 <p>其他 <code class="docutils literal"><span class="pre">Cycles</span></code> 节点在大多数情况下在不会在Blend4Web中跟他们在Blender中一样良好工作。他们不会工作也可能引起材质的不正常显示和工作。但是，使用这些节点不会在应用程序工作流中导致不稳定。</p>
+</div>
+<div class="section" id="limitations">
+<span id="node-material-limits"></span><h2><a class="toc-backref" href="#id39">Limitations</a><a class="headerlink" href="#limitations" title="永久链接至标题">¶</a></h2>
+<p>Node materials can be complex, but their complexity is limited by the capabilities of the hardware you use. It might not be noticeable most of the time, but if you are making a very complex material, you might exceed the number of textures and varying vectors (vectors that are used by a vertex shader to hand over data to a fragment shader) that your system allows to use in one shader. And even if you won&#8217;t, some users of your application might not have devices as powerful as yours, so they can experience problems where you will not.</p>
+<p>If you want to know how your scene would behave on a low-end device but don&#8217;t have one in your possession, there is also a very useful option called <code class="docutils literal"><span class="pre">Min</span> <span class="pre">Capabilities</span> <span class="pre">Mode</span></code>. It is native to <a class="reference internal" href="viewer.html#viewer"><span>Scene Viewer</span></a> and can be found on the <a class="reference internal" href="viewer.html#viewer-tools-and-debug"><span>Tools &amp; Debug</span></a> panel.</p>
+<p>The number of textures and varying vectors supported by your device can be viewed on the WebGL Report web page accessible from the <a class="reference internal" href="addon.html#getting-started-launching-viewer"><span>SDK Index</span></a> page.</p>
+<p>The two following tables list various material nodes along with the numbers of textures and varying vectors the engine allocates to them.</p>
+<p><strong>Varying Vectors</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="48%" />
+<col width="52%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><strong>Node/Effect</strong></td>
+<td><strong>Allocated Varying Vectors</strong></td>
+</tr>
+<tr class="row-even"><td>Always reserved</td>
+<td>3</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">Input</span> <span class="pre">-&gt;</span> <span class="pre">Texture</span></code> node (if the <code class="docutils literal"><span class="pre">Normal</span></code>
+output is used)</td>
+<td>1</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">-&gt;</span> <span class="pre">Parallax</span></code> node</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">Vector</span> <span class="pre">-&gt;</span> <span class="pre">Normal</span> <span class="pre">Map</span></code> node</td>
+<td>1</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">Input</span> <span class="pre">-&gt;</span> <span class="pre">Material</span></code> node (if the
+<code class="docutils literal"><span class="pre">Shading</span> <span class="pre">-&gt;</span> <span class="pre">Tangent</span> <span class="pre">Shading</span></code> option is enabled
+on that material)</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">Input</span> <span class="pre">-&gt;</span> <span class="pre">Geometry</span></code> node (if the <code class="docutils literal"><span class="pre">UV</span></code> output
+is used)</td>
+<td>1</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">Input</span> <span class="pre">-&gt;</span> <span class="pre">UV</span> <span class="pre">Map</span></code> cycles node</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">Input</span> <span class="pre">-&gt;</span> <span class="pre">Texture</span> <span class="pre">Coordinate</span></code> cycles node (if
+the <code class="docutils literal"><span class="pre">UV</span></code> output is used)</td>
+<td>1</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">Input</span> <span class="pre">-&gt;</span> <span class="pre">Geometry</span></code> node (if the
+<code class="docutils literal"><span class="pre">Vertex</span> <span class="pre">Color</span></code> output is used)</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td>Shadows on an object with the <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Blend</span></code>
+material</td>
+<td><p class="first">1 - 4</p>
+<p class="last">(depending on the number of
+shadow cascades or shadow casters)</p>
+</td>
+</tr>
+<tr class="row-even"><td><p class="first">Shadows on an object with the``Opaque`` material</p>
+<p>Refraction effect on a material</p>
+<p class="last">Plane Reflections enabled on an object</p>
+</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td>Refraction effect on a material</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Textures</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="48%" />
+<col width="52%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><strong>Node/Effect</strong></td>
+<td><strong>Allocated Textures</strong></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">-&gt;</span> <span class="pre">Parallax</span></code> node</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">Input</span> <span class="pre">-&gt;</span> <span class="pre">Texture</span></code> node</td>
+<td>1</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">Texture</span> <span class="pre">-&gt;</span> <span class="pre">Environment</span> <span class="pre">Texture</span></code> cycles node</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td><p class="first"><code class="docutils literal"><span class="pre">Vector</span> <span class="pre">-&gt;</span> <span class="pre">Vector</span> <span class="pre">Curves</span></code> node</p>
+<p><code class="docutils literal"><span class="pre">Color</span> <span class="pre">-&gt;</span> <span class="pre">RGB</span> <span class="pre">Curves</span></code> node</p>
+<p class="last"><code class="docutils literal"><span class="pre">Converter</span> <span class="pre">-&gt;</span> <span class="pre">Color</span> <span class="pre">Ramp</span></code> node</p>
+</td>
+<td><p class="first">1</p>
+<p class="last">(the number of the nodes in the material
+doesn&#8217;t matter)</p>
+</td>
+</tr>
+<tr class="row-even"><td>Shadows on an object with the <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Blend</span></code>
+material</td>
+<td><p class="first">1 - 4</p>
+<p class="last">(depending on the number of shadow
+casters and/or shadow cascades)</p>
+</td>
+</tr>
+<tr class="row-odd"><td>Shadows on an object with an <code class="docutils literal"><span class="pre">Opaque</span></code> material</td>
+<td>1</td>
+</tr>
+<tr class="row-even"><td>Refraction effect on a material</td>
+<td>2</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">World</span> <span class="pre">-&gt;</span> <span class="pre">Environment</span> <span class="pre">Lighting</span> <span class="pre">-&gt;</span> <span class="pre">SkyTexture</span></code> is
+enabled for a World</td>
+<td>1</td>
+</tr>
+<tr class="row-even"><td>Reflection effect on an object</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 
@@ -930,7 +1052,7 @@
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2017, Triumph.
-      最后更新于 2017-05-15.
+      最后更新于 2017-06-30.
 
     </p>
   </div>
@@ -986,7 +1108,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.04.1',
+            VERSION:'v17.06',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

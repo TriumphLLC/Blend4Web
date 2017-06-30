@@ -65,10 +65,15 @@ variable_type_items = [
         ("STRING", _("String"), _("String variable"))
     ]
 
-space_type_items =[
+space_type_items = [
         ("WORLD", _("World"), _("World space")),
         ("PARENT", _("Parent"), _("Parent space")),
         ("LOCAL", _("Local"), _("Local space"))
+    ]
+
+cam_lim_space_type_items = [
+        ("WORLD", _("World"), _("World space")),
+        ("CAMERA", _("Camera"), _("Camera space"))
     ]
 
 slot_type_enum = [
@@ -96,6 +101,7 @@ slot_type_enum = [
         ("SELECT_PLAY_ANIM", _("Select & Play Animation (Deprecated)"), _("Select an object then play Object Animation"), 20),
         ("MOVE_CAMERA", _("Move Camera"), _("Set camera Translation and pivot"), 21),
         ("SET_CAMERA_MOVE_STYLE", _("Set Camera Move Style"), _("Set camera move style"), 22),
+        ("SET_CAMERA_LIMITS", _("Set Camera Limits"), _("Set camera limits"), 36),
         ("SPEAKER_PLAY", _("Play Sound"), _("Play Sound"), 23),
         ("SWITCH_SELECT", _("Switch Select"), _("Switch select"), 24),
         ("STOP_ANIM", _("Stop Animation"), _("Stop Object Animation"), 25),
@@ -481,6 +487,12 @@ def check_node(node):
                 if not ob:
                     node.add_error_message(err_msgs, "Target field is not correct!")
 
+    if node.type == "SET_CAMERA_LIMITS":
+        if "id0" in node.objects_paths:
+            ob = object_by_bpy_collect_path(bpy.data.objects, node.objects_paths["id0"].path_arr)
+            if not ob or ob.type != "CAMERA":
+                node.add_error_message(err_msgs, "Please select a valid camera object!")
+
     if len(err_msgs) > 0:
         return False
     else:
@@ -489,7 +501,7 @@ def check_node(node):
 def find_node(node_name, tree_name, find_item, type, node_types =
 ["INHERIT_MAT", "SET_SHADER_NODE_PARAM", "HIDE", "SHOW", "SELECT_PLAY", "PLAY_ANIM", "SELECT_PLAY_ANIM",
  "MOVE_CAMERA", "MOVE_TO", "TRANSFORM_OBJECT", "SPEAKER_PLAY","SPEAKER_STOP", "SWITCH_SELECT", "STOP_ANIM"
- "SET_CAMERA_MOVE_STYLE"]):
+ "SET_CAMERA_MOVE_STYLE", "SET_CAMERA_LIMITS"]):
     node_found = None
     ng = bpy.data.node_groups
     if tree_name in bpy.data.node_groups:
@@ -827,6 +839,8 @@ class B4W_LogicNodeTree(NodeTree):
             ret["common_usage_names"]["request_type"] = node.param_request_type
             ret["common_usage_names"]["param_anim_behavior"] = node.param_anim_behavior
             ret["common_usage_names"]["space_type"] = node.param_space_type
+            ret["common_usage_names"]["cam_lim_hor_rot_space_type"] = node.param_cam_lim_hor_rot_space_type
+            ret["common_usage_names"]["cam_lim_vert_rot_space_type"] = node.param_cam_lim_vert_rot_space_type
             ret["common_usage_names"]["string_operation"] = node.param_string_operation
             ret["common_usage_names"]["json_operation"] = node.param_json_operation
             ret["common_usage_names"]["variable_type"] = node.param_variable_type
@@ -1022,7 +1036,7 @@ class B4W_LogicNode(Node, B4W_LogicEditorNode):
 
         if self.type in ["SELECT_PLAY", "PLAY", "HIDE", "SHOW", "SELECT", "PLAY_ANIM", "DELAY",
                          "MOVE_CAMERA", "MOVE_TO", "TRANSFORM_OBJECT", "SPEAKER_PLAY", "SPEAKER_STOP", "SWITCH_SELECT", "STOP_ANIM"
-                         "STOP_TIMELINE", "GET_TIMELINE", "SET_CAMERA_MOVE_STYLE"]:
+                         "STOP_TIMELINE", "GET_TIMELINE", "SET_CAMERA_MOVE_STYLE", "SET_CAMERA_LIMITS"]:
             self.width = 190
         if self.type in ["PAGEPARAM"]:
             self.width = 220
@@ -1435,6 +1449,114 @@ class B4W_LogicNode(Node, B4W_LogicEditorNode):
             item.node_name = self.name
             item.name = name
 
+        if self.type in ["SET_CAMERA_LIMITS"]:
+            name = "id0"
+            self.objects_paths.add()
+            item = self.objects_paths[-1]
+            item.tree_name = self.id_data.name
+            item.node_name = self.name
+            item.name = name
+
+            # distance limits
+            self.bools.add()
+            self.bools[-1].name = "dsl"
+            self.floats.add()
+            self.floats[-1].name = "dslmin"
+            self.bools.add()
+            self.bools[-1].name = "dslmin"
+            self.variables_names.add()
+            self.variables_names[-1].name = "dslmin"
+            self.floats.add()
+            self.floats[-1].name = "dslmax"
+            self.bools.add()
+            self.bools[-1].name = "dslmax"
+            self.variables_names.add()
+            self.variables_names[-1].name = "dslmax"
+
+            # horizontal rotation limits
+            self.bools.add()
+            self.bools[-1].name = "hrl"
+            self.angles.add()
+            self.angles[-1].name = "hrlleft"
+            self.bools.add()
+            self.bools[-1].name = "hrlleft"
+            self.variables_names.add()
+            self.variables_names[-1].name = "hrlleft"
+            self.angles.add()
+            self.angles[-1].name = "hrlright"
+            self.bools.add()
+            self.bools[-1].name = "hrlright"
+            self.variables_names.add()
+            self.variables_names[-1].name = "hrlright"
+            self.bools.add()
+            self.bools[-1].name = "hrlright"
+            self.variables_names.add()
+            self.variables_names[-1].name = "hrlright"
+
+            # vertical rotation limits
+            self.bools.add()
+            self.bools[-1].name = "vrl"
+            self.angles.add()
+            self.angles[-1].name = "vrldown"
+            self.bools.add()
+            self.bools[-1].name = "vrldown"
+            self.variables_names.add()
+            self.variables_names[-1].name = "vrldown"
+            self.angles.add()
+            self.angles[-1].name = "vrlup"
+            self.bools.add()
+            self.bools[-1].name = "vrlup"
+            self.variables_names.add()
+            self.variables_names[-1].name = "vrlup"
+
+            # pivot translation limits
+            self.bools.add()
+            self.bools[-1].name = "pvl"
+            self.floats.add()
+            self.floats[-1].name = "pvlmin"
+            self.bools.add()
+            self.bools[-1].name = "pvlmin"
+            self.variables_names.add()
+            self.variables_names[-1].name = "pvlmin"
+            self.floats.add()
+            self.floats[-1].name = "pvlmax"
+            self.bools.add()
+            self.bools[-1].name = "pvlmax"
+            self.variables_names.add()
+            self.variables_names[-1].name = "pvlmax"
+
+            # horizontal translation limits
+            self.bools.add()
+            self.bools[-1].name = "htl"
+            self.floats.add()
+            self.floats[-1].name = "htlmin"
+            self.bools.add()
+            self.bools[-1].name = "htlmin"
+            self.variables_names.add()
+            self.variables_names[-1].name = "htlmin"
+            self.floats.add()
+            self.floats[-1].name = "htlmax"
+            self.bools.add()
+            self.bools[-1].name = "htlmax"
+            self.variables_names.add()
+            self.variables_names[-1].name = "htlmax"
+
+            # vertical translation limits
+            self.bools.add()
+            self.bools[-1].name = "vtl"
+            self.floats.add()
+            self.floats[-1].name = "vtlmin"
+            self.bools.add()
+            self.bools[-1].name = "vtlmin"
+            self.variables_names.add()
+            self.variables_names[-1].name = "vtlmin"
+            self.floats.add()
+            self.floats[-1].name = "vtlmax"
+            self.bools.add()
+            self.bools[-1].name = "vtlmax"
+            self.variables_names.add()
+            self.variables_names[-1].name = "vtlmax"
+
     type = bpy.props.EnumProperty(name="type",items=slot_type_enum, update=type_init)
 
     param_marker_start = bpy.props.StringProperty(
@@ -1633,6 +1755,22 @@ class B4W_LogicNode(Node, B4W_LogicEditorNode):
         description = _("Space type"),
         default = "WORLD",
         items = space_type_items,
+        update = update_prop_callback
+    )
+
+    param_cam_lim_hor_rot_space_type = bpy.props.EnumProperty(
+        name = _("Camera horizontal limits space"),
+        description = _("Camera horizontal rotation limits space"),
+        default = "CAMERA",
+        items = cam_lim_space_type_items,
+        update = update_prop_callback
+    )
+
+    param_cam_lim_vert_rot_space_type = bpy.props.EnumProperty(
+        name = _("Camera vertical limits space"),
+        description = _("Camera vertical rotation limits space"),
+        default = "CAMERA",
+        items = cam_lim_space_type_items,
         update = update_prop_callback
     )
 
@@ -2403,6 +2541,56 @@ class B4W_LogicNode(Node, B4W_LogicEditorNode):
                             row.label(no_var_source_msg)
                     row.prop(self.bools["pvz"], "bool", text = _("Variable"))
 
+        elif slot.type == "SET_CAMERA_LIMITS":
+            self.draw_selector(col, 0, _("Camera:"), None, "ob", icon="OUTLINER_OB_CAMERA")
+
+            # col.label(_("Distance Limits:"))
+            row = col.row(align=True)
+            row.prop(self.bools["dsl"], "bool", text = _("Distance Limits:"))
+            if self.bools["dsl"].bool:
+                row = col.row(align=True)
+                row.prop(self.floats["dslmin"], "float", text = _("Min"))
+                row.prop(self.floats["dslmax"], "float", text = _("Max"))
+
+            row = col.row(align=True)
+            row.prop(self.bools["hrl"], "bool", text = _("Hor. Rotation Limits:"))
+            if self.bools["hrl"].bool:
+                row = col.row(align=True)
+                row.prop(self.angles["hrlleft"], "float", text = _("Left"))
+                row.prop(self.angles["hrlright"], "float", text = _("Right"))
+                row = col.row(align=True)
+                col.prop(self, "param_cam_lim_hor_rot_space_type", text="Space")
+
+            row = col.row(align=True)
+            row.prop(self.bools["vrl"], "bool", text = _("Vert. Rotation Limits:"))
+            if self.bools["vrl"].bool:
+                row = col.row(align=True)
+                row.prop(self.angles["vrldown"], "float", text = _("Down"))
+                row.prop(self.angles["vrlup"], "float", text = _("Up"))
+                row = col.row(align=True)
+                col.prop(self, "param_cam_lim_vert_rot_space_type", text="Space")
+
+            row = col.row(align=True)
+            row.prop(self.bools["pvl"], "bool", text = _("Pivot Translation Limits:"))
+            if self.bools["pvl"].bool:
+                row = col.row(align=True)
+                row.prop(self.floats["pvlmin"], "float", text = _("Min"))
+                row.prop(self.floats["pvlmax"], "float", text = _("Max"))
+
+            row = col.row(align=True)
+            row.prop(self.bools["htl"], "bool", text = _("Hor. Translation Limits:"))
+            if self.bools["htl"].bool:
+                row = col.row(align=True)
+                row.prop(self.floats["htlmin"], "float", text = _("Min"))
+                row.prop(self.floats["htlmax"], "float", text = _("Max"))
+
+            row = col.row(align=True)
+            row.prop(self.bools["vtl"], "bool", text = _("Vert. Translation Limits:"))
+            if self.bools["vtl"].bool:
+                row = col.row(align=True)
+                row.prop(self.floats["vtlmin"], "float", text = _("Min"))
+                row.prop(self.floats["vtlmax"], "float", text = _("Max"))
+
         elif slot.type in ["SPEAKER_PLAY", "SPEAKER_STOP"]:
             self.draw_selector(col, 0, _("Speaker:"), None, "ob", icon = "OUTLINER_OB_SPEAKER")
             if slot.type == "SPEAKER_PLAY":
@@ -2637,6 +2825,7 @@ node_categories = [
     B4W_LogicNodeCategory("Camera", _("Camera"), items=[
         NodeItem("B4W_logic_node", label=_("Move Camera"),settings={"type": repr("MOVE_CAMERA")}),
         NodeItem("B4W_logic_node", label=_("Set Camera Move Style"),settings={"type": repr("SET_CAMERA_MOVE_STYLE")}),
+        NodeItem("B4W_logic_node", label=_("Set Camera Limits"),settings={"type": repr("SET_CAMERA_LIMITS")}),
     ]),
     B4W_LogicNodeCategory("Object", _("Object"), items=[
         NodeItem("B4W_logic_node", label=_("Show Object"),settings={"type": repr("SHOW")}),

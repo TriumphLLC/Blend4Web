@@ -1426,6 +1426,11 @@ void du_apply_torque(du_body_id body, float tx, float ty, float tz)
     btRigidBody *bt_body = reinterpret_cast <btRigidBody*>(body);
     bt_body->applyTorque(btVector3(tx, ty, tz));
 }
+void du_set_angular_velocity(du_body_id body, float avx, float avy, float avz)
+{
+    btRigidBody *bt_body = reinterpret_cast <btRigidBody*>(body);
+    bt_body->setAngularVelocity(btVector3(avx, avy, avz));
+}
 
 void du_update_vehicle_controls(du_vehicle_id vehicle, float engine_force, 
         float brake_force, float steering_value)

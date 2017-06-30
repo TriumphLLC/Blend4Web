@@ -37,6 +37,7 @@ var m_batch    = require("__batch");
 var m_obj_util = require("__obj_util");
 var m_print    = require("__print");
 var m_scenes   = require("__scenes");
+var m_util     = require("__util");
 
 /**
  * @typedef {Object} ObjectMetaTags
@@ -48,7 +49,7 @@ var m_scenes   = require("__scenes");
 /**
  * Wind bending params.
  * @typedef {Object} WindBendingParams
- * @property {number} angle Angle of main wind bending
+ * @property {number} angle Angle of main wind bending in degrees
  * @property {number} main_frequency Frequency of main wind bending
  * @property {number} detail_frequency Frequency of detail wind bending
  * @property {number} detail_amplitude Amplitude of detail wind bending
@@ -140,7 +141,7 @@ exports.set_nodemat_value = function(obj, name_list, value) {
         return null;
     }
 
-    var ind = m_batch.get_node_ind_by_name_list(batch_main.node_value_inds,
+    var ind = m_obj.get_node_ind_by_name_list(batch_main.node_value_inds,
                                                 name_list, 1);
     if (ind === null) {
         m_print.error("Value node \"" + name_list[name_list.length - 1] +
@@ -148,7 +149,7 @@ exports.set_nodemat_value = function(obj, name_list, value) {
         return null;
     }
 
-    m_batch.set_nodemat_value(obj, mat_name, ind, value)
+    m_obj.set_nodemat_value(obj, mat_name, ind, value)
 }
 
 /**
@@ -177,7 +178,7 @@ exports.get_nodemat_value = function(obj, name_list) {
         return 0;
     }
 
-    var ind = m_batch.get_node_ind_by_name_list(batch_main.node_value_inds,
+    var ind = m_obj.get_node_ind_by_name_list(batch_main.node_value_inds,
                                                 name_list, 1);
     if (ind === null) {
         m_print.error("Value node \"" + name_list[name_list.length - 1] +
@@ -185,7 +186,7 @@ exports.get_nodemat_value = function(obj, name_list) {
         return 0;
     }
 
-    return m_batch.get_nodemat_value(batch_main, ind);
+    return m_obj.get_nodemat_value(batch_main, ind);
 }
 
 /**
@@ -216,7 +217,7 @@ exports.set_nodemat_rgb = function(obj, name_list, r, g, b) {
     }
 
     // node index is assumed to be similar for all batches with the same material
-    var ind = m_batch.get_node_ind_by_name_list(batch_main.node_rgb_inds,
+    var ind = m_obj.get_node_ind_by_name_list(batch_main.node_rgb_inds,
                                                 name_list, 1);
     if (ind === null) {
         m_print.error("RGB node \"" + name_list[name_list.length - 1] +
@@ -224,7 +225,7 @@ exports.set_nodemat_rgb = function(obj, name_list, r, g, b) {
         return;
     }
 
-    m_batch.set_nodemat_rgb(obj, mat_name, ind, r, g, b);
+    m_obj.set_nodemat_rgb(obj, mat_name, ind, r, g, b);
 }
 
 /**
@@ -253,7 +254,7 @@ exports.get_nodemat_rgb = function(obj, name_list, dest) {
         return null;
     }
 
-    var ind = m_batch.get_node_ind_by_name_list(batch_main.node_rgb_inds,
+    var ind = m_obj.get_node_ind_by_name_list(batch_main.node_rgb_inds,
                                                 name_list);
     if (ind === null) {
         m_print.error("RGB node \"" + name_list[name_list.length - 1] +
@@ -264,7 +265,7 @@ exports.get_nodemat_rgb = function(obj, name_list, dest) {
     if (!dest)
         dest = new Float32Array(3);
 
-    return m_batch.get_nodemat_rgb(batch_main, ind, dest);
+    return m_obj.get_nodemat_rgb(batch_main, ind, dest);
 }
 
 /**
@@ -402,7 +403,7 @@ exports.is_dynamic = m_obj_util.is_dynamic;
  * var m_obj = require("objects");
  * var wb_params =
  * {
- *     angle: 3,
+ *     angle: 45,
  *     main_frequency: 0.25,
  *     detail_frequency: 1,
  *     detail_amplitude: 0.1,
@@ -426,7 +427,7 @@ exports.set_wind_bending_params = function(obj, wb_params) {
     }
 
     if (typeof wb_params.angle == "number") {
-        var amp = m_batch.wb_angle_to_amp(wb_params.angle,
+        var amp = m_batch.wb_angle_to_amp(m_util.deg_to_rad(wb_params.angle), 
                 render.bb_original, render.world_tsr[3]);
         render.wind_bending_amp = amp;
     }
@@ -454,13 +455,14 @@ exports.set_wind_bending_params = function(obj, wb_params) {
 exports.get_wind_bending_params = function(obj) {
 
     var render = obj.render;
-    if (!m_obj_util.is_dynamic_mesh(obj) || !render.wind_bending)
+
+    if (!render.wind_bending)
         return null;
 
     var wb_params = {};
 
-    var angle = m_batch.wb_amp_to_angle(render.wind_bending_amp,
-            render.bb_original, render.world_tsr[3]);
+    var angle = m_util.rad_to_deg(m_batch.wb_amp_to_angle(render.wind_bending_amp,
+            render.bb_original, render.world_tsr[3]));
 
     wb_params.angle = angle;
     wb_params.main_frequency = render.wind_bending_freq;

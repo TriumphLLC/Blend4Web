@@ -38,7 +38,7 @@ msgstr ""
 
 #: ../camera.rst:34
 msgid "*Camera Move Style > Move Style*"
-msgstr ""
+msgstr "*Camera Move Style > Move Style*"
 
 #: ../camera.rst:25
 msgid "Camera control mode:"
@@ -46,7 +46,7 @@ msgstr "Режим управления камерой:"
 
 #: ../camera.rst:27
 msgid "*Target*"
-msgstr ""
+msgstr "*Target*"
 
 #: ../camera.rst:28
 msgid ""
@@ -60,7 +60,7 @@ msgstr ""
 
 #: ../camera.rst:29
 msgid "*Eye*"
-msgstr ""
+msgstr "*Eye*"
 
 #: ../camera.rst:30
 msgid "The ``Eye`` mode allows rotation and translation as in first person view."
@@ -70,7 +70,7 @@ msgstr ""
 
 #: ../camera.rst:31
 msgid "*Hover*"
-msgstr ""
+msgstr "*Hover*"
 
 #: ../camera.rst:32
 msgid ""
@@ -84,7 +84,7 @@ msgstr ""
 
 #: ../camera.rst:34
 msgid "*Static*"
-msgstr ""
+msgstr "*Static*"
 
 #: ../camera.rst:34
 msgid ""
@@ -96,7 +96,7 @@ msgstr ""
 
 #: ../camera.rst:37
 msgid "*Look At Cursor > Target Location*"
-msgstr ""
+msgstr "*Look At Cursor > Target Location*"
 
 #: ../camera.rst:37
 msgid ""
@@ -111,7 +111,7 @@ msgstr ""
 
 #: ../camera.rst:41
 msgid "*Depth of Field*"
-msgstr ""
+msgstr "*Depth of Field*"
 
 #: ../camera.rst:40
 msgid "Described in the :ref:`dof` section."
@@ -123,7 +123,7 @@ msgstr "Для камеры доступны настройки скорости
 
 #: ../camera.rst:48
 msgid "*Camera Move Style > Camera Velocities > Translation Velocity*"
-msgstr ""
+msgstr "*Camera Move Style > Camera Velocities > Translation Velocity*"
 
 #: ../camera.rst:48
 msgid ""
@@ -137,7 +137,7 @@ msgstr ""
 
 #: ../camera.rst:51
 msgid "*Camera Move Style > Camera Velocities > Rotation Velocity*"
-msgstr ""
+msgstr "*Camera Move Style > Camera Velocities > Rotation Velocity*"
 
 #: ../camera.rst:51
 msgid ""
@@ -151,7 +151,7 @@ msgstr ""
 
 #: ../camera.rst:54
 msgid "*Camera Move Style > Camera Velocities > Zoom Velocity*"
-msgstr ""
+msgstr "*Camera Move Style > Camera Velocities > Zoom Velocity*"
 
 #: ../camera.rst:54
 msgid ""
@@ -190,7 +190,7 @@ msgstr "Камера типа Target"
 
 #: ../camera.rst:77 ../camera.rst:199
 msgid "*Camera Move Style > Camera Limits > Distance Limits*"
-msgstr ""
+msgstr "*Camera Move Style > Camera Limits > Distance Limits*"
 
 #: ../camera.rst:77
 msgid ""
@@ -204,7 +204,7 @@ msgstr ""
 
 #: ../camera.rst:92
 msgid "*Camera Move Style > Camera Limits > Horizontal Rotation Limits*"
-msgstr ""
+msgstr "*Camera Move Style > Camera Limits > Horizontal Rotation Limits*"
 
 #: ../camera.rst:92 ../camera.rst:107 ../camera.rst:139
 msgid ""
@@ -224,11 +224,11 @@ msgstr ""
 
 #: ../camera.rst:107 ../camera.rst:154 ../camera.rst:202
 msgid "*Camera Move Style > Camera Limits > Vertical Rotation Limits*"
-msgstr ""
+msgstr "*Camera Move Style > Camera Limits > Vertical Rotation Limits*"
 
 #: ../camera.rst:122
 msgid "*Camera Move Style > Camera Limits > Pivot Translation Limits*"
-msgstr ""
+msgstr "*Camera Move Style > Camera Limits > Pivot Translation Limits*"
 
 #: ../camera.rst:122
 msgid ""
@@ -240,7 +240,7 @@ msgstr ""
 
 #: ../camera.rst:127
 msgid "*Camera Move Style > Camera Limits > Use Panning Mode*"
-msgstr ""
+msgstr "*Camera Move Style > Camera Limits > Use Panning Mode*"
 
 #: ../camera.rst:127
 msgid "Allow camera panning."
@@ -252,7 +252,7 @@ msgstr "Камера типа Eye"
 
 #: ../camera.rst:139
 msgid "*Blend4Web > Horizontal Rotation Limits*"
-msgstr ""
+msgstr "*Blend4Web > Horizontal Rotation Limits*"
 
 #: ../camera.rst:154
 msgid ""
@@ -276,7 +276,7 @@ msgstr "Камера типа Hover"
 
 #: ../camera.rst:178
 msgid "*Camera Move Style > Camera Limits > Horizontal Translation Limits*"
-msgstr ""
+msgstr "*Camera Move Style > Camera Limits > Horizontal Translation Limits*"
 
 #: ../camera.rst:178
 msgid ""
@@ -290,7 +290,7 @@ msgstr ""
 
 #: ../camera.rst:181
 msgid "*Camera Move Style > Camera Limits > Vertical Translation Limits*"
-msgstr ""
+msgstr "*Camera Move Style > Camera Limits > Vertical Translation Limits*"
 
 #: ../camera.rst:181
 msgid ""
@@ -304,7 +304,7 @@ msgstr ""
 
 #: ../camera.rst:196
 msgid "*Camera Move Style > Camera Limits > Use Zooming*"
-msgstr ""
+msgstr "*Camera Move Style > Camera Limits > Use Zooming*"
 
 #: ../camera.rst:196
 msgid ""
@@ -344,7 +344,7 @@ msgstr ""
 
 #: ../camera.rst:205
 msgid "*Camera Move Style > Camera Limits > Zero Level*"
-msgstr ""
+msgstr "*Camera Move Style > Camera Limits > Zero Level*"
 
 #: ../camera.rst:205
 msgid ""
@@ -374,7 +374,7 @@ msgstr ""
 
 #: ../camera.rst:226
 msgid "*Camera Move Style > Camera Limits > Use Horizontal Rotation*"
-msgstr ""
+msgstr "*Camera Move Style > Camera Limits > Use Horizontal Rotation*"
 
 #: ../camera.rst:226
 msgid ""
@@ -418,7 +418,7 @@ msgstr ""
 
 #: ../camera.rst:271
 msgid "*Camera Space*"
-msgstr ""
+msgstr "*Camera Space*"
 
 #: ../camera.rst:271
 msgid ""
@@ -430,7 +430,7 @@ msgstr ""
 
 #: ../camera.rst:274
 msgid "*World Space*"
-msgstr ""
+msgstr "*World Space*"
 
 #: ../camera.rst:274
 msgid ""
@@ -488,7 +488,7 @@ msgstr "Пример использования возможностей Viewpor
 
 #: ../camera.rst:325
 msgid "*Viewport Alignment*"
-msgstr ""
+msgstr "*Viewport Alignment*"
 
 #: ../camera.rst:325
 msgid ""
@@ -500,7 +500,7 @@ msgstr ""
 
 #: ../camera.rst:340
 msgid "*Alignment*"
-msgstr ""
+msgstr "*Alignment*"
 
 #: ../camera.rst:328
 msgid ""
@@ -556,7 +556,7 @@ msgstr "Значение по умолчанию: ``Center``."
 
 #: ../camera.rst:343
 msgid "*Distance*"
-msgstr ""
+msgstr "*Distance*"
 
 #: ../camera.rst:343
 msgid ""
@@ -568,7 +568,7 @@ msgstr ""
 
 #: ../camera.rst:346
 msgid "*Fit to Camera*"
-msgstr ""
+msgstr "*Fit to Camera*"
 
 #: ../camera.rst:346
 msgid ""
@@ -788,15 +788,15 @@ msgstr ""
 
 #: ../camera.rst:529
 msgid "EYE"
-msgstr ""
+msgstr "EYE"
 
 #: ../camera.rst:529
 msgid "TARGET"
-msgstr ""
+msgstr "TARGET"
 
 #: ../camera.rst:529
 msgid "HOVER"
-msgstr ""
+msgstr "HOVER"
 
 #: ../camera.rst:531
 msgid ""
@@ -805,6 +805,10 @@ msgid ""
 ":b4wref:`camera.eye_get_vertical_limits()` "
 ":b4wref:`camera.eye_set_vertical_limits()`"
 msgstr ""
+":b4wref:`camera.eye_get_horizontal_limits()` "
+":b4wref:`camera.eye_set_horizontal_limits()` "
+":b4wref:`camera.eye_get_vertical_limits()` "
+":b4wref:`camera.eye_set_vertical_limits()`"
 
 #: ../camera.rst:531
 msgid ""
@@ -817,6 +821,14 @@ msgid ""
 ":b4wref:`camera.target_get_pivot_limits` "
 ":b4wref:`camera.target_set_pivot_limits`"
 msgstr ""
+":b4wref:`camera.target_get_distance_limits()` "
+":b4wref:`camera.target_set_distance_limits()` "
+":b4wref:`camera.target_get_horizontal_limits()` "
+":b4wref:`camera.target_set_horizontal_limits()` "
+":b4wref:`camera.target_get_vertical_limits()` "
+":b4wref:`camera.target_set_vertical_limits()` "
+":b4wref:`camera.target_get_pivot_limits` "
+":b4wref:`camera.target_set_pivot_limits`"
 
 #: ../camera.rst:531
 msgid ""
@@ -829,6 +841,14 @@ msgid ""
 ":b4wref:`camera.hover_get_vert_trans_limits()` "
 ":b4wref:`camera.hover_set_vert_trans_limits()`"
 msgstr ""
+":b4wref:`camera.hover_get_distance_limits()` "
+":b4wref:`camera.hover_set_distance_limits()` "
+":b4wref:`camera.hover_get_vertical_limits()` "
+":b4wref:`camera.hover_set_vertical_limits()` "
+":b4wref:`camera.hover_get_horiz_trans_limits()` "
+":b4wref:`camera.hover_set_horiz_trans_limits()` "
+":b4wref:`camera.hover_get_vert_trans_limits()` "
+":b4wref:`camera.hover_set_vert_trans_limits()`"
 
 #: ../camera.rst:555
 msgid ""

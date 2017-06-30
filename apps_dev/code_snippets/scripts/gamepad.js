@@ -217,7 +217,7 @@ function get_last_gmpd_id() {
 function set_camera_pos() {
     var camobj = m_scenes.get_active_camera();
     var troll_rig = m_scenes.get_object_by_name("troll_rig");
-    m_cnst.append_track(camobj, troll_rig);
+    m_cnst.append_track(camobj, troll_rig, "-Z", "Y");
 }
 
 function chech_dist_from_middle(point) {

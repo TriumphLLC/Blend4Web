@@ -433,15 +433,15 @@ Physics
 Object Clustering & LOD
 -----------------------
 
-Settings for object clustering and Levels Of Detail.
+Настройки кластеризации объектов и Уровней Детализации (LOD).
 
 [рисунок]
 
 *Cluster Size*
-   The size of the cluster used for batching (in meters). Can be used
-   for optimization purposes. If this parameter is set to zero, the
-   engine will try to combine all objects in the scene. Set to zero by
-   default.
+   Размер кластера, применяемого для объединения объектов (в метрах).
+   Может быть использован в целях оптимизации. Если этот параметр
+   равен нулю, движок будет пытаться объединить все объекты в сцене.
+   Значение по умолчанию - 0.
 
 *LOD Cluster Size Multiplier*
    Этот параметр используется для разбиения кластеров на части (в

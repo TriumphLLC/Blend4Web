@@ -371,8 +371,8 @@ vec2 vec_to_uv(vec3 vec)
     #node_out vec3 normal
     #node_out vec4 bsdf_params
     #node_out vec4 shadow_factor
+    #node_out vec3 d_color_out
     #node_out vec3 s_color_out
-    #node_out float metalness_out
     #node_out vec3 e_color_out
     #node_out float emission_out
     #node_out vec3 a_color_out
@@ -384,6 +384,7 @@ vec2 vec_to_uv(vec3 vec)
     S = s_color;
 
     normal = normal_in;
+    d_color_out = d_color;
     s_color_out = s_color;
     metalness_out = metalness;
     e_color_out = e_color;
@@ -409,11 +410,14 @@ vec2 vec_to_uv(vec3 vec)
     #node_in vec4 color_in
     #node_in vec3 specular_in
     #node_in vec3 normal
+    #node_in vec4 bsdf_params
+    #node_in vec3 d_color
     #node_in vec3 s_color
-    #node_in float metalness
     #node_in vec3 e_color
+    #node_in float emission
     #node_in vec3 a_color
     #node_in float emission
+    #node_in float alpha_in
     #node_out vec3 color_out
 
     color_out = color_in.rgb + specular_in;

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2016-09-01 16:56+0300\n"
+"POT-Creation-Date: 2017-06-22 15:16+0300\n"
 "PO-Revision-Date: 2015-08-28 10:55+0300\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Chinese <info [at] blend4web.com>\n"
@@ -16,65 +16,52 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.3.4\n"
 
-#: ../animation.rst:7
 msgid "Animation"
 msgstr "动画"
 
-#: ../animation.rst
 msgid "Table of Content"
 msgstr "目录"
 
-#: ../animation.rst:13
 msgid ""
 "In general animation is changing the object's parameters in time. The "
 "engine supports the following types of animation:"
 msgstr "一般动画是物体的参数随时间变化。引擎支持以下类型的动画 ︰"
 
-#: ../animation.rst:15
 msgid "Object animation means the transformation of an object as a whole."
 msgstr "物体动画意味着物体作为一个整体变换。"
 
-#: ../animation.rst:17
 msgid ""
 "Skeletal Animation, i.e. object deformation using bones. Animation of a "
 "standalone armature object is also supported (for parenting to bones)."
 msgstr "骨骼动画，即使用骨头让物体变形。一个单独的骨骼物体动画也支持 （为父级到骨头）。"
 
-#: ../animation.rst:20
 msgid ""
 "Vertex animation. An object's deformations can be recorded as frames and "
 "then reproduced in the engine."
 msgstr "顶点动画。物体的变形可以被记录到帧，并在引擎然后重新生成。"
 
-#: ../animation.rst:23
 msgid ""
 "Audio sources parametrization. Speaker's ``Volume`` and ``Pitch`` can be "
 "animated."
 msgstr "音频源参数。扬声器的  ``音量`` 和 ``音速``  可以进行动画处理。"
 
-#: ../animation.rst:26
 msgid "Animation of the ``Value`` node output in node materials."
 msgstr "节点材质的 ``值`` 节点输出的动画。"
 
-#: ../animation.rst:28
 msgid "Wind bending - a procedural animation. Described :ref:`separately <wind>`."
 msgstr "风弯曲 - 程序性动画。:ref:`单独在 <wind>` 中描述。"
 
-#: ../animation.rst:30
 msgid ""
 "Particle emission. Described in the :ref:`corresponding section "
 "<particles>`."
 msgstr "粒子发射。所述在  :ref:`相应章节 <particles>`."
 
-#: ../animation.rst:33
 msgid "Animation Control"
 msgstr "动画控制"
 
-#: ../animation.rst:35
 msgid "There are two ways to control animation in the engine:"
 msgstr "有两种方法在引擎中控制动画 ︰"
 
-#: ../animation.rst:37
 msgid ""
 "Automatically, activating the ``Animation`` panel and choosing the "
 "``Behavior`` parameter in the object's properties. In this case an "
@@ -87,67 +74,53 @@ msgstr ""
 "参数。在这种情况下将由引擎选择相应的动画方法，一个场景加载之后物体的动画就会开始播放。骨骼动画会播放在 ``Action Editor``  "
 "窗口默认赋予物体的那个动作。"
 
-#: ../animation.rst:44
 msgid "In an application via API using the ``animation`` module methods."
 msgstr "在应用程序中通过 ``动画`` 模块的API来工作。"
 
-#: ../animation.rst:46
 msgid ""
 "It's useful to use the ``Animation`` interface for tweaking animation. "
 "This is covered in the :ref:`corresponding section <viewer>`."
 msgstr "使用 ``Animation`` 界面调整动画非常有用。已经放在 :ref:`相应章节 <viewer>`."
 
-#: ../animation.rst:53
 msgid "Object Animation"
 msgstr "物体动画"
 
-#: ../animation.rst:55
 msgid ""
 "The parameters that can be animated are the center coordinates "
 "(``Location``), ``Rotation`` and ``Scale``."
 msgstr "可以进行动画处理的参数是中心坐标  (``位置``), ``旋转`` 和 ``缩放``."
 
-#: ../animation.rst:63
 msgid ""
 "Animation keyframes can be added for an object motion in Blender and then"
 " reproduced in the engine."
 msgstr "可以在Blender中为物体添加运动动画关键帧，然后在引擎中重现。"
 
-#: ../animation.rst:65
 msgid "The following keyframe types are supported:"
 msgstr "支持以下关键帧类型 ︰"
 
-#: ../animation.rst:67
 msgid "*Location*"
 msgstr "*位置*"
 
-#: ../animation.rst:69
 msgid "*Rotation* -- the ``Quaternion(WXYZ)`` or ``XYZ Euler`` mode is required."
 msgstr "*旋转* --  ``Quaternion(WXYZ)`` 或者 ``XYZ Euler`` 模式是必需的。"
 
-#: ../animation.rst:71
 msgid ""
 "*Scale* -- for correct results the scale factor should be the same along "
 "all 3 axes."
 msgstr "*缩放* — — 要有正确的结果，比例因子在所有 3 轴应该是相同的。"
 
-#: ../animation.rst:73
 msgid "*LocRot* -- a combination of *Location* and *Rotation*."
 msgstr "*LocRot*  --  *位置* 和 *旋转*  的组合。"
 
-#: ../animation.rst:75
 msgid "*LocScale* -- a combination of *Location* and *Scale*."
 msgstr "*LocScale*  --  *位置* 和 *缩放* 的组合。"
 
-#: ../animation.rst:77
 msgid "*LocRotScale* -- a combination of *Location*, *Rotation* and *Scale*."
 msgstr "*LocRotScale* --  *位置* *旋转* 和 *缩放*  的组合。"
 
-#: ../animation.rst:79
 msgid "*RotScale* -- a combination of *Rotation* and *Scale*."
 msgstr "*RotScale* --   *旋转* 和 *缩放* 的组合。"
 
-#: ../animation.rst:81
 msgid ""
 "If a mesh object is animated it is required to activate the ``Force "
 "Dynamic Object`` option on the ``Rendering Properties`` panel under the "
@@ -156,33 +129,27 @@ msgstr ""
 "如果网格物体可进行动画，它需要在物体属性选项卡上的 ``Rendering Propetries`` 面板激活  ``Force Dynamic "
 "Object``  选项。"
 
-#: ../animation.rst:86
 msgid "Skinning and Skeletal Animation"
 msgstr "蒙皮和骨骼动画"
 
-#: ../animation.rst:94
 msgid ""
 "For skeletal animation both a mesh object and an armature object are "
 "needed. The four steps should be carried out:"
 msgstr "骨骼动画同时需要一个网格物体和骨架物体。以下四个步骤应开展︰"
 
-#: ../animation.rst:96
 msgid "Create the object's \"skeleton\" in the armature object."
 msgstr "在骨架物体中创建该物体的 \"骨架\" 。"
 
-#: ../animation.rst:97
 msgid ""
 "Assign vertex groups in the mesh object and link them to the bones. This "
 "can be performed by weight painting f   or example."
 msgstr "分配好网格物体的顶点组并将它们链接到骨头。这可以由权重绘制完成。"
 
-#: ../animation.rst:98
 msgid ""
 "Animate the bones in the pose mode of the armature object. The same "
 "keyframe types can be used as for the object animation."
 msgstr "在姿态模式下将骨架物体中骨骼制作动画。可以使用物体动画相同的关键帧类型。"
 
-#: ../animation.rst:100
 msgid ""
 "When inverse kinematics (IK) or other nontrivial structures are used, an "
 "additional step is required to bake the animations (``Action`` datablocks"
@@ -192,43 +159,34 @@ msgstr ""
 "当使用反向动力学 (IK) 或其他非平常的结构时，需要额外的步骤就是烘焙动画 (在Blender中 ``Action``  数据块)。可以使用 "
 "``Blend4Web`` 标签下的 ``Bake Skeletal Animation`` 接口执行烘焙 ︰"
 
-#: ../animation.rst:113 ../animation.rst:169
 msgid "Baking parameters"
 msgstr "烘焙参数"
 
-#: ../animation.rst:115
 msgid "Baking is performed with the armature object selected."
 msgstr "烘焙需要骨架物体处于选中状态。"
 
-#: ../animation.rst:117
 msgid ""
 "The actors that will be baked are listed in the window with the list of "
 "actors. If the list is empty, all available actors will be baked."
 msgstr "将需要烘焙的动作都放到列表里面。如果该列表为空，烘焙所有的动作。"
 
-#: ../animation.rst:120 ../animation.rst:172
 msgid "*Name*"
 msgstr "*名字*"
 
-#: ../animation.rst:120
 msgid "The current action name from the list of actions being baked."
 msgstr "在列表中将要烘焙的当前动作名字。"
 
-#: ../animation.rst:124
 msgid "*Optimize Keyframes*"
 msgstr "*优化关键帧*"
 
-#: ../animation.rst:123
 msgid ""
 "Optimize the animation keyframes after baking. In case of incorrect "
 "results it's recommended to turn this option off."
 msgstr "烘焙后优化动画关键帧。引起不正确结果的情况下，建议将此选项关闭。"
 
-#: ../animation.rst:128
 msgid "*Use Blender's Native Baker*"
 msgstr "*使用Blender的原生烘焙*"
 
-#: ../animation.rst:127
 msgid ""
 "Use Blender's animation baker (the ``Bake Action`` option) instead of "
 "Blend4Web's. Blender animation baker's settings differ from Blend4Web's."
@@ -236,11 +194,9 @@ msgstr ""
 "使用Blender的动画烘焙功能而不是 Blend4Web 的（ ``Bake Action`` 选项）。Blender动画烘焙设置不同于 "
 "Blend4Web 的。"
 
-#: ../animation.rst:134 ../animation.rst:188
 msgid "*Bake*"
 msgstr "*烘培*"
 
-#: ../animation.rst:131
 msgid ""
 "Perform baking. If the process is completed successfully, actions with "
 "names of *B4W_BAKED_ACTOR_NAME* type appear in the scene. These actions "
@@ -251,7 +207,6 @@ msgstr ""
 "执行烘焙。如果过程成功完成，具有 *B4W_BAKED_ACTOR_NAME* "
 "类型的动作名字会出现在场景。这些动作可以指派给骨架物体并在引擎中播放。把这些动作用在Blender本身是没有任何意义的。"
 
-#: ../animation.rst:137
 msgid ""
 "The engine supports up to 4 vertex groups per vertex. If the number of "
 "vertex groups exceeds 4, the vertex groups with the most influence are "
@@ -259,13 +214,11 @@ msgid ""
 "i.e. their sum is reduced to 1."
 msgstr "引擎支持每个顶点达 4 个顶点组。如果顶点组数目超过 4 最有影响力的顶点组被选中。当场景加载的顶点权重归一化即它们的总和减少到 1。"
 
-#: ../animation.rst:141
 msgid ""
 "To remove vertex groups which are not used by armature, use button "
 "``Remove Clean Unused Vertex Groups``."
 msgstr "要移除骨架不需要的顶点组，请使用按钮 ``Remove Clean Unused Vertex Groups``. "
 
-#: ../animation.rst:147
 msgid ""
 "Blend4Web also has initial support of the armature constraints. For now, "
 "the only supported constraint type is ``Copy Transform``. It can be used "
@@ -276,11 +229,9 @@ msgstr ""
 "Blend4Web 才开始对骨架预算进行初步支持。目前，唯一受支持的约束类型是 ``Copy "
 "Transform``。它可以用于附加到物体，产生影响，如布娃娃的骨架。后续版本中将进一步添加支持其他类型的约束。"
 
-#: ../animation.rst:150
 msgid "Vertex Animation"
 msgstr "顶点动画"
 
-#: ../animation.rst:158
 msgid ""
 "Allows to record any geometry changes of a mesh object. Note that every "
 "vertex animation frame counts as a mesh. It's not recommended to make a "
@@ -289,69 +240,55 @@ msgid ""
 "of the engine."
 msgstr "允许记录网格物体任何几何变化。请注意，每个顶点动画帧都是作为一个网格。建议不要用高模网格做长动画，源和导出的文件的大小会非常大，并且还会减慢引擎的工作。"
 
-#: ../animation.rst:162
 msgid ""
 "A special tool is used for baking vertex animation - ``Bake Vertex "
 "Animation`` - located on the ``Blend4Web`` tools panel."
 msgstr "一个特殊的工具用于烘焙顶点动画 - ``Bake Vertex Animation`` - 在 ``Blend4Web``  工具面板上。"
 
-#: ../animation.rst:172
 msgid "The name that will be assigned to the baked animation."
 msgstr "将分配给烘焙动画的名称。"
 
-#: ../animation.rst:175
 msgid "*Start*"
 msgstr "*起始*"
 
-#: ../animation.rst:175
 msgid "The baking will start from this frame."
 msgstr "烘焙从这帧开始。"
 
-#: ../animation.rst:178
 msgid "*End*"
 msgstr "*结束*"
 
-#: ../animation.rst:178
 msgid "The baking will end at this frame."
 msgstr "烘焙将在这一帧结束。"
 
-#: ../animation.rst:181
 msgid "*Allow NLA*"
 msgstr "*允许NLA*"
 
-#: ../animation.rst:181
 msgid "Allows using :ref:`NLA <nla>` to control the baked animation."
 msgstr "允许使用  :ref:`NLA <nla>` 来控制烘焙的动画。 "
 
-#: ../animation.rst:185
 msgid "*Status*"
 msgstr "*状态*"
 
-#: ../animation.rst:184
 msgid ""
 "In this string, the number of frames of the baked animation is shown. If "
 "the baking hasn't been performed yet, the word ``Empty`` is shown "
 "instead."
 msgstr "在此字符串里，显示的已经烘焙动画的帧数。如果烘焙并没有执行，则会显示 ``Empty`` 一词。"
 
-#: ../animation.rst:188
 msgid "The animation baking is performed by pressing this button."
 msgstr "按下此按钮执行动画烘焙。"
 
-#: ../animation.rst:191
 msgid ""
 "For vertex animation to work correctly, the ``Export Vertex Animation`` "
 "parameter (``Export Options`` section of the ``Object`` panel) of the "
 "selected object should be enabled."
 msgstr ""
-"要让顶点动画正常工作，应启用所选物体的  ``Export Vertex Animation``  参数 （ ``Object`` "
-"面板的 ``Export Options`` 部分）。"
+"要让顶点动画正常工作，应启用所选物体的  ``Export Vertex Animation``  参数 （ ``Object`` 面板的 "
+"``Export Options`` 部分）。"
 
-#: ../animation.rst:197
 msgid "Default Animation"
 msgstr "默认动画"
 
-#: ../animation.rst:199
 msgid ""
 "Blend4Web also has an option to automatically play object's animation. To"
 " do it, you need to enable the ``Apply Default Animation`` parameter in "
@@ -361,103 +298,84 @@ msgstr ""
 "Blend4Web 也有可以自动播放物体动画的选项。要做到这一点，您需要启用要进行动画处理的物体的 ``Animation`` 部分的 "
 "``Apply Default Animation`` 参数。支持骨骼和物体的动画类型。"
 
-#: ../animation.rst:205
+#, fuzzy
 msgid ""
 "Animation starts to play right after the application startup and plays "
-"very similar to the :ref:`Play Timeline <nla_play_timeline>` node, only "
-"without an option to set up the start and end markers (instead, it always"
-" starts from the first frame of the timeline and ends with the last). You"
-" can also set up animation behavior, like in the :ref:`Play Animation "
-"<nla_select_play>` node."
+"very similar to the :ref:`Play Timeline <logic_play_timeline>` node, only"
+" without an option to set up the start and end markers (instead, it "
+"always starts from the first frame of the timeline and ends with the "
+"last). You can also set up animation behavior, like in the :ref:`Play "
+"Animation <logic_select_play>` node."
 msgstr ""
 "应用程序启动后动画就开始播放，和 :ref:`Play Timeline <nla_play_timeline>`  "
 "节点非常相似，只是没有选项来设置开始和结束标记 （相反，它总是从时间线第一帧开始和最后一个结束）。您还可以设置动画的行为，像  "
 ":ref:`Play Animation <nla_select_play>` 节点。 "
 
-#: ../animation.rst:210
 msgid "Non-Linear Animation"
 msgstr "非线性动画"
 
-#: ../animation.rst:215
 msgid "NLA Editor"
 msgstr "非线性编辑器"
 
-#: ../animation.rst:217
 msgid ""
 "The Blender's non-linear editor lets us set the scene's behavior in a "
 "comfortable way. With its help we can implement simple scenarios. This "
 "way coding is not needed for simple scenes and applications."
 msgstr "Blender的非线形编辑让我们方便的设置场景的行为。在它的帮助下，我们可以实现简单的场景。这种方式下简单的场景和应用程序是不用编程的。"
 
-#: ../animation.rst:225
 msgid "The engine supports controlling the following entities:"
 msgstr "引擎支持控制以下实体 ︰"
 
-#: ../animation.rst:227
 msgid "Any animation the parameters of which can be presented with Actions"
 msgstr "可以用动作表示的任何参数动画"
 
-#: ../animation.rst:229
 msgid "Audio playback"
 msgstr "声音播放"
 
-#: ../animation.rst:231
 msgid "Particles emission (in the form of a connection with the global timeline)"
 msgstr "粒子发射 （在与全局时间轴连接的形式）"
 
-#: ../animation.rst:239
 msgid "Usage"
 msgstr "用法"
 
-#: ../animation.rst:241
 msgid "Activate the ``NLA`` panel under the ``Scene`` tab."
 msgstr "``Scene`` 选项卡下的  ``NLA`` 面板激活。"
 
-#: ../animation.rst:242
 msgid "In the ``NLA Editor`` set up the required behavior for the scene."
 msgstr "在  ``NLA Editor``  设置场景所需的行为。"
 
-#: ../animation.rst:243
 msgid "Choose the animation time interval on the ``Timeline`` panel."
 msgstr "选择时间轴面板上的动画时间间隔。"
 
-#: ../animation.rst:247
 msgid "Additional settings"
 msgstr "其他设置"
 
-#: ../animation.rst:249
 msgid ""
 "The *NLA > Cyclic NLA* scene setting activates the cyclic NLA animation "
 "mode."
 msgstr "*NLA > Cyclic NLA* 场景设置激活循环 NLA 动画模式。"
 
-#: ../animation.rst:252
 msgid ""
 "In order to use vertex animation, enable  \"Allow NLA\" option on the "
 ":ref:`vertex animation panel <ver_anim>`."
 msgstr "为了使用顶点动画，在  :ref:`vertex animation panel <ver_anim>` 上启用 \"Allow NLA\" 选项。"
 
-#: ../animation.rst:255
 msgid "Limitations"
 msgstr "限制条件"
 
-#: ../animation.rst:257
 msgid ""
 "A simultaneous playback of different types of animation for the same "
 "object is not supported."
 msgstr "不支持同一物体不同类型的动画同时播放。"
 
-#: ../animation.rst:260
 msgid "Controlling via API"
 msgstr "通过 API 控制"
 
-#: ../animation.rst:262
 msgid ""
 "Non-linear animation playback can be controlled via API methods of the "
 "``nla.js`` module."
 msgstr "可以通过 API 方法的 'nla.js' 模块控制非线性动画播放。"
 
-#: ../animation.rst:279
 msgid ""
 "Please note, that if the :ref:`Logic Editor <logic_editor>` is used, the "
 "``set_frame``, ``play``, ``stop`` methods are not available."
@@ -465,43 +383,34 @@ msgstr ""
 "请注意，如果  :ref:`Logic Editor <logic_editor>` 已经使用用， ``set_frame``, "
 "``play``, ``stop``  方法不可用。 "
 
-#: ../animation.rst:285
 msgid "Audio Source Parametrization"
 msgstr "音频源参数"
 
-#: ../animation.rst:287
 msgid ""
 "In addition the following animation key types are supported for the "
 "speaker objects:"
 msgstr "此外对于扬声器物体支持以下动画关键类型 ︰"
 
-#: ../animation.rst:289
 msgid "*Volume*"
 msgstr "*音量*"
 
-#: ../animation.rst:291
 msgid "*Pitch*"
 msgstr "*音速*"
 
-#: ../animation.rst:293
 msgid "Audio sources parametrization in essence follows object animation."
 msgstr "音频源参数在本质上遵循物体动画。"
 
-#: ../animation.rst:299
 msgid "Animation of Value and RGB Nodes"
 msgstr "值和 RGB 节点的动画"
 
-#: ../animation.rst:301
 msgid ""
 "Playback of keyframes inserted on ``Value`` and ``RGB`` nodes is "
 "supported in node materials."
 msgstr "支持节点材质中插入关键帧到 ``Value`` and ``RGB`` 节点的播放。"
 
-#: ../animation.rst:314
 msgid "Animation of numerical and color values on other nodes is not supported."
 msgstr "其他节点上的数值和颜色值的动画不受支持。"
 
-#: ../animation.rst:316
 msgid ""
 "Can be also used to create tracks in the :ref:`non-linear animation "
 "editor <nla_editor>`. Multiple animated ``Value`` or ``RGB`` nodes are "
@@ -513,11 +422,9 @@ msgstr ""
 "节点动画。这些节点的值可以也通过 API修改，使用 ``objects``  模块的 ``set_nodemat_value`` 和 "
 "``set_nodemat_rgb`` 方法。"
 
-#: ../animation.rst:318
 msgid ":ref:`node_time`"
 msgstr ":ref:`node_time`"
 
-#: ../animation.rst:3
 msgid "animation"
 msgstr "动画"
 

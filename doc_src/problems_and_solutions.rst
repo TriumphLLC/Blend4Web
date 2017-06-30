@@ -217,3 +217,5 @@ Known Issues
     This problem can be solved by activating layers before exporting a scene or by simply clicking the layers to make Blender update them.
 
 * Alpha blending objects are rendered incorrect on the Mali 400 series GPU by Google Chrome browser.
+
+* Using several application instances in a single page can lead to excessive memory usage or even a tab crash in Chrome 59. However, this is fixed in Chrome 60.

@@ -173,18 +173,9 @@ function prerender_bundle(bundle, subs) {
     if (subs.type == m_subs.OUTLINE_MASK && obj_render.outline_intensity == 0)
         return false;
 
-    if (obj_render.use_batches_boundings) {
-        var bs = batch.bs_world;
-        var be = batch.be_world;
-        var use_be = batch.use_be;
-    } else {
-        var bs = obj_render.bs_world;
-        var be = obj_render.be_world;
-        var use_be = obj_render.use_be;
-    }
-
-    if (!batch.do_not_cull && USE_FRUSTUM_CULLING &&
-             is_out_of_frustum(cam.frustum_planes, bs, be, use_be))
+    if (!(batch.do_not_cull || !bundle.world_bounds) && USE_FRUSTUM_CULLING &&
+            is_out_of_frustum(cam.frustum_planes, bundle.world_bounds.bs, 
+            bundle.world_bounds.be, batch.use_be))
         return false;
 
     return true;

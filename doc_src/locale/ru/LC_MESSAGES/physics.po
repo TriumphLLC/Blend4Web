@@ -268,7 +268,7 @@ msgstr "Параметры настройки для шасси"
 
 #: ../physics.rst:132 ../physics.rst:207
 msgid "*Force Max*"
-msgstr ""
+msgstr "*Force Max*"
 
 #: ../physics.rst:132 ../physics.rst:207
 msgid "Maximum driving force of the vehicle."
@@ -276,7 +276,7 @@ msgstr "Максимальная движущая сила транспортн�
 
 #: ../physics.rst:135 ../physics.rst:210
 msgid "*Brake Max*"
-msgstr ""
+msgstr "*Brake Max*"
 
 #: ../physics.rst:135 ../physics.rst:210
 msgid "Maximum braking coefficient."
@@ -284,7 +284,7 @@ msgstr "Максимальный коэффициент торможения."
 
 #: ../physics.rst:138
 msgid "*Suspension Compression*"
-msgstr ""
+msgstr "*Suspension Compression*"
 
 #: ../physics.rst:138
 msgid "Damping coefficient for suspension stretching."
@@ -292,7 +292,7 @@ msgstr "Коэффициент демпфирования при растяже�
 
 #: ../physics.rst:141
 msgid "*Suspension Stiffness*"
-msgstr ""
+msgstr "*Suspension Stiffness*"
 
 #: ../physics.rst:141
 msgid "Suspension stiffness coefficient."
@@ -300,7 +300,7 @@ msgstr "Коэффициент жесткости подвески."
 
 #: ../physics.rst:144
 msgid "*Suspension Damping*"
-msgstr ""
+msgstr "*Suspension Damping*"
 
 #: ../physics.rst:144
 msgid "Suspension damping coefficient."
@@ -308,7 +308,7 @@ msgstr "Коэффициент амортизации подвески."
 
 #: ../physics.rst:147
 msgid "*Wheel Friction*"
-msgstr ""
+msgstr "*Wheel Friction*"
 
 #: ../physics.rst:147
 msgid ""
@@ -322,7 +322,7 @@ msgstr ""
 
 #: ../physics.rst:150
 msgid "*Roll Influence*"
-msgstr ""
+msgstr "*Roll Influence*"
 
 #: ../physics.rst:150
 msgid ""
@@ -335,7 +335,7 @@ msgstr ""
 
 #: ../physics.rst:153
 msgid "*Max Suspension Travel Cm*"
-msgstr ""
+msgstr "*Max Suspension Travel Cm*"
 
 #: ../physics.rst:153
 msgid "Maximum suspension travel in centimeters."
@@ -425,7 +425,7 @@ msgstr "Параметры настройки плавающего объект�
 
 #: ../physics.rst:182 ../physics.rst:213
 msgid "*Floating Factor*"
-msgstr ""
+msgstr "*Floating Factor*"
 
 #: ../physics.rst:182 ../physics.rst:213
 msgid "Buoyancy coefficient."
@@ -433,7 +433,7 @@ msgstr "Коэффициент выталкивания объекта из во
 
 #: ../physics.rst:185 ../physics.rst:216
 msgid "*Water Linear Damping*"
-msgstr ""
+msgstr "*Water Linear Damping*"
 
 #: ../physics.rst:185 ../physics.rst:216
 msgid ""
@@ -446,7 +446,7 @@ msgstr ""
 
 #: ../physics.rst:188 ../physics.rst:219
 msgid "*Water Rotation Damping*"
-msgstr ""
+msgstr "*Water Rotation Damping*"
 
 #: ../physics.rst:188 ../physics.rst:219
 msgid ""
@@ -525,7 +525,7 @@ msgstr ""
 
 #: ../physics.rst:248
 msgid "*Walk Speed*"
-msgstr ""
+msgstr "*Walk Speed*"
 
 #: ../physics.rst:246
 msgid ""
@@ -542,7 +542,7 @@ msgstr "Значение по умолчанию - 4."
 
 #: ../physics.rst:253
 msgid "*Run Speed*"
-msgstr ""
+msgstr "*Run Speed*"
 
 #: ../physics.rst:251
 msgid ""
@@ -558,7 +558,7 @@ msgstr "По умолчанию равна 8."
 
 #: ../physics.rst:258
 msgid "*Step Height*"
-msgstr ""
+msgstr "*Step Height*"
 
 #: ../physics.rst:256
 msgid ""
@@ -574,7 +574,7 @@ msgstr "Значение по умолчанию - 0.250."
 
 #: ../physics.rst:263
 msgid "*Jump Strength*"
-msgstr ""
+msgstr "*Jump Strength*"
 
 #: ../physics.rst:261
 msgid ""
@@ -588,7 +588,7 @@ msgstr "По умолчанию равна 5."
 
 #: ../physics.rst:268
 msgid "*Waterline*"
-msgstr ""
+msgstr "*Waterline*"
 
 #: ../physics.rst:266
 msgid ""
@@ -1009,7 +1009,7 @@ msgstr "Группа параметров ``Rasterization``:"
 
 #: ../physics.rst:426
 msgid "*Cell Size*"
-msgstr ""
+msgstr "*Cell Size*"
 
 #: ../physics.rst:426
 msgid ""
@@ -1022,7 +1022,7 @@ msgstr ""
 
 #: ../physics.rst:429
 msgid "*Cell Height*"
-msgstr ""
+msgstr "*Cell Height*"
 
 #: ../physics.rst:429
 msgid ""
@@ -1038,7 +1038,7 @@ msgstr "Группа параметров ``Agent``:"
 
 #: ../physics.rst:434
 msgid "*Height*"
-msgstr ""
+msgstr "*Height*"
 
 #: ../physics.rst:434
 msgid "Minimum height where the agent can still walk. Default value is 2.0."
@@ -1048,7 +1048,7 @@ msgstr ""
 
 #: ../physics.rst:437
 msgid "*Radius*"
-msgstr ""
+msgstr "*Radius*"
 
 #: ../physics.rst:437
 msgid "The radius of the agent. Default value is 0.6."
@@ -1056,7 +1056,7 @@ msgstr "Радиус агента. Значение по умолчанию - 0.
 
 #: ../physics.rst:440
 msgid "*Max Slope*"
-msgstr ""
+msgstr "*Max Slope*"
 
 #: ../physics.rst:440
 msgid ""
@@ -1068,7 +1068,7 @@ msgstr ""
 
 #: ../physics.rst:443
 msgid "*Max Climb*"
-msgstr ""
+msgstr "*Max Climb*"
 
 #: ../physics.rst:443
 msgid ""
@@ -1084,7 +1084,7 @@ msgstr "Группа параметров ``Region``:"
 
 #: ../physics.rst:448
 msgid "*Min Region Size*"
-msgstr ""
+msgstr "*Min Region Size*"
 
 #: ../physics.rst:448
 msgid ""
@@ -1096,7 +1096,7 @@ msgstr ""
 
 #: ../physics.rst:451
 msgid "*Merged Region Size*"
-msgstr ""
+msgstr "*Merged Region Size*"
 
 #: ../physics.rst:451
 msgid ""
@@ -1108,7 +1108,7 @@ msgstr ""
 
 #: ../physics.rst:460
 msgid "*Partitioning*"
-msgstr ""
+msgstr "*Partitioning*"
 
 #: ../physics.rst:454
 msgid "The method used to partition the navigation mesh. Supported methods are:"
@@ -1144,7 +1144,7 @@ msgstr "Группа параметров ``Polygonization``:"
 
 #: ../physics.rst:465
 msgid "*Max Edge Length*"
-msgstr ""
+msgstr "*Max Edge Length*"
 
 #: ../physics.rst:465
 msgid "The maximum length of a contour edge. Default value is 12.0."
@@ -1152,7 +1152,7 @@ msgstr "Максимальная длинна ребра контура. Зна�
 
 #: ../physics.rst:468
 msgid "*Max Edge Error*"
-msgstr ""
+msgstr "*Max Edge Error*"
 
 #: ../physics.rst:468
 msgid ""
@@ -1162,7 +1162,7 @@ msgstr "Максимальное отклонение от контуров кл
 
 #: ../physics.rst:471
 msgid "*Verts Per Poly*"
-msgstr ""
+msgstr "*Verts Per Poly*"
 
 #: ../physics.rst:471
 msgid "The maximum number of vertices per polygon. Default value is 6."
@@ -1174,7 +1174,7 @@ msgstr "Группа параметров ``Detail Mesh``:"
 
 #: ../physics.rst:476
 msgid "*Sample Distance*"
-msgstr ""
+msgstr "*Sample Distance*"
 
 #: ../physics.rst:476
 msgid "Detail mesh sample spacing. Default value is 6.0."
@@ -1184,7 +1184,7 @@ msgstr ""
 
 #: ../physics.rst:479
 msgid "*Max Sample Error*"
-msgstr ""
+msgstr "*Max Sample Error*"
 
 #: ../physics.rst:479
 msgid "Maximum error of the mesh simplification. Default value is 1.00."

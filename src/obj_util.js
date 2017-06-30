@@ -36,6 +36,8 @@ var cfg_def = m_cfg.defaults;
 var LOD_DIST_MAX_INFINITY = Infinity;
 exports.LOD_DIST_MAX_INFINITY = LOD_DIST_MAX_INFINITY;
 
+var _tsr_tmp = m_tsr.create();
+
 /**
  * Create abstract render
  * @param {string} type "DYNAMIC", "STATIC", "CAMERA", "EMPTY", "NONE"
@@ -195,7 +197,7 @@ function create_render(type) {
         arm_rel_quat: null,
 
         // bounding volumes properties
-        bb_original: null,
+        bb_original: m_bounds.create_bb(),
         bb_local: m_bounds.create_bb(),
         bb_world: m_bounds.create_bb(),
         bs_local: m_bounds.create_bs(),
@@ -204,12 +206,9 @@ function create_render(type) {
         be_world: m_bounds.create_be(),
         bbr_local: m_bounds.create_rot_bb(),
         bbr_world: m_bounds.create_rot_bb(),
-        bcyl_local: null,
-        bcap_local: null,
-        bcon_local: null,
-
-        use_batches_boundings: true,
-        use_be: false,
+        bcyl_local: m_bounds.init_bcyl(),
+        bcap_local: m_bounds.init_bcap(),
+        bcon_local: m_bounds.init_bcon(),
 
         pass_index: 0
     }
@@ -353,19 +352,17 @@ function clone_render(render) {
     out.arm_rel_trans = m_util.clone_object_r(render.arm_rel_trans); //?
     out.arm_rel_quat = m_util.clone_object_r(render.arm_rel_quat); //?
 
-    out.bb_original = m_util.clone_object_r(render.bb_original);
+    m_bounds.copy_bb(render.bb_original, out.bb_original);
     m_bounds.copy_bb(render.bb_local, out.bb_local);
     m_bounds.copy_bb(render.bb_world, out.bb_world);
     m_bounds.copy_bs(render.bs_local, out.bs_local);
     m_bounds.copy_bs(render.bs_world, out.bs_world);
     m_bounds.copy_be(render.be_local, out.be_local);
     m_bounds.copy_be(render.be_world, out.be_world);
-    out.bcyl_local = m_util.clone_object_r(render.bcyl_local);
-    out.bcap_local = m_util.clone_object_r(render.bcap_local);
-    out.bcon_local = m_util.clone_object_r(render.bcon_local);
 
-    out.use_batches_boundings = render.use_batches_boundings;
-    out.use_be = render.use_be;
+    m_bounds.copy_bcap(render.bcap_local, out.bcap_local);
+    m_bounds.copy_bcyl(render.bcyl_local, out.bcyl_local);
+    m_bounds.copy_bcon(render.bcon_local, out.bcon_local);
 
     out.pass_index = render.pass_index;
 
@@ -387,7 +384,7 @@ function create_object(name, type, origin_name) {
         origin_name: origin_name,
         type: type,
 
-        bpy_origin: false,
+        is_meta: true,
 
         // material inheritance requires bpy object for batching
         _bpy_obj: null, 
@@ -492,6 +489,24 @@ function create_object(name, type, origin_name) {
     return obj;
 }
 
+exports.init_scene_data = init_scene_data;
+function init_scene_data(scene) {
+    var sc_data = {
+        scene: scene,
+        is_active: false,
+        batches: [],
+        batch_world_bounds: [],
+        plane_refl_subs: [],
+        cube_refl_subs: null,
+        shadow_subscenes: [],
+        light_index: 0,
+        obj_has_nla_on_scene: false,
+        cameras: [],
+        shadow_cameras: []
+    }
+    return sc_data;
+}
+
 exports.copy_bpy_object_props_by_link = function(obj) {
     if (obj instanceof Array)
         return obj.slice();
@@ -499,24 +514,22 @@ exports.copy_bpy_object_props_by_link = function(obj) {
         return obj;
 }
 
-exports.copy_batches_props_by_link_nr = function(batches) {
-    // TODO: remove bounding data from batches
-    var new_batches = [];
-    for (var i = 0; i < batches.length; i++) {
-        var batch = batches[i];
-        var new_batch = {};
-        for (var prop in batch) {
-            if (batch[prop] == batch.bb_world)
-                new_batch.bb_world = copy_object_props_by_value(batch.bb_world);
-            else if (batch[prop] == batch.be_world)
-                new_batch.be_world = copy_object_props_by_value(batch.be_world);
-            else
-                new_batch[prop] = batch[prop];
-        }
-        new_batches.push(new_batch);
-    }
-    return new_batches;
-}
+/**
+ * unused
+ */
+// exports.copy_batches_props_by_link_nr = function(batches) {
+//     // TODO: remove bounding data from batches
+//     var new_batches = [];
+//     for (var i = 0; i < batches.length; i++) {
+//         var batch = batches[i];
+//         var new_batch = {};
+//         for (var prop in batch)
+//             new_batch[prop] = batch[prop];
+
+//         new_batches.push(new_batch);
+//     }
+//     return new_batches;
+// }
 
 exports.copy_object_props_by_value = copy_object_props_by_value;
 function copy_object_props_by_value(obj) {
@@ -564,6 +577,7 @@ function copy_object_props_by_value(obj) {
     switch (Constructor) {
     case Int8Array:
     case Uint8Array:
+    case Uint8ClampedArray:
     case Int16Array:
     case Uint16Array:
     case Int32Array:
@@ -584,6 +598,7 @@ function copy_object_props_by_value(obj) {
         obj_clone = obj;
         break;
     case WebGLFramebuffer:
+    case WebGLRenderbuffer:
     case WebGLTexture:
     case WebGLBuffer:
         // NOTE: update geometry will be later
@@ -629,7 +644,8 @@ function copy_object_props_by_value(obj) {
     return obj_clone;
 }
 
-exports.is_dynamic = function(obj) {
+exports.is_dynamic = is_dynamic;
+function is_dynamic(obj) {
     return obj.is_dynamic;
 }
 
@@ -643,8 +659,240 @@ exports.append_scene_data = function(obj, scene) {
 }
 
 exports.append_batch = function(obj, scene, batch) {
+    var render = obj.render;
     var sc_data = get_scene_data(obj, scene);
+
     sc_data.batches.push(batch);
+
+    var batch_world_bounds = m_bounds.init_boundings();
+
+    // static COLOR_ID batch has submesh with applied tsr and its world
+    // boundings are already copied from local
+    var tsr = render.type == "STATIC" && batch.type == "COLOR_ID"
+            ? m_tsr.identity(_tsr_tmp) : render.world_tsr;
+    update_world_bounds_from_batch_tsr(batch, tsr, batch_world_bounds);
+    sc_data.batch_world_bounds.push(batch_world_bounds);
+}
+
+exports.update_render_bounds_billboard = function(obj, obj_local_bb) {
+    var render = obj.render;
+    var x = Math.max(Math.abs(obj_local_bb.max_x), Math.abs(obj_local_bb.min_x));
+    var y = Math.max(Math.abs(obj_local_bb.max_y), Math.abs(obj_local_bb.min_y));
+    var z = Math.max(Math.abs(obj_local_bb.max_z), Math.abs(obj_local_bb.min_z));
+    var sph_rad = Math.sqrt(x * x + y * y + z * z);
+    var cyl_rad = Math.sqrt(x * x + y * y);
+
+    var bb_local = m_bounds.create_bb();
+    bb_local.max_x = bb_local.max_y = bb_local.max_z = sph_rad;
+    bb_local.min_x = bb_local.min_y = bb_local.min_z = -sph_rad;
+
+    set_box_render_bounds(render, obj_local_bb);
+    set_sph_render_bounds(render, sph_rad, [0, 0, 0]);
+    set_ell_render_bounds(render, [1, 0, 0], [0, 1, 0], [0, 0, 1], 
+            [sph_rad, sph_rad, sph_rad], [0, 0, 0]);
+
+    if (is_dynamic(obj))
+        set_local_cyl_cap_cone(render, cyl_rad, cyl_rad, bb_local);
+    else
+        set_bbr_render_bounds(render, [1, 0, 0], [0, 1, 0], [0, 0, 1], 
+                [sph_rad, sph_rad, sph_rad], [0, 0, 0]);
+}
+
+exports.update_render_bounds_from_bpy = function(obj, obj_local_bb, bpy_bdata) {
+    var render = obj.render;
+    
+    var sph_rad = bpy_bdata["bs_rad"];
+    var cyl_rad = bpy_bdata["bc_rad"];
+    var bs_center = bpy_bdata["bs_cen"];
+    var be_center = bpy_bdata["be_cen"];
+
+    // use exported covariance axes for dynamic objects
+    var cov_axis_x = bpy_bdata["caxis_x"];
+    var cov_axis_y = bpy_bdata["caxis_y"];
+    var cov_axis_z = bpy_bdata["caxis_z"];
+    var be_axes = bpy_bdata["be_ax"];
+
+    var bbr_center = bpy_bdata["rbb"]["rbb_c"];
+    var bbr_scale = bpy_bdata["rbb"]["rbb_s"];
+
+    set_box_render_bounds(render, obj_local_bb);
+    set_sph_render_bounds(render, sph_rad, bs_center);
+
+    var obj_is_dynamic = is_dynamic(obj);
+    var be_axis_x = obj_is_dynamic ? cov_axis_x : [1, 0, 0];
+    var be_axis_y = obj_is_dynamic ? cov_axis_y : [0, 1, 0];
+    var be_axis_z = obj_is_dynamic ? cov_axis_z : [0, 0, 1];
+    set_ell_render_bounds(render, be_axis_x, be_axis_y, be_axis_z, be_axes, 
+            be_center);
+
+    if (is_dynamic(obj))
+        set_local_cyl_cap_cone(render, cyl_rad, cyl_rad, render.bb_local);
+    else
+        set_bbr_render_bounds(render, cov_axis_x, cov_axis_y, cov_axis_z, 
+                bbr_scale, bbr_center);
+}
+
+/**
+ * This algorithm has been taken from bindings.c
+ */
+exports.update_render_bounds_from_pos_arrays = function(obj, obj_local_bb, pos_arrays) {
+    var render = obj.render;
+    
+    var x_width = obj_local_bb.max_x - obj_local_bb.min_x;
+    var y_width = obj_local_bb.max_y - obj_local_bb.min_y;
+    var z_width = obj_local_bb.max_z - obj_local_bb.min_z;
+
+    var s_cen_x = (obj_local_bb.max_x + obj_local_bb.min_x) / 2;
+    var s_cen_y = (obj_local_bb.max_y + obj_local_bb.min_y) / 2;
+    var s_cen_z = (obj_local_bb.max_z + obj_local_bb.min_z) / 2;
+
+    var c_cen_x = s_cen_x;
+    var c_cen_z = s_cen_z;
+
+    var s_rad = Math.max(x_width, Math.max(y_width, z_width)) / 2;
+    var c_rad = Math.max(x_width, z_width) / 2;
+
+    var tmp_s_cen = [s_cen_x / (x_width ? x_width : 1),
+            s_cen_y / (y_width ? y_width : 1),
+            s_cen_z / (z_width ? z_width : 1)];
+    var tmp_rad = 0.5;
+
+    for (var i = 0; i < pos_arrays.length; i++) {
+        var pos = pos_arrays[i];
+
+        for (var j = 0; j < pos.length; j += 3) {
+            var x = pos[j];
+            var y = pos[j + 1];
+            var z = pos[j + 2];
+
+            var s_cen_dist = Math.sqrt((s_cen_x - x) * (s_cen_x - x) 
+                    + (s_cen_y - y) * (s_cen_y - y) +
+                    (s_cen_z - z) * (s_cen_z - z));
+
+            if (s_cen_dist > s_rad) {
+                var g_x = s_cen_x - s_rad * (x - s_cen_x) / s_cen_dist;
+                var g_y = s_cen_y - s_rad * (y - s_cen_y) / s_cen_dist;
+                var g_z = s_cen_z - s_rad * (z - s_cen_z) / s_cen_dist;
+
+                s_cen_x = (g_x + x) / 2;
+                s_cen_y = (g_y + y) / 2;
+                s_cen_z = (g_z + z) / 2;
+
+                s_rad = Math.sqrt((s_cen_x - x) * (s_cen_x - x) 
+                        + (s_cen_y - y) * (s_cen_y - y) +
+                        (s_cen_z - z) * (s_cen_z - z));
+            }
+
+            var c_cen_dist = Math.sqrt((c_cen_x - x) * (c_cen_x - x) 
+                        + (c_cen_z - z) * (c_cen_z - z));
+
+            if (c_cen_dist > c_rad) {
+                var g_x = c_cen_x - c_rad * (x - c_cen_x) / c_cen_dist;
+                var g_z = c_cen_z - c_rad * (z - c_cen_z) / c_cen_dist;
+
+                c_cen_x = (g_x + x) / 2;
+                c_cen_z = (g_z + z) / 2;
+                c_rad = Math.sqrt((c_cen_x - x) * (c_cen_x - x) 
+                        + (c_cen_z - z) * (c_cen_z - z));
+            }
+
+            x /= x_width ? x_width : 1;
+            y /= y_width ? y_width : 1;
+            z /= z_width ? z_width : 1;
+
+            var s_cen_tmp = Math.sqrt((tmp_s_cen[0] - x) * (tmp_s_cen[0] - x) +
+                    (tmp_s_cen[1] - y) * (tmp_s_cen[1] - y) 
+                    + (tmp_s_cen[2] - z) * (tmp_s_cen[2] - z));
+
+            if (s_cen_tmp > tmp_rad) {
+                var g_x = tmp_s_cen[0] - tmp_rad * (x - tmp_s_cen[0]) / s_cen_tmp;
+                var g_y = tmp_s_cen[1] - tmp_rad * (y - tmp_s_cen[1]) / s_cen_tmp;
+                var g_z = tmp_s_cen[2] - tmp_rad * (z - tmp_s_cen[2]) / s_cen_tmp;
+
+                tmp_s_cen[0] = (g_x + x) / 2;
+                tmp_s_cen[1] = (g_y + y) / 2;
+                tmp_s_cen[2] = (g_z + z) / 2;
+
+                tmp_rad = Math.sqrt((tmp_s_cen[0] - x) * (tmp_s_cen[0] - x) 
+                        + (tmp_s_cen[1] - y) * (tmp_s_cen[1] - y)
+                        + (tmp_s_cen[2] - z) * (tmp_s_cen[2] - z));
+            }
+        }
+    }
+
+    var e_cen_x = x_width ? x_width * tmp_s_cen[0] : obj_local_bb.max_x;
+    var e_cen_y = y_width ? y_width * tmp_s_cen[1] : obj_local_bb.max_y;
+    var e_cen_z = z_width ? z_width * tmp_s_cen[2] : obj_local_bb.max_z;
+
+    var e_axis_x = tmp_rad * x_width;
+    var e_axis_y = tmp_rad * y_width;
+    var e_axis_z = tmp_rad * z_width;
+
+    set_box_render_bounds(render, obj_local_bb);
+    set_sph_render_bounds(render, s_rad, [s_cen_x, s_cen_y, s_cen_z]);
+    set_ell_render_bounds(render, [1, 0, 0], [0, 1, 0], [0, 0, 1], 
+            [e_axis_x, e_axis_y, e_axis_z], [e_cen_x, e_cen_y, e_cen_z]);
+
+    if (is_dynamic(obj))
+        set_local_cyl_cap_cone(render, c_rad, c_rad, render.bb_local);
+    else {
+        var x_len = (render.bb_local.max_x - render.bb_local.min_x) / 2;
+        var y_len = (render.bb_local.max_y - render.bb_local.min_y) / 2;
+        var z_len = (render.bb_local.max_z - render.bb_local.min_z) / 2;
+
+        var cen_x = (render.bb_local.max_x + render.bb_local.min_x) / 2;
+        var cen_y = (render.bb_local.max_y + render.bb_local.min_y) / 2;
+        var cen_z = (render.bb_local.max_z + render.bb_local.min_z) / 2;
+
+        set_bbr_render_bounds(render, [x_len, 0, 0], [0, y_len, 0], 
+                [0, 0, z_len], [1, 1, 1], [cen_x, cen_y, cen_z]);
+    }
+}
+
+function set_box_render_bounds(render, bb_local) {
+    m_bounds.copy_bb(bb_local, render.bb_local);
+    m_bounds.bounding_box_transform(render.bb_local, render.world_tsr, 
+            render.bb_world);
+}
+
+function set_sph_render_bounds(render, sph_rad, bs_center) {
+    render.bs_local = m_bounds.bs_from_values(sph_rad, bs_center);
+    m_bounds.bounding_sphere_transform(render.bs_local, render.world_tsr, 
+            render.bs_world);
+}
+
+function set_ell_render_bounds(render, be_axis_x, be_axis_y, be_axis_z, 
+        axes_scale, be_center) {
+    render.be_local = m_bounds.be_from_values(be_axis_x, be_axis_y, be_axis_z, 
+            be_center);
+    m_vec3.scale(render.be_local.axis_x, axes_scale[0], render.be_local.axis_x);
+    m_vec3.scale(render.be_local.axis_y, axes_scale[1], render.be_local.axis_y);
+    m_vec3.scale(render.be_local.axis_z, axes_scale[2], render.be_local.axis_z);
+    m_bounds.bounding_ellipsoid_transform(render.be_local, render.world_tsr, 
+            render.be_world);
+}
+
+function set_local_cyl_cap_cone(render, cyl_radius, cap_radius, bb_local) {
+    render.bcyl_local = m_bounds.bcyl_from_values(cyl_radius, bb_local);
+    render.bcap_local = m_bounds.bcap_from_values(cap_radius, bb_local);
+    render.bcon_local = m_bounds.bcon_from_values(cyl_radius, bb_local);
+}
+
+function set_bbr_render_bounds(render, bbr_axis_x, bbr_axis_y, bbr_axis_z, 
+        axes_scale, bbr_center) {
+    render.bbr_local = m_bounds.rot_bb_from_values(bbr_center, bbr_axis_x, 
+            bbr_axis_y, bbr_axis_z, axes_scale);
+    m_bounds.bounding_rot_box_transform(render.bbr_local, render.world_tsr, 
+            render.bbr_world);
+}
+
+exports.update_world_bounds_from_batch_tsr = update_world_bounds_from_batch_tsr;
+function update_world_bounds_from_batch_tsr(batch, tsr, world_bounds) {
+    m_bounds.bounding_box_transform(batch.bounds_local.bb, tsr, world_bounds.bb);
+    if (batch.use_be)
+        m_bounds.bounding_ellipsoid_transform(batch.bounds_local.be, tsr, 
+                world_bounds.be);
+    m_bounds.bounding_sphere_transform(batch.bounds_local.bs, tsr, world_bounds.bs);
 }
 
 exports.remove_scene_data = function(obj, scene) {
@@ -676,23 +924,6 @@ exports.update_refl_objects = function (objects, reflection_plane) {
     }
 }
 
-exports.init_scene_data = init_scene_data;
-function init_scene_data(scene) {
-    var sc_data = {
-        scene: scene,
-        is_active: false,
-        batches: [],
-        plane_refl_subs: [],
-        cube_refl_subs: null,
-        shadow_subscenes: [],
-        light_index: 0,
-        obj_has_nla_on_scene: false,
-        cameras: [],
-        shadow_cameras: []
-    }
-    return sc_data;
-}
-
 exports.scene_data_set_active = function(obj, flag, scene) {
     for (var i = 0; i < obj.scenes_data.length; i++) {
         var sc_data = obj.scenes_data[i];
@@ -700,6 +931,11 @@ exports.scene_data_set_active = function(obj, flag, scene) {
         if (!scene || sc_data.scene == scene)
             sc_data.is_active = flag;
     }
+}
+
+exports.scene_data_remove_batch = function(scene_data, batch_index) {
+    scene_data.batches.splice(batch_index, 1);
+    scene_data.batch_world_bounds.splice(batch_index, 1);
 }
 
 exports.get_shadow_lamps = function(lamps, use_ssao) {

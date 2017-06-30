@@ -94,3 +94,9 @@ div#victory {
     margin-top: -128px;
     visibility:hidden;
 }
+
+*:active {
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -moz-tap-highlight-color: rgba(0,0,0,0);
+    tap-highlight-color: rgba(0,0,0,0);
+}

@@ -42,6 +42,8 @@
 
     * 节点材质的方法
 
+    * Replacing Textures
+
   * 材质继承
 
     * 激活
@@ -98,9 +100,7 @@
    当启用此参数时，引擎将使用材质的切向量（而不是普通的向量）计算物体
    的颜色。这可以用于创建各向异性阴影效果。
 
-      [图片]
-
-   **在左边：** 标准着色模型;  **右：** 切向着色模型。
+      [图片]**在左边：** 标准着色模型;  **右：** 切向着色模型。
 
 *着色 > 双面光照*
    启用双面照明模式。此选项是适用于非透明物体的单层网格。
@@ -516,6 +516,42 @@ material API模块包括控制堆栈材质的每一个方面的方法。
 
    m_material.set_nodemat_value(cube, ["MyMaterial", "MyValue"], 0.8);
    m_material.set_nodemat_rgb(cube, ["MyMaterial", "MyRGB"], 0.7, 0.9, 0.3);
+
+Same methods can also be used to adjust the scene environment, if the
+"World" object in the scene uses "RGB" or "Value" nodes. However, in
+this case you won't have to use the name of the material. The other
+difference is that a link to a scene object has to be replaced with a
+link to the "World" object that can be retrieved with the
+get_world_by_name() method:
+
+   var m_scenes    = require("scenes");
+   var m_material  = require("material");
+
+   ...
+
+   var my_world = m_scene.get_world_by_name("World");
+
+   var world_rgb = m_material.get_nodemat_rgb(my_world, ["My_RGB_3"]);
+
+
+Replacing Textures
+------------------
+
+API methods also allow you to replace texture images. This can be done
+using the change_image() method from the textures module:
+
+   var m_scenes  = require("scenes");
+   var m_tex = require("textures");
+
+   ...
+
+   var my_cube = m_scenes.get_object_by_name("Cube");
+
+   m_tex.change_image(my_cube, "My_Texture", "./test.png");
+
+This method can be applied to replace textures used by the "World"
+object as well. However, in this case the name of the "Texture" node
+should be used instead of the name of a texture.
 
 
 材质继承

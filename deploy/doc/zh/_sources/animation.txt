@@ -205,9 +205,11 @@ Blend4Web 也有可以自动播放物体动画的选项。要做到这一点，�
 
 [图片]
 
-应用程序启动后动画就开始播放，和 Play Timeline  节点非常相似，只是没有
-选项来设置开始和结束标记 （相反，它总是从时间线第一帧开始和最后一个结
-束）。您还可以设置动画的行为，像  Play Animation 节点。
+Animation starts to play right after the application startup and plays
+very similar to the Play Timeline node, only without an option to set
+up the start and end markers (instead, it always starts from the first
+frame of the timeline and ends with the last). You can also set up
+animation behavior, like in the Play Animation node.
 
 
 非线性动画

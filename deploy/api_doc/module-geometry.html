@@ -150,7 +150,7 @@ Enable the "Dynamic geometry" checkbox for the objects to allow geometry modific
 
         
             
-<li> <a href="#.extract_vertex_array">extract_vertex_array<span class="signature">(obj, mat_name, attrib_name)</span><span class="type-signature"> &rarr; {Float32Array|Int16Array|Uint8Array}</span></a></li>
+<li> <a href="#.extract_vertex_array">extract_vertex_array<span class="signature">(obj, mat_name, attrib_name)</span><span class="type-signature"> &rarr; {Float32Array}</span></a></li>
 
         
             
@@ -323,7 +323,7 @@ Enable the "Dynamic geometry" checkbox for the objects to allow geometry modific
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_geometry.js.html">ext/geometry.js</a>, <a href="ext_geometry.js.html#line266">line 266</a>
+        <a href="ext_geometry.js.html">ext/geometry.js</a>, <a href="ext_geometry.js.html#line259">line 259</a>
     </li></ul></dd>
     
 
@@ -550,7 +550,7 @@ local space of the given line object.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_geometry.js.html">ext/geometry.js</a>, <a href="ext_geometry.js.html#line312">line 312</a>
+        <a href="ext_geometry.js.html">ext/geometry.js</a>, <a href="ext_geometry.js.html#line305">line 305</a>
     </li></ul></dd>
     
 
@@ -743,7 +743,7 @@ m_geom.draw_line(empty, points);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_geometry.js.html">ext/geometry.js</a>, <a href="ext_geometry.js.html#line47">line 47</a>
+        <a href="ext_geometry.js.html">ext/geometry.js</a>, <a href="ext_geometry.js.html#line48">line 48</a>
     </li></ul></dd>
     
 
@@ -765,7 +765,7 @@ m_geom.draw_line(empty, points);</code></pre>
 
     
 
-    <h4 class="name" id=".extract_vertex_array">extract_vertex_array<span class="signature">(obj, mat_name, attrib_name)</span><span class="type-signature"> &rarr; {Float32Array|Int16Array|Uint8Array}</span></h4>
+    <h4 class="name" id=".extract_vertex_array">extract_vertex_array<span class="signature">(obj, mat_name, attrib_name)</span><span class="type-signature"> &rarr; {Float32Array}</span></h4>
 
     
 
@@ -871,7 +871,7 @@ m_geom.draw_line(empty, points);</code></pre>
 
             
 
-            <td class="description last">Attribute name (a_position, a_tbn)</td>
+            <td class="description last">Attribute name (a_position, a_tbn, a_normal)</td>
         </tr>
 
     
@@ -907,12 +907,6 @@ m_geom.draw_line(empty, points);</code></pre>
     <dd>
         
 <span class="param-type">Float32Array</span>
-|
-
-<span class="param-type">Int16Array</span>
-|
-
-<span class="param-type">Uint8Array</span>
 
 
     </dd>
@@ -1132,7 +1126,7 @@ m_geom.draw_line(empty, points);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_geometry.js.html">ext/geometry.js</a>, <a href="ext_geometry.js.html#line290">line 290</a>
+        <a href="ext_geometry.js.html">ext/geometry.js</a>, <a href="ext_geometry.js.html#line283">line 283</a>
     </li></ul></dd>
     
 
@@ -1289,7 +1283,7 @@ m_geom.draw_line(empty, points);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_geometry.js.html">ext/geometry.js</a>, <a href="ext_geometry.js.html#line275">line 275</a>
+        <a href="ext_geometry.js.html">ext/geometry.js</a>, <a href="ext_geometry.js.html#line268">line 268</a>
     </li></ul></dd>
     
 
@@ -1519,7 +1513,7 @@ m_geom.draw_line(empty, points);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_geometry.js.html">ext/geometry.js</a>, <a href="ext_geometry.js.html#line116">line 116</a>
+        <a href="ext_geometry.js.html">ext/geometry.js</a>, <a href="ext_geometry.js.html#line109">line 109</a>
     </li></ul></dd>
     
 
@@ -1704,7 +1698,7 @@ beforehand so that the boundings can contain the object in its largest shape.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_geometry.js.html">ext/geometry.js</a>, <a href="ext_geometry.js.html#line235">line 235</a>
+        <a href="ext_geometry.js.html">ext/geometry.js</a>, <a href="ext_geometry.js.html#line228">line 228</a>
     </li></ul></dd>
     
 
@@ -1841,7 +1835,7 @@ m_geom.set_shape_key_value(cube, "Key 1", 0.5);</code></pre>
 
             
 
-            <td class="description last">Attribute name (a_position, a_tbn)</td>
+            <td class="description last">Attribute name (a_position, a_tbn, a_normal)</td>
         </tr>
 
     
@@ -1855,12 +1849,6 @@ m_geom.set_shape_key_value(cube, "Key 1", 0.5);</code></pre>
             
                 
 <span class="param-type">Float32Array</span>
-|
-
-<span class="param-type">Int16Array</span>
-|
-
-<span class="param-type">Uint8Array</span>
 
 
             
@@ -1923,7 +1911,7 @@ m_geom.set_shape_key_value(cube, "Key 1", 0.5);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_geometry.js.html">ext/geometry.js</a>, <a href="ext_geometry.js.html#line77">line 77</a>
+        <a href="ext_geometry.js.html">ext/geometry.js</a>, <a href="ext_geometry.js.html#line78">line 78</a>
     </li></ul></dd>
     
 
@@ -1960,7 +1948,7 @@ m_geom.set_shape_key_value(cube, "Key 1", 0.5);</code></pre>
 <br class="clear">
 
 <footer>
-    Blend4Web API Reference (generated by JSDoc 3.4.0 on Mon May 15 2017 11:38:29 GMT+0300 (MSK))
+    Blend4Web API Reference (generated by JSDoc 3.4.0 on Fri Jun 30 2017 14:29:58 GMT+0300 (MSK))
     <a href="https://www.blend4web.com">www.blend4web.com</a>
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">

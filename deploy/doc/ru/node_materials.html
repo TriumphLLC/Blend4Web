@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Нодовые материалы &mdash; Руководство пользователя Blend4Web 17.04.1</title>
+  <title>Нодовые материалы &mdash; Руководство пользователя Blend4Web 17.06</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 17.04.1" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 17.06" href="index.html"/>
         <link rel="next" title="Редактор логики" href="logic_editor.html"/>
         <link rel="prev" title="Библиотека материалов" href="material_library.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v17.04.1
+              v17.06
             </div>
           
         
@@ -158,6 +158,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#cycles-nodes">Ноды Сycles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#limitations">Ограничения</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Редактор логики</a></li>
@@ -241,6 +242,7 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#cycles-nodes" id="id38">Ноды Сycles</a></li>
+<li><a class="reference internal" href="#limitations" id="id39">Ограничения</a></li>
 </ul>
 </li>
 </ul>
@@ -524,6 +526,7 @@ Transform <a class="footnote-reference" href="#f2" id="id3">[2]</a></td>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
+<p>Обратите внимание, что нодовые материалы имеют некоторые ограничения, касающиеся количества нод определённых типов. Эти ограничения описаны <a class="reference internal" href="#node-material-limits"><span>здесь</span></a>.</p>
 </div>
 <div class="section" id="engine-specific-nodes">
 <span id="custom-node-materials"></span><h2><a class="toc-backref" href="#id25">Дополнительные ноды</a><a class="headerlink" href="#engine-specific-nodes" title="Ссылка на этот заголовок">¶</a></h2>
@@ -880,7 +883,137 @@ Transform <a class="footnote-reference" href="#f2" id="id3">[2]</a></td>
 <li><p class="first"><code class="docutils literal"><span class="pre">Emission</span></code> (не влияет на освещённость сцены).</p>
 </li>
 </ul>
+<p>Ноды <code class="docutils literal"><span class="pre">Cycles</span></code> также поддерживаются для объекта <code class="docutils literal"><span class="pre">World</span></code>, однако на данный момент нодовые материалы не влияют на цвет окружающей среды.</p>
 <p>Прочие ноды <code class="docutils literal"><span class="pre">Cycles</span></code> в большинстве случаев не будут работать в Blend4Web так же, как они работают в Blender. Кроме того, они могут не работать вообще или даже приводить к некорректной работе материала, в котором используются. Однако использование таких нод не вызовет нестабильности в работе приложения.</p>
+</div>
+<div class="section" id="limitations">
+<span id="node-material-limits"></span><h2><a class="toc-backref" href="#id39">Ограничения</a><a class="headerlink" href="#limitations" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Нодовые материалы могут быть устроены сложно, но их сложность ограничена возможностями системы, которую вы используете. Эти ограничения могут быть незаметны в большинстве случаев, однако если вы создаёте очень сложный материал, вы можете превысить количество текстур и переменных векторов (т.е., векторов, которые используются вершинным шейдером для передачи данных фрагментному шейдеру), которое ваша система позволяет использовать в одном шейдере. И даже если этого не произойдёт, некоторые пользователи могут запускать ваше приложение на менее мощных системах, чем ваша. В таких случаях чрезмерно сложные материалы могут вызывать проблемы.</p>
+<p>Если вы хотите узнать, как ваша сцена поведёт себя на низкопроизводительном устройстве, но не располагаете таковым, вы можете использовать очень полезную опцию <code class="docutils literal"><span class="pre">Min</span> <span class="pre">Capabilities</span> <span class="pre">Mode</span></code>. Она находится в <a class="reference internal" href="viewer.html#viewer"><span>Просмотрщике сцен</span></a> на панели <a class="reference internal" href="viewer.html#viewer-tools-and-debug"><span>Tools &amp; Debug</span></a>.</p>
+<p>Количество текстур и переменных векторов, поддерживаемое вашей системой, можно узнать на веб-странице WebGL Report, перейти на которую можно с <a class="reference internal" href="addon.html#getting-started-launching-viewer"><span>обзорной страницы SDK</span></a>.</p>
+<p>Ниже приводятся две таблицы, содержащие количество текстур и переменных векторов, выделяемых движком для различных нод материалов.</p>
+<p><strong>Переменные векторы</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="48%" />
+<col width="52%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><p class="first last"><strong>Нода/Эффект</strong></p>
+</td>
+<td><p class="first last"><strong>Выделенные переменные векторы</strong></p>
+</td>
+</tr>
+<tr class="row-even"><td><p class="first last">Всегда зарезервировано</p>
+</td>
+<td>3</td>
+</tr>
+<tr class="row-odd"><td><p class="first last">Нода <code class="docutils literal"><span class="pre">Input</span> <span class="pre">-&gt;</span> <span class="pre">Texture</span></code> (если используется выход <code class="docutils literal"><span class="pre">Normal</span></code>)</p>
+</td>
+<td>1</td>
+</tr>
+<tr class="row-even"><td><p class="first last">Нода <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">-&gt;</span> <span class="pre">Parallax</span></code></p>
+</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td><p class="first last">Нода <code class="docutils literal"><span class="pre">Vector</span> <span class="pre">-&gt;</span> <span class="pre">Normal</span> <span class="pre">Map</span></code></p>
+</td>
+<td>1</td>
+</tr>
+<tr class="row-even"><td><p class="first last">Нода <code class="docutils literal"><span class="pre">Input</span> <span class="pre">-&gt;</span> <span class="pre">Material</span></code> (если для материала выставлена опция <code class="docutils literal"><span class="pre">Shading</span> <span class="pre">-&gt;</span> <span class="pre">Tangent</span> <span class="pre">Shading</span></code>)</p>
+</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td><p class="first last">Нода <code class="docutils literal"><span class="pre">Input</span> <span class="pre">-&gt;</span> <span class="pre">Geometry</span></code> (если используется выход <code class="docutils literal"><span class="pre">UV</span></code>)</p>
+</td>
+<td>1</td>
+</tr>
+<tr class="row-even"><td><p class="first last">Cycles-нода <code class="docutils literal"><span class="pre">Input</span> <span class="pre">-&gt;</span> <span class="pre">UV</span> <span class="pre">Map</span></code></p>
+</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td><p class="first last">Cycles-нода <code class="docutils literal"><span class="pre">Input</span> <span class="pre">-&gt;</span> <span class="pre">Texture</span> <span class="pre">Coordinate</span></code> (если используется выход <code class="docutils literal"><span class="pre">UV</span></code>)</p>
+</td>
+<td>1</td>
+</tr>
+<tr class="row-even"><td><p class="first last">Нода <code class="docutils literal"><span class="pre">Input</span> <span class="pre">-&gt;</span> <span class="pre">Geometry</span></code> (если используется выход <code class="docutils literal"><span class="pre">Vertex</span> <span class="pre">Color</span></code>)</p>
+</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td><p class="first last">Тени на объекте с <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Blend</span></code>-материалом</p>
+</td>
+<td><p class="first">1 - 4</p>
+<p class="last">(в зависимости от количества каскадов теней и источников света, генерирующих тени)</p>
+</td>
+</tr>
+<tr class="row-even"><td><p class="first">Тени на объекте с <code class="docutils literal"><span class="pre">Opaque</span></code>-материалом</p>
+<p>Эффект рефракции на материале</p>
+<p class="last">Планарное отражение, активированное для объекта</p>
+</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td><p class="first last">Эффект рефракции на материале</p>
+</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Текстуры</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="48%" />
+<col width="52%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><p class="first last"><strong>Нода/Эффект</strong></p>
+</td>
+<td><p class="first last"><strong>Выделенные текстуры</strong></p>
+</td>
+</tr>
+<tr class="row-even"><td><p class="first last">Нода <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">-&gt;</span> <span class="pre">Parallax</span></code></p>
+</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td><p class="first last">Нода <code class="docutils literal"><span class="pre">Input</span> <span class="pre">-&gt;</span> <span class="pre">Texture</span></code></p>
+</td>
+<td>1</td>
+</tr>
+<tr class="row-even"><td><p class="first last">Cycles-нода <code class="docutils literal"><span class="pre">Texture</span> <span class="pre">-&gt;</span> <span class="pre">Environment</span> <span class="pre">Texture</span></code></p>
+</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td><p class="first">Нода <code class="docutils literal"><span class="pre">Vector</span> <span class="pre">-&gt;</span> <span class="pre">Vector</span> <span class="pre">Curves</span></code></p>
+<p>Нода <code class="docutils literal"><span class="pre">Color</span> <span class="pre">-&gt;</span> <span class="pre">RGB</span> <span class="pre">Curves</span></code></p>
+<p class="last">Нода <code class="docutils literal"><span class="pre">Converter</span> <span class="pre">-&gt;</span> <span class="pre">Color</span> <span class="pre">Ramp</span></code></p>
+</td>
+<td><p class="first">1</p>
+<p class="last">(количество нод в материале не играет роли)</p>
+</td>
+</tr>
+<tr class="row-even"><td><p class="first last">Тени на объекте с <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Blend</span></code>-материалом</p>
+</td>
+<td><p class="first">1 - 4</p>
+<p class="last">(в зависимости от кол-ва каскадов/источников света, генерирующих тени)</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p class="first last">Тени на объекте с <code class="docutils literal"><span class="pre">Opaque</span></code>-материалом</p>
+</td>
+<td>1</td>
+</tr>
+<tr class="row-even"><td><p class="first last">Эффект рефракции на материале</p>
+</td>
+<td>2</td>
+</tr>
+<tr class="row-odd"><td><p class="first last"><code class="docutils literal"><span class="pre">World</span> <span class="pre">-&gt;</span> <span class="pre">Environment</span> <span class="pre">Lighting</span> <span class="pre">-&gt;</span> <span class="pre">SkyTexture</span></code> включена для World</p>
+</td>
+<td>1</td>
+</tr>
+<tr class="row-even"><td><p class="first last">Эффект отражения на объекте</p>
+</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 
@@ -904,7 +1037,7 @@ Transform <a class="footnote-reference" href="#f2" id="id3">[2]</a></td>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Триумф.
-      Обновлено: 2017-05-15.
+      Обновлено: 2017-06-30.
 
     </p>
   </div>
@@ -960,7 +1093,7 @@ Transform <a class="footnote-reference" href="#f2" id="id3">[2]</a></td>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.04.1',
+            VERSION:'v17.06',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

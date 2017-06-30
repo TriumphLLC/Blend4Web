@@ -46,3 +46,9 @@ div#run_button.ru:hover {
 div#run_button.en:hover {
     background-position: -236px -60px;
 }
+
+*:active {
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -moz-tap-highlight-color: rgba(0,0,0,0);
+    tap-highlight-color: rgba(0,0,0,0);
+}
