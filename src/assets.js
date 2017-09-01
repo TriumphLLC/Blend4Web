@@ -150,7 +150,7 @@ exports.get_text_sync = function(asset_uri) {
         return _loaded_assets[asset_uri];
 
     if (cfg_ldr.prevent_caching)
-        var filepath = asset_uri + m_version.timestamp();
+        var filepath = asset_uri + "?v=" + m_version.get_build_version();
     else
         var filepath = asset_uri;
 
@@ -209,7 +209,7 @@ exports.enqueue = function(assets_pack, asset_cb, pack_cb, progress_cb, json_rev
         if (cfg_ldr.prevent_caching) {
             var bd = get_built_in_data();
             if (!(bd && asset.url in bd))
-                asset.url += m_version.timestamp();
+                asset.url += "?v=" + m_version.get_build_version();
         }
 
         _assets_queue.push(asset);
@@ -646,7 +646,7 @@ function request_video(asset) {
             video.load();
     }
 
-    if (cfg_def.mobile_firefox_media_hack) {
+    if (cfg_def.mobile_firefox_media_hack || cfg_def.ipad_video_hack) {
         video.autoplay = true;
         video.pause();
     }

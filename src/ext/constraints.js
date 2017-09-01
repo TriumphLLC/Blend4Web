@@ -78,6 +78,14 @@ exports.append_stiff = function(obj, target, offset, rotation_offset,
         m_print.error("Wrong object: \"" + obj.name + "\" is not dynamic.");
         return;
     }
+    if (!m_cons.check_self_applying(obj, target)) {
+        m_print.error("Can not apply constraint. Object and target must be different.");
+        return;
+    }
+    if (!m_cons.check_compatibility(obj, target)) {
+        m_print.error("Constraint recursion is forbidden.");
+        return;
+    }
     offset = offset || new Float32Array(3);
     scale_offset = scale_offset || 1;
     rotation_offset =
@@ -126,6 +134,14 @@ exports.append_semi_stiff = function(obj, target, offset, rotation_offset,
                                             clamp_up, clamp_down) {
     if (!m_obj_util.is_dynamic(obj)) {
         m_print.error("Wrong object: \"" + obj.name + "\" is not dynamic.");
+        return;
+    }
+    if (!m_cons.check_self_applying(obj, target)) {
+        m_print.error("Can not apply constraint. Object and target must be different.");
+        return;
+    }
+    if (!m_cons.check_compatibility(obj, target)) {
+        m_print.error("Constraint recursion is forbidden.");
         return;
     }
     clamp_left  = m_util.isdef(clamp_left) ? clamp_left : Math.PI / 2;
@@ -229,7 +245,14 @@ exports.append_semi_soft = function(obj, target, offset, softness) {
         m_print.error("Wrong object: \"" + obj.name + "\" is not dynamic.");
         return;
     }
-
+    if (!m_cons.check_self_applying(obj, target)) {
+        m_print.error("Can not apply constraint. Object and target must be different.");
+        return;
+    }
+    if (!m_cons.check_compatibility(obj, target)) {
+        m_print.error("Constraint recursion is forbidden.");
+        return;
+    }
     if (!m_util.isdef(softness) || softness < 0)
         softness = 0.25;
     offset = offset || new Float32Array(3);
@@ -276,6 +299,14 @@ exports.append_stiff_trans = function(obj, target, offset) {
         m_print.error("Wrong object: \"" + obj.name + "\" is not dynamic.");
         return;
     }
+    if (!m_cons.check_self_applying(obj, target)) {
+        m_print.error("Can not apply constraint. Object and target must be different.");
+        return;
+    }
+    if (!m_cons.check_compatibility(obj, target)) {
+        m_print.error("Constraint recursion is forbidden.");
+        return;
+    }
     offset = offset || new Float32Array(3);
     m_cons.append_stiff_trans_obj(obj, target, offset);
 
@@ -311,7 +342,14 @@ exports.append_copy_loc = function(obj, target, axes, use_offset, influence) {
         m_print.error("Wrong object: \"" + obj.name + "\" is not dynamic.");
         return;
     }
-
+    if (!m_cons.check_self_applying(obj, target)) {
+        m_print.error("Can not apply constraint. Object and target must be different.");
+        return;
+    }
+    if (!m_cons.check_compatibility(obj, target)) {
+        m_print.error("Constraint recursion is forbidden.");
+        return;
+    }
     use_offset = use_offset || false;
     axes = axes || "XYZ";
     influence = influence || 1;
@@ -327,7 +365,7 @@ exports.append_copy_loc = function(obj, target, axes, use_offset, influence) {
 }
 
 /**
- * Attach the object to the other object using a copy translation constraint.
+ * Attach the object to the other object using a copy transforms constraint.
  * The child object will move and rotate together with its parent.
  * <p>
  * This method works similarly to the <b>Copy Transforms</b> constraint in Blender.
@@ -349,6 +387,14 @@ exports.append_copy_trans = function(obj, target, influence) {
 
     if (!m_obj_util.is_dynamic(obj)) {
         m_print.error("Wrong object: \"" + obj.name + "\" is not dynamic.");
+        return;
+    }
+    if (!m_cons.check_self_applying(obj, target)) {
+        m_print.error("Can not apply constraint. Object and target must be different.");
+        return;
+    }
+    if (!m_cons.check_compatibility(obj, target)) {
+        m_print.error("Constraint recursion is forbidden.");
         return;
     }
     influence = influence || 1;
@@ -385,6 +431,14 @@ exports.append_copy_rot = function(obj, target, axes, use_offset, influence) {
 
     if (!m_obj_util.is_dynamic(obj)) {
         m_print.error("Wrong object: \"" + obj.name + "\" is not dynamic.");
+        return;
+    }
+    if (!m_cons.check_self_applying(obj, target)) {
+        m_print.error("Can not apply constraint. Object and target must be different.");
+        return;
+    }
+    if (!m_cons.check_compatibility(obj, target)) {
+        m_print.error("Constraint recursion is forbidden.");
         return;
     }
     use_offset = use_offset || false;
@@ -431,6 +485,14 @@ exports.append_stiff_trans_rot = function(obj, target, offset, rotation_offset) 
         m_print.error("Wrong object: \"" + obj.name + "\" is not dynamic.");
         return;
     }
+    if (!m_cons.check_self_applying(obj, target)) {
+        m_print.error("Can not apply constraint. Object and target must be different.");
+        return;
+    }
+    if (!m_cons.check_compatibility(obj, target)) {
+        m_print.error("Constraint recursion is forbidden.");
+        return;
+    }
     offset = offset || new Float32Array(3);
     rotation_offset =
             rotation_offset ? new Float32Array(rotation_offset) : [0, 0, 0, 1];
@@ -468,6 +530,14 @@ exports.append_track = function(obj, target, track_axis, up_axis, use_target_z, 
 
     if (!m_obj_util.is_dynamic(obj)) {
         m_print.error("Wrong object: \"" + obj.name + "\" is not dynamic.");
+        return;
+    }
+    if (!m_cons.check_self_applying(obj, target)) {
+        m_print.error("Can not apply constraint. Object and target must be different.");
+        return;
+    }
+    if (!m_cons.check_compatibility(obj, target)) {
+        m_print.error("Constraint recursion is forbidden.");
         return;
     }
     var track_axis_vec = m_util.AXIS_Y;
@@ -532,7 +602,14 @@ exports.append_follow = function(obj, target, dist_min, dist_max) {
         m_print.error("Wrong object: \"" + obj.name + "\" is not dynamic.");
         return;
     }
-
+    if (!m_cons.check_self_applying(obj, target)) {
+        m_print.error("Can not apply constraint. Object and target must be different.");
+        return;
+    }
+    if (!m_cons.check_compatibility(obj, target)) {
+        m_print.error("Constraint recursion is forbidden.");
+        return;
+    }
     m_cons.append_follow_obj(obj, target, dist_min, dist_max);
 
     m_trans.update_transform(obj);
@@ -563,6 +640,14 @@ exports.append_follow = function(obj, target, dist_min, dist_max) {
 exports.append_stiff_viewport = function(obj, camobj, positioning) {
     if (!m_obj_util.is_dynamic(obj)) {
         m_print.error("Wrong object: \"" + obj.name + "\" is not dynamic.");
+        return;
+    }
+    if (!m_cons.check_self_applying(obj, camobj)) {
+        m_print.error("Can not apply constraint. Object and target must be different.");
+        return;
+    }
+    if (!m_cons.check_compatibility(obj, camobj)) {
+        m_print.error("Constraint recursion is forbidden.");
         return;
     }
     positioning = positioning || {};

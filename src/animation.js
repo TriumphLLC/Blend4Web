@@ -469,17 +469,16 @@ function get_default_actions(obj) {
     return obj.def_action_slots.slice();
 }
 
-exports.get_bpy_material_actions = get_bpy_material_actions;
-function get_bpy_material_actions(bpy_obj) {
+exports.get_bpy_material_actions = function(bpy_obj) {
     var act_list = [];
 
     var materials = bpy_obj["data"]["materials"];
     for (var i = 0; i < materials.length; i++) {
         var mat = materials[i];
-        var node_tree = mat["node_tree"];
+        var node_tree = mat.node_tree;
 
         if (node_tree)
-            get_node_tree_actions_r(node_tree, act_list, [mat["name"]]);
+            get_node_tree_actions_r(node_tree, act_list, [mat.name]);
     }
     return act_list;
 }
@@ -833,11 +832,7 @@ function apply_action(obj, name_list, action, slot_num) {
 
             var is_world_action = m_obj_util.is_world(obj);
 
-            var nodemat_anim_data = get_cached_anim_data(obj, name_list, action);
-            if (!nodemat_anim_data) {
-                nodemat_anim_data = calc_nodemat_anim_data(obj, name_list, action, is_world_action);
-                cache_anim_data(obj, name_list, action, nodemat_anim_data);
-            }
+            var nodemat_anim_data = calc_nodemat_anim_data(obj, name_list, action, is_world_action);
 
             anim_slot.node_value_inds = nodemat_anim_data.val_inds;
             anim_slot.nodemat_values = nodemat_anim_data.values;
@@ -1104,10 +1099,10 @@ function calc_nodemat_anim_data(obj, name_list, action, is_world_action) {
                 var rgb_ind_pairs = batch.node_rgb_inds;
 
                 var found_vals =
-                    calc_node_act(param_name, node_name, act_render,
+                    calc_node_act_value(param_name, node_name, act_render,
                                   values, val_inds, val_ind_pairs);
                 var found_rgbs =
-                    calc_node_act(param_name, node_name, act_render,
+                    calc_node_act_rgb(param_name, node_name, act_render,
                                   rgbs, rgb_inds, rgb_ind_pairs);
 
                 if (found_vals || found_rgbs)
@@ -1121,7 +1116,7 @@ function calc_nodemat_anim_data(obj, name_list, action, is_world_action) {
             node_batches: node_batches};
 }
 
-function calc_node_act(param_name, node_name, act_render, values, inds,
+function calc_node_act_rgb(param_name, node_name, act_render, values, inds,
                        val_ind_pairs) {
     if (!val_ind_pairs)
         return false;
@@ -1132,6 +1127,23 @@ function calc_node_act(param_name, node_name, act_render, values, inds,
         if (node_name == name) {
             var ind = val_ind_pairs[i+1];
             inds.push(ind);
+            values.push(new Float32Array(act_render.params[param_name]));
+            found_vals = true;
+        }
+    }
+    return found_vals;
+}
+
+function calc_node_act_value(param_name, node_name, act_render, values, inds,
+                       val_ind_pairs) {
+    if (!val_ind_pairs)
+        return false;
+
+    var found_vals = false;
+    for (var i = 0; i < val_ind_pairs.length; i+=3) {
+        var name = val_ind_pairs[i];
+        if (node_name == name) {
+            inds.push(val_ind_pairs[i+1] * 4 + val_ind_pairs[i+2]);
             values.push(new Float32Array(act_render.params[param_name]));
             found_vals = true;
         }

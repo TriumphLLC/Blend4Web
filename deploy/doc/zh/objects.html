@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>物体 &mdash; Blend4Web 17.06 用户手册</title>
+  <title>物体 &mdash; Blend4Web 17.08 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.06 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 17.08 用户手册" href="index.html"/>
         <link rel="next" title="网格" href="meshes.html"/>
         <link rel="prev" title="场景设置" href="scene_settings.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v17.06
+              v17.08
             </div>
           
         
@@ -85,6 +85,7 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">概述</a></li>
 <li class="toctree-l1"><a class="reference internal" href="engine_features.html">引擎功能</a></li>
+<li class="toctree-l1"><a class="reference internal" href="interface.html">Blender User Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">安装和更新</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">工作流程</a></li>
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理</a></li>
@@ -99,6 +100,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#object-tab">物体选项卡</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#transform-panel">变换面板</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#groups-panel">组面板</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#display-panel">Display Panel</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#levels-of-detail-panel">层次细节面板</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#animation-panel">动画面板</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#export-options-panel">导出选项面板</a></li>
@@ -110,6 +112,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#anchors-panel">锚面板</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#meta-tags-panel">元标签面板</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#relations-panel">关系面板。</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#duplication-panel">Duplication Panel</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#wind-bending-panel">风弯曲面板</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#special-effects-panel">特效面板</a></li>
 </ul>
@@ -117,7 +120,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#physics-tab">物理标签</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#object-constraints">Object Constraints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#object-constraints">物体约束</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#anchor-settings">锚设置</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#object-transform-api">物体变换API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#get-object-api">获取物体API</a></li>
@@ -220,7 +223,7 @@
 <li><a class="reference internal" href="#physics-tab" id="id11">物理标签</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#object-constraints" id="id12">Object Constraints</a></li>
+<li><a class="reference internal" href="#object-constraints" id="id12">物体约束</a></li>
 <li><a class="reference internal" href="#anchor-settings" id="id13">锚设置</a></li>
 <li><a class="reference internal" href="#object-transform-api" id="id14">物体变换API</a></li>
 <li><a class="reference internal" href="#get-object-api" id="id15">获取物体API</a></li>
@@ -336,6 +339,11 @@
 <div class="line"><br /></div>
 </div>
 </div>
+<div class="section" id="display-panel">
+<span id="object-settings-display"></span><h4>Display Panel<a class="headerlink" href="#display-panel" title="永久链接至标题">¶</a></h4>
+<img alt="_images/object_settings_display.png" class="align-center" src="_images/object_settings_display.png" />
+<p>This panel contains parameters that define how the selected object looks in the 3D View window. It does not feature any additional options in Blend4Web mode.</p>
+</div>
 <div class="section" id="levels-of-detail-panel">
 <span id="object-settings-lod"></span><h4>层次细节面板<a class="headerlink" href="#levels-of-detail-panel" title="永久链接至标题">¶</a></h4>
 <img alt="_images/object_settings_lod.png" class="align-center" src="_images/object_settings_lod.png" />
@@ -374,7 +382,11 @@
 </dl>
 <dl class="docutils" id="apply-modifiers">
 <dt><em>导出选项 &gt; 应用修改器</em></dt>
-<dd><p class="first last">应用导出物体的修改器。如果使用 <code class="docutils literal"><span class="pre">SKIN</span></code> 修改器，我们建议导出前应用掉它，因为它会重置顶点颜色和UV层可能会导致错误。</p>
+<dd><p class="first">Apply the object’s modifiers upon export.</p>
+<div class="last admonition note">
+<p class="first admonition-title">注解</p>
+<p class="last">If the <code class="docutils literal"><span class="pre">Skin</span></code> modifier is used we recommend to apply it before the export because it resets vertex color and UV layers which may result in errors.</p>
+</div>
 </dd>
 <dt><em>导出选项 &gt; 应用缩放和修改器</em></dt>
 <dd><p class="first last">一旦导出，应用物体的缩放和修改器。</p>
@@ -447,9 +459,8 @@
 </dd>
 </dl>
 <dl class="docutils" id="billboarding-preserve">
-<dt><em>看板 &gt; 保留全局方向和缩放</em></dt>
-<dd><p class="first last">考虑到（世界空间）看板的物体的旋转和缩放。该物体沿Blender的Y轴查看时将朝明显的被引导到相机。启用 <code class="docutils literal"><span class="pre">看板</span></code> 复选框后可用。</p>
-</dd>
+<dt><em>Billboard &gt; Preserve Global Rotation</em></dt>
+<dd>Take into account rotation of the billboard object (in the world space). The object will be directed toward the camera with its side which is visible when viewing along the Y axis in Blender. Becomes available after enabling the <code class="docutils literal"><span class="pre">Billboard</span></code> checkbox.</dd>
 <dt><em>看板 &gt; 看板类型</em></dt>
 <dd><p class="first last">看板方向模式。 <code class="docutils literal"><span class="pre">Spherical</span></code> （默认） - 物体一面始终朝向相机，不管视角，<code class="docutils literal"><span class="pre">Cylindrical</span></code>  - 类似于 <code class="docutils literal"><span class="pre">Spherical</span></code>，但旋转仅限于Blender的世界Z轴。启用看板后变得可用。</p>
 </dd>
@@ -513,7 +524,12 @@
 <dd><p class="first last">物体的类别。</p>
 </dd>
 <dt><em>元标签 &gt; 描述</em></dt>
-<dd><p class="first last">物体描述。根据 <code class="docutils literal"><span class="pre">说明源</span></code>，此字段接受描述文本本身，或包含的文件的名称。</p>
+<dd><p class="first">物体描述。根据 <code class="docutils literal"><span class="pre">说明源</span></code>，此字段接受描述文本本身，或包含的文件的名称。</p>
+<div class="last admonition note">
+<p class="first admonition-title">注解</p>
+<p>To use a text file as a description source you first have to open an existing file in Blender <a class="reference internal" href="interface.html#ui-text-editor"><span>Text Editor</span></a> or to create a new text file in the same editor.</p>
+<p class="last">Then, you only have to set the name of the file in the <code class="docutils literal"><span class="pre">Description</span></code> field.</p>
+</div>
 </dd>
 <dt><em>元标签 &gt; 描述源</em></dt>
 <dd><p class="first last">为说明来源类型：文本或文本文件。</p>
@@ -536,6 +552,11 @@
 <p class="last">这些设置可被用于将物体对准的主控照相机。参考 <a class="reference internal" href="camera.html#camera-viewport-alignment"><span>相机章节</span></a> 的描述。</p>
 </dd>
 </dl>
+</div>
+<div class="section" id="duplication-panel">
+<span id="object-settings-duplication"></span><h4>Duplication Panel<a class="headerlink" href="#duplication-panel" title="永久链接至标题">¶</a></h4>
+<a class="reference internal image-reference" href="_images/objects_duplication.png"><img alt="_images/objects_duplication.png" class="align-center" src="_images/objects_duplication.png" style="width: 100%;" /></a>
+<p>This panel contains settings that concern object duplication. It does not feature any additional parameters in the Blend4Web mode; however, it should be noted that at the moment Blend4Web engine only supports <code class="docutils literal"><span class="pre">Group</span></code> duplication method.</p>
 </div>
 <div class="section" id="wind-bending-panel">
 <span id="object-settings-wind"></span><h4>风弯曲面板<a class="headerlink" href="#wind-bending-panel" title="永久链接至标题">¶</a></h4>
@@ -582,27 +603,74 @@
 </div>
 </div>
 <div class="section" id="object-constraints">
-<span id="objects-constraints"></span><h2><a class="toc-backref" href="#id12">Object Constraints</a><a class="headerlink" href="#object-constraints" title="永久链接至标题">¶</a></h2>
-<p>Blend4Web engine supports the following object constraints:</p>
+<span id="objects-constraints"></span><h2><a class="toc-backref" href="#id12">物体约束</a><a class="headerlink" href="#object-constraints" title="永久链接至标题">¶</a></h2>
+<p>Blend4Web引擎支持以下类型的物体约束：</p>
 <ul class="simple">
-<li><code class="docutils literal"><span class="pre">Copy</span> <span class="pre">Location</span></code>,</li>
-<li><code class="docutils literal"><span class="pre">Copy</span> <span class="pre">Rotation</span></code>,</li>
-<li><code class="docutils literal"><span class="pre">Copy</span> <span class="pre">Transforms</span></code> and</li>
-<li><code class="docutils literal"><span class="pre">Track</span> <span class="pre">To</span></code>.</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">复制位置</span></code>,</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">复制旋转</span></code>,</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">复制变换</span></code> 和</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">跟踪到</span></code>.</p>
+</li>
 </ul>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
-<p class="last">When object constraints are used in Blend4Web, the <code class="docutils literal"><span class="pre">Space</span></code> parameter is not taken into account (it is always set to <code class="docutils literal"><span class="pre">World</span> <span class="pre">Space</span></code>).</p>
+<p class="last">当物体约束在 Blend4Web 中使用时， <code class="docutils literal"><span class="pre">空间</span></code> 参数不被计算在内（它总是被设置为 <code class="docutils literal"><span class="pre">世界空间</span></code>)。</p>
 </div>
-<p>These constraints can be set up directly in Blender. Other types of constraints are not currently supported, but some API methods from the <a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html">constraints</a> module act similarly. This include:</p>
+<p>这些约束可以在Blender中直接设置。其他类型的约束目前不支持，但从一些 API 方法  <a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html">constraints</a> 模块有一样的功能。这包括：</p>
 <ul class="simple">
-<li>the <code class="docutils literal"><span class="pre">Copy</span> <span class="pre">Location</span></code> constraint can be emulated with the <a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html#.append_copy_loc">append_copy_loc()</a></li>
-<li>the <code class="docutils literal"><span class="pre">Copy</span> <span class="pre">Rotation</span></code> constraint works similarly to the <a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html#.append_copy_rot">append_copy_rot()</a> method.</li>
-<li>the <code class="docutils literal"><span class="pre">Copy</span> <span class="pre">Transforms</span></code> constraint works similarly to the <a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html#.append_copy_trans">append_copy_trans()</a> method.</li>
-<li>The <code class="docutils literal"><span class="pre">Limit</span> <span class="pre">Distance</span></code> constraint can be emulated with the <a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html#.append_follow">append_follow()</a> method, though it should be noted that this method does not set a precise distance between objects (instead, it set a minimum and maximum possible distances).</li>
-<li>the <code class="docutils literal"><span class="pre">Track</span> <span class="pre">To</span></code> constraint can be replaced with the <a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html#.append_track">append_track()</a> method.</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">复制位置</span></code> 约束可以用  <a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html#.append_copy_loc">append_copy_loc()</a> 来模拟</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">复制旋转</span></code> 约束与 <a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html#.append_copy_rot">append_copy_rot()</a>   方法类似。</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">复制变换</span></code> 约束与 <a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html#.append_copy_trans">append_copy_trans()</a> 方法类似。</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">限制距离</span></code> 约束可以用  <a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html#.append_follow">append_follow()</a> 方法来模拟，但应注意此方法不会设置物体之间的精确距离 （相反，设置最小和最大可能的距离）。</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">追踪到</span></code> 约束可以替换成  <a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html#.append_track">append_track()</a> 方法。</p>
+</li>
 </ul>
-<p>Other constraints do not have distinctive counterparts in the API, although their behavior can be to certain extent imitated using API methods.</p>
+<p>其他约束并没有明显的类似功能在 API 中，虽然他们的行为可以在一定程度上通过 API 方法模仿使用。</p>
+<p>The <a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html">constraints</a> module also includes several additional methods:</p>
+<ul>
+<li><p class="first"><a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html#.append_semi_soft">append_semi_soft()</a></p>
+<blockquote>
+<div><p>This method can be used to attach one object to another one using a semi-soft constraint. The object will smoothly follow the object&#8217;s rear. This can be used to create third-person cameras.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html#.append_semi_stiff">append_semi_stiff()</a></p>
+<blockquote>
+<div><p>This method can be used to attach the object to the other object using a semi-stiff constraint, meaning that the child object will move and rotate together with its parent, but it will also be possible to rotate it independently in the parent&#8217;s local space. A behavior similar to that of a tank turret can be created this way.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html#.append_stiff">append_stiff()</a></p>
+<blockquote>
+<div><p>This method attaches the object to another object (or to an armature bone) using a stiff constraint. The child object will move, rotate and scale together with its parent.</p>
+<p>Examples: a sword parented to the character&#8217;s hand; a character sitting in a vehicle.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html#.append_stiff_trans">append_stiff_trans()</a></p>
+<blockquote>
+<div><p>This method attaches the object to the other object using a stiff translation constraint. The child object moves together with its parent, but does not rotate along with it (it, however, can be rotated independently from the parent).</p>
+</div></blockquote>
+</li>
+<li><p class="first"><a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html#.append_stiff_trans_rot">append_stiff_trans_rot()</a></p>
+<blockquote>
+<div><p>Can be used to attach the object to another object using a stiff translation/rotation constraint. In this case, the child object moves and rotates along with its parent, but does not scale in accord with it. However, the object still can be scaled independently from the parent.</p>
+<p>Example: a smoke emitter attached to the tractor pipe; exhaustion effects are achieved by scaling the emitter.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html#.append_stiff_viewport">append_stiff_viewport()</a></p>
+<blockquote>
+<div><p>Attaches the object to the camera using a stiff viewport constraint (so the child object will preserve its orientation in the camera viewport).</p>
+<p>This constraint can be used to create onscreen 2D/3D interfaces elements.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html#.remove">remove()</a> - this method removes any constraints that were previously applied to the object.</p>
+</li>
+</ul>
 </div>
 <div class="section" id="anchor-settings">
 <span id="objects-anchors"></span><h2><a class="toc-backref" href="#id13">锚设置</a><a class="headerlink" href="#anchor-settings" title="永久链接至标题">¶</a></h2>
@@ -781,7 +849,7 @@
 <span class="c1">// ...</span>
 </pre></div>
 </div>
-<p>or using the <a class="reference internal" href="logic_editor.html#logic-switch-select"><span>Logic Editor</span></a>.</p>
+<p>或使用 <a class="reference internal" href="logic_editor.html#logic-switch-select"><span>逻辑编辑器</span></a>.</p>
 <p>如果选择的物体已启用了 <code class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Selection</span></code> 和轮廓面板上的 <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">Outlining</span></code> 和 <code class="docutils literal"><span class="pre">Outline</span> <span class="pre">on</span> <span class="pre">Select</span></code> 选框，那么 <code class="docutils literal"><span class="pre">pick_object</span></code> 函数调用将激活 <a class="reference internal" href="postprocessing_effects.html#outline"><span>外轮廓辉光动画</span></a> 。</p>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
@@ -1041,7 +1109,7 @@
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2017, Triumph.
-      最后更新于 2017-06-30.
+      最后更新于 2017-08-31.
 
     </p>
   </div>
@@ -1097,7 +1165,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.06',
+            VERSION:'v17.08',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

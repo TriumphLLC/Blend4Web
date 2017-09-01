@@ -76,7 +76,6 @@ var _vec2_tmp   = new Float32Array(2);
 var _vec2_tmp_2 = new Float32Array(2);
 var _vec3_tmp   = new Float32Array(3);
 var _vec3_tmp_2 = new Float32Array(3);
-var _vec3_tmp_3 = new Float32Array(3);
 var _quat4_tmp  = new Float32Array(4);
 var _quat4_tmp2  = new Float32Array(4);
 var _tsr_tmp    = m_tsr.create();
@@ -230,7 +229,7 @@ function init_cons(type) {
         top_bottom_dist: 0,
         distance: 0,
         hor_units: "",
-        vert_units: "",
+        vert_units: ""
     };
 
     return cons;
@@ -337,10 +336,8 @@ function append_copy_rot_obj(obj, obj_parent, axes, use_offset, influence) {
     cons.obj_parent = obj_parent;
 
     var obj_quat = m_tsr.get_quat(obj.render.world_tsr, _quat4_tmp2);
-    cons.euler_offset = new Float32Array(3);
-    cons.euler_offset[0] = m_util.get_x_rot_from_quat(obj_quat);
-    cons.euler_offset[1] = m_util.get_y_rot_from_quat(obj_quat);
-    cons.euler_offset[2] = m_util.get_z_rot_from_quat(obj_quat);
+    // this is a disputable point: maybe we should use m_util.quat_to_eul_opt
+    cons.euler_offset = m_util.quat_to_euler(obj_quat, new Float32Array(3));
 
     cons.axes = new Float32Array(axes);
     cons.influence = influence;
@@ -608,34 +605,42 @@ function update_cons(obj, cons, elapsed) {
         break;
     case CONS_TYPE_COPY_ROT_OBJ:
         var axes = cons.axes;
-        var offset = m_vec3.set(0, 0, 0, _vec3_tmp);
-        var angles = m_vec3.copy(cons.euler_offset, _vec3_tmp_3);
-        // NOTE: cons.euler_offset is default object's world euler angles
-        if (cons.use_offset)
-            m_vec3.add(offset, cons.euler_offset, offset);
+        var p_quat = m_tsr.get_quat(cons.obj_parent.render.world_tsr, _quat4_tmp);
 
-        var p_quat = m_tsr.get_quat_view(cons.obj_parent.render.world_tsr);
-        var p_euler = _vec3_tmp_2;
-        p_euler[0] = m_util.get_x_rot_from_quat(p_quat);
-        p_euler[1] = m_util.get_y_rot_from_quat(p_quat);
-        p_euler[2] = m_util.get_z_rot_from_quat(p_quat);
+        var euler = m_util.quat_to_eul_opt(p_quat, cons.euler_offset, _vec3_tmp_2);
+        m_util.compatible_euler(euler, cons.euler_offset);
 
-        if (axes[0])
-            angles[0] = m_util.sign(axes[0]) * (p_euler[0] + offset[0]);
-        else
-            angles[0] = cons.euler_offset[0];
-        if (axes[1])
-            angles[1] = m_util.sign(axes[1]) * (p_euler[1] + offset[1]);
-        else
-            angles[1] = cons.euler_offset[1];
-        if (axes[2])
-            angles[2] = m_util.sign(axes[2]) * (p_euler[2] + offset[2]);
-        else
-            angles[2] = cons.euler_offset[2];
+        if (axes[0]) {
+            if (cons.use_offset) {
+                var beul = m_vec3.set(cons.euler_offset[0], 0, 0, _vec3_tmp);
+                m_util.rotate_eul(euler, beul, euler);
+            }
+            euler[0] = m_util.sign(axes[0]) * euler[0];
+        } else
+            euler[0] = cons.euler_offset[0];
 
-        m_util.compatible_euler(angles, cons.euler_offset);
+
+        if (axes[1]) {
+            if (cons.use_offset) {
+                var beul = m_vec3.set(0, cons.euler_offset[1], 0, _vec3_tmp);
+                m_util.rotate_eul(euler, beul, euler);
+            }
+            euler[1] = m_util.sign(axes[1]) * euler[1];
+        } else
+            euler[1] = cons.euler_offset[1];
+
+        if (axes[2]) {
+            if (cons.use_offset) {
+                var beul = m_vec3.set(0, 0, cons.euler_offset[2], _vec3_tmp);
+                m_util.rotate_eul(euler, beul, euler);
+            }
+            euler[2] = m_util.sign(axes[2]) * euler[2];
+        } else
+            euler[2] = cons.euler_offset[2];
+
+        m_util.compatible_euler(euler, cons.euler_offset);
         var f = cons.influence;
-        var target_quat = m_util.euler_to_quat(angles, _quat4_tmp);
+        var target_quat = m_util.euler_to_quat(euler, _quat4_tmp);
         var obj_quat = m_tsr.get_quat(cons.tsr_restore, _quat4_tmp2);
         m_quat.slerp(obj_quat, target_quat, f, m_tsr.get_quat_view(obj.render.world_tsr));
 
@@ -954,9 +959,8 @@ exports.prepare_object_relations = function(bpy_obj, obj) {
             else if (up_axis_name == "UP_Z")
                 var up_axis = m_util.AXIS_Z;
 
-            var axes = new Float32Array([bpy_constraint["influence"]]);
             append_track_obj(obj, target_obj, track_axis, up_axis,
-                    bpy_constraint["use_target_z"], axes);
+                    bpy_constraint["use_target_z"], bpy_constraint["influence"]);
         }
     }
 
@@ -1058,6 +1062,24 @@ exports.prepare_object_relations = function(bpy_obj, obj) {
                 }
         }
     }
+}
+
+exports.check_compatibility = function(obj, target) {
+    return check_compatibility_r(obj.cons_descends, target);
+}
+
+function check_compatibility_r(descends, target) {
+    for (var i = 0; i < descends.length; i++) {
+        var child = descends[i];
+        if (!check_compatibility_r(child.cons_descends, target) ||
+                child.name == target.name)
+            return false;
+    }
+    return true;
+}
+
+exports.check_self_applying = function(obj, target) {
+    return obj.name != target.name;
 }
 
 }

@@ -99,6 +99,16 @@ Groups Panel
 
 |
 
+.. _object_settings_display:
+
+Display Panel
+.............
+
+.. image:: src_images/objects/object_settings_display.png
+   :align: center
+
+This panel contains parameters that define how the selected object looks in the 3D View window. It does not feature any additional options in Blend4Web mode.
+
 .. _object_settings_lod:
 
 Levels of Detail Panel
@@ -146,7 +156,11 @@ Export Options Panel
 .. _apply_modifiers:
 
 *Export Options > Apply Modifiers*
-    Apply the object’s modifiers upon export. If the ``SKIN`` modifier is used we recommend to apply it before the export because it resets vertex color and UV layers which may result in errors.
+    Apply the object’s modifiers upon export.
+
+    .. note::
+
+        If the ``Skin`` modifier is used we recommend to apply it before the export because it resets vertex color and UV layers which may result in errors.
 
 *Export Options > Apply Scale and Modifiers*
     Upon export, apply scale and modifiers for the object.
@@ -228,8 +242,8 @@ Billboard Panel
 
 .. _billboarding_preserve:
 
-*Billboard > Preserve Global Orientation and Scale*
-    Take into account rotation and scale of the billboard object (in the world space). The object will be directed toward the camera with its side which is visible when viewing along the Y axis in Blender. Becomes available after enabling the ``Billboard`` checkbox.
+*Billboard > Preserve Global Rotation*
+    Take into account rotation of the billboard object (in the world space). The object will be directed toward the camera with its side which is visible when viewing along the Y axis in Blender. Becomes available after enabling the ``Billboard`` checkbox.
 
 *Billboard > Billboard Type*
     Billboard orientation mode. ``Spherical`` (by default) - the object is always oriented with one side toward the camera, regardless of view angle, ``Cylindrical`` - similar to ``Spherical``, but rotation is limited to Blender’s world Z axis. Becomes available after enabling Billboard
@@ -307,6 +321,12 @@ Meta Tags Panel
     *Meta Tags > Description*
         Description for the object. Depending on ``Description Source``, this field accepts either description text itself, or the name of a file where this description is contained.
 
+        .. note::
+
+            To use a text file as a description source you first have to open an existing file in Blender :ref:`Text Editor <ui_text_editor>` or to create a new text file in the same editor.
+
+            Then, you only have to set the name of the file in the ``Description`` field.
+
     *Meta Tags > Description Source*
         Source type for the description: text or text file.
 
@@ -330,6 +350,17 @@ Relations Panel
     |
 
     These settings can be used to align the object to an active camera. They are described in the :ref:`Camera chapter <camera_viewport_alignment>`.
+
+.. _object_settings_duplication:
+
+Duplication Panel
+.................
+
+.. image:: src_images/objects/objects_duplication.png
+    :align: center
+    :width: 100%
+
+This panel contains settings that concern object duplication. It does not feature any additional parameters in the Blend4Web mode; however, it should be noted that at the moment Blend4Web engine only supports ``Group`` duplication method.
 
 .. _object_settings_wind:
 
@@ -409,6 +440,40 @@ These constraints can be set up directly in Blender. Other types of constraints 
 * the ``Track To`` constraint can be replaced with the :b4wref:`constraints.append_track()` method.
 
 Other constraints do not have distinctive counterparts in the API, although their behavior can be to certain extent imitated using API methods.
+
+The :b4wmod:`constraints` module also includes several additional methods:
+
+* :b4wref:`constraints.append_semi_soft()`
+
+    This method can be used to attach one object to another one using a semi-soft constraint. The object will smoothly follow the object's rear. This can be used to create third-person cameras.
+
+* :b4wref:`constraints.append_semi_stiff()`
+
+    This method can be used to attach the object to the other object using a semi-stiff constraint, meaning that the child object will move and rotate together with its parent, but it will also be possible to rotate it independently in the parent's local space. A behavior similar to that of a tank turret can be created this way.
+
+* :b4wref:`constraints.append_stiff()`
+
+    This method attaches the object to another object (or to an armature bone) using a stiff constraint. The child object will move, rotate and scale together with its parent.
+
+    Examples: a sword parented to the character's hand; a character sitting in a vehicle.
+
+* :b4wref:`constraints.append_stiff_trans()`
+
+    This method attaches the object to the other object using a stiff translation constraint. The child object moves together with its parent, but does not rotate along with it (it, however, can be rotated independently from the parent).
+
+* :b4wref:`constraints.append_stiff_trans_rot()`
+
+    Can be used to attach the object to another object using a stiff translation/rotation constraint. In this case, the child object moves and rotates along with its parent, but does not scale in accord with it. However, the object still can be scaled independently from the parent.
+
+    Example: a smoke emitter attached to the tractor pipe; exhaustion effects are achieved by scaling the emitter.
+
+* :b4wref:`constraints.append_stiff_viewport()`
+
+    Attaches the object to the camera using a stiff viewport constraint (so the child object will preserve its orientation in the camera viewport). 
+
+    This constraint can be used to create onscreen 2D/3D interfaces elements.
+
+* :b4wref:`constraints.remove()` - this method removes any constraints that were previously applied to the object.
 
 .. _objects_anchors:
 

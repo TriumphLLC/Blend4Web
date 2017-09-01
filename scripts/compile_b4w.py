@@ -48,7 +48,8 @@ ADDONS = ["src/addons/app.js",
 EXTERNS = ["tools/closure-compiler/extern_fullscreen.js",
            "tools/closure-compiler/extern_gl-matrix.js",
            "tools/closure-compiler/extern_modules.js",
-           "tools/closure-compiler/extern_pointerlock.js"]
+           "tools/closure-compiler/extern_pointerlock.js",
+           "tools/closure-compiler/extern_webassembly.js"]
 
 SRC_FILES = ['src/b4w.js',
              'version_rel.js',
@@ -66,6 +67,7 @@ SRC_FILES = ['src/b4w.js',
              'src/graph.js',
              'src/ipc.js',
              'src/hud.js',
+             'src/material.js',
              'src/renderer.js',
              'src/shaders.js',
              'src/geometry.js',
@@ -336,7 +338,7 @@ def run():
     subprocess.call(compiler_params)
 
     if use_source_map:
-        source_map_file = open(dest_engine_path + ".map")
+        source_map_file = open(dest_engine_path + ".map", encoding="utf-8")
         source_map_text = source_map_file.read()
         source_map_file.close()
 
@@ -349,11 +351,11 @@ def run():
         source_map_text = re.sub("config_rel.js", "src/config.js",
                                      source_map_text)
 
-        source_map_file = open(dest_engine_path + ".map", "w")
+        source_map_file = open(dest_engine_path + ".map", "w", encoding="utf-8")
         source_map_file.write(source_map_text)
         source_map_file.close()
 
-        output_js_file = open(dest_engine_path, "a")
+        output_js_file = open(dest_engine_path, "a", encoding="utf-8")
         output_js_file.write("//# sourceMappingURL=/" +
                              os.path.normpath(
                                  os.path.relpath(
@@ -382,7 +384,7 @@ def get_cur_modules():
         try:
             ver_file_path = os.path.join(curr_dir, "VERSION")
 
-            with open(ver_file_path) as f:
+            with open(ver_file_path, encoding="utf-8") as f:
                 lines = f.readlines()
 
             params = lines[0].split()
@@ -431,7 +433,7 @@ def append_externs_items(paths, externs_js, externs_gen_file):
         if len(externs_js) and not (abs_path in externs_js):
             continue
 
-        f = open(abs_path)
+        f = open(abs_path, encoding="utf-8")
         text = f.read()
         f.close()
 
@@ -485,12 +487,12 @@ def check_modules(ext_js):
 
 def refact_config(app_js=False):
     """Change meta data in config.js file for working in compiled engine."""
-    config_js_file = open(join(BASE_DIR, "..", "src", "config.js"))
+    config_js_file = open(join(BASE_DIR, "..", "src", "config.js"), encoding="utf-8")
     config_js_text = config_js_file.readlines()
     config_js_file.close()
 
-    config_rel_js_file = open(join(BASE_DIR, "..", "config_rel.js"), "a")
-    config_rel_js_file = open(join(BASE_DIR, "..", "config_rel.js"), "w")
+    config_rel_js_file = open(join(BASE_DIR, "..", "config_rel.js"), "a", encoding="utf-8")
+    config_rel_js_file = open(join(BASE_DIR, "..", "config_rel.js"), "w", encoding="utf-8")
     config_rel_js_file.truncate()
 
     for line in config_js_text:
@@ -512,7 +514,7 @@ def refact_config(app_js=False):
 
 def refact_version():
     """Change meta data in version.js file for working in compiled engine."""
-    version_file = open(join(BASE_DIR, "..", "VERSION"))
+    version_file = open(join(BASE_DIR, "..", "VERSION"), encoding="utf-8")
     version_text = version_file.read().split()[1]
     cache_text = version_text.replace(".", "_")
     version_file.close()
@@ -521,14 +523,14 @@ def refact_version():
                       verc_text_regex.sub('', version_text).split("."))
     version_text = "[" + ",".join(version_arr) + "]"
 
-    version_js_file = open(join(BASE_DIR, "..", "src", "version.js"))
+    version_js_file = open(join(BASE_DIR, "..", "src", "version.js"), encoding="utf-8")
     version_js_text = version_js_file.readlines()
     version_js_file.close()
 
     version_rel_js_file = open(join(BASE_DIR, "..",
-                               "version_rel.js"), "a")
+                               "version_rel.js"), "a", encoding="utf-8")
     version_rel_js_file = open(join(BASE_DIR, "..",
-                               "version_rel.js"), "w")
+                               "version_rel.js"), "w", encoding="utf-8")
     version_rel_js_file.truncate()
 
     for line in version_js_text:

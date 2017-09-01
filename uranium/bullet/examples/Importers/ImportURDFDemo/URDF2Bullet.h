@@ -13,15 +13,21 @@ class URDFImporterInterface;
 class MultiBodyCreationInterface;
 
 
-void printTree(const URDFImporterInterface& u2b, int linkIndex, int identationLevel=0);
 
+enum ConvertURDFFlags {
+  CUF_USE_SDF = 1,
+  // Use inertia values in URDF instead of recomputing them from collision shape.
+  CUF_USE_URDF_INERTIA = 2,
+  CUF_USE_MJCF = 4,
+};
 
-void ConvertURDF2Bullet(const URDFImporterInterface& u2b, 
-			MultiBodyCreationInterface& creationCallback, 
-			const btTransform& rootTransformInWorldSpace, 
+void ConvertURDF2Bullet(const URDFImporterInterface& u2b,
+			MultiBodyCreationInterface& creationCallback,
+			const btTransform& rootTransformInWorldSpace,
 			btMultiBodyDynamicsWorld* world,
-			bool createMultiBody, 
-			const char* pathPrefix);
+			bool createMultiBody,
+			const char* pathPrefix,
+            int flags = 0);
 
 
 #endif //_URDF2BULLET_H

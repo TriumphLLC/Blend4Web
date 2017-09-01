@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>插件 &mdash; Blend4Web 17.06 用户手册</title>
+  <title>插件 &mdash; Blend4Web 17.08 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.06 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 17.08 用户手册" href="index.html"/>
         <link rel="next" title="场景设置" href="scene_settings.html"/>
         <link rel="prev" title="网络播放器" href="web_player.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v17.06
+              v17.08
             </div>
           
         
@@ -85,6 +85,7 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">概述</a></li>
 <li class="toctree-l1"><a class="reference internal" href="engine_features.html">引擎功能</a></li>
+<li class="toctree-l1"><a class="reference internal" href="interface.html">Blender User Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">安装和更新</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">工作流程</a></li>
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理</a></li>
@@ -92,7 +93,7 @@
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">网络播放器</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">插件</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#local-development-server">本地开发服务器</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#running-viewer-and-demos">运行浏览器和演示</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#running-viewer-and-demos">运行预览器和演示</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#export-formats">输出格式</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#json">JSON</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#html">HTML</a></li>
@@ -180,7 +181,7 @@
 <ul class="simple">
 <li><a class="reference internal" href="#add-on" id="id4">插件</a><ul>
 <li><a class="reference internal" href="#local-development-server" id="id5">本地开发服务器</a></li>
-<li><a class="reference internal" href="#running-viewer-and-demos" id="id6">运行浏览器和演示</a></li>
+<li><a class="reference internal" href="#running-viewer-and-demos" id="id6">运行预览器和演示</a></li>
 <li><a class="reference internal" href="#export-formats" id="id7">输出格式</a><ul>
 <li><a class="reference internal" href="#json" id="id8">JSON</a></li>
 <li><a class="reference internal" href="#html" id="id9">HTML</a></li>
@@ -229,19 +230,28 @@
 <p>服务器可以通过按下 <code class="docutils literal"><span class="pre">Stop</span> <span class="pre">Server</span></code>  按钮被停止。当Blender被关闭也停止。</p>
 </div>
 <div class="section" id="running-viewer-and-demos">
-<span id="getting-started-launching-viewer"></span><span id="index-1"></span><h2><a class="toc-backref" href="#id6">运行浏览器和演示</a><a class="headerlink" href="#running-viewer-and-demos" title="永久链接至标题">¶</a></h2>
+<span id="getting-started-launching-viewer"></span><span id="index-1"></span><h2><a class="toc-backref" href="#id6">运行预览器和演示</a><a class="headerlink" href="#running-viewer-and-demos" title="永久链接至标题">¶</a></h2>
 <a class="reference internal image-reference" href="_images/addon_sdk_index.png"><img alt="_images/addon_sdk_index.png" class="align-center" src="_images/addon_sdk_index.png" style="width: 100%;" /></a>
-<p>The index page contains the following links:</p>
+<p>索引页包含以下链接：</p>
 <ul class="simple">
-<li><a class="reference internal" href="project_manager.html#project-management"><span>Project Manager</span></a>;</li>
-<li><a class="reference internal" href="developers.html#code-snippets"><span>Code Snippets</span></a>, a list of demo applications. A <a class="reference internal" href="about.html#browser-webgl-support"><span>WebGL-capable browser</span></a> is required to run these apps;</li>
-<li>WebGL Report page for checking the level of WebGL support provided by the web browser;</li>
-<li><a class="reference internal" href="about.html#about"><span>User Manual</span></a>, available in both HTML and PDF form in three languages;</li>
-<li>API Reference that contains descriptions for every API module and method provided with the Blend4Web engine;</li>
-<li>Tutorials;</li>
-<li>FAQ page where you can find answers to some of the most basic questions regarding using the engine;</li>
-<li>Community Support Forums;</li>
-<li>Support Email (only available in PRO version).</li>
+<li><p class="first"><a class="reference internal" href="project_manager.html#project-management"><span>项目管理器</span></a>;</p>
+</li>
+<li><p class="first"><a class="reference internal" href="developers.html#code-snippets"><span>代码片段</span></a>, 演示应用程序列表。需要一个 <a class="reference internal" href="about.html#browser-webgl-support"><span>WebGL适配的浏览器</span></a> 来运行这些应用程序;</p>
+</li>
+<li><p class="first">WebGL报告页面，用于检查Web浏览器提供的WebGL支持级别;</p>
+</li>
+<li><p class="first"><a class="reference internal" href="about.html#about"><span>用户手册</span></a>,以三种语言都提供HTML和PDF格式;</p>
+</li>
+<li><p class="first">API参考，其中包含Blend4Web引擎提供的每个API模块和方法的描述;</p>
+</li>
+<li><p class="first">教程：</p>
+</li>
+<li><p class="first">FAQ 页面，在那里你可以找到一些对于使用引擎最基本问题的答案;</p>
+</li>
+<li><p class="first">社区支持论坛;</p>
+</li>
+<li><p class="first">支持电子邮件 （仅在 PRO 版中可用）。</p>
+</li>
 </ul>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -764,20 +774,16 @@ render type &#8220;TYPE&#8221; for the HAIR
 particles &#8220;NAME&#8221; on object
 &#8220;OBJECT_NAME&#8221;. Particle system
 removed.</td>
-<td>Particle system error. Unsupported
-render type TYPE for the HAIR
-particles PSYS_NAME on object NAME. The
-particle system has removed.</td>
+<td><p class="first last">粒子系统错误。对象NAME上的HAIR粒子PSYS_NAME的不支持的渲染类型TYPE。粒子系统已经去除。</p>
+</td>
 </tr>
 <tr class="row-even"><td>Particle system error. Unsupported
 render type &#8220;TYPE&#8221; for the EMITTER
 particles &#8220;NAME&#8221; on object
 &#8220;OBJECT_NAME&#8221;. Particle system
 removed.</td>
-<td>Particle system error. Unsupported
-render type TYPE for the EMITTER
-particles PSYS_NAME on object NAME. The
-particle system has removed.</td>
+<td><p class="first last">粒子系统错误。对象NAME上的EMITTER粒子PSYS_NAME的不支持的渲染类型TYPE。粒子系统已经去除。</p>
+</td>
 </tr>
 <tr class="row-odd"><td>Particle system error for &#8220;NAME&#8221;.
 Dupli object isn&#8217;t specified.</td>
@@ -786,8 +792,8 @@ Dupli object isn&#8217;t specified.</td>
 </tr>
 <tr class="row-even"><td>Particle system error for &#8220;NAME&#8221;.
 Dupli group isn&#8217;t specified.</td>
-<td>Particle system error: no group is
-selected as a particle.</td>
+<td><p class="first last">粒子系统错误：没有选择组作为粒子。</p>
+</td>
 </tr>
 <tr class="row-odd"><td>Particle system error for &#8220;NAME&#8221;.
 Wrong dupli object type &#8220;TYPE&#8221;.</td>
@@ -797,9 +803,8 @@ Wrong dupli object type &#8220;TYPE&#8221;.</td>
 <tr class="row-even"><td>Particle system error for &#8220;NAME&#8221;.
 Dupli object &#8220;NAME&#8221; has not been
 exported.</td>
-<td>The NAME object which is selected
-as a particle can not be exported (the
-<code class="docutils literal"><span class="pre">Do</span> <span class="pre">not</span> <span class="pre">export</span></code> checkbox is set).</td>
+<td><p class="first last">选择为粒子的NAME物体无法导出（设置“不要导出”复选框）。</p>
+</td>
 </tr>
 <tr class="row-odd"><td>Particle system error for &#8220;NAME&#8221;.
 The &#8220;GROUP_NAME&#8221; dupli group
@@ -816,9 +821,8 @@ to EMPTY.</td>
 <tr class="row-odd"><td>The lamp object &#8220;NAME&#8221; has
 unsupported AREA type. Changed to
 SUN.</td>
-<td>The lamp object &#8220;NAME&#8221; has unsupported
-AREA type. Lamp type has been changed
-to SUN.</td>
+<td><p class="first last">灯物体“NAME”具有不受支持的区域类型。灯泡类型已更改为SUN。</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -848,9 +852,8 @@ Modifier removed.</td>
 <tr class="row-even"><td>The NAME armature modifier has no
 armature object or it is not
 exported. Modifier removed.</td>
-<td>The NAME <code class="docutils literal"><span class="pre">Armature</span></code> modifier has no
-armature object or it is not exported.
-Modifier removed.</td>
+<td><p class="first last">NAME``Armature`` 修饰符没有谷歌物体，或者没有导出。修改器被删除。</p>
+</td>
 </tr>
 <tr class="row-odd"><td><p class="first last">该名称曲线修正没有对象。修改删除。</p>
 </td>
@@ -943,9 +946,8 @@ in texture NAME. [Material: NAME.]</td>
 ACTION_NAME. Only BEZIER, LINEAR or
 CONSTANT mode is allowed for F-Curve
 interpolation. Switch to BEZIER.</td>
-<td>The following types are supported for
-action interpolation mode: <code class="docutils literal"><span class="pre">BEZIER</span></code>,
-<code class="docutils literal"><span class="pre">LINEAR</span></code> and <code class="docutils literal"><span class="pre">CONSTANT</span></code>.</td>
+<td><p class="first last">动作插补模式支持以下类型： <code class="docutils literal"><span class="pre">BEZIER</span></code>, <code class="docutils literal"><span class="pre">LINEAR</span></code> 和 <code class="docutils literal"><span class="pre">CONSTANT</span></code>.</p>
+</td>
 </tr>
 <tr class="row-odd"><td>Wrong vertex animation vertices
 count for mesh NAME. It doesn&#8217;t
@@ -983,9 +985,8 @@ for &#8220;ANIM_NAME&#8221;.</td>
 <tr class="row-even"><td>Material tangent shading is
 enabled, but object&#8217;s mesh has no
 UV map.</td>
-<td>The material has the option &#8220;Tangent
-Shading&#8221; enabled, which always requires
-a UV map.</td>
+<td><p class="first last">该材质启用了 “切线着色” 选项，它始终需要UV映射。</p>
+</td>
 </tr>
 <tr class="row-odd"><td>Missing active camera or wrong
 active camera object</td>
@@ -1023,12 +1024,8 @@ is missing for Lens Flare material
 <tr class="row-odd"><td>Use of ENVIRONMENT_MAP as diffuse
 color is not supported. Use as
 mirror instead.</td>
-<td>The ENVIRONMENT MAP texture can not be
-used as diffuse color. Disable the
-Diffuse &gt; Color and enable the
-Shading &gt; Mirror option on the
-Textures &gt; Influence panel to use this
-texture as mirror map.</td>
+<td><p class="first last">ENVIRONMENT MAP纹理不能用作漫反射颜色。禁用漫射&gt;颜色并启用“纹理”&gt;“影响”面板上的“着色&gt;镜像”选项，将此纹理用作镜像贴图。</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -1243,7 +1240,7 @@ texture as mirror map.</td>
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2017, Triumph.
-      最后更新于 2017-06-30.
+      最后更新于 2017-08-31.
 
     </p>
   </div>
@@ -1299,7 +1296,7 @@ texture as mirror map.</td>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.06',
+            VERSION:'v17.08',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

@@ -354,7 +354,7 @@ Non-Linear Animation playback settings. Disabled by default.
 Meta Tags
 ---------
 
-Application's meta tags.
+Application's meta tags. Can be set up in the same way as :ref:`object meta tags <objects_meta_tags>`.
 
 .. image:: src_images/scene_settings/scene_meta_tags.png
    :align: center
@@ -365,6 +365,10 @@ Application's meta tags.
 
 *Description*
     The description of the application. Can be a simple text or a link to a text file (if the ``Description Source`` parameter is set to the ``File`` value).
+
+    .. note::
+
+        If you are using a text file as description source, said file can be imported to Blender using a built-in :ref:`Text Editor <ui_text_editor>`.
 
 *Description Source*
     The source of the application's description. The description can be loaded from a file or specified directly in the ``Description`` field. This parameter can have one of the two values, ``Text`` and ``File``, and it is set to ``Text`` by default.

@@ -1,0 +1,576 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Blender User Interface &mdash; Blend4Web 17.08 User Manual</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="author" title="About these documents"
+              href="about.html"/>
+    <link rel="top" title="Blend4Web 17.08 User Manual" href="index.html"/>
+        <link rel="next" title="Installing and Updating" href="setup.html"/>
+        <link rel="prev" title="Engine Features" href="engine_features.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="index.html" class="icon icon-home"> Blend4Web. User Manual
+        
+
+        
+        </a>
+
+        
+          
+          
+            <div class="version">
+              v17.08
+            </div>
+          
+        
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="engine_features.html">Engine Features</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Blender User Interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#d-view">3D View</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#timeline">Timeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#graph-editor">Graph Editor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dope-sheet">Dope Sheet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#nla-editor">NLA Editor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#uv-image-editor">UV/Image Editor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#video-sequence-editor">Video Sequence Editor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#movie-clip-editor">Movie Clip Editor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#text-editor">Text Editor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#node-editor">Node Editor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#logic-editor">Logic Editor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#properties">Properties</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#render">Render</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#render-layers">Render Layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scene">Scene</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#world">World</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#object">Object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#constraints">Constraints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#modifiers">Modifiers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#data">Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#material">Material</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#texture">Texture</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#particles">Particles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#physics">Physics</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#outliner">Outliner</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#user-preferences">User Preferences</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#interface">Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#editing">Editing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#input">Input</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#add-ons">Add-ons</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#themes">Themes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#file">File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#system">System</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#info">Info</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#file-browser">File Browser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#python-console">Python Console</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Installing and Updating</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">Project Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">Add-on</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Scene Settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="meshes.html">Meshes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="normal_editor.html">Normal Editor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="material_library.html">Material Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Editor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">Stereo Rendering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="colors.html">Color Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">Audio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Problems and Solutions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Blend4Web. User Manual</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div id="lang_cont">
+          <a href="#">RU</a>
+          <a href="#">EN</a>
+          <a href="#">ZH</a>
+        </div>
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Blender User Interface</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="blender-user-interface">
+<span id="blender-interface"></span><h1><a class="toc-backref" href="#id1">Blender User Interface</a><a class="headerlink" href="#blender-user-interface" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="table-of-contents">
+<p class="topic-title first">Table of Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#blender-user-interface" id="id1">Blender User Interface</a><ul>
+<li><a class="reference internal" href="#d-view" id="id2">3D View</a></li>
+<li><a class="reference internal" href="#timeline" id="id3">Timeline</a></li>
+<li><a class="reference internal" href="#graph-editor" id="id4">Graph Editor</a></li>
+<li><a class="reference internal" href="#dope-sheet" id="id5">Dope Sheet</a></li>
+<li><a class="reference internal" href="#nla-editor" id="id6">NLA Editor</a></li>
+<li><a class="reference internal" href="#uv-image-editor" id="id7">UV/Image Editor</a></li>
+<li><a class="reference internal" href="#video-sequence-editor" id="id8">Video Sequence Editor</a></li>
+<li><a class="reference internal" href="#movie-clip-editor" id="id9">Movie Clip Editor</a></li>
+<li><a class="reference internal" href="#text-editor" id="id10">Text Editor</a></li>
+<li><a class="reference internal" href="#node-editor" id="id11">Node Editor</a></li>
+<li><a class="reference internal" href="#logic-editor" id="id12">Logic Editor</a></li>
+<li><a class="reference internal" href="#properties" id="id13">Properties</a></li>
+<li><a class="reference internal" href="#outliner" id="id14">Outliner</a></li>
+<li><a class="reference internal" href="#user-preferences" id="id15">User Preferences</a></li>
+<li><a class="reference internal" href="#info" id="id16">Info</a></li>
+<li><a class="reference internal" href="#file-browser" id="id17">File Browser</a></li>
+<li><a class="reference internal" href="#python-console" id="id18">Python Console</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p>Blender is a free open source 3D creation suite that supports an entire 3D pipeline from objects modeling to texturing, rigging and animating to rendering, compositing and even video editing. Blender can also be used to create interactive application, including web-based ones.</p>
+<p>Blender is a cross-platform software that runs on Windows, Linux and macOS platforms equally well.</p>
+<p>Blender interface consists of several windows. The number and types of windows present on the screen is not strictly defined and can be changed by a user manually or by selecting a preset from the <code class="docutils literal"><span class="pre">Screen</span> <span class="pre">Layout</span></code> menu at the top of the screen.</p>
+<div class="section" id="d-view">
+<span id="ui-3dview"></span><h2><a class="toc-backref" href="#id2">3D View</a><a class="headerlink" href="#d-view" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="_images/interface_3dview.png"><img alt="_images/interface_3dview.png" class="align-center" src="_images/interface_3dview.png" style="width: 100%;" /></a>
+<p>The main window of the program, showing a currently loaded 3D scene (through a camera or otherwise). 3D objects that compose any 3D scene are created, edited and animated in this window.</p>
+<p>This window is open by default.</p>
+</div>
+<div class="section" id="timeline">
+<span id="ui-timeline"></span><h2><a class="toc-backref" href="#id3">Timeline</a><a class="headerlink" href="#timeline" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="_images/interface_timeline.png"><img alt="_images/interface_timeline.png" class="align-center" src="_images/interface_timeline.png" style="width: 100%;" /></a>
+<p>This window (usually located an the bottom of the screen) shows various data that concern animation. This includes the current frame, the total number of frames (i.e. the length of the animation in the current scene) and keyframes for the selected object. The keyframes themselves are also created in this window.</p>
+<p>This window is open by default.</p>
+</div>
+<div class="section" id="graph-editor">
+<span id="ui-graph-editor"></span><h2><a class="toc-backref" href="#id4">Graph Editor</a><a class="headerlink" href="#graph-editor" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="_images/interface_graph_editor.png"><img alt="_images/interface_graph_editor.png" class="align-center" src="_images/interface_graph_editor.png" style="width: 100%;" /></a>
+<p>A tool for modifying various aspects of object animation using f-curves. Graph Editor can be used in Blend4Web same way it is used in Blender.</p>
+</div>
+<div class="section" id="dope-sheet">
+<span id="ui-dope-sheet"></span><h2><a class="toc-backref" href="#id5">Dope Sheet</a><a class="headerlink" href="#dope-sheet" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="_images/interface_dope_sheet.png"><img alt="_images/interface_dope_sheet.png" class="align-center" src="_images/interface_dope_sheet.png" style="width: 100%;" /></a>
+<p>A tool for managing keyframes. Dope Sheet can be used in Blend4Web same way it is used in Blender.</p>
+</div>
+<div class="section" id="nla-editor">
+<span id="ui-nla-editor"></span><h2><a class="toc-backref" href="#id6">NLA Editor</a><a class="headerlink" href="#nla-editor" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="_images/interface_nla_editor.png"><img alt="_images/interface_nla_editor.png" class="align-center" src="_images/interface_nla_editor.png" style="width: 100%;" /></a>
+<p>A tool for editing non-linear animations. Blend4Web engine supports NLAs; the user manual features a <a class="reference internal" href="animation.html#nla"><span>dedicated section</span></a> on them.</p>
+</div>
+<div class="section" id="uv-image-editor">
+<span id="ui-uv-editor"></span><h2><a class="toc-backref" href="#id7">UV/Image Editor</a><a class="headerlink" href="#uv-image-editor" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="_images/interface_uv.png"><img alt="_images/interface_uv.png" class="align-center" src="_images/interface_uv.png" style="width: 100%;" /></a>
+<p>This tool can be used for editing both object UV maps and various 2D assets such as texture images.</p>
+<p>UV maps are used in Blend4Web as well.</p>
+</div>
+<div class="section" id="video-sequence-editor">
+<span id="ui-video-sequence-editor"></span><h2><a class="toc-backref" href="#id8">Video Sequence Editor</a><a class="headerlink" href="#video-sequence-editor" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="_images/interface_video_sequence_editor.png"><img alt="_images/interface_video_sequence_editor.png" class="align-center" src="_images/interface_video_sequence_editor.png" style="width: 100%;" /></a>
+<p>An interface for editing video sequences. This is a fully-fledged video editing system that can be used to trim video files, apply effects to them and combine them into one video. It is not used in Blend4Web engine.</p>
+</div>
+<div class="section" id="movie-clip-editor">
+<span id="ui-movie-clip-editor"></span><h2><a class="toc-backref" href="#id9">Movie Clip Editor</a><a class="headerlink" href="#movie-clip-editor" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="_images/interface_movie_clip_editor.png"><img alt="_images/interface_movie_clip_editor.png" class="align-center" src="_images/interface_movie_clip_editor.png" style="width: 100%;" /></a>
+<p>A tool for editing movie clips. It is generally used for motion tracking and for masking movies. It is not used in Blend4Web engine.</p>
+</div>
+<div class="section" id="text-editor">
+<span id="ui-text-editor"></span><h2><a class="toc-backref" href="#id10">Text Editor</a><a class="headerlink" href="#text-editor" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="_images/interface_text_editor.png"><img alt="_images/interface_text_editor.png" class="align-center" src="_images/interface_text_editor.png" style="width: 100%;" /></a>
+<p>A simple text editor is included in Blender. It supports word wrapping, syntax highlighting, line numbers, find and replace functions and some other features.</p>
+<p>Text editor is not used in Blend4Web for editing project files, as <a class="reference internal" href="project_manager.html#project-management"><span>Project Manager</span></a> features its own built-in <a class="reference internal" href="project_manager.html#project-edit"><span>editor</span></a> for editing project files. However, text files created in Text Editor (or imported to a <code class="docutils literal"><span class="pre">.blend</span></code> file using it) can be used as description sources for <a class="reference internal" href="objects.html#objects-meta-tags"><span>Meta Tags</span></a> in Blend4Web.</p>
+</div>
+<div class="section" id="node-editor">
+<span id="ui-node-editor"></span><h2><a class="toc-backref" href="#id11">Node Editor</a><a class="headerlink" href="#node-editor" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="_images/interface_node_editor.png"><img alt="_images/interface_node_editor.png" class="align-center" src="_images/interface_node_editor.png" style="width: 100%;" /></a>
+<p>An interface for creating node-base materials, textures and post-processing effect. <a class="reference internal" href="node_materials.html#node-materials"><span>Material nodes</span></a> are supported in Blend4Web engine, while texture and compositing nodes are not. Blend4Web also features another type of nodes for creating <a class="reference internal" href="logic_editor.html#logic-editor"><span>scene logic</span></a>.</p>
+</div>
+<div class="section" id="logic-editor">
+<span id="ui-logic-editor"></span><h2><a class="toc-backref" href="#id12">Logic Editor</a><a class="headerlink" href="#logic-editor" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="_images/interface_logic_editor.png"><img alt="_images/interface_logic_editor.png" class="align-center" src="_images/interface_logic_editor.png" style="width: 100%;" /></a>
+<p>A tool for editing logic blocks used in Blender Game Engine.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Blend4Web engine does not use Blender Logic Editor. Instead, it features a similar, but separate tool for editing scene logic: the node-based <a class="reference internal" href="logic_editor.html#logic-editor"><span>Logic Editor</span></a>.</p>
+</div>
+</div>
+<div class="section" id="properties">
+<span id="ui-prop"></span><h2><a class="toc-backref" href="#id13">Properties</a><a class="headerlink" href="#properties" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="_images/interface_properties.png"><img alt="_images/interface_properties.png" class="align-center" src="_images/interface_properties.png" style="width: 100%;" /></a>
+<p>The second main window of the program. Contains various settings, some of which only concern currently selected object, and other apply to the whole of the scene.</p>
+<p>This window is usually located at the right of the 3D View window.</p>
+<p>The Properties window consists of several tabs. Each one of these tabs house a specific group of parameters. The tabs are:</p>
+<div class="section" id="render">
+<span id="ui-prop-render"></span><h3>Render<a class="headerlink" href="#render" title="Permalink to this headline">¶</a></h3>
+<a class="reference internal image-reference" href="_images/interface_render.png"><img alt="_images/interface_render.png" class="align-center" src="_images/interface_render.png" style="width: 100%;" /></a>
+<p>This tab contains options that concern rendering.</p>
+<p>In Blend4Web mode, the Render tab features a slightly different set of options that are described <a class="reference internal" href="scene_settings.html#render-settings"><span>here</span></a>.</p>
+</div>
+<div class="section" id="render-layers">
+<span id="ui-prop-render-layers"></span><h3>Render Layers<a class="headerlink" href="#render-layers" title="Permalink to this headline">¶</a></h3>
+<a class="reference internal image-reference" href="_images/interface_render_layers.png"><img alt="_images/interface_render_layers.png" class="align-center" src="_images/interface_render_layers.png" style="width: 100%;" /></a>
+<p>This tab can be used to separate the rendered image into several “layers” (such as diffuse colors, shadows, normal maps etc.) that can than be used for compositing in Blender or in other software. This tab is not used in Blend4Web engine.</p>
+</div>
+<div class="section" id="scene">
+<span id="ui-prop-scene"></span><h3>Scene<a class="headerlink" href="#scene" title="Permalink to this headline">¶</a></h3>
+<a class="reference internal image-reference" href="_images/interface_scene.png"><img alt="_images/interface_scene.png" class="align-center" src="_images/interface_scene.png" style="width: 100%;" /></a>
+<p>Contains various parameters that concern 3D scene as a whole.</p>
+<p>This tab is supported in Blend4Web, but has a different set of options that are described <a class="reference internal" href="scene_settings.html#scene-settings"><span>here</span></a> in greater detail.</p>
+</div>
+<div class="section" id="world">
+<span id="ui-prop-world"></span><h3>World<a class="headerlink" href="#world" title="Permalink to this headline">¶</a></h3>
+<a class="reference internal image-reference" href="_images/interface_world.png"><img alt="_images/interface_world.png" class="align-center" src="_images/interface_world.png" style="width: 100%;" /></a>
+<p>Settings that control the environment of the scene can be found in this tab. This includes such parameters as background colors, environment lighting, mist etc.</p>
+<p>This tab is also used Blend4Web engine to set the environment. The settings themselves differ a bit from the ones in Blender. The differences are described <a class="reference internal" href="scene_settings.html#world-settings"><span>here</span></a>.</p>
+</div>
+<div class="section" id="object">
+<span id="ui-prop-object"></span><h3>Object<a class="headerlink" href="#object" title="Permalink to this headline">¶</a></h3>
+<a class="reference internal image-reference" href="_images/interface_object.png"><img alt="_images/interface_object.png" class="align-center" src="_images/interface_object.png" style="width: 100%;" /></a>
+<p>This tab contains various object settings such as name, location, groups and so on. Object parameters are extensively used in Blend4Web engine and are described in a <a class="reference internal" href="objects.html#objects"><span>dedicated section</span></a> of this manual.</p>
+</div>
+<div class="section" id="constraints">
+<span id="ui-prop-constraints"></span><h3>Constraints<a class="headerlink" href="#constraints" title="Permalink to this headline">¶</a></h3>
+<a class="reference internal image-reference" href="_images/interface_constraints.png"><img alt="_images/interface_constraints.png" class="align-center" src="_images/interface_constraints.png" style="width: 100%;" /></a>
+<p>Constraints can be used to restrict object’s movement in various ways, or to set it along a certain path. Constraints are often utilized by 3D artists to simplify the process of creating complex animations and to make it more convenient. This tab contains tools for adding constraints to a selected object, setting them up or remove them, if necessary.</p>
+<p>The Constraints tab can be used in Blend4Web. However, at the moment the engine does not support some of the object constraints available in Blender. See the <a class="reference internal" href="objects.html#objects-constraints"><span>dedicated section</span></a> to learn how to use object constraints in Blend4Web.</p>
+</div>
+<div class="section" id="modifiers">
+<span id="ui-prop-modifiers"></span><h3>Modifiers<a class="headerlink" href="#modifiers" title="Permalink to this headline">¶</a></h3>
+<a class="reference internal image-reference" href="_images/interface_modifiers.png"><img alt="_images/interface_modifiers.png" class="align-center" src="_images/interface_modifiers.png" style="width: 100%;" /></a>
+<p>This list contains all modifiers attached to the currently selected object. Modifiers can be added, configured and removed on this tab.</p>
+<p>Modifiers are supported in Blend4Web engine, but by default are not applied to objects upon export. You can apply modifiers using <a class="reference internal" href="objects.html#apply-modifiers"><span>Apply Modifiers</span></a> or Apply Scale and Modifiers options.</p>
+</div>
+<div class="section" id="data">
+<span id="ui-prop-data"></span><h3>Data<a class="headerlink" href="#data" title="Permalink to this headline">¶</a></h3>
+<a class="reference internal image-reference" href="_images/interface_object_data.png"><img alt="_images/interface_object_data.png" class="align-center" src="_images/interface_object_data.png" style="width: 100%;" /></a>
+<p>This tab contains information on object’s vertex groups and colors, UV maps, shape keys and other similar stuff. It is supported in Blend4Web and does not feature any additional options.</p>
+</div>
+<div class="section" id="material">
+<span id="ui-prop-material"></span><h3>Material<a class="headerlink" href="#material" title="Permalink to this headline">¶</a></h3>
+<a class="reference internal image-reference" href="_images/interface_material.png"><img alt="_images/interface_material.png" class="align-center" src="_images/interface_material.png" style="width: 100%;" /></a>
+<p>The material (or multiple materials) of an object can be set here.</p>
+<p>Blend4Web engine utilizes materials in mostly the same way Blender does. The differences are described in a <a class="reference internal" href="materials.html#materials"><span>dedicated chapter</span></a>.</p>
+</div>
+<div class="section" id="texture">
+<span id="ui-prop-texture"></span><h3>Texture<a class="headerlink" href="#texture" title="Permalink to this headline">¶</a></h3>
+<a class="reference internal image-reference" href="_images/interface_texture.png"><img alt="_images/interface_texture.png" class="align-center" src="_images/interface_texture.png" style="width: 100%;" /></a>
+<p>This tab is intended for setting up textures for materials and the environment alike.</p>
+<p>The same tab is used to set up textures in Blend4Web. Working with textures is described in a <a class="reference internal" href="textures.html#textures"><span>dedicated chapter</span></a>.</p>
+</div>
+<div class="section" id="particles">
+<span id="ui-prop-particles"></span><h3>Particles<a class="headerlink" href="#particles" title="Permalink to this headline">¶</a></h3>
+<a class="reference internal image-reference" href="_images/interface_particles.png"><img alt="_images/interface_particles.png" class="align-center" src="_images/interface_particles.png" style="width: 100%;" /></a>
+<p>Here, particle systems are created and set up.</p>
+<p>Particles are supported in Blend4Web engine as well and can be used to create <a class="reference internal" href="particles.html#particles"><span>fluids</span></a> and <a class="reference internal" href="particles_instancing.html#particles-instancing"><span>object instances</span></a>.</p>
+</div>
+<div class="section" id="physics">
+<span id="ui-prop-physics"></span><h3>Physics<a class="headerlink" href="#physics" title="Permalink to this headline">¶</a></h3>
+<a class="reference internal image-reference" href="_images/interface_physics.png"><img alt="_images/interface_physics.png" class="align-center" src="_images/interface_physics.png" style="width: 100%;" /></a>
+<p>Physical settings of a selected object: a physical model associated with an object, its bounding volume and so on. Physic is utilized in Blend4Web engine and has an <a class="reference internal" href="physics.html#physics"><span>entire chapter</span></a> dedicated to it.</p>
+</div>
+</div>
+<div class="section" id="outliner">
+<span id="ui-outliner"></span><h2><a class="toc-backref" href="#id14">Outliner</a><a class="headerlink" href="#outliner" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="_images/interface_outliner.png"><img alt="_images/interface_outliner.png" class="align-center" src="_images/interface_outliner.png" style="width: 100%;" /></a>
+<p>Contains so-called scene graph, a tree-like structure that organizes all data present in the .blend file.</p>
+<p>By default, this window is located in the top right corner of the Blender window.</p>
+</div>
+<div class="section" id="user-preferences">
+<span id="ui-settings"></span><h2><a class="toc-backref" href="#id15">User Preferences</a><a class="headerlink" href="#user-preferences" title="Permalink to this headline">¶</a></h2>
+<p>This window contains various Blender settings. These settings are separated into several categories each one of which occupies one tab located at the top of the window. The tabs are:</p>
+<div class="section" id="interface">
+<span id="ui-settings-interface"></span><h3>Interface<a class="headerlink" href="#interface" title="Permalink to this headline">¶</a></h3>
+<a class="reference internal image-reference" href="_images/interface_up_interface.png"><img alt="_images/interface_up_interface.png" class="align-center" src="_images/interface_up_interface.png" style="width: 100%;" /></a>
+<p>This tab contains various setting for adjusting the interface of the program.</p>
+</div>
+<div class="section" id="editing">
+<span id="ui-settings-editing"></span><h3>Editing<a class="headerlink" href="#editing" title="Permalink to this headline">¶</a></h3>
+<a class="reference internal image-reference" href="_images/interface_up_editing.png"><img alt="_images/interface_up_editing.png" class="align-center" src="_images/interface_up_editing.png" style="width: 100%;" /></a>
+<p>This tab allows you to set how various object editing tools interact with your input.</p>
+</div>
+<div class="section" id="input">
+<span id="ui-settings-input"></span><h3>Input<a class="headerlink" href="#input" title="Permalink to this headline">¶</a></h3>
+<a class="reference internal image-reference" href="_images/interface_up_input.png"><img alt="_images/interface_up_input.png" class="align-center" src="_images/interface_up_input.png" style="width: 100%;" /></a>
+<p>User-interaction settings. Hot keys are set here, as are the way Blender reacts to mouse and keyboard events.</p>
+</div>
+<div class="section" id="add-ons">
+<span id="ui-settings-addons"></span><h3>Add-ons<a class="headerlink" href="#add-ons" title="Permalink to this headline">¶</a></h3>
+<a class="reference internal image-reference" href="_images/interface_up_addons.png"><img alt="_images/interface_up_addons.png" class="align-center" src="_images/interface_up_addons.png" style="width: 100%;" /></a>
+<p>Various Blender add-ons are installed, configured and removed here. This includes <a class="reference internal" href="addon.html#addon"><span>Blend4Web add-on</span></a>.</p>
+</div>
+<div class="section" id="themes">
+<span id="ui-settings-themes"></span><h3>Themes<a class="headerlink" href="#themes" title="Permalink to this headline">¶</a></h3>
+<a class="reference internal image-reference" href="_images/interface_up_themes.png"><img alt="_images/interface_up_themes.png" class="align-center" src="_images/interface_up_themes.png" style="width: 100%;" /></a>
+<p>This tab allows the user to customize Blender interface and color scheme, both manually or by selecting one of the pre-existing interface themes.</p>
+</div>
+<div class="section" id="file">
+<span id="ui-settings-file"></span><h3>File<a class="headerlink" href="#file" title="Permalink to this headline">¶</a></h3>
+<a class="reference internal image-reference" href="_images/interface_up_files.png"><img alt="_images/interface_up_files.png" class="align-center" src="_images/interface_up_files.png" style="width: 100%;" /></a>
+<p>This tab is used to configure default file path for blend files, textures, rendered images and other files. Auto-save preferences are also set up here.</p>
+<p>The <code class="docutils literal"><span class="pre">Scripts</span></code> field on this tab is used for installing Blend4Web engine. The process of installation is thoroughly described in the <a class="reference internal" href="setup.html#sdk-install"><span>dedicated chapter</span></a>.</p>
+</div>
+<div class="section" id="system">
+<span id="ui-settings-system"></span><h3>System<a class="headerlink" href="#system" title="Permalink to this headline">¶</a></h3>
+<a class="reference internal image-reference" href="_images/interface_up_system.png"><img alt="_images/interface_up_system.png" class="align-center" src="_images/interface_up_system.png" style="width: 100%;" /></a>
+<p>Various system settings, including resolution, rendering device, viewport settings and interface language.</p>
+</div>
+</div>
+<div class="section" id="info">
+<span id="ui-info"></span><h2><a class="toc-backref" href="#id16">Info</a><a class="headerlink" href="#info" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="_images/interface_info.png"><img alt="_images/interface_info.png" class="align-center" src="_images/interface_info.png" style="width: 100%;" /></a>
+<p>The main menu bar with a list of error messages. This window is open by default and can be found at the top of the screen (right above the <code class="docutils literal"><span class="pre">3D</span> <span class="pre">View</span></code> window).</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The list of errors is folded by default.</p>
+</div>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">You can expand it by dragging the border of the <code class="docutils literal"><span class="pre">Info</span></code> window down.</p>
+</div>
+</div>
+<div class="section" id="file-browser">
+<span id="ui-file-browser"></span><h2><a class="toc-backref" href="#id17">File Browser</a><a class="headerlink" href="#file-browser" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="_images/interface_file_browser.png"><img alt="_images/interface_file_browser.png" class="align-center" src="_images/interface_file_browser.png" style="width: 100%;" /></a>
+<p>This is a built-in file manager that can be used for various file-related operations, mostly opening/saving .blend files and importing/exporting scenes and assets.</p>
+</div>
+<div class="section" id="python-console">
+<span id="ui-python-console"></span><h2><a class="toc-backref" href="#id18">Python Console</a><a class="headerlink" href="#python-console" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="_images/interface_python_console.png"><img alt="_images/interface_python_console.png" class="align-center" src="_images/interface_python_console.png" style="width: 100%;" /></a>
+<p>This is a tool intended for an experienced user. The Python Console offers a quick way to execute commands, complete with auto-complete feature, a command history and full access to the entire Python API.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="setup.html" class="btn btn-neutral float-right" title="Installing and Updating" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="engine_features.html" class="btn btn-neutral" title="Engine Features" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014-2017, Triumph.
+      Last updated on 2017-08-31.
+
+    </p>
+  </div>
+
+  <a href="https://www.blend4web.com">www.blend4web.com</a>
+
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+  (function() {
+    if (window.document.domain != "www.blend4web.com")
+      return;
+
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter24512171 = new Ya.Metrika({
+                    id:24512171,
+                    clickmap:false,
+                    trackLinks:true,
+                    accurateTrackBounce:true
+                });
+            } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+  })();
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/24512171" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'v17.08',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+
+          var lang_cont = $("#lang_cont");
+          var links = lang_cont.children();
+
+          var link_ru = links[0];
+          var link_en = links[1];
+          var link_zh = links[2];
+
+          var loc = document.location.href;
+
+          var href_ru = loc;
+          var href_en = loc;
+          var href_zh = loc; 
+
+          if (loc.search("/ru/") != -1) {
+              href_en = loc.replace("/ru/", "/en/");
+              href_zh = loc.replace("/ru/", "/zh/");
+          } else if (loc.search("/en/") != -1) {
+              href_ru = loc.replace("/en/", "/ru/");
+              href_zh = loc.replace("/en/", "/zh/");
+          } else {
+              href_ru = loc.replace("/zh/", "/ru/");
+              href_en = loc.replace("/zh/", "/en/");
+          }
+
+          link_ru.href = href_ru;
+          link_en.href = href_en;
+          link_zh.href = href_zh;
+
+          lang_cont.css("display", "inline-block")
+      });
+  </script>
+   
+
+</body>
+</html>

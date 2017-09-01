@@ -64,7 +64,7 @@ def translate_addon(lang_po=""):
 
     if os.path.isfile(PATH_TO_EMPTY_PO):
         os.remove(PATH_TO_EMPTY_PO)
-    f = open(PATH_TO_EMPTY_PO, "w")
+    f = open(PATH_TO_EMPTY_PO, "w", encoding="utf-8")
     f.close()
     for f in os.listdir(PATH_TO_ADDON):
         abs_path = os.path.join(PATH_TO_ADDON, f)

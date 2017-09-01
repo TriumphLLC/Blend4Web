@@ -4,7 +4,6 @@ apps_dev/code_snippets
 apps_dev/demos_*
 apps_dev/flight
 apps_dev/new_year
-apps_dev/petigors_tale
 apps_dev/project.py
 apps_dev/space_disaster
 apps_dev/tutorials
@@ -48,7 +47,6 @@ blender/misc/constraints*
 blender/misc/logo*
 blender/new_year
 blender/particles
-blender/petigors_tale
 blender/physics
 blender/postprocessing
 blender/space_disaster
@@ -109,7 +107,6 @@ deploy/assets/misc/constraints*
 deploy/assets/misc/logo*
 deploy/assets/new_year
 deploy/assets/particles
-deploy/assets/petigors_tale
 deploy/assets/physics
 deploy/assets/postprocessing
 deploy/assets/space_disaster

@@ -18,7 +18,7 @@
 
     * 物理标签
 
-  * Object Constraints
+  * 物体约束
 
   * 锚设置
 
@@ -161,6 +161,16 @@ Blend4Web的特殊属性。
 
 
 
+Display Panel
+~~~~~~~~~~~~~
+
+[图片]
+
+This panel contains parameters that define how the selected object
+looks in the 3D View window. It does not feature any additional
+options in Blend4Web mode.
+
+
 层次细节面板
 ~~~~~~~~~~~~
 
@@ -200,8 +210,11 @@ Blend4Web的特殊属性。
    不要导出此物体。
 
 *导出选项 > 应用修改器*
-   应用导出物体的修改器。如果使用 "SKIN" 修改器，我们建议导出前应用掉
-   它，因为它会重置顶点颜色和UV层可能会导致错误。
+   Apply the object’s modifiers upon export.
+
+   注解: If the "Skin" modifier is used we recommend to apply it
+     before the export because it resets vertex color and UV layers
+     which may result in errors.
 
 *导出选项 > 应用缩放和修改器*
    一旦导出，应用物体的缩放和修改器。
@@ -273,9 +286,11 @@ Blend4Web的特殊属性。
 *看板*
    使用物体作为看板（即自动定向面对摄像机）。
 
-*看板 > 保留全局方向和缩放*
-   考虑到（世界空间）看板的物体的旋转和缩放。该物体沿Blender的Y轴查看
-   时将朝明显的被引导到相机。启用 "看板" 复选框后可用。
+*Billboard > Preserve Global Rotation*
+   Take into account rotation of the billboard object (in the world
+   space). The object will be directed toward the camera with its side
+   which is visible when viewing along the Y axis in Blender. Becomes
+   available after enabling the "Billboard" checkbox.
 
 *看板 > 看板类型*
    看板方向模式。 "Spherical" （默认） - 物体一面始终朝向相机，不管视
@@ -346,6 +361,11 @@ Blend4Web的特殊属性。
       物体描述。根据 "说明源"，此字段接受描述文本本身，或包含的文件的
       名称。
 
+      注解: To use a text file as a description source you first
+        have to open an existing file in Blender Text Editor or to
+        create a new text file in the same editor.Then, you only have
+        to set the name of the file in the "Description" field.
+
    *元标签 > 描述源*
       为说明来源类型：文本或文本文件。
 
@@ -365,6 +385,17 @@ Blend4Web的特殊属性。
 
 
    这些设置可被用于将物体对准的主控照相机。参考 相机章节 的描述。
+
+
+Duplication Panel
+~~~~~~~~~~~~~~~~~
+
+[图片]
+
+This panel contains settings that concern object duplication. It does
+not feature any additional parameters in the Blend4Web mode; however,
+it should be noted that at the moment Blend4Web engine only supports
+"Group" duplication method.
 
 
 风弯曲面板
@@ -408,47 +439,94 @@ Blend4Web的特殊属性。
    启用物体的角色物理特性。角色设置详细描述在  物理 一节.。
 
 
-Object Constraints
-==================
+物体约束
+========
 
-Blend4Web engine supports the following object constraints:
+Blend4Web引擎支持以下类型的物体约束：
 
-* "Copy Location",
+* "复制位置",
 
-* "Copy Rotation",
+* "复制旋转",
 
-* "Copy Transforms" and
+* "复制变换" 和
 
-* "Track To".
+* "跟踪到".
 
-注解: When object constraints are used in Blend4Web, the "Space"
-  parameter is not taken into account (it is always set to "World
-  Space").
+注解: 当物体约束在 Blend4Web 中使用时， "空间" 参数不被计算在内（它
+  总是被 设置为 "世界空间")。
 
-These constraints can be set up directly in Blender. Other types of
-constraints are not currently supported, but some API methods from the
-constraints module act similarly. This include:
+这些约束可以在Blender中直接设置。其他类型的约束目前不支持，但从一些
+API 方法  constraints 模块有一样的功能。这包括：
 
-* the "Copy Location" constraint can be emulated with the
-  append_copy_loc()
+* "复制位置" 约束可以用  append_copy_loc() 来模拟
 
-* the "Copy Rotation" constraint works similarly to the
-  append_copy_rot() method.
+* "复制旋转" 约束与 append_copy_rot()   方法类似。
 
-* the "Copy Transforms" constraint works similarly to the
-  append_copy_trans() method.
+* "复制变换" 约束与 append_copy_trans() 方法类似。
 
-* The "Limit Distance" constraint can be emulated with the
-  append_follow() method, though it should be noted that this method
-  does not set a precise distance between objects (instead, it set a
-  minimum and maximum possible distances).
+* "限制距离" 约束可以用  append_follow() 方法来模拟，但应注意此方法
+  不 会设置物体之间的精确距离 （相反，设置最小和最大可能的距离）。
 
-* the "Track To" constraint can be replaced with the append_track()
-  method.
+* "追踪到" 约束可以替换成  append_track() 方法。
 
-Other constraints do not have distinctive counterparts in the API,
-although their behavior can be to certain extent imitated using API
-methods.
+其他约束并没有明显的类似功能在 API 中，虽然他们的行为可以在一定程度上
+通过 API 方法模仿使用。
+
+The constraints module also includes several additional methods:
+
+* append_semi_soft()
+
+     This method can be used to attach one object to another one using
+     a semi-soft constraint. The object will smoothly follow the
+     object's rear. This can be used to create third-person cameras.
+
+* append_semi_stiff()
+
+     This method can be used to attach the object to the other object
+     using a semi-stiff constraint, meaning that the child object will
+     move and rotate together with its parent, but it will also be
+     possible to rotate it independently in the parent's local space.
+     A behavior similar to that of a tank turret can be created this
+     way.
+
+* append_stiff()
+
+     This method attaches the object to another object (or to an
+     armature bone) using a stiff constraint. The child object will
+     move, rotate and scale together with its parent.
+
+     Examples: a sword parented to the character's hand; a character
+     sitting in a vehicle.
+
+* append_stiff_trans()
+
+     This method attaches the object to the other object using a stiff
+     translation constraint. The child object moves together with its
+     parent, but does not rotate along with it (it, however, can be
+     rotated independently from the parent).
+
+* append_stiff_trans_rot()
+
+     Can be used to attach the object to another object using a stiff
+     translation/rotation constraint. In this case, the child object
+     moves and rotates along with its parent, but does not scale in
+     accord with it. However, the object still can be scaled
+     independently from the parent.
+
+     Example: a smoke emitter attached to the tractor pipe; exhaustion
+     effects are achieved by scaling the emitter.
+
+* append_stiff_viewport()
+
+     Attaches the object to the camera using a stiff viewport
+     constraint (so the child object will preserve its orientation in
+     the camera viewport).
+
+     This constraint can be used to create onscreen 2D/3D interfaces
+     elements.
+
+* remove() - this method removes any constraints that were
+  previously applied to the object.
 
 
 锚设置
@@ -645,7 +723,7 @@ get_object_name()
    var obj = m_scenes.pick_object(x, y);
    // ...
 
-or using the Logic Editor.
+或使用 逻辑编辑器.
 
 如果选择的物体已启用了 "Object > Selection" 和轮廓面板上的 "Enable
 Outlining" 和 "Outline on Select" 选框，那么 "pick_object" 函数调用将

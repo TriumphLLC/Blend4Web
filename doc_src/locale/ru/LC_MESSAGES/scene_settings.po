@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2017-04-20 16:04+0300\n"
+"POT-Creation-Date: 2017-08-09 15:11+0300\n"
 "PO-Revision-Date: 2015-08-28 10:55+0300\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Russian <info [at] blend4web.com>\n"
@@ -16,15 +16,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.3.4\n"
 
-#: ../scene_settings.rst:7
 msgid "Scene Settings"
 msgstr "Параметры сцены"
 
-#: ../scene_settings.rst
 msgid "Table of Content"
 msgstr "Содержание"
 
-#: ../scene_settings.rst:13
 msgid ""
 "All the parameters that define the look and behavior of the whole scene "
 "(and not just a single object) are found on the three panels: the "
@@ -33,11 +30,9 @@ msgstr ""
 "Все параметры, определяющие вид и поведение сцены (а не отдельных "
 "объектов), находятся на трёх вкладках: ``Render``, ``Scene`` и ``World``."
 
-#: ../scene_settings.rst:18
 msgid "Render Panel"
 msgstr "Вкладка Render"
 
-#: ../scene_settings.rst:24
 msgid ""
 "All scene parameters that concern the image rendering are found on this "
 "panel."
@@ -45,11 +40,9 @@ msgstr ""
 "На этой вкладке находятся параметры сцены, связанные с рендерингом "
 "изображения."
 
-#: ../scene_settings.rst:30
 msgid "Development Tools"
 msgstr "Development Tools"
 
-#: ../scene_settings.rst:32
 msgid ""
 "Development Server settings. Described thoroughly in :ref:`its own "
 "section <local_development_server>`."
@@ -57,19 +50,15 @@ msgstr ""
 "Настройки сервера разработки. Подробно описаны в :ref:`соответствующем "
 "разделе <local_development_server>`."
 
-#: ../scene_settings.rst:41
 msgid "Shading"
 msgstr "Shading"
 
-#: ../scene_settings.rst:43
 msgid "This panel contains various shading options."
 msgstr "На этой панели находятся настройки затенения."
 
-#: ../scene_settings.rst:55
 msgid "*Set Recommended Options*"
 msgstr "*Set Recommended Options*"
 
-#: ../scene_settings.rst:50
 msgid ""
 "This button is used to achieve maximum consistency between the look of a "
 "3D scene in Blender viewport and in web browser. Pressing this button:"
@@ -78,27 +67,21 @@ msgstr ""
 "сцена выглядит в окне просмотра Blender и тем, как она выглядит в движке."
 " При нажатии на кнопку:"
 
-#: ../scene_settings.rst:52
 msgid "enables **World Space Shading**,"
 msgstr "включается **World Space Shading**,"
 
-#: ../scene_settings.rst:53
 msgid "switches material mode to **GLSL**,"
 msgstr "режим материала переключается на **GLSL**,"
 
-#: ../scene_settings.rst:54
 msgid "switches viewport shading mode to **Material** and"
 msgstr "метод затенения объектов в окне просмотра переключается на **Material**,"
 
-#: ../scene_settings.rst:55
 msgid "sets the main camera fit to **Vertical**."
 msgstr "подгонка сенсора главной камеры переключается на **Vertical**."
 
-#: ../scene_settings.rst:58
 msgid "*World Space Shading*"
 msgstr "*World Space Shading*"
 
-#: ../scene_settings.rst:58
 msgid ""
 "This option turns on and off **World Space Shading** (world space "
 "interpretation of lighting data will be used for object shading). "
@@ -108,29 +91,23 @@ msgstr ""
 "освещённости объектов используется информация об освещении в мировом "
 "пространстве координат). Отключено по умолчанию."
 
-#: ../scene_settings.rst:63
 msgid "Shadows"
 msgstr "Shadows"
 
-#: ../scene_settings.rst:65
 msgid "Shadows settings. Described thoroughly in :ref:`its own section<shadows>`."
 msgstr ""
 "Настройки теней. Подробно описаны в :ref:`соответствующем разделе "
 "<shadows>`."
 
-#: ../scene_settings.rst:74
 msgid "Reflections and Refractions"
 msgstr "Reflections and Refractions"
 
-#: ../scene_settings.rst:76
 msgid "Reflection and refraction effect settings."
 msgstr "Настройка эффектов отражения и преломления."
 
-#: ../scene_settings.rst:83
 msgid "*Reflection*"
 msgstr "*Reflection*"
 
-#: ../scene_settings.rst:83
 msgid ""
 "Reflection effect settings. Can be set to ``ON``, ``OFF`` or ``AUTO``. "
 "Set to ``ON`` by default."
@@ -138,11 +115,9 @@ msgstr ""
 "Настройки эффекта отражения. Может иметь значения ``ON`` и ``OFF``. "
 "Значение по умолчанию - ``ON``."
 
-#: ../scene_settings.rst:86
 msgid "*Refraction*"
 msgstr "*Refraction*"
 
-#: ../scene_settings.rst:86
 msgid ""
 "Refraction effect settings. Can be set to ``ON``, ``OFF`` or ``AUTO``. "
 "Set to ``AUTO`` by default."
@@ -150,11 +125,9 @@ msgstr ""
 "Настройки эффекта преломления. Может иметь значения ``ON``, ``OFF`` и "
 "``AUTO``. Значение по умолчанию - ``AUTO``."
 
-#: ../scene_settings.rst:89
 msgid "*Quality*"
 msgstr "*Quality*"
 
-#: ../scene_settings.rst:89
 msgid ""
 "Quality settings for the reflection effect. Can be set to ``HIGH`` (the "
 "highest reflection quality), ``MEDIUM`` (medium quality) or to ``LOW`` "
@@ -164,11 +137,9 @@ msgstr ""
 "``HIGH`` (высокое качество), ``MEDIUM`` (среднее) и ``LOW`` (низкое). "
 "Значение по умолчанию - ``MEDIUM``."
 
-#: ../scene_settings.rst:94
 msgid "Object Outlining"
 msgstr "Object Outlining"
 
-#: ../scene_settings.rst:96
 msgid ""
 "Outlining effect settings. Described thoroughly in :ref:`its own "
 "section<outline>`."
@@ -176,11 +147,9 @@ msgstr ""
 "Настройки эффекта обводки. Подробно описаны в :ref:`соответствующем "
 "разделе <outline>`."
 
-#: ../scene_settings.rst:105
 msgid "Glow Materials"
 msgstr "Glow Materials"
 
-#: ../scene_settings.rst:107
 msgid ""
 "Glow Material effect settings. Described thoroughly in :ref:`its own "
 "section <glow>`."
@@ -188,7 +157,6 @@ msgstr ""
 "Настройки эффекта свечения материалов. Подробно описаны в "
 ":ref:`соответствующем разделе <glow>`."
 
-#: ../scene_settings.rst:115
 msgid ""
 "For dynamically loaded objects, ``AUTO`` setting is interpreted as "
 "``OFF``, if no materials with glow are present in the scene. If you are "
@@ -199,11 +167,9 @@ msgstr ""
 "чтобы эффект Glow работал на динамически подгружаемых объектах, нужно "
 "выставить данный параметр в значение ``ON``."
 
-#: ../scene_settings.rst:120
 msgid "Anti-Aliasing"
 msgstr "Anti-Aliasing"
 
-#: ../scene_settings.rst:122
 msgid ""
 "Anti-Aliasing settings. Described thoroughly in :ref:`its own "
 "section<antialiasing>`."
@@ -211,11 +177,9 @@ msgstr ""
 "Настройки сглаживания изображения (anti-aliasing). Подробно описаны в "
 ":ref:`соответствующем разделе <antialiasing>`."
 
-#: ../scene_settings.rst:131
 msgid "Anisotropic Filtering"
 msgstr "Anisotropic Filtering"
 
-#: ../scene_settings.rst:133
 msgid ""
 "This parameter can be used to enable or disable anisotropic filtering and"
 " also to set the number of texture samples used for it. By default, "
@@ -225,7 +189,6 @@ msgstr ""
 "для задания числа сэмплов, используемых для фильтрации. Анизотропная "
 "фильтрация отключена по умолчанию."
 
-#: ../scene_settings.rst:139
 msgid ""
 "Available values: ``16x``, ``8x``, ``4x``, ``2x`` and ``OFF`` (default "
 "value)."
@@ -233,11 +196,9 @@ msgstr ""
 "Доступные значения: ``16x``, ``8x``, ``4x``, ``2x`` и ``OFF`` (значение "
 "по умолчанию)."
 
-#: ../scene_settings.rst:144
 msgid "Bloom"
 msgstr "Bloom"
 
-#: ../scene_settings.rst:146
 msgid ""
 "Bloom effect settings. Described thoroughly in :ref:`its own section "
 "<bloom>`."
@@ -245,11 +206,9 @@ msgstr ""
 "Настройки эффекта засветки. Подробно описаны в :ref:`соответствующем "
 "разделе <bloom>`."
 
-#: ../scene_settings.rst:155
 msgid "Motion Blur"
 msgstr "Motion Blur"
 
-#: ../scene_settings.rst:157
 msgid ""
 "Motion blur settings. Described thoroughly :ref:`in its own section "
 "<motion_blur>`."
@@ -257,11 +216,9 @@ msgstr ""
 "Настройки эффекта размытия изображения при быстром движении. Подробно "
 "описаны в :ref:`соответствующем разделе <motion_blur>`."
 
-#: ../scene_settings.rst:166
 msgid "Ambient Occlusion (SSAO)"
 msgstr "Ambient Occlusion (SSAO)"
 
-#: ../scene_settings.rst:168
 msgid ""
 "Screen-space ambient occlusion (SSAO) settings. Described thoroughly in "
 ":ref:`its own section <ssao>`."
@@ -269,11 +226,9 @@ msgstr ""
 "Настройки эффекта взаимного затенения (SSAO). Подробно описаны в "
 ":ref:`соответствующем разделе <ssao>`."
 
-#: ../scene_settings.rst:177
 msgid "God Rays"
 msgstr "God Rays"
 
-#: ../scene_settings.rst:179
 msgid ""
 "God Rays effect settings. Described thoroughly in :ref:`its own section "
 "<god_rays>`."
@@ -281,11 +236,9 @@ msgstr ""
 "Настройки эффекта \"сумеречных лучей\". Подробно описаны в "
 ":ref:`соответствующем разделе <god_rays>`."
 
-#: ../scene_settings.rst:188
 msgid "Color Correction"
 msgstr "Color Correction"
 
-#: ../scene_settings.rst:190
 msgid ""
 "Color correction settings. Described thoroughly in :ref:`its own section "
 "<color_correction>`."
@@ -293,35 +246,27 @@ msgstr ""
 "Настройки цветокоррекции. Подробно описаны в :ref:`соответствующем "
 "разделе <color_correction>`."
 
-#: ../scene_settings.rst:199
 msgid "Timeline"
 msgstr "Timeline"
 
-#: ../scene_settings.rst:201
 msgid "Timeline settings."
 msgstr "Настройки таймлайна."
 
-#: ../scene_settings.rst:208
 msgid "*Start Frame*"
 msgstr "*Start Frame*"
 
-#: ../scene_settings.rst:208
 msgid "The first frame of the timeline. Set to 1 by default."
 msgstr "Первый кадр таймлайна. По умолчанию 1."
 
-#: ../scene_settings.rst:211
 msgid "*End Frame*"
 msgstr "*End Frame*"
 
-#: ../scene_settings.rst:211
 msgid "The last frame of the timeline. Set to 250 by default."
 msgstr "Последний кадр таймлайна. По умолчанию 250."
 
-#: ../scene_settings.rst:214
 msgid "*Frame Rate*"
 msgstr "*Frame Rate*"
 
-#: ../scene_settings.rst:214
 msgid ""
 "Number of the frames per second. Set to 24 by default. This parameter "
 "only affect the animation playback speed (not the scene itself)."
@@ -329,25 +274,20 @@ msgstr ""
 "Количество кадров в секунду. По умолчанию 24. Этот параметр определяет "
 "скорость воспроизведения анимации (но не скорость работы самой сцены)."
 
-#: ../scene_settings.rst:219
 msgid "Dynamic Grass"
 msgstr "Dynamic Grass"
 
-#: ../scene_settings.rst:221
 msgid "Enables and disables :ref:`dynamic grass <particles_grass>` effect."
 msgstr "Включает и выключает эффект :ref:`травяного покрова <particles_grass>`."
 
-#: ../scene_settings.rst:227
 msgid "Possible values: ``ON``, ``OFF`` and ``AUTO``. Set to ``AUTO`` by default."
 msgstr ""
 "Доступные значения: ``ON``, ``OFF`` и ``AUTO``. Значение по умолчанию - "
 "``AUTO``."
 
-#: ../scene_settings.rst:232
 msgid "Scene Panel"
 msgstr "Вкладка Scene"
 
-#: ../scene_settings.rst:238
 msgid ""
 "The settings that concern scene behavior, including audio, physics and "
 "animation settings, are found on this panel."
@@ -355,43 +295,33 @@ msgstr ""
 "На этой вкладке находятся настройки, связанные с поведением сцены, в том "
 "числе настройки звука, физики, анимации и пр."
 
-#: ../scene_settings.rst:243
 msgid "Scene"
 msgstr "Scene"
 
-#: ../scene_settings.rst:245
 msgid "Scene settings."
 msgstr "Настройки сцены."
 
-#: ../scene_settings.rst:252
 msgid "*Camera*"
 msgstr "*Camera*"
 
-#: ../scene_settings.rst:252
 msgid "A camera that is used to render the scene."
 msgstr "Камера, используемая для воспроизведения сцены."
 
-#: ../scene_settings.rst:257
 msgid "Units"
 msgstr "Units"
 
-#: ../scene_settings.rst:259
 msgid "Sets the measurement units used in the scene."
 msgstr "Настройки единиц измерения, используемых в сцене."
 
-#: ../scene_settings.rst:268
 msgid "Audio"
 msgstr "Audio"
 
-#: ../scene_settings.rst:270
 msgid "Audio settings."
 msgstr "Настройки параметров звука."
 
-#: ../scene_settings.rst:277
 msgid "*Volume*"
 msgstr "*Volume*"
 
-#: ../scene_settings.rst:277
 msgid ""
 "The master volume of the sound in the application. This value can vary "
 "between 0 and 100. Default value is 1.0."
@@ -399,11 +329,9 @@ msgstr ""
 "Общая громкость звука в приложении. Значение может изменяться от 0 до "
 "100, значение по умолчанию - 1.0."
 
-#: ../scene_settings.rst:298
 msgid "*Distance Model*"
 msgstr "*Distance Model*"
 
-#: ../scene_settings.rst:280
 msgid ""
 "The distance model used for calculating distance attenuation. Following "
 "models are supported by the engine:"
@@ -411,7 +339,6 @@ msgstr ""
 "Модель расстояния, используемая для расчёта затухания. Движок "
 "поддерживает следующие модели:"
 
-#: ../scene_settings.rst:282
 msgid ""
 "``None`` - no distance model is used, the sound has constant volume "
 "regardless of the distance."
@@ -419,19 +346,15 @@ msgstr ""
 "``None`` - затухание не используется, громкость звука не зависит от "
 "расстояния."
 
-#: ../scene_settings.rst:284
 msgid "``Exponent Clamped`` - a clamped exponential distance model."
 msgstr "``Exponent Clamped`` - экспоненциальная модель расстояния с отсечением."
 
-#: ../scene_settings.rst:286
 msgid "``Linear Clamped`` - a clamped linear distance model."
 msgstr "``Linear Clamped`` - линейная модель расстояния с отсечением."
 
-#: ../scene_settings.rst:288
 msgid "``Inverse Clamped`` - a clamped inverse distance model."
 msgstr "``Inverse Clamped`` - инверсивная модель расстояния с отсечением."
 
-#: ../scene_settings.rst:290
 msgid ""
 "The following models are partially supported (work the same way the "
 "corresponding *Clamped*-type models):"
@@ -439,27 +362,21 @@ msgstr ""
 "Следующие модели поддерживаются движком частично (работают так же, как "
 "соответствующие модели с отсечением):"
 
-#: ../scene_settings.rst:292
 msgid "``Exponent``"
 msgstr "``Exponent``"
 
-#: ../scene_settings.rst:294
 msgid "``Linear``"
 msgstr "``Linear``"
 
-#: ../scene_settings.rst:296
 msgid "``Inverse``"
 msgstr "``Inverse``"
 
-#: ../scene_settings.rst:298
 msgid "This parameter is set to ``Inverse Clamped`` by default."
 msgstr "Значение по умолчанию - ``Inverse Clamped``."
 
-#: ../scene_settings.rst:301
 msgid "*Speed*"
 msgstr "*Speed*"
 
-#: ../scene_settings.rst:301
 msgid ""
 "This parameter sets the speed of sound used for Doppler effect "
 "calculation. Its value is measured in meters per second and is set to "
@@ -469,11 +386,9 @@ msgstr ""
 "Допплера. Это значение измеряется в метрах в секунду и по умолчанию равно"
 " 343.3."
 
-#: ../scene_settings.rst:304
 msgid "*Doppler*"
 msgstr "*Doppler*"
 
-#: ../scene_settings.rst:304
 msgid ""
 "This sets the pitch factor for Doppler effect calculation. Its default "
 "value if 1.0."
@@ -481,24 +396,20 @@ msgstr ""
 "Этот параметр задаёт значение высоты тона, используемое для расчёта "
 "эффекта Допплера. По умолчанию значение равно 1.0."
 
-#: ../scene_settings.rst:307
 msgid "*Dynamic Compressor*"
 msgstr "*Dynamic Compressor*"
 
-#: ../scene_settings.rst:307
 msgid ""
 "Compress audio signal's dynamic range. This feature can be used to make "
 "the sound more rich and even. Disabled by default."
 msgstr ""
 "Сжатие динамического диапазона звукового сигнала. Применяется для того, "
-"чтобы сделать звучание более насыщенным и более равномерным по громкости. "
-"По умолчанию отключено."
+"чтобы сделать звучание более насыщенным и более равномерным по громкости."
+" По умолчанию отключено."
 
-#: ../scene_settings.rst:310
 msgid "*Threshold*"
 msgstr "*Threshold*"
 
-#: ../scene_settings.rst:310
 msgid ""
 "If the amplitude of the audio signal exceeds the value specified by this "
 "parameter, the compressor will reduce its level. Set to -24 dB by "
@@ -507,11 +418,9 @@ msgstr ""
 "Значение входного сигнала, при превышении которого включается компрессор."
 " По умолчанию равно -24."
 
-#: ../scene_settings.rst:313
 msgid "*Knee*"
 msgstr "*Knee*"
 
-#: ../scene_settings.rst:313
 msgid ""
 "The interval below the threshold where the response curve switches to the"
 " decreasing mode. Set to 30 by default."
@@ -519,19 +428,15 @@ msgstr ""
 "Интервал над порогом (``Treshold``), где кривая громкости переходит в "
 "режим затухания. По умолчанию равен 30."
 
-#: ../scene_settings.rst:316
 msgid "*Ratio*"
 msgstr "*Ratio*"
 
-#: ../scene_settings.rst:316
 msgid "Amount of gain reduction. Set to 12 by default."
 msgstr "Фактор затухания компрессора. Значение по умолчанию равно 12."
 
-#: ../scene_settings.rst:319
 msgid "*Attack*"
 msgstr "*Attack*"
 
-#: ../scene_settings.rst:319
 msgid ""
 "Time (in seconds) that takes the compressor to reduce gain by 10 dB. Set "
 "to 0.003 by default."
@@ -539,11 +444,9 @@ msgstr ""
 "Время (в секундах) для затухания громкости на 10 дБ. По умолчанию равно "
 "0.003."
 
-#: ../scene_settings.rst:322
 msgid "*Release*"
 msgstr "*Release*"
 
-#: ../scene_settings.rst:322
 msgid ""
 "Time (in seconds) that takes the compressor to increase gain by 10 dB. "
 "Set to 0.25 by default."
@@ -551,11 +454,9 @@ msgstr ""
 "Время (в секундах) для повышения громкости на 10 дБ. По умолчанию равно "
 "0.25."
 
-#: ../scene_settings.rst:327
 msgid "Logic Editor"
 msgstr "Logic Editor"
 
-#: ../scene_settings.rst:329
 msgid ""
 "Settings for the use of the logic node trees (created in the :ref:`logic "
 "editor <logic_editor>`) in the scene. Disabled by default."
@@ -564,55 +465,46 @@ msgstr ""
 ":ref:`редакторе логики <logic_editor>`) при воспроизведении сцены. По "
 "умолчанию отключено."
 
-#: ../scene_settings.rst:336
 msgid "*Active Node Tree*"
 msgstr "*Active Node Tree*"
 
-#: ../scene_settings.rst:336
 msgid "Node tree that is used in the scene's playback."
 msgstr "Дерево логики, используемое при воспроизведении сцены."
 
-#: ../scene_settings.rst:341
 msgid "NLA"
 msgstr "NLA"
 
-#: ../scene_settings.rst:343
 msgid "Non-Linear Animation playback settings. Disabled by default."
 msgstr ""
 "Настройки использования нелинейной анимации при воспроизведении сцены. По"
 " умолчанию отключено."
 
-#: ../scene_settings.rst:350
 msgid "*Cyclic NLA*"
 msgstr "*Cyclic NLA*"
 
-#: ../scene_settings.rst:350
 msgid ""
 "If this parameter is enabled, NLA animation will be repeated after it is "
 "finished."
 msgstr "При активации этого параметра нелинейная анимация будет зациклена."
 
-#: ../scene_settings.rst:355
 msgid "Meta Tags"
 msgstr "Meta Tags"
 
-#: ../scene_settings.rst:357
-msgid "Application's meta tags."
-msgstr "Мета-теги приложения."
+msgid ""
+"Application's meta tags. Can be set up in the same way as :ref:`object "
+"meta tags <objects_meta_tags>`."
+msgstr ""
+"Мета-теги приложения. Настраиваются так же как и :ref:`мета-теги объектов <objects_meta_tags>`."
 
-#: ../scene_settings.rst:364
 msgid "*Title*"
 msgstr "*Title*"
 
-#: ../scene_settings.rst:364
 msgid "The title of the application."
 msgstr "Заголовок приложения."
 
-#: ../scene_settings.rst:367
 msgid "*Description*"
 msgstr "*Description*"
 
-#: ../scene_settings.rst:367
 msgid ""
 "The description of the application. Can be a simple text or a link to a "
 "text file (if the ``Description Source`` parameter is set to the ``File``"
@@ -621,11 +513,17 @@ msgstr ""
 "Описание приложения. Может быть текстовым или представлять собой ссылку "
 "на файл (если параметр ``Description Source`` имеет значение ``File``)."
 
-#: ../scene_settings.rst:370
+msgid ""
+"If you are using a text file as description source, said file can be "
+"imported to Blender using a built-in :ref:`Text Editor <ui_text_editor>`."
+msgstr ""
+"Если в качестве данных в поле ``Description`` требуется использовать "
+"текстовый файл, то данный файл может быть загружен в Blender через встроенный "
+"редактор :ref:`Text Editor <ui_text_editor>`."
+
 msgid "*Description Source*"
 msgstr "*Description Source*"
 
-#: ../scene_settings.rst:370
 msgid ""
 "The source of the application's description. The description can be "
 "loaded from a file or specified directly in the ``Description`` field. "
@@ -636,49 +534,40 @@ msgstr ""
 "задано непосредственно в поле ``Description``. Доступные значения - "
 "``Text`` и ``File``. Значение по умолчанию - ``Text``."
 
-#: ../scene_settings.rst:375
 msgid "Physics"
 msgstr "Physics"
 
-#: ../scene_settings.rst:377
 msgid "Physics settings."
 msgstr "Настройки использования физики."
 
-#: ../scene_settings.rst:384
 msgid "*Enable Physics*"
 msgstr "*Enable Physics*"
 
-#: ../scene_settings.rst:384
 msgid "Allow using physics in the application. Enabled by default."
 msgstr "Использовать физику в приложении. Включено по умолчанию."
 
-#: ../scene_settings.rst:389
 msgid "Object Clustering & LOD"
 msgstr "Object Clustering & LOD"
 
-#: ../scene_settings.rst:391
 msgid "Settings for object clustering and Levels Of Detail."
 msgstr "Настройки кластеризации объектов и Уровней Детализации (LOD)."
 
-#: ../scene_settings.rst:398
 msgid "*Cluster Size*"
 msgstr "*Cluster Size*"
 
-#: ../scene_settings.rst:398
 msgid ""
 "The size of the cluster used for batching (in meters). Can be used for "
 "optimization purposes. If this parameter is set to zero, the engine will "
 "try to combine all objects in the scene. Set to zero by default."
 msgstr ""
-"Размер кластера, применяемого для объединения объектов (в метрах). Может"
-" быть использован в целях оптимизации. Если этот параметр равен нулю, движок "
-"будет пытаться объединить все объекты в сцене. Значение по умолчанию - 0."
+"Размер кластера, применяемого для объединения объектов (в метрах). Может "
+"быть использован в целях оптимизации. Если этот параметр равен нулю, "
+"движок будет пытаться объединить все объекты в сцене. Значение по "
+"умолчанию - 0."
 
-#: ../scene_settings.rst:401
 msgid "*LOD Cluster Size Multiplier*"
 msgstr "*LOD Cluster Size Multiplier*"
 
-#: ../scene_settings.rst:401
 msgid ""
 "This parameter is used to subdivide clusters (based on LOD distance "
 "specified individually for each object) into smaller ones to make "
@@ -700,11 +589,9 @@ msgstr ""
 "детализации. Низкие значения делают переходы менее заметными, но снижают "
 "производительность. Значение по умолчанию - 0.5."
 
-#: ../scene_settings.rst:410
 msgid "*LOD Smooth Transitions*"
 msgstr "*LOD Smooth Transitions*"
 
-#: ../scene_settings.rst:404
 msgid ""
 "Defines what objects will use smooth transitions while switching their "
 "LOD levels. Has the following options:"
@@ -712,11 +599,9 @@ msgstr ""
 "Определяет, какие объекты будут использовать плавные переходы при "
 "переключении уровней LOD. Может принимать следующие значения:"
 
-#: ../scene_settings.rst:406
 msgid "OFF - smooth transitions are disabled (fastest)."
 msgstr "OFF - плавные переходы отключены (наиболее быстрый вариант)."
 
-#: ../scene_settings.rst:407
 msgid ""
 "NON-OPAQUE - use smooth transitions for objects with ``Add``, ``Alpha "
 "Clip``, ``Alpha Blend``, ``Alpha Sort`` and ``Alpha Anti-Aliasing`` "
@@ -726,13 +611,11 @@ msgstr ""
 ":ref:`материалами <alpha_blend>` типов ``Add``, ``Alpha Clip``, ``Alpha "
 "Blend``, ``Alpha Sort`` и ``Alpha Anti-Aliasing``."
 
-#: ../scene_settings.rst:408
 msgid "ALL - smooth transitions will be used for all objects (slowest)."
 msgstr ""
 "ALL - плавные переходы используются для всех объектов (наименее быстрый "
 "вариант)."
 
-#: ../scene_settings.rst:410
 msgid ""
 "Choosing the \"ALL\" value can noticeably decrease application "
 "performance, so use it with caution. Default value is \"NON-OPAQUE\"."
@@ -741,11 +624,9 @@ msgstr ""
 "поэтому его следует использовать только тогда, когда это необходимо. "
 "Значение параметра по умолчанию - \"NON-OPAQUE\"."
 
-#: ../scene_settings.rst:412
 msgid "*Max LOD Hysteresis Interval*"
 msgstr "*Max LOD Hysteresis Interval*"
 
-#: ../scene_settings.rst:414
 msgid ""
 "The length of the interval (in meters) used for switching LOD levels. The"
 " half of this value is added/subtracted from the distance threshold in "
@@ -759,11 +640,9 @@ msgstr ""
 "более высокого и более низкого уровней LOD. Делает менее заметным эффект "
 "\"popping\". По умолчанию этот параметр равен 4.0."
 
-#: ../scene_settings.rst:419
 msgid "Object Selection"
 msgstr "Object Selection"
 
-#: ../scene_settings.rst:421
 msgid ""
 "Object selection settings. Objects can be selected both with the API "
 "function :b4wref:`scenes.pick_object()` and with the :ref:`logic nodes "
@@ -772,7 +651,6 @@ msgstr ""
 "Настройки параметров выбора объектов с помощью функции API "
 ":b4wref:`scenes.pick_object()` и :ref:`нодовой логики <logic_editor>`."
 
-#: ../scene_settings.rst:424
 msgid ""
 "In the :ref:`scene viewer <viewer>`, selection is enabled by default. You"
 " can turn it off in the ``Tools & Debug`` panel."
@@ -780,11 +658,9 @@ msgstr ""
 "В :ref:`просмотрщике сцен <viewer>` выделение включено по умолчанию. "
 "Отключить его можно в разделе ``Tools & Debug``."
 
-#: ../scene_settings.rst:431
 msgid "*Enable*"
 msgstr "*Enable*"
 
-#: ../scene_settings.rst:431
 msgid ""
 "The parameter that defines if the object can or can't be selected. It can"
 " have ``ON``, ``OFF`` or ``AUTO`` value. Set to ``AUTO`` by default."
@@ -793,19 +669,15 @@ msgstr ""
 "значения ``ON``, ``OFF`` и ``AUTO``. По умолчанию имеет значение "
 "``AUTO``."
 
-#: ../scene_settings.rst:436
 msgid "Anchors"
 msgstr "Anchors"
 
-#: ../scene_settings.rst:438
 msgid ":ref:`Anchor <objects_anchors>` visibility detection settings."
 msgstr "Настройки определения видимости :ref:`якорей <objects_anchors>`."
 
-#: ../scene_settings.rst:445
 msgid "*Detect Anchors Visibility*"
 msgstr "*Detect Anchors Visibility*"
 
-#: ../scene_settings.rst:445
 msgid ""
 "Anchor visibility detection parameter. Can have ``ON``, ``OFF`` or "
 "``AUTO`` value. Set to ``AUTO`` by default."
@@ -813,29 +685,23 @@ msgstr ""
 "Параметр определения видимости якорей. Возможные значения: ``ON``, "
 "``OFF`` и ``AUTO``. Значение по умолчанию - ``AUTO``."
 
-#: ../scene_settings.rst:450 ../scene_settings.rst:603
 msgid "Export Options"
 msgstr "Export Options"
 
-#: ../scene_settings.rst:452
 msgid "Scene settings export parameters."
 msgstr "Параметры экспорта настроек сцены."
 
-#: ../scene_settings.rst:459 ../scene_settings.rst:611
 msgid "*Do Not Export*"
 msgstr "*Do Not Export*"
 
-#: ../scene_settings.rst:459
 msgid ""
 "If this parameter is enabled, scene settings will be ignored during "
 "export."
 msgstr "Игнорировать настройки сцены при экспорте приложения."
 
-#: ../scene_settings.rst:464
 msgid "World Panel"
 msgstr "Вкладка World"
 
-#: ../scene_settings.rst:470
 msgid ""
 "Environment settings such as settings for sky, mist and such are found on"
 " this panel."
@@ -843,35 +709,27 @@ msgstr ""
 "На этой вкладке находятся параметры окружающей среды, такие, как "
 "настройки неба, тумана и т.п."
 
-#: ../scene_settings.rst:475
 msgid "Preview"
 msgstr "Preview"
 
-#: ../scene_settings.rst:477
 msgid "Environment preview."
 msgstr "Предварительный просмотр окружения."
 
-#: ../scene_settings.rst:486
 msgid "World"
 msgstr "World"
 
-#: ../scene_settings.rst:488
 msgid "Sky settings."
 msgstr "Настройки параметров неба."
 
-#: ../scene_settings.rst:495
 msgid "*Render Sky*"
 msgstr "*Render Sky*"
 
-#: ../scene_settings.rst:495
 msgid "If this parameter is enabled, the engine will render sky in the scene."
 msgstr "Отображение неба."
 
-#: ../scene_settings.rst:498
 msgid "*Paper Sky*"
 msgstr "*Paper Sky*"
 
-#: ../scene_settings.rst:498
 msgid ""
 "If this parameter is enabled, sky gradient will always be drawn from the "
 "top of the screen to the bottom, regardless of the camera's position and "
@@ -880,59 +738,45 @@ msgstr ""
 "Если эта опция включена, градиент неба всегда будет отрисовываться сверху"
 " вниз относительно кадра независимо от угла наклона камеры."
 
-#: ../scene_settings.rst:501
 msgid "*Blend Sky*"
 msgstr "*Blend Sky*"
 
-#: ../scene_settings.rst:501
 msgid "Smooth transition between the horizon and zenith colors."
 msgstr "Плавный переход от цвета горизонта к цвету неба в зените."
 
-#: ../scene_settings.rst:504
 msgid "*Real Sky*"
 msgstr "*Real Sky*"
 
-#: ../scene_settings.rst:504
 msgid "Sky rendering with the horizon affected by the camera angle."
 msgstr "Визуализация неба с горизонтом, зависящим от угла наклона камеры."
 
-#: ../scene_settings.rst:507
 msgid "*Horizon Color*"
 msgstr "*Horizon Color*"
 
-#: ../scene_settings.rst:507
 msgid "Sky color at the horizon."
 msgstr "Цвет неба у горизонта."
 
-#: ../scene_settings.rst:510
 msgid "*Zenith Color*"
 msgstr "*Zenith Color*"
 
-#: ../scene_settings.rst:510
 msgid "Sky color in the zenith."
 msgstr "Цвет неба в зените."
 
-#: ../scene_settings.rst:513
 msgid "*Reflect World*"
 msgstr "*Reflect World*"
 
-#: ../scene_settings.rst:513
 msgid "Render the sky while rendering reflections."
 msgstr "Отображать небо при расчёте отражений."
 
-#: ../scene_settings.rst:516
 msgid "*Render Only Reflection*"
 msgstr "*Render Only Reflection*"
 
-#: ../scene_settings.rst:516
 msgid "Render the sky *only* while rendering reflections."
 msgstr "Отображать небо *только* при расчёте отражений."
 
-#: ../scene_settings.rst:519
 msgid "*World Background*"
 msgstr "*World Background*"
 
-#: ../scene_settings.rst:519
 msgid ""
 "Enables and disables ``World Background`` option (located under the "
 "``Display`` tab of the ``3D View`` panel). When this option is activated,"
@@ -944,11 +788,9 @@ msgstr ""
 "окружающей среды будут отображаться в окне просмотра так же, как в самом "
 "движке."
 
-#: ../scene_settings.rst:524
 msgid "Environment Lighting"
 msgstr "Environment Lighting"
 
-#: ../scene_settings.rst:526
 msgid ""
 "Environment lighting settings. Described thoroughly in :ref:`their own "
 "section <environment_lighting>`."
@@ -956,27 +798,21 @@ msgstr ""
 "Настройки параметров освещения от окружающей среды. Подробно описаны в "
 ":ref:`соответствующем разделе <environment_lighting>`."
 
-#: ../scene_settings.rst:536
 msgid "Mist"
 msgstr "Mist"
 
-#: ../scene_settings.rst:538
 msgid "Mist settings."
 msgstr "Настройки параметров тумана."
 
-#: ../scene_settings.rst:545
 msgid "*Minimum*"
 msgstr "*Minimum*"
 
-#: ../scene_settings.rst:545
 msgid "Minimum intensity of the mist. Set to zero by default."
 msgstr "Минимальная интенсивность тумана. По умолчанию равна 0."
 
-#: ../scene_settings.rst:548
 msgid "*Depth*"
 msgstr "*Depth*"
 
-#: ../scene_settings.rst:548
 msgid ""
 "At this distance from the camera the mist effect reaches maximum "
 "intensity. Set to 25 by default."
@@ -984,11 +820,9 @@ msgstr ""
 "Расстояние от камеры, на котором эффект тумана достигает наибольшей "
 "интенсивности. По умолчанию равно 25."
 
-#: ../scene_settings.rst:551
 msgid "*Start*"
 msgstr "*Start*"
 
-#: ../scene_settings.rst:551
 msgid ""
 "The mist effect starts to appear at this distance from the camera. Set to"
 " 5 by default."
@@ -996,11 +830,9 @@ msgstr ""
 "Расстояние от камеры, на котором начинает проявляться эффект тумана. По "
 "умолчанию равно 5."
 
-#: ../scene_settings.rst:554
 msgid "*Height*"
 msgstr "*Height*"
 
-#: ../scene_settings.rst:554
 msgid ""
 "This parameter specifies how fast mist intensity decreases as the "
 "camera's altitude increases. Set to 0 by default."
@@ -1008,11 +840,9 @@ msgstr ""
 "Определяет, насколько быстро плотность тумана падает с ростом высоты. По "
 "умолчанию равно 0."
 
-#: ../scene_settings.rst:557
 msgid "*Fall Out*"
 msgstr "*Fall Out*"
 
-#: ../scene_settings.rst:557
 msgid ""
 "This parameter specifies the rule, according to which the density of the "
 "mist changes between the borders (specified by the ``Start`` and "
@@ -1025,11 +855,9 @@ msgstr ""
 "``Quadratic``, ``Linear``, ``Inverse Quadratic``. Значение по умолчанию -"
 " ``Quadratic``."
 
-#: ../scene_settings.rst:560
 msgid "*Use Custom Colors*"
 msgstr "*Use Custom Colors*"
 
-#: ../scene_settings.rst:560
 msgid ""
 "Can be used to set the color of the mist. Enabled by default. If this "
 "parameter is disabled, standard (0.5, 0.5, 0.5) color will be used."
@@ -1037,11 +865,9 @@ msgstr ""
 "Позволяет задать цвет тумана. По умолчанию включено. Если отключено, "
 "будет использоваться стандартный цвет 0.5, 0.5, 0.5."
 
-#: ../scene_settings.rst:563
 msgid "*Fog Color*"
 msgstr "*Fog Color*"
 
-#: ../scene_settings.rst:563
 msgid ""
 "The color of the mist. Can be changed, if the ``Use custom colors`` "
 "parameter is enabled. Light gray (0.5, 0.5, 0.5) color is used by "
@@ -1050,11 +876,9 @@ msgstr ""
 "Цвет тумана. Может быть настроен, если активирована опция ``Use custom "
 "colors``. По умолчанию установлен светло-серый цвет (0.5, 0.5, 0.5)."
 
-#: ../scene_settings.rst:568
 msgid "Procedural Sky"
 msgstr "Procedural Sky"
 
-#: ../scene_settings.rst:570
 msgid ""
 "Procedural sky settings. Described thoroughly in :ref:`their own "
 "section<atmosphere>`."
@@ -1062,19 +886,15 @@ msgstr ""
 "Настройки процедурного неба. Подробно описаны в :ref:`соответствующем "
 "разделе <atmosphere>`."
 
-#: ../scene_settings.rst:579
 msgid "Animation"
 msgstr "Animation"
 
-#: ../scene_settings.rst:581
 msgid "Environment animation settings."
 msgstr "Настройки анимации окружающей среды."
 
-#: ../scene_settings.rst:588
 msgid "*Apply Default Animation*"
 msgstr "*Apply Default Animation*"
 
-#: ../scene_settings.rst:588
 msgid ""
 "If this parameter is enabled, the engine will start playback of the "
 "animation assigned to the environment upon loading."
@@ -1082,23 +902,18 @@ msgstr ""
 "Если этот параметр включён, движок запускает проигрывание анимации "
 "окружающей среды после загрузки сцены."
 
-#: ../scene_settings.rst:598
 msgid "*Behavior*"
 msgstr "*Behavior*"
 
-#: ../scene_settings.rst:591
 msgid "Sets the behavior of the default animation. Available options are:"
 msgstr "Устанавливает поведение анимации окружающей среды. Доступные значения:"
 
-#: ../scene_settings.rst:593
 msgid "``Loop`` - the animation will be played repeatedly."
 msgstr "``Loop`` - анимация воспроизводится циклически."
 
-#: ../scene_settings.rst:594
 msgid "``Finish Stop`` - the animation will be played once."
 msgstr "``Finish Stop`` - анимация проигрывается один раз."
 
-#: ../scene_settings.rst:595
 msgid ""
 "``Finish Reset`` - the animation will be played once, and then switched "
 "back to the first frame."
@@ -1106,7 +921,6 @@ msgstr ""
 "``Finish Reset`` - анимация проигрывается один раз, после чего "
 "сбрасывается на нулевой кадр."
 
-#: ../scene_settings.rst:597
 msgid ""
 "This option is only available if the ``Apply Default Animation`` "
 "parameter is enabled."
@@ -1114,17 +928,14 @@ msgstr ""
 "Эта опция доступна только при включённом параметре ``Apply Default "
 "Animation``."
 
-#: ../scene_settings.rst:605
 msgid "Environment parameters export settings."
 msgstr "Настройки экспорта параметров окружения."
 
-#: ../scene_settings.rst:612
 msgid ""
 "If this parameter is enabled, environment settings will be ignored during"
 " the export."
 msgstr "Игнорировать настройки окружения при экспорте приложения."
 
-#: ../scene_settings.rst:1
 msgid "scene"
 msgstr "сцена"
 
@@ -1169,4 +980,7 @@ msgstr "сцена"
 
 #~ msgid "Objects Selection"
 #~ msgstr ""
+
+#~ msgid "Application's meta tags."
+#~ msgstr "Мета-теги приложения."
 

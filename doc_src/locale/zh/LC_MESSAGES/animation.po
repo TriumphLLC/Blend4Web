@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2017-06-22 15:16+0300\n"
-"PO-Revision-Date: 2015-08-28 10:55+0300\n"
+"POT-Creation-Date: 2017-08-30 16:09+0300\n"
+"PO-Revision-Date: 2017-07-02 14:41+0800\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Chinese <info [at] blend4web.com>\n"
 "MIME-Version: 1.0\n"
@@ -221,13 +221,32 @@ msgstr "要移除骨架不需要的顶点组，请使用按钮 ``Remove Clean Un
 
 msgid ""
 "Blend4Web also has initial support of the armature constraints. For now, "
-"the only supported constraint type is ``Copy Transform``. It can be used "
-"to attach an armature to an object, producing effects such as ragdoll. "
-"Support of the other types of constraints will be added in further "
-"releases."
+"only several types of constraints are supported, including ``Copy "
+"Transforms``, which can be used to attach an armature to an object, "
+"producing effects such as ragdoll. Support of the other types of "
+"constraints will be added in further releases."
 msgstr ""
-"Blend4Web 才开始对骨架预算进行初步支持。目前，唯一受支持的约束类型是 ``Copy "
-"Transform``。它可以用于附加到物体，产生影响，如布娃娃的骨架。后续版本中将进一步添加支持其他类型的约束。"
+
+msgid ""
+"The full list of supported constraints and their descriptions can be "
+"found in a :ref:`dedicated section <objects_constraints>`."
+msgstr ""
+
+#, fuzzy
+msgid "Animation Blending"
+msgstr "动画"
+
+msgid ""
+"The engine also supports animation blending. To use this feature, the "
+"``Animation Blending`` (located on the ``Animation`` panel of the "
+"``Object`` tab) property should be enabled."
+msgstr ""
+
+msgid "No more than **two** animations can be blended simultaneously."
+msgstr ""
+
+msgid "To blend animations, you have to allow two animation slots to blend first:"
+msgstr ""
 
 msgid "Vertex Animation"
 msgstr "顶点动画"
@@ -298,7 +317,6 @@ msgstr ""
 "Blend4Web 也有可以自动播放物体动画的选项。要做到这一点，您需要启用要进行动画处理的物体的 ``Animation`` 部分的 "
 "``Apply Default Animation`` 参数。支持骨骼和物体的动画类型。"
 
-#, fuzzy
 msgid ""
 "Animation starts to play right after the application startup and plays "
 "very similar to the :ref:`Play Timeline <logic_play_timeline>` node, only"
@@ -307,9 +325,24 @@ msgid ""
 "last). You can also set up animation behavior, like in the :ref:`Play "
 "Animation <logic_select_play>` node."
 msgstr ""
-"应用程序启动后动画就开始播放，和 :ref:`Play Timeline <nla_play_timeline>`  "
-"节点非常相似，只是没有选项来设置开始和结束标记 （相反，它总是从时间线第一帧开始和最后一个结束）。您还可以设置动画的行为，像  "
-":ref:`Play Animation <nla_select_play>` 节点。 "
+"应用程序启动后动画就开始播放，和  :ref:`播放时间线 <logic_play_timeline>` "
+"节点非常相似，只是没有选项来设置开始和结束标记 （相反，它总是从时间线第一帧开始到最后一帧结束）。您还可以设置动画的行为，像  "
+":ref:`播放动画 <logic_select_play>`  节点。 "
+
+#, fuzzy
+msgid "*Animation Blending*"
+msgstr "动画"
+
+msgid ""
+"This option is only available for ``Armature`` type objects. It should be"
+" enabled if you want to blend skeletal animations."
+msgstr ""
+
+#, fuzzy
+msgid ""
+"Blending animations is described in a :ref:`dedicated section "
+"<anim_blend>`."
+msgstr "粒子发射。所述在  :ref:`相应章节 <particles>`."
 
 msgid "Non-Linear Animation"
 msgstr "非线性动画"
@@ -427,4 +460,21 @@ msgstr ":ref:`node_time`"
 
 msgid "animation"
 msgstr "动画"
+
+#~ msgid "No more than **two** animations can be blended simultaneously"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Blend4Web also has initial support of"
+#~ " the armature constraints. For now, "
+#~ "the only supported constraint type is"
+#~ " ``Copy Transforms``. It can be used"
+#~ " to attach an armature to an "
+#~ "object, producing effects such as "
+#~ "ragdoll. Support of the other types "
+#~ "of constraints will be added in "
+#~ "further releases."
+#~ msgstr ""
+#~ "Blend4Web 才开始对骨架预算进行初步支持。目前，唯一受支持的约束类型是 ``Copy "
+#~ "Transform``。它可以用于附加到物体，产生影响，如布娃娃的骨架。后续版本中将进一步添加支持其他类型的约束。"
 

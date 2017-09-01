@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2017-06-22 15:16+0300\n"
-"PO-Revision-Date: 2017-04-27 16:49+0800\n"
+"POT-Creation-Date: 2017-08-25 18:52+0300\n"
+"PO-Revision-Date: 2017-07-03 11:08+0800\n"
 "Last-Translator: kidux <yuzukyo@gmail.com>\n"
 "Language-Team: Chinese <info [at] blend4web.com>\n"
 "MIME-Version: 1.0\n"
@@ -158,21 +158,6 @@ msgstr ""
 "用户可以选择的物体之一。当您创建或删除命中参数时，这些参数会自动创建和删除 ``Hit`` 参数。这样的参数的数量总是等于  ``Hit`` "
 "参数的数目。"
 
-msgid "Delay"
-msgstr "延迟"
-
-msgid "Make a delay (measured in seconds) before going to the next node."
-msgstr "在去下一个节点之前做一个延迟（以秒计）。"
-
-msgid "*Value*"
-msgstr "*值*"
-
-msgid ""
-"Time (in seconds) that will pass before the activation of the next node. "
-"Set to zero by default. Can be set manually or through a variable (if the"
-" ``Variable`` parameter is enabled)."
-msgstr "将在下一个节点激活之前的时间 （以秒为单位）。默认情况设置为零。可以手动或通过一个变量来设置 （如果启用了 ``Variable`` 参数）。"
-
 msgid "Conditional Jump"
 msgstr "条件跳转"
 
@@ -225,14 +210,13 @@ msgstr "*Greater Than Or Equal (=>)* - 第一个操作数是大于或等于第�
 msgid "*Operand1*"
 msgstr "*Operand1*"
 
-#, fuzzy
 msgid ""
 "First operand of the logical condition. Contains a numeric value or a "
 "string (if the ``String Operators`` parameter is enabled). Can be "
 "specified in the node or can be a link to one of the variables (if the "
 "``Variable`` parameter at the right of it is enabled)."
 msgstr ""
-"逻辑条件的第一个操作数。包含字符串的数值（如果 ``String Operators`` "
+"逻辑条件的第一个操作数。包含数值或字符串（如果 ``String Operators`` "
 "参数已启用）。可以在节点中指定，也可以是指向其中一个变量的链接（如果右侧的 ``Variable`` 参数被启用）。"
 
 msgid "*Operand2*"
@@ -350,31 +334,6 @@ msgid ""
 "end of the timeline and may not work correctly."
 msgstr "动画的最后一帧。如果没有指定，动画播放到时间轴的结束，可能无法正常工作。"
 
-msgid "Get Timeline"
-msgstr "获取时间线"
-
-msgid ""
-"This node can be used to get the current frame of an NLA animation or a "
-"timeline."
-msgstr "此节点可以用于获取 NLA 动画或时间线的当前帧。"
-
-msgid "*NLA Timeline*"
-msgstr "* NLA 时间线 *"
-
-msgid ""
-"If this parameter is enabled, the node will return the current frame of "
-"an NLA animation. If it is disabled, the node will return the current "
-"frame of the timeline. Enabled by default."
-msgstr "如果启用此参数，则该节点将返回当前动画的帧的 NLA。如果禁用了它，则该节点将返回当前帧的时间线。默认情况下启用。"
-
-msgid "*Destination*"
-msgstr "*目标*"
-
-msgid ""
-"Specifies a variable to store the number of the current frame. Set to "
-"``R1`` by default."
-msgstr "指定一个变量来存储当前帧的数量。默认设置为  ``R1`` 。"
-
 msgid "Play Animation"
 msgstr "播放动画"
 
@@ -396,7 +355,7 @@ msgid "Name of the object, animation of which will be played."
 msgstr "物体，动画，其中将播放的名称。"
 
 msgid "*Anim. Name*"
-msgstr "*动画。名称*"
+msgstr "*动画名称*"
 
 msgid ""
 "Name of an animation to play. If not specified, the entire timeline will "
@@ -420,7 +379,7 @@ msgstr "*完成重置*  - 动画将被播放一次，则该物体将返回到起
 msgid ""
 "*Loop* - animation will be playing repeatedly until it is stopped by the "
 "``Stop Animation`` node."
-msgstr "*循环*  - 直到它被 ``停止Animation`` 节点停止的动画将被反复播放。"
+msgstr "*循环*  - 动画将被反复播放直到它被 ``Stop Animation`` 节点停止掉。"
 
 msgid "*Do Not Wait*"
 msgstr "*不要等*"
@@ -580,69 +539,71 @@ msgid "The ``Z`` component of the camera's target/pivot point."
 msgstr "相机的目标/轴心点的 ``Z`` 分量。"
 
 msgid "Set Camera Limits"
-msgstr ""
+msgstr "设置相机限制"
 
 msgid ""
 "This node can be used to set limits of the selected camera. The node "
 "lists all available limits, but only ones that are compatible with the "
 "type of the camera are applied."
-msgstr ""
+msgstr "此节点可以用于设置选定相机的限制。节点列出了所有可用的限制，但只有那些与照相机类型兼容的限制可以被应用。"
 
-#, fuzzy
 msgid "This parameter specifies a camera to which the limits will be applied."
-msgstr "此参数指定的摄像机到的变化将被应用。"
+msgstr "此参数指定将应用限制的摄像机。"
 
 msgid "*Distance Limits*"
-msgstr ""
+msgstr "* 距离限制 *"
 
 msgid ""
 "Sets the ``Distance Limits`` parameter native to the :ref:`Target "
 "<camera_target_type>` and :ref:`Hover <camera_hover_type>` camera types."
 msgstr ""
+"设置 ``距离限制`` 参数用于   :ref:`目标 <camera_target_type>` 和 :ref:`悬停 "
+"<camera_hover_type>` 照相机类型。 "
 
 msgid "*Hor. Rotation Limits*"
-msgstr ""
+msgstr "* 水平旋转限制 *"
 
 msgid ""
 "Sets ``Horizontal Rotation Limits`` parameter native to :ref:`Target "
 "<camera_target_type>` and :ref:`Eye <camera_eye_type>` camera types."
 msgstr ""
+"设置  ``水平旋转限制`` 参数用于于  :ref:`目标 <camera_target_type>` 和 :ref:`眼 "
+"<camera_eye_type>`  照相机类型。"
 
 msgid "*Vert. Rotation Limits*"
-msgstr ""
+msgstr "* 垂直旋转限制 *"
 
 msgid ""
 "Sets ``Vertical Rotation Limits`` parameter native to :ref:`Target "
 "<camera_target_type>`, :ref:`Hover <camera_hover_type>` and :ref:`Eye "
 "<camera_eye_type>` camera types."
 msgstr ""
+"设置  ``垂直旋转限制`` 参数用于于  :ref:`目标 <camera_target_type>`, :ref:`悬停 "
+"<camera_hover_type>` 和 :ref:`眼 <camera_eye_type>`  照相机类型。"
 
-#, fuzzy
 msgid "*Pivot Translation Limits*"
-msgstr "*变换*"
+msgstr "* 轴点移动限制 *"
 
 msgid ""
 "Sets ``Pivot Translation Limits`` parameter native to :ref:`Target "
 "<camera_target_type>` camera type."
-msgstr ""
+msgstr "设置 ``轴点移动限制``  参数用于  :ref:`目标 <camera_target_type>`  相机类型。"
 
-#, fuzzy
 msgid "*Hor. Translation Limits*"
-msgstr "*变换*"
+msgstr "* 水平移动限制 *"
 
 msgid ""
 "Sets ``Horizontal Translation Limits`` parameter native to :ref:`Hover "
 "<camera_hover_type>` camera type."
-msgstr ""
+msgstr "设置  ``水平移动限制`` 参数用于  :ref:`悬停 <camera_hover_type>` 相机类型。"
 
-#, fuzzy
 msgid "*Vert. Translation Limits*"
-msgstr "*变换*"
+msgstr "* 垂直移动限制 *"
 
 msgid ""
 "Sets ``Vertical Translation Limits`` parameter native to :ref:`Hover "
 "<camera_hover_type>` camera type."
-msgstr ""
+msgstr "设置 ``垂直移动限制`` 参数用于  :ref:`悬停 <camera_hover_type>`  相机类型。"
 
 msgid "Object"
 msgstr "物体"
@@ -750,6 +711,9 @@ msgstr "可用于移动物体。"
 msgid "An object that you need to move."
 msgstr "你需要移动的物体。"
 
+msgid "*Destination*"
+msgstr "*目标*"
+
 msgid ""
 "A target (another object or a light source, camera or anything else) to "
 "which the selected object will move. The object’s coordinated will be the"
@@ -780,6 +744,9 @@ msgstr "*形变关键帧*"
 
 msgid "Shape key that will be applied to the object."
 msgstr "形状将被应用到物体的密钥。"
+
+msgid "*Value*"
+msgstr "*值*"
 
 msgid ""
 "How much the shape key will influence the object. This value can be set "
@@ -1336,56 +1303,138 @@ msgstr ""
 "将打印到控制台的变量。默认情况下，``Console Print`` 节点都有一个这样的参数，但您可以添加新成员和删除现有的 "
 "（节点甚至可能没有这种参数）。"
 
-msgid "Deprecated"
-msgstr "已过时"
-
-msgid "Select (Deprecated)"
-msgstr "选择（已过时）"
-
-msgid ""
-"Deprecated! Isn’t recommended to use. Instead, using a ``Switch Select`` "
-"node is recommended."
-msgstr "已过时！不推荐使用。相反，推荐使用 ``Switch Select`` 节点。"
-
-msgid ""
-"It is similar to the ``Select & Play`` node, except the transition "
-"happens instead of animation. This function allows to implement a "
-"complicated logic because in this case there is a possibility to identify"
-" the user selection results."
+msgid "Time"
 msgstr ""
-"它类似于  ``Select & Play`` "
-"节点，除了过渡发生代替动画。这个功能可以实现一个复杂的逻辑，因为在这种情况下，存在这样的可能性，以确定所述用户选择的结果。"
 
-msgid "Select & Play Timeline (Deprecated)"
-msgstr "选择并播放时间轴（已过时）"
-
-msgid ""
-"Deprecated! Isn’t recommended to use. Instead, using a combination of "
-"``Switch Select`` and ``Play Timeline`` nodes is recommended."
-msgstr "已过时！不推荐使用。相反，建议使用 ``Switch Select`` 和 ``Play Timeline`` 节点。"
-
-msgid ""
-"Wait until the user selects an object (on desktops - with a mouse click, "
-"on mobile devices - with a touch). If the object, which is specified in "
-"this node, is selected - then start the animation similar to the ``Play "
-"Timeline`` node. If any other object is selected - then immediately "
-"transfer control to the next node."
+msgid "Date & Time"
 msgstr ""
-"等到用户选择的物体（在桌面上 - 用鼠标点击，移动设备 - 带有触摸）。如果物体，这是在本节点中指定时，选择 - 然后启动类似于 ``Play "
-"Timeline`` 节点动画。如果选择了任何其他物体 - 然后立即转移控制到下一个节点。"
 
-msgid "Select & Play Animation (Deprecated)"
-msgstr "选择并播放动画（已过时）"
+msgid "This node returns the current time and date."
+msgstr ""
+
+msgid "*Time Format*"
+msgstr ""
+
+#, fuzzy
+msgid ""
+"This parameter defines the format in which time is measured. It can be "
+"set to one of the following values:"
+msgstr "此参数定义将用于转换的物体的坐标空间。它可以具有下列值之一 ︰"
+
+#, fuzzy
+msgid "*UTC*"
+msgstr "*源*"
+
+msgid "Coordinated Universal Time."
+msgstr ""
 
 msgid ""
-"Wait until the user selects an object (on desktops - with a mouse click, "
-"on mobile devices - with a touch). If the object, which is specified in "
-"this node, is selected - then start the animation similar to the ``Play "
-"Animation`` node. If any other object is selected - then immediately "
-"transfer control to the next node."
+"The Coordinated Universal Time this node returns is based on local system"
+" time and a time zone."
 msgstr ""
-"等到用户选择的物体（在桌面上 - 用鼠标点击，移动设备 - 带有触摸）。如果物体，这是在本节点中指定时，选择 - 然后启动类似于  ``Play "
-"Animation`` 节点动画。如果选择了任何其他物体 - 然后立即转移控制到下一个节点。"
+
+#, fuzzy
+msgid "*Local*"
+msgstr "*全局*"
+
+msgid ""
+"If this value is selected, time is retrieved from local system time. This"
+" value is selected by default."
+msgstr ""
+
+msgid ""
+"The time and date are returned as a set of numbers (current year, month, "
+"day etc.), each one of which can be stored into a specific variable. "
+"These numbers include:"
+msgstr ""
+
+#, fuzzy
+msgid "*Year*"
+msgstr "*y*"
+
+msgid "The current year."
+msgstr ""
+
+msgid "*Month*"
+msgstr ""
+
+msgid "The current month."
+msgstr ""
+
+#, fuzzy
+msgid "*Day*"
+msgstr "*y*"
+
+msgid "The current day."
+msgstr ""
+
+#, fuzzy
+msgid "*Hours*"
+msgstr "*源*"
+
+msgid "The current hour."
+msgstr ""
+
+#, fuzzy
+msgid "*Minutes*"
+msgstr "*强度*"
+
+msgid "The current minutes."
+msgstr ""
+
+msgid "*Seconds*"
+msgstr ""
+
+msgid "The current seconds."
+msgstr ""
+
+msgid "Get Timeline"
+msgstr "获取时间线"
+
+msgid ""
+"This node can be used to get the current frame of an NLA animation or a "
+"timeline."
+msgstr "此节点可以用于获取 NLA 动画或时间线的当前帧。"
+
+msgid "*NLA Timeline*"
+msgstr "* NLA 时间线 *"
+
+msgid ""
+"If this parameter is enabled, the node will return the current frame of "
+"an NLA animation. If it is disabled, the node will return the current "
+"frame of the timeline. Enabled by default."
+msgstr "如果启用此参数，则该节点将返回当前动画的帧的 NLA。如果禁用了它，则该节点将返回当前帧的时间线。默认情况下启用。"
+
+msgid ""
+"Specifies a variable to store the number of the current frame. Set to "
+"``R1`` by default."
+msgstr "指定一个变量来存储当前帧的数量。默认设置为  ``R1`` 。"
+
+msgid "Elapsed"
+msgstr ""
+
+msgid ""
+"This node returns the amount of time elapsed since the previous frame has"
+" been rendered."
+msgstr ""
+
+msgid ""
+"The ``Elapsed`` logic node has one internal parameter that allows user to"
+" specify the variable to save the number of seconds passed since the "
+"previous frame. By default, it uses the ``R1`` variable."
+msgstr ""
+
+msgid "Delay"
+msgstr "延迟"
+
+msgid "Make a delay (measured in seconds) before going to the next node."
+msgstr "在去下一个节点之前做一个延迟（以秒计）。"
+
+msgid ""
+"Time (in seconds) that will pass before the activation of the next node. "
+"Set to zero by default. Can be set manually or through a variable (if the"
+" ``Variable`` parameter is enabled)."
+msgstr "将在下一个节点激活之前的时间 （以秒为单位）。默认情况设置为零。可以手动或通过一个变量来设置 （如果启用了 ``Variable`` 参数）。"
 
 msgid "Layout"
 msgstr "布局"
@@ -1435,4 +1484,28 @@ msgid ""
 " has two outputs the execution continues from the output with negative "
 "result (``Miss``, ``False``)."
 msgstr "为了调试的目的，逻辑树中的一些节点可以被静音。要做到这一点，选择所需的节点，并按“M”键。静音节点不执行，并简单地传递控制到后面节点。如果静音节点有两个输出执行从负的结果（``Miss``，``False``）继续输出。"
+
+#~ msgid "Deprecated"
+#~ msgstr "已过时"
+
+#~ msgid "Select (Deprecated)"
+#~ msgstr "选择（已过时）"
+
+#~ msgid ""
+#~ msgstr ""
+
+#~ msgid "Select & Play Timeline (Deprecated)"
+#~ msgstr "选择并播放时间轴（已过时）"
+
+#~ msgid "Select & Play Animation (Deprecated)"
+#~ msgstr "选择并播放动画（已过时）"
+
+#~ msgid ""
+#~ "The ``Elapsed`` logic node has one "
+#~ "internal parameter that allows user to"
+#~ " specify the variable to save the "
+#~ "number of seconds passed since the "
+#~ "previous frame. By defaut, it uses "
+#~ "the ``R1`` variable."
+#~ msgstr ""
 

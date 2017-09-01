@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Разработчикам приложений &mdash; Руководство пользователя Blend4Web 17.06</title>
+  <title>Разработчикам приложений &mdash; Руководство пользователя Blend4Web 17.08</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 17.06" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 17.08" href="index.html"/>
         <link rel="next" title="Разработчикам движка" href="developers_advanced.html"/>
         <link rel="prev" title="Физика" href="physics.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v17.06
+              v17.08
             </div>
           
         
@@ -85,6 +85,7 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">Общие сведения</a></li>
 <li class="toctree-l1"><a class="reference internal" href="engine_features.html">Возможности движка</a></li>
+<li class="toctree-l1"><a class="reference internal" href="interface.html">Интерфейс Blender</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Установка и обновление</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Рабочий процесс</a></li>
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">Управление проектами</a></li>
@@ -857,6 +858,8 @@
 </li>
 <li><p class="first">Instancing - копирование объектов сцены</p>
 </li>
+<li><p class="first">Leap Motion - пример использования контроллера Leap Motion</p>
+</li>
 <li><p class="first">Lines - рендеринг процедурных линий</p>
 </li>
 <li><p class="first">Material API - изменение свойств материалов и замена материалов объекта</p>
@@ -951,7 +954,7 @@
 <span class="p">}</span>
 
 <span class="c1">// create the manifold</span>
-<span class="nx">m_controls</span><span class="p">.</span><span class="nx">create_sensor_manifold</span><span class="p">(</span><span class="nx">stone</span><span class="p">,</span> <span class="s2">&quot;IMPACT&quot;</span><span class="p">,</span> <span class="nx">m_ctl</span><span class="p">.</span><span class="nx">CT_SHOT</span><span class="p">,</span>
+<span class="nx">m_controls</span><span class="p">.</span><span class="nx">create_sensor_manifold</span><span class="p">(</span><span class="nx">stone</span><span class="p">,</span> <span class="s2">&quot;IMPACT&quot;</span><span class="p">,</span> <span class="nx">m_controls</span><span class="p">.</span><span class="nx">CT_SHOT</span><span class="p">,</span>
     <span class="nx">impact_sens_array</span><span class="p">,</span> <span class="nx">impact_sens_logic</span><span class="p">,</span> <span class="nx">impact_cb</span><span class="p">);</span>
 </pre></div>
 </div>
@@ -1363,7 +1366,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Триумф.
-      Обновлено: 2017-06-30.
+      Обновлено: 2017-08-31.
 
     </p>
   </div>
@@ -1419,7 +1422,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.06',
+            VERSION:'v17.08',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

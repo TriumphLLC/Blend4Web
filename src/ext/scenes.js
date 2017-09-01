@@ -1758,13 +1758,11 @@ exports.append_object = function(obj, scene_name) {
 }
 /**
  * Remove dynamic object from all scenes.
- * Removing objects with static physics isn't supported.
  * @method module:scenes.remove_object
  * @param {Object3D} obj Object 3D
  * @example var m_scenes = require("scenes");
  *
  * var cube = m_scenes.get_object_by_name("Cube");
- *
  * m_scenes.remove_object(cube);
  */
 exports.remove_object = function(obj) {

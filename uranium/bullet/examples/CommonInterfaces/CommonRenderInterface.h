@@ -19,16 +19,18 @@ enum
 
 struct CommonRenderInterface
 {
+	virtual ~CommonRenderInterface() {}
 	virtual void init()=0;
 	virtual void updateCamera(int upAxis)=0;
 	virtual void removeAllInstances() = 0;
-
+	
 	virtual const CommonCameraInterface* getActiveCamera() const =0;
 	virtual CommonCameraInterface* getActiveCamera()=0;
 	virtual void setActiveCamera(CommonCameraInterface* cam)=0;
 	
-	virtual void renderScene()=0;
 
+	virtual void renderScene()=0;
+	virtual void renderSceneInternal(int renderMode=B3_DEFAULT_RENDERMODE){};
 	virtual int getScreenWidth() = 0;
 	virtual int getScreenHeight() = 0;
 
@@ -44,13 +46,22 @@ struct CommonRenderInterface
 	virtual int registerShape(const float* vertices, int numvertices, const int* indices, int numIndices,int primitiveType=B3_GL_TRIANGLES, int textureIndex=-1)=0;
     virtual void updateShape(int shapeIndex, const float* vertices)=0;
     
+    virtual int registerTexture(const unsigned char* texels, int width, int height)=0;
+    virtual void updateTexture(int textureIndex, const unsigned char* texels)=0;
+    virtual void activateTexture(int textureIndex)=0;
+    
 	virtual void writeSingleInstanceTransformToCPU(const float* position, const float* orientation, int srcIndex)=0;
 	virtual void writeSingleInstanceTransformToCPU(const double* position, const double* orientation, int srcIndex)=0;
 	virtual void writeSingleInstanceColorToCPU(float* color, int srcIndex)=0;
 	virtual void writeSingleInstanceColorToCPU(double* color, int srcIndex)=0;
+	virtual void writeSingleInstanceScaleToCPU(float* scale, int srcIndex)=0;
+	virtual void writeSingleInstanceScaleToCPU(double* scale, int srcIndex)=0;
+    
+    virtual int getTotalNumInstances() const = 0;
     
 	virtual void writeTransforms()=0;
     virtual void enableBlend(bool blend)=0;
+	virtual void clearZBuffer()=0;
 
 	//This is internal access to OpenGL3+ features, mainly used for OpenCL-OpenGL interop
 	//Only the GLInstancingRenderer supports it, just return 0 otherwise.

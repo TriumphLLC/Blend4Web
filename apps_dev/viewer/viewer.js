@@ -110,9 +110,7 @@ function init_cb(canvas_elem, success) {
 
     window.addEventListener("resize", on_resize, false);
 
-    var tmp_event = document.createEvent("CustomEvent");
-    tmp_event.initEvent("resize", false, false);
-    window.dispatchEvent(tmp_event);
+    on_resize();
 
     if (!m_main.detect_mobile())
         forbid_elem(["gyro_use_tmp"], "disable");

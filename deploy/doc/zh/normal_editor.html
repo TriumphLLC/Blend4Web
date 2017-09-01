@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>法线编辑器 &mdash; Blend4Web 17.06 用户手册</title>
+  <title>法线编辑器 &mdash; Blend4Web 17.08 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.06 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 17.08 用户手册" href="index.html"/>
         <link rel="next" title="相机" href="camera.html"/>
         <link rel="prev" title="网格" href="meshes.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v17.06
+              v17.08
             </div>
           
         
@@ -85,6 +85,7 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">概述</a></li>
 <li class="toctree-l1"><a class="reference internal" href="engine_features.html">引擎功能</a></li>
+<li class="toctree-l1"><a class="reference internal" href="interface.html">Blender User Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">安装和更新</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">工作流程</a></li>
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理</a></li>
@@ -99,8 +100,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#interface">界面</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#activate">启用</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#show-normals">显示法线</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#rotate">Rotate</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#scale">Scale</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rotate">旋转</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#scale">缩放</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#absolute-and-offset-modes">绝对和偏移模式</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#absolute-mode">绝对模式</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#offset-mode">偏置模式</a></li>
@@ -109,7 +110,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#split-normals">分割法线</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#average">平均</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#restore">恢复</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#d-cursor-axis-and-face">3D Cursor, Axis and Face</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#d-cursor-axis-and-face">3D游标，轴和面</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#copy-paste">Copy（复制）/Paste（粘贴）</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#copy-from-mesh">从网格复制</a></li>
 </ul>
@@ -186,13 +187,13 @@
 <li><a class="reference internal" href="#interface" id="id3">界面</a></li>
 <li><a class="reference internal" href="#activate" id="id4">启用</a></li>
 <li><a class="reference internal" href="#show-normals" id="id5">显示法线</a></li>
-<li><a class="reference internal" href="#rotate" id="id6">Rotate</a></li>
-<li><a class="reference internal" href="#scale" id="id7">Scale</a></li>
+<li><a class="reference internal" href="#rotate" id="id6">旋转</a></li>
+<li><a class="reference internal" href="#scale" id="id7">缩放</a></li>
 <li><a class="reference internal" href="#absolute-and-offset-modes" id="id8">绝对和偏移模式</a></li>
 <li><a class="reference internal" href="#split-normals" id="id9">分割法线</a></li>
 <li><a class="reference internal" href="#average" id="id10">平均</a></li>
 <li><a class="reference internal" href="#restore" id="id11">恢复</a></li>
-<li><a class="reference internal" href="#d-cursor-axis-and-face" id="id12">3D Cursor, Axis and Face</a></li>
+<li><a class="reference internal" href="#d-cursor-axis-and-face" id="id12">3D游标，轴和面</a></li>
 <li><a class="reference internal" href="#copy-paste" id="id13">Copy（复制）/Paste（粘贴）</a></li>
 <li><a class="reference internal" href="#copy-from-mesh" id="id14">从网格复制</a></li>
 </ul>
@@ -250,18 +251,18 @@
 <a class="reference internal image-reference" href="_images/show_normals.gif"><img alt="_images/show_normals.gif" class="align-center" src="_images/show_normals.gif" style="width: 100%;" /></a>
 </div>
 <div class="section" id="rotate">
-<h2><a class="toc-backref" href="#id6">Rotate</a><a class="headerlink" href="#rotate" title="永久链接至标题">¶</a></h2>
+<h2><a class="toc-backref" href="#id6">旋转</a><a class="headerlink" href="#rotate" title="永久链接至标题">¶</a></h2>
 <p>使用这些工具，您可以更改法线的方向。Rotate（旋转）的功能也可通过 Shift+Ctrl+R热键，允许类似于Blender的顶点法线旋转。</p>
 <a class="reference internal image-reference" href="_images/rotate.gif"><img alt="_images/rotate.gif" class="align-center" src="_images/rotate.gif" style="width: 100%;" /></a>
 <p>选择您想要编辑的一个或多个顶点，然后使用圆形视觉操纵器指定他们的法线方向数值。</p>
 <p>Rotate 按钮提供了更简便的方法来操纵法线。旋转在屏幕空间执行。然而，正如任何在Blender的其他旋转，您可在旋转过程中隔离所需的轴 (通过键入 X、 Y 或 Z)。</p>
 </div>
 <div class="section" id="scale">
-<h2><a class="toc-backref" href="#id7">Scale</a><a class="headerlink" href="#scale" title="永久链接至标题">¶</a></h2>
-<p>This function can be used to change the scale of the normals and is available both from the Tool panel and by pressing the <code class="docutils literal"><span class="pre">Shift</span> <span class="pre">+</span> <span class="pre">Ctrl</span> <span class="pre">+</span> <span class="pre">S</span></code> hot keys. The length of a normal can be set with numeric keys, while <code class="docutils literal"><span class="pre">X</span></code>, <code class="docutils literal"><span class="pre">Y</span></code> and <code class="docutils literal"><span class="pre">Z</span></code> keys are used to set the coordinate axis along which the normal is scaled.</p>
+<h2><a class="toc-backref" href="#id7">缩放</a><a class="headerlink" href="#scale" title="永久链接至标题">¶</a></h2>
+<p>此函数可以用来改变法线的缩放，并可从工具面板和通过按 <code class="docutils literal"><span class="pre">Shift</span> <span class="pre">+</span> <span class="pre">Ctrl</span> <span class="pre">+</span> <span class="pre">S</span></code> 快捷键。法线的长度可以用数字键设置，<code class="docutils literal"><span class="pre">X</span></code>, <code class="docutils literal"><span class="pre">Y</span></code> 和 <code class="docutils literal"><span class="pre">Z</span></code> 键用于设置沿着法线的哪个坐标轴进行缩放。</p>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
-<p class="last">Keep in mind that the visible length of any normal never changes and is always defined by the <code class="docutils literal"><span class="pre">Size</span></code> parameter.</p>
+<p class="last">请记住，任何法线的可见长度不会改变，总是由  <code class="docutils literal"><span class="pre">大小</span></code>  参数定义。</p>
 </div>
 </div>
 <div class="section" id="absolute-and-offset-modes">
@@ -298,13 +299,13 @@
 <p>为了还原到其原始(根据面的法线计算)的法线的方向，您需要选择所需的顶点，然后单击 Restore 按钮。</p>
 </div>
 <div class="section" id="d-cursor-axis-and-face">
-<h2><a class="toc-backref" href="#id12">3D Cursor, Axis and Face</a><a class="headerlink" href="#d-cursor-axis-and-face" title="永久链接至标题">¶</a></h2>
-<p>The <code class="docutils literal"><span class="pre">3D</span> <span class="pre">Cursor</span></code> button directs the normals of the selected vertices away from the 3D cursor or toward it (if the <code class="docutils literal"><span class="pre">Towards</span></code> parameter in the <code class="docutils literal"><span class="pre">Vertex</span> <span class="pre">Normal</span> <span class="pre">Cursor</span></code> panel is enabled). The <code class="docutils literal"><span class="pre">Axis</span></code> button directs the normals of the vertices along a coordinate axis (the axis can be selected in the same <code class="docutils literal"><span class="pre">Vertex</span> <span class="pre">Normal</span> <span class="pre">Cursor</span></code> panel). The <code class="docutils literal"><span class="pre">Face</span></code> button directs the normals of the selected face parallel to the normal of this face.</p>
+<h2><a class="toc-backref" href="#id12">3D游标，轴和面</a><a class="headerlink" href="#d-cursor-axis-and-face" title="永久链接至标题">¶</a></h2>
+<p><code class="docutils literal"><span class="pre">3D</span> <span class="pre">游标</span></code> 按钮可将所选顶点的法线远离3D游标或向其移动（如果 <code class="docutils literal"><span class="pre">顶点法线光标</span></code> 面板中的 <code class="docutils literal"><span class="pre">Towards</span></code>  参数已启用）。  <code class="docutils literal"><span class="pre">轴</span></code> 按钮将沿着坐标轴引导顶点的法线（该轴可以在同一个 <code class="docutils literal"><span class="pre">顶点法线光标</span></code> 面板中选择）。  <code class="docutils literal"><span class="pre">面</span></code> 按钮将所选面的法线平行于该面的法线。</p>
 <a class="reference internal image-reference" href="_images/3dcursor.gif"><img alt="_images/3dcursor.gif" class="align-center" src="_images/3dcursor.gif" style="width: 100%;" /></a>
-<p>In order to use the <code class="docutils literal"><span class="pre">3D</span> <span class="pre">Cursor</span></code> function, select the desired vertices and place the 3D cursor in the desired position. Then click the <code class="docutils literal"><span class="pre">3D</span> <span class="pre">Cursor</span></code> button so all the selected vertices will turn their direction away from the cursor, as if they were shot from one point. Then you may check the <code class="docutils literal"><span class="pre">Towards</span></code> option in the <code class="docutils literal"><span class="pre">Vertex</span> <span class="pre">Normal</span> <span class="pre">Cursor</span></code> panel, which will make the normals to turn in the direction of the cursor.</p>
-<p>The <code class="docutils literal"><span class="pre">Axis</span></code> function is very easy to use: just select the vertices and press the button, so the function will direct their normals along the coordinate axis set in the <code class="docutils literal"><span class="pre">Vertex</span> <span class="pre">Normal</span> <span class="pre">Cursor</span></code> panel (Z axis is selected by default) or away from it, if you disable the <code class="docutils literal"><span class="pre">Towards</span></code> parameter on the same panel.</p>
-<p>In order to direct the normals parallel to the face normal, just select the desired face (or several faces) and click the <code class="docutils literal"><span class="pre">Face</span></code> button. The normals of the vertices which form the face will be directed parallel to the face normal. This function works only with one selected face at a time.</p>
-<p>The <code class="docutils literal"><span class="pre">3D</span> <span class="pre">Cursor</span></code>, <code class="docutils literal"><span class="pre">Axis</span></code> and <code class="docutils literal"><span class="pre">Face</span></code> operators also possess the <code class="docutils literal"><span class="pre">Factor</span></code> parameter which is used to mix the initial position of the normals with the resulting position. The default value of this parameter is 1.0 (the resulting position is used).</p>
+<p>为了使用 <code class="docutils literal"><span class="pre">3D</span> <span class="pre">游标</span></code> 功能，选择所需的顶点，并将3D光标放置在所需位置。然后单击 <code class="docutils literal"><span class="pre">3D</span> <span class="pre">游标</span></code> 按钮，所有所选的顶点将其方向转离光标，就像从一个点发射出来一样。然后，您可以检查 <code class="docutils literal"><span class="pre">顶点法线光标</span></code> 面板中的  <code class="docutils literal"><span class="pre">Towards</span></code> 选项，这将使法线朝向光标方向。</p>
+<p><code class="docutils literal"><span class="pre">轴</span></code> 功能非常容易使用：只需选择顶点并按下按钮，该功能将沿着  <code class="docutils literal"><span class="pre">顶点法线光标</span></code> 面板中设置的坐标轴引导其法线（Z轴被默认选定）或远离它，如果您禁用同一面板上的  <code class="docutils literal"><span class="pre">Towards</span></code> 参数。</p>
+<p>为了使法线平行于面法线，只需选择所需的面（或多个面），然后单击 <code class="docutils literal"><span class="pre">面</span></code> 按钮。形成面的顶点的法线将平行于面法线。此功能一次只能与一个选定的面一起使用。</p>
+<p><code class="docutils literal"><span class="pre">3D游标</span></code>, <code class="docutils literal"><span class="pre">轴</span></code> 和 <code class="docutils literal"><span class="pre">面</span></code> 操作符也具有 <code class="docutils literal"><span class="pre">因子</span></code> 参数，用于将初始位置与结果位置的法线混合。此参数的默认值为1（使用结果位置）。</p>
 </div>
 <div class="section" id="copy-paste">
 <h2><a class="toc-backref" href="#id13">Copy（复制）/Paste（粘贴）</a><a class="headerlink" href="#copy-paste" title="永久链接至标题">¶</a></h2>
@@ -341,7 +342,7 @@
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2017, Triumph.
-      最后更新于 2017-06-30.
+      最后更新于 2017-08-31.
 
     </p>
   </div>
@@ -397,7 +398,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.06',
+            VERSION:'v17.08',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

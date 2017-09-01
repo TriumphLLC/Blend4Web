@@ -21,7 +21,6 @@
 #var STATIC_BATCH 0
 #var WIND_BEND 0
 #var BEND_CENTER_ONLY 0
-#var BILLBOARD_PRES_GLOB_ORIENTATION 0
 #var BILLBOARD 0
 #var BILLBOARD_JITTERED 0
 #var DYNAMIC_GRASS 0
@@ -284,13 +283,7 @@ void main(void) {
 
 #if BILLBOARD
     vec3 wcen = tsr9_transform(model_tsr, center);
-
-# if BILLBOARD_PRES_GLOB_ORIENTATION && !STATIC_BATCH
-    model_tsr = billboard_tsr_global(u_camera_eye, wcen,
-            view_tsr, model_tsr);
-# else
-    model_tsr = billboard_tsr(u_camera_eye, wcen, view_tsr);
-# endif
+    model_tsr = billboard_tsr(u_camera_eye, wcen, view_tsr, model_tsr);
 
 # if WIND_BEND && BILLBOARD_JITTERED
     model_tsr = bend_jitter_rotate_tsr(u_wind, u_time,

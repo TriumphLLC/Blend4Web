@@ -40,15 +40,15 @@ var _mat3_tmp = new Float32Array(9);
 var _mat3_tmp2 = new Float32Array(9);
 var _mat3_tmp3 = new Float32Array(9);
 
-var ELL_EPS = 0.000000001;
+var ELL_EPS = 0.001;
 var MATRIX_PRES = 0.0005;
-var MIN_SEMIAXIS_LEN = 0.00000001;
+var MIN_SEMIAXIS_LEN = ELL_EPS / 2;
 
 exports.init_boundings = function() {
     return {
         bb: create_bb(),
         be: create_be(),
-        bs: create_bs(),
+        bs: create_bs()
     }
 }
 
@@ -560,6 +560,7 @@ exports.create_be_by_bb = create_be_by_bb;
 function create_be_by_bb(points, use_rotation) {
 
     var center = m_math.calk_average_position(points, _vec3_tmp4);
+
     if (use_rotation)
         var cov_matrix = m_math.calc_covariance_matrix(points, center, _mat3_tmp2);
     else
@@ -622,6 +623,7 @@ function create_be_by_bb(points, use_rotation) {
     scale_mat[0] = a != 0.0 ? 1 / a : 1 / MIN_SEMIAXIS_LEN;
     scale_mat[4] = b != 0.0 ? 1 / b : 1 / MIN_SEMIAXIS_LEN;
     scale_mat[8] = c != 0.0 ? 1 / c : 1 / MIN_SEMIAXIS_LEN;
+
     m_mat3.transpose(t_mat, _mat3_tmp3);
     // transform vertex set into cube
 

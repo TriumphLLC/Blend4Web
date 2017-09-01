@@ -178,12 +178,15 @@ class B4W_ObjectRenderProps(ObjectButtonsPanel, Panel):
 
         if is_mesh or obj.type == "EMPTY":
             row.prop(obj, "b4w_do_not_batch", text=_("Force Dynamic Object"))
-        
+
         if is_mesh:
             row = layout.row()
-            row.active = not obj.b4w_do_not_render
-            row.prop(obj, "b4w_do_not_cull", text=_("Disable Frustum Culling"))
-            row.prop(obj, "b4w_dynamic_geometry", text=_("Dynamic Geometry & Materials"))
+            col = row.column()
+            col.active = not obj.b4w_do_not_render
+            col.enabled = not obj.b4w_do_not_render
+            col.prop(obj, "b4w_do_not_cull", text=_("Disable Frustum Culling"))
+            col = row.column()
+            col.prop(obj, "b4w_dynamic_geometry", text=_("Dynamic Geometry & Materials"))
         elif obj.type == "EMPTY":
             row = layout.row()
             row.prop(obj, "b4w_line_renderer", text=_("Line Renderer"))
@@ -236,7 +239,7 @@ class B4W_ObjectBillboard(ObjectButtonsPanel, Panel):
         layout.active = obj.b4w_billboard
 
         layout.prop(obj, "b4w_pres_glob_orientation",
-                text=_("Preserve Global Rotation and Scale"))
+                text=_("Preserve Global Rotation"))
         row = layout.row()
         row.label(text=_("Type:"))
         row.prop(obj, "b4w_billboard_geometry", expand=True)

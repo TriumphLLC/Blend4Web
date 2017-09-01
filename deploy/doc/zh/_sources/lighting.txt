@@ -166,23 +166,20 @@
    选择环境照明模拟的方法: "White" - 平照明，"Sky Color" - 半球模型，
    "Sky Texture" - 照明使用的 环境贴图 。默认值是白色。
 
-*World > Horizon Color* and *World > Zenith Color*
+*World > Horizon Color* 和 *World > Zenith Color*
    如果选择了半球模型 ("Sky Color")  可以通过 "World > Horizon Color"
    和 "World > Zenith Color"  颜色选取器指定的地平线和天顶角变化的颜色
    。建议以激活 "World > Blend Sky" 选项为更好的颜色选择。
 
-*World > Use Nodes (Cycles)*
-   If this option is enabled, "Cycles" nodes can be used to set up the
-   environment. Disabled by default.
+*世界 > 使用节点 （Cycles）*
+   如果启用此选项， "Cycles" 节点可以用于设置环境。默认为禁用。
 
-*World > Reflect World*
-   If this parameter is enabled, environment will also be rendered for
-   reflections (i.e., it will be reflected by mirror surfaces).
-   Disabled by default.
+*世界 > 反射世界*
+   如果启用此参数，则环境也会在反射中被渲染 （环境能由镜面反射）。默认
+   为禁用。
 
-*World > Render Only Reflection*
-   If this parameter is enabled, environment will be rendered for
-   reflections, but not for the scene itself. Disabled by default.
+*世界 > 仅渲染反射*
+   如果启用此参数，则将渲染环境的反射，而不是场景本身。默认为禁用。
 
 
 环境贴图方法

@@ -46,7 +46,7 @@ def process_dist_list(dist_path, dist_root, version, force):
     print("Creating a distribution archive from " + str(dist_path))
 
     try:
-        dist_file = open(dist_path, "r")
+        dist_file = open(dist_path, "r", encoding="utf-8")
         dist = dist_file.read()
         dist_file.close()
     except:
@@ -164,7 +164,7 @@ def zip_str(zfile, path, data):
 
 def get_code_text(path):
     try:
-        fp = open(path, "r")
+        fp = open(path, "r", encoding="utf-8")
     except IOError:
         print("Source file not found: " + path)
         exit(1)
@@ -174,7 +174,7 @@ def get_code_text(path):
 
 def get_license_text_lines(license_path):
     try:
-        lic_fp = open(license_path, "r")
+        lic_fp = open(license_path, "r", encoding="utf-8")
     except IOError:
         print("License file not found: " + license_path)
         exit(1)
@@ -262,7 +262,7 @@ def find_file_path(path, pos_patterns):
 def index_cleanup(index_path, basename_dist, version):
 
     try:
-        fp = open(index_path, "r")
+        fp = open(index_path, "r", encoding="utf-8")
     except IOError:
         print("Index file not found: " + index_path)
         exit(1)

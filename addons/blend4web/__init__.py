@@ -17,9 +17,9 @@
 bl_info = {
     "name": "Blend4Web",
     "author": "Blend4Web Development Team",
-    "version": (17, 6, 0),
+    "version": (17, 8, 0),
     "blender": (2, 78, 0),
-    "b4w_format_version": "6.02",
+    "b4w_format_version": "6.03",
     "location": "File > Import-Export",
     "description": "Tool for interactive 3D visualization on the Internet",
     "warning": "",

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 15.6.0 (0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-22 16:26+0300\n"
+"POT-Creation-Date: 2017-08-30 15:23+0300\n"
 "PO-Revision-Date: 2016-03-11 18:29+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -61,7 +61,7 @@ msgid "AA Quality"
 msgstr "Качество антиалиасинга"
 
 msgid "ALL"
-msgstr ""
+msgstr "ВСЕ"
 
 msgid "API Reference"
 msgstr "Документация разработчика"
@@ -94,6 +94,10 @@ msgctxt "Operator"
 msgid "Add"
 msgstr "Добавить"
 
+msgctxt "Operator"
+msgid "Add Animation"
+msgstr "Добавить анимацию"
+
 msgid "Add Socket"
 msgstr "Добавить слот"
 
@@ -101,12 +105,8 @@ msgid "Add animation"
 msgstr "Добавить анимацию"
 
 msgctxt "Operator"
-msgid "Add animation"
-msgstr "Добавить анимацию"
-
-msgctxt "Operator"
 msgid "Add dynamic jump socket"
-msgstr ""
+msgstr "Добавить сокет"
 
 msgid "Add new logic node tree"
 msgstr "Добавить новое логическое дерево"
@@ -172,7 +172,9 @@ msgid "Allow skeletal animations to be mixed with each other"
 msgstr "Разрешить смешивать скелетную анимацию с другими"
 
 msgid "Allow to use geometry update API and inherit materials for the object"
-msgstr "Разрешить использование API для обновления геометрии и наследования материалов этим объектом"
+msgstr ""
+"Разрешить использование API для обновления геометрии и наследования "
+"материалов этим объектом"
 
 msgid "Amount of time to increase gain by 10 dB"
 msgstr "Количество времени для повышения громкости на 10 дБ"
@@ -220,7 +222,7 @@ msgid "Anisotropic Filtering"
 msgstr "Анизотропная фильтрация"
 
 msgid ""
-"Anisotropic filtering for all textures. May be overriden by individual "
+"Anisotropic filtering for all textures. May be overridden by individual "
 "textures"
 msgstr ""
 "Анизотропная фильтрация для всех текстур. Может быть переопределена для "
@@ -235,7 +237,7 @@ msgstr "Аннотация"
 msgid "Anti-Aliasing"
 msgstr "Антиалиасинг"
 
-msgid "Antialiasing quality"
+msgid "Anti-Aliasing quality"
 msgstr "Качество антиалиасинга"
 
 msgid "Apply Default Animation"
@@ -313,7 +315,7 @@ msgid "Average"
 msgstr "Усреднить"
 
 msgid "Average Luminance"
-msgstr "Усреднить нормали"
+msgstr "Средняя освещённость"
 
 msgctxt "Operator"
 msgid "Average Normals"
@@ -410,7 +412,8 @@ msgid "B4W: DOF foreground blur"
 msgstr "B4W: Глубина резкости: размытие переднего плана"
 
 msgid "B4W: DOF front full strength distance"
-msgstr "B4W: Глубина резкости: расстояние до передней плоскости полного размытия"
+msgstr ""
+"B4W: Глубина резкости: расстояние до передней плоскости полного размытия"
 
 msgid "B4W: DOF front start distance"
 msgstr "B4W: Глубина резкости: расстояние до передней границы"
@@ -1012,7 +1015,7 @@ msgstr "B4W: Шаг параллакса"
 msgid "B4W: particle softness"
 msgstr "B4W: Мягкость частиц"
 
-msgid "B4W: preserve global orientation and scale"
+msgid "B4W: preserve global orientation"
 msgstr "B4W: Сохранить глобальную ориентацию и масштаб"
 
 msgid "B4W: procedural skydome"
@@ -1318,12 +1321,11 @@ msgstr "Фоновый источник звука"
 msgid "Bad Message field!"
 msgstr "Поле Message пусто"
 
-msgid "Bad object field!"
-msgstr "Неправильное поле объекта"
+msgid "Bad Object field!"
+msgstr "Некорректное поле Объект!"
 
-#, python-format
-msgid "Bad object field: '%s'"
-msgstr "Не указан объект: '%s'"
+msgid "Bad Object field:"
+msgstr "Некорректное поле Объект:"
 
 msgid "Bad speaker field!"
 msgstr "Не указан источник звука"
@@ -1361,7 +1363,8 @@ msgid "Bake finish"
 msgstr "Конец запекания"
 
 msgid "Bake only deform bones or bones with deform children"
-msgstr "Запекать только деформированные кости или кости с деформированными потомками"
+msgstr ""
+"Запекать только деформированные кости или кости с деформированными потомками"
 
 msgid "Bake start"
 msgstr "Начало запекания"
@@ -1421,6 +1424,9 @@ msgstr "Размыть границы каскадов"
 msgid "Blend4Web (.html)"
 msgstr "Blend4Web (.html)"
 
+msgid "Blend4Web Logic"
+msgstr "Нодовая логика Blend4Web"
+
 msgid "Blend4Web Manual"
 msgstr "Руководство Пользователя"
 
@@ -1431,17 +1437,13 @@ msgctxt "Operator"
 msgid "Blend4Web initialization error!"
 msgstr "Ошибка инициализации Blend4Web!"
 
-msgid "Blend4Web logic"
-msgstr "Blend4Web логика"
-
 msgid "Blend4Web logic nodes"
 msgstr "Blend4Web логические ноды"
 
 #, python-format
 msgid ""
-"Blender %s is recommended for the Blend4Web addon. Current version is %s"
+"Blender %s is recommended for the Blend4Web add-on. Current version is %s"
 msgstr ""
-"Для аддона Blend4Web рекомендуется использовать Blender %s. Текущая версия: %s"
 
 msgid "Blending Height"
 msgstr "Высота сглаживания"
@@ -1475,8 +1477,8 @@ msgstr "Кол-во сэмплов размытия"
 msgid "Blur depth discard value"
 msgstr "Влияние разницы глубины сэмплов на их вес в размытии."
 
-msgid "Blur foregriund silhouettes"
-msgstr "Размывать границы объектов переднего плана"
+msgid "Blur foreground silhouettes"
+msgstr "Размытие переднего плана"
 
 msgid "Boat's bob"
 msgstr "Плавающий объект"
@@ -1491,7 +1493,7 @@ msgid "Border"
 msgstr "Граница"
 
 msgid "Bottom"
-msgstr ""
+msgstr "Снизу"
 
 msgid "Bottom edge"
 msgstr "Нижняя граница"
@@ -1611,10 +1613,10 @@ msgid "Camera Velocities:"
 msgstr "Скорость движения камеры"
 
 msgid "Camera horizontal limits space"
-msgstr ""
+msgstr "Пространство отсчета горизонтальных лимитов камеры"
 
 msgid "Camera horizontal rotation limits space"
-msgstr ""
+msgstr "Пространство отсчета лимитов горизонтального вращения камеры"
 
 msgid "Camera movement style"
 msgstr "Стиль движения камеры"
@@ -1626,10 +1628,10 @@ msgid "Camera target location for 'TARGET' camera"
 msgstr "Положение целевой точки для камеры типа 'Цель'"
 
 msgid "Camera vertical limits space"
-msgstr ""
+msgstr "Пространство отсчета вертикальных лимитов камеры"
 
 msgid "Camera vertical rotation limits space"
-msgstr ""
+msgstr "Пространство отсчета лимитов вертикального вращения камеры"
 
 msgid "Camera:"
 msgstr "Камера:"
@@ -1653,7 +1655,7 @@ msgid "Caustics"
 msgstr "Каустика"
 
 msgid "Center"
-msgstr ""
+msgstr "Центр"
 
 msgid "Character"
 msgstr "Персонаж"
@@ -1679,8 +1681,8 @@ msgstr "Колеса"
 msgid "Check For Updates on Startup"
 msgstr "Проверять на наличие обновлений при запуске"
 
-msgid "Check for new addon version"
-msgstr "Проверить наличие новой версии аддона"
+msgid "Check for new add-on version"
+msgstr "Проверять наличие новой версии аддона"
 
 msgid "Check for updates"
 msgstr "Проверить наличие новой версии аддона"
@@ -1741,7 +1743,8 @@ msgid ""
 "bounding box. 0.0 disables non-lods clustering."
 msgstr ""
 "Размер кластера в метрах. Задаёт максимальную длину ребра ограничивающего "
-"куба для кластера. Значение 0.0 отключает использование кластеров для не-LOD-объектов."
+"куба для кластера. Значение 0.0 отключает использование кластеров для не-LOD-"
+"объектов."
 
 msgid "Coefficient of the jittering amplitude for the billboard"
 msgstr "Коэффициент амплитуды дрожания для билборда"
@@ -1788,7 +1791,7 @@ msgstr "Сравнить"
 msgid "Compound"
 msgstr "Часть целого"
 
-msgid "Compressor settings:"
+msgid "Compressor Settings:"
 msgstr "Настройки компрессора:"
 
 msgid "Condition"
@@ -1846,7 +1849,7 @@ msgid "Contain velocities"
 msgstr "Содержит скорости"
 
 msgid "Content-Type:"
-msgstr ""
+msgstr "Content-Type:"
 
 msgid "Contrast"
 msgstr "Контраст"
@@ -1929,7 +1932,7 @@ msgid "Cyclic Play"
 msgstr "Проигрывать циклично"
 
 msgid "Cylindrical"
-msgstr "Использовать цилиндрическую систему координат"
+msgstr "Цилиндрически"
 
 msgid "Cylindrical billboarding"
 msgstr "Цилиндрический билбординг"
@@ -1942,6 +1945,9 @@ msgstr "DVar"
 
 msgid "Damping:"
 msgstr "Затухание:"
+
+msgid "Date & Time"
+msgstr "Дата и время"
 
 msgid "Debug"
 msgstr "Отладка"
@@ -2165,7 +2171,7 @@ msgid "Double-Sided Lighting"
 msgstr "Двустороннее освещение"
 
 msgid "Down"
-msgstr ""
+msgstr "Вниз"
 
 msgid "Down Angle"
 msgstr "Нижний угол"
@@ -2204,7 +2210,7 @@ msgid "Dynamic water surface"
 msgstr "Динамическая водная поверхность"
 
 msgid "ENCODE"
-msgstr ""
+msgstr "ENCODE"
 
 msgid "ENVIRONMENT_LIGHTING"
 msgstr "ОСВЕЩЕНИЕ ОКРУЖЕНИЯ"
@@ -2225,6 +2231,12 @@ msgstr "Редактировать дупли уровень объекта"
 msgid "Edit split normals"
 msgstr "Отредактировать разделенные нормали"
 
+msgid "Elapsed"
+msgstr "Прошедшее с пред. кадра"
+
+msgid "Elapsed time"
+msgstr "Время, прошедшее с предыдущего кадра"
+
 msgid "Ellipsoids"
 msgstr "Эллипсоиды"
 
@@ -2244,7 +2256,7 @@ msgid "Emitter's coordinate system"
 msgstr "Система координат эмиттера"
 
 msgid "Empty"
-msgstr ""
+msgstr "Пустышка"
 
 msgid "Empty node for rerouting"
 msgstr "Пустая нода для переадресации"
@@ -2258,8 +2270,8 @@ msgid ""
 "\"Vertical\""
 msgstr ""
 "Включить \"World Space Shading\", переключить режим материала на \"GLSL\", "
-"переключить метод затенения в 3D-виде на \"Material\", установить режим подгонки "
-"сенсора активной камеры на \"Vertical\"."
+"переключить метод затенения в 3D-виде на \"Material\", установить режим "
+"подгонки сенсора активной камеры на \"Vertical\"."
 
 msgid "Enable Anchor"
 msgstr "Включить якоря"
@@ -2271,7 +2283,10 @@ msgid "Enable CSM"
 msgstr "Каскады теней"
 
 msgid "Enable Doppler"
-msgstr "Эффект Допплера"
+msgstr "Эффект Доплера"
+
+msgid "Enable Doppler effect"
+msgstr "Включить эффект Доплера"
 
 msgid "Enable External Requests"
 msgstr "Разрешить внешние запросы"
@@ -2377,9 +2392,6 @@ msgstr "Включить тэги"
 msgid "Enable the \"World Background\" option in 3D VIEW panels"
 msgstr "Включить опцию \"World Background\" на панели 3D VIEW"
 
-msgid "Enable the Doppler effect"
-msgstr "Включить эффект Допплера"
-
 msgid "Enable various limits to set up camera zooming behaviour."
 msgstr "Активировать различные ограничители для контроля приближения камеры."
 
@@ -2476,9 +2488,6 @@ msgstr "Грань"
 
 msgid "Factor"
 msgstr "Множитель"
-
-msgid "Factor of strengh applied to the floating object"
-msgstr "Фактор силы, примененной к плавающим объектам"
 
 msgid "Factor of strength applied to the floating object"
 msgstr "Сила плавучести объекта"
@@ -2664,7 +2673,7 @@ msgid "From"
 msgstr "От"
 
 msgid "Front End"
-msgstr ""
+msgstr "Ближ. конец"
 
 msgid "Front Left Wheel"
 msgstr "Переднее левое колесо"
@@ -2673,13 +2682,13 @@ msgid "Front Right Wheel"
 msgstr "Переднее правое колесо"
 
 msgid "Front Start"
-msgstr ""
+msgstr "Ближ. начало"
 
 msgid "GET"
-msgstr ""
+msgstr "GET"
 
 msgid "GET Request"
-msgstr ""
+msgstr "GET-запрос"
 
 msgid "General:"
 msgstr "Общие:"
@@ -2699,6 +2708,9 @@ msgstr "Форма:"
 msgid "Get Timeline"
 msgstr "Выбрать таймлайн"
 
+msgid "Get current date & time"
+msgstr "Получить текущую дату и время"
+
 msgid "Get description from file"
 msgstr "Получить описание из файла"
 
@@ -2712,7 +2724,7 @@ msgid "Ghost"
 msgstr "Призрак"
 
 msgid "Global"
-msgstr ""
+msgstr "Глобально"
 
 msgid "Global Variables"
 msgstr "Глобальные переменные"
@@ -2928,18 +2940,21 @@ msgid "Item type"
 msgstr "Тип уровня"
 
 msgid "JS Callback"
-msgstr ""
+msgstr "JS вызов"
 
 msgctxt "Operator"
 msgid "JS callback params add item"
-msgstr ""
+msgstr "JS callback - добавить пункт"
 
 msgctxt "Operator"
 msgid "JS callback params remove item"
-msgstr ""
+msgstr "JS callback - удалить пункт"
 
 msgid "JSON"
-msgstr ""
+msgstr "JSON"
+
+msgid "JSON Operation"
+msgstr "Операция над JSON"
 
 msgid "JSON operation"
 msgstr "Операция над JSON"
@@ -3008,7 +3023,7 @@ msgid "Leaves Stiffness (R)"
 msgstr "Жесткость Листвы (R)"
 
 msgid "Left"
-msgstr ""
+msgstr "Слева"
 
 msgid "Left Angle"
 msgstr "Влево"
@@ -3063,6 +3078,9 @@ msgstr "Локальный"
 
 msgid "Local space"
 msgstr "Локальное пространство координат"
+
+msgid "Local time"
+msgstr "Местное время"
 
 msgid "Location:"
 msgstr "Местоположение:"
@@ -3269,8 +3287,8 @@ msgstr "Фактор рассеяния Ми"
 msgid "Mie collection power"
 msgstr "Степень рассеяния Ми"
 
-msgid "Mie disturbtion"
-msgstr "Яркость Ми"
+msgid "Mie distribution"
+msgstr "Распределение рассеяния Ми"
 
 msgid "Min"
 msgstr "Мин."
@@ -3387,7 +3405,7 @@ msgid "NLA available NodeTrees"
 msgstr "NLA доступное нодовое дерево"
 
 msgid "NON-OPAQUE"
-msgstr ""
+msgstr "ПРОЗРАЧНЫЕ"
 
 msgid "NONE"
 msgstr "Отсутствует"
@@ -3404,8 +3422,8 @@ msgstr "Ближайшие вершины"
 msgid "Negative"
 msgstr "Инвертировать"
 
-msgid "Neighbouring cascades will be blended with each other"
-msgstr "Границы соседних каскадов будут смешиваться друг с другом"
+msgid "Neighboring cascades will be blended with each other"
+msgstr "Соседние каскады будут смешиваться друг с другом"
 
 msgid "Network"
 msgstr "Сеть"
@@ -3439,7 +3457,7 @@ msgid "No animation data"
 msgstr "Отсутствуют анимация"
 
 msgid "No child elements"
-msgstr "Нету дочерних элементов"
+msgstr "Нет дочерних элементов"
 
 msgid "No editable parameters available"
 msgstr "Нет доступных редактируемых параметров"
@@ -3451,13 +3469,13 @@ msgid "No operation"
 msgstr "Не производить никаких операций"
 
 msgid "No path from Entry point!"
-msgstr "Нету пути из входной точки!"
+msgstr "Нет пути из входной точки!"
 
 msgid "No shape key source"
 msgstr "Нет источник ключей формы"
 
 msgid "No var source"
-msgstr "Нету источника перем."
+msgstr "Нет источника перем."
 
 msgid "Node field is not correct!"
 msgstr "Поле ноды некорректно!"
@@ -3665,7 +3683,7 @@ msgid "Objects small glow mask width"
 msgstr "Ширина малой маски свечения"
 
 msgid "Offset sign"
-msgstr ""
+msgstr "Знак смещения"
 
 msgid "One-sided billboarding with jittering"
 msgstr "Односторонний билбординг с дрожанием"
@@ -3760,7 +3778,7 @@ msgstr ""
 "значений"
 
 msgid "PARSE"
-msgstr ""
+msgstr "PARSE"
 
 msgid "PCF blur radius for the first cascade"
 msgstr "Радиус размытия первого каскада"
@@ -3772,10 +3790,10 @@ msgid "PLAY"
 msgstr "ИГРАТЬ"
 
 msgid "POST"
-msgstr ""
+msgstr "POST"
 
 msgid "POST Request"
-msgstr ""
+msgstr "POST-запрос"
 
 msgid "Page Param"
 msgstr "Параметры страницы"
@@ -3815,11 +3833,11 @@ msgstr "Декодировать json"
 
 msgctxt "Operator"
 msgid "Parse json list add item"
-msgstr ""
+msgstr "Декодировать JSON - добавить пункт"
 
 msgctxt "Operator"
 msgid "Parse json list remove item"
-msgstr ""
+msgstr "Декодировать JSON - удалить пункт"
 
 msgid "Part"
 msgstr "Часть"
@@ -3854,7 +3872,7 @@ msgid "Path to SDK"
 msgstr "Путь до SDK"
 
 msgid "Perform a JSON operation"
-msgstr ""
+msgstr "Произвести операцию над JSON-объектом"
 
 msgid "Perform a math operation"
 msgstr "Произвести математическую операцию"
@@ -3947,11 +3965,11 @@ msgstr "Позиционный источник звука"
 msgid "Power"
 msgstr "Степень"
 
-msgid "Preserve Global Rotation and Scale"
-msgstr "Сохранить поворот и масштаб в глобальной системе координат"
+msgid "Preserve Global Rotation"
+msgstr "Сохранить поворот в глобальной системе координат"
 
-msgid "Preserve global orientation and scale for billboard object"
-msgstr "Сохранить глобальную ориентацию и масштаб для объекта-билборда"
+msgid "Preserve global orientation for billboard object"
+msgstr "Сохранить глобальную ориентацию для объекта-билборда"
 
 msgid "Prevent object to be fogged in"
 msgstr "Предотвратить затуманивание объекта"
@@ -4061,10 +4079,10 @@ msgid "Real-Time Reflections"
 msgstr "Отражения"
 
 msgid "Rear End"
-msgstr ""
+msgstr "Дальн. конец"
 
 msgid "Rear Start"
-msgstr ""
+msgstr "Дальн. начало"
 
 msgid "Receive Shadows "
 msgstr "Принимать тень"
@@ -4084,11 +4102,11 @@ msgstr "Отражение"
 msgid "Reflect World"
 msgstr "Отражать мир"
 
+msgid "Reflection Inheritance"
+msgstr "Наследование отражений"
+
 msgid "Reflection Plane:"
 msgstr "Плоскость отражения:"
-
-msgid "Reflection inheritance"
-msgstr "Наследование отражений"
 
 msgid "Reflection plane index used in the interface"
 msgstr "Индекс отражающей плоскости, использующийся в интерфейсе"
@@ -4156,19 +4174,23 @@ msgid "Remove"
 msgstr "Удалить"
 
 msgctxt "Operator"
-msgid "Remove Constraint"
-msgstr "Удалить ограничитель"
-
-msgid "Remove animation"
+msgid "Remove Animation"
 msgstr "Убрать анимацию"
 
 msgctxt "Operator"
+msgid "Remove Constraint"
+msgstr "Удалить ограничитель"
+
+msgctxt "Operator"
+msgid "Remove Variable"
+msgstr "Удалить переменную"
+
 msgid "Remove animation"
 msgstr "Убрать анимацию"
 
 msgctxt "Operator"
 msgid "Remove dynamic jump socket"
-msgstr ""
+msgstr "Добавить сокет"
 
 msgid "Remove existing vertex animation"
 msgstr "Удалить вертексную анимацию"
@@ -4179,11 +4201,8 @@ msgstr "Удалить логическое дерево"
 msgid ""
 "Remove standalone Blend4Web add-on (if installed) and install Blend4Web SDK."
 msgstr ""
-"Удалить независимый аддон Blend4Web (если он установлен) и установить Blend4Web SDK."
-
-msgctxt "Operator"
-msgid "Remove variable"
-msgstr "Удалить переменную"
+"Удалить независимый аддон Blend4Web (если он установлен) и установить "
+"Blend4Web SDK."
 
 msgctxt "Operator"
 msgid "Remove vertex animation"
@@ -4223,8 +4242,8 @@ msgid ""
 "Render reflections for scene objects with 'Reflective' and 'Reflexible' "
 "properties enabled"
 msgstr ""
-"Рассчитывать отражения для объектов сцены со включенными опциями 'Reflective' "
-"и 'Reflexible'"
+"Рассчитывать отражения для объектов сцены со включенными опциями "
+"'Reflective' и 'Reflexible'"
 
 msgid "Render refractions for the scene objects"
 msgstr "Отображать преломление для объектов сцены"
@@ -4290,7 +4309,7 @@ msgid "Restore normals from vertices"
 msgstr "Восстановить исходные нормали вершин"
 
 msgid "Right"
-msgstr ""
+msgstr "Справа"
 
 msgid "Right Angle"
 msgstr "Вправо"
@@ -4364,7 +4383,7 @@ msgid "Round"
 msgstr "Округление"
 
 msgid "Run From Script"
-msgstr ""
+msgstr "Запуск из скрипта"
 
 msgid "Run Speed"
 msgstr "Скорость бега"
@@ -4380,7 +4399,7 @@ msgstr "Запускать при старте"
 
 msgctxt "Operator"
 msgid "SDK Index"
-msgstr ""
+msgstr "Главная страница SDK"
 
 msgid "SKYDOME"
 msgstr "НЕБЕСНЫЙ КУПОЛ"
@@ -4433,8 +4452,8 @@ msgid ""
 "Scale parameter for texture warping. Height (e.g. 3 cm) is divided by the "
 "texture covering size (e.g. 1.5 m)"
 msgstr ""
-"Параметр масштаба для смещения текстур. Высота (напр., 3 см) делится на размер "
-"области, покрываемой текстурой (напр., 1.5 м)"
+"Параметр масштаба для смещения текстур. Высота (напр., 3 см) делится на "
+"размер области, покрываемой текстурой (напр., 1.5 м)"
 
 msgid "Scale threshold for dynamic grass"
 msgstr "Порог масштаба для динамической травы"
@@ -4716,7 +4735,7 @@ msgid "Source type"
 msgstr "Тип текстуры"
 
 msgid "Space"
-msgstr ""
+msgstr "Пространство"
 
 msgid "Space type"
 msgstr "Тип системы координат"
@@ -4923,7 +4942,7 @@ msgid "String"
 msgstr "Строка"
 
 msgid "String Operands"
-msgstr ""
+msgstr "Строковые операнды"
 
 msgid "String Operation"
 msgstr "Операция над строками"
@@ -5076,8 +5095,8 @@ msgid ""
 "This coefficient multiplied by the object lod distance specifies the maximum "
 "bounding box diagonal of a cluster."
 msgstr ""
-"Этот коэфф-т, умноженный на дистанцию LOD объекта, задаёт макс. длину диагонали "
-"куба, ограничивающего кластер."
+"Этот коэфф-т, умноженный на дистанцию LOD объекта, задаёт макс. длину "
+"диагонали куба, ограничивающего кластер."
 
 msgid "This collision bounds type is not supported"
 msgstr "Этот тип физических границ не поддерживается"
@@ -5100,11 +5119,17 @@ msgstr "Порог"
 msgid "Time"
 msgstr "Время"
 
+msgid "Time Format:"
+msgstr "Формат времени:"
+
 msgid "Time to end loop point inside the audio buffer (for advanced loops)"
-msgstr ""
+msgstr "Время завершения цикла в рамках аудио буфера"
 
 msgid "Time to start loop point inside the audio buffer (for advanced loops)"
-msgstr ""
+msgstr "Время начала цикла в рамках аудио буфера"
+
+msgid "Time type"
+msgstr "Тип времени"
 
 msgid "Timeline"
 msgstr "Время"
@@ -5120,7 +5145,7 @@ msgid "Toggle Node Mute"
 msgstr "Выключатель нод"
 
 msgid "Top"
-msgstr ""
+msgstr "Сверху"
 
 msgid "Top edge"
 msgstr "Верхняя граница"
@@ -5141,7 +5166,7 @@ msgid "Transform Object"
 msgstr "Трансформировать объект"
 
 msgid "Transform Space"
-msgstr ""
+msgstr "Пространство преобразования"
 
 msgid "Translation"
 msgstr "Перемещение"
@@ -5173,14 +5198,20 @@ msgstr "Тип:"
 msgid "URL field is empty!"
 msgstr "Поле URL пусто!"
 
+msgid "UTC"
+msgstr "UTC"
+
+msgid "UTC time"
+msgstr "UTC время"
+
 msgid "UV Frequency"
 msgstr "Частота UV"
 
 msgid "UV Magnitude"
 msgstr "Амплитуда UV"
 
-msgid "Underwater fog:"
-msgstr "Подводный туман"
+msgid "Underwater Fog:"
+msgstr "Подводный туман:"
 
 msgid "Units"
 msgstr "Единицы"
@@ -5192,7 +5223,7 @@ msgid "Unsupported physics type"
 msgstr "Неподдерживаемый тип физики"
 
 msgid "Up"
-msgstr ""
+msgstr "Вверх"
 
 msgid "Up Angle"
 msgstr "Верхний угол"
@@ -5211,7 +5242,7 @@ msgid "Url:"
 msgstr "Url"
 
 msgid "Use Adaptive"
-msgstr ""
+msgstr "Использовать адаптивный"
 
 msgid "Use Alpha"
 msgstr "С альфа-каналом"
@@ -5279,7 +5310,7 @@ msgid ""
 "Use smooth transitions for objects with non-opaque materials: Add, Alpha "
 "Clip, Alpha Blend, Alpha Sort and Alpha Anti-Aliasing."
 msgstr ""
-"Использовать плавное переключения для объектов с непрозрачными материалами: "
+"Использовать плавное переключения для объектов с прозрачными материалами: "
 "Add, Alpha Clip, Alpha Blend, Alpha Sort и Alpha Anti-Aliasing."
 
 msgid "Use texture as foam on the water surface"
@@ -5295,13 +5326,15 @@ msgstr ""
 msgid ""
 "Using high version of Blend4Web binary module. Blender update is recommended!"
 msgstr ""
-"Вы используете слишком новую версию бинарного модуля Blend4Web. Рекомендуется обновить Blender!"
+"Вы используете слишком новую версию бинарного модуля Blend4Web. "
+"Рекомендуется обновить Blender!"
 
 msgid ""
 "Using low version of Blend4Web binary module. Blend4Web update is "
 "recommended!"
 msgstr ""
-"Вы используете устаревшую версию бинарного модуля Blend4Web. Рекомендуется обновить Blend4Web!"
+"Вы используете устаревшую версию бинарного модуля Blend4Web. Рекомендуется "
+"обновить Blend4Web!"
 
 msgid "Value"
 msgstr "Значение"
@@ -5322,13 +5355,13 @@ msgid "Variable Store"
 msgstr "Поместить значение в переменную"
 
 msgid "Variable URL"
-msgstr ""
+msgstr "URL из переменной"
 
 msgid "Variable name"
 msgstr "Имя переменной"
 
 msgid "Variable parameter"
-msgstr ""
+msgstr "Параметр-переменная"
 
 msgid "Variable type"
 msgstr "Тип переменной"
@@ -5395,11 +5428,11 @@ msgstr "Группы вершин"
 
 msgctxt "Operator"
 msgid "Vertex Normal Axis"
-msgstr ""
+msgstr "Vertex Normal Axis"
 
 msgctxt "Operator"
 msgid "Vertex Normal Cursor"
-msgstr ""
+msgstr "Vertex Normal Cursor"
 
 msgctxt "Operator"
 msgid "Vertex Normal Face"
@@ -5579,19 +5612,19 @@ msgid "Wrong object"
 msgstr "Некорректный объект"
 
 msgid "X"
-msgstr ""
+msgstr "X"
 
 msgid "XY plane"
 msgstr "XY плоскость"
 
 msgid "Y"
-msgstr ""
+msgstr "Y"
 
 msgid "YZ plane"
 msgstr "YZ плоскость"
 
 msgid "Z"
-msgstr ""
+msgstr "Z"
 
 msgid "Z axis"
 msgstr "Ось Z"
@@ -5618,13 +5651,13 @@ msgid "Zoom velocity of the camera"
 msgstr "B4W: Скорость приближения камеры"
 
 msgid "adaptive"
-msgstr ""
+msgstr "adaptive"
 
 msgid "attack"
 msgstr "Атака"
 
 msgid "average_luminance"
-msgstr ""
+msgstr "average_luminance"
 
 msgid "b4w_enable_csm"
 msgstr "Включить CSM"
@@ -5642,7 +5675,7 @@ msgid "blur_discard_value"
 msgstr "Влияние разницы глубины сэмплов на их вес в размытии."
 
 msgid "blur_samples"
-msgstr ""
+msgstr "blur_samples"
 
 msgid "brightness"
 msgstr "Яркость"
@@ -5810,7 +5843,7 @@ msgid "self_shadow_polygon_offset"
 msgstr "Смещение полигонов при самозатенении"
 
 msgid "soft_shadows"
-msgstr ""
+msgstr "soft_shadows"
 
 msgid "spot_brightness"
 msgstr "Яркость солнечного пятна"
@@ -5822,19 +5855,95 @@ msgid "threshold"
 msgstr "Порог"
 
 msgid "update_material_animation"
-msgstr ""
+msgstr "update_material_animation"
 
 msgid "var id"
 msgstr "ID переменной"
 
 msgid "x"
-msgstr ""
+msgstr "x"
 
 msgid "y"
-msgstr ""
+msgstr "y"
 
 msgid "z"
-msgstr ""
+msgstr "z"
+
+#~ msgid "Bad Object field: '%s'"
+#~ msgstr "Некорректное поле Объект: '%s'"
+
+#~ msgctxt "Operator"
+#~ msgid "Add animation"
+#~ msgstr "Добавить анимацию"
+
+#~ msgid ""
+#~ "Anisotropic filtering for all textures. May be overriden by individual "
+#~ "textures"
+#~ msgstr ""
+#~ "Анизотропная фильтрация для всех текстур. Может быть переопределена для "
+#~ "отдельных текстур"
+
+#~ msgid "Antialiasing quality"
+#~ msgstr "Качество антиалиасинга"
+
+#~ msgid "B4W: preserve global orientation and scale"
+#~ msgstr "B4W: Сохранить глобальную ориентацию и масштаб"
+
+#~ msgid "Bad object field!"
+#~ msgstr "Неправильное поле объекта"
+
+#~ msgid "Bad object field: '%s'"
+#~ msgstr "Не указан объект: '%s'"
+
+#~ msgid "Blend4Web logic"
+#~ msgstr "Blend4Web логика"
+
+#~ msgid ""
+#~ "Blender %s is recommended for the Blend4Web addon. Current version is %s"
+#~ msgstr ""
+#~ "Для аддона Blend4Web рекомендуется использовать Blender %s. Текущая "
+#~ "версия: %s"
+
+#~ msgid "Blur foregriund silhouettes"
+#~ msgstr "Размывать границы объектов переднего плана"
+
+#~ msgid "Check for new addon version"
+#~ msgstr "Проверить наличие новой версии аддона"
+
+#~ msgid "Compressor settings:"
+#~ msgstr "Настройки компрессора:"
+
+#~ msgid "Enable the Doppler effect"
+#~ msgstr "Включить эффект Допплера"
+
+#~ msgid "Factor of strengh applied to the floating object"
+#~ msgstr "Фактор силы, примененной к плавающим объектам"
+
+#~ msgid "Mie disturbtion"
+#~ msgstr "Яркость Ми"
+
+#~ msgid "Neighbouring cascades will be blended with each other"
+#~ msgstr "Границы соседних каскадов будут смешиваться друг с другом"
+
+#~ msgid "Preserve Global Rotation and Scale"
+#~ msgstr "Сохранить поворот и масштаб в глобальной системе координат"
+
+#~ msgid "Preserve global orientation and scale for billboard object"
+#~ msgstr "Сохранить глобальную ориентацию и масштаб для объекта-билборда"
+
+#~ msgid "Reflection inheritance"
+#~ msgstr "Наследование отражений"
+
+#~ msgctxt "Operator"
+#~ msgid "Remove animation"
+#~ msgstr "Убрать анимацию"
+
+#~ msgctxt "Operator"
+#~ msgid "Remove variable"
+#~ msgstr "Удалить переменную"
+
+#~ msgid "Underwater fog:"
+#~ msgstr "Подводный туман"
 
 #~ msgid ""
 #~ "Scale parameter for texture warping. Height (e.g. 3 cm) is devided by the "

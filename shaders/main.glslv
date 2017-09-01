@@ -24,7 +24,6 @@
 #var STATIC_BATCH 0
 #var WIND_BEND 0
 #var BEND_CENTER_ONLY 0
-#var BILLBOARD_PRES_GLOB_ORIENTATION 0
 #var BILLBOARD 0
 #var BILLBOARD_JITTERED 0
 #var DYNAMIC_GRASS 0
@@ -305,9 +304,7 @@ void main(void) {
     model_tsr = tsr_multiply(u_model_tsr, model_tsr);
 # endif
 #else
-# if !DYNAMIC_GRASS
     mat3 model_tsr = u_model_tsr;
-# endif
 #endif
 
     vec3 position = a_position;
@@ -410,7 +407,7 @@ void main(void) {
     vertex world = grass_vertex(position, tangent, shade_tangent, binormal, normal,
             center, u_grass_map_depth, u_grass_map_color,
             u_grass_map_dim, u_grass_size, u_camera_eye, u_camera_quat,
-            view_tsr);
+            view_tsr, model_tsr);
 #else
 # if BILLBOARD
     vec3 wcen = tsr9_transform(model_tsr, center);
@@ -420,12 +417,7 @@ void main(void) {
     wcen = (view_refl_matrix * vec4(wcen, 1.0)).xyz;
 #  endif
 
-#  if BILLBOARD_PRES_GLOB_ORIENTATION && !STATIC_BATCH || USE_INSTANCED_PARTCLS
-    model_tsr = billboard_tsr_global(u_camera_eye, wcen,
-            view_tsr, model_tsr);
-#  else
-    model_tsr = billboard_tsr(u_camera_eye, wcen, view_tsr);
-#  endif
+    model_tsr = billboard_tsr(u_camera_eye, wcen, view_tsr, model_tsr);
 
 #  if WIND_BEND && BILLBOARD_JITTERED
     vec3 vec_seed = wcen;

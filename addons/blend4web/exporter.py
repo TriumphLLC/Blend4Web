@@ -2490,11 +2490,6 @@ def process_material(material, uuid = None):
     mat_data["alpha"] = round_num(material.alpha, 4)
     mat_data["specular_alpha"] = round_num(material.specular_alpha, 4)
 
-    raytrace_transparency = material.raytrace_transparency
-    dct = mat_data["raytrace_transparency"] = OrderedDict()
-    dct["fresnel"] = round_num(raytrace_transparency.fresnel, 4)
-    dct["fresnel_factor"] = round_num(raytrace_transparency.fresnel_factor, 4)
-
     raytrace_mirror = material.raytrace_mirror
     dct = mat_data["raytrace_mirror"] = OrderedDict()
     dct["reflect_factor"] = round_num(raytrace_mirror.reflect_factor, 4)
@@ -4164,6 +4159,7 @@ def process_constraints(obj, do_err):
     """export constraints (target attribute can have link to other objects)"""
     constraints = obj.constraints
     constraints_data = []
+    cons_counter = 0
     for cons in constraints:
         cons_data = OrderedDict()
         cons_data["name"] = cons.name
@@ -4172,18 +4168,23 @@ def process_constraints(obj, do_err):
             cons_data["mute"] = cons.mute
             cons_data["type"] = cons.type
             if check_constr_validation(obj):
-                if cons.is_valid or cons.type == "LOCKED_TRACK" and cons.name == "REFLECTION PLANE":
+                is_refl_plane = cons.type == "LOCKED_TRACK" and cons.name == "REFLECTION PLANE"
+                if cons.is_valid or is_refl_plane:
                     constraints_data.append(cons_data)
+                    if not is_refl_plane: cons_counter += 1
                 elif do_err:
-                    err("Object:\"" + _curr_stack["object"][-1].name + "\" > " +
+                    err("Object: \"" + _curr_stack["object"][-1].name + "\" > " +
                             "Constraint:\"" + cons.name + "\". Check constraint settings.")
             else:
-                err("Object:\"" + _curr_stack["object"][-1].name
+                err("Object: \"" + _curr_stack["object"][-1].name
                         + "\". Constraint recursion is forbidden.")
         # else:
         #     err("Object:\"" + _curr_stack["object"][-1].name + "\" > " +
         #             "Constraint:\"" + cons.name + "\". Unsupported constraint type: " +
         #             "\"" + cons.type + "\".")
+    if cons_counter > 1:
+        warn("Multiple constraints added on an object \"" + _curr_stack["object"][-1].name
+                + "\", but it supports only one. Others won't be used.")
 
     return constraints_data
 
@@ -4195,8 +4196,8 @@ def check_constr_validation(obj):
 def check_constr_rec_validation(obj, visited, processed):
     valid = True
     for constr in obj.constraints:
-        target = constr.target
-        if constr.is_valid and target:
+        if constr.is_valid and hasattr(constr, "target") and constr.target:
+            target = constr.target
             if target in processed:
                 return False
             else:
@@ -4520,7 +4521,8 @@ def process_node_tree(data, tree_source, is_group = False):
             data["uv_vc_key"] += node.color_layer + node_data["color_layer"]
                 
         elif node.type == "UVMAP":
-            if node.outputs["UV"].is_linked:
+            # second condition for worlds
+            if node.outputs["UV"].is_linked and not "b4w_sky_settings" in tree_source:
                 node_data["uv_layer"] = get_uv_layer(_curr_stack["data"][-1],  node.uv_map)
             else:
                 node_data["uv_layer"] =  node.uv_map
@@ -5793,7 +5795,7 @@ def check_binaries():
 def check_version():
     if (bpy.app.version[0] != blend4web.bl_info["blender"][0]
             or bpy.app.version[1] != blend4web.bl_info["blender"][1]):
-        message = _("Blender %s is recommended for the Blend4Web addon. Current version is %s") % \
+        message = _("Blender %s is recommended for the Blend4Web add-on. Current version is %s") % \
                   (".".join(map(str, blend4web.bl_info["blender"][:-1])), ".".join(map(str, bpy.app.version[:-1])))
         blend4web.init_mess.append(message)
 

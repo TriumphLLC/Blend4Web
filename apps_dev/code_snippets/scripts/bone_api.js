@@ -71,7 +71,7 @@ function load() {
 }
 
 function load_cb(data_id) {
-    m_app.enable_camera_controls();
+    m_app.enable_camera_controls(false, false, false, null, true);
     init_bones_info();
     apply_physical_constraint();
 }
@@ -233,7 +233,7 @@ function mousemove_cb(e) {
 
 function mouseup_cb() {
     if (_controlled_bone)
-        m_app.enable_camera_controls();
+        m_app.enable_camera_controls(false, false, false, null, true);
     _controlled_bone = null;
 }
 

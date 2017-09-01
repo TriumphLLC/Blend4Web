@@ -10,6 +10,8 @@
 #include "BulletDynamics/Featherstone/btMultiBodyJointLimitConstraint.h"
 #include "BulletDynamics/Featherstone/btMultiBodyJointMotor.h"
 #include "BulletDynamics/Featherstone/btMultiBodyPoint2Point.h"
+#include "BulletDynamics/Featherstone/btMultiBodyFixedConstraint.h"
+#include "BulletDynamics/Featherstone/btMultiBodySliderConstraint.h"
 
 #include "../OpenGLWindow/GLInstancingRenderer.h"
 #include "BulletCollision/CollisionShapes/btShapeHull.h"
@@ -134,7 +136,8 @@ void	MultiDofDemo::initPhysics()
 	bool spherical = true;					//set it ot false -to use 1DoF hinges instead of 3DoF sphericals		
 	bool multibodyOnly = false;
 	bool canSleep = true;
-	bool selfCollide = false;	
+	bool selfCollide = true;
+    bool multibodyConstraint = false;
 	btVector3 linkHalfExtents(0.05, 0.37, 0.1);
 	btVector3 baseHalfExtents(0.05, 0.37, 0.1);
 
@@ -156,15 +159,15 @@ void	MultiDofDemo::initPhysics()
 	}
 	//
 	m_dynamicsWorld->setGravity(btVector3(0, -9.81 ,0));	
+	//m_dynamicsWorld->getSolverInfo().m_numIterations = 100;
 	//////////////////////////////////////////////
 	if(numLinks > 0)
 	{			
 		btScalar q0 = 45.f * SIMD_PI/ 180.f;
 		if(!spherical)
-			if(mbC->isMultiDof())
-				mbC->setJointPosMultiDof(0, &q0);
-			else
-				mbC->setJointPos(0, q0);
+		{
+			mbC->setJointPosMultiDof(0, &q0);
+		}
 		else
 		{
 			btQuaternion quat0(btVector3(1, 1, 0).normalized(), q0);
@@ -226,7 +229,7 @@ void	MultiDofDemo::initPhysics()
 
 		startTransform.setOrigin(btVector3(
 							btScalar(0.0),
-							-0.95,
+							0.0,
 							btScalar(0.0)));
 
 			
@@ -237,7 +240,19 @@ void	MultiDofDemo::initPhysics()
 					
 		m_dynamicsWorld->addRigidBody(body);//,1,1+2);	
 
-
+        if (multibodyConstraint) {
+            btVector3 pointInA = -linkHalfExtents;
+      //      btVector3 pointInB = halfExtents;
+            btMatrix3x3 frameInA;
+            btMatrix3x3 frameInB;
+            frameInA.setIdentity();
+            frameInB.setIdentity();
+            btVector3 jointAxis(1.0,0.0,0.0);
+            //btMultiBodySliderConstraint* p2p = new btMultiBodySliderConstraint(mbC,numLinks-1,body,pointInA,pointInB,frameInA,frameInB,jointAxis);
+            btMultiBodyFixedConstraint* p2p = new btMultiBodyFixedConstraint(mbC,numLinks-1,mbC,numLinks-4,pointInA,pointInA,frameInA,frameInB);
+            p2p->setMaxAppliedImpulse(2.0);
+            m_dynamicsWorld->addMultiBodyConstraint(p2p);
+        }
 	}
 
 	m_guiHelper->autogenerateGraphicsObjects(m_dynamicsWorld);
@@ -260,8 +275,8 @@ btMultiBody* MultiDofDemo::createFeatherstoneMultiBody_testMultiDof(btMultiBodyD
 	}
 
 	bool canSleep = false;
-	bool isMultiDof = true;
-	btMultiBody *pMultiBody = new btMultiBody(numLinks, baseMass, baseInertiaDiag, !floating, canSleep, isMultiDof);
+	
+	btMultiBody *pMultiBody = new btMultiBody(numLinks, baseMass, baseInertiaDiag, !floating, canSleep);
 
 	btQuaternion baseOriQuat(0.f, 0.f, 0.f, 1.f);
 	pMultiBody->setBasePos(basePosition);
@@ -292,10 +307,10 @@ btMultiBody* MultiDofDemo::createFeatherstoneMultiBody_testMultiDof(btMultiBodyD
 	for(int i = 0; i < numLinks; ++i)
 	{
 		if(!spherical)			
-			pMultiBody->setupRevolute(i, linkMass, linkInertiaDiag, i - 1, btQuaternion(0.f, 0.f, 0.f, 1.f), hingeJointAxis, parentComToCurrentPivot, currentPivotToCurrentCom, false);
+			pMultiBody->setupRevolute(i, linkMass, linkInertiaDiag, i - 1, btQuaternion(0.f, 0.f, 0.f, 1.f), hingeJointAxis, parentComToCurrentPivot, currentPivotToCurrentCom, true);
 		else
 			//pMultiBody->setupPlanar(i, linkMass, linkInertiaDiag, i - 1, btQuaternion(0.f, 0.f, 0.f, 1.f)/*quat0*/, btVector3(1, 0, 0), parentComToCurrentPivot*2, false);
-			pMultiBody->setupSpherical(i, linkMass, linkInertiaDiag, i - 1, btQuaternion(0.f, 0.f, 0.f, 1.f), parentComToCurrentPivot, currentPivotToCurrentCom, false);		
+			pMultiBody->setupSpherical(i, linkMass, linkInertiaDiag, i - 1, btQuaternion(0.f, 0.f, 0.f, 1.f), parentComToCurrentPivot, currentPivotToCurrentCom, true);
 	}
 
 	pMultiBody->finalizeMultiDof();
@@ -320,7 +335,7 @@ void MultiDofDemo::addColliders_testMultiDof(btMultiBody *pMultiBody, btMultiBod
 	{
 			
 	//	float pos[4]={local_origin[0].x(),local_origin[0].y(),local_origin[0].z(),1};
-		float quat[4]={-world_to_local[0].x(),-world_to_local[0].y(),-world_to_local[0].z(),world_to_local[0].w()};
+		btScalar quat[4]={-world_to_local[0].x(),-world_to_local[0].y(),-world_to_local[0].z(),world_to_local[0].w()};
 
 			
 		if (1)
@@ -360,7 +375,7 @@ void MultiDofDemo::addColliders_testMultiDof(btMultiBody *pMultiBody, btMultiBod
 		btVector3 posr = local_origin[i+1];
 	//	float pos[4]={posr.x(),posr.y(),posr.z(),1};
 			
-		float quat[4]={-world_to_local[i+1].x(),-world_to_local[i+1].y(),-world_to_local[i+1].z(),world_to_local[i+1].w()};
+		btScalar quat[4]={-world_to_local[i+1].x(),-world_to_local[i+1].y(),-world_to_local[i+1].z(),world_to_local[i+1].w()};
 
 		btCollisionShape* box = new btBoxShape(linkHalfExtents);
 		btMultiBodyLinkCollider* col = new btMultiBodyLinkCollider(pMultiBody, i);

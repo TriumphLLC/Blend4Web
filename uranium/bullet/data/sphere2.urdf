@@ -1,6 +1,11 @@
 <?xml version="0.0" ?>
 <robot name="urdf_robot">
   <link name="baseLink">
+  	<contact>
+      <rolling_friction value="0.03"/>
+      <spinning_friction value="0.03"/>
+    </contact>
+
     <inertial>
       <origin rpy="0 0 0" xyz="0 0 0"/>
        <mass value="10.0"/>
@@ -9,8 +14,11 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-      <sphere radius="0.5"/>
+				<mesh filename="textured_sphere_smooth.obj" scale="0.5 0.5 0.5"/>      
       </geometry>
+      <material name="white">
+        <color rgba="1 1 1 1"/>
+      </material>
     </visual>
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
@@ -19,29 +27,5 @@
       </geometry>
     </collision>
   </link>
-   <link name="childA">
-    <inertial>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
-      <mass value="10.0"/>
-      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
-    </inertial>
-    <visual>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
-      <geometry>
-        <sphere radius="0.5"/>
-      </geometry>
-    </visual>
-    <collision>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
-      <geometry>
-        <sphere radius="0.5"/>
-      </geometry>
-    </collision>
-  </link>
-   <joint name="joint_baseLink_childA" type="fixed">
-    <parent link="baseLink"/>
-    <child link="childA"/>
-    <origin xyz="0 0 1.0"/>
-  </joint>
 </robot>
 

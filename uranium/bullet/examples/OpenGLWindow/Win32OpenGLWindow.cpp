@@ -1,3 +1,4 @@
+#ifdef _WIN32
 /*
 Copyright (c) 2012 Advanced Micro Devices, Inc.  
 
@@ -178,5 +179,22 @@ int Win32OpenGLWindow::fileOpenDialog(char* fileName, int maxFileNameLength)
 
 	//return 0;
 }
+
+int Win32OpenGLWindow::getWidth() const
+{
+	if (m_data)
+		return m_data->m_openglViewportWidth;
+	return 0;
+}
+
+int Win32OpenGLWindow::getHeight() const
+{
+	if (m_data)
+		return m_data->m_openglViewportHeight;
+	return 0;	
+}
+
+
+#endif
 
 	

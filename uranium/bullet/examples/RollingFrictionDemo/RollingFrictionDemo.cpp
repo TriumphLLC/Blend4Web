@@ -35,7 +35,7 @@ subject to the following restrictions:
 
 
 #include "../CommonInterfaces/CommonRigidBodyBase.h"
-
+#include "../Utils/b3ResourcePath.h"
 
 ///The RollingFrictionDemo shows the use of rolling friction.
 ///Spheres will come to a rest on a sloped plane using a constraint. Damping cannot achieve the same.
@@ -75,7 +75,7 @@ public:
 void	RollingFrictionDemo::initPhysics()
 {
 	
-	m_guiHelper->setUpAxis(1);
+	m_guiHelper->setUpAxis(2);
 	
 	
 	///collision configuration contains default setup for memory, collision setup
@@ -93,23 +93,22 @@ void	RollingFrictionDemo::initPhysics()
 
 	m_dynamicsWorld = new btDiscreteDynamicsWorld(m_dispatcher,m_broadphase,m_solver,m_collisionConfiguration);
 //	m_dynamicsWorld->getSolverInfo().m_singleAxisRollingFrictionThreshold = 0.f;//faster but lower quality
-	m_dynamicsWorld->setGravity(btVector3(0,-10,0));
+	m_dynamicsWorld->setGravity(btVector3(0,0,-10));
 
 	m_guiHelper->createPhysicsDebugDrawer(m_dynamicsWorld);
 	
 	{
 
 		///create a few basic rigid bodies
-		btCollisionShape* groundShape = new btBoxShape(btVector3(btScalar(20.),btScalar(50.),btScalar(10.)));
+		btCollisionShape* groundShape = new btBoxShape(btVector3(btScalar(10.),btScalar(5.),btScalar(25.)));
 
-	//	btCollisionShape* groundShape = new btStaticPlaneShape(btVector3(0,1,0),50);
 	
 		m_collisionShapes.push_back(groundShape);
 
 		btTransform groundTransform;
 		groundTransform.setIdentity();
-		groundTransform.setOrigin(btVector3(0,-50,0));
-		groundTransform.setRotation(btQuaternion(btVector3(0,0,1),SIMD_PI*0.03));
+		groundTransform.setOrigin(btVector3(0,0,-28));
+		groundTransform.setRotation(btQuaternion(btVector3(0,1,0),SIMD_PI*0.03));
 		//We can also use DemoApplication::localCreateRigidBody, but for clarity it is provided here:
 		btScalar mass(0.);
 
@@ -124,8 +123,8 @@ void	RollingFrictionDemo::initPhysics()
 		btDefaultMotionState* myMotionState = new btDefaultMotionState(groundTransform);
 		btRigidBody::btRigidBodyConstructionInfo rbInfo(mass,myMotionState,groundShape,localInertia);
 		btRigidBody* body = new btRigidBody(rbInfo);
-		body->setFriction(1);
-		body->setRollingFriction(1);
+		body->setFriction(.5);
+
 		//add the body to the dynamics world
 		m_dynamicsWorld->addRigidBody(body);
 	}
@@ -133,13 +132,13 @@ void	RollingFrictionDemo::initPhysics()
 	{
 
 		///create a few basic rigid bodies
-		btCollisionShape* groundShape = new btBoxShape(btVector3(btScalar(100.),btScalar(50.),btScalar(100.)));
+		btCollisionShape* groundShape = new btBoxShape(btVector3(btScalar(100.),btScalar(100.),btScalar(50.)));
 	
 		m_collisionShapes.push_back(groundShape);
 
 		btTransform groundTransform;
 		groundTransform.setIdentity();
-		groundTransform.setOrigin(btVector3(0,-54,0));
+		groundTransform.setOrigin(btVector3(0,0,-54));
 		//We can also use DemoApplication::localCreateRigidBody, but for clarity it is provided here:
 		btScalar mass(0.);
 
@@ -154,8 +153,7 @@ void	RollingFrictionDemo::initPhysics()
 		btDefaultMotionState* myMotionState = new btDefaultMotionState(groundTransform);
 		btRigidBody::btRigidBodyConstructionInfo rbInfo(mass,myMotionState,groundShape,localInertia);
 		btRigidBody* body = new btRigidBody(rbInfo);
-		body->setFriction(1);
-		body->setRollingFriction(1);
+		body->setFriction(.1);
 		//add the body to the dynamics world
 		m_dynamicsWorld->addRigidBody(body);
 	}
@@ -165,16 +163,16 @@ void	RollingFrictionDemo::initPhysics()
 		// Re-using the same collision is better for memory usage and performance
 #define NUM_SHAPES 10
 		btCollisionShape* colShapes[NUM_SHAPES] = {
-			new btSphereShape(btScalar(1.)),
-			new btCapsuleShape(0.5,1),
-			new btCapsuleShapeX(0.5,1),
-			new btCapsuleShapeZ(0.5,1),
-			new btConeShape(0.5,1),
-			new btConeShapeX(0.5,1),
-			new btConeShapeZ(0.5,1),
-			new btCylinderShape(btVector3(0.5,1,0.5)),
-			new btCylinderShapeX(btVector3(1,0.5,0.5)),
-			new btCylinderShapeZ(btVector3(0.5,0.5,1)),
+			new btSphereShape(btScalar(0.5)),
+			new btCapsuleShape(0.25,0.5),
+			new btCapsuleShapeX(0.25,0.5),
+			new btCapsuleShapeZ(0.25,0.5),
+			new btConeShape(0.25,0.5),
+			new btConeShapeX(0.25,0.5),
+			new btConeShapeZ(0.25,0.5),
+			new btCylinderShape(btVector3(0.25,0.5,0.25)),
+			new btCylinderShapeX(btVector3(0.5,0.25,0.25)),
+			new btCylinderShapeZ(btVector3(0.25,0.25,0.5)),
 		};
 		for (int i=0;i<NUM_SHAPES;i++)
 			m_collisionShapes.push_back(colShapes[i]);
@@ -201,8 +199,8 @@ void	RollingFrictionDemo::initPhysics()
 					{
 						startTransform.setOrigin(SCALING*btVector3(
 											btScalar(2.0*i + start_x),
-											btScalar(20+2.0*k + start_y),
-											btScalar(2.0*j + start_z)));
+											btScalar(2.0*j + start_z),
+											btScalar(20+2.0*k + start_y)));
 
 
 						shapeIndex++;
@@ -218,7 +216,8 @@ void	RollingFrictionDemo::initPhysics()
 						btRigidBody::btRigidBodyConstructionInfo rbInfo(mass,myMotionState,colShape,localInertia);
 						btRigidBody* body = new btRigidBody(rbInfo);
 						body->setFriction(1.f);
-						body->setRollingFriction(.3);
+						body->setRollingFriction(.1);
+						body->setSpinningFriction(0.1);
 						body->setAnisotropicFriction(colShape->getAnisotropicRollingFrictionDirection(),btCollisionObject::CF_ANISOTROPIC_ROLLING_FRICTION);
 
 
@@ -230,10 +229,22 @@ void	RollingFrictionDemo::initPhysics()
 	}
 
 	m_guiHelper->autogenerateGraphicsObjects(m_dynamicsWorld);
-	
+
+	if (0)
+	{	
+	btSerializer* s = new btDefaultSerializer;
+	m_dynamicsWorld->serialize(s);
+	char resourcePath[1024];
+	if (b3ResourcePath::findResourcePath("slope.bullet",resourcePath,1024))
+	{
+		FILE* f = fopen(resourcePath,"wb");
+		fwrite(s->getBufferPointer(),s->getCurrentBufferSize(),1,f);
+		fclose(f);
+	}
+	}
 }
 
-	
+
 
 void	RollingFrictionDemo::exitPhysics()
 {

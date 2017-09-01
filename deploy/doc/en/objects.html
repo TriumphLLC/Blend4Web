@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Objects &mdash; Blend4Web 17.06 User Manual</title>
+  <title>Objects &mdash; Blend4Web 17.08 User Manual</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.06 User Manual" href="index.html"/>
+    <link rel="top" title="Blend4Web 17.08 User Manual" href="index.html"/>
         <link rel="next" title="Meshes" href="meshes.html"/>
         <link rel="prev" title="Scene Settings" href="scene_settings.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v17.06
+              v17.08
             </div>
           
         
@@ -85,6 +85,7 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="engine_features.html">Engine Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="interface.html">Blender User Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Installing and Updating</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">Project Management</a></li>
@@ -99,6 +100,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#object-tab">Object Tab</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#transform-panel">Transform Panel</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#groups-panel">Groups Panel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#display-panel">Display Panel</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#levels-of-detail-panel">Levels of Detail Panel</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#animation-panel">Animation Panel</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#export-options-panel">Export Options Panel</a></li>
@@ -110,6 +112,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#anchors-panel">Anchors Panel</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#meta-tags-panel">Meta Tags Panel</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#relations-panel">Relations Panel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#duplication-panel">Duplication Panel</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#wind-bending-panel">Wind Bending Panel</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#special-effects-panel">Special Effects Panel</a></li>
 </ul>
@@ -318,6 +321,11 @@
 <div class="line"><br /></div>
 </div>
 </div>
+<div class="section" id="display-panel">
+<span id="object-settings-display"></span><h4>Display Panel<a class="headerlink" href="#display-panel" title="Permalink to this headline">¶</a></h4>
+<img alt="_images/object_settings_display.png" class="align-center" src="_images/object_settings_display.png" />
+<p>This panel contains parameters that define how the selected object looks in the 3D View window. It does not feature any additional options in Blend4Web mode.</p>
+</div>
 <div class="section" id="levels-of-detail-panel">
 <span id="object-settings-lod"></span><h4>Levels of Detail Panel<a class="headerlink" href="#levels-of-detail-panel" title="Permalink to this headline">¶</a></h4>
 <img alt="_images/object_settings_lod.png" class="align-center" src="_images/object_settings_lod.png" />
@@ -350,7 +358,12 @@
 </dl>
 <dl class="docutils" id="apply-modifiers">
 <dt><em>Export Options &gt; Apply Modifiers</em></dt>
-<dd>Apply the object’s modifiers upon export. If the <code class="docutils literal"><span class="pre">SKIN</span></code> modifier is used we recommend to apply it before the export because it resets vertex color and UV layers which may result in errors.</dd>
+<dd><p class="first">Apply the object’s modifiers upon export.</p>
+<div class="last admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If the <code class="docutils literal"><span class="pre">Skin</span></code> modifier is used we recommend to apply it before the export because it resets vertex color and UV layers which may result in errors.</p>
+</div>
+</dd>
 <dt><em>Export Options &gt; Apply Scale and Modifiers</em></dt>
 <dd>Upon export, apply scale and modifiers for the object.</dd>
 <dt><em>Export Options &gt; Export Vertex Animation</em></dt>
@@ -411,8 +424,8 @@
 <dd>Use the object as a billboard (i.e. automatically orient relative to the camera).</dd>
 </dl>
 <dl class="docutils" id="billboarding-preserve">
-<dt><em>Billboard &gt; Preserve Global Orientation and Scale</em></dt>
-<dd>Take into account rotation and scale of the billboard object (in the world space). The object will be directed toward the camera with its side which is visible when viewing along the Y axis in Blender. Becomes available after enabling the <code class="docutils literal"><span class="pre">Billboard</span></code> checkbox.</dd>
+<dt><em>Billboard &gt; Preserve Global Rotation</em></dt>
+<dd>Take into account rotation of the billboard object (in the world space). The object will be directed toward the camera with its side which is visible when viewing along the Y axis in Blender. Becomes available after enabling the <code class="docutils literal"><span class="pre">Billboard</span></code> checkbox.</dd>
 <dt><em>Billboard &gt; Billboard Type</em></dt>
 <dd>Billboard orientation mode. <code class="docutils literal"><span class="pre">Spherical</span></code> (by default) - the object is always oriented with one side toward the camera, regardless of view angle, <code class="docutils literal"><span class="pre">Cylindrical</span></code> - similar to <code class="docutils literal"><span class="pre">Spherical</span></code>, but rotation is limited to Blender’s world Z axis. Becomes available after enabling Billboard</dd>
 </dl>
@@ -468,7 +481,13 @@
 <dt><em>Meta Tags &gt; Category</em></dt>
 <dd>Object&#8217;s category.</dd>
 <dt><em>Meta Tags &gt; Description</em></dt>
-<dd>Description for the object. Depending on <code class="docutils literal"><span class="pre">Description</span> <span class="pre">Source</span></code>, this field accepts either description text itself, or the name of a file where this description is contained.</dd>
+<dd><p class="first">Description for the object. Depending on <code class="docutils literal"><span class="pre">Description</span> <span class="pre">Source</span></code>, this field accepts either description text itself, or the name of a file where this description is contained.</p>
+<div class="last admonition note">
+<p class="first admonition-title">Note</p>
+<p>To use a text file as a description source you first have to open an existing file in Blender <a class="reference internal" href="interface.html#ui-text-editor"><span>Text Editor</span></a> or to create a new text file in the same editor.</p>
+<p class="last">Then, you only have to set the name of the file in the <code class="docutils literal"><span class="pre">Description</span></code> field.</p>
+</div>
+</dd>
 <dt><em>Meta Tags &gt; Description Source</em></dt>
 <dd>Source type for the description: text or text file.</dd>
 </dl>
@@ -489,6 +508,11 @@
 <p class="last">These settings can be used to align the object to an active camera. They are described in the <a class="reference internal" href="camera.html#camera-viewport-alignment"><span>Camera chapter</span></a>.</p>
 </dd>
 </dl>
+</div>
+<div class="section" id="duplication-panel">
+<span id="object-settings-duplication"></span><h4>Duplication Panel<a class="headerlink" href="#duplication-panel" title="Permalink to this headline">¶</a></h4>
+<a class="reference internal image-reference" href="_images/objects_duplication.png"><img alt="_images/objects_duplication.png" class="align-center" src="_images/objects_duplication.png" style="width: 100%;" /></a>
+<p>This panel contains settings that concern object duplication. It does not feature any additional parameters in the Blend4Web mode; however, it should be noted that at the moment Blend4Web engine only supports <code class="docutils literal"><span class="pre">Group</span></code> duplication method.</p>
 </div>
 <div class="section" id="wind-bending-panel">
 <span id="object-settings-wind"></span><h4>Wind Bending Panel<a class="headerlink" href="#wind-bending-panel" title="Permalink to this headline">¶</a></h4>
@@ -549,6 +573,44 @@
 <li>the <code class="docutils literal"><span class="pre">Track</span> <span class="pre">To</span></code> constraint can be replaced with the <a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html#.append_track">append_track()</a> method.</li>
 </ul>
 <p>Other constraints do not have distinctive counterparts in the API, although their behavior can be to certain extent imitated using API methods.</p>
+<p>The <a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html">constraints</a> module also includes several additional methods:</p>
+<ul>
+<li><p class="first"><a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html#.append_semi_soft">append_semi_soft()</a></p>
+<blockquote>
+<div><p>This method can be used to attach one object to another one using a semi-soft constraint. The object will smoothly follow the object&#8217;s rear. This can be used to create third-person cameras.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html#.append_semi_stiff">append_semi_stiff()</a></p>
+<blockquote>
+<div><p>This method can be used to attach the object to the other object using a semi-stiff constraint, meaning that the child object will move and rotate together with its parent, but it will also be possible to rotate it independently in the parent&#8217;s local space. A behavior similar to that of a tank turret can be created this way.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html#.append_stiff">append_stiff()</a></p>
+<blockquote>
+<div><p>This method attaches the object to another object (or to an armature bone) using a stiff constraint. The child object will move, rotate and scale together with its parent.</p>
+<p>Examples: a sword parented to the character&#8217;s hand; a character sitting in a vehicle.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html#.append_stiff_trans">append_stiff_trans()</a></p>
+<blockquote>
+<div><p>This method attaches the object to the other object using a stiff translation constraint. The child object moves together with its parent, but does not rotate along with it (it, however, can be rotated independently from the parent).</p>
+</div></blockquote>
+</li>
+<li><p class="first"><a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html#.append_stiff_trans_rot">append_stiff_trans_rot()</a></p>
+<blockquote>
+<div><p>Can be used to attach the object to another object using a stiff translation/rotation constraint. In this case, the child object moves and rotates along with its parent, but does not scale in accord with it. However, the object still can be scaled independently from the parent.</p>
+<p>Example: a smoke emitter attached to the tractor pipe; exhaustion effects are achieved by scaling the emitter.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html#.append_stiff_viewport">append_stiff_viewport()</a></p>
+<blockquote>
+<div><p>Attaches the object to the camera using a stiff viewport constraint (so the child object will preserve its orientation in the camera viewport).</p>
+<p>This constraint can be used to create onscreen 2D/3D interfaces elements.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html#.remove">remove()</a> - this method removes any constraints that were previously applied to the object.</p>
+</li>
+</ul>
 </div>
 <div class="section" id="anchor-settings">
 <span id="objects-anchors"></span><h2><a class="toc-backref" href="#id13">Anchor Settings</a><a class="headerlink" href="#anchor-settings" title="Permalink to this headline">¶</a></h2>
@@ -946,7 +1008,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Triumph.
-      Last updated on 2017-06-30.
+      Last updated on 2017-08-31.
 
     </p>
   </div>
@@ -1002,7 +1064,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.06',
+            VERSION:'v17.08',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

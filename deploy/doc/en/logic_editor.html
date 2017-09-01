@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Logic Editor &mdash; Blend4Web 17.06 User Manual</title>
+  <title>Logic Editor &mdash; Blend4Web 17.08 User Manual</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.06 User Manual" href="index.html"/>
+    <link rel="top" title="Blend4Web 17.08 User Manual" href="index.html"/>
         <link rel="next" title="Lighting, Shadows and Background" href="lighting.html"/>
         <link rel="prev" title="Node Materials" href="node_materials.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v17.06
+              v17.08
             </div>
           
         
@@ -85,6 +85,7 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="engine_features.html">Engine Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="interface.html">Blender User Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Installing and Updating</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">Project Management</a></li>
@@ -114,139 +115,142 @@
 <li class="toctree-l4"><a class="reference internal" href="#id4">Internal Parameters</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#delay">Delay</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#conditional-jump">Conditional Jump</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id5">Input Parameters</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id6">Output Parameters</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id7">Internal Parameters</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#conditional-jump">Conditional Jump</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#js-callback">JS Callback</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id8">Input Parameters</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id9">Output Parameters</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id10">Internal Parameters</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#js-callback">JS Callback</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id11">Input Parameters</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id12">Output Parameters</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id13">Internal Parameters</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#animation">Animation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#play-timeline-and-stop-timeline">Play Timeline and Stop Timeline</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id11">Input Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id12">Output Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id13">Internal Parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#play-animation">Play Animation</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id14">Input Parameters</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id15">Output Parameters</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id16">Internal Parameters</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#get-timeline">Get Timeline</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#stop-animation">Stop Animation</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id17">Input Parameters</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id18">Output Parameters</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id19">Internal Parameters</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#play-animation">Play Animation</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id20">Input Parameters</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id21">Output Parameters</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id22">Internal Parameters</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#stop-animation">Stop Animation</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id23">Input Parameters</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id24">Output Parameters</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id25">Internal Parameters</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#camera">Camera</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#move-camera">Move Camera</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id26">Input Parameters</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id27">Output Parameters</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id28">Internal Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id20">Input Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id21">Output Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id22">Internal Parameters</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#set-camera-move-style">Set Camera Move Style</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id29">Input Parameters</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id30">Output Parameters</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id31">Internal Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id23">Input Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id24">Output Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id25">Internal Parameters</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#set-camera-limits">Set Camera Limits</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id32">Input Parameters</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id33">Output Parameters</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id34">Internal Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id26">Input Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id27">Output Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id28">Internal Parameters</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#object">Object</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#show-object">Show Object</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id29">Input Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id30">Output Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id31">Internal Parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#hide-object">Hide Object</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id32">Input Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id33">Output Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id34">Internal Parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#transform-object">Transform Object</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id35">Input Parameters</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id36">Output Parameters</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id37">Internal Parameters</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#hide-object">Hide Object</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#move-to">Move To</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id38">Input Parameters</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id39">Output Parameters</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id40">Internal Parameters</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#transform-object">Transform Object</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#apply-shape-key">Apply Shape Key</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id41">Input Parameters</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id42">Output Parameters</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id43">Internal Parameters</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#move-to">Move To</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#outline">Outline</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id44">Input Parameters</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id45">Output Parameters</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id46">Internal Parameters</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#apply-shape-key">Apply Shape Key</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#set-shader-node-param">Set Shader Node Param</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id47">Input Parameters</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id48">Output Parameters</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id49">Internal Parameters</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#outline">Outline</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#inherit-material">Inherit Material</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id50">Input Parameters</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id51">Output Parameters</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id52">Internal Parameters</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#set-shader-node-param">Set Shader Node Param</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id53">Input Parameters</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id54">Output Parameters</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id55">Internal Parameters</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#inherit-material">Inherit Material</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id56">Input Parameters</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id57">Output Parameters</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id58">Internal Parameters</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#operations">Operations</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#variable-store">Variable Store</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id53">Input Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id54">Output Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id55">Internal Parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#math-operation">Math Operation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id56">Input Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id57">Output Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id58">Internal Parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#string-operation">String Operation</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id59">Input Parameters</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id60">Output Parameters</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id61">Internal Parameters</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#math-operation">Math Operation</a><ul>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#sound">Sound</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#play-sound">Play Sound</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id62">Input Parameters</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id63">Output Parameters</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id64">Internal Parameters</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#string-operation">String Operation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#stop-sound">Stop Sound</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id65">Input Parameters</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id66">Output Parameters</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id67">Internal Parameters</a></li>
@@ -254,70 +258,76 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#sound">Sound</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#play-sound">Play Sound</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#network">Network</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#send-request">Send Request</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id68">Input Parameters</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id69">Output Parameters</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id70">Internal Parameters</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#stop-sound">Stop Sound</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#json">JSON</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id71">Input Parameters</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id72">Output Parameters</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id73">Internal Parameters</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#network">Network</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#send-request">Send Request</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id74">Input Parameters</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id75">Output Parameters</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id76">Internal Parameters</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#json">JSON</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id77">Input Parameters</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id78">Output Parameters</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id79">Internal Parameters</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#using-json-logic-node-to-encode-json-object">Using JSON logic node to encode JSON object</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#using-json-logic-node-to-decode-json-object">Using JSON logic node to decode JSON object</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#page-param">Page Param</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id80">Input Parameters</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id81">Output Parameters</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id82">Internal Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id74">Input Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id75">Output Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id76">Internal Parameters</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#page-redirect">Page Redirect</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id83">Input Parameters</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id84">Output Parameters</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id85">Internal Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id77">Input Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id78">Output Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id79">Internal Parameters</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#debug">Debug</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#console-print">Console Print</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id80">Input Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id81">Output Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id82">Internal Parameters</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#time">Time</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#date-time">Date &amp; Time</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id83">Input Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id84">Output Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id85">Internal Parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#get-timeline">Get Timeline</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id86">Input Parameters</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id87">Output Parameters</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id88">Internal Parameters</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#elapsed">Elapsed</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id89">Input Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id90">Output Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id91">Internal Parameters</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#deprecated">Deprecated</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#select-deprecated">Select (Deprecated)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#select-play-timeline-deprecated">Select &amp; Play Timeline (Deprecated)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#select-play-animation-deprecated">Select &amp; Play Animation (Deprecated)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#delay">Delay</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id92">Input Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id93">Output Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id94">Internal Parameters</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#layout">Layout</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#empty">Empty</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id89">Input Parameters</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id90">Output Parameters</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id91">Internal Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id95">Input Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id96">Output Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id97">Internal Parameters</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#reroute">Reroute</a></li>
@@ -384,29 +394,29 @@
            <div itemprop="articleBody">
             
   <div class="section" id="logic-editor">
-<span id="id1"></span><h1><a class="toc-backref" href="#id92">Logic Editor</a><a class="headerlink" href="#logic-editor" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1><a class="toc-backref" href="#id98">Logic Editor</a><a class="headerlink" href="#logic-editor" title="Permalink to this headline">¶</a></h1>
 <div class="contents topic" id="table-of-content">
 <p class="topic-title first">Table of Content</p>
 <ul class="simple">
-<li><a class="reference internal" href="#logic-editor" id="id92">Logic Editor</a><ul>
-<li><a class="reference internal" href="#basics" id="id93">Basics</a></li>
-<li><a class="reference internal" href="#control-flow" id="id94">Control Flow</a></li>
-<li><a class="reference internal" href="#animation" id="id95">Animation</a></li>
-<li><a class="reference internal" href="#camera" id="id96">Camera</a></li>
-<li><a class="reference internal" href="#object" id="id97">Object</a></li>
-<li><a class="reference internal" href="#operations" id="id98">Operations</a></li>
-<li><a class="reference internal" href="#sound" id="id99">Sound</a></li>
-<li><a class="reference internal" href="#network" id="id100">Network</a></li>
-<li><a class="reference internal" href="#debug" id="id101">Debug</a></li>
-<li><a class="reference internal" href="#deprecated" id="id102">Deprecated</a></li>
-<li><a class="reference internal" href="#layout" id="id103">Layout</a></li>
-<li><a class="reference internal" href="#debugging" id="id104">Debugging</a></li>
+<li><a class="reference internal" href="#logic-editor" id="id98">Logic Editor</a><ul>
+<li><a class="reference internal" href="#basics" id="id99">Basics</a></li>
+<li><a class="reference internal" href="#control-flow" id="id100">Control Flow</a></li>
+<li><a class="reference internal" href="#animation" id="id101">Animation</a></li>
+<li><a class="reference internal" href="#camera" id="id102">Camera</a></li>
+<li><a class="reference internal" href="#object" id="id103">Object</a></li>
+<li><a class="reference internal" href="#operations" id="id104">Operations</a></li>
+<li><a class="reference internal" href="#sound" id="id105">Sound</a></li>
+<li><a class="reference internal" href="#network" id="id106">Network</a></li>
+<li><a class="reference internal" href="#debug" id="id107">Debug</a></li>
+<li><a class="reference internal" href="#time" id="id108">Time</a></li>
+<li><a class="reference internal" href="#layout" id="id109">Layout</a></li>
+<li><a class="reference internal" href="#debugging" id="id110">Debugging</a></li>
 </ul>
 </li>
 </ul>
 </div>
 <div class="section" id="basics">
-<h2><a class="toc-backref" href="#id93">Basics</a><a class="headerlink" href="#basics" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id99">Basics</a><a class="headerlink" href="#basics" title="Permalink to this headline">¶</a></h2>
 <p>Visual programming is performed by creating logic node tree in the node editor area in Blender. These nodes can extend the scene functionality significantly without any coding.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_app_example.png"><img alt="_images/logic_editor_app_example.png" class="align-center" src="_images/logic_editor_app_example.png" style="width: 100%;" /></a>
 <p>To activate logic on the given scene set the <code class="docutils literal"><span class="pre">Logic</span> <span class="pre">Editor</span></code> property in the <code class="docutils literal"><span class="pre">Scene</span></code> tab and append/select active node tree.</p>
@@ -426,7 +436,7 @@
 <p>All available nodes are described below.</p>
 </div>
 <div class="section" id="control-flow">
-<h2><a class="toc-backref" href="#id94">Control Flow</a><a class="headerlink" href="#control-flow" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id100">Control Flow</a><a class="headerlink" href="#control-flow" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="entry-point">
 <span id="logic-entry"></span><h3>Entry Point<a class="headerlink" href="#entry-point" title="Permalink to this headline">¶</a></h3>
 <p>This is where the script starts. By using multiple entry points you can create multi-threaded applications.</p>
@@ -478,10 +488,10 @@
 </dl>
 </div>
 </div>
-<div class="section" id="delay">
-<span id="logic-delay"></span><h3>Delay<a class="headerlink" href="#delay" title="Permalink to this headline">¶</a></h3>
-<p>Make a delay (measured in seconds) before going to the next node.</p>
-<a class="reference internal image-reference" href="_images/logic_editor_delay.png"><img alt="_images/logic_editor_delay.png" class="align-center" src="_images/logic_editor_delay.png" style="width: 100%;" /></a>
+<div class="section" id="conditional-jump">
+<span id="logic-jump"></span><h3>Conditional Jump<a class="headerlink" href="#conditional-jump" title="Permalink to this headline">¶</a></h3>
+<p>Go to the specified node if the certain condition is met. The parameters (operands) can also be variables that are activated using the corresponding switches.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_conditional_jump.png"><img alt="_images/logic_editor_conditional_jump.png" class="align-center" src="_images/logic_editor_conditional_jump.png" style="width: 100%;" /></a>
 <div class="section" id="id5">
 <h4>Input Parameters<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
@@ -492,40 +502,14 @@
 <div class="section" id="id6">
 <h4>Output Parameters<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
-<dt><em>Next</em></dt>
-<dd>Next node.</dd>
-</dl>
-</div>
-<div class="section" id="id7">
-<h4>Internal Parameters<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h4>
-<dl class="docutils">
-<dt><em>Value</em></dt>
-<dd>Time (in seconds) that will pass before the activation of the next node. Set to zero by default. Can be set manually or through a variable (if the <code class="docutils literal"><span class="pre">Variable</span></code> parameter is enabled).</dd>
-</dl>
-</div>
-</div>
-<div class="section" id="conditional-jump">
-<span id="logic-jump"></span><h3>Conditional Jump<a class="headerlink" href="#conditional-jump" title="Permalink to this headline">¶</a></h3>
-<p>Go to the specified node if the certain condition is met. The parameters (operands) can also be variables that are activated using the corresponding switches.</p>
-<a class="reference internal image-reference" href="_images/logic_editor_conditional_jump.png"><img alt="_images/logic_editor_conditional_jump.png" class="align-center" src="_images/logic_editor_conditional_jump.png" style="width: 100%;" /></a>
-<div class="section" id="id8">
-<h4>Input Parameters<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h4>
-<dl class="docutils">
-<dt><em>Previous</em></dt>
-<dd>Previous node.</dd>
-</dl>
-</div>
-<div class="section" id="id9">
-<h4>Output Parameters<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h4>
-<dl class="docutils">
 <dt><em>True</em></dt>
 <dd>Condition is true.</dd>
 <dt><em>False</em></dt>
 <dd>Condition is false.</dd>
 </dl>
 </div>
-<div class="section" id="id10">
-<h4>Internal Parameters<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id7">
+<h4>Internal Parameters<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Condition</em></dt>
 <dd><p class="first">Logical condition. Can have one of the following types:</p>
@@ -551,22 +535,22 @@
 <span id="logic-callback"></span><h3>JS Callback<a class="headerlink" href="#js-callback" title="Permalink to this headline">¶</a></h3>
 <p>Can be used to call custom JavaScript callback defined in your Blend4Web application.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_js_callback.png"><img alt="_images/logic_editor_js_callback.png" class="align-center" src="_images/logic_editor_js_callback.png" style="width: 100%;" /></a>
-<div class="section" id="id11">
-<h4>Input Parameters<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id8">
+<h4>Input Parameters<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Previous</em></dt>
 <dd>Previous node.</dd>
 </dl>
 </div>
-<div class="section" id="id12">
-<h4>Output Parameters<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id9">
+<h4>Output Parameters<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Next</em></dt>
 <dd>Next node.</dd>
 </dl>
 </div>
-<div class="section" id="id13">
-<h4>Internal Parameters<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id10">
+<h4>Internal Parameters<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Callback ID</em></dt>
 <dd>The ID of a JavaScript function that will be called by the node.</dd>
@@ -589,11 +573,44 @@
 </div>
 </div>
 <div class="section" id="animation">
-<h2><a class="toc-backref" href="#id95">Animation</a><a class="headerlink" href="#animation" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id101">Animation</a><a class="headerlink" href="#animation" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="play-timeline-and-stop-timeline">
 <span id="logic-play-timeline"></span><h3>Play Timeline and Stop Timeline<a class="headerlink" href="#play-timeline-and-stop-timeline" title="Permalink to this headline">¶</a></h3>
 <p>Can be used to control NLA animations. The <code class="docutils literal"><span class="pre">Play</span> <span class="pre">Timeline</span></code> node plays NLA fragment starting with a frame specified by the marker. Animation plays until next marker is encountered, or to the end of the scene’s timeline. After that, control passes on to the next node. The <code class="docutils literal"><span class="pre">Stop</span> <span class="pre">Timeline</span></code> node stops the playback.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_timeline.png"><img alt="_images/logic_editor_timeline.png" class="align-center" src="_images/logic_editor_timeline.png" style="width: 100%;" /></a>
+<div class="section" id="id11">
+<h4>Input Parameters<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h4>
+<dl class="docutils">
+<dt><em>Previous</em></dt>
+<dd>Previous node.</dd>
+</dl>
+</div>
+<div class="section" id="id12">
+<h4>Output Parameters<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h4>
+<dl class="docutils">
+<dt><em>Next</em></dt>
+<dd>Next node.</dd>
+</dl>
+</div>
+<div class="section" id="id13">
+<h4>Internal Parameters<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h4>
+<dl class="docutils">
+<dt><em>Start Marker</em></dt>
+<dd>First frame of the animation. If not specified, an animation plays from the start of the timeline and may not work correctly.</dd>
+<dt><em>End Marker</em></dt>
+<dd>Last frame of the animation. If not specified, an animation plays to the end of the timeline and may not work correctly.</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="play-animation">
+<span id="logic-select-play"></span><h3>Play Animation<a class="headerlink" href="#play-animation" title="Permalink to this headline">¶</a></h3>
+<p>Can be used to play object’s animation. An animation can be one of the following types:</p>
+<p>Regular Action:</p>
+<a class="reference internal image-reference" href="_images/play_anim_action.png"><img alt="_images/play_anim_action.png" class="align-center" src="_images/play_anim_action.png" style="width: 100%;" /></a>
+<p>Shader Action:</p>
+<a class="reference internal image-reference" href="_images/play_anim_nodetree.png"><img alt="_images/play_anim_nodetree.png" class="align-center" src="_images/play_anim_nodetree.png" style="width: 100%;" /></a>
+<p>Particle system:</p>
+<a class="reference internal image-reference" href="_images/play_anim_particle.png"><img alt="_images/play_anim_particle.png" class="align-center" src="_images/play_anim_particle.png" style="width: 100%;" /></a>
 <div class="section" id="id14">
 <h4>Input Parameters<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
@@ -610,67 +627,6 @@
 </div>
 <div class="section" id="id16">
 <h4>Internal Parameters<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h4>
-<dl class="docutils">
-<dt><em>Start Marker</em></dt>
-<dd>First frame of the animation. If not specified, an animation plays from the start of the timeline and may not work correctly.</dd>
-<dt><em>End Marker</em></dt>
-<dd>Last frame of the animation. If not specified, an animation plays to the end of the timeline and may not work correctly.</dd>
-</dl>
-</div>
-</div>
-<div class="section" id="get-timeline">
-<span id="logic-get-timeline"></span><h3>Get Timeline<a class="headerlink" href="#get-timeline" title="Permalink to this headline">¶</a></h3>
-<p>This node can be used to get the current frame of an NLA animation or a timeline.</p>
-<a class="reference internal image-reference" href="_images/logic_editor_get_timeline.png"><img alt="_images/logic_editor_get_timeline.png" class="align-center" src="_images/logic_editor_get_timeline.png" style="width: 100%;" /></a>
-<div class="section" id="id17">
-<h4>Input Parameters<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h4>
-<dl class="docutils">
-<dt><em>Previous</em></dt>
-<dd>Previous node.</dd>
-</dl>
-</div>
-<div class="section" id="id18">
-<h4>Output Parameters<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h4>
-<dl class="docutils">
-<dt><em>Next</em></dt>
-<dd>Next node.</dd>
-</dl>
-</div>
-<div class="section" id="id19">
-<h4>Internal Parameters<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h4>
-<dl class="docutils">
-<dt><em>NLA Timeline</em></dt>
-<dd>If this parameter is enabled, the node will return the current frame of an NLA animation. If it is disabled, the node will return the current frame of the timeline. Enabled by default.</dd>
-<dt><em>Destination</em></dt>
-<dd>Specifies a variable to store the number of the current frame. Set to <code class="docutils literal"><span class="pre">R1</span></code> by default.</dd>
-</dl>
-</div>
-</div>
-<div class="section" id="play-animation">
-<span id="logic-select-play"></span><h3>Play Animation<a class="headerlink" href="#play-animation" title="Permalink to this headline">¶</a></h3>
-<p>Can be used to play object’s animation. An animation can be one of the following types:</p>
-<p>Regular Action:</p>
-<a class="reference internal image-reference" href="_images/play_anim_action.png"><img alt="_images/play_anim_action.png" class="align-center" src="_images/play_anim_action.png" style="width: 100%;" /></a>
-<p>Shader Action:</p>
-<a class="reference internal image-reference" href="_images/play_anim_nodetree.png"><img alt="_images/play_anim_nodetree.png" class="align-center" src="_images/play_anim_nodetree.png" style="width: 100%;" /></a>
-<p>Particle system:</p>
-<a class="reference internal image-reference" href="_images/play_anim_particle.png"><img alt="_images/play_anim_particle.png" class="align-center" src="_images/play_anim_particle.png" style="width: 100%;" /></a>
-<div class="section" id="id20">
-<h4>Input Parameters<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h4>
-<dl class="docutils">
-<dt><em>Previous</em></dt>
-<dd>Previous node.</dd>
-</dl>
-</div>
-<div class="section" id="id21">
-<h4>Output Parameters<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h4>
-<dl class="docutils">
-<dt><em>Next</em></dt>
-<dd>Next node.</dd>
-</dl>
-</div>
-<div class="section" id="id22">
-<h4>Internal Parameters<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Object</em></dt>
 <dd>Name of the object, animation of which will be played.</dd>
@@ -692,22 +648,22 @@
 <div class="section" id="stop-animation">
 <span id="logic-stop-anim"></span><h3>Stop Animation<a class="headerlink" href="#stop-animation" title="Permalink to this headline">¶</a></h3>
 <p>Can be used to stop an object’s animation.</p>
-<div class="section" id="id23">
-<h4>Input Parameters<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id17">
+<h4>Input Parameters<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Previous</em></dt>
 <dd>Previous node.</dd>
 </dl>
 </div>
-<div class="section" id="id24">
-<h4>Output Parameters<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id18">
+<h4>Output Parameters<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Next</em></dt>
 <dd>Next node.</dd>
 </dl>
 </div>
-<div class="section" id="id25">
-<h4>Internal Parameters<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id19">
+<h4>Internal Parameters<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Set First Frame</em></dt>
 <dd>Go back to the first frame after the animation has been stopped.</dd>
@@ -716,27 +672,27 @@
 </div>
 </div>
 <div class="section" id="camera">
-<h2><a class="toc-backref" href="#id96">Camera</a><a class="headerlink" href="#camera" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id102">Camera</a><a class="headerlink" href="#camera" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="move-camera">
 <span id="logic-move-camera"></span><h3>Move Camera<a class="headerlink" href="#move-camera" title="Permalink to this headline">¶</a></h3>
 <p>Can be used to move the camera, including smooth interpolation of its position.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_move_camera.png"><img alt="_images/logic_editor_move_camera.png" class="align-center" src="_images/logic_editor_move_camera.png" style="width: 100%;" /></a>
-<div class="section" id="id26">
-<h4>Input Parameters<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id20">
+<h4>Input Parameters<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Previous</em></dt>
 <dd>Previous node.</dd>
 </dl>
 </div>
-<div class="section" id="id27">
-<h4>Output Parameters<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id21">
+<h4>Output Parameters<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Next</em></dt>
 <dd>Next node.</dd>
 </dl>
 </div>
-<div class="section" id="id28">
-<h4>Internal Parameters<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id22">
+<h4>Internal Parameters<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Camera</em></dt>
 <dd>A camera that will be moved.</dd>
@@ -753,22 +709,22 @@
 <span id="logic-set-camera-move-style"></span><h3>Set Camera Move Style<a class="headerlink" href="#set-camera-move-style" title="Permalink to this headline">¶</a></h3>
 <p>Can be used to change the move style of the selected camera.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_set_camera_move_style.png"><img alt="_images/logic_editor_set_camera_move_style.png" class="align-center" src="_images/logic_editor_set_camera_move_style.png" style="width: 100%;" /></a>
-<div class="section" id="id29">
-<h4>Input Parameters<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id23">
+<h4>Input Parameters<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Previous</em></dt>
 <dd>Previous node.</dd>
 </dl>
 </div>
-<div class="section" id="id30">
-<h4>Output Parameters<a class="headerlink" href="#id30" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id24">
+<h4>Output Parameters<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Next</em></dt>
 <dd>Next node.</dd>
 </dl>
 </div>
-<div class="section" id="id31">
-<h4>Internal Parameters<a class="headerlink" href="#id31" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id25">
+<h4>Internal Parameters<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Camera</em></dt>
 <dd>This parameter specifies a camera to which the changes will be applied.</dd>
@@ -804,22 +760,22 @@
 <span id="logic-set-camera-limits"></span><h3>Set Camera Limits<a class="headerlink" href="#set-camera-limits" title="Permalink to this headline">¶</a></h3>
 <p>This node can be used to set limits of the selected camera. The node lists all available limits, but only ones that are compatible with the type of the camera are applied.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_set_camera_limits.png"><img alt="_images/logic_editor_set_camera_limits.png" class="align-center" src="_images/logic_editor_set_camera_limits.png" style="width: 100%;" /></a>
-<div class="section" id="id32">
-<h4>Input Parameters<a class="headerlink" href="#id32" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id26">
+<h4>Input Parameters<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Previous</em></dt>
 <dd>Previous node.</dd>
 </dl>
 </div>
-<div class="section" id="id33">
-<h4>Output Parameters<a class="headerlink" href="#id33" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id27">
+<h4>Output Parameters<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Next</em></dt>
 <dd>Next node.</dd>
 </dl>
 </div>
-<div class="section" id="id34">
-<h4>Internal Parameters<a class="headerlink" href="#id34" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id28">
+<h4>Internal Parameters<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Camera</em></dt>
 <dd>This parameter specifies a camera to which the limits will be applied.</dd>
@@ -840,11 +796,67 @@
 </div>
 </div>
 <div class="section" id="object">
-<h2><a class="toc-backref" href="#id97">Object</a><a class="headerlink" href="#object" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id103">Object</a><a class="headerlink" href="#object" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="show-object">
 <span id="logic-show-object"></span><h3>Show Object<a class="headerlink" href="#show-object" title="Permalink to this headline">¶</a></h3>
 <p>Can be used to show 3D objects.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_show_object.png"><img alt="_images/logic_editor_show_object.png" class="align-center" src="_images/logic_editor_show_object.png" style="width: 100%;" /></a>
+<div class="section" id="id29">
+<h4>Input Parameters<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h4>
+<dl class="docutils">
+<dt><em>Previous</em></dt>
+<dd>Previous node.</dd>
+</dl>
+</div>
+<div class="section" id="id30">
+<h4>Output Parameters<a class="headerlink" href="#id30" title="Permalink to this headline">¶</a></h4>
+<dl class="docutils">
+<dt><em>Next</em></dt>
+<dd>Next node.</dd>
+</dl>
+</div>
+<div class="section" id="id31">
+<h4>Internal Parameters<a class="headerlink" href="#id31" title="Permalink to this headline">¶</a></h4>
+<dl class="docutils">
+<dt><em>Object</em></dt>
+<dd>An object to show.</dd>
+<dt><em>Process child objects</em></dt>
+<dd>If this parameter is enabled, child objects will be shown as well.</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="hide-object">
+<span id="logic-hide-object"></span><h3>Hide Object<a class="headerlink" href="#hide-object" title="Permalink to this headline">¶</a></h3>
+<p>Can be used to hide 3D objects.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_hide_object.png"><img alt="_images/logic_editor_hide_object.png" class="align-center" src="_images/logic_editor_hide_object.png" style="width: 100%;" /></a>
+<div class="section" id="id32">
+<h4>Input Parameters<a class="headerlink" href="#id32" title="Permalink to this headline">¶</a></h4>
+<dl class="docutils">
+<dt><em>Previous</em></dt>
+<dd>Previous node.</dd>
+</dl>
+</div>
+<div class="section" id="id33">
+<h4>Output Parameters<a class="headerlink" href="#id33" title="Permalink to this headline">¶</a></h4>
+<dl class="docutils">
+<dt><em>Next</em></dt>
+<dd>Next node.</dd>
+</dl>
+</div>
+<div class="section" id="id34">
+<h4>Internal Parameters<a class="headerlink" href="#id34" title="Permalink to this headline">¶</a></h4>
+<dl class="docutils">
+<dt><em>Object</em></dt>
+<dd>An object to hide.</dd>
+<dt><em>Process child objects</em></dt>
+<dd>If this parameter is enabled, child objects will be hidden as well.</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="transform-object">
+<span id="logic-transform"></span><h3>Transform Object<a class="headerlink" href="#transform-object" title="Permalink to this headline">¶</a></h3>
+<p>Can be used to transform object’s location, size and rotation angles.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_transform_object.png"><img alt="_images/logic_editor_transform_object.png" class="align-center" src="_images/logic_editor_transform_object.png" style="width: 100%;" /></a>
 <div class="section" id="id35">
 <h4>Input Parameters<a class="headerlink" href="#id35" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
@@ -861,62 +873,6 @@
 </div>
 <div class="section" id="id37">
 <h4>Internal Parameters<a class="headerlink" href="#id37" title="Permalink to this headline">¶</a></h4>
-<dl class="docutils">
-<dt><em>Object</em></dt>
-<dd>An object to show.</dd>
-<dt><em>Process child objects</em></dt>
-<dd>If this parameter is enabled, child objects will be shown as well.</dd>
-</dl>
-</div>
-</div>
-<div class="section" id="hide-object">
-<span id="logic-hide-object"></span><h3>Hide Object<a class="headerlink" href="#hide-object" title="Permalink to this headline">¶</a></h3>
-<p>Can be used to hide 3D objects.</p>
-<a class="reference internal image-reference" href="_images/logic_editor_hide_object.png"><img alt="_images/logic_editor_hide_object.png" class="align-center" src="_images/logic_editor_hide_object.png" style="width: 100%;" /></a>
-<div class="section" id="id38">
-<h4>Input Parameters<a class="headerlink" href="#id38" title="Permalink to this headline">¶</a></h4>
-<dl class="docutils">
-<dt><em>Previous</em></dt>
-<dd>Previous node.</dd>
-</dl>
-</div>
-<div class="section" id="id39">
-<h4>Output Parameters<a class="headerlink" href="#id39" title="Permalink to this headline">¶</a></h4>
-<dl class="docutils">
-<dt><em>Next</em></dt>
-<dd>Next node.</dd>
-</dl>
-</div>
-<div class="section" id="id40">
-<h4>Internal Parameters<a class="headerlink" href="#id40" title="Permalink to this headline">¶</a></h4>
-<dl class="docutils">
-<dt><em>Object</em></dt>
-<dd>An object to hide.</dd>
-<dt><em>Process child objects</em></dt>
-<dd>If this parameter is enabled, child objects will be hidden as well.</dd>
-</dl>
-</div>
-</div>
-<div class="section" id="transform-object">
-<span id="logic-transform"></span><h3>Transform Object<a class="headerlink" href="#transform-object" title="Permalink to this headline">¶</a></h3>
-<p>Can be used to transform object’s location, size and rotation angles.</p>
-<a class="reference internal image-reference" href="_images/logic_editor_transform_object.png"><img alt="_images/logic_editor_transform_object.png" class="align-center" src="_images/logic_editor_transform_object.png" style="width: 100%;" /></a>
-<div class="section" id="id41">
-<h4>Input Parameters<a class="headerlink" href="#id41" title="Permalink to this headline">¶</a></h4>
-<dl class="docutils">
-<dt><em>Previous</em></dt>
-<dd>Previous node.</dd>
-</dl>
-</div>
-<div class="section" id="id42">
-<h4>Output Parameters<a class="headerlink" href="#id42" title="Permalink to this headline">¶</a></h4>
-<dl class="docutils">
-<dt><em>Next</em></dt>
-<dd>Next node.</dd>
-</dl>
-</div>
-<div class="section" id="id43">
-<h4>Internal Parameters<a class="headerlink" href="#id43" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Object</em></dt>
 <dd>An object that needs to be translated.</dd>
@@ -944,6 +900,66 @@
 <span id="logic-move-to"></span><h3>Move To<a class="headerlink" href="#move-to" title="Permalink to this headline">¶</a></h3>
 <p>Can be used to move objects.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_move_to.png"><img alt="_images/logic_editor_move_to.png" class="align-center" src="_images/logic_editor_move_to.png" style="width: 100%;" /></a>
+<div class="section" id="id38">
+<h4>Input Parameters<a class="headerlink" href="#id38" title="Permalink to this headline">¶</a></h4>
+<dl class="docutils">
+<dt><em>Previous</em></dt>
+<dd>Previous node.</dd>
+</dl>
+</div>
+<div class="section" id="id39">
+<h4>Output Parameters<a class="headerlink" href="#id39" title="Permalink to this headline">¶</a></h4>
+<dl class="docutils">
+<dt><em>Next</em></dt>
+<dd>Next node.</dd>
+</dl>
+</div>
+<div class="section" id="id40">
+<h4>Internal Parameters<a class="headerlink" href="#id40" title="Permalink to this headline">¶</a></h4>
+<dl class="docutils">
+<dt><em>Object</em></dt>
+<dd>An object that you need to move.</dd>
+<dt><em>Destination</em></dt>
+<dd>A target (another object or a light source, camera or anything else) to which the selected object will move. The object’s coordinated will be the same as the target’s after the movement is finished.</dd>
+<dt><em>Duration</em></dt>
+<dd>Time (in seconds) that the object will spend moving to the new location. By default, this parameter is set to zero (and in this case, the object doesn’t actually move, it just changes its position in a moment). It can be set manually or with a variable (available only if the <code class="docutils literal"><span class="pre">Variable</span></code> parameter is enabled).</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="apply-shape-key">
+<span id="logic-shape-key"></span><h3>Apply Shape Key<a class="headerlink" href="#apply-shape-key" title="Permalink to this headline">¶</a></h3>
+<p>Set the Shape Key factor.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_apply_shape_key.png"><img alt="_images/logic_editor_apply_shape_key.png" class="align-center" src="_images/logic_editor_apply_shape_key.png" style="width: 100%;" /></a>
+<div class="section" id="id41">
+<h4>Input Parameters<a class="headerlink" href="#id41" title="Permalink to this headline">¶</a></h4>
+<dl class="docutils">
+<dt><em>Previous</em></dt>
+<dd>Previous node.</dd>
+</dl>
+</div>
+<div class="section" id="id42">
+<h4>Output Parameters<a class="headerlink" href="#id42" title="Permalink to this headline">¶</a></h4>
+<dl class="docutils">
+<dt><em>Next</em></dt>
+<dd>Next node.</dd>
+</dl>
+</div>
+<div class="section" id="id43">
+<h4>Internal Parameters<a class="headerlink" href="#id43" title="Permalink to this headline">¶</a></h4>
+<dl class="docutils">
+<dt><em>Object</em></dt>
+<dd>An object that needs to be transformed.</dd>
+<dt><em>Shape Key</em></dt>
+<dd>Shape key that will be applied to the object.</dd>
+<dt><em>Value</em></dt>
+<dd>How much the shape key will influence the object. This value can be set directly in the node or using a variable. The value should be between 0 and 1.</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="outline">
+<span id="logic-outline"></span><h3>Outline<a class="headerlink" href="#outline" title="Permalink to this headline">¶</a></h3>
+<p>Controls object outlining effect.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_outline.png"><img alt="_images/logic_editor_outline.png" class="align-center" src="_images/logic_editor_outline.png" style="width: 100%;" /></a>
 <div class="section" id="id44">
 <h4>Input Parameters<a class="headerlink" href="#id44" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
@@ -960,66 +976,6 @@
 </div>
 <div class="section" id="id46">
 <h4>Internal Parameters<a class="headerlink" href="#id46" title="Permalink to this headline">¶</a></h4>
-<dl class="docutils">
-<dt><em>Object</em></dt>
-<dd>An object that you need to move.</dd>
-<dt><em>Destination</em></dt>
-<dd>A target (another object or a light source, camera or anything else) to which the selected object will move. The object’s coordinated will be the same as the target’s after the movement is finished.</dd>
-<dt><em>Duration</em></dt>
-<dd>Time (in seconds) that the object will spend moving to the new location. By default, this parameter is set to zero (and in this case, the object doesn’t actually move, it just changes its position in a moment). It can be set manually or with a variable (available only if the <code class="docutils literal"><span class="pre">Variable</span></code> parameter is enabled).</dd>
-</dl>
-</div>
-</div>
-<div class="section" id="apply-shape-key">
-<span id="logic-shape-key"></span><h3>Apply Shape Key<a class="headerlink" href="#apply-shape-key" title="Permalink to this headline">¶</a></h3>
-<p>Set the Shape Key factor.</p>
-<a class="reference internal image-reference" href="_images/logic_editor_apply_shape_key.png"><img alt="_images/logic_editor_apply_shape_key.png" class="align-center" src="_images/logic_editor_apply_shape_key.png" style="width: 100%;" /></a>
-<div class="section" id="id47">
-<h4>Input Parameters<a class="headerlink" href="#id47" title="Permalink to this headline">¶</a></h4>
-<dl class="docutils">
-<dt><em>Previous</em></dt>
-<dd>Previous node.</dd>
-</dl>
-</div>
-<div class="section" id="id48">
-<h4>Output Parameters<a class="headerlink" href="#id48" title="Permalink to this headline">¶</a></h4>
-<dl class="docutils">
-<dt><em>Next</em></dt>
-<dd>Next node.</dd>
-</dl>
-</div>
-<div class="section" id="id49">
-<h4>Internal Parameters<a class="headerlink" href="#id49" title="Permalink to this headline">¶</a></h4>
-<dl class="docutils">
-<dt><em>Object</em></dt>
-<dd>An object that needs to be transformed.</dd>
-<dt><em>Shape Key</em></dt>
-<dd>Shape key that will be applied to the object.</dd>
-<dt><em>Value</em></dt>
-<dd>How much the shape key will influence the object. This value can be set directly in the node or using a variable. The value should be between 0 and 1.</dd>
-</dl>
-</div>
-</div>
-<div class="section" id="outline">
-<span id="logic-outline"></span><h3>Outline<a class="headerlink" href="#outline" title="Permalink to this headline">¶</a></h3>
-<p>Controls object outlining effect.</p>
-<a class="reference internal image-reference" href="_images/logic_editor_outline.png"><img alt="_images/logic_editor_outline.png" class="align-center" src="_images/logic_editor_outline.png" style="width: 100%;" /></a>
-<div class="section" id="id50">
-<h4>Input Parameters<a class="headerlink" href="#id50" title="Permalink to this headline">¶</a></h4>
-<dl class="docutils">
-<dt><em>Previous</em></dt>
-<dd>Previous node.</dd>
-</dl>
-</div>
-<div class="section" id="id51">
-<h4>Output Parameters<a class="headerlink" href="#id51" title="Permalink to this headline">¶</a></h4>
-<dl class="docutils">
-<dt><em>Next</em></dt>
-<dd>Next node.</dd>
-</dl>
-</div>
-<div class="section" id="id52">
-<h4>Internal Parameters<a class="headerlink" href="#id52" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Object</em></dt>
 <dd>Any changes of the outline effect will be applied only to an object specified by this parameter.</dd>
@@ -1040,22 +996,22 @@
 <span id="logic-shader-node"></span><h3>Set Shader Node Param<a class="headerlink" href="#set-shader-node-param" title="Permalink to this headline">¶</a></h3>
 <p>Can be used to set the value for the shader node. Currently, only <code class="docutils literal"><span class="pre">Value</span></code> and <code class="docutils literal"><span class="pre">RGB</span></code> nodes are supported.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_set_shader_node_param.png"><img alt="_images/logic_editor_set_shader_node_param.png" class="align-center" src="_images/logic_editor_set_shader_node_param.png" style="width: 100%;" /></a>
-<div class="section" id="id53">
-<h4>Input Parameters<a class="headerlink" href="#id53" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id47">
+<h4>Input Parameters<a class="headerlink" href="#id47" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Previous</em></dt>
 <dd>Previous node.</dd>
 </dl>
 </div>
-<div class="section" id="id54">
-<h4>Output Parameters<a class="headerlink" href="#id54" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id48">
+<h4>Output Parameters<a class="headerlink" href="#id48" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Next</em></dt>
 <dd>Next node.</dd>
 </dl>
 </div>
-<div class="section" id="id55">
-<h4>Internal Parameters<a class="headerlink" href="#id55" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id49">
+<h4>Internal Parameters<a class="headerlink" href="#id49" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Object</em></dt>
 <dd>An object that has material that needs to be edited.</dd>
@@ -1072,22 +1028,22 @@
 <span id="logic-inherit-material"></span><h3>Inherit Material<a class="headerlink" href="#inherit-material" title="Permalink to this headline">¶</a></h3>
 <p>Copy attributes from one material to another.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_inherit_material.png"><img alt="_images/logic_editor_inherit_material.png" class="align-center" src="_images/logic_editor_inherit_material.png" style="width: 100%;" /></a>
-<div class="section" id="id56">
-<h4>Input Parameters<a class="headerlink" href="#id56" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id50">
+<h4>Input Parameters<a class="headerlink" href="#id50" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Previous</em></dt>
 <dd>Previous node.</dd>
 </dl>
 </div>
-<div class="section" id="id57">
-<h4>Output Parameters<a class="headerlink" href="#id57" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id51">
+<h4>Output Parameters<a class="headerlink" href="#id51" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Next</em></dt>
 <dd>Next node.</dd>
 </dl>
 </div>
-<div class="section" id="id58">
-<h4>Internal Parameters<a class="headerlink" href="#id58" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id52">
+<h4>Internal Parameters<a class="headerlink" href="#id52" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Source</em></dt>
 <dd>An object that has a material that will be inherited.</dd>
@@ -1102,27 +1058,27 @@
 </div>
 </div>
 <div class="section" id="operations">
-<h2><a class="toc-backref" href="#id98">Operations</a><a class="headerlink" href="#operations" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id104">Operations</a><a class="headerlink" href="#operations" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="variable-store">
 <span id="logic-var-store"></span><h3>Variable Store<a class="headerlink" href="#variable-store" title="Permalink to this headline">¶</a></h3>
 <p>Saves numerical or string value to a variable.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_variable_store.png"><img alt="_images/logic_editor_variable_store.png" class="align-center" src="_images/logic_editor_variable_store.png" style="width: 100%;" /></a>
-<div class="section" id="id59">
-<h4>Input Parameters<a class="headerlink" href="#id59" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id53">
+<h4>Input Parameters<a class="headerlink" href="#id53" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Previous</em></dt>
 <dd>Previous node.</dd>
 </dl>
 </div>
-<div class="section" id="id60">
-<h4>Output Parameters<a class="headerlink" href="#id60" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id54">
+<h4>Output Parameters<a class="headerlink" href="#id54" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Next</em></dt>
 <dd>Next node.</dd>
 </dl>
 </div>
-<div class="section" id="id61">
-<h4>Internal Parameters<a class="headerlink" href="#id61" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id55">
+<h4>Internal Parameters<a class="headerlink" href="#id55" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Var. name.</em></dt>
 <dd>Name of the variable. Can be selected from the list of variables or specified manually (if the <code class="docutils literal"><span class="pre">New</span> <span class="pre">variable</span></code> parameter is enabled).</dd>
@@ -1143,22 +1099,22 @@
 <span id="logic-math"></span><h3>Math Operation<a class="headerlink" href="#math-operation" title="Permalink to this headline">¶</a></h3>
 <p>Perform a math operation and store the result in the variables. Any of parameters (operands) can be either a numeric value or a variables.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_math_operation.png"><img alt="_images/logic_editor_math_operation.png" class="align-center" src="_images/logic_editor_math_operation.png" style="width: 100%;" /></a>
-<div class="section" id="id62">
-<h4>Input Parameters<a class="headerlink" href="#id62" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id56">
+<h4>Input Parameters<a class="headerlink" href="#id56" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Previous</em></dt>
 <dd>Previous node.</dd>
 </dl>
 </div>
-<div class="section" id="id63">
-<h4>Output Parameters<a class="headerlink" href="#id63" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id57">
+<h4>Output Parameters<a class="headerlink" href="#id57" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Next</em></dt>
 <dd>Next node.</dd>
 </dl>
 </div>
-<div class="section" id="id64">
-<h4>Internal Parameters<a class="headerlink" href="#id64" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id58">
+<h4>Internal Parameters<a class="headerlink" href="#id58" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Operation</em></dt>
 <dd><p class="first">Mathematical operation. Can have one of the following types:</p>
@@ -1195,22 +1151,22 @@
 <span id="logic-string"></span><h3>String Operation<a class="headerlink" href="#string-operation" title="Permalink to this headline">¶</a></h3>
 <p>Can be used to perform an operation with two strings and save the result to a variable.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_string.png"><img alt="_images/logic_editor_string.png" class="align-center" src="_images/logic_editor_string.png" style="width: 100%;" /></a>
-<div class="section" id="id65">
-<h4>Input Parameters<a class="headerlink" href="#id65" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id59">
+<h4>Input Parameters<a class="headerlink" href="#id59" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Previous</em></dt>
 <dd>Previous node.</dd>
 </dl>
 </div>
-<div class="section" id="id66">
-<h4>Output Parameters<a class="headerlink" href="#id66" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id60">
+<h4>Output Parameters<a class="headerlink" href="#id60" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Next</em></dt>
 <dd>Next node.</dd>
 </dl>
 </div>
-<div class="section" id="id67">
-<h4>Internal Parameters<a class="headerlink" href="#id67" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id61">
+<h4>Internal Parameters<a class="headerlink" href="#id61" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Operation</em></dt>
 <dd><p class="first">An operation that you need to perform with two strings, which can have one of the following values:</p>
@@ -1239,11 +1195,68 @@
 </div>
 </div>
 <div class="section" id="sound">
-<h2><a class="toc-backref" href="#id99">Sound</a><a class="headerlink" href="#sound" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id105">Sound</a><a class="headerlink" href="#sound" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="play-sound">
 <span id="logic-play-sound"></span><h3>Play Sound<a class="headerlink" href="#play-sound" title="Permalink to this headline">¶</a></h3>
 <p>Can be used to play speaker’s sound.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_play_sound.png"><img alt="_images/logic_editor_play_sound.png" class="align-center" src="_images/logic_editor_play_sound.png" style="width: 100%;" /></a>
+<div class="section" id="id62">
+<h4>Input Parameters<a class="headerlink" href="#id62" title="Permalink to this headline">¶</a></h4>
+<dl class="docutils">
+<dt><em>Previous</em></dt>
+<dd>Previous node.</dd>
+</dl>
+</div>
+<div class="section" id="id63">
+<h4>Output Parameters<a class="headerlink" href="#id63" title="Permalink to this headline">¶</a></h4>
+<dl class="docutils">
+<dt><em>Next</em></dt>
+<dd>Next node.</dd>
+</dl>
+</div>
+<div class="section" id="id64">
+<h4>Internal Parameters<a class="headerlink" href="#id64" title="Permalink to this headline">¶</a></h4>
+<dl class="docutils">
+<dt><em>Speaker</em></dt>
+<dd>A speaker that will be enabled.</dd>
+<dt><em>Do Not Wait</em></dt>
+<dd>If this parameter is enabled, the control will pass to the next node right after sound playback starts. If it isn’t enabled, the control will pass only when the playback is finished.</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="stop-sound">
+<span id="logic-stop-sound"></span><h3>Stop Sound<a class="headerlink" href="#stop-sound" title="Permalink to this headline">¶</a></h3>
+<p>Can be used to stop speaker’s sound.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_stop_sound.png"><img alt="_images/logic_editor_stop_sound.png" class="align-center" src="_images/logic_editor_stop_sound.png" style="width: 100%;" /></a>
+<div class="section" id="id65">
+<h4>Input Parameters<a class="headerlink" href="#id65" title="Permalink to this headline">¶</a></h4>
+<dl class="docutils">
+<dt><em>Previous</em></dt>
+<dd>Previous node.</dd>
+</dl>
+</div>
+<div class="section" id="id66">
+<h4>Output Parameters<a class="headerlink" href="#id66" title="Permalink to this headline">¶</a></h4>
+<dl class="docutils">
+<dt><em>Next</em></dt>
+<dd>Next node.</dd>
+</dl>
+</div>
+<div class="section" id="id67">
+<h4>Internal Parameters<a class="headerlink" href="#id67" title="Permalink to this headline">¶</a></h4>
+<dl class="docutils">
+<dt><em>Speaker</em></dt>
+<dd>A speaker that will be turned off.</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="section" id="network">
+<h2><a class="toc-backref" href="#id106">Network</a><a class="headerlink" href="#network" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="send-request">
+<span id="logic-send-request"></span><h3>Send Request<a class="headerlink" href="#send-request" title="Permalink to this headline">¶</a></h3>
+<p>Send an HTTP GET request to the specified URL and save the respond’s fields a variable.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_send_request.png"><img alt="_images/logic_editor_send_request.png" class="align-center" src="_images/logic_editor_send_request.png" style="width: 100%;" /></a>
 <div class="section" id="id68">
 <h4>Input Parameters<a class="headerlink" href="#id68" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
@@ -1260,63 +1273,6 @@
 </div>
 <div class="section" id="id70">
 <h4>Internal Parameters<a class="headerlink" href="#id70" title="Permalink to this headline">¶</a></h4>
-<dl class="docutils">
-<dt><em>Speaker</em></dt>
-<dd>A speaker that will be enabled.</dd>
-<dt><em>Do Not Wait</em></dt>
-<dd>If this parameter is enabled, the control will pass to the next node right after sound playback starts. If it isn’t enabled, the control will pass only when the playback is finished.</dd>
-</dl>
-</div>
-</div>
-<div class="section" id="stop-sound">
-<span id="logic-stop-sound"></span><h3>Stop Sound<a class="headerlink" href="#stop-sound" title="Permalink to this headline">¶</a></h3>
-<p>Can be used to stop speaker’s sound.</p>
-<a class="reference internal image-reference" href="_images/logic_editor_stop_sound.png"><img alt="_images/logic_editor_stop_sound.png" class="align-center" src="_images/logic_editor_stop_sound.png" style="width: 100%;" /></a>
-<div class="section" id="id71">
-<h4>Input Parameters<a class="headerlink" href="#id71" title="Permalink to this headline">¶</a></h4>
-<dl class="docutils">
-<dt><em>Previous</em></dt>
-<dd>Previous node.</dd>
-</dl>
-</div>
-<div class="section" id="id72">
-<h4>Output Parameters<a class="headerlink" href="#id72" title="Permalink to this headline">¶</a></h4>
-<dl class="docutils">
-<dt><em>Next</em></dt>
-<dd>Next node.</dd>
-</dl>
-</div>
-<div class="section" id="id73">
-<h4>Internal Parameters<a class="headerlink" href="#id73" title="Permalink to this headline">¶</a></h4>
-<dl class="docutils">
-<dt><em>Speaker</em></dt>
-<dd>A speaker that will be turned off.</dd>
-</dl>
-</div>
-</div>
-</div>
-<div class="section" id="network">
-<h2><a class="toc-backref" href="#id100">Network</a><a class="headerlink" href="#network" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="send-request">
-<span id="logic-send-request"></span><h3>Send Request<a class="headerlink" href="#send-request" title="Permalink to this headline">¶</a></h3>
-<p>Send an HTTP GET request to the specified URL and save the respond’s fields a variable.</p>
-<a class="reference internal image-reference" href="_images/logic_editor_send_request.png"><img alt="_images/logic_editor_send_request.png" class="align-center" src="_images/logic_editor_send_request.png" style="width: 100%;" /></a>
-<div class="section" id="id74">
-<h4>Input Parameters<a class="headerlink" href="#id74" title="Permalink to this headline">¶</a></h4>
-<dl class="docutils">
-<dt><em>Previous</em></dt>
-<dd>Previous node.</dd>
-</dl>
-</div>
-<div class="section" id="id75">
-<h4>Output Parameters<a class="headerlink" href="#id75" title="Permalink to this headline">¶</a></h4>
-<dl class="docutils">
-<dt><em>Next</em></dt>
-<dd>Next node.</dd>
-</dl>
-</div>
-<div class="section" id="id76">
-<h4>Internal Parameters<a class="headerlink" href="#id76" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Method</em></dt>
 <dd><p class="first">Method of the request. Can have one of two values:</p>
@@ -1354,22 +1310,22 @@
 <span id="logic-json"></span><h3>JSON<a class="headerlink" href="#json" title="Permalink to this headline">¶</a></h3>
 <p>This node can be used to encode and decode complex JSON objects.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_json.png"><img alt="_images/logic_editor_json.png" class="align-center" src="_images/logic_editor_json.png" style="width: 100%;" /></a>
-<div class="section" id="id77">
-<h4>Input Parameters<a class="headerlink" href="#id77" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id71">
+<h4>Input Parameters<a class="headerlink" href="#id71" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Previous</em></dt>
 <dd>Previous node.</dd>
 </dl>
 </div>
-<div class="section" id="id78">
-<h4>Output Parameters<a class="headerlink" href="#id78" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id72">
+<h4>Output Parameters<a class="headerlink" href="#id72" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Next</em></dt>
 <dd>Next node.</dd>
 </dl>
 </div>
-<div class="section" id="id79">
-<h4>Internal Parameters<a class="headerlink" href="#id79" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id73">
+<h4>Internal Parameters<a class="headerlink" href="#id73" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>JSON</em></dt>
 <dd>A link to a JSON object that you need to decode or encode. Set to <code class="docutils literal"><span class="pre">R1</span></code> by default.</dd>
@@ -1420,6 +1376,62 @@
 <span id="logic-page-param"></span><h3>Page Param<a class="headerlink" href="#page-param" title="Permalink to this headline">¶</a></h3>
 <p>Allows to store any web page parameter in a given variable.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_page_param.png"><img alt="_images/logic_editor_page_param.png" class="align-center" src="_images/logic_editor_page_param.png" style="width: 100%;" /></a>
+<div class="section" id="id74">
+<h4>Input Parameters<a class="headerlink" href="#id74" title="Permalink to this headline">¶</a></h4>
+<dl class="docutils">
+<dt><em>Previous</em></dt>
+<dd>Previous node.</dd>
+</dl>
+</div>
+<div class="section" id="id75">
+<h4>Output Parameters<a class="headerlink" href="#id75" title="Permalink to this headline">¶</a></h4>
+<dl class="docutils">
+<dt><em>Next</em></dt>
+<dd>Next node.</dd>
+</dl>
+</div>
+<div class="section" id="id76">
+<h4>Internal Parameters<a class="headerlink" href="#id76" title="Permalink to this headline">¶</a></h4>
+<dl class="docutils">
+<dt><em>Param Name</em></dt>
+<dd><p class="first">The name of the web page parameter.</p>
+<p class="last">If the parameter specified in this field is presented in the URL, then its value will be saved to a variable specified by the <code class="docutils literal"><span class="pre">Destination</span></code> parameter.</p>
+</dd>
+<dt><em>Destination</em></dt>
+<dd>A variable that will be used to save the parameter.</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="page-redirect">
+<span id="logic-page-redirect"></span><h3>Page Redirect<a class="headerlink" href="#page-redirect" title="Permalink to this headline">¶</a></h3>
+<p>Can be used to redirect the browser to another page. This node always marks the end of the node tree and doesn’t have any output parameters.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_page_redirect.png"><img alt="_images/logic_editor_page_redirect.png" class="align-center" src="_images/logic_editor_page_redirect.png" style="width: 100%;" /></a>
+<div class="section" id="id77">
+<h4>Input Parameters<a class="headerlink" href="#id77" title="Permalink to this headline">¶</a></h4>
+<dl class="docutils">
+<dt><em>Previous</em></dt>
+<dd>Previous node.</dd>
+</dl>
+</div>
+<div class="section" id="id78">
+<h4>Output Parameters<a class="headerlink" href="#id78" title="Permalink to this headline">¶</a></h4>
+<p>None.</p>
+</div>
+<div class="section" id="id79">
+<h4>Internal Parameters<a class="headerlink" href="#id79" title="Permalink to this headline">¶</a></h4>
+<dl class="docutils">
+<dt><em>Url</em></dt>
+<dd>Web address of a page that will be opened. Set to “<a class="reference external" href="https://www.blend4web.com">https://www.blend4web.com</a>” by default.</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="section" id="debug">
+<h2><a class="toc-backref" href="#id107">Debug</a><a class="headerlink" href="#debug" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="console-print">
+<span id="logic-console-print"></span><h3>Console Print<a class="headerlink" href="#console-print" title="Permalink to this headline">¶</a></h3>
+<p>This node prints variables’s values and additional text to the web browser console. It can be used for debug purposes.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_console_print.png"><img alt="_images/logic_editor_console_print.png" class="align-center" src="_images/logic_editor_console_print.png" style="width: 100%;" /></a>
 <div class="section" id="id80">
 <h4>Input Parameters<a class="headerlink" href="#id80" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
@@ -1437,19 +1449,20 @@
 <div class="section" id="id82">
 <h4>Internal Parameters<a class="headerlink" href="#id82" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
-<dt><em>Param Name</em></dt>
-<dd><p class="first">The name of the web page parameter.</p>
-<p class="last">If the parameter specified in this field is presented in the URL, then its value will be saved to a variable specified by the <code class="docutils literal"><span class="pre">Destination</span></code> parameter.</p>
-</dd>
-<dt><em>Destination</em></dt>
-<dd>A variable that will be used to save the parameter.</dd>
+<dt><em>Message</em></dt>
+<dd>A message that will be printed to the console along with the values.</dd>
+<dt>&lt;variable name&gt;</dt>
+<dd>A variable that will be printed to the console. By default, a <code class="docutils literal"><span class="pre">Console</span> <span class="pre">Print</span></code> node has one such parameter, but you can add new and delete existing ones (the node might not even have such parameters at all).</dd>
 </dl>
 </div>
 </div>
-<div class="section" id="page-redirect">
-<span id="logic-page-redirect"></span><h3>Page Redirect<a class="headerlink" href="#page-redirect" title="Permalink to this headline">¶</a></h3>
-<p>Can be used to redirect the browser to another page. This node always marks the end of the node tree and doesn’t have any output parameters.</p>
-<a class="reference internal image-reference" href="_images/logic_editor_page_redirect.png"><img alt="_images/logic_editor_page_redirect.png" class="align-center" src="_images/logic_editor_page_redirect.png" style="width: 100%;" /></a>
+</div>
+<div class="section" id="time">
+<h2><a class="toc-backref" href="#id108">Time</a><a class="headerlink" href="#time" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="date-time">
+<span id="logic-time"></span><h3>Date &amp; Time<a class="headerlink" href="#date-time" title="Permalink to this headline">¶</a></h3>
+<p>This node returns the current time and date.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_time.png"><img alt="_images/logic_editor_time.png" class="align-center" src="_images/logic_editor_time.png" style="width: 100%;" /></a>
 <div class="section" id="id83">
 <h4>Input Parameters<a class="headerlink" href="#id83" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
@@ -1459,23 +1472,50 @@
 </div>
 <div class="section" id="id84">
 <h4>Output Parameters<a class="headerlink" href="#id84" title="Permalink to this headline">¶</a></h4>
-<p>None.</p>
+<dl class="docutils">
+<dt><em>Next</em></dt>
+<dd>Next node.</dd>
+</dl>
 </div>
 <div class="section" id="id85">
 <h4>Internal Parameters<a class="headerlink" href="#id85" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
-<dt><em>Url</em></dt>
-<dd>Web address of a page that will be opened. Set to “<a class="reference external" href="https://www.blend4web.com">https://www.blend4web.com</a>” by default.</dd>
+<dt><em>Time Format</em></dt>
+<dd><p class="first">This parameter defines the format in which time is measured. It can be set to one of the following values:</p>
+<dl class="last docutils">
+<dt><em>UTC</em></dt>
+<dd><p class="first">Coordinated Universal Time.</p>
+<div class="last admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The Coordinated Universal Time this node returns is based on local system time and a time zone.</p>
+</div>
+</dd>
+<dt><em>Local</em></dt>
+<dd>If this value is selected, time is retrieved from local system time. This value is selected by default.</dd>
+</dl>
+</dd>
+</dl>
+<p>The time and date are returned as a set of numbers (current year, month, day etc.), each one of which can be stored into a specific variable. These numbers include:</p>
+<dl class="docutils">
+<dt><em>Year</em></dt>
+<dd>The current year.</dd>
+<dt><em>Month</em></dt>
+<dd>The current month.</dd>
+<dt><em>Day</em></dt>
+<dd>The current day.</dd>
+<dt><em>Hours</em></dt>
+<dd>The current hour.</dd>
+<dt><em>Minutes</em></dt>
+<dd>The current minutes.</dd>
+<dt><em>Seconds</em></dt>
+<dd>The current seconds.</dd>
 </dl>
 </div>
 </div>
-</div>
-<div class="section" id="debug">
-<h2><a class="toc-backref" href="#id101">Debug</a><a class="headerlink" href="#debug" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="console-print">
-<span id="logic-console-print"></span><h3>Console Print<a class="headerlink" href="#console-print" title="Permalink to this headline">¶</a></h3>
-<p>This node prints variables’s values and additional text to the web browser console. It can be used for debug purposes.</p>
-<a class="reference internal image-reference" href="_images/logic_editor_console_print.png"><img alt="_images/logic_editor_console_print.png" class="align-center" src="_images/logic_editor_console_print.png" style="width: 100%;" /></a>
+<div class="section" id="get-timeline">
+<span id="logic-get-timeline"></span><h3>Get Timeline<a class="headerlink" href="#get-timeline" title="Permalink to this headline">¶</a></h3>
+<p>This node can be used to get the current frame of an NLA animation or a timeline.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_get_timeline.png"><img alt="_images/logic_editor_get_timeline.png" class="align-center" src="_images/logic_editor_get_timeline.png" style="width: 100%;" /></a>
 <div class="section" id="id86">
 <h4>Input Parameters<a class="headerlink" href="#id86" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
@@ -1493,52 +1533,22 @@
 <div class="section" id="id88">
 <h4>Internal Parameters<a class="headerlink" href="#id88" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
-<dt><em>Message</em></dt>
-<dd>A message that will be printed to the console along with the values.</dd>
-<dt>&lt;variable name&gt;</dt>
-<dd>A variable that will be printed to the console. By default, a <code class="docutils literal"><span class="pre">Console</span> <span class="pre">Print</span></code> node has one such parameter, but you can add new and delete existing ones (the node might not even have such parameters at all).</dd>
+<dt><em>NLA Timeline</em></dt>
+<dd>If this parameter is enabled, the node will return the current frame of an NLA animation. If it is disabled, the node will return the current frame of the timeline. Enabled by default.</dd>
+<dt><em>Destination</em></dt>
+<dd>Specifies a variable to store the number of the current frame. Set to <code class="docutils literal"><span class="pre">R1</span></code> by default.</dd>
 </dl>
 </div>
 </div>
-</div>
-<div class="section" id="deprecated">
-<h2><a class="toc-backref" href="#id102">Deprecated</a><a class="headerlink" href="#deprecated" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="select-deprecated">
-<h3>Select (Deprecated)<a class="headerlink" href="#select-deprecated" title="Permalink to this headline">¶</a></h3>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Deprecated! Isn’t recommended to use. Instead, using a <code class="docutils literal"><span class="pre">Switch</span> <span class="pre">Select</span></code> node is recommended.</p>
-</div>
-<p>It is similar to the <code class="docutils literal"><span class="pre">Select</span> <span class="pre">&amp;</span> <span class="pre">Play</span></code> node, except the transition happens instead of animation. This function allows to implement a complicated logic because in this case there is a possibility to identify the user selection results.</p>
-</div>
-<div class="section" id="select-play-timeline-deprecated">
-<h3>Select &amp; Play Timeline (Deprecated)<a class="headerlink" href="#select-play-timeline-deprecated" title="Permalink to this headline">¶</a></h3>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Deprecated! Isn’t recommended to use. Instead, using a combination of <code class="docutils literal"><span class="pre">Switch</span> <span class="pre">Select</span></code> and <code class="docutils literal"><span class="pre">Play</span> <span class="pre">Timeline</span></code> nodes is recommended.</p>
-</div>
-<p>Wait until the user selects an object (on desktops - with a mouse click, on mobile devices - with a touch). If the object, which is specified in this node, is selected - then start the animation similar to the <code class="docutils literal"><span class="pre">Play</span> <span class="pre">Timeline</span></code> node. If any other object is selected - then immediately transfer control to the next node.</p>
-</div>
-<div class="section" id="select-play-animation-deprecated">
-<h3>Select &amp; Play Animation (Deprecated)<a class="headerlink" href="#select-play-animation-deprecated" title="Permalink to this headline">¶</a></h3>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Deprecated! Isn’t recommended to use. Instead, using a combination of <code class="docutils literal"><span class="pre">Switch</span> <span class="pre">Select</span></code> and <code class="docutils literal"><span class="pre">Play</span> <span class="pre">Timeline</span></code> nodes is recommended.</p>
-</div>
-<p>Wait until the user selects an object (on desktops - with a mouse click, on mobile devices - with a touch). If the object, which is specified in this node, is selected - then start the animation similar to the <code class="docutils literal"><span class="pre">Play</span> <span class="pre">Animation</span></code> node. If any other object is selected - then immediately transfer control to the next node.</p>
-</div>
-</div>
-<div class="section" id="layout">
-<h2><a class="toc-backref" href="#id103">Layout</a><a class="headerlink" href="#layout" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="empty">
-<span id="logic-empty"></span><h3>Empty<a class="headerlink" href="#empty" title="Permalink to this headline">¶</a></h3>
-<p>This is a simple pass-through node that does not perform any operations on its own. It can be used to combine several logic threads into one or simply to make the logic node setup easier to read and understand.</p>
-<a class="reference internal image-reference" href="_images/logic_editor_empty.png"><img alt="_images/logic_editor_empty.png" class="align-center" src="_images/logic_editor_empty.png" style="width: 100%;" /></a>
+<div class="section" id="elapsed">
+<span id="logic-elapsed"></span><h3>Elapsed<a class="headerlink" href="#elapsed" title="Permalink to this headline">¶</a></h3>
+<p>This node returns the amount of time elapsed since the previous frame has been rendered.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_elapsed.png"><img alt="_images/logic_editor_elapsed.png" class="align-center" src="_images/logic_editor_elapsed.png" style="width: 100%;" /></a>
 <div class="section" id="id89">
 <h4>Input Parameters<a class="headerlink" href="#id89" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Previous</em></dt>
-<dd>Previous node (or several nodes).</dd>
+<dd>Previous node.</dd>
 </dl>
 </div>
 <div class="section" id="id90">
@@ -1550,6 +1560,58 @@
 </div>
 <div class="section" id="id91">
 <h4>Internal Parameters<a class="headerlink" href="#id91" title="Permalink to this headline">¶</a></h4>
+<p>The <code class="docutils literal"><span class="pre">Elapsed</span></code> logic node has one internal parameter that allows user to specify the variable to save the number of seconds passed since the previous frame. By default, it uses the <code class="docutils literal"><span class="pre">R1</span></code> variable.</p>
+</div>
+</div>
+<div class="section" id="delay">
+<span id="logic-delay"></span><h3>Delay<a class="headerlink" href="#delay" title="Permalink to this headline">¶</a></h3>
+<p>Make a delay (measured in seconds) before going to the next node.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_delay.png"><img alt="_images/logic_editor_delay.png" class="align-center" src="_images/logic_editor_delay.png" style="width: 100%;" /></a>
+<div class="section" id="id92">
+<h4>Input Parameters<a class="headerlink" href="#id92" title="Permalink to this headline">¶</a></h4>
+<dl class="docutils">
+<dt><em>Previous</em></dt>
+<dd>Previous node.</dd>
+</dl>
+</div>
+<div class="section" id="id93">
+<h4>Output Parameters<a class="headerlink" href="#id93" title="Permalink to this headline">¶</a></h4>
+<dl class="docutils">
+<dt><em>Next</em></dt>
+<dd>Next node.</dd>
+</dl>
+</div>
+<div class="section" id="id94">
+<h4>Internal Parameters<a class="headerlink" href="#id94" title="Permalink to this headline">¶</a></h4>
+<dl class="docutils">
+<dt><em>Value</em></dt>
+<dd>Time (in seconds) that will pass before the activation of the next node. Set to zero by default. Can be set manually or through a variable (if the <code class="docutils literal"><span class="pre">Variable</span></code> parameter is enabled).</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="section" id="layout">
+<h2><a class="toc-backref" href="#id109">Layout</a><a class="headerlink" href="#layout" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="empty">
+<span id="logic-empty"></span><h3>Empty<a class="headerlink" href="#empty" title="Permalink to this headline">¶</a></h3>
+<p>This is a simple pass-through node that does not perform any operations on its own. It can be used to combine several logic threads into one or simply to make the logic node setup easier to read and understand.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_empty.png"><img alt="_images/logic_editor_empty.png" class="align-center" src="_images/logic_editor_empty.png" style="width: 100%;" /></a>
+<div class="section" id="id95">
+<h4>Input Parameters<a class="headerlink" href="#id95" title="Permalink to this headline">¶</a></h4>
+<dl class="docutils">
+<dt><em>Previous</em></dt>
+<dd>Previous node (or several nodes).</dd>
+</dl>
+</div>
+<div class="section" id="id96">
+<h4>Output Parameters<a class="headerlink" href="#id96" title="Permalink to this headline">¶</a></h4>
+<dl class="docutils">
+<dt><em>Next</em></dt>
+<dd>Next node.</dd>
+</dl>
+</div>
+<div class="section" id="id97">
+<h4>Internal Parameters<a class="headerlink" href="#id97" title="Permalink to this headline">¶</a></h4>
 <p>None.</p>
 </div>
 </div>
@@ -1565,7 +1627,7 @@
 </div>
 </div>
 <div class="section" id="debugging">
-<span id="logic-debug"></span><h2><a class="toc-backref" href="#id104">Debugging</a><a class="headerlink" href="#debugging" title="Permalink to this headline">¶</a></h2>
+<span id="logic-debug"></span><h2><a class="toc-backref" href="#id110">Debugging</a><a class="headerlink" href="#debugging" title="Permalink to this headline">¶</a></h2>
 <p>For debugging purposes some nodes inside logic tree can be muted. To do that select the required node and press the <code class="docutils literal"><span class="pre">M</span></code> key. Muted nodes are not evaluated and simply pass control to the next ones. If the muted node has two outputs the execution continues from the output with negative result (<code class="docutils literal"><span class="pre">Miss</span></code>, <code class="docutils literal"><span class="pre">False</span></code>).</p>
 </div>
 </div>
@@ -1590,7 +1652,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Triumph.
-      Last updated on 2017-06-30.
+      Last updated on 2017-08-31.
 
     </p>
   </div>
@@ -1646,7 +1708,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.06',
+            VERSION:'v17.08',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web. User Manual v16.03\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-03 14:07+0300\n"
+"POT-Creation-Date: 2017-08-30 11:42+0300\n"
 "PO-Revision-Date: 2016-10-07 16:10+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -16,791 +16,679 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.3.4\n"
-"Language: zh\n"
-"X-Generator: Poedit 1.8.9\n"
 
-#: ../camera.rst:5
 msgid "Camera"
 msgstr "相机"
 
-#: ../camera.rst
 msgid "Table of Contents"
 msgstr "目录"
 
-#: ../camera.rst:12
 msgid "Move Styles and General Settings"
 msgstr "移动方式和一般设置"
 
-#: ../camera.rst:14
 msgid ""
 "The camera settings are specified in the ``Properties`` panel under the "
 "``Camera (Object Data)`` tab."
 msgstr "相机设置在 ``相机(物体数据)`` 选项卡下 ``Properties``  面板指定。"
 
-#: ../camera.rst:34
+#, fuzzy
+msgid "Settings available for ``Camera`` objects"
+msgstr "相机速度设置现在是特优"
+
 msgid "*Camera Move Style > Move Style*"
 msgstr "*相机移动方式 > 移动方式*"
 
-#: ../camera.rst:25
 msgid "Camera control mode:"
 msgstr "摄像机控制模式："
 
-#: ../camera.rst:27
 msgid "*Target*"
 msgstr "*目标*"
 
-#: ../camera.rst:28
 msgid ""
-"By default the camera is rotating around a fixed point (target). The pivot's "
-"position can be changed (see :ref:`camera panning <panning_mode>`)."
-msgstr ""
-"默认摄像机围绕一个固定点（目标）旋转。中心点的位置可以改变（见 :ref:`相机摇动 "
-"<panning_mode>`）。"
+"By default the camera is rotating around a fixed point (target). The "
+"pivot's position can be changed (see :ref:`camera panning "
+"<panning_mode>`)."
+msgstr "默认摄像机围绕一个固定点（目标）旋转。中心点的位置可以改变（见 :ref:`相机摇动 <panning_mode>`）。"
 
-#: ../camera.rst:29
 msgid "*Eye*"
 msgstr "*眼睛*"
 
-#: ../camera.rst:30
 msgid "The ``Eye`` mode allows rotation and translation as in first person view."
 msgstr "在 ``Eye`` 模式允许以第一人称视角旋转和平移。"
 
-#: ../camera.rst:31
 msgid "*Hover*"
 msgstr "*悬停*"
 
-#: ../camera.rst:32
 msgid ""
-"In ``Hover`` mode, camera moves parallel to the horizontal plane. By using "
-"additional limits, a smooth movement path toward the pivot point for the camera "
-"can be created."
-msgstr ""
-"在 ``Hover`` 模式，相机将平行于水平面移动。通过使用附加的限制，可以创建一个相机"
-"指向中心点的平滑移动路径。"
+"In ``Hover`` mode, camera moves parallel to the horizontal plane. By "
+"using additional limits, a smooth movement path toward the pivot point "
+"for the camera can be created."
+msgstr "在 ``Hover`` 模式，相机将平行于水平面移动。通过使用附加的限制，可以创建一个相机指向中心点的平滑移动路径。"
 
-#: ../camera.rst:34
 msgid "*Static*"
 msgstr "*静态*"
 
-#: ../camera.rst:34
 msgid ""
-"In the ``Static`` mode the camera can be moved via animation or through API "
-"calls."
+"In the ``Static`` mode the camera can be moved via animation or through "
+"API calls."
 msgstr "在 ``Static`` 模式下，相机可以通过动画或通过API调用移动。"
 
-#: ../camera.rst:37
 msgid "*Look At Cursor > Target Location*"
 msgstr "*看向光标 > 目标位置*"
 
-#: ../camera.rst:37
 msgid ""
-"Available for the ``Target`` mode. This is the position of the camera pivot "
-"point. The ``Look At Cursor`` button copies the current 3D cursor position into "
-"this value."
-msgstr ""
-"在 ``Target`` 模式可用。这是在相机中心点的位置。该 ``看向Cursor`` 按钮将当前的3D"
-"光标位置复制到该值。"
+"Available for the ``Target`` mode. This is the position of the camera "
+"pivot point. The ``Look At Cursor`` button copies the current 3D cursor "
+"position into this value."
+msgstr "在 ``Target`` 模式可用。这是在相机中心点的位置。该 ``看向Cursor`` 按钮将当前的3D光标位置复制到该值。"
 
-#: ../camera.rst:41
 msgid "*Depth of Field*"
 msgstr "*景深*"
 
-#: ../camera.rst:40
 msgid "Described in the :ref:`dof` section."
 msgstr "在 :ref:`dof` 章节中描述。"
 
-#: ../camera.rst:45
 msgid "Velocity settings are available for camera movement."
 msgstr "相机速度设置现在是特优"
 
-#: ../camera.rst:48
 msgid "*Camera Move Style > Camera Velocities > Translation Velocity*"
 msgstr "*相机移动方式 > 相机速度 > 移动速度*"
 
-#: ../camera.rst:48
 msgid ""
-"Available for the ``Target``, ``Eye`` and ``Hover`` type cameras. Sets the "
-"velocity of the camera translation. Possible value interval: :math:`\\left[0,\\ "
-"\\infty \\right)`. Default value is 1."
+"Available for the ``Target``, ``Eye`` and ``Hover`` type cameras. Sets "
+"the velocity of the camera translation. Possible value interval: "
+":math:`\\left[0,\\ \\infty \\right)`. Default value is 1."
 msgstr ""
-"提供 ``目标``，``眼睛`` 和 ``悬停`` 型相机。设置摄像机平移的速度。可能的值区"
-"间: :math:`\\left[0,\\ \\infty \\right)`  。默认值是 1。"
+"提供 ``目标``，``眼睛`` 和 ``悬停`` 型相机。设置摄像机平移的速度。可能的值区间: :math:`\\left[0,\\ "
+"\\infty \\right)`  。默认值是 1。"
 
-#: ../camera.rst:51
 msgid "*Camera Move Style > Camera Velocities > Rotation Velocity*"
 msgstr "*相机移动方式 > 相机速度 > 旋转速度*"
 
-#: ../camera.rst:51
 msgid ""
-"Available for the ``Target``, ``Eye`` and ``Hover`` type cameras. Sets the "
-"camera rotation speed. Possible value interval: :math:`\\left[0,\\ \\infty "
-"\\right)`. Default value is 1."
+"Available for the ``Target``, ``Eye`` and ``Hover`` type cameras. Sets "
+"the camera rotation speed. Possible value interval: :math:`\\left[0,\\ "
+"\\infty \\right)`. Default value is 1."
 msgstr ""
-"提供 ``目标``，``眼睛`` 和 ``悬停`` 型相机。设置摄像机平移的旋转速度。可能的值区"
-"间: :math:`\\left[0,\\ \\infty \\right)`  。默认值是 1。"
+"提供 ``目标``，``眼睛`` 和 ``悬停`` 型相机。设置摄像机平移的旋转速度。可能的值区间: :math:`\\left[0,\\ "
+"\\infty \\right)`  。默认值是 1。"
 
-#: ../camera.rst:54
 msgid "*Camera Move Style > Camera Velocities > Zoom Velocity*"
 msgstr "*相机移动方式 > 相机速度 > 缩放速度*"
 
-#: ../camera.rst:54
 msgid ""
-"Available for the ``Target`` and ``Hover`` type cameras. Set the velocity of "
-"the camera approaching the pivot point. Possible value interval: :math:`"
-"\\left[0,\\ 0.99\\right]`. Default value is 0.1."
+"Available for the ``Target`` and ``Hover`` type cameras. Set the velocity"
+" of the camera approaching the pivot point. Possible value interval: "
+":math:`\\left[0,\\ 0.99\\right]`. Default value is 0.1."
 msgstr ""
-"提供 ``目标`` 和 ``悬停`` 型相机。设置摄像机接近中心点的速度。可能的值区间: :"
-"math:`\\left[0,\\ 0.99\\right]`  。默认值是 0.1。"
+"提供 ``目标`` 和 ``悬停`` 型相机。设置摄像机接近中心点的速度。可能的值区间: :math:`\\left[0,\\ "
+"0.99\\right]`  。默认值是 0.1。"
 
-#: ../camera.rst:57
 msgid "Limiting the Camera Movement"
 msgstr "限制摄像机的运动"
 
-#: ../camera.rst:59
 msgid ""
-"There are several settings for the camera which limit/change its movement one "
-"way or another. They are grouped as ``Camera Limits``."
+"There are several settings for the camera which limit/change its movement"
+" one way or another. They are grouped as ``Camera Limits``."
 msgstr "有几种限制/改变摄像机运动的设置。它们组合为 ``相机限制``."
 
-#: ../camera.rst:65
-msgid ""
-"Camera limits can be viewed right in the Blender viewport, if the ``Display "
-"Limits in Viewport`` parameter is enabled."
-msgstr ""
-"相机限制可以直接在Blender视图查看，如果 ``Display Limits in Viewport`` 参数已启"
-"用。"
+#, fuzzy
+msgid "Settings for limiting camera movement"
+msgstr "限制摄像机的运动"
 
-#: ../camera.rst:70
+msgid ""
+"Camera limits can be viewed right in the Blender viewport, if the "
+"``Display Limits in Viewport`` parameter is enabled."
+msgstr "相机限制可以直接在Blender视图查看，如果 ``Display Limits in Viewport`` 参数已启用。"
+
 msgid "**Target Type Camera**"
 msgstr "**目标类型相机**"
 
-#: ../camera.rst:77 ../camera.rst:199
 msgid "*Camera Move Style > Camera Limits > Distance Limits*"
 msgstr "*相机移动方式 > 相机限制 > 距离限制*"
 
-#: ../camera.rst:77
 msgid ""
-"Set minimum and maximum distances from the camera to the pivot point. Allowable "
-"values: *Min* :math:`\\le` *Max*. Default values: *Min = 1*, *Max = 10*. "
-"Disabled by default."
+"Set minimum and maximum distances from the camera to the pivot point. "
+"Allowable values: *Min* :math:`\\le` *Max*. Default values: *Min = 1*, "
+"*Max = 10*. Disabled by default."
 msgstr ""
-"从相机到中心点设置最小和最大距离。允许值： *最小* :math:`\\le` *最大*. 默认值: *"
-"最小 = 1*, *最大 = 10*. 默认情况下禁用。"
+"从相机到中心点设置最小和最大距离。允许值： *最小* :math:`\\le` *最大*. 默认值: *最小 = 1*, *最大 = 10*. "
+"默认情况下禁用。"
 
-#: ../camera.rst:92
 msgid "*Camera Move Style > Camera Limits > Horizontal Rotation Limits*"
 msgstr "*相机移动方式 > 相机限制 > 水平旋转限制*"
 
-#: ../camera.rst:92 ../camera.rst:107 ../camera.rst:139
 msgid ""
-"Limit the horizontal (around the Z world axis in Blender) camera rotation "
-"around the corresponding point. Rotation is performed along the arc of a circle "
-"between ``Left Angle`` and ``Right Angle`` values. The rotation arc corresponds "
-"to movement from ``Left Angle`` to ``Right Angle`` anticlockwise. Default "
-"values: *Left Angle = -45°*, *Right Angle = 45°*. Disabled by default."
+"Limit the horizontal (around the Z world axis in Blender) camera rotation"
+" around the corresponding point. Rotation is performed along the arc of a"
+" circle between ``Left Angle`` and ``Right Angle`` values. The rotation "
+"arc corresponds to movement from ``Left Angle`` to ``Right Angle`` "
+"anticlockwise. Default values: *Left Angle = -45°*, *Right Angle = 45°*. "
+"Disabled by default."
 msgstr ""
-"限制摄像头水平（围绕在Blender的Z世界轴）对点的转动。旋转沿 ``左角`` 和 ``右角`` "
-"值之间的圆的弧进行。旋转弧对应于从 ``左角`` 到 ``右角`` 逆时针运动。默认值：*左"
-"角= -45°*，*直角= 45°* 。默认情况下禁用。"
+"限制摄像头水平（围绕在Blender的Z世界轴）对点的转动。旋转沿 ``左角`` 和 ``右角`` 值之间的圆的弧进行。旋转弧对应于从 "
+"``左角`` 到 ``右角`` 逆时针运动。默认值：*左角= -45°*，*直角= 45°* 。默认情况下禁用。"
 
-#: ../camera.rst:107 ../camera.rst:154 ../camera.rst:202
 msgid "*Camera Move Style > Camera Limits > Vertical Rotation Limits*"
 msgstr "*相机移动方式 > 相机限制 > 垂直旋转限制*"
 
-#: ../camera.rst:122
 msgid "*Camera Move Style > Camera Limits > Pivot Translation Limits*"
 msgstr "*相机移动方式 > 相机限制 > 中心点移动限制*"
 
-#: ../camera.rst:122
 msgid ""
-"Limit the translation of the camera's pivot point. Default values: *MinZ = 0*, "
-"*MaxZ = 10*. Not rendered in the viewport."
-msgstr ""
-"限制摄像机的中心点移动。默认值： *最小Z = 0*, *最大Z = 10*. 在视口中不渲染。"
+"Limit the translation of the camera's pivot point. Default values: *MinZ "
+"= 0*, *MaxZ = 10*. Not rendered in the viewport."
+msgstr "限制摄像机的中心点移动。默认值： *最小Z = 0*, *最大Z = 10*. 在视口中不渲染。"
 
-#: ../camera.rst:127
 msgid "*Camera Move Style > Camera Limits > Use Panning Mode*"
 msgstr "*相机移动方式 > 相机限制 > Use Panning Mode*"
 
-#: ../camera.rst:127
 msgid "Allow camera panning."
 msgstr "使相机平移。"
 
-#: ../camera.rst:132
 msgid "**Eye Type Camera**"
 msgstr "**眼类型相机**"
 
-#: ../camera.rst:139
 msgid "*Blend4Web > Horizontal Rotation Limits*"
 msgstr "* Blend4Web > 水平旋转限制*"
 
-#: ../camera.rst:154
 msgid ""
-"Limit the vertical (around the local X axis in Blender) camera rotation around "
-"the corresponding point. Rotation is performed along the arc of a circle "
-"between ``Down Angle`` and ``Up Angle`` values. The rotation arc corresponds to "
-"movement from ``Down Angle`` to ``Up Angle`` anticlockwise. Default values: "
-"*Down Angle = -45°*, *Up Angle = 45°*. Disabled by default."
+"Limit the vertical (around the local X axis in Blender) camera rotation "
+"around the corresponding point. Rotation is performed along the arc of a "
+"circle between ``Down Angle`` and ``Up Angle`` values. The rotation arc "
+"corresponds to movement from ``Down Angle`` to ``Up Angle`` "
+"anticlockwise. Default values: *Down Angle = -45°*, *Up Angle = 45°*. "
+"Disabled by default."
 msgstr ""
-"限制垂直（在Blender的局部X轴）摄像头围绕对应点转动。旋转沿 ``向下角`` 和 ``向上"
-"角`` 值之间的圆的弧进行。旋转弧对应于逆时针运动从 ``向下角`` 到 ``最多角`` 。默"
-"认值：*下角= -45°*，*上角= 45°*。默认情况下禁用。"
+"限制垂直（在Blender的局部X轴）摄像头围绕对应点转动。旋转沿 ``向下角`` 和 ``向上角`` "
+"值之间的圆的弧进行。旋转弧对应于逆时针运动从 ``向下角`` 到 ``最多角`` 。默认值：*下角= -45°*，*上角= "
+"45°*。默认情况下禁用。"
 
-#: ../camera.rst:171
 msgid "**Hover Type Camera**"
 msgstr "**悬停类型相机**"
 
-#: ../camera.rst:178
 msgid "*Camera Move Style > Camera Limits > Horizontal Translation Limits*"
 msgstr "*相机移动方式 > 相机限制 > 水平移动限制*"
 
-#: ../camera.rst:178
 msgid ""
-"Limit movement of the pivot point along the Blender's world X axis. Allowable "
-"values: *Min* :math:`\\le` *Max*. Default values: *MinX = -10*, *MaxX = 10*. "
-"Disabled by default."
+"Limit movement of the pivot point along the Blender's world X axis. "
+"Allowable values: *Min* :math:`\\le` *Max*. Default values: *MinX = -10*,"
+" *MaxX = 10*. Disabled by default."
 msgstr ""
-"沿着Blender的世界X轴支点的限制运动。允许值：*Min* :math:`\\le` *Max*. 默认值: "
-"*MinX = -10*, *MaxX = 10*. 默认情况下禁用。"
+"沿着Blender的世界X轴支点的限制运动。允许值：*Min* :math:`\\le` *Max*. 默认值: *MinX = -10*, "
+"*MaxX = 10*. 默认情况下禁用。"
 
-#: ../camera.rst:181
 msgid "*Camera Move Style > Camera Limits > Vertical Translation Limits*"
 msgstr "*相机移动方式 > 相机限制 > 垂直移动限制*"
 
-#: ../camera.rst:181
 msgid ""
-"Limit movement of the pivot point along the Blender's world X axis. Allowable "
-"values: *Min* :math:`\\le` *Max*. Default values: *MinY = -10*, *MaxY = 10*. "
-"Disabled by default."
+"Limit movement of the pivot point along the Blender's world X axis. "
+"Allowable values: *Min* :math:`\\le` *Max*. Default values: *MinY = -10*,"
+" *MaxY = 10*. Disabled by default."
 msgstr ""
-"沿着Blender的世界X轴支点的限制运动。允许值： *Min* :math:`\\le` *Max*. 默认值: "
-"*MinY = -10*, *MaxY = 10*.  默认情况下禁用。"
+"沿着Blender的世界X轴支点的限制运动。允许值： *Min* :math:`\\le` *Max*. 默认值: *MinY = -10*, "
+"*MaxY = 10*.  默认情况下禁用。"
 
-#: ../camera.rst:196
 msgid "*Camera Move Style > Camera Limits > Use Zooming*"
 msgstr "*相机移动方式 > 相机限制 > Use Zooming*"
 
-#: ../camera.rst:196
 msgid ""
 "Allows user to zoom the camera in and out from the pivot point. If this "
-"parameter is disabled, the camera will always remain at a fixed distance from "
-"the pivot point. Disable by default."
-msgstr ""
-"允许用户从中心点点调整摄像机的焦距和缩小。如果禁用此参数，相机将始终保持在离支点"
-"的距离固定。默认情况下禁用。"
+"parameter is disabled, the camera will always remain at a fixed distance "
+"from the pivot point. Disable by default."
+msgstr "允许用户从中心点点调整摄像机的焦距和缩小。如果禁用此参数，相机将始终保持在离支点的距离固定。默认情况下禁用。"
 
-#: ../camera.rst:199
 msgid ""
-"Set minimum and maximum distances from the camera to the point of intersection "
-"between the camera's view direction and the horizontal reference plane "
-"(Blender's world XOY plane by default). Allowable values: *Min* :math:`\\le` "
-"*Max*. Default values: *Min = 1*, *Max = 10*. Disabled by default."
+"Set minimum and maximum distances from the camera to the point of "
+"intersection between the camera's view direction and the horizontal "
+"reference plane (Blender's world XOY plane by default). Allowable values:"
+" *Min* :math:`\\le` *Max*. Default values: *Min = 1*, *Max = 10*. "
+"Disabled by default."
 msgstr ""
-"设置最小和最大距离从相机到摄像机的视图方向与水平基准面（默认情况下Blender的世界"
-"XOY平面）之间的交点。允许值： *Min* :math:`\\le` *Max*. 默认值: *Min = 1*, *Max "
-"= 10*. 默认情况下禁用。"
+"设置最小和最大距离从相机到摄像机的视图方向与水平基准面（默认情况下Blender的世界XOY平面）之间的交点。允许值： *Min* "
+":math:`\\le` *Max*. 默认值: *Min = 1*, *Max = 10*. 默认情况下禁用。"
 
-#: ../camera.rst:202
 msgid ""
-"Limits the camera's angle of elevation (an angle between the camera's sight "
-"line and a horizontal plane. Possible value interval: *0°* :math:`\\le` *Down* :"
-"math:`\\le` *Up* :math:`\\le` *90°*. Default values: *Down = 0°, Up = 90°*."
+"Limits the camera's angle of elevation (an angle between the camera's "
+"sight line and a horizontal plane. Possible value interval: *0°* "
+":math:`\\le` *Down* :math:`\\le` *Up* :math:`\\le` *90°*. Default values:"
+" *Down = 0°, Up = 90°*."
 msgstr ""
-"限制抬高相机的角度（摄像机的视线与水平面之间的夹角可能的取值区间： *0°* :math:`"
-"\\le` *Down* :math:`\\le` *Up* :math:`\\le` *90°*. 默认值: *Down = 0°, Up = "
-"90°*."
+"限制抬高相机的角度（摄像机的视线与水平面之间的夹角可能的取值区间： *0°* :math:`\\le` *Down* :math:`\\le` "
+"*Up* :math:`\\le` *90°*. 默认值: *Down = 0°, Up = 90°*."
 
-#: ../camera.rst:205
 msgid "*Camera Move Style > Camera Limits > Zero Level*"
 msgstr "*相机移动方式 > 相机限制 > Zero Level*"
 
-#: ../camera.rst:205
 msgid ""
-"A distance between reference plane and the coordinates origin. Set to zero by "
-"default."
+"A distance between reference plane and the coordinates origin. Set to "
+"zero by default."
 msgstr "基准面和坐标原点之间的距离。默认设置为零。"
 
-#: ../camera.rst:209
 msgid ""
 "If the ``Blend4Web > Use Zooming`` setting is turned on, the limits for "
-"distance and inclination angle will be applied simultaneously, to define the "
-"camera movement path in the vertical plane."
-msgstr ""
-"如果 ``Blend4Web>使用Zooming`` 设置打开，同时设置距离和倾斜角度的限制，在垂直平"
-"面以限定在相机移动路径。"
+"distance and inclination angle will be applied simultaneously, to define "
+"the camera movement path in the vertical plane."
+msgstr "如果 ``Blend4Web>使用Zooming`` 设置打开，同时设置距离和倾斜角度的限制，在垂直平面以限定在相机移动路径。"
 
-#: ../camera.rst:223
 msgid ""
 "Setting incorrect distance or elevation angle limits will disable this "
 "parameter."
 msgstr "设置不正确的距离或仰角限制将禁用此参数。"
 
-#: ../camera.rst:226
 msgid "*Camera Move Style > Camera Limits > Use Horizontal Rotation*"
 msgstr "*相机移动方式 > 相机限制 > Use Horizontal Rotation*"
 
-#: ../camera.rst:226
 msgid ""
-"Allow camera rotation in Blender's XOY plane around to the pivot point. Enabled "
-"by default."
+"Allow camera rotation in Blender's XOY plane around to the pivot point. "
+"Enabled by default."
 msgstr "允许摄像头在Blender的XOY平面对着中心点旋转。默认情况下启用。"
 
-#: ../camera.rst:242
 msgid "**Static Camera**"
 msgstr "**静态相机**"
 
-#: ../camera.rst:248
 msgid ""
-"This type of camera does not have limits, as it can't be directly controlled by "
-"the user."
+"This type of camera does not have limits, as it can't be directly "
+"controlled by the user."
 msgstr "这种类型的相机不具有限制，因为它不能直接由用户控制。"
 
-#: ../camera.rst:252
 msgid "**Peculiarities of Limiting Settings**"
 msgstr "**限制设置的特殊性**"
 
-#: ../camera.rst:254
 msgid ""
-"For EYE/TARGET cameras, interchanging *Left/Right* or *Down/Up* values results "
-"in movement along the opposite arc of a circle."
+"For EYE/TARGET cameras, interchanging *Left/Right* or *Down/Up* values "
+"results in movement along the opposite arc of a circle."
 msgstr "EYE/TARGET相机，交换 *左/右* 或 *下/上* 值导致移动圆弧相反。"
 
-#: ../camera.rst:268
 msgid ""
-"When limiting the camera's horizontal and vertical rotation, it is possible to "
-"choose between the following coordinate spaces:"
+"When limiting the camera's horizontal and vertical rotation, it is "
+"possible to choose between the following coordinate spaces:"
 msgstr "当限制相机的水平和垂直旋转，则可在下列坐标空间之间进行选择："
 
-#: ../camera.rst:271
 msgid "*Camera Space*"
 msgstr "*摄像机空间*"
 
-#: ../camera.rst:271
 msgid ""
-"All angles are measured relative to the initial camera position and orientation."
+"All angles are measured relative to the initial camera position and "
+"orientation."
 msgstr "所有的角度是相对于初始相机位置和取向测量。"
 
-#: ../camera.rst:274
 msgid "*World Space*"
 msgstr "*世界空间*"
 
-#: ../camera.rst:274
 msgid ""
-"Horizontal angles are measured relative to the Y axis in world space; vertical "
-"angles are measured relative to the Blender's XOY plane in world space."
-msgstr ""
-"水平角度是相对于世界空间Y轴测量;垂直角度是相对于世界空间中Blender的XOY平面上测"
-"量。"
+"Horizontal angles are measured relative to the Y axis in world space; "
+"vertical angles are measured relative to the Blender's XOY plane in world"
+" space."
+msgstr "水平角度是相对于世界空间Y轴测量;垂直角度是相对于世界空间中Blender的XOY平面上测量。"
 
-#: ../camera.rst:276
 msgid "Default value: ``Camera Space``."
 msgstr "默认值：``相机Space`` 。"
 
-#: ../camera.rst:278
 msgid "Horizontal limits by the example of the TARGET camera:"
 msgstr "水平限制目标相机的例子："
 
-#: ../camera.rst:292
 msgid "Vertical limits by the example of the TARGET camera:"
 msgstr "垂直限制目标相机的例子："
 
-#: ../camera.rst:309
 msgid "Viewport Alignment"
 msgstr "视口对齐"
 
-#: ../camera.rst:311
 msgid ""
-"If an object is parented to a camera, the set of parameters known as *Viewport "
-"Alignment* are available under the ``Relations`` tab on the ``Object`` panel."
+"If an object is parented to a camera, the set of parameters known as "
+"*Viewport Alignment* are available under the ``Relations`` tab on the "
+"``Object`` panel."
+msgstr "如果物体父级的相机的参数设置为 *视口对齐* ，在  ``Object`` 面板下的 ``Relations`` 选项卡中。"
+
+msgid ""
+"Using these settings, the object can be aligned to the active camera, so "
+"that the object will remain in the same place of the screen regardless of"
+" the position and rotation of the camera. This is especially useful for "
+"creating UI elements."
+msgstr "使用这些设置，物体可以对齐到激活的摄像机，这样该物体将保持在屏幕同一个地方，无关摄影机的位置和转动。这是用于创建 UI 元素尤其有用。"
+
+msgid ""
+"All interface elements on this picture are created using the Viewport "
+"Alignment option."
 msgstr ""
-"如果物体父级的相机的参数设置为 *视口对齐* ，在  ``Object`` 面板下的 "
-"``Relations`` 选项卡中。"
 
-#: ../camera.rst:317
-msgid ""
-"Using these settings, the object can be aligned to the active camera, so that "
-"the object will remain in the same place of the screen regardless of the "
-"position and rotation of the camera. This is especially useful for creating UI "
-"elements."
-msgstr ""
-"使用这些设置，物体可以对齐到激活的摄像机，这样该物体将保持在屏幕同一个地方，无关"
-"摄影机的位置和转动。这是用于创建 UI 元素尤其有用。"
-
-#: ../camera.rst:322
-msgid ""
-"This picture shows an example of how the Viewport Alignment option can be used."
-msgstr "这张照片显示可以如何使用视区对齐选项的示例。"
-
-#: ../camera.rst:325
 msgid "*Viewport Alignment*"
 msgstr "*视口对齐*"
 
-#: ../camera.rst:325
 msgid ""
 "This parameter enables and disables all the following parameters. It is "
 "disabled by default."
 msgstr "此参数启用和禁用以下的所有参数。默认情况下禁用它。"
 
-#: ../camera.rst:340
 msgid "*Alignment*"
 msgstr "*对齐*"
 
-#: ../camera.rst:328
 msgid ""
-"This parameter specifies what side of the screen the object will be aligned "
-"with. It can have one of the following values."
+"This parameter specifies what side of the screen the object will be "
+"aligned with. It can have one of the following values."
 msgstr "此参数指定物体将与屏幕的哪一侧的对齐方式。它可以具有下列值之一。"
 
-#: ../camera.rst:330
 msgid "``Top-Left`` - aligns the object in the top left corner of the viewport"
 msgstr "``Top-Left`` - 将物体对齐到视口的顶部左上角。"
 
-#: ../camera.rst:331
 msgid "``Top`` - aligns the object in the top of the viewport"
 msgstr "``Top`` - 将物体对齐到视口的顶部。"
 
-#: ../camera.rst:332
 msgid "``Top-Right`` - aligns the object in the top right corner of the viewport"
 msgstr "``Top-Right`` - 将物体对齐到视口的顶部右上角。"
 
-#: ../camera.rst:333
 msgid "``Left`` - aligns the object in the left side of the viewport"
 msgstr "``Left`` - 将物体对齐到视口的左边。"
 
-#: ../camera.rst:334
 msgid "``Center`` - aligns the object in the center of the viewport"
 msgstr "``Center`` -  将物体对齐到视口的中央。"
 
-#: ../camera.rst:335
 msgid "``Right`` - aligns the object in the right side of the viewport"
 msgstr "``Right`` - 将物体对齐到视口的右侧。"
 
-#: ../camera.rst:336
 msgid ""
-"``Bottom-Left`` - aligns the object in the bottom left corner of the viewport"
+"``Bottom-Left`` - aligns the object in the bottom left corner of the "
+"viewport"
 msgstr "``Bottom-Left`` - 将物体对齐到视口的底部左侧。"
 
-#: ../camera.rst:337
 msgid "``Bottom`` - aligns the object in the bottom of the viewport"
 msgstr "``Bottom`` - 将物体对齐到视口的底部。"
 
-#: ../camera.rst:338
 msgid ""
-"``Bottom-Right`` - aligns the object in the bottom right corner of the viewport."
+"``Bottom-Right`` - aligns the object in the bottom right corner of the "
+"viewport."
 msgstr "``Bottom-Right`` - 将物体对齐到视口的底部右边。"
 
-#: ../camera.rst:340
 msgid "Default value is ``Center``."
 msgstr "默认值为 ``Center``."
 
-#: ../camera.rst:343
 msgid "*Distance*"
 msgstr "*距离*"
 
-#: ../camera.rst:343
 msgid ""
-"This specifies the distance between the aligned object and the camera. It is "
-"set to 10 by default."
+"This specifies the distance between the aligned object and the camera. It"
+" is set to 10 by default."
 msgstr "此选项指定对齐的物体和相机之间的距离。默认设置为 10。"
 
-#: ../camera.rst:346
 msgid "*Fit to Camera*"
 msgstr "*适合相机*"
 
-#: ../camera.rst:346
 msgid ""
-"By pressing this button, you can make the aligned object look the same way in "
-"the Blender viewport as it will look in the engine. It can be used to preview "
-"alignment results."
-msgstr ""
-"按下此按钮，你可以使对齐的物体看起来在引擎中和Blender视口同样方式显示。它可以用"
-"于预览对齐结果。"
+"By pressing this button, you can make the aligned object look the same "
+"way in the Blender viewport as it will look in the engine. It can be used"
+" to preview alignment results."
+msgstr "按下此按钮，你可以使对齐的物体看起来在引擎中和Blender视口同样方式显示。它可以用于预览对齐结果。"
 
-#: ../camera.rst:351
 msgid "Camera Controls API"
 msgstr "相机控制API"
 
-#: ../camera.rst:353
 msgid "Detailed API module documentation: :b4wmod:`link camera`."
 msgstr "详细的API模块文档：:b4wmod:`link camera`."
 
-#: ../camera.rst:355
 msgid ""
-"A camera's position and its spatial orientation are defined by the control "
-"mode. In the ``EYE``, ``TARGET`` and ``HOVER`` modes, control mode has several "
-"limitations: for example, the camera's vertical axis is always aligned along "
-"the world's Z-axis and the camera is constantly focused on the pivot point. The "
-"``STATIC`` mode camera has no such limitations, which makes it more suitable "
-"for cases when you need more complete control, such as procedural animation."
+"A camera's position and its spatial orientation are defined by the "
+"control mode. In the ``EYE``, ``TARGET`` and ``HOVER`` modes, control "
+"mode has several limitations: for example, the camera's vertical axis is "
+"always aligned along the world's Z-axis and the camera is constantly "
+"focused on the pivot point. The ``STATIC`` mode camera has no such "
+"limitations, which makes it more suitable for cases when you need more "
+"complete control, such as procedural animation."
 msgstr ""
 "照相机的位置和其空间取向是由控制模式来定义。在 ``EYE``，``TARGET`` 和 ``HOVER`` "
-"模式，控制方式有若干限制：例如，相机的垂直轴总是沿着世界Y轴对齐，并且相机一直对"
-"焦到中心点。 ``STATIC`` 模式相机有没有这样的限制，这使得它更适合当你需要更完整的"
-"控制的情况下 ，如程序动画。"
+"模式，控制方式有若干限制：例如，相机的垂直轴总是沿着世界Y轴对齐，并且相机一直对焦到中心点。 ``STATIC`` "
+"模式相机有没有这样的限制，这使得它更适合当你需要更完整的控制的情况下 ，如程序动画。"
 
-#: ../camera.rst:357
 msgid ""
-"Main functions for camera control are located in the :b4wmod:`camera` module. "
-"Some of them (intended for a specific control mode) have names which start with "
-"an appropriate prefix: ``static_``, ``eye_``, ``target_`` and ``hover_``. Other "
-"functions can be used in any mode."
+"Main functions for camera control are located in the :b4wmod:`camera` "
+"module. Some of them (intended for a specific control mode) have names "
+"which start with an appropriate prefix: ``static_``, ``eye_``, "
+"``target_`` and ``hover_``. Other functions can be used in any mode."
 msgstr ""
-"相机控制主要功能都位于  :b4wmod:`camera` 模块。其中一些（针对特定控制模式）的有"
-"哪些用适当的前缀开头的名字：``static_``，``eye_``，``target_`` 和 ``hover_`` 。"
-"其它功能可在任何模式下使用。"
+"相机控制主要功能都位于  :b4wmod:`camera` "
+"模块。其中一些（针对特定控制模式）的有哪些用适当的前缀开头的名字：``static_``，``eye_``，``target_`` 和 "
+"``hover_`` 。其它功能可在任何模式下使用。"
 
-#: ../camera.rst:362
 msgid "Control Mode Setup"
 msgstr "控制模式设置"
 
-#: ../camera.rst:364
 msgid ""
-"To change the control mode and to completely define a camera's behavior, the "
-"following methods can be used: :b4wref:`camera.static_setup()`, :b4wref:`camera."
-"eye_setup()`, :b4wref:`camera.target_setup()` and :b4wref:`camera."
-"hover_setup()`. These methods receive an object that contains a set of optional "
-"parameters, which can be used to set the camera's position, rotation, available "
-"limits and so on."
+"To change the control mode and to completely define a camera's behavior, "
+"the following methods can be used: :b4wref:`camera.static_setup()`, "
+":b4wref:`camera.eye_setup()`, :b4wref:`camera.target_setup()` and "
+":b4wref:`camera.hover_setup()`. These methods receive an object that "
+"contains a set of optional parameters, which can be used to set the "
+"camera's position, rotation, available limits and so on."
 msgstr ""
-"若要更改控制模式，完全定义相机的行为，可以使用以下方法:   :b4wref:`camera."
-"static_setup()`, :b4wref:`camera.eye_setup()`, :b4wref:`camera.target_setup()` "
-"和 :b4wref:`camera.hover_setup()`.  这些方法接收一个包含一组可选的参数的物体，可"
-"以用于设置相机的位置、 旋转、 可用的限制，等等。"
+"若要更改控制模式，完全定义相机的行为，可以使用以下方法:   :b4wref:`camera.static_setup()`, "
+":b4wref:`camera.eye_setup()`, :b4wref:`camera.target_setup()` 和 "
+":b4wref:`camera.hover_setup()`.  这些方法接收一个包含一组可选的参数的物体，可以用于设置相机的位置、 旋转、 "
+"可用的限制，等等。"
 
-#: ../camera.rst:417
 msgid ""
-"The main characteristic of the ``HOVER`` type camera is the fact that the "
-"distance and elevation angle limits define a certain :ref:`path "
-"<hover_trajectory_figure>` of movement toward the pivot point. The camera will "
-"always be located on this path, so its final position can be different from the "
-"one returned by the :b4wref:`camera.hover_setup()` method (basically, it is "
-"projected onto the path). If you need to set the camera's position on some "
-"path, you can use the :b4wref:`camera.hover_setup_rel()` method to set the "
-"relative limits."
+"The main characteristic of the ``HOVER`` type camera is the fact that the"
+" distance and elevation angle limits define a certain :ref:`path "
+"<hover_trajectory_figure>` of movement toward the pivot point. The camera"
+" will always be located on this path, so its final position can be "
+"different from the one returned by the :b4wref:`camera.hover_setup()` "
+"method (basically, it is projected onto the path). If you need to set the"
+" camera's position on some path, you can use the "
+":b4wref:`camera.hover_setup_rel()` method to set the relative limits."
 msgstr ""
-"``HOVER`` 模式的主要特征在于，距离和仰角范围限制在一个确定的 :ref:`路径 "
-"<hover_trajectory_figure>`  来朝向中心点运动。相机会一直在这条路径上，所以其最终"
-"位置可能跟从 :b4wref:`camera.hover_setup()`   (基本的，它是投射到路径上) 方法返"
-"回的不一样。如果你需要设置相机的位置在一些路径，你可以使用 :b4wref:`camera."
-"hover_setup_rel()` 方法设置相对极限。"
+"``HOVER`` 模式的主要特征在于，距离和仰角范围限制在一个确定的 :ref:`路径 <hover_trajectory_figure>`  "
+"来朝向中心点运动。相机会一直在这条路径上，所以其最终位置可能跟从 :b4wref:`camera.hover_setup()`   "
+"(基本的，它是投射到路径上) 方法返回的不一样。如果你需要设置相机的位置在一些路径，你可以使用 "
+":b4wref:`camera.hover_setup_rel()` 方法设置相对极限。"
 
-#: ../camera.rst:432
 msgid ""
-"The current camera mode can be checked with the :b4wref:`camera."
-"is_static_camera()`, :b4wref:`camera.is_eye_camera()`, :b4wref:`camera."
-"is_target_camera()`, :b4wref:`camera.is_hover_camera()` or :b4wref:`camera."
-"get_move_style()` methods:"
+"The current camera mode can be checked with the "
+":b4wref:`camera.is_static_camera()`, :b4wref:`camera.is_eye_camera()`, "
+":b4wref:`camera.is_target_camera()`, :b4wref:`camera.is_hover_camera()` "
+"or :b4wref:`camera.get_move_style()` methods:"
 msgstr ""
-"当前相机模式可以通过检查  :b4wref:`camera.is_static_camera()`, :b4wref:`camera."
-"is_eye_camera()`, :b4wref:`camera.is_target_camera()`, :b4wref:`camera."
-"is_hover_camera()` 或 :b4wref:`camera.get_move_style()` 方法："
+"当前相机模式可以通过检查  :b4wref:`camera.is_static_camera()`, "
+":b4wref:`camera.is_eye_camera()`, :b4wref:`camera.is_target_camera()`, "
+":b4wref:`camera.is_hover_camera()` 或 :b4wref:`camera.get_move_style()` "
+"方法："
 
-#: ../camera.rst:448
 msgid ""
-"If you need to change only some aspects of the camera's behavior, you can use "
-"the methods described below."
+"If you need to change only some aspects of the camera's behavior, you can"
+" use the methods described below."
 msgstr "如果您需要更改相机的行为的某些方面，你可以使用下面描述的方法。"
 
-#: ../camera.rst:451
 msgid "Translation and Rotation"
 msgstr "平移和旋转"
 
-#: ../camera.rst:453
 msgid ""
-"To rotate a ``STATIC`` type camera, you need to use the :b4wref:`camera."
-"static_get_rotation()` and :b4wref:`camera.static_set_rotation()` methods. In "
-"these methods, rotation is defined by a quaternion."
+"To rotate a ``STATIC`` type camera, you need to use the "
+":b4wref:`camera.static_get_rotation()` and "
+":b4wref:`camera.static_set_rotation()` methods. In these methods, "
+"rotation is defined by a quaternion."
 msgstr ""
-"要旋转 ``STATIC`` 类型的相机，您需要使用 :b4wref:`camera.static_get_rotation()` "
-"和 :b4wref:`camera.static_set_rotation()` 方法。在这些方法中，旋转通过一个四元数"
-"来定义。"
+"要旋转 ``STATIC`` 类型的相机，您需要使用 :b4wref:`camera.static_get_rotation()` 和 "
+":b4wref:`camera.static_set_rotation()` 方法。在这些方法中，旋转通过一个四元数来定义。"
 
-#: ../camera.rst:467
 msgid ""
-"For the ``EYE``, ``TARGET`` and ``HOVER`` type cameras, rotation is performed "
-"in :ref:`spherical coordinates <camera_spherical_coordinates>` by using the :"
-"b4wref:`camera.eye_rotate()`, :b4wref:`camera.target_rotate()`, :b4wref:`camera."
-"hover_rotate()` and :b4wref:`camera.rotate_camera()` methods:"
+"For the ``EYE``, ``TARGET`` and ``HOVER`` type cameras, rotation is "
+"performed in :ref:`spherical coordinates <camera_spherical_coordinates>` "
+"by using the :b4wref:`camera.eye_rotate()`, "
+":b4wref:`camera.target_rotate()`, :b4wref:`camera.hover_rotate()` and "
+":b4wref:`camera.rotate_camera()` methods:"
 msgstr ""
 "对于 ``EYE``，``TARGET`` 和 ``HOVER`` 类型摄像机，旋转使用的是 :ref:`球面坐标 "
-"<camera_spherical_coordinates>`  使用 :b4wref:`camera.eye_rotate()`, :b4wref:"
-"`camera.target_rotate()`, :b4wref:`camera.hover_rotate()` 和 :b4wref:`camera."
-"rotate_camera()` 方法："
+"<camera_spherical_coordinates>`  使用 :b4wref:`camera.eye_rotate()`, "
+":b4wref:`camera.target_rotate()`, :b4wref:`camera.hover_rotate()` 和 "
+":b4wref:`camera.rotate_camera()` 方法："
 
-#: ../camera.rst:481
 msgid ""
-"Current spherical coordinates of the camera can be obtained by using the :"
-"b4wref:`camera.get_camera_angles()` method:"
-msgstr ""
-"摄像机的当前球面坐标可通过使用  :b4wref:`camera.get_camera_angles()` 方法获得："
+"Current spherical coordinates of the camera can be obtained by using the "
+":b4wref:`camera.get_camera_angles()` method:"
+msgstr "摄像机的当前球面坐标可通过使用  :b4wref:`camera.get_camera_angles()` 方法获得："
 
-#: ../camera.rst:495
 msgid ""
-"Access to the position of the camera can be obtained by using the :b4wref:"
-"`camera.get_translation()` and :b4wref:`camera.set_translation()` methods. For "
-"the ``TARGET`` and ``HOVER`` modes this means simultaneous translation of an "
-"entire model, including camera position and pivot point."
+"Access to the position of the camera can be obtained by using the "
+":b4wref:`camera.get_translation()` and :b4wref:`camera.set_translation()`"
+" methods. For the ``TARGET`` and ``HOVER`` modes this means simultaneous "
+"translation of an entire model, including camera position and pivot "
+"point."
 msgstr ""
-"获取摄像机的位置可以通过获得使用  :b4wref:`camera.get_translation()` 和 :b4wref:"
-"`camera.set_translation()` 方法。对于 ``TARGET`` 和 ``HOVER`` 模式，这意味着整个"
-"模型，包括摄像机的位置和中心点同时移动。"
+"获取摄像机的位置可以通过获得使用  :b4wref:`camera.get_translation()` 和 "
+":b4wref:`camera.set_translation()` 方法。对于 ``TARGET`` 和 ``HOVER`` "
+"模式，这意味着整个模型，包括摄像机的位置和中心点同时移动。"
 
-#: ../camera.rst:511
 msgid "Additional camera translation methods:"
 msgstr "其他相机移动方法："
 
-#: ../camera.rst:513
 msgid ""
-":b4wref:`camera.target_set_trans_pivot()`, :b4wref:`camera."
-"target_set_pivot_translation()`, :b4wref:`camera.hover_set_pivot_translation()` "
-"- sets the position and the pivot point of the camera at the same time;"
+":b4wref:`camera.target_set_trans_pivot()`, "
+":b4wref:`camera.target_set_pivot_translation()`, "
+":b4wref:`camera.hover_set_pivot_translation()` - sets the position and "
+"the pivot point of the camera at the same time;"
 msgstr ""
-":b4wref:`camera.target_set_trans_pivot()`, :b4wref:`camera."
-"target_set_pivot_translation()`, :b4wref:`camera.hover_set_pivot_translation()` "
-"- 同时设置相机的位置和中心点;"
+":b4wref:`camera.target_set_trans_pivot()`, "
+":b4wref:`camera.target_set_pivot_translation()`, "
+":b4wref:`camera.hover_set_pivot_translation()` - 同时设置相机的位置和中心点;"
 
-#: ../camera.rst:515
 msgid ""
-":b4wref:`camera.target_get_distance()`, :b4wref:`camera.target_set_distance()` "
-"- translation based on the distance to the pivot point;"
+":b4wref:`camera.target_get_distance()`, "
+":b4wref:`camera.target_set_distance()` - translation based on the "
+"distance to the pivot point;"
 msgstr ""
-":b4wref:`camera.target_get_distance()`, :b4wref:`camera.target_set_distance()` "
-"- 基于中心点移动位置;"
+":b4wref:`camera.target_get_distance()`, "
+":b4wref:`camera.target_set_distance()` - 基于中心点移动位置;"
 
-#: ../camera.rst:517
 msgid ""
-":b4wref:`camera.static_set_look_at()`, :b4wref:`camera.eye_set_look_at()` - "
-"sets the camera's position and point of sight simultaneously;"
+":b4wref:`camera.static_set_look_at()`, :b4wref:`camera.eye_set_look_at()`"
+" - sets the camera's position and point of sight simultaneously;"
 msgstr ""
-":b4wref:`camera.static_set_look_at()`, :b4wref:`camera.eye_set_look_at()` - 同时"
-"设置相机的位置和视点;"
+":b4wref:`camera.static_set_look_at()`, :b4wref:`camera.eye_set_look_at()`"
+" - 同时设置相机的位置和视点;"
 
-#: ../camera.rst:521
 msgid ""
-"Because a camera is a scene object, :b4wmod:`transform` module methods can also "
-"be used. But, as every control mode influences camera movement differently, "
-"results may differ from those expected."
+"Because a camera is a scene object, :b4wmod:`transform` module methods "
+"can also be used. But, as every control mode influences camera movement "
+"differently, results may differ from those expected."
 msgstr ""
-"因为相机是一个场景物体 :b4wmod:`transform` 模块方法也可以使用。但是，由于每个控"
-"制模式以不同的方式影响相机运动，结果可能不同于那些预期。"
+"因为相机是一个场景物体 :b4wmod:`transform` "
+"模块方法也可以使用。但是，由于每个控制模式以不同的方式影响相机运动，结果可能不同于那些预期。"
 
-#: ../camera.rst:524
 msgid "Limit Setup"
 msgstr "限制设置"
 
-#: ../camera.rst:526
 msgid ""
-"Camera limits are available for the ``EYE``, ``TARGET`` and ``HOVER`` type "
-"cameras. To set a specific limit, you need to use a specific method:"
-msgstr ""
-"相机限制可供 ``EYE``, ``TARGET`` 和 ``HOVER`` 类型相机。若要设置一个特定的限制，"
-"您需要使用特定的方法 ︰"
+"Camera limits are available for the ``EYE``, ``TARGET`` and ``HOVER`` "
+"type cameras. To set a specific limit, you need to use a specific method:"
+msgstr "相机限制可供 ``EYE``, ``TARGET`` 和 ``HOVER`` 类型相机。若要设置一个特定的限制，您需要使用特定的方法 ︰"
 
-#: ../camera.rst:529
 msgid "EYE"
 msgstr "眼睛"
 
-#: ../camera.rst:529
 msgid "TARGET"
 msgstr "目标"
 
-#: ../camera.rst:529
 msgid "HOVER"
 msgstr "悬停模式"
 
-#: ../camera.rst:531
 msgid ""
-":b4wref:`camera.eye_get_horizontal_limits()` :b4wref:`camera."
-"eye_set_horizontal_limits()` :b4wref:`camera.eye_get_vertical_limits()` :b4wref:"
-"`camera.eye_set_vertical_limits()`"
+":b4wref:`camera.eye_get_horizontal_limits()` "
+":b4wref:`camera.eye_set_horizontal_limits()` "
+":b4wref:`camera.eye_get_vertical_limits()` "
+":b4wref:`camera.eye_set_vertical_limits()`"
 msgstr ""
-":b4wref:`camera.eye_get_horizontal_limits()` :b4wref:`camera."
-"eye_set_horizontal_limits()` :b4wref:`camera.eye_get_vertical_limits()` :b4wref:"
-"`camera.eye_set_vertical_limits()`"
+":b4wref:`camera.eye_get_horizontal_limits()` "
+":b4wref:`camera.eye_set_horizontal_limits()` "
+":b4wref:`camera.eye_get_vertical_limits()` "
+":b4wref:`camera.eye_set_vertical_limits()`"
 
-#: ../camera.rst:531
 msgid ""
-":b4wref:`camera.target_get_distance_limits()` :b4wref:`camera."
-"target_set_distance_limits()` :b4wref:`camera.target_get_horizontal_limits()` :"
-"b4wref:`camera.target_set_horizontal_limits()` :b4wref:`camera."
-"target_get_vertical_limits()` :b4wref:`camera.target_set_vertical_limits()` :"
-"b4wref:`camera.target_get_pivot_limits` :b4wref:`camera.target_set_pivot_limits`"
+":b4wref:`camera.target_get_distance_limits()` "
+":b4wref:`camera.target_set_distance_limits()` "
+":b4wref:`camera.target_get_horizontal_limits()` "
+":b4wref:`camera.target_set_horizontal_limits()` "
+":b4wref:`camera.target_get_vertical_limits()` "
+":b4wref:`camera.target_set_vertical_limits()` "
+":b4wref:`camera.target_get_pivot_limits` "
+":b4wref:`camera.target_set_pivot_limits`"
 msgstr ""
-":b4wref:`camera.target_get_distance_limits()` :b4wref:`camera."
-"target_set_distance_limits()` :b4wref:`camera.target_get_horizontal_limits()` :"
-"b4wref:`camera.target_set_horizontal_limits()` :b4wref:`camera."
-"target_get_vertical_limits()` :b4wref:`camera.target_set_vertical_limits()` :"
-"b4wref:`camera.target_get_pivot_limits` :b4wref:`camera.target_set_pivot_limits`"
+":b4wref:`camera.target_get_distance_limits()` "
+":b4wref:`camera.target_set_distance_limits()` "
+":b4wref:`camera.target_get_horizontal_limits()` "
+":b4wref:`camera.target_set_horizontal_limits()` "
+":b4wref:`camera.target_get_vertical_limits()` "
+":b4wref:`camera.target_set_vertical_limits()` "
+":b4wref:`camera.target_get_pivot_limits` "
+":b4wref:`camera.target_set_pivot_limits`"
 
-#: ../camera.rst:531
 msgid ""
-":b4wref:`camera.hover_get_distance_limits()` :b4wref:`camera."
-"hover_set_distance_limits()` :b4wref:`camera.hover_get_vertical_limits()` :"
-"b4wref:`camera.hover_set_vertical_limits()` :b4wref:`camera."
-"hover_get_horiz_trans_limits()` :b4wref:`camera."
-"hover_set_horiz_trans_limits()` :b4wref:`camera.hover_get_vert_trans_limits()` :"
-"b4wref:`camera.hover_set_vert_trans_limits()`"
+":b4wref:`camera.hover_get_distance_limits()` "
+":b4wref:`camera.hover_set_distance_limits()` "
+":b4wref:`camera.hover_get_vertical_limits()` "
+":b4wref:`camera.hover_set_vertical_limits()` "
+":b4wref:`camera.hover_get_horiz_trans_limits()` "
+":b4wref:`camera.hover_set_horiz_trans_limits()` "
+":b4wref:`camera.hover_get_vert_trans_limits()` "
+":b4wref:`camera.hover_set_vert_trans_limits()`"
 msgstr ""
-":b4wref:`camera.hover_get_distance_limits()` :b4wref:`camera."
-"hover_set_distance_limits()` :b4wref:`camera.hover_get_vertical_limits()` :"
-"b4wref:`camera.hover_set_vertical_limits()` :b4wref:`camera."
-"hover_get_horiz_trans_limits()` :b4wref:`camera."
-"hover_set_horiz_trans_limits()` :b4wref:`camera.hover_get_vert_trans_limits()` :"
-"b4wref:`camera.hover_set_vert_trans_limits()`"
+":b4wref:`camera.hover_get_distance_limits()` "
+":b4wref:`camera.hover_set_distance_limits()` "
+":b4wref:`camera.hover_get_vertical_limits()` "
+":b4wref:`camera.hover_set_vertical_limits()` "
+":b4wref:`camera.hover_get_horiz_trans_limits()` "
+":b4wref:`camera.hover_set_horiz_trans_limits()` "
+":b4wref:`camera.hover_get_vert_trans_limits()` "
+":b4wref:`camera.hover_set_vert_trans_limits()`"
 
-#: ../camera.rst:555
 msgid ""
-"Limit presence can be checked by using the :b4wref:`camera."
-"has_distance_limits()`, :b4wref:`camera.has_horizontal_rot_limits()`, :b4wref:"
-"`camera.has_vertical_rot_limits()`, :b4wref:`camera."
-"has_horizontal_trans_limits()` and :b4wref:`camera.has_vertical_trans_limits()` "
-"methods."
+"Limit presence can be checked by using the "
+":b4wref:`camera.has_distance_limits()`, "
+":b4wref:`camera.has_horizontal_rot_limits()`, "
+":b4wref:`camera.has_vertical_rot_limits()`, "
+":b4wref:`camera.has_horizontal_trans_limits()` and "
+":b4wref:`camera.has_vertical_trans_limits()` methods."
 msgstr ""
-"限制存在检测可以通过 :b4wref:`camera.has_distance_limits()`, :b4wref:`camera."
-"has_horizontal_rot_limits()`, :b4wref:`camera.has_vertical_rot_limits()`, :"
-"b4wref:`camera.has_horizontal_trans_limits()` and :b4wref:`camera."
-"has_vertical_trans_limits()` 方法获得."
+"限制存在检测可以通过 :b4wref:`camera.has_distance_limits()`, "
+":b4wref:`camera.has_horizontal_rot_limits()`, "
+":b4wref:`camera.has_vertical_rot_limits()`, "
+":b4wref:`camera.has_horizontal_trans_limits()` and "
+":b4wref:`camera.has_vertical_trans_limits()` 方法获得."
 
-#: ../camera.rst:559
 msgid ""
-"In ``HOVER`` mode, the camera always has distance and elevation angle limits. "
-"In case these limits were not set, they are automatically calculated to lock "
-"the camera in the current position relative to the pivot point."
-msgstr ""
-"在 ``HOVER`` 模式下，相机总是有距离和仰角的限制。如果这些限制都没有设置，它们会"
-"自动计算锁定摄像头当前的位置相对中心点。"
+"In ``HOVER`` mode, the camera always has distance and elevation angle "
+"limits. In case these limits were not set, they are automatically "
+"calculated to lock the camera in the current position relative to the "
+"pivot point."
+msgstr "在 ``HOVER`` 模式下，相机总是有距离和仰角的限制。如果这些限制都没有设置，它们会自动计算锁定摄像头当前的位置相对中心点。"
 
-#: ../camera.rst:563
 msgid ""
-"Enabled camera limits can influence its position and spatial orientation set by "
-"the API functions."
+"Enabled camera limits can influence its position and spatial orientation "
+"set by the API functions."
 msgstr "已启用的相机限制可以影响它的位置和空间取向，由 API 函数设置。"
 
-#: ../camera.rst:568
 msgid "Angular Coordinates Count"
 msgstr "角坐标计数"
 
-#: ../camera.rst:570
 msgid ""
-"When working with the camera's APIs (rotation, setting limits), all angles are "
-"defined as follows:"
+"When working with the camera's APIs (rotation, setting limits), all "
+"angles are defined as follows:"
 msgstr "当用相机的API的工作（旋转，设置限制），各个角度都定义如下："
 
-#: ../camera.rst:572
 msgid "For the ``TARGET/HOVER`` camera:"
 msgstr "对于 ``TARGET / HOVER`` 相机："
 
-#: ../camera.rst:586
 msgid "For the ``EYE`` camera:"
 msgstr "对于 ``EYE`` 相机："
 
 #~ msgid ""
-#~ "When setting translation limits for the ``HOVER`` camera, the values for the "
-#~ "limits will correspond to the engine's coordinate axis as follows:"
-#~ msgstr "当对 ``HOVER`` 相机设置移动限制，对于限制值将对应于引擎的坐标轴如下："
+#~ msgstr "这张照片显示可以如何使用视区对齐选项的示例。"
 
 #~ msgid "``Horizontal Translation Limits`` - X axis"
 #~ msgstr "``水平转换Limits``  -  X轴"
 
 #~ msgid "``Vertical Translation Limits`` - Z axis"
 #~ msgstr "``垂直平移Limits``  -  Z轴"
+
+#~ msgid ""
+#~ "All interface elements on this picture"
+#~ " shows are created using the Viewport"
+#~ " Alignment option."
+#~ msgstr ""
+

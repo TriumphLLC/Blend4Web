@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Содержание &mdash; Руководство пользователя Blend4Web 17.06</title>
+  <title>Содержание &mdash; Руководство пользователя Blend4Web 17.08</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 17.06" href="#"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 17.08" href="#"/>
         <link rel="next" title="Общие сведения" href="about.html"/> 
 
   
@@ -60,7 +60,7 @@
           
           
             <div class="version">
-              v17.06
+              v17.08
             </div>
           
         
@@ -84,6 +84,7 @@
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="about.html">Общие сведения</a></li>
 <li class="toctree-l1"><a class="reference internal" href="engine_features.html">Возможности движка</a></li>
+<li class="toctree-l1"><a class="reference internal" href="interface.html">Интерфейс Blender</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Установка и обновление</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Рабочий процесс</a></li>
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">Управление проектами</a></li>
@@ -175,6 +176,26 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="engine_features.html">Возможности движка</a></li>
+<li class="toctree-l1"><a class="reference internal" href="interface.html">Интерфейс Blender</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="interface.html#d-view">3D View</a></li>
+<li class="toctree-l2"><a class="reference internal" href="interface.html#timeline">Timeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="interface.html#graph-editor">Graph Editor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="interface.html#dope-sheet">Dope Sheet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="interface.html#nla-editor">NLA Editor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="interface.html#uv-image-editor">UV/Image Editor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="interface.html#video-sequence-editor">Video Sequence Editor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="interface.html#movie-clip-editor">Movie Clip Editor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="interface.html#text-editor">Text Editor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="interface.html#node-editor">Node Editor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="interface.html#logic-editor">Logic Editor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="interface.html#properties">Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="interface.html#outliner">Outliner</a></li>
+<li class="toctree-l2"><a class="reference internal" href="interface.html#user-preferences">User Preferences</a></li>
+<li class="toctree-l2"><a class="reference internal" href="interface.html#info">Info</a></li>
+<li class="toctree-l2"><a class="reference internal" href="interface.html#file-browser">File Browser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="interface.html#python-console">Python Console</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Установка и обновление</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="setup.html#installation">Установка</a></li>
 <li class="toctree-l2"><a class="reference internal" href="setup.html#updating">Обновление</a></li>
@@ -309,7 +330,7 @@
 <li class="toctree-l2"><a class="reference internal" href="logic_editor.html#sound">Sound</a></li>
 <li class="toctree-l2"><a class="reference internal" href="logic_editor.html#network">Network</a></li>
 <li class="toctree-l2"><a class="reference internal" href="logic_editor.html#debug">Debug</a></li>
-<li class="toctree-l2"><a class="reference internal" href="logic_editor.html#deprecated">Deprecated</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logic_editor.html#time">Time</a></li>
 <li class="toctree-l2"><a class="reference internal" href="logic_editor.html#layout">Layout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="logic_editor.html#debugging">Отладка</a></li>
 </ul>
@@ -461,6 +482,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Замечания к релизам</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#v17-08">v17.08</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v17-06">v17.06</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v17-04">v17.04</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v17-02">v17.02</a></li>
@@ -520,7 +542,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Триумф.
-      Обновлено: 2017-06-30.
+      Обновлено: 2017-08-31.
 
     </p>
   </div>
@@ -576,7 +598,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.06',
+            VERSION:'v17.08',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

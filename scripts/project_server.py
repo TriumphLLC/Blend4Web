@@ -27,6 +27,10 @@ import tornado.web
 import tornado.websocket
 import tornado.queues
 
+# default encoding resets in subprocess on OSX due to unknown reasons to ascii
+# force UTF-8
+os.environ["PYTHONIOENCODING"] = "UTF-8"
+
 # NOTE: should match same enums in addon's server.py
 SUB_THREAD_START_SERV_OK    = 0
 SUB_THREAD_SERVER_EXC       = 1

@@ -258,9 +258,9 @@ exports.create_particles_data = function(batch, psystem, pmaterial) {
     var alpha_start;
     var alpha_end;
     if (batch.halo_particles) {
-        size = pmaterial["halo"]["size"];
+        size = pmaterial.halo_settings.size;
 
-        var hardness = pmaterial["halo"]["hardness"];
+        var hardness = pmaterial.halo_settings.hardness;
 
         // default 50
         if (hardness < 30) {
@@ -285,7 +285,7 @@ exports.create_particles_data = function(batch, psystem, pmaterial) {
     pdata.alpha_start = alpha_start;
     pdata.alpha_end = alpha_end;
 
-    if (pmaterial["use_nodes"] && psystem["settings"]["render_type"] == "BILLBOARD") {
+    if (pmaterial.use_nodes && psystem["settings"]["render_type"] == "BILLBOARD") {
         m_batch.set_batch_directive(batch, "NODES", 1);
         m_batch.set_batch_directive(batch, "PARTICLE_BATCH", 1);
         batch.has_nodes = true;
@@ -312,7 +312,7 @@ exports.create_particles_data = function(batch, psystem, pmaterial) {
     }
 
     /** color ramp */
-    var m_tex_slot = pmaterial["texture_slots"];
+    var m_tex_slot = pmaterial.texture_slots;
     var cramp_varr = [-1,0,0,0,
                      -1,0,0,0,
                      -1,0,0,0,

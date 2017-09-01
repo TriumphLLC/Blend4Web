@@ -144,7 +144,35 @@ The actors that will be baked are listed in the window with the list of actors. 
        :align: center
        :width: 100%
 
-Blend4Web also has initial support of the armature constraints. For now, the only supported constraint type is ``Copy Transform``. It can be used to attach an armature to an object, producing effects such as ragdoll. Support of the other types of constraints will be added in further releases.
+Blend4Web also has initial support of the armature constraints. For now, only several types of constraints are supported, including ``Copy Transforms``, which can be used to attach an armature to an object, producing effects such as ragdoll. Support of the other types of constraints will be added in further releases.
+
+The full list of supported constraints and their descriptions can be found in a :ref:`dedicated section <objects_constraints>`.
+
+.. _anim_blend:
+
+Animation Blending
+------------------
+
+The engine also supports animation blending. To use this feature, the ``Animation Blending`` (located on the ``Animation`` panel of the ``Object`` tab) property should be enabled.
+
+.. warning::
+    No more than **two** animations can be blended simultaneously.
+
+To blend animations, you have to allow two animation slots to blend first:
+
+.. code-block:: javascript
+
+    var m_animation = require("animation");
+
+    var m_scenes = require("scenes");
+
+    ...
+
+    var armobj = m_scenes.get_object_by_name("My_Armature");
+
+    ...
+
+    m_animation.set_skeletal_slots(armobj, slot_1, slot_2, 0.5);
 
 Vertex Animation
 ================
@@ -203,6 +231,11 @@ Blend4Web also has an option to automatically play object's animation. To do it,
    :width: 100%
 
 Animation starts to play right after the application startup and plays very similar to the :ref:`Play Timeline <logic_play_timeline>` node, only without an option to set up the start and end markers (instead, it always starts from the first frame of the timeline and ends with the last). You can also set up animation behavior, like in the :ref:`Play Animation <logic_select_play>` node.
+
+*Animation Blending*
+    This option is only available for ``Armature`` type objects. It should be enabled if you want to blend skeletal animations.
+
+    Blending animations is described in a :ref:`dedicated section <anim_blend>`.
 
 .. _nla:
 

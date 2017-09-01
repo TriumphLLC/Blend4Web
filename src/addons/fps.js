@@ -193,9 +193,28 @@ function rotate_cam_by_axis(obj, camobj, id, elapsed) {
     m_phy.set_character_rotation(obj, cam_angls[0] + Math.PI, 0);
 }
 
+function disable_rotation(elem, character) {
+    if (m_ctl.check_sensor_manifolds(character, "FPS_PLOCK"))
+        m_ctl.remove_sensor_manifold(character, "FPS_PLOCK");
+
+    if (m_ctl.check_sensor_manifolds(null, "FPS_ACTIVATE_PLOCK"))
+        m_ctl.remove_sensor_manifold(null, "FPS_ACTIVATE_PLOCK");
+
+    if (m_ctl.check_sensor_manifolds(character, "FPS_CAM_ROT"))
+        m_ctl.remove_sensor_manifold(character, "FPS_CAM_ROT");
+
+    if (m_ctl.check_sensor_manifolds(null, "FPS_DRAG_PRESS"))
+        m_ctl.remove_sensor_manifold(null, "FPS_DRAG_PRESS");
+
+    if (m_ctl.check_sensor_manifolds(null, "FPS_DRAG_MOVE"))
+        m_ctl.remove_sensor_manifold(null, "FPS_DRAG_MOVE");
+
+    if (m_ctl.check_sensor_manifolds(character, "FPS_SMOOTH_DRAG"))
+        m_ctl.remove_sensor_manifold(character, "FPS_SMOOTH_DRAG");
+}
+
 function enable_rotation(elem, character) {
     if (check_pointerlock(elem) && !m_main.detect_mobile()) {
- 
         var plock_mouse_sen = m_ctl.create_plock_mouse_sensor(elem);
         var plock_sen = _plock_sensor ? _plock_sensor : m_ctl.create_plock_sensor(elem);
         _plock_sensor = plock_sen;
@@ -313,11 +332,38 @@ function set_characters_camera(character, lock_camera) {
     m_phy.set_character_rotation(character, angles[0], angles[1]);
 }
 
-function register_hmd(elem) {
-    // camera rotation is enabled with HMD
-    m_hmd.enable_hmd(m_hmd.HMD_ALL_AXES_MOUSE_NONE);
+var _enable_vr_cb = null;
+var _disable_vr_cb = null;
 
-    m_input.add_click_listener(elem, m_screen.request_fullscreen_hmd);
+// TODO: remove next function
+exports.append_switch_vr_cbs = function(enable_cb, disable_cb) {
+    _enable_vr_cb = enable_cb;
+    _disable_vr_cb = _disable_vr_cb;
+}
+
+function register_hmd(elem, character) {
+    m_input.add_click_listener(elem, function() {
+        m_screen.request_fullscreen_hmd(elem,
+            function() {
+                disable_rotation(elem, character);
+
+                // camera rotation is enabled with HMD
+                m_hmd.enable_hmd(m_hmd.HMD_ALL_AXES_MOUSE_NONE);
+
+                create_character_vr_rotate_sensor(character);
+                if (_enable_vr_cb)
+                    _enable_vr_cb();
+            },
+            function() {
+                remove_character_vr_rotate_sensor(character);
+                m_hmd.disable_hmd();
+
+                enable_rotation(elem, character);
+                if (_disable_vr_cb)
+                    _disable_vr_cb();
+            }
+        );
+    });
 }
 
 function create_character_vr_rotate_sensor(character) {
@@ -333,6 +379,10 @@ function create_character_vr_rotate_sensor(character) {
                 [e_s], null, sensor_cb);
 }
 
+function remove_character_vr_rotate_sensor(character) {
+    m_ctl.remove_sensor_manifold(character, "FPS_CHARECTER_VR_ROT");
+}
+
 function check_vr_support() {
     var support = m_hmd.check_browser_support() && !m_main.detect_mobile();
     var device = m_input.get_device_by_type_element(m_input.DEVICE_HMD);
@@ -344,11 +394,10 @@ function check_vr_support() {
 
 function enable_camera_rotation(elem, character) {
     if (check_vr_support()) {
-        register_hmd(elem);
-        create_character_vr_rotate_sensor(character);
-    } else {
-        enable_rotation(elem, character);
+        register_hmd(elem, character);
     }
+
+    enable_rotation(elem, character);
 }
 
 function enable_movements(elem, character, motion_cb, settings) {

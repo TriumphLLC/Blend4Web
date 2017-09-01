@@ -154,7 +154,7 @@ exports.inherit_material = function(obj_from, mat_from_name, obj_to, mat_to_name
     }
 
     if (obj_to._bpy_obj["data"]["submeshes"][bpy_mat_to_index]["shade_tangs"].length == 0 
-            && obj_from.mat_inheritance_data.bpy_materials[bpy_mat_from_index]["use_tangent_shading"]) {
+            && obj_from.materials[bpy_mat_from_index].use_tangent_shading) {
         m_print.warn("The target material \"" + mat_to_name + "\" was exported " 
                 + "without tangent shading data. However, the \"" + mat_from_name 
                 + "\" material requires it. It's needed to enable the \"Tangent Shading\" " 
@@ -1036,8 +1036,8 @@ exports.get_material_extended_params = function(obj, mat_name) {
     var mat_params = {};
 
     mat_params.reflect_factor = batch.reflect_factor;
-    mat_params.fresnel        = batch.fresnel_params[2];
-    mat_params.fresnel_factor = 5 * (1 - batch.fresnel_params[3]);
+    mat_params.fresnel        = batch.fresnel_params[0];
+    mat_params.fresnel_factor = 5 * (1 - batch.fresnel_params[1]);
     mat_params.parallax_scale = batch.parallax_scale;
     mat_params.parallax_steps = parseFloat(m_batch.get_batch_directive(batch,
             "PARALLAX_STEPS")[1]);
@@ -1095,10 +1095,10 @@ exports.set_material_extended_params = function(obj, mat_name, mat_params) {
             batch.reflect_factor = mat_params.reflect_factor;
 
         if (typeof mat_params.fresnel == "number")
-            batch.fresnel_params[2] = mat_params.fresnel;
+            batch.fresnel_params[0] = mat_params.fresnel;
 
         if (typeof mat_params.fresnel_factor == "number")
-            batch.fresnel_params[3] = 1 - mat_params.fresnel_factor / 5;
+            batch.fresnel_params[1] = 1 - mat_params.fresnel_factor / 5;
 
         if (typeof mat_params.parallax_scale == "number")
             batch.parallax_scale = mat_params.parallax_scale;
@@ -1495,7 +1495,7 @@ exports.set_nodemat_value = function(obj, name_list, value) {
         }
     }
 
-    var ind = m_obj.get_node_ind_by_name_list(mat_batch.node_value_inds,
+    var ind = m_obj.get_node_val_ind_by_name_list(mat_batch.node_value_inds,
             name_list, node_name_prefix_offset);
     if (ind === null) {
         m_print.error("set_nodemat_value(): Value node \"" 
@@ -1558,7 +1558,7 @@ exports.get_nodemat_value = function(obj, name_list) {
         }
     }
 
-    var ind = m_obj.get_node_ind_by_name_list(mat_batch.node_value_inds,
+    var ind = m_obj.get_node_val_ind_by_name_list(mat_batch.node_value_inds,
             name_list, node_name_prefix_offset);
     if (ind === null) {
         m_print.error("get_nodemat_value(): Value node \"" 
@@ -1623,7 +1623,7 @@ exports.set_nodemat_rgb = function(obj, name_list, r, g, b) {
         }
     }
 
-    var ind = m_obj.get_node_ind_by_name_list(mat_batch.node_rgb_inds,
+    var ind = m_obj.get_node_rgb_ind_by_name_list(mat_batch.node_rgb_inds,
             name_list, node_name_prefix_offset);
     if (ind === null) {
         m_print.error("set_nodemat_rgb(): RGB node \"" 
@@ -1686,7 +1686,7 @@ exports.get_nodemat_rgb = function(obj, name_list, dest) {
         }
     }
 
-    var ind = m_obj.get_node_ind_by_name_list(mat_batch.node_rgb_inds,
+    var ind = m_obj.get_node_rgb_ind_by_name_list(mat_batch.node_rgb_inds,
             name_list, node_name_prefix_offset);
     if (ind === null) {
         m_print.error("get_nodemat_rgb(): RGB node \"" 

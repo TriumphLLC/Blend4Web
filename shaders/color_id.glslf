@@ -136,7 +136,7 @@ uniform PRECISION sampler2D u_scene_depth;
 
 uniform float u_emit;
 uniform float u_ambient;
-uniform vec4  u_fresnel_params;
+uniform vec2  u_fresnel_params;
 
 # if REFLECTION_TYPE == REFL_MIRRORMAP
 uniform float u_mirror_factor;
@@ -151,7 +151,7 @@ uniform vec3 u_lamp_light_color_intensities[NUM_LAMP_LIGHTS];
 # endif
 
 # if USE_NODE_VALUE
-uniform float u_node_values[NUM_VALUES];
+uniform vec4 u_node_values[NUM_VALUES];
 # endif
 
 # if USE_NODE_RGB

@@ -193,7 +193,7 @@ uniform PRECISION sampler2D u_scene_depth;
 
 uniform float u_emit;
 uniform float u_ambient;
-uniform vec4  u_fresnel_params;
+uniform vec2  u_fresnel_params;
 uniform float u_specular_alpha;
 
 #if REFLECTION_TYPE == REFL_PLANE || REFLECTION_TYPE == REFL_CUBE

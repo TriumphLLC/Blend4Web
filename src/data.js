@@ -36,6 +36,7 @@ var m_debug     = require("__debug");
 var m_ext       = require("__extensions");
 var m_input     = require("__input");
 var m_loader    = require("__loader");
+var m_mat       = require("__material");
 var m_md5       = require("__md5");
 var m_nla       = require("__nla");
 var m_lnodes    = require("__logic_nodes");
@@ -458,6 +459,9 @@ function prepare_bindata_submeshes(bin_data, bin_offsets, meshes, is_le, b4w_off
             }
 
             setup_tbn(meshes[i], submeshes[j]);
+            // not needed after calculating tbn data
+            delete submeshes[j]["normal"];
+            delete submeshes[j]["tangent"];
 
             // NOTE: temporary backward compatibility
             if ("texcoord2" in submeshes[j]) {
@@ -719,9 +723,7 @@ function prepare_bpy_data(bpy_data, thread, stage, cb_param, cb_finish,
 
     report_empty_submeshes(bpy_data);
 
-    create_special_materials(bpy_data);
-    assign_default_material(bpy_data);
-
+    prepare_bpy_materials(bpy_data);
     prepare_bpy_actions(bpy_data["actions"], thread.id);
     prepare_bpy_lods(bpy_data);
     prepare_bpy_scenes(bpy_data, thread);
@@ -814,22 +816,20 @@ function prepare_bpy_scenes(bpy_data, thread) {
         scene._is_main = scene == main_scene;
         scene._is_primary_thread = thread.is_primary;
 
-        if (cfg_phy.enabled) {
+            if (cfg_phy.enabled) {
             if (scene["b4w_enable_physics"] == "OFF" ||
                     scene["b4w_enable_physics"] == "AUTO" && !check_scene_physics(scene))
                 continue;
 
-            if (cfg_def.phy_race_condition_hack || (thread.is_primary || 
+            if (thread.is_primary ||
                      (!m_phy.scene_has_physics(_primary_scene) &&
-                      scene == m_scenes.find_main_scene(bpy_data))))
+                      scene == m_scenes.find_main_scene(bpy_data)))
                 m_phy.init_scene_physics(scene);
         }
     }
 }
 
 function check_scene_physics(bpy_scene) {
-    if (cfg_def.phy_race_condition_hack)
-        return true;
     var bpy_objects = combine_scene_bpy_objects(bpy_scene, "ALL");
     for (var i = 0; i < bpy_objects.length; i++) {
         if (bpy_objects[i]["b4w_collision"])
@@ -838,7 +838,7 @@ function check_scene_physics(bpy_scene) {
         if (data["materials"])
             for (var j = 0; j < data["materials"].length; j++) {
                 var mat = data["materials"][j];
-                if (mat["b4w_collision"])
+                if (mat.physics_settings.use_coll_physics)
                     return true;
             }
     }
@@ -971,7 +971,7 @@ function prepare_bpy_node_materials(bpy_data) {
     for (var i = 0; i < materials.length; i++) {
         var material = materials[i];
 
-        var node_tree = material["node_tree"];
+        var node_tree = material.node_tree;
         if (!node_tree)
             continue;
 
@@ -1221,9 +1221,15 @@ function process_objects(bpy_data, thread, stage, cb_param, cb_finish,
         cb_set_rate) {
 
     var bpy_objects = get_bpy_cache(thread.id);
+    for (var i = 0; i < bpy_objects.length; i++) {
+        var obj = m_obj.create_object_from_bpy(bpy_objects[i]);
+        obj.render.data_id = thread.id;
+    }
+
     var bpy_worlds = bpy_data["worlds"];
-    create_objects_from_bpy(bpy_data, bpy_objects, thread.id);
-    create_world_objects_from_bpy(bpy_data, bpy_worlds, thread.id);
+    for (var i = 0; i < bpy_worlds.length; i++)
+        m_obj.create_object_from_bpy(bpy_worlds[i], true);
+
     var objects = m_obj.get_all_objects("ALL", thread.id);
 
     // update new objects (after creating - for making links beetween 
@@ -1264,51 +1270,6 @@ function process_objects(bpy_data, thread, stage, cb_param, cb_finish,
     prepare_floaters(objects);
 
     cb_finish(thread, stage);
-}
-
-/**
- * Create new b4w objects, append scene data, attach service & hack properties, 
- * update new objects.
- */
-function create_objects_from_bpy(bpy_data, bpy_objects, data_id) {
-
-    // create new objects
-    for (var i = 0; i < bpy_objects.length; i++) {
-        var bpy_obj = bpy_objects[i];
-
-        var obj = m_obj_util.create_object(bpy_obj["name"], bpy_obj["type"], 
-                bpy_obj["origin_name"]);
-        
-        for (var j = 0; j < bpy_obj._scenes.length; j++)
-            m_obj_util.append_scene_data(obj, bpy_obj._scenes[j]);
-
-        bpy_obj._object = obj;
-        m_obj.update_object(bpy_obj, obj);
-
-        obj.render.data_id = data_id;
-    }
-}
-
-/**
- * Create new b4w world objects used in environment animation,
- * append scene data, attach service & hack properties, update new objects.
- */
-function create_world_objects_from_bpy(bpy_data, bpy_worlds, data_id) {
-    //create new world objects
-    for (var i = 0; i < bpy_worlds.length; i++) {
-        var bpy_world = bpy_worlds[i];
-
-        var meta_name = "%meta_world%" + bpy_world["name"];
-        var world = m_obj_util.create_object(meta_name, "WORLD",
-                 meta_name);
-
-        for (var j = 0; j < bpy_world._scenes.length; j++)
-            m_obj_util.append_scene_data(world, bpy_world._scenes[j]);
-
-        bpy_world._object = world;
-
-        m_obj.update_world(bpy_world, world);
-    }
 }
 
 function calc_light_index(bpy_data, data_id) {
@@ -2335,10 +2296,10 @@ function load_images(bpy_data, thread, stage, cb_param, cb_finish, cb_set_rate) 
 
             for (var j = 0; j < textures.length; j++) {
                 var texture = textures[j];
-                if (texture.img_uuid == uuid && texture.img_comp_method == image._comp_method
-                        || thread.is_preloading) {
+                if (!m_tex.get_cache_loaded_status(texture) 
+                        && texture.img_comp_method == image._comp_method
+                        && texture.img_uuid == uuid || thread.is_preloading)
                     image_users[uuid].push(texture);
-                }
             }
 
             if (image._comp_method && cfg_def.assets_gzip_available) {
@@ -2377,6 +2338,7 @@ function load_images(bpy_data, thread, stage, cb_param, cb_finish, cb_set_rate) 
                                     m_scenes.update_world_texture(bpy_data["scenes"][j]);
                             }
                         }
+                        m_tex.set_cache_loaded_status(tex_user, true);
                     }
                     var comp_method = tex_users[0].img_comp_method;
                 } else
@@ -2631,33 +2593,37 @@ function start_nla(bpy_data, thread, stage, cb_param, cb_finish, cb_set_rate) {
     cb_finish(thread, stage);
 }
 
-
-/**
- * Create special materials
- */
-function create_special_materials(bpy_data) {
-
-    var materials = bpy_data["materials"];
-
-    var default_material = m_reformer.create_material("DEFAULT");
-    materials.push(default_material);
-}
-
-/**
- * Assign default material for meshes with empty materials
- */
-function assign_default_material(bpy_data) {
+function prepare_bpy_materials(bpy_data) {
+    var uuids = [];
+    bpy_data["materials"] = [];
 
     var meshes = bpy_data["meshes"];
-    var def_mat = m_util.keysearch("name", "DEFAULT", bpy_data["materials"]);
-
     for (var i = 0; i < meshes.length; i++) {
         var mesh = meshes[i];
 
-        if (mesh["materials"].length == 0)
+        if (mesh["materials"].length == 0) {
+            var def_mat = m_mat.create_default();
             mesh["materials"].push(def_mat);
+
+            if (uuids.indexOf(def_mat.uuid) == -1) {
+                uuids.push(def_mat.uuid);
+                bpy_data["materials"].push(def_mat);
+            }
+        } else
+            for (var j = 0; j < mesh["materials"].length; j++) {
+                var bpy_mat = mesh["materials"][j];
+                var mat = m_mat.init_material();
+                m_mat.update_material(bpy_mat, mat);
+                mesh["materials"][j] = mat;
+
+                if (uuids.indexOf(mat.uuid) == -1) {
+                    uuids.push(mat.uuid);
+                    bpy_data["materials"].push(mat);
+                }
+            }
     }
 }
+
 
 function prepare_bpy_actions(actions, data_id) {
     for (var i = 0; i < actions.length; i++) {
@@ -3878,7 +3844,7 @@ exports.load = function(path, loaded_cb, stageload_cb, wait_complete_loading,
             is_resource: false,
             relative_size: 50,
             primary_only: false,
-            cb_before: init_cube_sky_dynamic_props,
+            cb_before: init_cube_sky_dynamic_props
         },
         "init_logic_nodes": {
             priority: m_loader.SYNC_PRIORITY,
@@ -4127,7 +4093,7 @@ exports.prefetch = function(path, loaded_cb, stageload_cb) {
             relative_size: 500,
             primary_only: false,
             cb_before: preload_sounds
-        },
+        }
     }
     var scheduler = m_loader.get_scheduler();
     if (!scheduler) {

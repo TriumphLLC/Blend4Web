@@ -63,6 +63,7 @@ exports.init = function() {
         alpha: false,
         assets_dds_available: !DEBUG,
         assets_min50_available: !DEBUG,
+        console_verbose: DEBUG,
         background_color: [1.0, 1.0, 1.0, 0.0]
     });
 };

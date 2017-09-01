@@ -63,4 +63,12 @@ exports.date = m_version.date;
  */
 exports.date_str = m_version.date_str;
 
+/**
+ * Returns a string representing the application version based on build time. 
+ * Returns the current timestamp in the "DEBUG" mode.
+ * @method module:version.get_build_version
+ * @returns {string} Build version.
+ */
+exports.get_build_version = m_version.get_build_version;
+
 }

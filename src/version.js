@@ -93,14 +93,13 @@ function date_str() {
     return date_str;
 }
 
-exports.timestamp = function() {
+exports.get_build_version = function() {
     if (TYPE != "DEBUG")
-        return "?v=" + PREVENT_CACHE;
+        return PREVENT_CACHE;
 
     var ts = date_str();
     // remove special symbols
     ts = ts.split(" ").join("").split(":").join("").split(".").join("");
-    ts = "?v=" + ts;
     return ts;
 }
 

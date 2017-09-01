@@ -70,7 +70,8 @@ var _viewer_profiles = {
         name: "Oculus Rift DK2",
         type: P_WEBVR,
         "first_distortion": 0.22,
-        "second_distortion": 0.28,
+        "second_distortion": 0.28
+        // don't forget to place comma if you uncomment the next line
         // chromatic_aberration_coefs: [-0.015, 0.02, 0.025, 0.02]
     },
     "cardboard_1": {
@@ -80,7 +81,8 @@ var _viewer_profiles = {
         "baseline": 35,
         "screen_lense": 42,
         "first_distortion": 0.441,
-        "second_distortion": 0.156,
+        "second_distortion": 0.156
+        // don't forget to place comma if you uncomment the next line
         // chromatic_aberration_coefs : [0.0, 0.0, 0.0, 0.0]
     },
     "cardboard_2": {
@@ -90,7 +92,8 @@ var _viewer_profiles = {
         "baseline": 35,
         "screen_lense": 39,
         "first_distortion": 0.34,
-        "second_distortion": 0.55,
+        "second_distortion": 0.55
+        // don't forget to place comma if you uncomment the next line
         // chromatic_aberration_coefs : [0.0, 0.0, 0.0, 0.0]
     },
     "custom": {
@@ -100,7 +103,8 @@ var _viewer_profiles = {
         "baseline": 35,
         "screen_lense": 39,
         "first_distortion": 0.0,
-        "second_distortion": 0.0,
+        "second_distortion": 0.0
+        // don't forget to place comma if you uncomment the next line
         // chromatic_aberration_coefs: [0.0, 0.0, 0.0, 0.0]
     }
 }
@@ -111,7 +115,7 @@ var _param_list = [{
         inputs: [{
                 id: "baseline",
                 max: "50",
-                step: "0.5",
+                step: "0.5"
             }
         ]
     }, {
@@ -120,7 +124,7 @@ var _param_list = [{
         inputs: [{
                 id: "ipd",
                 max: "100",
-                step: "1",
+                step: "1"
             }
         ]
     }, {
@@ -129,7 +133,7 @@ var _param_list = [{
         inputs: [{
                 id: "screen_lense",
                 max: "100",
-                step: "1",
+                step: "1"
             }
         ]
     }, {
@@ -138,7 +142,7 @@ var _param_list = [{
         inputs: [{
                 id: "screen_height",
                 max: "150",
-                step: "1",
+                step: "1"
             }
         ]
     }, {
@@ -147,7 +151,7 @@ var _param_list = [{
         inputs: [{
                 id: "screen_width",
                 max: "200",
-                step: "1",
+                step: "1"
             }
         ]
     }, {
@@ -156,7 +160,7 @@ var _param_list = [{
         inputs: [{
                 id: "bevel_size",
                 max: "20",
-                step: "1",
+                step: "1"
             }
         ]
     }, {
@@ -164,11 +168,11 @@ var _param_list = [{
         inputs: [{
                 id: "first_distortion",
                 max: "1.0",
-                step: "0.01",
+                step: "0.01"
             }, {
                 id: "second_distortion",
                 max: "1.0",
-                step: "0.01",
+                step: "0.01"
             }
         ]
     }

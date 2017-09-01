@@ -116,7 +116,7 @@ uniform vec3 u_lamp_light_color_intensities[NUM_LAMP_LIGHTS];
 #endif
 
 #if USE_NODE_VALUE
-uniform float u_node_values[NUM_VALUES];
+uniform vec4 u_node_values[NUM_VALUES];
 #endif
 
 #if USE_NODE_RGB

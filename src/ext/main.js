@@ -118,8 +118,6 @@ var _requestAnimFrame = (function() {
  * @returns {WebGLRenderingContext|Null} WebGL context or null
  */
 exports.init = function(elem_canvas_webgl, elem_canvas_hud) {
-    m_cfg.set_paths();
-
     // NOTE: for debug purposes
     // works in chrome with --enable-memory-info --js-flags="--expose-gc"
     //window.setInterval(function() {window.gc();}, 1000);
@@ -170,6 +168,8 @@ exports.init = function(elem_canvas_webgl, elem_canvas_hud) {
     init_context(elem_canvas_webgl, elem_canvas_hud, gl);
     m_cfg.apply_quality();
     m_compat.set_hardware_defaults(gl, true);
+
+    m_cfg.set_paths();
 
     m_shaders.load_shaders();
 
@@ -251,6 +251,7 @@ function init_context(canvas, canvas_hud, gl) {
     m_geom.setup_context(gl);
     m_textures.setup_context(gl);
     m_shaders.setup_context(gl);
+    m_cont.setup_context(gl);
     m_debug.setup_context(gl);
     m_data.setup_canvas(canvas);
     m_cont.init(canvas, canvas_hud);

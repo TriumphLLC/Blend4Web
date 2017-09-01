@@ -5,9 +5,10 @@
 #include "../CommonInterfaces/CommonGraphicsAppInterface.h"
 #include "../CommonInterfaces/CommonRenderInterface.h"
 #include "Bullet3Common/b3Scalar.h"
+#include "CollisionShape2TriangleMesh.h"
 
-#include "BulletCollision/CollisionShapes/btShapeHull.h"//to create a tesselation of a generic btConvexShape
 
+#include "../OpenGLWindow/SimpleCamera.h"
 #include "../OpenGLWindow/GLInstanceGraphicsShape.h"
 //backwards compatibility
 #include "GL_ShapeDrawer.h"
@@ -28,7 +29,8 @@ struct MyDebugVec3
 	float y;
 	float z;
 };
-class MyDebugDrawer : public btIDebugDraw
+
+ATTRIBUTE_ALIGNED16( class )MyDebugDrawer : public btIDebugDraw
 {
 	CommonGraphicsApp* m_glApp;
 	int m_debugMode;
@@ -36,16 +38,30 @@ class MyDebugDrawer : public btIDebugDraw
     btAlignedObjectArray<MyDebugVec3> m_linePoints;
     btAlignedObjectArray<unsigned int> m_lineIndices;
     btVector3 m_currentLineColor;
+	DefaultColors m_ourColors;
 
 public:
+	BT_DECLARE_ALIGNED_ALLOCATOR();
 
 	MyDebugDrawer(CommonGraphicsApp* app)
 		: m_glApp(app)
 		,m_debugMode(btIDebugDraw::DBG_DrawWireframe|btIDebugDraw::DBG_DrawAabb),
 		m_currentLineColor(-1,-1,-1)
 	{
-
+		
+		
 	}
+	virtual DefaultColors	getDefaultColors() const	
+	{	
+		return m_ourColors;
+	}
+	///the default implementation for setDefaultColors has no effect. A derived class can implement it and store the colors.
+	virtual void setDefaultColors(const DefaultColors& colors) 
+	{
+		m_ourColors = colors;
+	}
+
+
 	virtual void	drawLine(const btVector3& from1,const btVector3& to1,const btVector3& color1)
 	{
         //float from[4] = {from1[0],from1[1],from1[2],from1[3]};
@@ -70,7 +86,10 @@ public:
 
 	virtual void	drawContactPoint(const btVector3& PointOnB,const btVector3& normalOnB,btScalar distance,int lifeTime,const btVector3& color)
 	{
-        drawLine(PointOnB,PointOnB+normalOnB,color);
+        drawLine(PointOnB,PointOnB+normalOnB*distance,color);
+		btVector3 ncolor(0, 0, 0);
+		drawLine(PointOnB, PointOnB + normalOnB*0.01, ncolor);
+		
 	}
      
 
@@ -129,7 +148,25 @@ struct OpenGLGuiHelperInternalData
 	struct CommonGraphicsApp* m_glApp;
 	class MyDebugDrawer* m_debugDraw;
 	GL_ShapeDrawer* m_gl2ShapeDrawer;
+	bool m_vrMode;
+	int m_vrSkipShadowPass;
+
+	btAlignedObjectArray<unsigned char> m_rgbaPixelBuffer1;
+	btAlignedObjectArray<float> m_depthBuffer1;
+	
+	OpenGLGuiHelperInternalData()
+		:m_vrMode(false),
+		m_vrSkipShadowPass(0)
+	{
+	}
+
 };
+
+void OpenGLGuiHelper::setVRMode(bool vrMode)
+{
+	m_data->m_vrMode = vrMode;
+	m_data->m_vrSkipShadowPass = 0;
+}
 
 
 
@@ -150,6 +187,7 @@ OpenGLGuiHelper::OpenGLGuiHelper(CommonGraphicsApp* glApp, bool useOpenGL2)
 
 OpenGLGuiHelper::~OpenGLGuiHelper()
 {
+	delete m_data->m_debugDraw;
 	delete m_data->m_gl2ShapeDrawer;
 	delete m_data;
 }
@@ -166,21 +204,32 @@ void OpenGLGuiHelper::createRigidBodyGraphicsObject(btRigidBody* body, const btV
 
 void OpenGLGuiHelper::createCollisionObjectGraphicsObject(btCollisionObject* body, const btVector3& color)
 {
-	btCollisionShape* shape = body->getCollisionShape();
-	btTransform startTransform = body->getWorldTransform();
-	int graphicsShapeId = shape->getUserIndex();
-	if (graphicsShapeId>=0)
+	if (body->getUserIndex()<0)
 	{
-	//	btAssert(graphicsShapeId >= 0);
-		btVector3 localScaling = shape->getLocalScaling();
-		int graphicsInstanceId = m_data->m_glApp->m_renderer->registerGraphicsInstance(graphicsShapeId, startTransform.getOrigin(), startTransform.getRotation(), color, localScaling);
-		body->setUserIndex(graphicsInstanceId);
+		btCollisionShape* shape = body->getCollisionShape();
+		btTransform startTransform = body->getWorldTransform();
+		int graphicsShapeId = shape->getUserIndex();
+		if (graphicsShapeId>=0)
+		{
+		//	btAssert(graphicsShapeId >= 0);
+			//the graphics shape is already scaled
+			btVector3 localScaling(1,1,1);
+			int graphicsInstanceId = m_data->m_glApp->m_renderer->registerGraphicsInstance(graphicsShapeId, startTransform.getOrigin(), startTransform.getRotation(), color, localScaling);
+			body->setUserIndex(graphicsInstanceId);
+		}
 	}
 }
 
-int OpenGLGuiHelper::registerGraphicsShape(const float* vertices, int numvertices, const int* indices, int numIndices)
+int	OpenGLGuiHelper::registerTexture(const unsigned char* texels, int width, int height)
 {
-	int shapeId = m_data->m_glApp->m_renderer->registerShape(vertices, numvertices,indices,numIndices);
+	int textureId = m_data->m_glApp->m_renderer->registerTexture(texels,width,height);
+	return textureId;
+}
+
+
+int OpenGLGuiHelper::registerGraphicsShape(const float* vertices, int numvertices, const int* indices, int numIndices,int primitiveType, int textureId)
+{
+	int shapeId = m_data->m_glApp->m_renderer->registerShape(vertices, numvertices,indices,numIndices,primitiveType, textureId);
 	return shapeId;
 }
 
@@ -189,221 +238,9 @@ int OpenGLGuiHelper::registerGraphicsInstance(int shapeIndex, const float* posit
 	return m_data->m_glApp->m_renderer->registerGraphicsInstance(shapeIndex,position,quaternion,color,scaling);
 }
 
-static void createCollisionShapeGraphicsObjectInternal(btCollisionShape* collisionShape, const btTransform& parentTransform, btAlignedObjectArray<GLInstanceVertex>& verticesOut, btAlignedObjectArray<int>& indicesOut)
+void OpenGLGuiHelper::removeAllGraphicsInstances()
 {
-//todo: support all collision shape types
-	switch (collisionShape->getShapeType())
-	{
-		case SOFTBODY_SHAPE_PROXYTYPE:
-		{
-			//skip the soft body collision shape for now
-			break;
-		}
-		case STATIC_PLANE_PROXYTYPE:
-		{
-			//draw a box, oriented along the plane normal
-			const btStaticPlaneShape* staticPlaneShape = static_cast<const btStaticPlaneShape*>(collisionShape);
-			btScalar planeConst = staticPlaneShape->getPlaneConstant();
-			const btVector3& planeNormal = staticPlaneShape->getPlaneNormal();
-			btVector3 planeOrigin = planeNormal * planeConst;
-			btVector3 vec0,vec1;
-			btPlaneSpace1(planeNormal,vec0,vec1);
-			btScalar vecLen = 100.f;
-			btVector3 verts[4];
-
-			verts[0] = planeOrigin + vec0*vecLen + vec1*vecLen;
-			verts[1] = planeOrigin - vec0*vecLen + vec1*vecLen;
-			verts[2] = planeOrigin - vec0*vecLen - vec1*vecLen;
-			verts[3] = planeOrigin + vec0*vecLen - vec1*vecLen;
-				
-			int startIndex = verticesOut.size();
-			indicesOut.push_back(startIndex+0);
-			indicesOut.push_back(startIndex+1);
-			indicesOut.push_back(startIndex+2);
-			indicesOut.push_back(startIndex+0);
-			indicesOut.push_back(startIndex+2);
-			indicesOut.push_back(startIndex+3);
-
-			btVector3 triNormal = parentTransform.getBasis()*planeNormal;
-				
-
-			for (int i=0;i<4;i++)
-			{
-				GLInstanceVertex vtx;
-				btVector3 pos =parentTransform*verts[i];
-				vtx.xyzw[0] = pos.x();
-				vtx.xyzw[1] = pos.y();
-				vtx.xyzw[2] = pos.z();
-				vtx.xyzw[3] = 0.f;
-
-				vtx.normal[0] =triNormal.x();
-				vtx.normal[1] =triNormal.y();
-				vtx.normal[2] =triNormal.z();
-
-				vtx.uv[0] = 0.5f;
-				vtx.uv[1] = 0.5f;
-				verticesOut.push_back(vtx);
-			}
-			break;
-		}
-		case TRIANGLE_MESH_SHAPE_PROXYTYPE:
-		{
-			
-
-			btBvhTriangleMeshShape* trimesh = (btBvhTriangleMeshShape*) collisionShape;
-			btVector3 trimeshScaling = trimesh->getLocalScaling();
-			btStridingMeshInterface* meshInterface = trimesh->getMeshInterface();
-			btAlignedObjectArray<btVector3> vertices;
-			btAlignedObjectArray<int> indices;
-				
-			for (int partId=0;partId<meshInterface->getNumSubParts();partId++)
-			{
-					
-				const unsigned char *vertexbase = 0;
-				int numverts = 0;
-				PHY_ScalarType type = PHY_INTEGER;
-				int stride = 0;
-				const unsigned char *indexbase = 0;
-				int indexstride = 0;
-				int numfaces = 0;
-				PHY_ScalarType indicestype = PHY_INTEGER;
-				//PHY_ScalarType indexType=0;
-					
-				btVector3 triangleVerts[3];
-				meshInterface->getLockedReadOnlyVertexIndexBase(&vertexbase,numverts,	type,stride,&indexbase,indexstride,numfaces,indicestype,partId);
-				btVector3 aabbMin,aabbMax;
-					
-				for (int triangleIndex = 0 ; triangleIndex < numfaces;triangleIndex++)
-				{
-					unsigned int* gfxbase = (unsigned int*)(indexbase+triangleIndex*indexstride);
-						
-					for (int j=2;j>=0;j--)
-					{
-							
-						int graphicsindex = indicestype==PHY_SHORT?((unsigned short*)gfxbase)[j]:gfxbase[j];
-						if (type == PHY_FLOAT)
-						{
-							float* graphicsbase = (float*)(vertexbase+graphicsindex*stride);
-							triangleVerts[j] = btVector3(
-															graphicsbase[0]*trimeshScaling.getX(),
-															graphicsbase[1]*trimeshScaling.getY(),
-															graphicsbase[2]*trimeshScaling.getZ());
-						}
-						else
-						{
-							double* graphicsbase = (double*)(vertexbase+graphicsindex*stride);
-							triangleVerts[j] = btVector3( btScalar(graphicsbase[0]*trimeshScaling.getX()),
-															btScalar(graphicsbase[1]*trimeshScaling.getY()),
-															btScalar(graphicsbase[2]*trimeshScaling.getZ()));
-						}
-					}
-					indices.push_back(vertices.size());
-					vertices.push_back(triangleVerts[0]);
-					indices.push_back(vertices.size());
-					vertices.push_back(triangleVerts[1]);
-					indices.push_back(vertices.size());
-					vertices.push_back(triangleVerts[2]);
-
-					btVector3 triNormal = (triangleVerts[1]-triangleVerts[0]).cross(triangleVerts[2]-triangleVerts[0]);
-					triNormal.normalize();
-
-					for (int v=0;v<3;v++)
-					{
-						GLInstanceVertex vtx;
-						btVector3 pos =parentTransform*triangleVerts[v];
-						vtx.xyzw[0] = pos.x();
-						vtx.xyzw[1] = pos.y();
-						vtx.xyzw[2] = pos.z();
-						vtx.xyzw[3] = 0.f;
-
-
-						vtx.normal[0] =triNormal.x();
-						vtx.normal[1] =triNormal.y();
-						vtx.normal[2] =triNormal.z();
-
-						vtx.uv[0] = 0.5f;
-						vtx.uv[1] = 0.5f;
-
-						indicesOut.push_back(verticesOut.size());
-						verticesOut.push_back(vtx);
-					}
-
-					
-				}
-			}
-			
-			break;
-		}
-		default:
-		{
-			if (collisionShape->isConvex())
-			{
-				btConvexShape* convex = (btConvexShape*)collisionShape;
-				{
-					btShapeHull* hull = new btShapeHull(convex);
-					hull->buildHull(0.0);
-
-					{
-						//int strideInBytes = 9*sizeof(float);
-						//int numVertices = hull->numVertices();
-						//int numIndices =hull->numIndices();
-
-						for (int t=0;t<hull->numTriangles();t++)
-						{
-
-							btVector3 triNormal;
-
-							int index0 = hull->getIndexPointer()[t*3+0];
-							int index1 = hull->getIndexPointer()[t*3+1];
-							int index2 = hull->getIndexPointer()[t*3+2];
-							btVector3 pos0 =parentTransform*hull->getVertexPointer()[index0];
-							btVector3 pos1 =parentTransform*hull->getVertexPointer()[index1];
-							btVector3 pos2 =parentTransform*hull->getVertexPointer()[index2];
-							triNormal = (pos1-pos0).cross(pos2-pos0);
-							triNormal.normalize();
-
-							for (int v=0;v<3;v++)
-							{
-								int index = hull->getIndexPointer()[t*3+v];
-								GLInstanceVertex vtx;
-								btVector3 pos =parentTransform*hull->getVertexPointer()[index];
-								vtx.xyzw[0] = pos.x();
-								vtx.xyzw[1] = pos.y();
-								vtx.xyzw[2] = pos.z();
-								vtx.xyzw[3] = 0.f;
-
-								vtx.normal[0] =triNormal.x();
-								vtx.normal[1] =triNormal.y();
-								vtx.normal[2] =triNormal.z();
-
-								vtx.uv[0] = 0.5f;
-								vtx.uv[1] = 0.5f;
-
-								indicesOut.push_back(verticesOut.size());
-								verticesOut.push_back(vtx);
-							}
-						}
-					}
-				}
-			} else
-			{
-				if (collisionShape->isCompound())
-				{
-					btCompoundShape* compound = (btCompoundShape*) collisionShape;
-					for (int i=0;i<compound->getNumChildShapes();i++)
-					{
-
-						btTransform childWorldTrans = parentTransform * compound->getChildTransform(i);
-						createCollisionShapeGraphicsObjectInternal(compound->getChildShape(i),childWorldTrans,verticesOut,indicesOut);
-					}
-				} else
-				{
-					btAssert(0);
-				}
-					
-			}
-		}
-	};
+    m_data->m_glApp->m_renderer->removeAllInstances();
 }
 
 void OpenGLGuiHelper::createCollisionShapeGraphicsObject(btCollisionShape* collisionShape)
@@ -412,48 +249,98 @@ void OpenGLGuiHelper::createCollisionShapeGraphicsObject(btCollisionShape* colli
 	if (collisionShape->getUserIndex()>=0)
 		return;
 
-	btAlignedObjectArray<GLInstanceVertex> vertices;
+	btAlignedObjectArray<GLInstanceVertex> gfxVertices;
+	
 	btAlignedObjectArray<int> indices;
 	btTransform startTrans;startTrans.setIdentity();
 
-	createCollisionShapeGraphicsObjectInternal(collisionShape,startTrans,vertices,indices);
+    {
+        btAlignedObjectArray<btVector3> vertexPositions;
+        btAlignedObjectArray<btVector3> vertexNormals;
+        CollisionShape2TriangleMesh(collisionShape,startTrans,vertexPositions,vertexNormals,indices);
+        gfxVertices.resize(vertexPositions.size());
+        for (int i=0;i<vertexPositions.size();i++)
+        {
+            for (int j=0;j<4;j++)
+            {
+                gfxVertices[i].xyzw[j] = vertexPositions[i][j];
+            }
+            for (int j=0;j<3;j++)
+            {
+                gfxVertices[i].normal[j] = vertexNormals[i][j];
+            }
+            for (int j=0;j<2;j++)
+            {
+                gfxVertices[i].uv[j] = 0.5;//we don't have UV info...
+            }
+        }
+    }
+    
 
-	if (vertices.size() && indices.size())
+	if (gfxVertices.size() && indices.size())
 	{
-		int shapeId = m_data->m_glApp->m_renderer->registerShape(&vertices[0].xyzw[0],vertices.size(),&indices[0],indices.size());
+		int shapeId = registerGraphicsShape(&gfxVertices[0].xyzw[0],gfxVertices.size(),&indices[0],indices.size(),B3_GL_TRIANGLES,-1);
 		collisionShape->setUserIndex(shapeId);
 	}
 		
 }
 void OpenGLGuiHelper::syncPhysicsToGraphics(const btDiscreteDynamicsWorld* rbWorld)
 {
+	//in VR mode, we skip the synchronization for the second eye
+	if (m_data->m_vrMode && m_data->m_vrSkipShadowPass==1)
+		return;
+
 	int numCollisionObjects = rbWorld->getNumCollisionObjects();
-	for (int i = 0; i<numCollisionObjects; i++)
 	{
-		btCollisionObject* colObj = rbWorld->getCollisionObjectArray()[i];
-		btVector3 pos = colObj->getWorldTransform().getOrigin();
-		btQuaternion orn = colObj->getWorldTransform().getRotation();
-		int index = colObj->getUserIndex();
-		if (index >= 0)
+		B3_PROFILE("write all InstanceTransformToCPU");
+		for (int i = 0; i<numCollisionObjects; i++)
 		{
-			m_data->m_glApp->m_renderer->writeSingleInstanceTransformToCPU(pos, orn, index);
+			B3_PROFILE("writeSingleInstanceTransformToCPU");
+			btCollisionObject* colObj = rbWorld->getCollisionObjectArray()[i];
+			btVector3 pos = colObj->getWorldTransform().getOrigin();
+			btQuaternion orn = colObj->getWorldTransform().getRotation();
+			int index = colObj->getUserIndex();
+			if (index >= 0)
+			{
+				m_data->m_glApp->m_renderer->writeSingleInstanceTransformToCPU(pos, orn, index);
+			}
 		}
 	}
-	m_data->m_glApp->m_renderer->writeTransforms();
+	{
+		B3_PROFILE("writeTransforms");
+		m_data->m_glApp->m_renderer->writeTransforms();
+	}
 }
 
 
 
 void OpenGLGuiHelper::render(const btDiscreteDynamicsWorld* rbWorld)
 {
-
-	m_data->m_glApp->m_renderer->renderScene();
+	if (m_data->m_vrMode)
+	{
+		//in VR, we skip the shadow generation for the second eye
+		
+		if (m_data->m_vrSkipShadowPass>=1)
+		{
+			m_data->m_glApp->m_renderer->renderSceneInternal(B3_USE_SHADOWMAP_RENDERMODE);
+			m_data->m_vrSkipShadowPass=0;
+			
+		} else
+		{
+			m_data->m_glApp->m_renderer->renderScene();	
+			m_data->m_vrSkipShadowPass++;
+		}
+	} else
+	{
+		m_data->m_glApp->m_renderer->renderScene();	
+	}
+	
 	//backwards compatible OpenGL2 rendering
 
 	if (m_data->m_gl2ShapeDrawer && rbWorld)
 	{
 		m_data->m_gl2ShapeDrawer->enableTexture(true);
-		m_data->m_gl2ShapeDrawer->drawScene(rbWorld,true);
+		m_data->m_gl2ShapeDrawer->drawScene(rbWorld,true, m_data->m_glApp->getUpAxis());
 	}
 }
 void OpenGLGuiHelper::createPhysicsDebugDrawer(btDiscreteDynamicsWorld* rbWorld)
@@ -484,6 +371,7 @@ CommonParameterInterface* OpenGLGuiHelper::getParameterInterface()
 void OpenGLGuiHelper::setUpAxis(int axis)
 {
 	m_data->m_glApp->setUpAxis(axis);
+
 }
 
 void OpenGLGuiHelper::resetCamera(float camDist, float pitch, float yaw, float camPosX,float camPosY, float camPosZ)
@@ -497,6 +385,93 @@ void OpenGLGuiHelper::resetCamera(float camDist, float pitch, float yaw, float c
 	}
 }
 
+
+void OpenGLGuiHelper::copyCameraImageData(const float viewMatrix[16], const float projectionMatrix[16], 
+                                          unsigned char* pixelsRGBA, int rgbaBufferSizeInPixels, 
+                                          float* depthBuffer, int depthBufferSizeInPixels, 
+                                          int* segmentationMaskBuffer, int segmentationMaskBufferSizeInPixels,
+                                          int startPixelIndex, int destinationWidth, 
+                                          int destinationHeight, int* numPixelsCopied)
+{
+    int sourceWidth = m_data->m_glApp->m_window->getWidth()*m_data->m_glApp->m_window->getRetinaScale();
+    int sourceHeight  = m_data->m_glApp->m_window->getHeight()*m_data->m_glApp->m_window->getRetinaScale();
+    
+	if (numPixelsCopied)
+        *numPixelsCopied = 0;
+
+    int numTotalPixels = destinationWidth*destinationHeight;
+    int numRemainingPixels = numTotalPixels - startPixelIndex;
+    int numBytesPerPixel = 4;//RGBA
+    int numRequestedPixels  = btMin(rgbaBufferSizeInPixels,numRemainingPixels);
+    if (numRequestedPixels)
+    {
+        if (startPixelIndex==0)
+        {
+            CommonCameraInterface* oldCam = getRenderInterface()->getActiveCamera();
+			SimpleCamera tempCam;
+			getRenderInterface()->setActiveCamera(&tempCam);
+			getRenderInterface()->getActiveCamera()->setVRCamera(viewMatrix,projectionMatrix);
+			getRenderInterface()->renderScene();
+			getRenderInterface()->setActiveCamera(oldCam);
+			
+			{
+                btAlignedObjectArray<unsigned char> sourceRgbaPixelBuffer;
+                btAlignedObjectArray<float> sourceDepthBuffer;
+                //copy the image into our local cache
+                sourceRgbaPixelBuffer.resize(sourceWidth*sourceHeight*numBytesPerPixel);
+                sourceDepthBuffer.resize(sourceWidth*sourceHeight);
+                m_data->m_glApp->getScreenPixels(&(sourceRgbaPixelBuffer[0]),sourceRgbaPixelBuffer.size(), &sourceDepthBuffer[0],sizeof(float)*sourceDepthBuffer.size());
+			
+                m_data->m_rgbaPixelBuffer1.resize(destinationWidth*destinationHeight*numBytesPerPixel);
+                m_data->m_depthBuffer1.resize(destinationWidth*destinationHeight);
+                //rescale and flip
+                
+                for (int i=0;i<destinationWidth;i++)
+                {
+                    for (int j=0;j<destinationHeight;j++)
+                    {
+                        int xIndex = int(float(i)*(float(sourceWidth)/float(destinationWidth)));
+                        int yIndex = int(float(destinationHeight-1-j)*(float(sourceHeight)/float(destinationHeight)));
+                        btClamp(xIndex,0,sourceWidth);
+                        btClamp(yIndex,0,sourceHeight);
+                        int bytesPerPixel = 4; //RGBA
+                        
+                        int sourcePixelIndex = (xIndex+yIndex*sourceWidth)*bytesPerPixel;
+                        int sourceDepthIndex = xIndex+yIndex*sourceWidth;
+                        
+                        m_data->m_rgbaPixelBuffer1[(i+j*destinationWidth)*4+0] = sourceRgbaPixelBuffer[sourcePixelIndex+0];
+                        m_data->m_rgbaPixelBuffer1[(i+j*destinationWidth)*4+1] = sourceRgbaPixelBuffer[sourcePixelIndex+1];
+                        m_data->m_rgbaPixelBuffer1[(i+j*destinationWidth)*4+2] = sourceRgbaPixelBuffer[sourcePixelIndex+2];
+                        m_data->m_rgbaPixelBuffer1[(i+j*destinationWidth)*4+3] = 255;
+                        
+                        m_data->m_depthBuffer1[i+j*destinationWidth] = sourceDepthBuffer[sourceDepthIndex];
+                        
+                    }
+                }
+            }
+        }
+        if (pixelsRGBA)
+        {
+            for (int i=0;i<numRequestedPixels*numBytesPerPixel;i++)
+            {
+                pixelsRGBA[i] = m_data->m_rgbaPixelBuffer1[i+startPixelIndex*numBytesPerPixel];
+            }
+        }
+        if (depthBuffer)
+        {
+            for (int i=0;i<numRequestedPixels;i++)
+            {
+                depthBuffer[i] = m_data->m_depthBuffer1[i+startPixelIndex];
+            }
+        }
+		if (numPixelsCopied)
+	        *numPixelsCopied = numRequestedPixels;
+
+
+    }
+    
+   
+}
 
 
 
@@ -544,6 +519,8 @@ void OpenGLGuiHelper::autogenerateGraphicsObjects(btDiscreteDynamicsWorld* rbWor
     
 void OpenGLGuiHelper::drawText3D( const char* txt, float posX, float posY, float posZ, float size)
 {
+	B3_PROFILE("OpenGLGuiHelper::drawText3D");
+
     btAssert(m_data->m_glApp);
     m_data->m_glApp->drawText3D(txt,posX,posY,posZ,size);
 }

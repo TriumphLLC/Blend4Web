@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2017-04-20 16:04+0300\n"
+"POT-Creation-Date: 2017-08-09 15:11+0300\n"
 "PO-Revision-Date: 2017-04-29 00:05+0800\n"
 "Last-Translator: kidux <yuzukyo@gmail.com>\n"
 "Language-Team: Chinese <info [at] blend4web.com>\n"
@@ -15,865 +15,790 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.3.4\n"
-"Language: zh\n"
-"X-Generator: Poedit 1.8.12\n"
 
-#: ../scene_settings.rst:7
 msgid "Scene Settings"
 msgstr "场景设置"
 
-#: ../scene_settings.rst
 msgid "Table of Content"
 msgstr "目录"
 
-#: ../scene_settings.rst:13
 msgid ""
-"All the parameters that define the look and behavior of the whole scene (and not just a single object) are found on the three panels: the "
+"All the parameters that define the look and behavior of the whole scene "
+"(and not just a single object) are found on the three panels: the "
 "``Render`` panel, the ``Scene`` panel and the ``World`` panel."
-msgstr "定义整个场景的外观和行为（不只是一个单一的物体）所有参数都能在三个面板里找到：``Render`` 面板时，``Scene`` 面板和 ``World`` 面板。"
+msgstr ""
+"定义整个场景的外观和行为（不只是一个单一的物体）所有参数都能在三个面板里找到：``Render`` 面板时，``Scene`` 面板和 "
+"``World`` 面板。"
 
-#: ../scene_settings.rst:18
 msgid "Render Panel"
 msgstr "渲染面板"
 
-#: ../scene_settings.rst:24
-msgid "All scene parameters that concern the image rendering are found on this panel."
+msgid ""
+"All scene parameters that concern the image rendering are found on this "
+"panel."
 msgstr "场景中的所有图像渲染参数都在此面板上找到。"
 
-#: ../scene_settings.rst:30
 msgid "Development Tools"
 msgstr "开发工具"
 
-#: ../scene_settings.rst:32
-msgid "Development Server settings. Described thoroughly in :ref:`its own section <local_development_server>`."
+msgid ""
+"Development Server settings. Described thoroughly in :ref:`its own "
+"section <local_development_server>`."
 msgstr "开发服务器设置。  详尽的描述在 :ref:`自己的章节 <local_development_server>`."
 
-#: ../scene_settings.rst:41
 msgid "Shading"
 msgstr "著色"
 
-#: ../scene_settings.rst:43
 msgid "This panel contains various shading options."
 msgstr "此面板包含各种着色选项。"
 
-#: ../scene_settings.rst:55
 msgid "*Set Recommended Options*"
 msgstr "*推荐设置选项*"
 
-#: ../scene_settings.rst:50
 msgid ""
-"This button is used to achieve maximum consistency between the look of a 3D scene in Blender viewport and in web browser. Pressing this "
-"button:"
+"This button is used to achieve maximum consistency between the look of a "
+"3D scene in Blender viewport and in web browser. Pressing this button:"
 msgstr "该按钮用于实现3D场景在Blender的视口和Web浏览器的外观之间的最大一致性。按下此按钮："
 
-#: ../scene_settings.rst:52
 msgid "enables **World Space Shading**,"
 msgstr "启用 **世界空间着色**，"
 
-#: ../scene_settings.rst:53
 msgid "switches material mode to **GLSL**,"
 msgstr "切换材质模式到 **GLSL**,"
 
-#: ../scene_settings.rst:54
 msgid "switches viewport shading mode to **Material** and"
 msgstr "切换视口着色模式到 **材质** 和"
 
-#: ../scene_settings.rst:55
 msgid "sets the main camera fit to **Vertical**."
 msgstr "设置主摄像头适合 **垂直** 。"
 
-#: ../scene_settings.rst:58
 msgid "*World Space Shading*"
 msgstr "*世界空间着色*"
 
-#: ../scene_settings.rst:58
 msgid ""
-"This option turns on and off **World Space Shading** (world space interpretation of lighting data will be used for object shading). Disabled "
-"by default."
+"This option turns on and off **World Space Shading** (world space "
+"interpretation of lighting data will be used for object shading). "
+"Disabled by default."
 msgstr "此选项打开和关闭 **世界空间着色** （照明数据的世界空间演绎将用于物体阴影）。默认情况下禁用。"
 
-#: ../scene_settings.rst:63
 msgid "Shadows"
 msgstr "阴影"
 
-#: ../scene_settings.rst:65
 msgid "Shadows settings. Described thoroughly in :ref:`its own section<shadows>`."
 msgstr "阴影设置。 详尽的描述在 :ref:`自己的章节 <shadows>`."
 
-#: ../scene_settings.rst:74
 msgid "Reflections and Refractions"
 msgstr "反射和折射"
 
-#: ../scene_settings.rst:76
 msgid "Reflection and refraction effect settings."
 msgstr "反射和折射效果设置。"
 
-#: ../scene_settings.rst:83
 msgid "*Reflection*"
 msgstr "*反射*"
 
-#: ../scene_settings.rst:83
-msgid "Reflection effect settings. Can be set to ``ON``, ``OFF`` or ``AUTO``. Set to ``ON`` by default."
+msgid ""
+"Reflection effect settings. Can be set to ``ON``, ``OFF`` or ``AUTO``. "
+"Set to ``ON`` by default."
 msgstr "反射效果设置。可设置 ``ON``，``OFF`` 或 ``AUTO``。默认设置为 ``ON``。"
 
-#: ../scene_settings.rst:86
 msgid "*Refraction*"
 msgstr "*折射*"
 
-#: ../scene_settings.rst:86
-msgid "Refraction effect settings. Can be set to ``ON``, ``OFF`` or ``AUTO``. Set to ``AUTO`` by default."
+msgid ""
+"Refraction effect settings. Can be set to ``ON``, ``OFF`` or ``AUTO``. "
+"Set to ``AUTO`` by default."
 msgstr "折射效果设置。可设置 ``ON``，``OFF`` 或 ``AUTO``。默认设置为 ``AUTO`` 。"
 
-#: ../scene_settings.rst:89
 msgid "*Quality*"
 msgstr "*品质*"
 
-#: ../scene_settings.rst:89
 msgid ""
-"Quality settings for the reflection effect. Can be set to ``HIGH`` (the highest reflection quality), ``MEDIUM`` (medium quality) or to "
-"``LOW`` (the lowest quality). Set to ``MEDIUM`` by default."
-msgstr "对于反射效果的画质设置。可设置 ``HIGH`` （最高反射品质），``MEDIUM`` （中等品质），或 ``LOW`` （最低质量）。默认设置为 ``MEDIUM`` 。"
+"Quality settings for the reflection effect. Can be set to ``HIGH`` (the "
+"highest reflection quality), ``MEDIUM`` (medium quality) or to ``LOW`` "
+"(the lowest quality). Set to ``MEDIUM`` by default."
+msgstr ""
+"对于反射效果的画质设置。可设置 ``HIGH`` （最高反射品质），``MEDIUM`` （中等品质），或 ``LOW`` "
+"（最低质量）。默认设置为 ``MEDIUM`` 。"
 
-#: ../scene_settings.rst:94
 msgid "Object Outlining"
 msgstr "物体勾边"
 
-#: ../scene_settings.rst:96
-msgid "Outlining effect settings. Described thoroughly in :ref:`its own section<outline>`."
+msgid ""
+"Outlining effect settings. Described thoroughly in :ref:`its own "
+"section<outline>`."
 msgstr "物体勾边设置。 详尽的描述在 :ref:`自己的章节 <outline>`."
 
-#: ../scene_settings.rst:105
 msgid "Glow Materials"
 msgstr "晕光材质"
 
-#: ../scene_settings.rst:107
-msgid "Glow Material effect settings. Described thoroughly in :ref:`its own section <glow>`."
+msgid ""
+"Glow Material effect settings. Described thoroughly in :ref:`its own "
+"section <glow>`."
 msgstr "晕光材质效果设置。  详尽的描述在 :ref:`自己的章节 <color_correction>`."
 
-#: ../scene_settings.rst:115
 msgid ""
-"For dynamically loaded objects, ``AUTO`` setting is interpreted as ``OFF``, if no materials with glow are present in the scene. If you are "
+"For dynamically loaded objects, ``AUTO`` setting is interpreted as "
+"``OFF``, if no materials with glow are present in the scene. If you are "
 "using dynamic loading, you should set this parameter to ``ON``."
-msgstr "为动态加载物体，``AUTO`` 设置被解析为 ``OFF``,当没有带辉光的材料在场景中时。如果使用的是动态加载，你应该将这个参数设置为  ``ON``."
+msgstr ""
+"为动态加载物体，``AUTO`` 设置被解析为 ``OFF``,当没有带辉光的材料在场景中时。如果使用的是动态加载，你应该将这个参数设置为  "
+"``ON``."
 
-#: ../scene_settings.rst:120
 msgid "Anti-Aliasing"
 msgstr "抗锯齿"
 
-#: ../scene_settings.rst:122
-msgid "Anti-Aliasing settings. Described thoroughly in :ref:`its own section<antialiasing>`."
+msgid ""
+"Anti-Aliasing settings. Described thoroughly in :ref:`its own "
+"section<antialiasing>`."
 msgstr "抗锯齿的设置。  详尽的描述在 :ref:`自己的章节 <antialiasing>`."
 
-#: ../scene_settings.rst:131
 msgid "Anisotropic Filtering"
 msgstr "各向异性过滤"
 
-#: ../scene_settings.rst:133
 msgid ""
-"This parameter can be used to enable or disable anisotropic filtering and also to set the number of texture samples used for it. By default, "
+"This parameter can be used to enable or disable anisotropic filtering and"
+" also to set the number of texture samples used for it. By default, "
 "anisotropic filtering is disabled."
 msgstr "该参数可用于启用或确定停用各向异性过滤并且还设置用于它的纹理样本的数目。默认情况下，各向异性过滤被禁用。"
 
-#: ../scene_settings.rst:139
-msgid "Available values: ``16x``, ``8x``, ``4x``, ``2x`` and ``OFF`` (default value)."
+msgid ""
+"Available values: ``16x``, ``8x``, ``4x``, ``2x`` and ``OFF`` (default "
+"value)."
 msgstr "可用值： ``16x``，``8x``，``4x``，``2x`` 和 ``OFF`` （默认值）。"
 
-#: ../scene_settings.rst:144
 msgid "Bloom"
 msgstr "布隆光晕"
 
-#: ../scene_settings.rst:146
-msgid "Bloom effect settings. Described thoroughly in :ref:`its own section <bloom>`."
+msgid ""
+"Bloom effect settings. Described thoroughly in :ref:`its own section "
+"<bloom>`."
 msgstr "布隆光晕效果设置。详细描述在  :ref:`自己的章节 <bloom>`."
 
-#: ../scene_settings.rst:155
 msgid "Motion Blur"
 msgstr "运动模糊"
 
-#: ../scene_settings.rst:157
-msgid "Motion blur settings. Described thoroughly :ref:`in its own section <motion_blur>`."
+msgid ""
+"Motion blur settings. Described thoroughly :ref:`in its own section "
+"<motion_blur>`."
 msgstr "运动模糊设置。详尽的描述在 :ref:`自己的章节 <motion_blur>`."
 
-#: ../scene_settings.rst:166
 msgid "Ambient Occlusion (SSAO)"
 msgstr "环境光遮蔽（SSAO方法）"
 
-#: ../scene_settings.rst:168
-msgid "Screen-space ambient occlusion (SSAO) settings. Described thoroughly in :ref:`its own section <ssao>`."
+msgid ""
+"Screen-space ambient occlusion (SSAO) settings. Described thoroughly in "
+":ref:`its own section <ssao>`."
 msgstr "屏幕空间环境光遮蔽（SSAO）的设置。 详尽的描述在 :ref:`自己的章节 <ssao>`."
 
-#: ../scene_settings.rst:177
 msgid "God Rays"
 msgstr "上帝光芒"
 
-#: ../scene_settings.rst:179
-msgid "God Rays effect settings. Described thoroughly in :ref:`its own section <god_rays>`."
+msgid ""
+"God Rays effect settings. Described thoroughly in :ref:`its own section "
+"<god_rays>`."
 msgstr "上帝光芒效果设置。 详尽的描述在 :ref:`自己的章节 <god_rays>`."
 
-#: ../scene_settings.rst:188
 msgid "Color Correction"
 msgstr "色彩校正"
 
-#: ../scene_settings.rst:190
-msgid "Color correction settings. Described thoroughly in :ref:`its own section <color_correction>`."
+msgid ""
+"Color correction settings. Described thoroughly in :ref:`its own section "
+"<color_correction>`."
 msgstr "色彩校正设置。 详尽的描述在 :ref:`自己的章节 <color_correction>`."
 
-#: ../scene_settings.rst:199
 msgid "Timeline"
 msgstr "时间线"
 
-#: ../scene_settings.rst:201
 msgid "Timeline settings."
 msgstr "时间线的设置。"
 
-#: ../scene_settings.rst:208
 msgid "*Start Frame*"
 msgstr "*起始帧*"
 
-#: ../scene_settings.rst:208
 msgid "The first frame of the timeline. Set to 1 by default."
 msgstr "时间轴的第一帧。默认设置为1。"
 
-#: ../scene_settings.rst:211
 msgid "*End Frame*"
 msgstr "*结束帧*"
 
-#: ../scene_settings.rst:211
 msgid "The last frame of the timeline. Set to 250 by default."
 msgstr "时间轴的最后一帧。默认设置为250。"
 
-#: ../scene_settings.rst:214
 msgid "*Frame Rate*"
 msgstr "*帧率*"
 
-#: ../scene_settings.rst:214
-msgid "Number of the frames per second. Set to 24 by default. This parameter only affect the animation playback speed (not the scene itself)."
+msgid ""
+"Number of the frames per second. Set to 24 by default. This parameter "
+"only affect the animation playback speed (not the scene itself)."
 msgstr "每秒的帧的数目。默认设置为24。此参数只影响动画播放的速度（而不是场景本身）。"
 
-#: ../scene_settings.rst:219
 msgid "Dynamic Grass"
 msgstr "动态草"
 
-#: ../scene_settings.rst:221
 msgid "Enables and disables :ref:`dynamic grass <particles_grass>` effect."
 msgstr "启用和禁用 :ref:`动态草 <particles_grass>` 效果。"
 
-#: ../scene_settings.rst:227
 msgid "Possible values: ``ON``, ``OFF`` and ``AUTO``. Set to ``AUTO`` by default."
 msgstr "可能的值：``ON``，``OFF`` 和 ``AUTO``。默认设置为 ``AUTO`` 。"
 
-#: ../scene_settings.rst:232
 msgid "Scene Panel"
 msgstr "场景面板"
 
-#: ../scene_settings.rst:238
-msgid "The settings that concern scene behavior, including audio, physics and animation settings, are found on this panel."
+msgid ""
+"The settings that concern scene behavior, including audio, physics and "
+"animation settings, are found on this panel."
 msgstr "关于场景行为的设置，包括音频，物理和动画设置，都在此面板上找到。"
 
-#: ../scene_settings.rst:243
 msgid "Scene"
 msgstr "场景"
 
-#: ../scene_settings.rst:245
 msgid "Scene settings."
 msgstr "场景设置"
 
-#: ../scene_settings.rst:252
 msgid "*Camera*"
 msgstr "相机"
 
-#: ../scene_settings.rst:252
 msgid "A camera that is used to render the scene."
 msgstr "用于渲染场景的相机。"
 
-#: ../scene_settings.rst:257
 msgid "Units"
 msgstr "单位"
 
-#: ../scene_settings.rst:259
 msgid "Sets the measurement units used in the scene."
 msgstr "设置场景中使用的度量单位。"
 
-#: ../scene_settings.rst:268
 msgid "Audio"
 msgstr "音频"
 
-#: ../scene_settings.rst:270
 msgid "Audio settings."
 msgstr "音频设置"
 
-#: ../scene_settings.rst:277
 msgid "*Volume*"
 msgstr "*音量*"
 
-#: ../scene_settings.rst:277
-msgid "The master volume of the sound in the application. This value can vary between 0 and 100. Default value is 1.0."
+msgid ""
+"The master volume of the sound in the application. This value can vary "
+"between 0 and 100. Default value is 1.0."
 msgstr "应用中的声音的主音量。此值介于0到100之间，并默认值是1.0。"
 
-#: ../scene_settings.rst:298
 msgid "*Distance Model*"
 msgstr "*距离模型*"
 
-#: ../scene_settings.rst:280
-msgid "The distance model used for calculating distance attenuation. Following models are supported by the engine:"
+msgid ""
+"The distance model used for calculating distance attenuation. Following "
+"models are supported by the engine:"
 msgstr "用于计算距离衰减的距离的模型。以下型号的引擎支持："
 
-#: ../scene_settings.rst:282
-msgid "``None`` - no distance model is used, the sound has constant volume regardless of the distance."
+msgid ""
+"``None`` - no distance model is used, the sound has constant volume "
+"regardless of the distance."
 msgstr "``None``  - 不使用距离模型，声音具有体积不变无论距离远近。"
 
-#: ../scene_settings.rst:284
 msgid "``Exponent Clamped`` - a clamped exponential distance model."
 msgstr "``指数钳制``  - 一个钳位指数距离模型。"
 
-#: ../scene_settings.rst:286
 msgid "``Linear Clamped`` - a clamped linear distance model."
 msgstr "``线性钳制``  - 被夹住的直线距离模型。"
 
-#: ../scene_settings.rst:288
 msgid "``Inverse Clamped`` - a clamped inverse distance model."
 msgstr "``逆钳制``  - 被夹住的逆距离模型。"
 
-#: ../scene_settings.rst:290
-msgid "The following models are partially supported (work the same way the corresponding *Clamped*-type models):"
+msgid ""
+"The following models are partially supported (work the same way the "
+"corresponding *Clamped*-type models):"
 msgstr "以下型号部分支持（以同样的方式相应的 *钳位* 型车型）："
 
-#: ../scene_settings.rst:292
 msgid "``Exponent``"
 msgstr "``冪``"
 
-#: ../scene_settings.rst:294
 msgid "``Linear``"
 msgstr "``线性``"
 
-#: ../scene_settings.rst:296
 msgid "``Inverse``"
 msgstr "``反``"
 
-#: ../scene_settings.rst:298
 msgid "This parameter is set to ``Inverse Clamped`` by default."
 msgstr "此参数默认设置为 ``逆钳制`` 。"
 
-#: ../scene_settings.rst:301
 msgid "*Speed*"
 msgstr "*速度*"
 
-#: ../scene_settings.rst:301
 msgid ""
-"This parameter sets the speed of sound used for Doppler effect calculation. Its value is measured in meters per second and is set to 343.3 by "
-"default."
+"This parameter sets the speed of sound used for Doppler effect "
+"calculation. Its value is measured in meters per second and is set to "
+"343.3 by default."
 msgstr "此参数设置用于多普勒效应计算音速。它的值以米每秒为单位，默认设置为343.3。"
 
-#: ../scene_settings.rst:304
 msgid "*Doppler*"
 msgstr "*多普勒效应*"
 
-#: ../scene_settings.rst:304
-msgid "This sets the pitch factor for Doppler effect calculation. Its default value if 1.0."
+msgid ""
+"This sets the pitch factor for Doppler effect calculation. Its default "
+"value if 1.0."
 msgstr "这为多普勒效应计算距离因素。它的默认值，如果1.0。"
 
-#: ../scene_settings.rst:307
 msgid "*Dynamic Compressor*"
 msgstr "*动态压缩*"
 
-#: ../scene_settings.rst:307
-msgid "Compress audio signal's dynamic range. This feature can be used to make the sound more rich and even. Disabled by default."
+msgid ""
+"Compress audio signal's dynamic range. This feature can be used to make "
+"the sound more rich and even. Disabled by default."
 msgstr "压缩音频信号的动态范围。该功能可用于使声音更加丰富。默认情况下禁用。"
 
-#: ../scene_settings.rst:310
 msgid "*Threshold*"
 msgstr "*阈值*"
 
-#: ../scene_settings.rst:310
 msgid ""
-"If the amplitude of the audio signal exceeds the value specified by this parameter, the compressor will reduce its level. Set to -24 dB by "
+"If the amplitude of the audio signal exceeds the value specified by this "
+"parameter, the compressor will reduce its level. Set to -24 dB by "
 "default."
 msgstr "如果音频信号的幅度超过由该参数指定的值，压缩器将降低其等级。默认设置为-24分贝。"
 
-#: ../scene_settings.rst:313
 msgid "*Knee*"
 msgstr "*拐点*"
 
-#: ../scene_settings.rst:313
-msgid "The interval below the threshold where the response curve switches to the decreasing mode. Set to 30 by default."
+msgid ""
+"The interval below the threshold where the response curve switches to the"
+" decreasing mode. Set to 30 by default."
 msgstr "反响曲线切换到递减模式时低于阈值的间隔。默认设置为30。"
 
-#: ../scene_settings.rst:316
 msgid "*Ratio*"
 msgstr "*比率*"
 
-#: ../scene_settings.rst:316
 msgid "Amount of gain reduction. Set to 12 by default."
 msgstr "增益衰减量。默认设置为12。"
 
-#: ../scene_settings.rst:319
 msgid "*Attack*"
 msgstr "*起音*"
 
-#: ../scene_settings.rst:319
-msgid "Time (in seconds) that takes the compressor to reduce gain by 10 dB. Set to 0.003 by default."
+msgid ""
+"Time (in seconds) that takes the compressor to reduce gain by 10 dB. Set "
+"to 0.003 by default."
 msgstr "让压缩器减少增益10 dB的时间（以秒为单位）。默认设置为0.003。"
 
-#: ../scene_settings.rst:322
 msgid "*Release*"
 msgstr "*释放音*"
 
-#: ../scene_settings.rst:322
-msgid "Time (in seconds) that takes the compressor to increase gain by 10 dB. Set to 0.25 by default."
+msgid ""
+"Time (in seconds) that takes the compressor to increase gain by 10 dB. "
+"Set to 0.25 by default."
 msgstr "让压缩器提高增益10 dB的时间（以秒为单位）。默认设置为0.25。"
 
-#: ../scene_settings.rst:327
 msgid "Logic Editor"
 msgstr "逻辑编辑器"
 
-#: ../scene_settings.rst:329
-msgid "Settings for the use of the logic node trees (created in the :ref:`logic editor <logic_editor>`) in the scene. Disabled by default."
+msgid ""
+"Settings for the use of the logic node trees (created in the :ref:`logic "
+"editor <logic_editor>`) in the scene. Disabled by default."
 msgstr "设置为使用逻辑节点树（在 :ref:`逻辑编辑器 <logic_editor>` 中创建的）。默认情况下禁用。"
 
-#: ../scene_settings.rst:336
 msgid "*Active Node Tree*"
 msgstr "*主控节点树*"
 
-#: ../scene_settings.rst:336
 msgid "Node tree that is used in the scene's playback."
 msgstr "即在场景的播放使用节点树。"
 
-#: ../scene_settings.rst:341
 msgid "NLA"
 msgstr "NLA 片段"
 
-#: ../scene_settings.rst:343
 msgid "Non-Linear Animation playback settings. Disabled by default."
 msgstr "非线性动画播放设置。默认情况下禁用。"
 
-#: ../scene_settings.rst:350
 msgid "*Cyclic NLA*"
 msgstr "*循环NLA*"
 
-#: ../scene_settings.rst:350
-msgid "If this parameter is enabled, NLA animation will be repeated after it is finished."
+msgid ""
+"If this parameter is enabled, NLA animation will be repeated after it is "
+"finished."
 msgstr "如果该参数被启用， NLA动画播放完后将被重复。"
 
-#: ../scene_settings.rst:355
 msgid "Meta Tags"
 msgstr "Meta标签"
 
-#: ../scene_settings.rst:357
-msgid "Application's meta tags."
-msgstr "应用程序的meta标签。"
+msgid ""
+"Application's meta tags. Can be set up in the same way as :ref:`object "
+"meta tags <objects_meta_tags>`."
+msgstr ""
 
-#: ../scene_settings.rst:364
 msgid "*Title*"
 msgstr "*名称*"
 
-#: ../scene_settings.rst:364
 msgid "The title of the application."
 msgstr "应用程序的标题。"
 
-#: ../scene_settings.rst:367
 msgid "*Description*"
 msgstr "*描述*"
 
-#: ../scene_settings.rst:367
 msgid ""
-"The description of the application. Can be a simple text or a link to a text file (if the ``Description Source`` parameter is set to the "
-"``File`` value)."
+"The description of the application. Can be a simple text or a link to a "
+"text file (if the ``Description Source`` parameter is set to the ``File``"
+" value)."
 msgstr "应用程序的说明。可以是一个简单的文本或文本文件的链接（如果 ``Description Source`` 参数设置为 ``File`` 值）。"
 
-#: ../scene_settings.rst:370
+msgid ""
+"If you are using a text file as description source, said file can be "
+"imported to Blender using a built-in :ref:`Text Editor <ui_text_editor>`."
+msgstr ""
+
 msgid "*Description Source*"
 msgstr "*说明源*"
 
-#: ../scene_settings.rst:370
 msgid ""
-"The source of the application's description. The description can be loaded from a file or specified directly in the ``Description`` field. "
-"This parameter can have one of the two values, ``Text`` and ``File``, and it is set to ``Text`` by default."
+"The source of the application's description. The description can be "
+"loaded from a file or specified directly in the ``Description`` field. "
+"This parameter can have one of the two values, ``Text`` and ``File``, and"
+" it is set to ``Text`` by default."
 msgstr ""
-"应用程序的说明的来源。说明可以从一个文件中加载，或直接在 ``Description`` 字段中写出。此参数可以有两个值，``Text`` 和 ``File``，它是默认设置为 "
-"``Text``。"
+"应用程序的说明的来源。说明可以从一个文件中加载，或直接在 ``Description`` 字段中写出。此参数可以有两个值，``Text`` 和 "
+"``File``，它是默认设置为 ``Text``。"
 
-#: ../scene_settings.rst:375
 msgid "Physics"
 msgstr "物理"
 
-#: ../scene_settings.rst:377
 msgid "Physics settings."
 msgstr "物理设置。"
 
-#: ../scene_settings.rst:384
 msgid "*Enable Physics*"
 msgstr "*启用物理*"
 
-#: ../scene_settings.rst:384
 msgid "Allow using physics in the application. Enabled by default."
 msgstr "允许在应用程序中使用物理。默认情况下启用。"
 
-#: ../scene_settings.rst:389
 msgid "Object Clustering & LOD"
 msgstr "物体簇和LOD"
 
-#: ../scene_settings.rst:391
 msgid "Settings for object clustering and Levels Of Detail."
 msgstr "物体簇和层次细节的设置。"
 
-#: ../scene_settings.rst:398
 msgid "*Cluster Size*"
 msgstr "*簇大小*"
 
-#: ../scene_settings.rst:398
 msgid ""
-"The size of the cluster used for batching (in meters). Can be used for optimization purposes. If this parameter is set to zero, the engine "
-"will try to combine all objects in the scene. Set to zero by default."
+"The size of the cluster used for batching (in meters). Can be used for "
+"optimization purposes. If this parameter is set to zero, the engine will "
+"try to combine all objects in the scene. Set to zero by default."
 msgstr "簇的大小用于批量（尺寸：米）的处理。如果该参数被设置为零，引擎将场景中所有物体合并。默认设置为零。"
 
-#: ../scene_settings.rst:401
 msgid "*LOD Cluster Size Multiplier*"
 msgstr "*LOD簇大小乘数*"
 
-#: ../scene_settings.rst:401
 msgid ""
-"This parameter is used to subdivide clusters (based on LOD distance specified individually for each object) into smaller ones to make "
-"transitions between different levels of detail less noticeable. The size of that smaller clusters is defined by object LOD distance "
-"multiplied by the value of this parameter. Higher values lead to bigger clusters which increases performance but makes transition between "
-"LODs more noticeable, while lower values make said transitions less noticeable at the cost of decreased performance. Can be used for "
-"optimization purposes. Set to 0.5 by default."
-msgstr ""
-"该参数用于细分簇（基于每个物体指定的LOD距离）到较小的部分使得不同情况的层次细节切换不被引起注意。小簇的大小是由物体的LOD距离乘以这个参数的值定"
-"义。较高的值导致更大的簇，提高性能但使得过渡比较明显，而较低的值让变换不被引起注意但是以性能降低为代价。可以用来作为优化的手段。默认设置为"
-"0.5。"
+"This parameter is used to subdivide clusters (based on LOD distance "
+"specified individually for each object) into smaller ones to make "
+"transitions between different levels of detail less noticeable. The size "
+"of that smaller clusters is defined by object LOD distance multiplied by "
+"the value of this parameter. Higher values lead to bigger clusters which "
+"increases performance but makes transition between LODs more noticeable, "
+"while lower values make said transitions less noticeable at the cost of "
+"decreased performance. Can be used for optimization purposes. Set to 0.5 "
+"by default."
+msgstr "该参数用于细分簇（基于每个物体指定的LOD距离）到较小的部分使得不同情况的层次细节切换不被引起注意。小簇的大小是由物体的LOD距离乘以这个参数的值定义。较高的值导致更大的簇，提高性能但使得过渡比较明显，而较低的值让变换不被引起注意但是以性能降低为代价。可以用来作为优化的手段。默认设置为0.5。"
 
-#: ../scene_settings.rst:410
 msgid "*LOD Smooth Transitions*"
 msgstr "*LOD平滑过渡*"
 
-#: ../scene_settings.rst:404
-msgid "Defines what objects will use smooth transitions while switching their LOD levels. Has the following options:"
+msgid ""
+"Defines what objects will use smooth transitions while switching their "
+"LOD levels. Has the following options:"
 msgstr "定义物体将使用切换其 LOD 层次时使用平滑过渡。有以下选项︰"
 
-#: ../scene_settings.rst:406
 msgid "OFF - smooth transitions are disabled (fastest)."
 msgstr "OFF - 滑过渡被禁用 （最快）。"
 
-#: ../scene_settings.rst:407
 msgid ""
-"NON-OPAQUE - use smooth transitions for objects with ``Add``, ``Alpha Clip``, ``Alpha Blend``, ``Alpha Sort`` and ``Alpha Anti-Aliasing`` :"
-"ref:`materials <alpha_blend>`."
+"NON-OPAQUE - use smooth transitions for objects with ``Add``, ``Alpha "
+"Clip``, ``Alpha Blend``, ``Alpha Sort`` and ``Alpha Anti-Aliasing`` "
+":ref:`materials <alpha_blend>`."
 msgstr ""
-"NON-OPAQUE -  使用平滑过渡在 ``Add``, ``Alpha Clip``, ``Alpha Blend``, ``Alpha Sort`` 和 ``Alpha Anti-Aliasing`` :ref:`材质 <alpha_blend>`."
+"NON-OPAQUE -  使用平滑过渡在 ``Add``, ``Alpha Clip``, ``Alpha Blend``, ``Alpha "
+"Sort`` 和 ``Alpha Anti-Aliasing`` :ref:`材质 <alpha_blend>`."
 
-#: ../scene_settings.rst:408
 msgid "ALL - smooth transitions will be used for all objects (slowest)."
 msgstr "ALL - 平滑过渡将用于所有物体 （慢）。"
 
-#: ../scene_settings.rst:410
-msgid "Choosing the \"ALL\" value can noticeably decrease application performance, so use it with caution. Default value is \"NON-OPAQUE\"."
+msgid ""
+"Choosing the \"ALL\" value can noticeably decrease application "
+"performance, so use it with caution. Default value is \"NON-OPAQUE\"."
 msgstr "选择 \"ALL\" 值可以明显降低应用程序的性能，所以小心使用。默认值是 \"NON-OPAQUE\"."
 
-#: ../scene_settings.rst:412
 msgid "*Max LOD Hysteresis Interval*"
 msgstr "*最大 LOD 滞后区间*"
 
-#: ../scene_settings.rst:414
 msgid ""
-"The length of the interval (in meters) used for switching LOD levels. The half of this value is added/subtracted from the distance threshold "
-"in order to make two different thresholds for switching to the lower and to the higher LOD level. This should reduce LOD \"popping\" effect. "
-"Set to 4.0 by default."
+"The length of the interval (in meters) used for switching LOD levels. The"
+" half of this value is added/subtracted from the distance threshold in "
+"order to make two different thresholds for switching to the lower and to "
+"the higher LOD level. This should reduce LOD \"popping\" effect. Set to "
+"4.0 by default."
 msgstr ""
-"用于切换LOD级别的间隔（米）的长度。这个值的一半从距离阈值添加/减去，产生两个不同的阈值切换到较低的和更高的LOD级。这应该减少LOD \"popping\" 的"
-"效果。默认设置为4。"
+"用于切换LOD级别的间隔（米）的长度。这个值的一半从距离阈值添加/减去，产生两个不同的阈值切换到较低的和更高的LOD级。这应该减少LOD "
+"\"popping\" 的效果。默认设置为4。"
 
-#: ../scene_settings.rst:419
 msgid "Object Selection"
 msgstr "选择物体"
 
-#: ../scene_settings.rst:421
 msgid ""
-"Object selection settings. Objects can be selected both with the API function :b4wref:`scenes.pick_object()` and with the :ref:`logic nodes "
+"Object selection settings. Objects can be selected both with the API "
+"function :b4wref:`scenes.pick_object()` and with the :ref:`logic nodes "
 "<logic_editor>`."
-msgstr "物体选择设置。物体可以使用API​​函数来选择两种 :b4wref:`scenes.pick_object()` 并用 :ref:`逻辑节点<logic_editor>`。"
+msgstr ""
+"物体选择设置。物体可以使用API​​函数来选择两种 :b4wref:`scenes.pick_object()` 并用 "
+":ref:`逻辑节点<logic_editor>`。"
 
-#: ../scene_settings.rst:424
-msgid "In the :ref:`scene viewer <viewer>`, selection is enabled by default. You can turn it off in the ``Tools & Debug`` panel."
+msgid ""
+"In the :ref:`scene viewer <viewer>`, selection is enabled by default. You"
+" can turn it off in the ``Tools & Debug`` panel."
 msgstr "在 :ref:`场景查看器 <viewer>`, 选择默认情况下启用。您可以在 ``工具和除错`` 面板将其关闭。"
 
-#: ../scene_settings.rst:431
 msgid "*Enable*"
 msgstr "*启用*"
 
-#: ../scene_settings.rst:431
 msgid ""
-"The parameter that defines if the object can or can't be selected. It can have ``ON``, ``OFF`` or ``AUTO`` value. Set to ``AUTO`` by default."
+"The parameter that defines if the object can or can't be selected. It can"
+" have ``ON``, ``OFF`` or ``AUTO`` value. Set to ``AUTO`` by default."
 msgstr "定义物体可以或不能被选择的参数。它可以有 ``ON``，``OFF`` 或 ``AUTO`` 值。默认设置为 ``AUTO``。"
 
-#: ../scene_settings.rst:436
 msgid "Anchors"
 msgstr "锚"
 
-#: ../scene_settings.rst:438
 msgid ":ref:`Anchor <objects_anchors>` visibility detection settings."
 msgstr ":ref:`Anchor <objects_anchors>` 可见性检测设置。"
 
-#: ../scene_settings.rst:445
 msgid "*Detect Anchors Visibility*"
 msgstr "*检测锚能见度*"
 
-#: ../scene_settings.rst:445
-msgid "Anchor visibility detection parameter. Can have ``ON``, ``OFF`` or ``AUTO`` value. Set to ``AUTO`` by default."
+msgid ""
+"Anchor visibility detection parameter. Can have ``ON``, ``OFF`` or "
+"``AUTO`` value. Set to ``AUTO`` by default."
 msgstr "锚能见度检测参数。有 ``ON``，``OFF`` 或 ``AUTO`` 值。默认设置为 ``AUTO`` 。"
 
-#: ../scene_settings.rst:450 ../scene_settings.rst:603
 msgid "Export Options"
 msgstr "导出选项"
 
-#: ../scene_settings.rst:452
 msgid "Scene settings export parameters."
 msgstr "场景设置导出参数。"
 
-#: ../scene_settings.rst:459 ../scene_settings.rst:611
 msgid "*Do Not Export*"
 msgstr "*不要导出*"
 
-#: ../scene_settings.rst:459
-msgid "If this parameter is enabled, scene settings will be ignored during export."
+msgid ""
+"If this parameter is enabled, scene settings will be ignored during "
+"export."
 msgstr "如果启用此参数，场景设置将在导出过程中被忽略。"
 
-#: ../scene_settings.rst:464
 msgid "World Panel"
 msgstr "世界环境面板"
 
-#: ../scene_settings.rst:470
-msgid "Environment settings such as settings for sky, mist and such are found on this panel."
+msgid ""
+"Environment settings such as settings for sky, mist and such are found on"
+" this panel."
 msgstr "环境设定，如天空，雾气和这样的设置在该面板上找到。"
 
-#: ../scene_settings.rst:475
 msgid "Preview"
 msgstr "预览"
 
-#: ../scene_settings.rst:477
 msgid "Environment preview."
 msgstr "环境预览。"
 
-#: ../scene_settings.rst:486
 msgid "World"
 msgstr "世界环境"
 
-#: ../scene_settings.rst:488
 msgid "Sky settings."
 msgstr "天空的设置。"
 
-#: ../scene_settings.rst:495
 msgid "*Render Sky*"
 msgstr "*渲染天空*"
 
-#: ../scene_settings.rst:495
 msgid "If this parameter is enabled, the engine will render sky in the scene."
 msgstr "如果启用此参数，引擎会在场景渲染天空。"
 
-#: ../scene_settings.rst:498
 msgid "*Paper Sky*"
 msgstr "*墙纸天空*"
 
-#: ../scene_settings.rst:498
 msgid ""
-"If this parameter is enabled, sky gradient will always be drawn from the top of the screen to the bottom, regardless of the camera's position "
-"and angles."
+"If this parameter is enabled, sky gradient will always be drawn from the "
+"top of the screen to the bottom, regardless of the camera's position and "
+"angles."
 msgstr "如果该参数被启用，天空梯度将总是从屏幕的顶部到底部，不管摄像机的位置和角度。"
 
-#: ../scene_settings.rst:501
 msgid "*Blend Sky*"
 msgstr "*混色天空*"
 
-#: ../scene_settings.rst:501
 msgid "Smooth transition between the horizon and zenith colors."
 msgstr "地平线和天顶色之间的平滑过渡。"
 
-#: ../scene_settings.rst:504
 msgid "*Real Sky*"
 msgstr "*真实天空*"
 
-#: ../scene_settings.rst:504
 msgid "Sky rendering with the horizon affected by the camera angle."
 msgstr "天空渲染与地平线受相机角度影响。"
 
-#: ../scene_settings.rst:507
 msgid "*Horizon Color*"
 msgstr "*水平颜色*"
 
-#: ../scene_settings.rst:507
 msgid "Sky color at the horizon."
 msgstr "水平线的颜色"
 
-#: ../scene_settings.rst:510
 msgid "*Zenith Color*"
 msgstr "*天顶色*"
 
-#: ../scene_settings.rst:510
 msgid "Sky color in the zenith."
 msgstr "天空顶的颜色。"
 
-#: ../scene_settings.rst:513
 msgid "*Reflect World*"
 msgstr "*反射世界*"
 
-#: ../scene_settings.rst:513
 msgid "Render the sky while rendering reflections."
 msgstr "渲染反射时渲染天空。"
 
-#: ../scene_settings.rst:516
 msgid "*Render Only Reflection*"
 msgstr "*只渲染反射*"
 
-#: ../scene_settings.rst:516
 msgid "Render the sky *only* while rendering reflections."
 msgstr "在渲染的反射时 *只* 渲染天空。"
 
-#: ../scene_settings.rst:519
 msgid "*World Background*"
 msgstr "*世界背景*"
 
-#: ../scene_settings.rst:519
 msgid ""
-"Enables and disables ``World Background`` option (located under the ``Display`` tab of the ``3D View`` panel). When this option is activated, "
-"background colors are rendered in the viewport window the same way they would be in the engine itself."
+"Enables and disables ``World Background`` option (located under the "
+"``Display`` tab of the ``3D View`` panel). When this option is activated,"
+" background colors are rendered in the viewport window the same way they "
+"would be in the engine itself."
 msgstr ""
-"启用和禁用  ``世界背景`` （位于   ``3D View`` 面板下的 ``Display`` 选项卡）。当激活此选项，则背景颜色在视区窗口中渲染的方式跟在引擎里面渲染是"
-"一样的。"
+"启用和禁用  ``世界背景`` （位于   ``3D View`` 面板下的 ``Display`` "
+"选项卡）。当激活此选项，则背景颜色在视区窗口中渲染的方式跟在引擎里面渲染是一样的。"
 
-#: ../scene_settings.rst:524
 msgid "Environment Lighting"
 msgstr "天光照明"
 
-#: ../scene_settings.rst:526
-msgid "Environment lighting settings. Described thoroughly in :ref:`their own section <environment_lighting>`."
+msgid ""
+"Environment lighting settings. Described thoroughly in :ref:`their own "
+"section <environment_lighting>`."
 msgstr "环境照明设置。  详尽的描述在 :ref:`自己的章节 <color_correction>`."
 
-#: ../scene_settings.rst:536
 msgid "Mist"
 msgstr "雾场"
 
-#: ../scene_settings.rst:538
 msgid "Mist settings."
 msgstr "雾设置。"
 
-#: ../scene_settings.rst:545
 msgid "*Minimum*"
 msgstr "*最小值*"
 
-#: ../scene_settings.rst:545
 msgid "Minimum intensity of the mist. Set to zero by default."
 msgstr "雾的最小强度。默认设置为零。"
 
-#: ../scene_settings.rst:548
 msgid "*Depth*"
 msgstr "*深度*"
 
-#: ../scene_settings.rst:548
-msgid "At this distance from the camera the mist effect reaches maximum intensity. Set to 25 by default."
+msgid ""
+"At this distance from the camera the mist effect reaches maximum "
+"intensity. Set to 25 by default."
 msgstr "在从相机这个距离的雾效果达到最大强度。默认设置为25。"
 
-#: ../scene_settings.rst:551
 msgid "*Start*"
 msgstr "*起始*"
 
-#: ../scene_settings.rst:551
-msgid "The mist effect starts to appear at this distance from the camera. Set to 5 by default."
+msgid ""
+"The mist effect starts to appear at this distance from the camera. Set to"
+" 5 by default."
 msgstr "雾效果开始出现在从相机这个距离。默认设置为5。"
 
-#: ../scene_settings.rst:554
 msgid "*Height*"
 msgstr "*高度*"
 
-#: ../scene_settings.rst:554
-msgid "This parameter specifies how fast mist intensity decreases as the camera's altitude increases. Set to 0 by default."
+msgid ""
+"This parameter specifies how fast mist intensity decreases as the "
+"camera's altitude increases. Set to 0 by default."
 msgstr "该参数快速指定如何雾强度随相机的高度增加而减小。默认设置为0。"
 
-#: ../scene_settings.rst:557
 msgid "*Fall Out*"
 msgstr "*散去*"
 
-#: ../scene_settings.rst:557
 msgid ""
-"This parameter specifies the rule, according to which the density of the mist changes between the borders (specified by the ``Start`` and "
-"``Depth`` parameters). Can have one of the following values: ``Quadratic``, ``Linear``,  ``Inverse Quadratic``. Set to ``Quadratic`` by "
-"default."
+"This parameter specifies the rule, according to which the density of the "
+"mist changes between the borders (specified by the ``Start`` and "
+"``Depth`` parameters). Can have one of the following values: "
+"``Quadratic``, ``Linear``,  ``Inverse Quadratic``. Set to ``Quadratic`` "
+"by default."
 msgstr ""
-"该参数指定规则，根据该边界之间的雾的变化（由 ``Start`` 和 ``Depth`` 参数指定）的密度。可以有以下值：``Quadratic``，``Linear``， ``Inverse "
-"Quadratic`` 。默认设置为 ``Quadratic`` 。"
+"该参数指定规则，根据该边界之间的雾的变化（由 ``Start`` 和 ``Depth`` "
+"参数指定）的密度。可以有以下值：``Quadratic``，``Linear``， ``Inverse Quadratic`` 。默认设置为 "
+"``Quadratic`` 。"
 
-#: ../scene_settings.rst:560
 msgid "*Use Custom Colors*"
 msgstr "*使用自定义颜色*"
 
-#: ../scene_settings.rst:560
 msgid ""
-"Can be used to set the color of the mist. Enabled by default. If this parameter is disabled, standard (0.5, 0.5, 0.5) color will be used."
+"Can be used to set the color of the mist. Enabled by default. If this "
+"parameter is disabled, standard (0.5, 0.5, 0.5) color will be used."
 msgstr "可用于设定的雾的颜色。默认情况下启用。如果禁用此参数，标准（0.5，0.5，0.5）的颜色将被使用。"
 
-#: ../scene_settings.rst:563
 msgid "*Fog Color*"
 msgstr "*雾颜色*"
 
-#: ../scene_settings.rst:563
 msgid ""
-"The color of the mist. Can be changed, if the ``Use custom colors`` parameter is enabled. Light gray (0.5, 0.5, 0.5) color is used by default."
+"The color of the mist. Can be changed, if the ``Use custom colors`` "
+"parameter is enabled. Light gray (0.5, 0.5, 0.5) color is used by "
+"default."
 msgstr "颜色雾。，如果  ``使用自定义颜色`` 参数启用 ，就可以改变。浅灰色（0.5，0.5，0.5）默认情况下使用。"
 
-#: ../scene_settings.rst:568
 msgid "Procedural Sky"
 msgstr "程序天空"
 
-#: ../scene_settings.rst:570
-msgid "Procedural sky settings. Described thoroughly in :ref:`their own section<atmosphere>`."
+msgid ""
+"Procedural sky settings. Described thoroughly in :ref:`their own "
+"section<atmosphere>`."
 msgstr "程序天空设置。  详尽的描述在 :ref:`自己的章节 <color_correction>`."
 
-#: ../scene_settings.rst:579
 msgid "Animation"
 msgstr "动画"
 
-#: ../scene_settings.rst:581
 msgid "Environment animation settings."
 msgstr "环境动画设置。"
 
-#: ../scene_settings.rst:588
 msgid "*Apply Default Animation*"
 msgstr "*应用默认动画*"
 
-#: ../scene_settings.rst:588
-msgid "If this parameter is enabled, the engine will start playback of the animation assigned to the environment upon loading."
+msgid ""
+"If this parameter is enabled, the engine will start playback of the "
+"animation assigned to the environment upon loading."
 msgstr "如果启用此参数，引擎将开始加载场景的时候播放动画。"
 
-#: ../scene_settings.rst:598
 msgid "*Behavior*"
 msgstr "*行为*"
 
-#: ../scene_settings.rst:591
 msgid "Sets the behavior of the default animation. Available options are:"
 msgstr "设置默认的动画的行为。可用选项有："
 
-#: ../scene_settings.rst:593
 msgid "``Loop`` - the animation will be played repeatedly."
 msgstr "``Loop``  - 动画将重复播放。"
 
-#: ../scene_settings.rst:594
 msgid "``Finish Stop`` - the animation will be played once."
 msgstr "``完成停止``  - 动画将播放一次。"
 
-#: ../scene_settings.rst:595
-msgid "``Finish Reset`` - the animation will be played once, and then switched back to the first frame."
+msgid ""
+"``Finish Reset`` - the animation will be played once, and then switched "
+"back to the first frame."
 msgstr "``完成重置``  - 动画将播放一次，然后再切换回第一帧。"
 
-#: ../scene_settings.rst:597
-msgid "This option is only available if the ``Apply Default Animation`` parameter is enabled."
+msgid ""
+"This option is only available if the ``Apply Default Animation`` "
+"parameter is enabled."
 msgstr "仅 启用了 ``应用默认动画`` 参数此选项可用。"
 
-#: ../scene_settings.rst:605
 msgid "Environment parameters export settings."
 msgstr "环境参数导出设置。"
 
-#: ../scene_settings.rst:612
-msgid "If this parameter is enabled, environment settings will be ignored during the export."
+msgid ""
+"If this parameter is enabled, environment settings will be ignored during"
+" the export."
 msgstr "如果启用此参数，环境设置将在导出过程中被忽略。"
 
-#: ../scene_settings.rst:1
 msgid "scene"
 msgstr "场景"
+
+#~ msgid "Application's meta tags."
+#~ msgstr "应用程序的meta标签。"
+

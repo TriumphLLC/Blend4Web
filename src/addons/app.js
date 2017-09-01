@@ -207,7 +207,7 @@ exports.init = function(options) {
         case "track_container_position":
             track_container_position = options.track_container_position;
             m_print.error_once("track_container_position deprecated. " +
-                    "Not needed anymore. Use the container.client_to_canvas_coords method.");
+                    "Not needed anymore. Use the container.get_coords_target_space method.");
             break;
         case "fps_wrapper_id":
             fps_wrapper_id = options.fps_wrapper_id;

@@ -478,7 +478,7 @@ class B4W_WaterMaterial(MaterialButtonsPanel, bpy.types.Panel):
         col.prop(mat, "b4w_shallow_water_col", text="")
         col.prop(mat, "b4w_shallow_water_col_fac", text=_("Factor"))
 
-        col.label(text = _("Underwater fog:"))
+        col.label(text = _("Underwater Fog:"))
         col.prop(mat, "b4w_water_fog_color", text="")
         col.prop(mat, "b4w_water_fog_density", text=_("Density"))
 

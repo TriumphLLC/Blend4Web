@@ -28,6 +28,42 @@
 
 * 引擎功能
 
+* Blender User Interface
+
+  * 3D View
+
+  * Timeline
+
+  * Graph Editor
+
+  * Dope Sheet
+
+  * NLA Editor
+
+  * UV/Image Editor
+
+  * Video Sequence Editor
+
+  * Movie Clip Editor
+
+  * Text Editor
+
+  * Node Editor
+
+  * Logic Editor
+
+  * Properties
+
+  * Outliner
+
+  * User Preferences
+
+  * Info
+
+  * File Browser
+
+  * Python Console
+
 * 安装和更新
 
   * 安装顺序
@@ -82,7 +118,7 @@
 
   * 本地开发服务器
 
-  * 运行浏览器和演示
+  * 运行预览器和演示
 
   * 输出格式
 
@@ -116,7 +152,7 @@
 
   * 设置
 
-  * Object Constraints
+  * 物体约束
 
   * 锚设置
 
@@ -154,9 +190,9 @@
 
   * 显示法线
 
-  * Rotate
+  * 旋转
 
-  * Scale
+  * 缩放
 
   * 绝对和偏移模式
 
@@ -166,7 +202,7 @@
 
   * 恢复
 
-  * 3D Cursor, Axis and Face
+  * 3D游标，轴和面
 
   * Copy（复制）/Paste（粘贴）
 
@@ -218,7 +254,7 @@
 
   * Cycles 节点
 
-  * Limitations
+  * 限制
 
 * 逻辑编辑器
 
@@ -240,7 +276,7 @@
 
   * 调试
 
-  * 已过时
+  * Time
 
   * 布局
 
@@ -479,6 +515,8 @@
   * 已知问题
 
 * 发布说明
+
+  * v17.08
 
   * v17.06
 

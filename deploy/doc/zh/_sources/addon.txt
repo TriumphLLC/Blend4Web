@@ -10,7 +10,7 @@
 
   * 本地开发服务器
 
-  * 运行浏览器和演示
+  * 运行预览器和演示
 
   * 输出格式
 
@@ -78,35 +78,31 @@ http://localhost:6687 访问。
 服务器可以通过按下 "Stop Server"  按钮被停止。当Blender被关闭也停止。
 
 
-运行浏览器和演示
+运行预览器和演示
 ================
 
 [图片]
 
-The index page contains the following links:
+索引页包含以下链接：
 
-* Project Manager;
+* 项目管理器;
 
-* Code Snippets, a list of demo applications. A WebGL-capable
-  browser is required to run these apps;
+* 代码片段, 演示应用程序列表。需要一个 WebGL适配的浏览器 来运行这些
+  应 用程序;
 
-* WebGL Report page for checking the level of WebGL support provided
-  by the web browser;
+* WebGL报告页面，用于检查Web浏览器提供的WebGL支持级别;
 
-* User Manual, available in both HTML and PDF form in three
-  languages;
+* 用户手册,以三种语言都提供HTML和PDF格式;
 
-* API Reference that contains descriptions for every API module and
-  method provided with the Blend4Web engine;
+* API参考，其中包含Blend4Web引擎提供的每个API模块和方法的描述;
 
-* Tutorials;
+* 教程：
 
-* FAQ page where you can find answers to some of the most basic
-  questions regarding using the engine;
+* FAQ 页面，在那里你可以找到一些对于使用引擎最基本问题的答案;
 
-* Community Support Forums;
+* 社区支持论坛;
 
-* Support Email (only available in PRO version).
+* 支持电子邮件 （仅在 PRO 版中可用）。
 
 
 
@@ -488,30 +484,30 @@ player. 像这样的文件可以在任何计算机和有支持WebGL的Web浏览�
 | "NAME". Invalid dupli object          | OBJECT_NAME。                               |
 | "OBJECT_NAME".                        |                                             |
 +---------------------------------------+---------------------------------------------+
-| Particle system error. Unsupported    | Particle system error. Unsupported render   |
-| render type "TYPE" for the HAIR       | type TYPE for the HAIR particles PSYS_NAME  |
-| particles "NAME" on object            | on object NAME. The particle system has     |
-| "OBJECT_NAME". Particle system        | removed.                                    |
+| Particle system error. Unsupported    | 粒子系统错误。对象NAME上的HAIR粒子PSYS_NAME |
+| render type "TYPE" for the HAIR       | 的不支持的渲染类型TYPE。粒 子系统已经去除。 |
+| particles "NAME" on object            |                                             |
+| "OBJECT_NAME". Particle system        |                                             |
 | removed.                              |                                             |
 +---------------------------------------+---------------------------------------------+
-| Particle system error. Unsupported    | Particle system error. Unsupported render   |
-| render type "TYPE" for the EMITTER    | type TYPE for the EMITTER particles         |
-| particles "NAME" on object            | PSYS_NAME on object NAME. The particle      |
-| "OBJECT_NAME". Particle system        | system has removed.                         |
+| Particle system error. Unsupported    | 粒子系统错误。对象NAME上的EMITTER粒子       |
+| render type "TYPE" for the EMITTER    | PSYS_NAME的不支持的渲染类型TYPE。 粒子系统  |
+| particles "NAME" on object            | 已经去除。                                  |
+| "OBJECT_NAME". Particle system        |                                             |
 | removed.                              |                                             |
 +---------------------------------------+---------------------------------------------+
 | Particle system error for "NAME".     | 粒子系统错误：没有对象被选中作为一个粒子。  |
 | Dupli object isn't specified.         |                                             |
 +---------------------------------------+---------------------------------------------+
-| Particle system error for "NAME".     | Particle system error: no group is selected |
-| Dupli group isn't specified.          | as a particle.                              |
+| Particle system error for "NAME".     | 粒子系统错误：没有选择组作为粒子。          |
+| Dupli group isn't specified.          |                                             |
 +---------------------------------------+---------------------------------------------+
 | Particle system error for "NAME".     | 被选择为粒子不适当类型的对象。支持的类型：  |
 | Wrong dupli object type "TYPE".       | "MESH".                                     |
 +---------------------------------------+---------------------------------------------+
-| Particle system error for "NAME".     | The NAME object which is selected as a      |
-| Dupli object "NAME" has not been      | particle can not be exported (the "Do not   |
-| exported.                             | export" checkbox is set).                   |
+| Particle system error for "NAME".     | 选择为粒子的NAME物体无法导出（设置“不要导出 |
+| Dupli object "NAME" has not been      | ”复选框）。                                 |
+| exported.                             |                                             |
 +---------------------------------------+---------------------------------------------+
 | Particle system error for "NAME". The | 被选择作为粒子的GROUP_NAME DUPLI组包含导出  |
 | "GROUP_NAME" dupli group contains no  | 没有有效的对象。无论这样的对 象具有 "Do not |
@@ -521,8 +517,8 @@ player. 像这样的文件可以在任何计算机和有支持WebGL的Web浏览�
 | Sound file is missing in the SPEAKER  | 扬声器没有附加声音。物体的类型已更改为空。  |
 | object "NAME". Converted to EMPTY.    |                                             |
 +---------------------------------------+---------------------------------------------+
-| The lamp object "NAME" has            | The lamp object "NAME" has unsupported AREA |
-| unsupported AREA type. Changed to     | type. Lamp type has been changed to SUN.    |
+| The lamp object "NAME" has            | 灯物体“NAME”具有不受支持的区域类型。灯泡类  |
+| unsupported AREA type. Changed to     | 型已更改为SUN。                             |
 | SUN.                                  |                                             |
 +---------------------------------------+---------------------------------------------+
 
@@ -538,9 +534,9 @@ player. 像这样的文件可以在任何计算机和有支持WebGL的Web浏览�
 | proxy object as an armature. Modifier |                                             |
 | removed.                              |                                             |
 +---------------------------------------+---------------------------------------------+
-| The NAME armature modifier has no     | The NAME "Armature" modifier has no         |
-| armature object or it is not          | armature object or it is not exported.      |
-| exported. Modifier removed.           | Modifier removed.                           |
+| The NAME armature modifier has no     | NAME``Armature`` 修饰符没有谷歌物体，或者没 |
+| armature object or it is not          | 有导出。修改器被删除。                      |
+| exported. Modifier removed.           |                                             |
 +---------------------------------------+---------------------------------------------+
 | 该名称曲线修正没有对象。修改删除。    | 该名称曲线修正没有对象。修改删除。          |
 +---------------------------------------+---------------------------------------------+
@@ -596,9 +592,9 @@ player. 像这样的文件可以在任何计算机和有支持WebGL的Web浏览�
 | Wrong texture coordinates type in     | 下列坐标类型的图像纹理支持： "UV", "Normal" |
 | texture NAME. [Material: NAME.]       | 和 "Generated".                             |
 +---------------------------------------+---------------------------------------------+
-| Wrong F-Curve interpolation mode for  | The following types are supported for       |
-| ACTION_NAME. Only BEZIER, LINEAR or   | action interpolation mode: "BEZIER",        |
-| CONSTANT mode is allowed for F-Curve  | "LINEAR" and "CONSTANT".                    |
+| Wrong F-Curve interpolation mode for  | 动作插补模式支持以下类型： "BEZIER",        |
+| ACTION_NAME. Only BEZIER, LINEAR or   | "LINEAR" 和 "CONSTANT".                     |
+| CONSTANT mode is allowed for F-Curve  |                                             |
 | interpolation. Switch to BEZIER.      |                                             |
 +---------------------------------------+---------------------------------------------+
 | Wrong vertex animation vertices count | 顶点动画导出被启用，但顶点在焙烤ANIM_NAME动 |
@@ -623,9 +619,8 @@ player. 像这样的文件可以在任何计算机和有支持WebGL的Web浏览�
 +---------------------------------------+---------------------------------------------+
 | 错误信息                              | 原因                                        |
 +=======================================+=============================================+
-| Material tangent shading is enabled,  | The material has the option "Tangent        |
-| but object's mesh has no UV map.      | Shading" enabled, which always requires a   |
-|                                       | UV map.                                     |
+| Material tangent shading is enabled,  | 该材质启用了 “切线着色” 选项，它始终需要UV  |
+| but object's mesh has no UV map.      | 映射。                                      |
 +---------------------------------------+---------------------------------------------+
 | Missing active camera or wrong active | 在场景中没有激活的("Camera" 属性在 "Scene"  |
 | camera object                         | 面板).                                      |
@@ -648,11 +643,9 @@ player. 像这样的文件可以在任何计算机和有支持WebGL的Web浏览�
 | is missing for Lens Flare material    | "NAME"                                      |
 | "NAME"                                |                                             |
 +---------------------------------------+---------------------------------------------+
-| Use of ENVIRONMENT_MAP as diffuse     | The ENVIRONMENT MAP texture can not be used |
-| color is not supported. Use as mirror | as diffuse color. Disable the Diffuse >     |
-| instead.                              | Color and enable the Shading > Mirror       |
-|                                       | option on the Textures > Influence panel to |
-|                                       | use this texture as mirror map.             |
+| Use of ENVIRONMENT_MAP as diffuse     | ENVIRONMENT MAP纹理不能用作漫反射颜色。禁用 |
+| color is not supported. Use as mirror | 漫射>颜色并启用“纹理”>“影响 ”面板上的“着色> |
+| instead.                              | 镜像”选项，将此纹理用作镜像贴图。           |
 +---------------------------------------+---------------------------------------------+
 
 

@@ -84,7 +84,7 @@ void main(void) {
 # if BILLBOARD
     vec3 wcen = tsr9_transform(model_tsr, vec3(0.0));
 
-    mat3 model_tsr = billboard_tsr(u_camera_eye, wcen, view_tsr);
+    model_tsr = billboard_tsr(u_camera_eye, wcen, view_tsr, u_model_tsr);
 #  if WIND_BEND && BILLBOARD_JITTERED
     model_tsr = bend_jitter_rotate_tsr(u_wind, u_time,
         u_jitter_amp, u_jitter_freq, vec3(0.0), model_tsr);

@@ -586,7 +586,7 @@ function check_shore_smoothing(bpy_objects) {
     for (var i = 0; i < mats.length; i++) {
         var mat = mats[i];
 
-        if (mat["b4w_water"] && mat["b4w_water_shore_smoothing"])
+        if (mat.water_settings.is_water && mat.water_settings.shore_smoothing)
             return true;
     }
 
@@ -599,7 +599,8 @@ function check_soft_particles(bpy_objects) {
         var psystems = bpy_obj["particle_systems"];
         for (var j = 0; j < psystems.length; j++) {
             var pset = psystems[j]["settings"];
-            if (m_obj_util.check_obj_soft_particles_accessibility(bpy_objects[i], pset))
+            if (m_obj_util.check_obj_soft_particles_accessibility(
+                    bpy_objects[i]._object, pset))
                 return true;
         }
     }
@@ -620,14 +621,13 @@ function get_water_params(bpy_objects) {
     for (var i = 0; i < mats.length; i++) {
         var mat = mats[i];
 
-        if (mat["b4w_water"]) {
+        if (mat.water_settings.is_water) {
 
             var wp = {};
             // set water level to obect's origin y coord
             for (var j = 0; j < bpy_objects.length; j++) {
                 var bpy_obj = bpy_objects[j];
-                var mesh = bpy_obj["data"];
-                var mesh_mats = mesh["materials"];
+                var mesh_mats = bpy_obj._object.materials;
                 for (var k = 0; k < mesh_mats.length; k++) {
                     var mesh_mat = mesh_mats[k];
                     if (mesh_mat == mat)
@@ -636,25 +636,26 @@ function get_water_params(bpy_objects) {
             }
 
             // fog stuff
-            wp.fog_color_density = mat["b4w_water_fog_color"].slice(0);
-            wp.fog_color_density.push( mat["b4w_water_fog_density"] );
+            wp.fog_color_density = new Float32Array(4);
+            wp.fog_color_density.set(mat.water_settings.fog_color);
+            wp.fog_color_density[3] = mat.water_settings.fog_density;
 
             // dynamics stuff
-            if (mat["b4w_water_dynamic"]) {
+            if (mat.water_settings.is_dynamic) {
                 wp.dynamic           = true;
-                wp.waves_height      = mat["b4w_waves_height"];
-                wp.waves_length      = mat["b4w_waves_length"];
-                wp.dst_noise_scale0  = mat["b4w_water_dst_noise_scale0"];
-                wp.dst_noise_scale1  = mat["b4w_water_dst_noise_scale1"];
-                wp.dst_noise_freq0   = mat["b4w_water_dst_noise_freq0"];
-                wp.dst_noise_freq1   = mat["b4w_water_dst_noise_freq1"];
-                wp.dir_min_shore_fac = mat["b4w_water_dir_min_shore_fac"];
-                wp.dir_freq          = mat["b4w_water_dir_freq"];
-                wp.dir_noise_scale   = mat["b4w_water_dir_noise_scale"];
-                wp.dir_noise_freq    = mat["b4w_water_dir_noise_freq"];
-                wp.dir_min_noise_fac = mat["b4w_water_dir_min_noise_fac"];
-                wp.dst_min_fac       = mat["b4w_water_dst_min_fac"];
-                wp.waves_hor_fac     = mat["b4w_water_waves_hor_fac"];
+                wp.waves_height      = mat.water_settings.waves_height;
+                wp.waves_length      = mat.water_settings.waves_length;
+                wp.dst_noise_scale0  = mat.water_settings.dst_noise_scale0;
+                wp.dst_noise_scale1  = mat.water_settings.dst_noise_scale1;
+                wp.dst_noise_freq0   = mat.water_settings.dst_noise_freq0;
+                wp.dst_noise_freq1   = mat.water_settings.dst_noise_freq1;
+                wp.dir_min_shore_fac = mat.water_settings.dir_min_shore_fac;
+                wp.dir_freq          = mat.water_settings.dir_freq;
+                wp.dir_noise_scale   = mat.water_settings.dir_noise_scale;
+                wp.dir_noise_freq    = mat.water_settings.dir_noise_freq;
+                wp.dir_min_noise_fac = mat.water_settings.dir_min_noise_fac;
+                wp.dst_min_fac       = mat.water_settings.dst_min_fac;
+                wp.waves_hor_fac     = mat.water_settings.waves_hor_fac;
             } else {
                 wp.dynamic      = false;
                 wp.waves_height = 0.0;
@@ -662,14 +663,14 @@ function get_water_params(bpy_objects) {
             }
 
             // caustics stuff
-            wp.caustics           = mat["b4w_water_enable_caust"];
-            wp.caustic_scale      = mat["b4w_water_caust_scale"];
-            wp.caustic_brightness = mat["b4w_water_caust_brightness"];
+            wp.caustics           = mat.water_settings.enable_caust;
+            wp.caustic_scale      = mat.water_settings.caust_scale;
+            wp.caustic_brightness = mat.water_settings.caust_brightness;
             wp.caustic_speed      = new Float32Array([0.3, 0.7]);
 
             wp.shoremap_image  = null;
 
-            var texture_slots = mat["texture_slots"];
+            var texture_slots = mat.texture_slots;
 
             for (var j = 0; j < texture_slots.length; j++) {
                 var texture = texture_slots[j]["texture"];
@@ -734,11 +735,11 @@ function get_material_params(bpy_objects) {
     for (var i = 0; i < materials.length; i++) {
         var material = materials[i];
 
-        if (material["b4w_refractive"])
+        if (material.is_refractive)
             materials_properties_existance.refractions = true;
 
-        if (material["node_tree"])
-            get_nodes_properties(material["node_tree"]);
+        if (material.node_tree)
+            get_nodes_properties(material.node_tree);
     }
 
     return materials_properties_existance;
@@ -834,21 +835,16 @@ function extract_reflections_params(bpy_scene, scene_objects, bpy_mesh_objs) {
            };
 }
 
-function check_blend_reflexible(obj) {
+function check_blend_reflexible(bpy_obj) {
 
-    if (!obj["b4w_reflexible"])
+    if (!bpy_obj["b4w_reflexible"])
         return;
 
-    var mesh = obj["data"]
-    var materials = mesh["materials"];
-
+    var materials = bpy_obj._object.materials;
     for (var i = 0; i < materials.length; i++) {
-        var mat = materials[i];
-        var gs = mat["game_settings"];
-        var alpha_blend = gs["alpha_blend"];
-        if (alpha_blend != "OPAQUE"
-                && alpha_blend != "CLIP"
-                && alpha_blend != "ALPHA_ANTIALIASING")
+        var blend_mode = materials[i].blend_mode;
+        if (blend_mode != "OPAQUE" && blend_mode != "CLIP"
+                && blend_mode != "ALPHA_ANTIALIASING")
             return true;
     }
 
@@ -1049,30 +1045,32 @@ function get_world_light_set(world, sky_params) {
 
     for (var i = 0; i < world["texture_slots"].length; i++)
         if (world["texture_slots"][i]["texture"]["b4w_use_as_skydome"]) {
-            use_environment_light = true;
             var sts = world["texture_slots"][i];
-            wls_params.sky_texture_slot = sts;
-            var tex_size = Math.min(cfg_lim.max_cube_map_texture_size, 
-                    m_tex.calc_pot_size(sts["texture"]["image"]["size"][0] / 3));
-            wls_params.sky_texture_param = {
-                tex_size: tex_size,
-                blend_factor: sts["blend_factor"],
-                horizon_factor: sts["horizon_factor"],
-                zenith_up_factor: sts["zenith_up_factor"],
-                zenith_down_factor: sts["zenith_down_factor"],
-                color: sts["color"],
-                default_value: sts["default_value"],
-                invert: sts["invert"],
-                use_rgb_to_intensity: sts["use_rgb_to_intensity"],
-                blend_type: sts["blend_type"],
-                // stencil: sts["stencil"],
-                use_map_blend: sts["use_map_blend"],
-                use_map_horizon: sts["use_map_horizon"],
-                use_map_zenith_up: sts["use_map_zenith_up"],
-                use_map_zenith_down: sts["use_map_zenith_down"],
+            if (sts["texture"]["image"]) {
+                use_environment_light = true;
+                wls_params.sky_texture_slot = sts;
+                var tex_size = Math.min(cfg_lim.max_cube_map_texture_size,
+                        m_tex.calc_pot_size(sts["texture"]["image"]["size"][0] / 3));
+                wls_params.sky_texture_param = {
+                    tex_size: tex_size,
+                    blend_factor: sts["blend_factor"],
+                    horizon_factor: sts["horizon_factor"],
+                    zenith_up_factor: sts["zenith_up_factor"],
+                    zenith_down_factor: sts["zenith_down_factor"],
+                    color: sts["color"],
+                    default_value: sts["default_value"],
+                    invert: sts["invert"],
+                    use_rgb_to_intensity: sts["use_rgb_to_intensity"],
+                    blend_type: sts["blend_type"],
+                    // stencil: sts["stencil"],
+                    use_map_blend: sts["use_map_blend"],
+                    use_map_horizon: sts["use_map_horizon"],
+                    use_map_zenith_up: sts["use_map_zenith_up"],
+                    use_map_zenith_down: sts["use_map_zenith_down"]
+                }
             }
             break;
-    }
+        }
 
     wls_params.use_environment_light = wls_params.use_environment_light ?
             use_environment_light : false;
@@ -1133,10 +1131,10 @@ function check_dynamic_grass(bpy_scene, bpy_objects) {
 
     for (var i = 0; i < bpy_objects.length; i++) {
         var bpy_obj = bpy_objects[i];
-        var materials = bpy_obj["data"]["materials"];
+        var materials = bpy_obj._object.materials;
         for (var j = 0; j < materials.length; j++) {
             var mat = materials[j];
-            if (mat["b4w_terrain"])
+            if (mat.terrain_settings.is_terrain)
                 has_terrain = true;
         }
 
@@ -1203,7 +1201,7 @@ function check_glow_materials(bpy_scene, bpy_objects) {
             return true;
         case "AUTO":
             for (var i = 0; i < bpy_objects.length; i++) {
-                var materials = bpy_objects[i]["data"]["materials"];
+                var materials = bpy_objects[i]._object.materials;
                 for (var j = 0; j < materials.length; j++) {
                     if (m_nodemat.check_material_glow_output(materials[j]))
                         return true;
@@ -1231,15 +1229,12 @@ function check_refraction(bpy_scene, mat_params) {
 
 function check_xray_materials(bpy_objects) {
     for (var i = 0; i < bpy_objects.length; i++) {
-        var materials = bpy_objects[i]["data"]["materials"];
+        var materials = bpy_objects[i]._object.materials;
         for (var j = 0; j < materials.length; j++) {
             var mat = materials[j];
-            var gs = mat["game_settings"];
-            var alpha_blend = gs["alpha_blend"];
-            if (mat["b4w_render_above_all"]
-                    && alpha_blend != "OPAQUE"
-                    && alpha_blend != "CLIP"
-                    && alpha_blend != "ALPHA_ANTIALIASING")
+            if (mat.render_above_all && mat.blend_mode != "OPAQUE"
+                    && mat.blend_mode != "CLIP" 
+                    && mat.blend_mode != "ALPHA_ANTIALIASING")
                 return true;
         }
     }
@@ -2874,10 +2869,10 @@ function get_objs_materials(bpy_objects) {
     var mats = [];
 
     for (var i = 0; i < bpy_objects.length; i++) {
-        var mesh = bpy_objects[i]["data"];
 
-        for (var j = 0; j < mesh["materials"].length; j++) {
-            var mat = mesh["materials"][j];
+        var obj_mats = bpy_objects[i]._object.materials;
+        for (var j = 0; j < obj_mats.length; j++) {
+            var mat = obj_mats[j];
 
             if (mats.indexOf(mat) == -1)
                 mats.push(mat);
@@ -2898,16 +2893,16 @@ exports.get_scene_timeline = function(scene) {
 }
 
 exports.setup_dim = setup_dim;
-function setup_dim(width, height) {
-    m_cont.setup_viewport_dim(width, height, 1);
+function setup_dim(width, height, scale) {
+    m_cont.setup_viewport_dim(width, height, scale);
 
     if (_active_scene)
         setup_scene_dim(_active_scene, width, height);
 }
 
 function get_slink_dim(slink, width, height, dest) {
-    var cw = width * cfg_def.canvas_resolution_factor;
-    var ch = height * cfg_def.canvas_resolution_factor;
+    var cw = width;
+    var ch = height;
 
     if (m_cont.is_hidpi()) {
         cw *= window.devicePixelRatio;
@@ -3003,8 +2998,8 @@ function setup_slink_dim(scene, width, height) {
 
         if (subs2 && subs2.type == m_subs.SINK ||
                 subs1.is_pp && !slink.apply_resolution_factors) {
-            tex_width = slink.size_mult_x * width;
-            tex_height = slink.size_mult_y * height;
+            tex_width = width * slink.size_mult_x;
+            tex_height = height * slink.size_mult_y;
         } else {
             dims = get_slink_dim(slink, width, height, _vec2_tmp);
             tex_width = dims[0] * scale;

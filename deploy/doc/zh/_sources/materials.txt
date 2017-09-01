@@ -42,7 +42,7 @@
 
     * 节点材质的方法
 
-    * Replacing Textures
+    * 替换纹理
 
   * 材质继承
 
@@ -117,7 +117,11 @@
 
 "属性 > 材质" 面板菜单中的 "透明" ，可以选择透明度的类型。
 
-引擎支持以下的透明度实现类型 （按性能升序排序） ︰
+   [图片]The engine supports all of the transparency types available
+   in Blender.
+
+Available transparency types are (sorted in the ascending order by
+performance):
 
 *Alpha 排序*
    带渐变透明。引擎按三角与相机间的距离进行排序来正确渲染重叠的透明表
@@ -144,8 +148,6 @@
 *不透明*
    非透明。Alpha 将被忽略。这是默认值。
 
-[图片]
-
 
 附加设置
 --------
@@ -167,7 +169,7 @@
 反射
 ====
 
-[图片]
+   [图片]Reflection settings in the "Material" tab
 
 
 静态反射
@@ -517,12 +519,10 @@ material API模块包括控制堆栈材质的每一个方面的方法。
    m_material.set_nodemat_value(cube, ["MyMaterial", "MyValue"], 0.8);
    m_material.set_nodemat_rgb(cube, ["MyMaterial", "MyRGB"], 0.7, 0.9, 0.3);
 
-Same methods can also be used to adjust the scene environment, if the
-"World" object in the scene uses "RGB" or "Value" nodes. However, in
-this case you won't have to use the name of the material. The other
-difference is that a link to a scene object has to be replaced with a
-link to the "World" object that can be retrieved with the
-get_world_by_name() method:
+同样的方法还可以用于调整场景环境，如果在场景中的 "World" 物体使用
+"RGB" 或者 "Value" 的节点时。但是，在这种情况下，您不需要使用材质的名
+称。另一个差别是一个链接到场景的物体已被取代的一个链接  "World" 的物体
+，可以用  get_world_by_name() 方法来检索到：
 
    var m_scenes    = require("scenes");
    var m_material  = require("material");
@@ -534,11 +534,11 @@ get_world_by_name() method:
    var world_rgb = m_material.get_nodemat_rgb(my_world, ["My_RGB_3"]);
 
 
-Replacing Textures
-------------------
+替换纹理
+--------
 
-API methods also allow you to replace texture images. This can be done
-using the change_image() method from the textures module:
+API 方法还允许您替换纹理图像。这可以使用  textures 模块的
+change_image()  方法：
 
    var m_scenes  = require("scenes");
    var m_tex = require("textures");
@@ -549,9 +549,8 @@ using the change_image() method from the textures module:
 
    m_tex.change_image(my_cube, "My_Texture", "./test.png");
 
-This method can be applied to replace textures used by the "World"
-object as well. However, in this case the name of the "Texture" node
-should be used instead of the name of a texture.
+这种方法可以用于替换  "世界"  物体所使用的纹理。然而，在这种情况下应该
+用 "纹理" 节点的名称来代替纹理的名称。
 
 
 材质继承

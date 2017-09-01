@@ -95,7 +95,7 @@ def extract_resources(root, filename):
 
     path = os.path.join(root, filename)
 
-    json_data = open(path)
+    json_data = open(path, encoding="utf-8")
 
     try:
         data = json.load(json_data)
@@ -161,7 +161,7 @@ def check_used(root, filename):
     exist = False
 
     path = os.path.abspath(os.path.join(root, filename))
-    json_file = open(path)
+    json_file = open(path, encoding="utf-8")
     json_data = json.load(json_file)
 
     for image in json_data.get("images"):

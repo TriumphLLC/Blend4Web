@@ -367,7 +367,8 @@ NLA 片段
 Meta标签
 --------
 
-应用程序的meta标签。
+Application's meta tags. Can be set up in the same way as object meta
+tags.
 
 [图片]
 
@@ -377,6 +378,9 @@ Meta标签
 *描述*
    应用程序的说明。可以是一个简单的文本或文本文件的链接（如果
    "Description Source" 参数设置为 "File" 值）。
+
+   注解: If you are using a text file as description source, said
+     file can be imported to Blender using a built-in Text Editor.
 
 *说明源*
    应用程序的说明的来源。说明可以从一个文件中加载，或直接在

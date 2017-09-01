@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-22 16:26+0300\n"
+"POT-Creation-Date: 2017-08-30 15:23+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -95,13 +95,13 @@ msgctxt "Operator"
 msgid "Add"
 msgstr ""
 
+msgctxt "Operator"
+msgid "Add Animation"
+msgstr ""
+
 msgid "Add Socket"
 msgstr ""
 
-msgid "Add animation"
-msgstr ""
-
-msgctxt "Operator"
 msgid "Add animation"
 msgstr ""
 
@@ -220,7 +220,7 @@ msgstr ""
 msgid "Anisotropic Filtering"
 msgstr ""
 
-msgid "Anisotropic filtering for all textures. May be overriden by individual textures"
+msgid "Anisotropic filtering for all textures. May be overridden by individual textures"
 msgstr ""
 
 msgid "Anisotropic filtering for the texture"
@@ -232,7 +232,7 @@ msgstr ""
 msgid "Anti-Aliasing"
 msgstr ""
 
-msgid "Antialiasing quality"
+msgid "Anti-Aliasing quality"
 msgstr ""
 
 msgid "Apply Default Animation"
@@ -1009,7 +1009,7 @@ msgstr ""
 msgid "B4W: particle softness"
 msgstr ""
 
-msgid "B4W: preserve global orientation and scale"
+msgid "B4W: preserve global orientation"
 msgstr ""
 
 msgid "B4W: procedural skydome"
@@ -1315,11 +1315,10 @@ msgstr ""
 msgid "Bad Message field!"
 msgstr ""
 
-msgid "Bad object field!"
+msgid "Bad Object field!"
 msgstr ""
 
-#, python-format
-msgid "Bad object field: '%s'"
+msgid "Bad Object field:"
 msgstr ""
 
 msgid "Bad speaker field!"
@@ -1418,6 +1417,9 @@ msgstr ""
 msgid "Blend4Web (.html)"
 msgstr ""
 
+msgid "Blend4Web Logic"
+msgstr ""
+
 msgid "Blend4Web Manual"
 msgstr ""
 
@@ -1428,14 +1430,11 @@ msgctxt "Operator"
 msgid "Blend4Web initialization error!"
 msgstr ""
 
-msgid "Blend4Web logic"
-msgstr ""
-
 msgid "Blend4Web logic nodes"
 msgstr ""
 
 #, python-format
-msgid "Blender %s is recommended for the Blend4Web addon. Current version is %s"
+msgid "Blender %s is recommended for the Blend4Web add-on. Current version is %s"
 msgstr ""
 
 msgid "Blending Height"
@@ -1468,7 +1467,7 @@ msgstr ""
 msgid "Blur depth discard value"
 msgstr ""
 
-msgid "Blur foregriund silhouettes"
+msgid "Blur foreground silhouettes"
 msgstr ""
 
 msgid "Boat's bob"
@@ -1672,7 +1671,7 @@ msgstr ""
 msgid "Check For Updates on Startup"
 msgstr ""
 
-msgid "Check for new addon version"
+msgid "Check for new add-on version"
 msgstr ""
 
 msgid "Check for updates"
@@ -1777,7 +1776,7 @@ msgstr ""
 msgid "Compound"
 msgstr ""
 
-msgid "Compressor settings:"
+msgid "Compressor Settings:"
 msgstr ""
 
 msgid "Condition"
@@ -1928,6 +1927,9 @@ msgid "DVar"
 msgstr ""
 
 msgid "Damping:"
+msgstr ""
+
+msgid "Date & Time"
 msgstr ""
 
 msgid "Debug"
@@ -2210,6 +2212,12 @@ msgstr ""
 msgid "Edit split normals"
 msgstr ""
 
+msgid "Elapsed"
+msgstr ""
+
+msgid "Elapsed time"
+msgstr ""
+
 msgid "Ellipsoids"
 msgstr ""
 
@@ -2250,6 +2258,9 @@ msgid "Enable CSM"
 msgstr ""
 
 msgid "Enable Doppler"
+msgstr ""
+
+msgid "Enable Doppler effect"
 msgstr ""
 
 msgid "Enable External Requests"
@@ -2354,9 +2365,6 @@ msgstr ""
 msgid "Enable the \"World Background\" option in 3D VIEW panels"
 msgstr ""
 
-msgid "Enable the Doppler effect"
-msgstr ""
-
 msgid "Enable various limits to set up camera zooming behaviour."
 msgstr ""
 
@@ -2448,9 +2456,6 @@ msgid "Face"
 msgstr ""
 
 msgid "Factor"
-msgstr ""
-
-msgid "Factor of strengh applied to the floating object"
 msgstr ""
 
 msgid "Factor of strength applied to the floating object"
@@ -2670,6 +2675,9 @@ msgid "Geometry:"
 msgstr ""
 
 msgid "Get Timeline"
+msgstr ""
+
+msgid "Get current date & time"
 msgstr ""
 
 msgid "Get description from file"
@@ -2912,6 +2920,9 @@ msgstr ""
 msgid "JSON"
 msgstr ""
 
+msgid "JSON Operation"
+msgstr ""
+
 msgid "JSON operation"
 msgstr ""
 
@@ -3033,6 +3044,9 @@ msgid "Local"
 msgstr ""
 
 msgid "Local space"
+msgstr ""
+
+msgid "Local time"
 msgstr ""
 
 msgid "Location:"
@@ -3240,7 +3254,7 @@ msgstr ""
 msgid "Mie collection power"
 msgstr ""
 
-msgid "Mie disturbtion"
+msgid "Mie distribution"
 msgstr ""
 
 msgid "Min"
@@ -3375,7 +3389,7 @@ msgstr ""
 msgid "Negative"
 msgstr ""
 
-msgid "Neighbouring cascades will be blended with each other"
+msgid "Neighboring cascades will be blended with each other"
 msgstr ""
 
 msgid "Network"
@@ -3902,10 +3916,10 @@ msgstr ""
 msgid "Power"
 msgstr ""
 
-msgid "Preserve Global Rotation and Scale"
+msgid "Preserve Global Rotation"
 msgstr ""
 
-msgid "Preserve global orientation and scale for billboard object"
+msgid "Preserve global orientation for billboard object"
 msgstr ""
 
 msgid "Prevent object to be fogged in"
@@ -4038,10 +4052,10 @@ msgstr ""
 msgid "Reflect World"
 msgstr ""
 
-msgid "Reflection Plane:"
+msgid "Reflection Inheritance"
 msgstr ""
 
-msgid "Reflection inheritance"
+msgid "Reflection Plane:"
 msgstr ""
 
 msgid "Reflection plane index used in the interface"
@@ -4110,13 +4124,17 @@ msgid "Remove"
 msgstr ""
 
 msgctxt "Operator"
-msgid "Remove Constraint"
-msgstr ""
-
-msgid "Remove animation"
+msgid "Remove Animation"
 msgstr ""
 
 msgctxt "Operator"
+msgid "Remove Constraint"
+msgstr ""
+
+msgctxt "Operator"
+msgid "Remove Variable"
+msgstr ""
+
 msgid "Remove animation"
 msgstr ""
 
@@ -4131,10 +4149,6 @@ msgid "Remove logic node tree"
 msgstr ""
 
 msgid "Remove standalone Blend4Web add-on (if installed) and install Blend4Web SDK."
-msgstr ""
-
-msgctxt "Operator"
-msgid "Remove variable"
 msgstr ""
 
 msgctxt "Operator"
@@ -5030,10 +5044,16 @@ msgstr ""
 msgid "Time"
 msgstr ""
 
+msgid "Time Format:"
+msgstr ""
+
 msgid "Time to end loop point inside the audio buffer (for advanced loops)"
 msgstr ""
 
 msgid "Time to start loop point inside the audio buffer (for advanced loops)"
+msgstr ""
+
+msgid "Time type"
 msgstr ""
 
 msgid "Timeline"
@@ -5103,13 +5123,19 @@ msgstr ""
 msgid "URL field is empty!"
 msgstr ""
 
+msgid "UTC"
+msgstr ""
+
+msgid "UTC time"
+msgstr ""
+
 msgid "UV Frequency"
 msgstr ""
 
 msgid "UV Magnitude"
 msgstr ""
 
-msgid "Underwater fog:"
+msgid "Underwater Fog:"
 msgstr ""
 
 msgid "Units"

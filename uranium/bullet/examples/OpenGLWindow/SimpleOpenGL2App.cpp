@@ -20,7 +20,11 @@
 #include "Win32OpenGLWindow.h"
 #else
 //let's cross the fingers it is Linux/X11
+#ifdef BT_USE_EGL
+#include "EGLOpenGLWindow.h"
+#else
 #include "X11OpenGLWindow.h"
+#endif //BT_USE_EGL
 #endif //_WIN32
 #endif//__APPLE__
 #include <stdio.h>
@@ -70,6 +74,11 @@ struct SimpleOpenGL2AppInternalData
 {
 	GLuint m_fontTextureId;
 	GLuint m_largeFontTextureId;
+	int m_upAxis;
+	SimpleOpenGL2AppInternalData()
+		:m_upAxis(1)
+	{
+	}
 	
 };
 static GLuint BindFont2(const CTexFont *_Font)
@@ -110,25 +119,27 @@ SimpleOpenGL2App::SimpleOpenGL2App(const char* title, int width, int height)
 	m_window->setWindowTitle(title);
 
 
+#ifndef NO_GLEW
 #ifndef __APPLE__
 #ifndef _WIN32
-//some Linux implementations need the 'glewExperimental' to be true
+    //some Linux implementations need the 'glewExperimental' to be true
     glewExperimental = GL_TRUE;
-#endif
-
-
+#endif //_WIN32
+    
+    
     if (glewInit() != GLEW_OK)
-	{
+    {
         b3Error("glewInit failed");
-		exit(1);
-	}
+        exit(1);
+    }
     if (!GLEW_VERSION_2_1)  // check that the machine supports the 2.1 API.
-	{
-		b3Error("GLEW_VERSION_2_1 needs to support 2_1");
-		exit(1); // or handle the error in a nicer way
-	}
-
-#endif
+    {
+        b3Error("GLEW_VERSION_2_1 needs to support 2_1");
+        exit(1); // or handle the error in a nicer way
+    }
+    
+#endif //__APPLE__
+#endif //NO_GLEW
 
 	
 	TwGenerateDefaultFonts();
@@ -137,7 +148,11 @@ SimpleOpenGL2App::SimpleOpenGL2App(const char* title, int width, int height)
 	
 
     glGetError();//don't remove this call, it is needed for Ubuntu
-	glClearColor(0.9,0.9,1,1);
+	glClearColor(	m_backgroundColorRGB[0],
+					m_backgroundColorRGB[1],
+					m_backgroundColorRGB[2],
+					1.f);
+	
 
     b3Assert(glGetError() ==GL_NO_ERROR);
 
@@ -166,6 +181,12 @@ SimpleOpenGL2App::~SimpleOpenGL2App()
 {
 	gApp2 = 0;
 	delete m_data;
+}
+
+void SimpleOpenGL2App::setBackgroundColor(float red, float green, float blue)
+{
+	CommonGraphicsApp::setBackgroundColor(red,green,blue);
+	glClearColor(m_backgroundColorRGB[0],m_backgroundColorRGB[1],m_backgroundColorRGB[2],1.f);
 }
 
 void SimpleOpenGL2App::drawGrid(DrawGridData data)
@@ -258,10 +279,11 @@ void SimpleOpenGL2App::drawGrid(DrawGridData data)
 }
 void SimpleOpenGL2App::setUpAxis(int axis)
 {
+	this->m_data->m_upAxis = axis;
 }
 int SimpleOpenGL2App::getUpAxis() const
 {
-	return 1;
+	return this->m_data->m_upAxis;
 }
 	
 void SimpleOpenGL2App::swapBuffer()
@@ -270,7 +292,7 @@ void SimpleOpenGL2App::swapBuffer()
 	m_window->startRendering();
 
 }
-void SimpleOpenGL2App::drawText( const char* txt, int posX, int posY)
+void SimpleOpenGL2App::drawText( const char* txt, int posX, int posY, float size)
 {
 
 }
@@ -325,9 +347,8 @@ void SimpleOpenGL2App::drawText3D( const char* txt, float worldPosX, float world
 	
 	float camPos[4];
 	cam->getCameraPosition(camPos);
-	b3Vector3 cp= b3MakeVector3(camPos[0],camPos[2],camPos[1]);
-	b3Vector3 p = b3MakeVector3(worldPosX,worldPosY,worldPosZ);
-    float dx=0;
+	//b3Vector3 cp= b3MakeVector3(camPos[0],camPos[2],camPos[1]);
+//	b3Vector3 p = b3MakeVector3(worldPosX,worldPosY,worldPosZ);
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -399,16 +420,16 @@ void SimpleOpenGL2App::drawText3D( const char* txt, float worldPosX, float world
 
 
 			float z = 2.f*winz-1.f;//*(far
-			 float identity[16]={1,0,0,0,
+			 /*float identity[16]={1,0,0,0,
 						0,1,0,0,
 						0,0,1,0,
 						0,0,0,1};
-
+*/
 			   PrimVertex vertexData[4] = {
-					{ PrimVec4(-1.f+2.f*x0/float(screenWidth), 1.f-2.f*y0/float(screenHeight), z, 1.f ), PrimVec4( color[0], color[1], color[2], color[3] ) ,PrimVec2(u0,v0)},
-					{ PrimVec4(-1.f+2.f*x0/float(screenWidth),  1.f-2.f*y1/float(screenHeight), z, 1.f ), PrimVec4( color[0], color[1], color[2], color[3] ) ,PrimVec2(u0,v1)},
-					{ PrimVec4( -1.f+2.f*x1/float(screenWidth),  1.f-2.f*y1/float(screenHeight), z, 1.f ), PrimVec4(color[0], color[1], color[2], color[3]) ,PrimVec2(u1,v1)},
-					{ PrimVec4( -1.f+2.f*x1/float(screenWidth), 1.f-2.f*y0/float(screenHeight), z, 1.f ), PrimVec4( color[0], color[1], color[2], color[3] ) ,PrimVec2(u1,v0)}
+					PrimVertex( PrimVec4(-1.f+2.f*x0/float(screenWidth), 1.f-2.f*y0/float(screenHeight), z, 1.f ), PrimVec4( color[0], color[1], color[2], color[3] ) ,PrimVec2(u0,v0)),
+					PrimVertex( PrimVec4(-1.f+2.f*x0/float(screenWidth),  1.f-2.f*y1/float(screenHeight), z, 1.f ), PrimVec4( color[0], color[1], color[2], color[3] ) ,PrimVec2(u0,v1)),
+					PrimVertex(PrimVec4( -1.f+2.f*x1/float(screenWidth),  1.f-2.f*y1/float(screenHeight), z, 1.f ), PrimVec4(color[0], color[1], color[2], color[3]) ,PrimVec2(u1,v1)),
+					PrimVertex( PrimVec4( -1.f+2.f*x1/float(screenWidth), 1.f-2.f*y0/float(screenHeight), z, 1.f ), PrimVec4( color[0], color[1], color[2], color[3] ) ,PrimVec2(u1,v0))
 				};
     
 				glBegin(GL_TRIANGLES);

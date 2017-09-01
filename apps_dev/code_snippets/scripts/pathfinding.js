@@ -169,6 +169,7 @@ function move(elapsed) {
         m_vec3.scaleAndAdd(_vec3_tmp2, _vec3_tmp3, _gs.speed * elapsed, _vec3_tmp3);
         m_trans.set_translation_v(_gs.character_obj, _vec3_tmp3);
     } else {
+        m_trans.set_translation_v(_gs.character_obj, _vec3_tmp1);
         _gs.current_path_point++;
     }
 }

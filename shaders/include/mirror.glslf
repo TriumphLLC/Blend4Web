@@ -38,8 +38,8 @@ void apply_mirror(inout vec3 base_color, vec3 eye_dir, vec3 normal,
 {
     vec3 eye_reflected = reflect(-eye_dir, normal);
 
-    float N  = u_fresnel_params[2];
-    float r0 = u_fresnel_params[3];
+    float N  = u_fresnel_params[0];
+    float r0 = u_fresnel_params[1];
 
     float r = 1.0;
     // NOTE: fix for devices with low precision

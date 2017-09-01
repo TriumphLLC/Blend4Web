@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2017-06-22 17:06+0300\n"
-"PO-Revision-Date: 2017-04-28 16:58+0800\n"
+"POT-Creation-Date: 2017-08-29 10:32+0300\n"
+"PO-Revision-Date: 2017-07-02 14:52+0800\n"
 "Last-Translator: kidux <yuzukyo@gmail.com>\n"
 "Language-Team: Chinese <info [at] blend4web.com>\n"
 "MIME-Version: 1.0\n"
@@ -183,6 +183,15 @@ msgstr "*组*"
 msgid "Objects’ groups to which this object belongs."
 msgstr "物体所属的物体组"
 
+msgid "Display Panel"
+msgstr ""
+
+msgid ""
+"This panel contains parameters that define how the selected object looks "
+"in the 3D View window. It does not feature any additional options in "
+"Blend4Web mode."
+msgstr ""
+
 msgid "Levels of Detail Panel"
 msgstr "层次细节面板"
 
@@ -241,10 +250,14 @@ msgstr "不要导出此物体。"
 msgid "*Export Options > Apply Modifiers*"
 msgstr "*导出选项 > 应用修改器*"
 
+msgid "Apply the object’s modifiers upon export."
+msgstr ""
+
+#, fuzzy
 msgid ""
-"Apply the object’s modifiers upon export. If the ``SKIN`` modifier is "
-"used we recommend to apply it before the export because it resets vertex "
-"color and UV layers which may result in errors."
+"If the ``Skin`` modifier is used we recommend to apply it before the "
+"export because it resets vertex color and UV layers which may result in "
+"errors."
 msgstr "应用导出物体的修改器。如果使用 ``SKIN`` 修改器，我们建议导出前应用掉它，因为它会重置顶点颜色和UV层可能会导致错误。"
 
 msgid "*Export Options > Apply Scale and Modifiers*"
@@ -365,14 +378,16 @@ msgid ""
 "camera)."
 msgstr "使用物体作为看板（即自动定向面对摄像机）。"
 
-msgid "*Billboard > Preserve Global Orientation and Scale*"
+#, fuzzy
+msgid "*Billboard > Preserve Global Rotation*"
 msgstr "*看板 > 保留全局方向和缩放*"
 
+#, fuzzy
 msgid ""
-"Take into account rotation and scale of the billboard object (in the "
-"world space). The object will be directed toward the camera with its side"
-" which is visible when viewing along the Y axis in Blender. Becomes "
-"available after enabling the ``Billboard`` checkbox."
+"Take into account rotation of the billboard object (in the world space). "
+"The object will be directed toward the camera with its side which is "
+"visible when viewing along the Y axis in Blender. Becomes available after"
+" enabling the ``Billboard`` checkbox."
 msgstr "考虑到（世界空间）看板的物体的旋转和缩放。该物体沿Blender的Y轴查看时将朝明显的被引导到相机。启用 ``看板`` 复选框后可用。"
 
 msgid "*Billboard > Billboard Type*"
@@ -489,6 +504,17 @@ msgid ""
 " this description is contained."
 msgstr "物体描述。根据 ``说明源``，此字段接受描述文本本身，或包含的文件的名称。"
 
+msgid ""
+"To use a text file as a description source you first have to open an "
+"existing file in Blender :ref:`Text Editor <ui_text_editor>` or to create"
+" a new text file in the same editor."
+msgstr ""
+
+msgid ""
+"Then, you only have to set the name of the file in the ``Description`` "
+"field."
+msgstr ""
+
 msgid "*Meta Tags > Description Source*"
 msgstr "*元标签 > 描述源*"
 
@@ -513,6 +539,17 @@ msgid ""
 "These settings can be used to align the object to an active camera. They "
 "are described in the :ref:`Camera chapter <camera_viewport_alignment>`."
 msgstr "这些设置可被用于将物体对准的主控照相机。参考 :ref:`相机章节 <camera_viewport_alignment>` 的描述。"
+
+#, fuzzy
+msgid "Duplication Panel"
+msgstr "关系面板。"
+
+msgid ""
+"This panel contains settings that concern object duplication. It does not"
+" feature any additional parameters in the Blend4Web mode; however, it "
+"should be noted that at the moment Blend4Web engine only supports "
+"``Group`` duplication method."
+msgstr ""
 
 msgid "Wind Bending Panel"
 msgstr "风弯曲面板"
@@ -574,51 +611,50 @@ msgid ""
 msgstr "启用物体的角色物理特性。角色设置详细描述在  :ref:`物理 <physics>` 一节.。"
 
 msgid "Object Constraints"
-msgstr ""
+msgstr "物体约束"
 
-#, fuzzy
 msgid "Blend4Web engine supports the following object constraints:"
-msgstr "该引擎支持以下类型的物体："
+msgstr "Blend4Web引擎支持以下类型的物体约束："
 
-#, fuzzy
 msgid "``Copy Location``,"
-msgstr "``播放动画``"
+msgstr "``复制位置``,"
 
-#, fuzzy
 msgid "``Copy Rotation``,"
-msgstr "``播放动画``"
+msgstr "``复制旋转``,"
 
 msgid "``Copy Transforms`` and"
-msgstr ""
+msgstr "``复制变换`` 和"
 
 msgid "``Track To``."
-msgstr ""
+msgstr "``跟踪到``."
 
 msgid ""
 "When object constraints are used in Blend4Web, the ``Space`` parameter is"
 " not taken into account (it is always set to ``World Space``)."
-msgstr ""
+msgstr "当物体约束在 Blend4Web 中使用时， ``空间`` 参数不被计算在内（它总是被设置为 ``世界空间``)。"
 
 msgid ""
 "These constraints can be set up directly in Blender. Other types of "
 "constraints are not currently supported, but some API methods from the "
 ":b4wmod:`constraints` module act similarly. This include:"
 msgstr ""
+"这些约束可以在Blender中直接设置。其他类型的约束目前不支持，但从一些 API 方法  :b4wmod:`constraints` "
+"模块有一样的功能。这包括："
 
 msgid ""
 "the ``Copy Location`` constraint can be emulated with the "
 ":b4wref:`constraints.append_copy_loc()`"
-msgstr ""
+msgstr "``复制位置`` 约束可以用  :b4wref:`constraints.append_copy_loc()` 来模拟"
 
 msgid ""
 "the ``Copy Rotation`` constraint works similarly to the "
 ":b4wref:`constraints.append_copy_rot()` method."
-msgstr ""
+msgstr "``复制旋转`` 约束与 :b4wref:`constraints.append_copy_rot()`   方法类似。"
 
 msgid ""
 "the ``Copy Transforms`` constraint works similarly to the "
 ":b4wref:`constraints.append_copy_trans()` method."
-msgstr ""
+msgstr "``复制变换`` 约束与 :b4wref:`constraints.append_copy_trans()` 方法类似。"
 
 msgid ""
 "The ``Limit Distance`` constraint can be emulated with the "
@@ -626,16 +662,101 @@ msgid ""
 "that this method does not set a precise distance between objects "
 "(instead, it set a minimum and maximum possible distances)."
 msgstr ""
+"``限制距离`` 约束可以用  :b4wref:`constraints.append_follow()` "
+"方法来模拟，但应注意此方法不会设置物体之间的精确距离 （相反，设置最小和最大可能的距离）。"
 
 msgid ""
 "the ``Track To`` constraint can be replaced with the "
 ":b4wref:`constraints.append_track()` method."
-msgstr ""
+msgstr "``追踪到`` 约束可以替换成  :b4wref:`constraints.append_track()` 方法。"
 
 msgid ""
 "Other constraints do not have distinctive counterparts in the API, "
 "although their behavior can be to certain extent imitated using API "
 "methods."
+msgstr "其他约束并没有明显的类似功能在 API 中，虽然他们的行为可以在一定程度上通过 API 方法模仿使用。"
+
+msgid "The :b4wmod:`constraints` module also includes several additional methods:"
+msgstr ""
+
+#, fuzzy
+msgid ":b4wref:`constraints.append_semi_soft()`"
+msgstr ":b4wref:`transform.set_scale()`"
+
+msgid ""
+"This method can be used to attach one object to another one using a semi-"
+"soft constraint. The object will smoothly follow the object's rear. This "
+"can be used to create third-person cameras."
+msgstr ""
+
+#, fuzzy
+msgid ":b4wref:`constraints.append_semi_stiff()`"
+msgstr ":b4wref:`transform.set_scale()`"
+
+msgid ""
+"This method can be used to attach the object to the other object using a "
+"semi-stiff constraint, meaning that the child object will move and rotate"
+" together with its parent, but it will also be possible to rotate it "
+"independently in the parent's local space. A behavior similar to that of "
+"a tank turret can be created this way."
+msgstr ""
+
+#, fuzzy
+msgid ":b4wref:`constraints.append_stiff()`"
+msgstr ":b4wref:`transform.get_translation()`"
+
+msgid ""
+"This method attaches the object to another object (or to an armature "
+"bone) using a stiff constraint. The child object will move, rotate and "
+"scale together with its parent."
+msgstr ""
+
+msgid ""
+"Examples: a sword parented to the character's hand; a character sitting "
+"in a vehicle."
+msgstr ""
+
+#, fuzzy
+msgid ":b4wref:`constraints.append_stiff_trans()`"
+msgstr ":b4wref:`transform.get_translation()`"
+
+msgid ""
+"This method attaches the object to the other object using a stiff "
+"translation constraint. The child object moves together with its parent, "
+"but does not rotate along with it (it, however, can be rotated "
+"independently from the parent)."
+msgstr ""
+
+#, fuzzy
+msgid ":b4wref:`constraints.append_stiff_trans_rot()`"
+msgstr ":b4wref:`transform.get_translation()`"
+
+msgid ""
+"Can be used to attach the object to another object using a stiff "
+"translation/rotation constraint. In this case, the child object moves and"
+" rotates along with its parent, but does not scale in accord with it. "
+"However, the object still can be scaled independently from the parent."
+msgstr ""
+
+msgid ""
+"Example: a smoke emitter attached to the tractor pipe; exhaustion effects"
+" are achieved by scaling the emitter."
+msgstr ""
+
+msgid ":b4wref:`constraints.append_stiff_viewport()`"
+msgstr ""
+
+msgid ""
+"Attaches the object to the camera using a stiff viewport constraint (so "
+"the child object will preserve its orientation in the camera viewport)."
+msgstr ""
+
+msgid "This constraint can be used to create onscreen 2D/3D interfaces elements."
+msgstr ""
+
+msgid ""
+":b4wref:`constraints.remove()` - this method removes any constraints that"
+" were previously applied to the object."
 msgstr ""
 
 msgid "Anchor Settings"
@@ -981,9 +1102,8 @@ msgid ""
 "selects an object based on canvas 2D coordinates,"
 msgstr "物体选择也可以通过API编程方式，例如，在 ``scenes.js`` 模块有基于二维的画布坐标选择物体的 ``pick_object`` 函数。"
 
-#, fuzzy
 msgid "or using the :ref:`Logic Editor <logic_switch_select>`."
-msgstr "或使用 :ref:`逻辑编辑器 <nla_switch_select>`."
+msgstr "或使用 :ref:`逻辑编辑器 <logic_switch_select>`."
 
 msgid ""
 "If the selectable object has enabled ``Enable Outlining`` and ``Outline "
@@ -1462,11 +1582,5 @@ msgid "quaternion"
 msgstr "四元数"
 
 #~ msgid ""
-#~ msgstr ""
-
-#~ msgid "(there be example)"
-#~ msgstr ""
-
-#~ msgid "As of now, only physical constraints can be set up directly in Blender."
 #~ msgstr ""
 

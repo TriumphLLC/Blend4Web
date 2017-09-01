@@ -773,6 +773,8 @@ SDK中包含的代码片段应用程序，它演示了如何使用引擎的功�
 
    * Instancing - 复制现场运行时对象
 
+   * Leap Motion - an example of using Leap Motion controller
+
    * 线 - 程序线渲染
 
    * Material API - 调整材质的性能和替换对象的材质
@@ -896,7 +898,7 @@ id 是"地形"和"墙"。也是被抛在场景中的物理对象，该对象被�
    }
 
    // create the manifold
-   m_controls.create_sensor_manifold(stone, "IMPACT", m_ctl.CT_SHOT,
+   m_controls.create_sensor_manifold(stone, "IMPACT", m_controls.CT_SHOT,
        impact_sens_array, impact_sens_logic, impact_cb);
 
 当 “石头” 的物体与“地形”或“墙”的任何物理材质碰撞时，被执行的回调函数。
@@ -1014,11 +1016,11 @@ SDK文件结构
 **doc_src**
    当前手册的源文件用reST格式书写
 
-**index.html** 和 **index_assets**
+**index.html** and **index_assets**
    主要SDK网页文件
 
 **license**
-   与许可证的文本文件
+   许可证的文本文件
 
 **Makefile**
    建立引擎，应用程序和文档的makefile文件
@@ -1096,7 +1098,7 @@ SDK文件结构
    临时文件 （例如快速预览） 目录
 
 **tools**
-   various tools for building the engine, apps or convert resources
+   用于构建引擎、 应用程序或转换资源的各种工具
 
    **converter_utils**
       二进制构建的工具，资源转换

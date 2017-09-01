@@ -115,35 +115,6 @@ Internal Parameters
 *Object*
     One of the objects that the user can select. These parameters are automatically created and deleted when you create or delete a ``Hit`` parameter. The number of such parameters is always equal to the number of the ``Hit`` parameters.
 
-.. _logic_delay:
-
-Delay
------
-
-Make a delay (measured in seconds) before going to the next node.
-
-.. image:: src_images/logic_editor/logic_editor_delay.png
-    :align: center
-    :width: 100%
-
-Input Parameters
-................
-
-*Previous*
-    Previous node.
-
-Output Parameters
-.................
-
-*Next*
-    Next node.
-
-Internal Parameters
-...................
-
-*Value*
-    Time (in seconds) that will pass before the activation of the next node. Set to zero by default. Can be set manually or through a variable (if the ``Variable`` parameter is enabled).
-
 .. _logic_jump:
 
 Conditional Jump
@@ -274,38 +245,6 @@ Internal Parameters
 
 *End Marker*
     Last frame of the animation. If not specified, an animation plays to the end of the timeline and may not work correctly.
-
-.. _logic_get_timeline:
-
-Get Timeline
-------------
-
-This node can be used to get the current frame of an NLA animation or a timeline.
-
-.. image:: src_images/logic_editor/logic_editor_get_timeline.png
-   :align: center
-   :width: 100%
-
-Input Parameters
-................
-
-*Previous*
-    Previous node.
-
-Output Parameters
-.................
-
-*Next*
-    Next node.
-
-Internal Parameters
-...................
-
-*NLA Timeline*
-    If this parameter is enabled, the node will return the current frame of an NLA animation. If it is disabled, the node will return the current frame of the timeline. Enabled by default.
-
-*Destination*
-    Specifies a variable to store the number of the current frame. Set to ``R1`` by default.
 
 .. _logic_select_play:
 
@@ -1296,32 +1235,155 @@ Internal Parameters
 <variable name>
     A variable that will be printed to the console. By default, a ``Console Print`` node has one such parameter, but you can add new and delete existing ones (the node might not even have such parameters at all).
 
-Deprecated
-==========
+Time
+====
 
-Select (Deprecated)
--------------------
-.. note::
+.. _logic_time:
 
-    Deprecated! Isn’t recommended to use. Instead, using a ``Switch Select`` node is recommended.
+Date & Time
+-----------
 
-It is similar to the ``Select & Play`` node, except the transition happens instead of animation. This function allows to implement a complicated logic because in this case there is a possibility to identify the user selection results.
+This node returns the current time and date.
 
-Select & Play Timeline (Deprecated)
------------------------------------
-.. note::
+.. image:: src_images/logic_editor/logic_editor_time.png
+    :align: center
+    :width: 100%
 
-    Deprecated! Isn’t recommended to use. Instead, using a combination of ``Switch Select`` and ``Play Timeline`` nodes is recommended.
+Input Parameters
+................
 
-Wait until the user selects an object (on desktops - with a mouse click, on mobile devices - with a touch). If the object, which is specified in this node, is selected - then start the animation similar to the ``Play Timeline`` node. If any other object is selected - then immediately transfer control to the next node.
+*Previous*
+    Previous node.
 
-Select & Play Animation (Deprecated)
-------------------------------------
-.. note::
+Output Parameters
+.................
 
-    Deprecated! Isn’t recommended to use. Instead, using a combination of ``Switch Select`` and ``Play Timeline`` nodes is recommended.
+*Next*
+    Next node.
 
-Wait until the user selects an object (on desktops - with a mouse click, on mobile devices - with a touch). If the object, which is specified in this node, is selected - then start the animation similar to the ``Play Animation`` node. If any other object is selected - then immediately transfer control to the next node.
+Internal Parameters
+...................
+
+*Time Format*
+    This parameter defines the format in which time is measured. It can be set to one of the following values: 
+
+    *UTC*
+        Coordinated Universal Time.
+
+        .. note::
+            The Coordinated Universal Time this node returns is based on local system time and a time zone.
+  
+    *Local*
+        If this value is selected, time is retrieved from local system time. This value is selected by default.
+
+The time and date are returned as a set of numbers (current year, month, day etc.), each one of which can be stored into a specific variable. These numbers include:
+
+*Year*
+    The current year.
+
+*Month*
+    The current month.
+
+*Day*
+    The current day.
+
+*Hours*
+    The current hour.
+
+*Minutes*
+    The current minutes.
+
+*Seconds*
+    The current seconds.
+
+.. _logic_get_timeline:
+
+Get Timeline
+------------
+
+This node can be used to get the current frame of an NLA animation or a timeline.
+
+.. image:: src_images/logic_editor/logic_editor_get_timeline.png
+   :align: center
+   :width: 100%
+
+Input Parameters
+................
+
+*Previous*
+    Previous node.
+
+Output Parameters
+.................
+
+*Next*
+    Next node.
+
+Internal Parameters
+...................
+
+*NLA Timeline*
+    If this parameter is enabled, the node will return the current frame of an NLA animation. If it is disabled, the node will return the current frame of the timeline. Enabled by default.
+
+*Destination*
+    Specifies a variable to store the number of the current frame. Set to ``R1`` by default.
+
+.. _logic_elapsed:
+
+Elapsed
+-------
+
+This node returns the amount of time elapsed since the previous frame has been rendered.
+
+.. image:: src_images/logic_editor/logic_editor_elapsed.png
+    :align: center
+    :width: 100%
+
+Input Parameters
+................
+
+*Previous*
+    Previous node.
+
+Output Parameters
+.................
+
+*Next*
+    Next node.
+
+Internal Parameters
+...................
+
+The ``Elapsed`` logic node has one internal parameter that allows user to specify the variable to save the number of seconds passed since the previous frame. By default, it uses the ``R1`` variable.
+
+.. _logic_delay:
+
+Delay
+-----
+
+Make a delay (measured in seconds) before going to the next node.
+
+.. image:: src_images/logic_editor/logic_editor_delay.png
+    :align: center
+    :width: 100%
+
+Input Parameters
+................
+
+*Previous*
+    Previous node.
+
+Output Parameters
+.................
+
+*Next*
+    Next node.
+
+Internal Parameters
+...................
+
+*Value*
+    Time (in seconds) that will pass before the activation of the next node. Set to zero by default. Can be set manually or through a variable (if the ``Variable`` parameter is enabled).
 
 Layout
 ======

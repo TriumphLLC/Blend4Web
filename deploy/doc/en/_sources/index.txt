@@ -11,6 +11,7 @@ Table of Contents
 
     about.rst
     engine_features.rst
+    interface.rst
     setup.rst
     workflow.rst
     project_manager.rst

@@ -362,7 +362,7 @@ class B4W_VehicleSettings(bpy.types.PropertyGroup):
     )
     floating_factor = bpy.props.FloatProperty(
         name = _("Floating factor"),
-        description = _("Factor of strengh applied to the floating object"),
+        description = _("Factor of strength applied to the floating object"),
         default = 3.0,
         min = 0.0,
         soft_max = 100,
@@ -617,7 +617,7 @@ class B4W_ShadowSettings(bpy.types.PropertyGroup):
 
     blend_between_cascades = bpy.props.BoolProperty(
         name = _("blend_between_cascades"),
-        description = _("Neighbouring cascades will be blended with each other"),
+        description = _("Neighboring cascades will be blended with each other"),
         default = True,
         options = set()
     )
@@ -1054,7 +1054,7 @@ class B4W_SkySettings(bpy.types.PropertyGroup):
 
     mie_distribution = bpy.props.FloatProperty(
         name = _("mie_distribution"),
-        description = _("Mie disturbtion"),
+        description = _("Mie distribution"),
         default = 0.4,
         min = 0.0,
         max = 2.0,
@@ -1884,7 +1884,7 @@ def add_scene_properties():
     # see also b4w_anisotropic_filtering for texture
     b4w_anisotropic_filtering = bpy.props.EnumProperty(
         name = _("B4W: anisotropic filtering"),
-        description = _("Anisotropic filtering for all textures. May be overriden by individual textures"),
+        description = _("Anisotropic filtering for all textures. May be overridden by individual textures"),
         items = [
             ("OFF", "OFF", "OFF", 0),
             ("2x",  "2x",  "2x", 1),
@@ -1941,7 +1941,7 @@ def add_scene_properties():
 
     b4w_antialiasing_quality = bpy.props.EnumProperty(
         name = _("B4W: antialiasing quality"),
-        description = _("Antialiasing quality"),
+        description = _("Anti-Aliasing quality"),
         items = [
             ("NONE",     _("NONE"),     _("NONE"), 1),
             ("LOW",      _("LOW"),      _("LOW"), 2),
@@ -2473,7 +2473,7 @@ def add_camera_properties():
 
     cam_type.b4w_dof_foreground_blur = bpy.props.BoolProperty(
         name = _("B4W: DOF foreground blur"),
-        description = _("Blur foregriund silhouettes"),
+        description = _("Blur foreground silhouettes"),
         default = False,
         options = set()
     )
@@ -2773,8 +2773,8 @@ def add_object_properties():
     obj_type.b4w_billboard = b4w_billboard
 
     b4w_pres_glob_orientation = bpy.props.BoolProperty(
-        name = _("B4W: preserve global orientation and scale"),
-        description = _("Preserve global orientation and scale for billboard object"),
+        name = _("B4W: preserve global orientation"),
+        description = _("Preserve global orientation for billboard object"),
         default = False,
         options = set()
     )
@@ -2965,7 +2965,7 @@ def add_speaker_properties():
     )
     spk_type.b4w_enable_doppler = bpy.props.BoolProperty(
         name = _("B4W: enable doppler"),
-        description = _("Enable the Doppler effect"),
+        description = _("Enable Doppler effect"),
         default = False,
         options = set()
     )
@@ -3963,7 +3963,7 @@ def add_particle_settings_properties():
 
     pset_type.b4w_reflection_inheritance = bpy.props.EnumProperty(
         name = _("B4W: reflection inheritance"),
-        description = _("Reflection inheritance"),
+        description = _("Reflection Inheritance"),
         items = [
             ("PARENT", _("Parent"), _("inherit from parent")),
             ("INSTANCE", _("Instance"), _("inherit from instance")),

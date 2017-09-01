@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>动画 &mdash; Blend4Web 17.06 用户手册</title>
+  <title>动画 &mdash; Blend4Web 17.08 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.06 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 17.08 用户手册" href="index.html"/>
         <link rel="next" title="室外效果" href="outdoor_rendering.html"/>
         <link rel="prev" title="粒子系统.实例化" href="particles_instancing.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v17.06
+              v17.08
             </div>
           
         
@@ -85,6 +85,7 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">概述</a></li>
 <li class="toctree-l1"><a class="reference internal" href="engine_features.html">引擎功能</a></li>
+<li class="toctree-l1"><a class="reference internal" href="interface.html">Blender User Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">安装和更新</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">工作流程</a></li>
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理</a></li>
@@ -111,6 +112,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#object-animation">物体动画</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#skinning-and-skeletal-animation">蒙皮和骨骼动画</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#baking-parameters">烘焙参数</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#animation-blending">Animation Blending</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#vertex-animation">顶点动画</a><ul>
@@ -192,20 +194,21 @@
 <li><a class="reference internal" href="#object-animation" id="id7">物体动画</a></li>
 <li><a class="reference internal" href="#skinning-and-skeletal-animation" id="id8">蒙皮和骨骼动画</a><ul>
 <li><a class="reference internal" href="#baking-parameters" id="id9">烘焙参数</a></li>
+<li><a class="reference internal" href="#animation-blending" id="id10">Animation Blending</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#vertex-animation" id="id10">顶点动画</a><ul>
-<li><a class="reference internal" href="#id2" id="id11">烘焙参数</a></li>
+<li><a class="reference internal" href="#vertex-animation" id="id11">顶点动画</a><ul>
+<li><a class="reference internal" href="#id2" id="id12">烘焙参数</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#default-animation" id="id12">默认动画</a></li>
-<li><a class="reference internal" href="#non-linear-animation" id="id13">非线性动画</a><ul>
-<li><a class="reference internal" href="#nla-editor" id="id14">非线性编辑器</a></li>
-<li><a class="reference internal" href="#controlling-via-api" id="id15">通过 API 控制</a></li>
+<li><a class="reference internal" href="#default-animation" id="id13">默认动画</a></li>
+<li><a class="reference internal" href="#non-linear-animation" id="id14">非线性动画</a><ul>
+<li><a class="reference internal" href="#nla-editor" id="id15">非线性编辑器</a></li>
+<li><a class="reference internal" href="#controlling-via-api" id="id16">通过 API 控制</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#audio-source-parametrization" id="id16">音频源参数</a></li>
-<li><a class="reference internal" href="#animation-of-value-and-rgb-nodes" id="id17">值和 RGB 节点的动画</a></li>
+<li><a class="reference internal" href="#audio-source-parametrization" id="id17">音频源参数</a></li>
+<li><a class="reference internal" href="#animation-of-value-and-rgb-nodes" id="id18">值和 RGB 节点的动画</a></li>
 </ul>
 </li>
 </ul>
@@ -310,11 +313,34 @@
 <p>要移除骨架不需要的顶点组，请使用按钮 <code class="docutils literal"><span class="pre">Remove</span> <span class="pre">Clean</span> <span class="pre">Unused</span> <span class="pre">Vertex</span> <span class="pre">Groups</span></code>.</p>
 <a class="last reference internal image-reference" href="_images/vgroups_cleaner.png"><img alt="_images/vgroups_cleaner.png" class="align-center" src="_images/vgroups_cleaner.png" style="width: 100%;" /></a>
 </div>
-<p>Blend4Web 才开始对骨架预算进行初步支持。目前，唯一受支持的约束类型是 <code class="docutils literal"><span class="pre">Copy</span> <span class="pre">Transform</span></code>。它可以用于附加到物体，产生影响，如布娃娃的骨架。后续版本中将进一步添加支持其他类型的约束。</p>
+<p>Blend4Web also has initial support of the armature constraints. For now, only several types of constraints are supported, including <code class="docutils literal"><span class="pre">Copy</span> <span class="pre">Transforms</span></code>, which can be used to attach an armature to an object, producing effects such as ragdoll. Support of the other types of constraints will be added in further releases.</p>
+<p>The full list of supported constraints and their descriptions can be found in a <a class="reference internal" href="objects.html#objects-constraints"><span>dedicated section</span></a>.</p>
+</div>
+<div class="section" id="animation-blending">
+<span id="anim-blend"></span><h3><a class="toc-backref" href="#id10">Animation Blending</a><a class="headerlink" href="#animation-blending" title="永久链接至标题">¶</a></h3>
+<p>The engine also supports animation blending. To use this feature, the <code class="docutils literal"><span class="pre">Animation</span> <span class="pre">Blending</span></code> (located on the <code class="docutils literal"><span class="pre">Animation</span></code> panel of the <code class="docutils literal"><span class="pre">Object</span></code> tab) property should be enabled.</p>
+<div class="admonition warning">
+<p class="first admonition-title">警告</p>
+<p class="last">No more than <strong>two</strong> animations can be blended simultaneously.</p>
+</div>
+<p>To blend animations, you have to allow two animation slots to blend first:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_animation</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;animation&quot;</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">m_scenes</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
+
+<span class="p">...</span>
+
+<span class="kd">var</span> <span class="nx">armobj</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_object_by_name</span><span class="p">(</span><span class="s2">&quot;My_Armature&quot;</span><span class="p">);</span>
+
+<span class="p">...</span>
+
+<span class="nx">m_animation</span><span class="p">.</span><span class="nx">set_skeletal_slots</span><span class="p">(</span><span class="nx">armobj</span><span class="p">,</span> <span class="nx">slot_1</span><span class="p">,</span> <span class="nx">slot_2</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">);</span>
+</pre></div>
+</div>
 </div>
 </div>
 <div class="section" id="vertex-animation">
-<h2><a class="toc-backref" href="#id10">顶点动画</a><a class="headerlink" href="#vertex-animation" title="永久链接至标题">¶</a></h2>
+<h2><a class="toc-backref" href="#id11">顶点动画</a><a class="headerlink" href="#vertex-animation" title="永久链接至标题">¶</a></h2>
 <a class="reference internal image-reference" href="_images/flag.png"><img alt="_images/flag.png" class="align-center" src="_images/flag.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -323,7 +349,7 @@
 <p id="ver-anim">一个特殊的工具用于烘焙顶点动画 - <code class="docutils literal"><span class="pre">Bake</span> <span class="pre">Vertex</span> <span class="pre">Animation</span></code> - 在 <code class="docutils literal"><span class="pre">Blend4Web</span></code>  工具面板上。</p>
 <a class="reference internal image-reference" href="_images/animation_vertex_baker.png"><img alt="_images/animation_vertex_baker.png" class="align-center" src="_images/animation_vertex_baker.png" style="width: 100%;" /></a>
 <div class="section" id="id2">
-<h3><a class="toc-backref" href="#id11">烘焙参数</a><a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id12">烘焙参数</a><a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h3>
 <dl class="docutils">
 <dt><em>名字</em></dt>
 <dd><p class="first last">将分配给烘焙动画的名称。</p>
@@ -351,15 +377,21 @@
 </div>
 </div>
 <div class="section" id="default-animation">
-<span id="id3"></span><h2><a class="toc-backref" href="#id12">默认动画</a><a class="headerlink" href="#default-animation" title="永久链接至标题">¶</a></h2>
+<span id="id3"></span><h2><a class="toc-backref" href="#id13">默认动画</a><a class="headerlink" href="#default-animation" title="永久链接至标题">¶</a></h2>
 <p>Blend4Web 也有可以自动播放物体动画的选项。要做到这一点，您需要启用要进行动画处理的物体的 <code class="docutils literal"><span class="pre">Animation</span></code> 部分的 <code class="docutils literal"><span class="pre">Apply</span> <span class="pre">Default</span> <span class="pre">Animation</span></code> 参数。支持骨骼和物体的动画类型。</p>
 <a class="reference internal image-reference" href="_images/animation_apply_default_animation.png"><img alt="_images/animation_apply_default_animation.png" class="align-center" src="_images/animation_apply_default_animation.png" style="width: 100%;" /></a>
-<p>Animation starts to play right after the application startup and plays very similar to the <a class="reference internal" href="logic_editor.html#logic-play-timeline"><span>Play Timeline</span></a> node, only without an option to set up the start and end markers (instead, it always starts from the first frame of the timeline and ends with the last). You can also set up animation behavior, like in the <a class="reference internal" href="logic_editor.html#logic-select-play"><span>Play Animation</span></a> node.</p>
+<p>应用程序启动后动画就开始播放，和  <a class="reference internal" href="logic_editor.html#logic-play-timeline"><span>播放时间线</span></a> 节点非常相似，只是没有选项来设置开始和结束标记 （相反，它总是从时间线第一帧开始到最后一帧结束）。您还可以设置动画的行为，像  <a class="reference internal" href="logic_editor.html#logic-select-play"><span>播放动画</span></a>  节点。</p>
+<dl class="docutils">
+<dt><em>Animation Blending</em></dt>
+<dd><p class="first">This option is only available for <code class="docutils literal"><span class="pre">Armature</span></code> type objects. It should be enabled if you want to blend skeletal animations.</p>
+<p class="last">Blending animations is described in a <a class="reference internal" href="#anim-blend"><span>dedicated section</span></a>.</p>
+</dd>
+</dl>
 </div>
 <div class="section" id="non-linear-animation">
-<span id="nla"></span><h2><a class="toc-backref" href="#id13">非线性动画</a><a class="headerlink" href="#non-linear-animation" title="永久链接至标题">¶</a></h2>
+<span id="nla"></span><h2><a class="toc-backref" href="#id14">非线性动画</a><a class="headerlink" href="#non-linear-animation" title="永久链接至标题">¶</a></h2>
 <div class="section" id="nla-editor">
-<span id="id4"></span><h3><a class="toc-backref" href="#id14">非线性编辑器</a><a class="headerlink" href="#nla-editor" title="永久链接至标题">¶</a></h3>
+<span id="id4"></span><h3><a class="toc-backref" href="#id15">非线性编辑器</a><a class="headerlink" href="#nla-editor" title="永久链接至标题">¶</a></h3>
 <p>Blender的非线形编辑让我们方便的设置场景的行为。在它的帮助下，我们可以实现简单的场景。这种方式下简单的场景和应用程序是不用编程的。</p>
 <a class="reference internal image-reference" href="_images/simple_machinima.png"><img alt="_images/simple_machinima.png" class="align-center" src="_images/simple_machinima.png" style="width: 100%;" /></a>
 <div class="line-block">
@@ -403,7 +435,7 @@
 </div>
 </div>
 <div class="section" id="controlling-via-api">
-<h3><a class="toc-backref" href="#id15">通过 API 控制</a><a class="headerlink" href="#controlling-via-api" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id16">通过 API 控制</a><a class="headerlink" href="#controlling-via-api" title="永久链接至标题">¶</a></h3>
 <p>可以通过 API 方法的 &#8216;nla.js&#8217; 模块控制非线性动画播放。</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
 <span class="kd">var</span> <span class="nx">m_nla</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;nla&quot;</span><span class="p">);</span>
@@ -422,7 +454,7 @@
 </div>
 </div>
 <div class="section" id="audio-source-parametrization">
-<span id="speaker-animation"></span><h2><a class="toc-backref" href="#id16">音频源参数</a><a class="headerlink" href="#audio-source-parametrization" title="永久链接至标题">¶</a></h2>
+<span id="speaker-animation"></span><h2><a class="toc-backref" href="#id17">音频源参数</a><a class="headerlink" href="#audio-source-parametrization" title="永久链接至标题">¶</a></h2>
 <p>此外对于扬声器物体支持以下动画关键类型 ︰</p>
 <ul class="simple">
 <li><p class="first"><em>音量</em></p>
@@ -433,7 +465,7 @@
 <p>音频源参数在本质上遵循物体动画。</p>
 </div>
 <div class="section" id="animation-of-value-and-rgb-nodes">
-<span id="node-anim"></span><h2><a class="toc-backref" href="#id17">值和 RGB 节点的动画</a><a class="headerlink" href="#animation-of-value-and-rgb-nodes" title="永久链接至标题">¶</a></h2>
+<span id="node-anim"></span><h2><a class="toc-backref" href="#id18">值和 RGB 节点的动画</a><a class="headerlink" href="#animation-of-value-and-rgb-nodes" title="永久链接至标题">¶</a></h2>
 <p>支持节点材质中插入关键帧到 <code class="docutils literal"><span class="pre">Value</span></code> and <code class="docutils literal"><span class="pre">RGB</span></code> 节点的播放。</p>
 <img alt="_images/node_value_anim.png" class="align-center" src="_images/node_value_anim.png" />
 <div class="line-block">
@@ -475,7 +507,7 @@
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2017, Triumph.
-      最后更新于 2017-06-30.
+      最后更新于 2017-08-31.
 
     </p>
   </div>
@@ -531,7 +563,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.06',
+            VERSION:'v17.08',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

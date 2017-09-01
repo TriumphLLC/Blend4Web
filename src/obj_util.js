@@ -36,8 +36,6 @@ var cfg_def = m_cfg.defaults;
 var LOD_DIST_MAX_INFINITY = Infinity;
 exports.LOD_DIST_MAX_INFINITY = LOD_DIST_MAX_INFINITY;
 
-var _tsr_tmp = m_tsr.create();
-
 /**
  * Create abstract render
  * @param {string} type "DYNAMIC", "STATIC", "CAMERA", "EMPTY", "NONE"
@@ -384,6 +382,8 @@ function create_object(name, type, origin_name) {
         origin_name: origin_name,
         type: type,
 
+        materials: [],
+
         is_meta: true,
 
         // material inheritance requires bpy object for batching
@@ -392,8 +392,6 @@ function create_object(name, type, origin_name) {
         mat_inheritance_data: {
             // to keep the original mat names after inheritance
             original_mat_names: [],
-            // needed for inheritance on copied objects, that reference the same bpy object
-            bpy_materials: [],
             // to prevent a material from participating in batching
             is_disabled: []
         },
@@ -665,12 +663,8 @@ exports.append_batch = function(obj, scene, batch) {
     sc_data.batches.push(batch);
 
     var batch_world_bounds = m_bounds.init_boundings();
-
-    // static COLOR_ID batch has submesh with applied tsr and its world
-    // boundings are already copied from local
-    var tsr = render.type == "STATIC" && batch.type == "COLOR_ID"
-            ? m_tsr.identity(_tsr_tmp) : render.world_tsr;
-    update_world_bounds_from_batch_tsr(batch, tsr, batch_world_bounds);
+    update_world_bounds_from_batch_tsr(batch, render.world_tsr, 
+            batch_world_bounds);
     sc_data.batch_world_bounds.push(batch_world_bounds);
 }
 
@@ -686,7 +680,7 @@ exports.update_render_bounds_billboard = function(obj, obj_local_bb) {
     bb_local.max_x = bb_local.max_y = bb_local.max_z = sph_rad;
     bb_local.min_x = bb_local.min_y = bb_local.min_z = -sph_rad;
 
-    set_box_render_bounds(render, obj_local_bb);
+    set_box_render_bounds(render, bb_local);
     set_sph_render_bounds(render, sph_rad, [0, 0, 0]);
     set_ell_render_bounds(render, [1, 0, 0], [0, 1, 0], [0, 0, 1], 
             [sph_rad, sph_rad, sph_rad], [0, 0, 0]);
@@ -964,16 +958,16 @@ exports.meta_obj_append_render = function(meta_obj, render) {
     meta_obj.render = render;
 }
 
-exports.check_obj_soft_particles_accessibility = function(bpy_obj, pset) {
+exports.check_obj_soft_particles_accessibility = function(obj, pset) {
 
     if (pset["b4w_enable_soft_particles"] &&
             pset["b4w_particles_softness"] > 0.0) {
         var index = pset["material"] - 1;
-        var materials = bpy_obj["data"]["materials"];
+        var materials = obj.materials;
         if (index >= 0 && index < materials.length &&
-            (materials[index]["game_settings"]["alpha_blend"] == "ADD" ||
-            materials[index]["game_settings"]["alpha_blend"] == "ALPHA" ||
-            materials[index]["game_settings"]["alpha_blend"] == "ALPHA_SORT"))
+            (materials[index].blend_mode == "ADD" ||
+            materials[index].blend_mode == "ALPHA" ||
+            materials[index].blend_mode == "ALPHA_SORT"))
             return true;
     }
 

@@ -161,6 +161,10 @@
 
         
             
+<li> <a href="#.get_coords_target_space">get_coords_target_space<span class="signature">(event, use_target_touches<span class="signature-attributes">opt</span>, dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Vec2}</span></a></li>
+
+        
+            
 <li> <a href="#.insert_to_container">insert_to_container<span class="signature">(elem, stack_order)</span><span class="type-signature"></span></a></li>
 
         
@@ -792,7 +796,7 @@ relative to the HTML element.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_container.js.html">ext/container.js</a>, <a href="ext_container.js.html#line115">line 115</a>
+        <a href="ext_container.js.html">ext/container.js</a>, <a href="ext_container.js.html#line141">line 141</a>
     </li></ul></dd>
     
 
@@ -1127,6 +1131,275 @@ relative to the HTML element.
     
 </dl>
 
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".get_coords_target_space">get_coords_target_space<span class="signature">(event, use_target_touches<span class="signature-attributes">opt</span>, dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="global.html#Vec2">Vec2</a>}</span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Get CSS coordinates from the given MouseEvent or TouchEvent transformed into 
+the space of its target element.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>event</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">MouseEvent</span>
+|
+
+<span class="param-type">TouchEvent</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">An event to get values from.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>use_target_touches</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    false
+                
+                </td>
+            
+
+            <td class="description last">For TouchEvent use only those 
+touches that were started on the event target element (the targetTouches 
+property).</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>dest</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Vec2">Vec2</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    Float32Array(2)
+                
+                </td>
+            
+
+            <td class="description last">Destination vector.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    CSS coordinates relative to the Canvas.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="global.html#Vec2">Vec2</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_container.js.html">ext/container.js</a>, <a href="ext_container.js.html#line134">line 134</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_cont = require("container");
+var m_input = require("input");
+var _vec2_tmp = new Float32Array(2);
+
+var canvas = m_cont.get_canvas();
+m_input.add_click_listener(canvas, function(event) {
+    var coords = m_cont.get_coords_target_space(event, false, _vec2_tmp);
+});</code></pre>
 
 
 </div>
@@ -1500,7 +1773,7 @@ relative to the HTML element.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_container.js.html">ext/container.js</a>, <a href="ext_container.js.html#line127">line 127</a>
+        <a href="ext_container.js.html">ext/container.js</a>, <a href="ext_container.js.html#line153">line 153</a>
     </li></ul></dd>
     
 
@@ -1656,7 +1929,7 @@ matching of canvas and container size.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_container.js.html">ext/container.js</a>, <a href="ext_container.js.html#line138">line 138</a>
+        <a href="ext_container.js.html">ext/container.js</a>, <a href="ext_container.js.html#line164">line 164</a>
     </li></ul></dd>
     
 
@@ -1945,7 +2218,7 @@ position has been changed.
 <br class="clear">
 
 <footer>
-    Blend4Web API Reference (generated by JSDoc 3.4.0 on Fri Jun 30 2017 14:29:57 GMT+0300 (MSK))
+    Blend4Web API Reference (generated by JSDoc 3.4.0 on Thu Aug 31 2017 18:52:56 GMT+0300 (MSK))
     <a href="https://www.blend4web.com">www.blend4web.com</a>
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">

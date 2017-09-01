@@ -141,7 +141,7 @@ exports.set_nodemat_value = function(obj, name_list, value) {
         return null;
     }
 
-    var ind = m_obj.get_node_ind_by_name_list(batch_main.node_value_inds,
+    var ind = m_obj.get_node_val_ind_by_name_list(batch_main.node_value_inds,
                                                 name_list, 1);
     if (ind === null) {
         m_print.error("Value node \"" + name_list[name_list.length - 1] +
@@ -178,7 +178,7 @@ exports.get_nodemat_value = function(obj, name_list) {
         return 0;
     }
 
-    var ind = m_obj.get_node_ind_by_name_list(batch_main.node_value_inds,
+    var ind = m_obj.get_node_val_ind_by_name_list(batch_main.node_value_inds,
                                                 name_list, 1);
     if (ind === null) {
         m_print.error("Value node \"" + name_list[name_list.length - 1] +
@@ -217,7 +217,7 @@ exports.set_nodemat_rgb = function(obj, name_list, r, g, b) {
     }
 
     // node index is assumed to be similar for all batches with the same material
-    var ind = m_obj.get_node_ind_by_name_list(batch_main.node_rgb_inds,
+    var ind = m_obj.get_node_rgb_ind_by_name_list(batch_main.node_rgb_inds,
                                                 name_list, 1);
     if (ind === null) {
         m_print.error("RGB node \"" + name_list[name_list.length - 1] +
@@ -254,7 +254,7 @@ exports.get_nodemat_rgb = function(obj, name_list, dest) {
         return null;
     }
 
-    var ind = m_obj.get_node_ind_by_name_list(batch_main.node_rgb_inds,
+    var ind = m_obj.get_node_rgb_ind_by_name_list(batch_main.node_rgb_inds,
                                                 name_list);
     if (ind === null) {
         m_print.error("RGB node \"" + name_list[name_list.length - 1] +
@@ -479,6 +479,32 @@ exports.get_wind_bending_params = function(obj) {
  */
 exports.create_line = function(name) {
     return m_obj.create_line(name);
+}
+
+/**
+ * Hide objects that have the given data_id.
+ * @param {number} data_id ID of loaded data.
+ * @example
+ * var m_obj = require("objects");
+ * m_obj.hide_all_by_data_id(0);
+ */
+exports.hide_all_by_data_id = function(data_id) {
+    var objs = m_obj.get_all_objects("ALL", data_id);
+    for (var i = 0; i < objs.length; i++)
+        m_scenes.change_visibility(objs[i], true);
+}
+
+/**
+ * Show objects that have the given data_id.
+ * @param {number} data_id ID of loaded data.
+ * @example
+ * var m_obj = require("objects");
+ * m_obj.show_all_by_data_id(1);
+ */
+exports.show_all_by_data_id = function(data_id) {
+    var objs = m_obj.get_all_objects("ALL", data_id);
+    for (var i = 0; i < objs.length; i++)
+        m_scenes.change_visibility(objs[i], false);
 }
 
 }

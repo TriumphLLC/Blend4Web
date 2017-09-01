@@ -83,7 +83,7 @@ exports.init_scene_physics = function(scene) {
     var path = cfg_phy.uranium_path;
 
     if (cfg_ldr.prevent_caching)
-        path += m_version.timestamp();
+        path += "?v=" + m_version.get_build_version();
 
     m_print.log("%cLOAD PHYSICS", "color: #0a0", cfg_phy.use_workers ?
             "Using Separate Worker Thread," : "Using Same Thread,",

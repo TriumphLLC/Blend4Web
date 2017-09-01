@@ -34,6 +34,9 @@ var _du_fpnt_tmp = null;
 var _du_vec3_tmp = null;
 var _du_vec3_tmp2 = null;
 
+var _main_thread_nav_start_time = 0;
+var _worker_thread_time_offset = 0;
+
 /**
  * For internal purposes
  */
@@ -1565,7 +1568,7 @@ function worker_frame() {
     // preparatory stage
     if (_steps == 0) {
         // float sec
-        var abstime = performance.now() / 1000;
+        var abstime = get_main_thread_performance_now() / 1000;
 
         if (!_last_abs_time)
             _last_abs_time = abstime;
@@ -2067,19 +2070,26 @@ function obj_len(obj) {
     return len;
 }
 
+function perf_now_is_available() {
+    return self["performance"] && self["performance"]["now"];
+}
+
+function get_main_thread_performance_now() {
+    // Date.now() is vulnerable to system time changes, it's better to use 
+    // performance.now() wherever it's available
+    if (perf_now_is_available())
+        return performance.now() + _worker_thread_time_offset;
+    else
+        return Date.now() - _main_thread_nav_start_time;
+}
+
 function process_message(worker, msg_id, msg) {
     switch (msg_id) {
     case m_ipc.OUT_INIT:
 
-        if (!self["performance"])
-            self["performance"] = {};
-
-        if (!self["performance"]["now"]) {
-            var fallback_init_time = msg[1];
-            self["performance"]["now"] = function() {
-                return Date.now() - fallback_init_time;
-            }
-        }
+        _main_thread_nav_start_time = msg[1];
+        if (perf_now_is_available())
+            _worker_thread_time_offset = Date.now() - msg[1] - performance.now();
 
         init_world(msg[2], msg[3]);
 
@@ -2090,7 +2100,7 @@ function process_message(worker, msg_id, msg) {
         update_world(_world, msg[1], msg[2]);
         break;
     case m_ipc.OUT_PING:
-        m_ipc.post_msg(_worker, m_ipc.IN_PING, msg[1], performance.now());
+        m_ipc.post_msg(_worker, m_ipc.IN_PING, msg[1], get_main_thread_performance_now());
         break;
     case m_ipc.OUT_SET_ACTIVE_WORLD:
         set_active_world(msg[1]);

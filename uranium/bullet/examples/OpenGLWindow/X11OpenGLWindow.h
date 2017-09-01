@@ -39,7 +39,7 @@ public:
         virtual void    endRendering();
 
         virtual float getRetinaScale() const {return 1.f;}
-
+	virtual void setAllowRetina(bool /*allowRetina*/) {};
 
 	virtual void    runMainLoop();
         virtual float   getTimeInSeconds();
@@ -54,7 +54,7 @@ public:
         virtual void setResizeCallback(b3ResizeCallback resizeCallback);
         virtual void setWheelCallback(b3WheelCallback wheelCallback);
         virtual void setKeyboardCallback( b3KeyboardCallback    keyboardCallback);
-        
+
 		virtual b3MouseMoveCallback getMouseMoveCallback();
 		virtual b3MouseButtonCallback getMouseButtonCallback();
 		virtual b3ResizeCallback getResizeCallback();
@@ -65,8 +65,13 @@ public:
 
         virtual void setWindowTitle(const char* title);
 
+        virtual int   getWidth() const;
+
+        virtual int   getHeight() const;
+
 	int fileOpenDialog(char* filename, int maxNameLength);
 };
+
 
 
 #endif

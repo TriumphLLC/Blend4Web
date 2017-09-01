@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>对应用程序开发人员 &mdash; Blend4Web 17.06 用户手册</title>
+  <title>对应用程序开发人员 &mdash; Blend4Web 17.08 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.06 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 17.08 用户手册" href="index.html"/>
         <link rel="next" title="对于引擎开发者" href="developers_advanced.html"/>
         <link rel="prev" title="物理" href="physics.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v17.06
+              v17.08
             </div>
           
         
@@ -85,6 +85,7 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">概述</a></li>
 <li class="toctree-l1"><a class="reference internal" href="engine_features.html">引擎功能</a></li>
+<li class="toctree-l1"><a class="reference internal" href="interface.html">Blender User Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">安装和更新</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">工作流程</a></li>
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理</a></li>
@@ -860,6 +861,7 @@
 </li>
 <li><p class="first">Instancing - 复制现场运行时对象</p>
 </li>
+<li>Leap Motion - an example of using Leap Motion controller</li>
 <li><p class="first">线 - 程序线渲染</p>
 </li>
 <li><p class="first">Material API - 调整材质的性能和替换对象的材质</p>
@@ -954,7 +956,7 @@
 <span class="p">}</span>
 
 <span class="c1">// create the manifold</span>
-<span class="nx">m_controls</span><span class="p">.</span><span class="nx">create_sensor_manifold</span><span class="p">(</span><span class="nx">stone</span><span class="p">,</span> <span class="s2">&quot;IMPACT&quot;</span><span class="p">,</span> <span class="nx">m_ctl</span><span class="p">.</span><span class="nx">CT_SHOT</span><span class="p">,</span>
+<span class="nx">m_controls</span><span class="p">.</span><span class="nx">create_sensor_manifold</span><span class="p">(</span><span class="nx">stone</span><span class="p">,</span> <span class="s2">&quot;IMPACT&quot;</span><span class="p">,</span> <span class="nx">m_controls</span><span class="p">.</span><span class="nx">CT_SHOT</span><span class="p">,</span>
     <span class="nx">impact_sens_array</span><span class="p">,</span> <span class="nx">impact_sens_logic</span><span class="p">,</span> <span class="nx">impact_cb</span><span class="p">);</span>
 </pre></div>
 </div>
@@ -1081,11 +1083,11 @@
 <dt><strong>doc_src</strong></dt>
 <dd><p class="first last">当前手册的源文件用reST格式书写</p>
 </dd>
-<dt><strong>index.html</strong> 和 <strong>index_assets</strong></dt>
+<dt><strong>index.html</strong> and <strong>index_assets</strong></dt>
 <dd><p class="first last">主要SDK网页文件</p>
 </dd>
 <dt><strong>license</strong></dt>
-<dd><p class="first last">与许可证的文本文件</p>
+<dd><p class="first last">许可证的文本文件</p>
 </dd>
 <dt><strong>Makefile</strong></dt>
 <dd><p class="first last">建立引擎，应用程序和文档的makefile文件</p>
@@ -1167,7 +1169,7 @@
 <dd><p class="first last">临时文件 （例如快速预览） 目录</p>
 </dd>
 <dt><strong>tools</strong></dt>
-<dd><p class="first">various tools for building the engine, apps or convert resources</p>
+<dd><p class="first">用于构建引擎、 应用程序或转换资源的各种工具</p>
 <dl class="last docutils">
 <dt><strong>converter_utils</strong></dt>
 <dd><p class="first last">二进制构建的工具，资源转换</p>
@@ -1366,7 +1368,7 @@
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2017, Triumph.
-      最后更新于 2017-06-30.
+      最后更新于 2017-08-31.
 
     </p>
   </div>
@@ -1422,7 +1424,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.06',
+            VERSION:'v17.08',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

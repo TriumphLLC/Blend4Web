@@ -339,6 +339,8 @@ exports.check_depth_only_issue = function() {
     // switch back to the window-system provided framebuffer
     _gl.bindFramebuffer(_gl.FRAMEBUFFER, null);
 
+    _gl.deleteFramebuffer(framebuffer);
+
     return _depth_only_issue;
 }
 

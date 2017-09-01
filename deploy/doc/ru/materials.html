@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Материалы &mdash; Руководство пользователя Blend4Web 17.06</title>
+  <title>Материалы &mdash; Руководство пользователя Blend4Web 17.08</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 17.06" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 17.08" href="index.html"/>
         <link rel="next" title="Библиотека материалов" href="material_library.html"/>
         <link rel="prev" title="Камера" href="camera.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v17.06
+              v17.08
             </div>
           
         
@@ -85,6 +85,7 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">Общие сведения</a></li>
 <li class="toctree-l1"><a class="reference internal" href="engine_features.html">Возможности движка</a></li>
+<li class="toctree-l1"><a class="reference internal" href="interface.html">Интерфейс Blender</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Установка и обновление</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Рабочий процесс</a></li>
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">Управление проектами</a></li>
@@ -197,39 +198,39 @@
            <div itemprop="articleBody">
             
   <span class="target" id="materials"></span><div class="section" id="index-0">
-<span id="id1"></span><h1><a class="toc-backref" href="#id8">Материалы</a><a class="headerlink" href="#index-0" title="Ссылка на этот заголовок">¶</a></h1>
+<span id="id1"></span><h1><a class="toc-backref" href="#id10">Материалы</a><a class="headerlink" href="#index-0" title="Ссылка на этот заголовок">¶</a></h1>
 <div class="contents topic" id="table-of-content">
 <p class="topic-title first">Содержание</p>
 <ul class="simple">
-<li><a class="reference internal" href="#index-0" id="id8">Материалы</a><ul>
-<li><a class="reference internal" href="#lighting-parameters" id="id9">Параметры освещения</a></li>
-<li><a class="reference internal" href="#transparency" id="id10">Прозрачность</a><ul>
-<li><a class="reference internal" href="#types" id="id11">Типы</a></li>
-<li><a class="reference internal" href="#additional-settings" id="id12">Дополнительные настройки</a></li>
+<li><a class="reference internal" href="#index-0" id="id10">Материалы</a><ul>
+<li><a class="reference internal" href="#lighting-parameters" id="id11">Параметры освещения</a></li>
+<li><a class="reference internal" href="#transparency" id="id12">Прозрачность</a><ul>
+<li><a class="reference internal" href="#types" id="id13">Типы</a></li>
+<li><a class="reference internal" href="#additional-settings" id="id14">Дополнительные настройки</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#reflection" id="id13">Зеркальное отражение</a><ul>
-<li><a class="reference internal" href="#static-reflection" id="id14">Статическое отражение</a></li>
-<li><a class="reference internal" href="#dynamic-reflection" id="id15">Динамическое отражение</a></li>
-<li><a class="reference internal" href="#fresnel-effect-for-reflection" id="id16">Эффект Френеля для отражения</a></li>
+<li><a class="reference internal" href="#reflection" id="id15">Зеркальное отражение</a><ul>
+<li><a class="reference internal" href="#static-reflection" id="id16">Статическое отражение</a></li>
+<li><a class="reference internal" href="#dynamic-reflection" id="id17">Динамическое отражение</a></li>
+<li><a class="reference internal" href="#fresnel-effect-for-reflection" id="id18">Эффект Френеля для отражения</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#rendering-properties" id="id17">Опции рендеринга</a></li>
-<li><a class="reference internal" href="#viewport-properties" id="id18">Настройки вьюпорта</a></li>
-<li><a class="reference internal" href="#engine-specific-parameters" id="id19">Специальные параметры движка</a></li>
-<li><a class="reference internal" href="#halo-materials" id="id20">Материалы гало (Halo)</a><ul>
-<li><a class="reference internal" href="#id3" id="id21">Активация</a></li>
-<li><a class="reference internal" href="#id4" id="id22">Дополнительные настройки</a></li>
+<li><a class="reference internal" href="#rendering-properties" id="id19">Опции рендеринга</a></li>
+<li><a class="reference internal" href="#viewport-properties" id="id20">Настройки вьюпорта</a></li>
+<li><a class="reference internal" href="#engine-specific-parameters" id="id21">Специальные параметры движка</a></li>
+<li><a class="reference internal" href="#halo-materials" id="id22">Материалы гало (Halo)</a><ul>
+<li><a class="reference internal" href="#id3" id="id23">Активация</a></li>
+<li><a class="reference internal" href="#id4" id="id24">Дополнительные настройки</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#material-api" id="id23">Методы API для работы с материалами</a><ul>
-<li><a class="reference internal" href="#methods-for-stack-materials" id="id24">Методы для стандартных материалов</a></li>
-<li><a class="reference internal" href="#methods-for-node-materials" id="id25">Методы для нодовых материалов</a></li>
-<li><a class="reference internal" href="#replacing-textures" id="id26">Замена текстур</a></li>
+<li><a class="reference internal" href="#material-api" id="id25">Методы API для работы с материалами</a><ul>
+<li><a class="reference internal" href="#methods-for-stack-materials" id="id26">Методы для стандартных материалов</a></li>
+<li><a class="reference internal" href="#methods-for-node-materials" id="id27">Методы для нодовых материалов</a></li>
+<li><a class="reference internal" href="#replacing-textures" id="id28">Замена текстур</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#inherit-material" id="id27">Наследование материалов</a><ul>
-<li><a class="reference internal" href="#id6" id="id28">Активация</a></li>
+<li><a class="reference internal" href="#inherit-material" id="id29">Наследование материалов</a><ul>
+<li><a class="reference internal" href="#id6" id="id30">Активация</a></li>
 </ul>
 </li>
 </ul>
@@ -240,7 +241,7 @@
 <p>Меши могут использовать один или несколько материалов. В случае использования нескольких материалов назначение их различным полигонам происходит в режиме редактирования <code class="docutils literal"><span class="pre">Edit</span> <span class="pre">Mode</span></code>. Для этого нужно выделить нужные полигоны, выбрать материал из списка и нажать кнопку <code class="docutils literal"><span class="pre">Assign</span></code>.</p>
 <p>Поддерживаются следующие типы материалов: <code class="docutils literal"><span class="pre">Surface</span></code> (поверхность), <code class="docutils literal"><span class="pre">Halo</span></code> (гало).</p>
 <div class="section" id="lighting-parameters">
-<span id="material-lighting-params"></span><span id="index-1"></span><h2><a class="toc-backref" href="#id9">Параметры освещения</a><a class="headerlink" href="#lighting-parameters" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="material-lighting-params"></span><span id="index-1"></span><h2><a class="toc-backref" href="#id11">Параметры освещения</a><a class="headerlink" href="#lighting-parameters" title="Ссылка на этот заголовок">¶</a></h2>
 <a class="reference internal image-reference" href="_images/panel_shading.png"><img alt="_images/panel_shading.png" class="align-center" src="_images/panel_shading.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>Diffuse &gt; Color</em></dt>
@@ -288,11 +289,15 @@
 </dl>
 </div>
 <div class="section" id="transparency">
-<span id="alpha-blend"></span><span id="index-2"></span><h2><a class="toc-backref" href="#id10">Прозрачность</a><a class="headerlink" href="#transparency" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="alpha-blend"></span><span id="index-2"></span><h2><a class="toc-backref" href="#id12">Прозрачность</a><a class="headerlink" href="#transparency" title="Ссылка на этот заголовок">¶</a></h2>
 <a class="reference internal image-reference" href="_images/panel_transparency.png"><img alt="_images/panel_transparency.png" class="align-center" src="_images/panel_transparency.png" style="width: 100%;" /></a>
 <div class="section" id="types">
-<span id="index-3"></span><h3><a class="toc-backref" href="#id11">Типы</a><a class="headerlink" href="#types" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="index-3"></span><h3><a class="toc-backref" href="#id13">Типы</a><a class="headerlink" href="#types" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Тип реализации прозрачности выбирается в меню <code class="docutils literal"><span class="pre">Transparency</span></code> на панели <code class="docutils literal"><span class="pre">Properties</span> <span class="pre">&gt;</span> <span class="pre">Material</span></code>.</p>
+<div class="figure align-center" id="id8">
+<a class="reference internal image-reference" href="_images/alpha_types.png"><img alt="_images/alpha_types.png" src="_images/alpha_types.png" style="width: 100%;" /></a>
+<p class="caption"><span class="caption-text">Движком поддерживаются все типы прозрачности, доступные в Blender.</span></p>
+</div>
 <p>Движком поддерживаются все типы реализации прозрачности (перечислены в порядке увеличения производительности):</p>
 <dl class="docutils">
 <dt><em>Alpha Sort</em></dt>
@@ -314,10 +319,9 @@
 <dd><p class="first last">Непрозрачный. Альфа-канал игнорируется. Значение по умолчанию.</p>
 </dd>
 </dl>
-<a class="reference internal image-reference" href="_images/alpha_types.png"><img alt="_images/alpha_types.png" class="align-center" src="_images/alpha_types.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="additional-settings">
-<span id="index-4"></span><h3><a class="toc-backref" href="#id12">Дополнительные настройки</a><a class="headerlink" href="#additional-settings" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="index-4"></span><h3><a class="toc-backref" href="#id14">Дополнительные настройки</a><a class="headerlink" href="#additional-settings" title="Ссылка на этот заголовок">¶</a></h3>
 <dl class="docutils">
 <dt><em>Transparency &gt; Show Transparency</em></dt>
 <dd><p class="first last">Опция включения прозрачности требуется для отображения прозрачных объектов в Blender&#8217;e. Движок игнорирует эту опцию, используя вместо нее <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Blend</span></code>.</p>
@@ -332,10 +336,13 @@
 </div>
 </div>
 <div class="section" id="reflection">
-<span id="material-mirror"></span><span id="index-5"></span><h2><a class="toc-backref" href="#id13">Зеркальное отражение</a><a class="headerlink" href="#reflection" title="Ссылка на этот заголовок">¶</a></h2>
-<a class="reference internal image-reference" href="_images/panel_mirror.png"><img alt="_images/panel_mirror.png" class="align-center" src="_images/panel_mirror.png" style="width: 100%;" /></a>
+<span id="material-mirror"></span><span id="index-5"></span><h2><a class="toc-backref" href="#id15">Зеркальное отражение</a><a class="headerlink" href="#reflection" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="figure align-center" id="id9">
+<a class="reference internal image-reference" href="_images/panel_mirror.png"><img alt="_images/panel_mirror.png" src="_images/panel_mirror.png" style="width: 100%;" /></a>
+<p class="caption"><span class="caption-text">Настройки отражений во вкладке <code class="docutils literal"><span class="pre">Material</span></code></span></p>
+</div>
 <div class="section" id="static-reflection">
-<span id="reflection-static"></span><span id="index-6"></span><h3><a class="toc-backref" href="#id14">Статическое отражение</a><a class="headerlink" href="#static-reflection" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="reflection-static"></span><span id="index-6"></span><h3><a class="toc-backref" href="#id16">Статическое отражение</a><a class="headerlink" href="#static-reflection" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Поверхность отражает одно и то же изображение вне зависимости от изменения окружающей среды. Для активации достаточно использовать <a class="reference internal" href="textures.html#mirror-map"><span>карту зеркального отражения</span></a>.</p>
 <div class="admonition seealso">
 <p class="first admonition-title">См.также</p>
@@ -343,7 +350,7 @@
 </div>
 </div>
 <div class="section" id="dynamic-reflection">
-<span id="index-7"></span><h3><a class="toc-backref" href="#id15">Динамическое отражение</a><a class="headerlink" href="#dynamic-reflection" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="index-7"></span><h3><a class="toc-backref" href="#id17">Динамическое отражение</a><a class="headerlink" href="#dynamic-reflection" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Поверхность отражает текущее расположение определенных объектов. Поддерживаются отражения от плоскости и сферические отражения.</p>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
@@ -386,7 +393,7 @@
 </div>
 </div>
 <div class="section" id="fresnel-effect-for-reflection">
-<span id="fresnel"></span><span id="index-8"></span><h3><a class="toc-backref" href="#id16">Эффект Френеля для отражения</a><a class="headerlink" href="#fresnel-effect-for-reflection" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="fresnel"></span><span id="index-8"></span><h3><a class="toc-backref" href="#id18">Эффект Френеля для отражения</a><a class="headerlink" href="#fresnel-effect-for-reflection" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Эффект Френеля проявляется в зависимости интенсивностей проходящего и отраженного света от угла падения. Если угол падения близок к нулю (т.е. свет падает почти перпендикулярно поверхности), доля проходящего света велика, а отраженного мала. И наоборот, если угол падения близок к 90 градусам (т.е. свет падает почти параллельно поверхности), отражается почти весь свет.</p>
 <p>Движок использует приближенную формулу Шлика:</p>
 <blockquote>
@@ -415,7 +422,7 @@
 </div>
 </div>
 <div class="section" id="rendering-properties">
-<span id="index-9"></span><span id="id2"></span><h2><a class="toc-backref" href="#id17">Опции рендеринга</a><a class="headerlink" href="#rendering-properties" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="index-9"></span><span id="id2"></span><h2><a class="toc-backref" href="#id19">Опции рендеринга</a><a class="headerlink" href="#rendering-properties" title="Ссылка на этот заголовок">¶</a></h2>
 <a class="reference internal image-reference" href="_images/panel_render_options.png"><img alt="_images/panel_render_options.png" class="align-center" src="_images/panel_render_options.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>Material &gt; Rendering Options &gt; Do not Render</em></dt>
@@ -457,7 +464,7 @@
 </div>
 </div>
 <div class="section" id="viewport-properties">
-<span id="index-10"></span><h2><a class="toc-backref" href="#id18">Настройки вьюпорта</a><a class="headerlink" href="#viewport-properties" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="index-10"></span><h2><a class="toc-backref" href="#id20">Настройки вьюпорта</a><a class="headerlink" href="#viewport-properties" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Раздел <code class="docutils literal"><span class="pre">Viewport</span></code> находится на панели <code class="docutils literal"><span class="pre">Blend4Web</span></code>.</p>
 <a class="reference internal image-reference" href="_images/update_material_anim.png"><img alt="_images/update_material_anim.png" class="align-center" src="_images/update_material_anim.png" style="width: 100%;" /></a>
 <p><em>Update Material Animation</em></p>
@@ -469,7 +476,7 @@
 </div>
 </div>
 <div class="section" id="engine-specific-parameters">
-<span id="index-11"></span><h2><a class="toc-backref" href="#id19">Специальные параметры движка</a><a class="headerlink" href="#engine-specific-parameters" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="index-11"></span><h2><a class="toc-backref" href="#id21">Специальные параметры движка</a><a class="headerlink" href="#engine-specific-parameters" title="Ссылка на этот заголовок">¶</a></h2>
 <a class="reference internal image-reference" href="_images/panel_b4w.png"><img alt="_images/panel_b4w.png" class="align-center" src="_images/panel_b4w.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -494,15 +501,15 @@
 </dl>
 </div>
 <div class="section" id="halo-materials">
-<span id="material-halo"></span><span id="index-12"></span><h2><a class="toc-backref" href="#id20">Материалы гало (Halo)</a><a class="headerlink" href="#halo-materials" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="material-halo"></span><span id="index-12"></span><h2><a class="toc-backref" href="#id22">Материалы гало (Halo)</a><a class="headerlink" href="#halo-materials" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Используются в системах частиц и в статических мешах. Ниже рассматривается использование гало на статических мешах.</p>
 <div class="section" id="id3">
-<h3><a class="toc-backref" href="#id21">Активация</a><a class="headerlink" href="#id3" title="Ссылка на этот заголовок">¶</a></h3>
+<h3><a class="toc-backref" href="#id23">Активация</a><a class="headerlink" href="#id3" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Выставить тип <code class="docutils literal"><span class="pre">Halo</span></code> во вкладке <code class="docutils literal"><span class="pre">Materials</span></code>. Рекомендуется также выставить тип прозрачности c градиентом (<code class="docutils literal"><span class="pre">Add</span></code>, <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Blend</span></code> или <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Sort</span></code>).</p>
 <a class="reference internal image-reference" href="_images/halo.png"><img alt="_images/halo.png" class="align-center" src="_images/halo.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="id4">
-<h3><a class="toc-backref" href="#id22">Дополнительные настройки</a><a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h3>
+<h3><a class="toc-backref" href="#id24">Дополнительные настройки</a><a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h3>
 <dl class="docutils">
 <dt><em>Halo &gt; Alpha</em></dt>
 <dd><p class="first last">Параметр прозрачности материала. Значение по умолчанию 1.0 (непрозрачный).</p>
@@ -538,14 +545,14 @@
 </div>
 </div>
 <div class="section" id="material-api">
-<span id="id5"></span><h2><a class="toc-backref" href="#id23">Методы API для работы с материалами</a><a class="headerlink" href="#material-api" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="id5"></span><h2><a class="toc-backref" href="#id25">Методы API для работы с материалами</a><a class="headerlink" href="#material-api" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Все методы API, используемые для настройки материалов, как стандартных, так и нодовых, находятся в модуле API material. Все методы этого модуля подробно описаны на <a class="reference external" href="https://www.blend4web.com/api_doc/module-material.html">странице</a> документации API.</p>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
 <p class="last">Методы API могут работать только с материалами, которые используются с динамическими объектами.</p>
 </div>
 <div class="section" id="methods-for-stack-materials">
-<h3><a class="toc-backref" href="#id24">Методы для стандартных материалов</a><a class="headerlink" href="#methods-for-stack-materials" title="Ссылка на этот заголовок">¶</a></h3>
+<h3><a class="toc-backref" href="#id26">Методы для стандартных материалов</a><a class="headerlink" href="#methods-for-stack-materials" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Модуль API <a class="reference external" href="https://www.blend4web.com/api_doc/module-material.html">material</a> включает методы для управления практически любым параметром стандартного материала.</p>
 <p>Ниже приводится ряд примеров, демонстрирующих, как модуль API material может использоваться для различных операций с материалом объекта:</p>
 <p>Получение диффузного цвета объекта:</p>
@@ -610,7 +617,7 @@
 </div>
 </div>
 <div class="section" id="methods-for-node-materials">
-<h3><a class="toc-backref" href="#id25">Методы для нодовых материалов</a><a class="headerlink" href="#methods-for-node-materials" title="Ссылка на этот заголовок">¶</a></h3>
+<h3><a class="toc-backref" href="#id27">Методы для нодовых материалов</a><a class="headerlink" href="#methods-for-node-materials" title="Ссылка на этот заголовок">¶</a></h3>
 <p>На данный момент поддерживаются только ноды типа RGB и Value. Все прочие типы не поддерживаются.</p>
 <p>Для того, чтобы изменить значение той или иной ноды материала, требуется:</p>
 <ul class="simple">
@@ -668,7 +675,7 @@
 </div>
 </div>
 <div class="section" id="replacing-textures">
-<h3><a class="toc-backref" href="#id26">Замена текстур</a><a class="headerlink" href="#replacing-textures" title="Ссылка на этот заголовок">¶</a></h3>
+<h3><a class="toc-backref" href="#id28">Замена текстур</a><a class="headerlink" href="#replacing-textures" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Использование методов API также позволяет заменять текстуры. Это делается при помощи метода <a class="reference external" href="https://www.blend4web.com/api_doc/module-textures.html#.change_image">change_image()</a> из модуля <a class="reference external" href="https://www.blend4web.com/api_doc/module-textures.html">textures</a>:</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_scenes</span>  <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_tex</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;textures&quot;</span><span class="p">);</span>
@@ -684,11 +691,11 @@
 </div>
 </div>
 <div class="section" id="inherit-material">
-<span id="material-inherit"></span><h2><a class="toc-backref" href="#id27">Наследование материалов</a><a class="headerlink" href="#inherit-material" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="material-inherit"></span><h2><a class="toc-backref" href="#id29">Наследование материалов</a><a class="headerlink" href="#inherit-material" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Blend4Web поддерживает динамическую смену материалов. Эта возможность очень полезна для т.н. приложений-конфигураторов, где пользователю предлагается настроить внешний вид какой-либо модели (одежда, мебель, автомобили и т.д.). В случае, если не хватает возможностей API по изменению стековых и нодовых материалов, описанных выше, а также метода <a class="reference external" href="https://www.blend4web.com/api_doc/module-textures.html#.change_texture">change_texture</a> и простой смены текстур, тогда можно воспользоваться наследованием.</p>
 <p>Преимуществом наследования является простота и универсальность использования, что хорошо подходит, когда нужно довольно сильно изменить исходный материал. Также оно доступно как из внешнего API, так и в нодовой логике, и подходит одинаково как для нодовых, так и для стековых материалов. Недостатком может являться то, что операция наследования может быть хуже по производительности, чем другие вышеупомянутые методы, что может быть критически важным в ряде случаев.</p>
 <div class="section" id="id6">
-<h3><a class="toc-backref" href="#id28">Активация</a><a class="headerlink" href="#id6" title="Ссылка на этот заголовок">¶</a></h3>
+<h3><a class="toc-backref" href="#id30">Активация</a><a class="headerlink" href="#id6" title="Ссылка на этот заголовок">¶</a></h3>
 <p>В наследовании участвуют 2 объекта. Первый - источник, на котором находится наследуемый материал, второй - целевой объект, на котором требуется произвести замену материала. Оба этих объекта требуют выставления опции <code class="docutils literal"><span class="pre">Dynamic</span> <span class="pre">Geometry</span> <span class="pre">&amp;</span> <span class="pre">Materials</span></code> на панели <code class="docutils literal"><span class="pre">Object</span></code> в разделе <code class="docutils literal"><span class="pre">Rendering</span> <span class="pre">Properties</span></code>.</p>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
@@ -721,7 +728,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Триумф.
-      Обновлено: 2017-06-30.
+      Обновлено: 2017-08-31.
 
     </p>
   </div>
@@ -777,7 +784,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.06',
+            VERSION:'v17.08',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

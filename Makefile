@@ -4,6 +4,7 @@ APPDIR = apps_dev
 APIDOCRESDIR = doc_src/api_doc/jsdoc_resources
 PROJDIR = projects
 SCRIPTSDIR = scripts
+ASSETPACKSDIR= deploy/pub/asset_packs
 
 PROJECTS_APPS_DEV = \
 	AR \
@@ -33,13 +34,19 @@ PROJECTS_APPS_DEV = \
 PROJECTS = \
 	simple_app \
 
+ASSET_PACKS = \
+	pack_dairy_plant \
+	pack_fashion \
+	pack_farm \
+	pack_petigors_tale
+
 DISTFILESDIR = distfiles
 DISTS_SDK = dist_ce dist_pro dist_ce_lite dist_pro_lite
 DISTS_SDK_FORCE = dist_force_ce dist_force_pro dist_force_ce_lite dist_force_pro_lite
 
 # exec "VERPREFIX=_new_prefix make -e" to override
 VERPREFIX=
-VERSION=`sed -e 's/ *[^ ]\+ *//' -e 's/ \+.*/'$(VERPREFIX)'/' VERSION`
+VERSION=`sed -e 's/\./_/' -e 's/ *[^ ]\+ *//' -e 's/ \+.*/'$(VERPREFIX)'/' VERSION`
 
 .PHONY: all
 all: build
@@ -138,7 +145,7 @@ report_broken_exports:
 
 .PHONY: dist dist_addon $(DISTS_SDK) dist_force dist_force_addon $(DISTS_SDK_FORCE)
 
-dist: dist_addon $(DISTS_SDK)
+dist: dist_addon $(DISTS_SDK) $(ASSET_PACKS)
 
 dist_addon:
 	@echo "Creating blend4web $(subst dist_,,$@) $(VERSION) distribution"
@@ -148,7 +155,14 @@ $(DISTS_SDK):
 	@echo "Creating blend4web $(subst dist_,,$@) $(VERSION) distribution"
 	@$(SH) ./$(SCRIPTSDIR)/make_dist.py -v $(VERSION) $(DISTFILESDIR)/$(subst dist,blend4web,$@).lst
 
-dist_force: dist_force_addon $(DISTS_SDK_FORCE)
+$(ASSET_PACKS):
+	@echo "Creating $(subst pack_,,$@) asset pack"
+
+	$(SH) ./$(APPDIR)/project.py export $(APPDIR)/$(subst pack_,,$@) $(ASSETPACKSDIR)/$(subst pack_,,$@)_$(VERSION).zip
+
+
+
+dist_force: dist_force_addon $(DISTS_SDK_FORCE) $(ASSET_PACKS)
 
 dist_force_addon:
 	@echo "Creating blend4web $(subst dist_force_,,$@) $(VERSION) distribution (overwrite mode)"

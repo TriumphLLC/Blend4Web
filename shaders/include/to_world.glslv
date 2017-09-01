@@ -7,7 +7,6 @@
                                     VARS
 ==============================================================================*/
 #var BILLBOARD_ALIGN BILLBOARD_ALIGN_VIEW
-#var USE_INSTANCED_PARTCLS 0
 #var BILLBOARD_SPHERICAL 0
 #var BILLBOARD_RANDOM 0
 #var BILLBOARD 0
@@ -80,7 +79,8 @@ mat3 bend_jitter_rotate_tsr(in vec3 wind_world, float wind_param, float jitter_a
 }
 #endif
 
-mat3 billboard_tsr(in vec3 camera_eye, in vec3 wcen, in mat3 view_tsr) {
+mat3 billboard_tsr(in vec3 camera_eye, in vec3 wcen, in mat3 view_tsr, 
+        in mat3 model_tsr) {
 #if BILLBOARD_SPHERICAL || !BILLBOARD && (BILLBOARD_ALIGN == BILLBOARD_ALIGN_VIEW)
     mat3 bill_tsr = billboard_spherical(wcen, view_tsr);
 #elif BILLBOARD_RANDOM
@@ -110,32 +110,25 @@ mat3 billboard_tsr(in vec3 camera_eye, in vec3 wcen, in mat3 view_tsr) {
         res_angle += alpha_diff - 2.0 * M_PI;
 
     vec4 bill_quat = qsetAxisAngle(UP_VECTOR, res_angle);
-    mat3 bill_tsr;
+    mat3 bill_tsr = tsr_identity();
     bill_tsr[0] = wcen;
-    bill_tsr[1][0] = 1.0;
     bill_tsr = tsr_set_quat(bill_quat, bill_tsr);
 #else
     mat3 bill_tsr = billboard_cylindrical(camera_eye, wcen);
 #endif
 
-    return bill_tsr;
-}
-
-#if BILLBOARD_PRES_GLOB_ORIENTATION && !STATIC_BATCH || USE_INSTANCED_PARTCLS
-mat3 billboard_tsr_global(in vec3 camera_eye, in vec3 wcen, in mat3 view_tsr,
-       in mat3 model_tsr) {
-
-    mat3 bill_tsr = billboard_tsr(camera_eye, wcen, view_tsr);
+#if BILLBOARD_PRES_GLOB_ORIENTATION && !STATIC_BATCH
     // NOTE: translation is already in bill_tsr
     model_tsr[0] = vec3(0.0, 0.0, 0.0);
-# if USE_INSTANCED_PARTCLS
-    bill_tsr[1][0] *= model_tsr[1][0];
-# else 
+    // apply scale and rotation
     bill_tsr = tsr_multiply(bill_tsr, model_tsr);
+#else
+    // apply scale only
+    bill_tsr[1][0] *= model_tsr[1][0];
 #endif
+
     return bill_tsr;
 }
-#endif
 
 vertex to_world(in vec3 pos, in vec3 cen, in vec3 tng, in vec3 shd_tng, in vec3 bnr, 
         in vec3 nrm, in mat3 model_tsr) {

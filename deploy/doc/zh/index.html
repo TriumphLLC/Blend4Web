@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>目录 &mdash; Blend4Web 17.06 用户手册</title>
+  <title>目录 &mdash; Blend4Web 17.08 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.06 用户手册" href="#"/>
+    <link rel="top" title="Blend4Web 17.08 用户手册" href="#"/>
         <link rel="next" title="概述" href="about.html"/> 
 
   
@@ -60,7 +60,7 @@
           
           
             <div class="version">
-              v17.06
+              v17.08
             </div>
           
         
@@ -84,6 +84,7 @@
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="about.html">概述</a></li>
 <li class="toctree-l1"><a class="reference internal" href="engine_features.html">引擎功能</a></li>
+<li class="toctree-l1"><a class="reference internal" href="interface.html">Blender User Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">安装和更新</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">工作流程</a></li>
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理</a></li>
@@ -175,6 +176,26 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="engine_features.html">引擎功能</a></li>
+<li class="toctree-l1"><a class="reference internal" href="interface.html">Blender User Interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="interface.html#d-view">3D View</a></li>
+<li class="toctree-l2"><a class="reference internal" href="interface.html#timeline">Timeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="interface.html#graph-editor">Graph Editor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="interface.html#dope-sheet">Dope Sheet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="interface.html#nla-editor">NLA Editor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="interface.html#uv-image-editor">UV/Image Editor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="interface.html#video-sequence-editor">Video Sequence Editor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="interface.html#movie-clip-editor">Movie Clip Editor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="interface.html#text-editor">Text Editor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="interface.html#node-editor">Node Editor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="interface.html#logic-editor">Logic Editor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="interface.html#properties">Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="interface.html#outliner">Outliner</a></li>
+<li class="toctree-l2"><a class="reference internal" href="interface.html#user-preferences">User Preferences</a></li>
+<li class="toctree-l2"><a class="reference internal" href="interface.html#info">Info</a></li>
+<li class="toctree-l2"><a class="reference internal" href="interface.html#file-browser">File Browser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="interface.html#python-console">Python Console</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">安装和更新</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="setup.html#installation">安装顺序</a></li>
 <li class="toctree-l2"><a class="reference internal" href="setup.html#updating">更新</a></li>
@@ -212,7 +233,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">插件</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="addon.html#local-development-server">本地开发服务器</a></li>
-<li class="toctree-l2"><a class="reference internal" href="addon.html#running-viewer-and-demos">运行浏览器和演示</a></li>
+<li class="toctree-l2"><a class="reference internal" href="addon.html#running-viewer-and-demos">运行预览器和演示</a></li>
 <li class="toctree-l2"><a class="reference internal" href="addon.html#export-formats">输出格式</a></li>
 <li class="toctree-l2"><a class="reference internal" href="addon.html#export-options">导出选项</a></li>
 <li class="toctree-l2"><a class="reference internal" href="addon.html#index-2">初始化错误</a></li>
@@ -233,7 +254,7 @@
 <li class="toctree-l2"><a class="reference internal" href="objects.html#types">类型</a></li>
 <li class="toctree-l2"><a class="reference internal" href="objects.html#static-and-dynamic-objects">静态和动态物体</a></li>
 <li class="toctree-l2"><a class="reference internal" href="objects.html#settings">设置</a></li>
-<li class="toctree-l2"><a class="reference internal" href="objects.html#object-constraints">Object Constraints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="objects.html#object-constraints">物体约束</a></li>
 <li class="toctree-l2"><a class="reference internal" href="objects.html#anchor-settings">锚设置</a></li>
 <li class="toctree-l2"><a class="reference internal" href="objects.html#object-transform-api">物体变换API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="objects.html#get-object-api">获取物体API</a></li>
@@ -256,13 +277,13 @@
 <li class="toctree-l2"><a class="reference internal" href="normal_editor.html#interface">界面</a></li>
 <li class="toctree-l2"><a class="reference internal" href="normal_editor.html#activate">启用</a></li>
 <li class="toctree-l2"><a class="reference internal" href="normal_editor.html#show-normals">显示法线</a></li>
-<li class="toctree-l2"><a class="reference internal" href="normal_editor.html#rotate">Rotate</a></li>
-<li class="toctree-l2"><a class="reference internal" href="normal_editor.html#scale">Scale</a></li>
+<li class="toctree-l2"><a class="reference internal" href="normal_editor.html#rotate">旋转</a></li>
+<li class="toctree-l2"><a class="reference internal" href="normal_editor.html#scale">缩放</a></li>
 <li class="toctree-l2"><a class="reference internal" href="normal_editor.html#absolute-and-offset-modes">绝对和偏移模式</a></li>
 <li class="toctree-l2"><a class="reference internal" href="normal_editor.html#split-normals">分割法线</a></li>
 <li class="toctree-l2"><a class="reference internal" href="normal_editor.html#average">平均</a></li>
 <li class="toctree-l2"><a class="reference internal" href="normal_editor.html#restore">恢复</a></li>
-<li class="toctree-l2"><a class="reference internal" href="normal_editor.html#d-cursor-axis-and-face">3D Cursor, Axis and Face</a></li>
+<li class="toctree-l2"><a class="reference internal" href="normal_editor.html#d-cursor-axis-and-face">3D游标，轴和面</a></li>
 <li class="toctree-l2"><a class="reference internal" href="normal_editor.html#copy-paste">Copy（复制）/Paste（粘贴）</a></li>
 <li class="toctree-l2"><a class="reference internal" href="normal_editor.html#copy-from-mesh">从网格复制</a></li>
 </ul>
@@ -296,7 +317,7 @@
 <li class="toctree-l2"><a class="reference internal" href="node_materials.html#standard-nodes">标准节点</a></li>
 <li class="toctree-l2"><a class="reference internal" href="node_materials.html#engine-specific-nodes">游戏引擎特定节点</a></li>
 <li class="toctree-l2"><a class="reference internal" href="node_materials.html#cycles-nodes">Cycles 节点</a></li>
-<li class="toctree-l2"><a class="reference internal" href="node_materials.html#limitations">Limitations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="node_materials.html#limitations">限制</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="logic_editor.html">逻辑编辑器</a><ul>
@@ -309,7 +330,7 @@
 <li class="toctree-l2"><a class="reference internal" href="logic_editor.html#sound">声音</a></li>
 <li class="toctree-l2"><a class="reference internal" href="logic_editor.html#network">网络</a></li>
 <li class="toctree-l2"><a class="reference internal" href="logic_editor.html#debug">调试</a></li>
-<li class="toctree-l2"><a class="reference internal" href="logic_editor.html#deprecated">已过时</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logic_editor.html#time">Time</a></li>
 <li class="toctree-l2"><a class="reference internal" href="logic_editor.html#layout">布局</a></li>
 <li class="toctree-l2"><a class="reference internal" href="logic_editor.html#debugging">调试中</a></li>
 </ul>
@@ -461,6 +482,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">发布说明</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#v17-08">v17.08</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v17-06">v17.06</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v17-04">v17.04</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v17-02">v17.02</a></li>
@@ -520,7 +542,7 @@
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2017, Triumph.
-      最后更新于 2017-06-30.
+      最后更新于 2017-08-31.
 
     </p>
   </div>
@@ -576,7 +598,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.06',
+            VERSION:'v17.08',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

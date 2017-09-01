@@ -55,7 +55,6 @@
 #var USE_TEXTURE_LOD_EXT 0
 
 #var USE_LOD_SMOOTHING 0
-#var FF_COMPOSITING_HACK 0
 
 # if GLSL1 && USE_DERIVATIVES_EXT
 #extension GL_OES_standard_derivatives: enable
@@ -210,7 +209,7 @@ uniform PRECISION sampler2D u_scene_depth;
 
 uniform float u_emit;
 uniform float u_ambient;
-uniform vec4  u_fresnel_params;
+uniform vec2  u_fresnel_params;
 
 #if REFLECTION_TYPE == REFL_PLANE || REFLECTION_TYPE == REFL_CUBE
 #elif REFLECTION_TYPE == REFL_MIRRORMAP
@@ -228,7 +227,7 @@ uniform vec3 u_lamp_light_color_intensities[NUM_LAMP_LIGHTS];
 #endif
 
 #if USE_NODE_VALUE
-uniform float u_node_values[NUM_VALUES];
+uniform vec4 u_node_values[NUM_VALUES];
 #endif
 
 #if USE_NODE_RGB
@@ -378,10 +377,6 @@ void main(void) {
     lin_to_srgb(color);
 #if ALPHA && !ALPHA_CLIP
     premultiply_alpha(color, alpha);
-#endif
-
-#if ALPHA && !ALPHA_CLIP && FF_COMPOSITING_HACK
-    color = clamp(color, 0.0, alpha);
 #endif
 
     GLSL_OUT_FRAG_COLOR = vec4(color, alpha);

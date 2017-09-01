@@ -23,13 +23,12 @@ out vec4 color;
 
 void main(void)
 {
-    vec4 texel = fragment.color*texture(Diffuse,vert.texcoord);//fragment.color;
+  vec4 texel = fragment.color*texture(Diffuse,vert.texcoord);
 	vec3 ct,cf;
 	float intensity,at,af;
 	
-	intensity = clamp( dot( normalize(normal),lightDir ), 0,1 );
+	intensity = 0.5+0.5*clamp( dot( normalize(normal),lightDir ), -1,1 );
 	
-	cf = ambient;
 	af = 1.0;
 		
 	ct = texel.rgb;
@@ -37,20 +36,13 @@ void main(void)
 		
 	//float bias = 0.005f;
 	
-	float bias = 0.0001*tan(acos(intensity));
-	bias = clamp(bias, 0,0.01);
+	
 
-
-	float visibility = texture(shadowMap, vec3(ShadowCoord.xy,(ShadowCoord.z-bias)/ShadowCoord.w));
+	float visibility = texture(shadowMap, vec3(ShadowCoord.xy,(ShadowCoord.z)/ShadowCoord.w));
 	
-	intensity*=2;
-	if (intensity>1)
-		intensity=1.f;
+	intensity = 0.7*intensity  + 0.3*intensity*visibility;
 	
-	visibility *= intensity;
-	
-	if (visibility<0.6)
-		visibility=0.6f;
+	cf = intensity*(vec3(1.0,1.0,1.0)-ambient)+ambient;
 		
-	color  = vec4(ct * visibility, fragment.color.w);
+	color  = vec4(ct * cf, fragment.color.w);
 }

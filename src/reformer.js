@@ -276,7 +276,7 @@ exports.check_bpy_data = function(bpy_data) {
                 "height": 0.0,
                 "falloff": "INVERSE_QUADRATIC",
                 "use_custom_color": true,
-                "color": [0.5, 0.5, 0.5],
+                "color": [0.5, 0.5, 0.5]
             },
             "use_sky_paper": false,
             "use_sky_blend": false,
@@ -335,7 +335,7 @@ exports.check_bpy_data = function(bpy_data) {
                 "height": 0.0,
                 "falloff": "QUADRATIC",
                 "use_custom_color": true,
-                "color": [0.5, 0.5, 0.5],
+                "color": [0.5, 0.5, 0.5]
             };
             if ("b4w_fog_color" in world) {
                 world["fog_settings"]["use_custom_color"] = true;
@@ -1170,11 +1170,15 @@ exports.check_bpy_data = function(bpy_data) {
             report("lamp", lamp, "clip_end");
         }
 
-        if (lamp["type"] == "POINT" || lamp["type"] == "SPOT")
+        if (lamp["type"] == "POINT" || lamp["type"] == "SPOT") {
             if (!("use_sphere" in lamp)) {
                 lamp["use_sphere"] = false;
                 report("lamp", lamp, "use_sphere");
             }
+
+            if (cfg_def.mali4_lamps_hack)
+                lamp["type"] = "SUN";
+        }
     }
 
     /* object data - speakers */
@@ -1342,12 +1346,16 @@ exports.check_bpy_data = function(bpy_data) {
     for (var i = 0; i < materials.length; i++) {
         var mat = materials[i];
 
-        if (cfg_def.msaa_samples < 2 
-                && mat["game_settings"]["alpha_blend"] == "ALPHA_ANTIALIASING") {
-            m_print.warn("Material \"" + mat["name"] + "\" has the "
-                    + "\"Alpha Anti-Aliasing\" transparency type, but " 
-                    + "multisampling is disabled. Changed to \"Alpha Clip\".")
-            mat["game_settings"]["alpha_blend"] = "CLIP";
+        if (mat["game_settings"]["alpha_blend"] == "ALPHA_ANTIALIASING") {
+            if (cfg_def.mali_alpha_antialias_hack) {
+                // warning message has already been shown in compat.js
+                mat["game_settings"]["alpha_blend"] = "CLIP";
+            } else if (cfg_def.msaa_samples < 2) {
+                m_print.warn("Material \"" + mat["name"] + "\" has the "
+                        + "\"Alpha Anti-Aliasing\" transparency type, but " 
+                        + "multisampling is disabled. Changed to \"Alpha Clip\".")
+                mat["game_settings"]["alpha_blend"] = "CLIP";
+            }
         }
 
         if (!("use_tangent_shading" in mat)) {
@@ -2553,7 +2561,7 @@ function apply_array_modifier(mesh, mod) {
     }
 
     for (var i = 0; i < new_meshes.length; i++)
-        mesh_join(mesh, new_meshes[i]);
+        array_mesh_join(mesh, new_meshes[i]);
 }
 
 function apply_curve_modifier(mesh, mod) {
@@ -2673,83 +2681,6 @@ function deform_axis_index(deform_axis) {
     }
 }
 
-exports.create_material = function(name) {
-    var mat = {
-        "name": name,
-        "uuid": m_util.gen_uuid(),
-
-        "use_nodes": false,
-        "diffuse_shader": "LAMBERT",
-        "diffuse_color": [0.8, 0.8, 0.8],
-        "diffuse_intensity": 0.8,
-        "alpha": 1.0,
-
-        "raytrace_transparency": {
-            "fresnel": 0,
-            "fresnel_factor": 1.25
-        },
-        "raytrace_mirror": {
-            "reflect_factor": 0,
-            "fresnel": 0,
-            "fresnel_factor": 1.25
-        },
-        "specular_alpha": 1,
-        "specular_color": [1,1,1],
-        "specular_intensity": 0.5,
-        "specular_shader": "COOKTORR",
-        "specular_hardness": 50,
-        "specular_slope": 0.2,
-        "emit": 0,
-        "ambient": 1.0,
-        "use_vertex_color_paint": false,
-        "b4w_water": false,
-        "b4w_water_shore_smoothing": false,
-        "b4w_water_dynamic": false,
-        "b4w_generated_mesh": false,
-        "b4w_refr_bump": 0,
-        "b4w_refractive": false,
-        "b4w_waves_height": 1.0,
-        "b4w_water_fog_color": [0.5,0.5,0.5],
-        "b4w_water_fog_density": 0.06,
-        "b4w_water_num_cascads": 5,
-        "b4w_water_subdivs": 64,
-        "b4w_water_detailed_dist": 1000,
-        "b4w_terrain": false,
-        "b4w_collision": false,
-        "b4w_collision_id": "",
-        "b4w_double_sided_lighting": false,
-        "b4w_water_enable_caust": false,
-        "b4w_water_caust_scale": 0.25,
-        "b4w_water_caust_brightness": 0.5,
-        "physics": {
-            "friction": 0.5,
-            "elasticity": 0
-        },
-        "type": "SURFACE",
-        "use_transparency": false,
-        "use_shadeless": false,
-        "offset_z": 0,
-        "b4w_render_above_all": false,
-        "game_settings": {
-            "alpha_blend": "OPAQUE",
-            "use_backface_culling": true
-        },
-        "halo": {
-            "size": 0.5,
-            "hardness": 50,
-            "b4w_halo_rings_color": [1.0, 1.0, 1.0],
-            "b4w_halo_lines_color": [1.0, 1.0, 1.0],
-            "b4w_halo_stars_blend_height": 10,
-            "b4w_halo_stars_min_height": 0
-        },
-        "node_tree": null,
-        "texture_slots": [],
-        "pass_index": 0
-    }
-
-    return mat;
-}
-
 /**
  * Extract submesh with given material index
  */
@@ -2783,10 +2714,9 @@ function mesh_copy(mesh, new_name) {
 }
 
 /**
- * Join two meshes (must have same materials)
- * append mesh2 to mesh and return mesh
+ * Join two meshes: used only for ARRAY modifier
  */
-function mesh_join(mesh, mesh2) {
+function array_mesh_join(mesh, mesh2) {
 
     for (var i = 0; i < mesh["submeshes"].length; i++) {
         var submesh = mesh["submeshes"][i];
@@ -2795,26 +2725,77 @@ function mesh_join(mesh, mesh2) {
         var base_length = submesh["base_length"];
         var index_length = submesh["indices"].length;
 
-        submesh["base_length"] += submesh2["base_length"];
+        if (base_length)
+            for (var prop in submesh) {
+                switch (prop) {
+                case "base_length":
+                    submesh[prop] += submesh2[prop]
+                    break;
+                case "boundings":
+                    // will be recalculated later for all meshes by calling 
+                    // m_bounds.recalculate_mesh_boundings()
+                    break;
+                case "indices":
+                    submesh[prop] = m_util.uint32_concat(submesh[prop], submesh2[prop]);
+                    for (var j = index_length; j < submesh[prop].length; j++)
+                        submesh[prop][j] += base_length;
+                    break;
 
-        for (var prop in submesh) {
-            if (prop == "base_length" || prop == "boundings" || prop == "uv_layers")
-                continue;
-
-            if (prop == "indices") {
-                submesh[prop] = m_util.uint32_concat(submesh[prop], submesh2[prop]);
-                for (var j = index_length; j < submesh["indices"].length; j++)
-                    submesh["indices"][j] += base_length;
-            } else if (prop == "vertex_colors") {
-                // leave vertex colors from the first mesh
-            } else
-                submesh[prop] = m_util.float32_concat(submesh[prop], submesh2[prop]);
-        }
+                case "position":
+                    submesh[prop] = array_join_framed_submesh_props(submesh[prop], 
+                            submesh2[prop], submesh[prop].length / base_length / 3);
+                    break;
+                case "tbn":
+                    submesh[prop] = array_join_framed_submesh_props(submesh[prop], 
+                            submesh2[prop], submesh[prop].length / base_length / 4);
+                    break;
+                case "shade_tangs":
+                    submesh[prop] = array_join_framed_submesh_props(submesh[prop], 
+                            submesh2[prop], submesh[prop].length / base_length / 3);
+                    break;
+                case "group":
+                    submesh[prop] = array_join_framed_submesh_props(submesh[prop], 
+                            submesh2[prop], submesh[prop].length / base_length);
+                    break;
+                case "texcoord":
+                    submesh[prop] = array_join_framed_submesh_props(submesh[prop], 
+                            submesh2[prop], submesh["uv_layers"].length);
+                    break;
+                case "color":
+                    submesh[prop] = array_join_framed_submesh_props(submesh[prop], 
+                            submesh2[prop], submesh["vertex_colors"].length);
+                    break;
+                case "uv_layers":
+                case "vertex_colors":
+                    // uv anv vc layer names are the same for all submeshes
+                    break;
+                default:
+                    m_print.warn("array_mesh_join(): unknown submesh property \"" + prop 
+                            + "\"");
+                    submesh[prop] = m_util.float32_concat(submesh[prop], submesh2[prop]);
+                    break;
+                }
+            }
     }
 
-    // NOTE: need something else?
-
     return mesh;
+}
+
+function array_join_framed_submesh_props(prop0, prop1, part_count) {
+    if (part_count > 1) {
+        var part_len0 = prop0.length / part_count;
+        var part_len1 = prop1.length / part_count;
+        var joined_prop = new Float32Array(prop0.length + prop1.length);
+        var offset = 0;
+        for (var j = 0; j < part_count; j++) {
+            joined_prop.set(prop0.subarray(part_len0 * j, part_len0 * (j + 1)), offset);
+            offset += part_len0;
+            joined_prop.set(prop1.subarray(part_len1 * j, part_len1 * (j + 1)), offset);
+            offset += part_len1;
+        }
+        return joined_prop;
+    } else
+        return m_util.float32_concat(prop0, prop1);
 }
 
 /**

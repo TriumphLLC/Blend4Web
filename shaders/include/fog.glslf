@@ -47,14 +47,12 @@ void shade_fog(inout vec3 color, in float eye_dist, in float height,
 #if PROCEDURAL_FOG
 vec3 procedural_fog_color(in mat4 cube_fog, in vec3 eye_dir)
 {
-    vec3 x_fog = mix( cube_fog[0].rgb, cube_fog[1].rgb,
-                      max(sign(eye_dir.x), 0.0) );
-    vec3 z_fog = mix( cube_fog[2].rgb, cube_fog[3].rgb,
-                      max(sign(eye_dir.z), 0.0) );
-    vec3 y_fog = vec3(cube_fog[0].a, cube_fog[1].a, cube_fog[2].a);
+    vec3 x_fog = mix(cube_fog[0].rgb, cube_fog[1].rgb, (eye_dir.x + 1.0) / 2.0);
+    vec3 y_fog = mix(cube_fog[2].rgb, cube_fog[3].rgb, (eye_dir.y + 1.0) / 2.0);
+    vec3 z_fog = vec3(cube_fog[0].a, cube_fog[1].a, cube_fog[2].a);
 
-    vec3 color = mix(x_fog, z_fog, abs(eye_dir.z));
-    color      = mix(color, y_fog, abs(eye_dir.y));
+    vec3 color = mix(x_fog, y_fog, abs(eye_dir.y));
+    color      = mix(color, z_fog, abs(eye_dir.z));
     srgb_to_lin(color);
 
     return color;

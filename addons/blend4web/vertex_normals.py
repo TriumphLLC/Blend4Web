@@ -214,7 +214,7 @@ class B4W_VertexNormalsUI(bpy.types.Panel):
         row.prop(context.active_object, 'b4w_select', text=_('Index'))
 
         # Direct editing
-        layout.label(text="Direct edit:")
+        layout.label(text="Direct Edit:")
 
         row = layout.row()
         row.active = context.active_object.data.use_auto_smooth
@@ -265,7 +265,7 @@ class B4W_VertexNormalsUI(bpy.types.Panel):
         layout.label(text="Align:")
         row = layout.row(align=True)
         row.active = context.active_object.data.use_auto_smooth
-        row.operator('object.cursor_align_vertex_normalss', text = p_('3D Cursor', "Operator"), icon='CURSOR')
+        row.operator('object.cursor_align_vertex_normals', text = p_('3D Cursor', "Operator"), icon='CURSOR')
         row.operator('object.axis_align_vertex_normals', text = p_('Axis', "Operator"), icon='MANIPUL')
         row.operator('object.face_vertex_normals', text = p_('Face', "Operator"), icon='FACESEL')
         row.enabled = not context.window_manager.b4w_split and is_edit_mode
@@ -301,7 +301,7 @@ def lerp_to_vertex_normal(index, value, t):
             b4w_loops_normals[j] = (n.x, n.y, n.z)
 
 class B4W_CursorAlignVertexNormals(bpy.types.Operator):
-    bl_idname = 'object.cursor_align_vertex_normalss'
+    bl_idname = 'object.cursor_align_vertex_normals'
     bl_label = p_('Vertex Normal Cursor', "Operator")
     bl_description = _('Align selected verts pointing away from 3d cursor')
     bl_options = {"INTERNAL", "REGISTER", "UNDO"}

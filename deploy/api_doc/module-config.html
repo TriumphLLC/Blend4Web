@@ -121,6 +121,11 @@ to apply changes:
 <dd>Boolean, enable the Depth of Field effect.
 <dt>do_not_load_resources
 <dd>Boolean, disable loading of assets (textures and sounds).
+<dt>enable_texture_cache
+<dd>Boolean, cache all textures to prevent redundant resource requests and 
+speed up scene dynamic loading. Enabled by default. Note: this option affects 
+the dynamic loading functionality only, if it's your case and you have some 
+issues with GPU memory overloading consider disabling this option.
 <dt>glow_materials
 <dd>Boolean, enable glow materials.
 <dt>god_rays
@@ -439,7 +444,7 @@ auto configurators.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line235">line 235</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line240">line 240</a>
     </li></ul></dd>
     
 
@@ -516,7 +521,7 @@ auto configurators.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line229">line 229</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line234">line 234</a>
     </li></ul></dd>
     
 
@@ -593,7 +598,7 @@ auto configurators.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line217">line 217</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line222">line 222</a>
     </li></ul></dd>
     
 
@@ -670,7 +675,7 @@ auto configurators.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line211">line 211</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line216">line 216</a>
     </li></ul></dd>
     
 
@@ -747,7 +752,7 @@ auto configurators.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line223">line 223</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line228">line 228</a>
     </li></ul></dd>
     
 
@@ -890,7 +895,7 @@ auto configurators.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line284">line 284</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line289">line 289</a>
     </li></ul></dd>
     
 
@@ -1047,7 +1052,7 @@ auto configurators.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line250">line 250</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line255">line 255</a>
     </li></ul></dd>
     
 
@@ -1204,7 +1209,7 @@ auto configurators.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line275">line 275</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line280">line 280</a>
     </li></ul></dd>
     
 
@@ -1319,7 +1324,7 @@ auto configurators.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line269">line 269</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line274">line 274</a>
     </li></ul></dd>
     
 
@@ -1405,7 +1410,7 @@ auto configurators.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line258">line 258</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line263">line 263</a>
     </li></ul></dd>
     
 
@@ -1491,7 +1496,7 @@ auto configurators.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line264">line 264</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line269">line 269</a>
     </li></ul></dd>
     
 
@@ -1649,7 +1654,7 @@ auto configurators.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line242">line 242</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line247">line 247</a>
     </li></ul></dd>
     
 
@@ -1729,7 +1734,7 @@ auto configurators.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line206">line 206</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line211">line 211</a>
     </li></ul></dd>
     
 
@@ -1767,7 +1772,7 @@ auto configurators.
 <br class="clear">
 
 <footer>
-    Blend4Web API Reference (generated by JSDoc 3.4.0 on Fri Jun 30 2017 14:29:57 GMT+0300 (MSK))
+    Blend4Web API Reference (generated by JSDoc 3.4.0 on Thu Aug 31 2017 18:52:56 GMT+0300 (MSK))
     <a href="https://www.blend4web.com">www.blend4web.com</a>
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">

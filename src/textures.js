@@ -75,7 +75,11 @@ exports.CURVE_NODES_TEXT_SIZE = 128;
 exports.COLORRAMP_TEXT_SIZE = 128;
 exports.PART_COLORRAMP_TEXT_SIZE = 128;
 
-var _img_textures_cache = [];
+var _img_textures_cache = {
+    textures: [],
+    loaded_status: []
+}
+
 var _canvas_textures_cache = {};
 var _video_textures_cache = {};
 
@@ -214,7 +218,7 @@ function init_texture() {
         img_uuid: "",
         img_source: "",
         img_name: "",
-        img_comp_method: "",
+        img_comp_method: ""
     };
 
     return texture;
@@ -231,8 +235,11 @@ function append_img_info(texture, image, dir_path) {
                                             dir_path + image["filepath"]);
     texture.img_comp_method = image._comp_method;
 
-    if (_img_textures_cache.indexOf(texture) == -1)
-        _img_textures_cache.push(texture);
+    if (_img_textures_cache.textures.indexOf(texture) == -1) {
+        _img_textures_cache.textures.push(texture);
+        // always false, bcz images are loaded after appending this info
+        _img_textures_cache.loaded_status.push(false);
+    }
 }
 
 function clone_texture(texture) {
@@ -309,7 +316,8 @@ function set_params_by_img_path(texture, path, full_path) {
     texture.img_filepath = path;
     texture.img_full_filepath = full_path;
     texture.img_uuid = m_util.gen_uuid();
-    _img_textures_cache.push(texture);
+    _img_textures_cache.textures.push(texture);
+    _img_textures_cache.loaded_status.push(true);
 }
 
 function clone_w_texture(texture, texture_new) {
@@ -1282,9 +1290,11 @@ function get_image2d_type(texture) {
 function delete_texture(tex) {
     if (tex.w_texture)
         _gl.deleteTexture(tex.w_texture);
-    var ind = _img_textures_cache.indexOf(tex);
-    if (ind != -1)
-        _img_textures_cache.splice(ind, 1)
+    var ind = _img_textures_cache.textures.indexOf(tex);
+    if (ind != -1) {
+        _img_textures_cache.textures.splice(ind, 1)
+        _img_textures_cache.loaded_status.splice(ind, 1)
+    }
 }
 
 /**
@@ -1365,7 +1375,8 @@ exports.cleanup = function() {
                 _video_textures_cache[data_id][tex].video_file.load();
             }
 
-    _img_textures_cache.length = 0;
+    _img_textures_cache.textures.length = 0;
+    _img_textures_cache.loaded_status.length = 0;
     _canvas_textures_cache = {};
     _video_textures_cache = {};
 }
@@ -1981,10 +1992,10 @@ exports.change_image = function(object, texture, texture_name, image, path) {
 
 exports.cleanup_unused = cleanup_unused;
 function cleanup_unused(tex) {
-    // NOTE: temporary disabled texture cache cleanup
-    return;
-    // if (!check_users(tex))
-    //     delete_texture(tex);
+    // NOTE: need to detach the texture from a batch before this check to 
+    // not count an additional user
+    if (!cfg_def.enable_texture_cache && !check_users(tex))
+        delete_texture(tex);
 }
 
 function check_users(tex) {
@@ -2018,8 +2029,8 @@ function check_users_by_obj(obj, tex) {
 }
 
 function find_similar_tex(img_path, texture) {
-    for (var i = 0; i < _img_textures_cache.length; i++) {
-        var tex = _img_textures_cache[i];
+    for (var i = 0; i < _img_textures_cache.textures.length; i++) {
+        var tex = _img_textures_cache.textures[i];
         if (tex.img_full_filepath == img_path &&
                 tex.type == texture.type &&
                 tex.source == texture.source &&
@@ -2044,7 +2055,18 @@ exports.reset_mod = function() {
 }
 
 exports.get_img_textures = function() {
-    return _img_textures_cache;
+    return _img_textures_cache.textures;
+}
+
+exports.get_cache_loaded_status = function(tex) {
+    var ind = _img_textures_cache.textures.indexOf(tex);
+    return ind == -1 ? false : _img_textures_cache.loaded_status[ind];
+}
+
+exports.set_cache_loaded_status = function(tex, is_loaded) {
+    var ind = _img_textures_cache.textures.indexOf(tex);
+    if (ind != -1)
+        _img_textures_cache.loaded_status[ind] = is_loaded;
 }
 
 }

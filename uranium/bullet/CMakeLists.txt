@@ -5,17 +5,21 @@ set(CMAKE_ALLOW_LOOSE_LOOP_CONSTRUCTS true)
 SET(MSVC_INCREMENTAL_DEFAULT ON)
 
 PROJECT(BULLET_PHYSICS)
-SET(BULLET_VERSION 2.83)
+FILE (STRINGS "VERSION" BULLET_VERSION)
 
 IF(COMMAND cmake_policy)
    cmake_policy(SET CMP0003 NEW)
+   if(POLICY CMP0042)
+      # Enable MACOSX_RPATH by default.
+      cmake_policy(SET CMP0042 NEW)
+   endif(POLICY CMP0042)
 ENDIF(COMMAND cmake_policy)
 
 
 IF (NOT CMAKE_BUILD_TYPE)
 # SET(CMAKE_BUILD_TYPE "Debug")
  SET(CMAKE_BUILD_TYPE "Release")
-ENDIF (NOT CMAKE_BUILD_TYPE) 
+ENDIF (NOT CMAKE_BUILD_TYPE)
 
 SET(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -D_DEBUG")
 #MESSAGE("CMAKE_CXX_FLAGS_DEBUG="+${CMAKE_CXX_FLAGS_DEBUG})
@@ -23,6 +27,8 @@ SET(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -D_DEBUG")
 OPTION(USE_DOUBLE_PRECISION "Use double precision"	OFF)
 OPTION(USE_GRAPHICAL_BENCHMARK "Use Graphical Benchmark" ON)
 OPTION(BUILD_SHARED_LIBS "Use shared libraries" OFF)
+OPTION(USE_SOFT_BODY_MULTI_BODY_DYNAMICS_WORLD "Use btSoftMultiBodyDynamicsWorld" OFF)	
+OPTION(BULLET2_USE_THREAD_LOCKS "Build Bullet 2 libraries with mutex locking around certain operations" OFF)
 
 OPTION(USE_MSVC_INCREMENTAL_LINKING "Use MSVC Incremental Linking" OFF)
 OPTION(USE_CUSTOM_VECTOR_MATH "Use custom vectormath library" OFF)
@@ -34,8 +40,8 @@ ELSE ()
 	OPTION(USE_MSVC_RUNTIME_LIBRARY_DLL "Use MSVC Runtime Library DLL (/MD or /MDd)" OFF)
 ENDIF (CMAKE_SYSTEM_NAME STREQUAL WindowsPhone OR CMAKE_SYSTEM_NAME STREQUAL WindowsStore)
 
-#SET(CMAKE_EXE_LINKER_FLAGS_INIT    "/STACK:10000000 /INCREMENTAL:NO")	
-#SET(CMAKE_EXE_LINKER_FLAGS    "/STACK:10000000 /INCREMENTAL:NO")	
+#SET(CMAKE_EXE_LINKER_FLAGS_INIT    "/STACK:10000000 /INCREMENTAL:NO")
+#SET(CMAKE_EXE_LINKER_FLAGS    "/STACK:10000000 /INCREMENTAL:NO")
 
 #MESSAGE("MSVC_INCREMENTAL_YES_FLAG"+${MSVC_INCREMENTAL_YES_FLAG})
 
@@ -44,23 +50,23 @@ IF(MSVC)
 	IF (NOT USE_MSVC_INCREMENTAL_LINKING)
 		#MESSAGE("MSVC_INCREMENTAL_DEFAULT"+${MSVC_INCREMENTAL_DEFAULT})
 		SET( MSVC_INCREMENTAL_YES_FLAG "/INCREMENTAL:NO")
-	
-		STRING(REPLACE "INCREMENTAL:YES" "INCREMENTAL:NO" replacementFlags ${CMAKE_EXE_LINKER_FLAGS_DEBUG}) 
+
+		STRING(REPLACE "INCREMENTAL:YES" "INCREMENTAL:NO" replacementFlags ${CMAKE_EXE_LINKER_FLAGS_DEBUG})
 		SET(CMAKE_EXE_LINKER_FLAGS_DEBUG "/INCREMENTAL:NO ${replacementFlags}" )
 		MESSAGE("CMAKE_EXE_LINKER_FLAGS_DEBUG=${CMAKE_EXE_LINKER_FLAGS_DEBUG}")
-	
-		STRING(REPLACE "INCREMENTAL:YES" "INCREMENTAL:NO" replacementFlags2 ${CMAKE_EXE_LINKER_FLAGS}) 
-		
-		SET(CMAKE_EXE_LINKER_FLAGS ${replacementFlag2}) 
-		STRING(REPLACE "INCREMENTAL:YES" "" replacementFlags3 "${CMAKE_EXTRA_LINK_FLAGS}") 
 
-		SET(CMAKE_EXTRA_LINK_FLAGS ${replacementFlag3}) 
-		
-		
+		STRING(REPLACE "INCREMENTAL:YES" "INCREMENTAL:NO" replacementFlags2 ${CMAKE_EXE_LINKER_FLAGS})
+
+		SET(CMAKE_EXE_LINKER_FLAGS ${replacementFlag2})
+		STRING(REPLACE "INCREMENTAL:YES" "" replacementFlags3 "${CMAKE_EXTRA_LINK_FLAGS}")
+
+		SET(CMAKE_EXTRA_LINK_FLAGS ${replacementFlag3})
+
+
 		STRING(REPLACE "INCREMENTAL:YES" "INCREMENTAL:NO" replacementFlags3 "${CMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO}")
-		SET(CMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO ${replacementFlags3}) 
+		SET(CMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO ${replacementFlags3})
 		SET(CMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO "/INCREMENTAL:NO ${replacementFlags3}" )
-	
+
 	ENDIF (NOT USE_MSVC_INCREMENTAL_LINKING)
 
 	IF (NOT USE_MSVC_RUNTIME_LIBRARY_DLL)
@@ -80,13 +86,15 @@ IF(MSVC)
 	ELSE()
 	  OPTION(USE_MSVC_SSE "Use MSVC /arch:sse option"	ON)
 	  IF (USE_MSVC_SSE)
-		ADD_DEFINITIONS(/arch:SSE)
+		  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /arch:SSE")
 	  ENDIF()
 	ENDIF()
 	OPTION(USE_MSVC_FAST_FLOATINGPOINT "Use MSVC /fp:fast option"	ON)
 	IF (USE_MSVC_FAST_FLOATINGPOINT)
-		ADD_DEFINITIONS(/fp:fast)
+		  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /fp:fast")
   ENDIF()
+
+	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4244 /wd4267")
 ENDIF(MSVC)
 
 
@@ -126,7 +134,7 @@ ENDIF(INTERNAL_CREATE_MSVC_RELATIVE_PATH_PROJECTFILES)
 ENDIF (WIN32)
 
 
-OPTION(BUILD_CPU_DEMOS "Build original Bullet CPU examples"        ON)
+OPTION(BUILD_CPU_DEMOS "Build original Bullet CPU examples" ON)
 
 
 
@@ -140,9 +148,20 @@ ADD_DEFINITIONS( -DBT_USE_DOUBLE_PRECISION)
 SET( BULLET_DOUBLE_DEF "-DBT_USE_DOUBLE_PRECISION")
 ENDIF (USE_DOUBLE_PRECISION)
 
+IF (USE_SOFT_BODY_MULTI_BODY_DYNAMICS_WORLD)
+ADD_DEFINITIONS(-DUSE_SOFT_BODY_MULTI_BODY_DYNAMICS_WORLD)
+ENDIF (USE_SOFT_BODY_MULTI_BODY_DYNAMICS_WORLD)
+
 IF(USE_GRAPHICAL_BENCHMARK)
 ADD_DEFINITIONS( -DUSE_GRAPHICAL_BENCHMARK)
 ENDIF (USE_GRAPHICAL_BENCHMARK)
+
+IF(BULLET2_USE_THREAD_LOCKS)
+	ADD_DEFINITIONS( -DBT_THREADSAFE=1 )
+	IF (NOT MSVC)
+		SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+	ENDIF (NOT MSVC)
+ENDIF (BULLET2_USE_THREAD_LOCKS)
 
 IF (WIN32)
 OPTION(USE_GLUT "Use Glut"	ON)
@@ -151,8 +170,8 @@ ADD_DEFINITIONS( -D_CRT_SECURE_NO_DEPRECATE )
 ADD_DEFINITIONS( -D_SCL_SECURE_NO_WARNINGS )
 
 IF (USE_GLUT AND MSVC)
-        string (REPLACE "/D_WINDOWS" "" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
-        remove_definitions(-D_WINDOWS )
+	string (REPLACE "/D_WINDOWS" "" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
+	remove_definitions(-D_WINDOWS )
 ENDIF()
 
 
@@ -161,11 +180,11 @@ ELSE(WIN32)
 OPTION(USE_GLUT "Use Glut"	ON)
 ENDIF(WIN32)
 
-   
+
 IF(COMMAND cmake_policy)
    cmake_policy(SET CMP0003 NEW)
 ENDIF(COMMAND cmake_policy)
-   
+
 
 # This is the shortcut to finding GLU, GLUT and OpenGL if they are properly installed on your system
 # This should be the case.
@@ -184,28 +203,56 @@ ENDIF (OPENGL_FOUND)
 #FIND_PACKAGE(GLU)
 
 
-
-
 IF (APPLE)
   FIND_LIBRARY(COCOA_LIBRARY Cocoa)
 ENDIF()
 
 OPTION(BUILD_BULLET3 "Set when you want to build Bullet 3" ON)
 
+OPTION(BUILD_PYBULLET "Set when you want to build pybullet (experimental Python bindings for Bullet)" OFF)
+
+
+IF(BUILD_PYBULLET)
+
+	FIND_PACKAGE(PythonLibs)
+
+	OPTION(BUILD_PYBULLET_NUMPY "Set when you want to build pybullet with NumPy support" OFF)
+	OPTION(BUILD_PYBULLET_ENET "Set when you want to build pybullet with enet UDP networking support" ON)
+	
+	IF(BUILD_PYBULLET_NUMPY)	
+		set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_LIST_DIR}/build3/cmake)
+		#include(FindNumPy)
+		FIND_PACKAGE(NumPy)
+		if (PYTHON_NUMPY_FOUND)
+			message("NumPy found")
+			add_definitions(-DPYBULLET_USE_NUMPY)
+		else()
+			message("NumPy not found")
+		endif()
+	ENDIF()
+	OPTION(BUILD_PYBULLET "Set when you want to build pybullet (experimental Python bindings for Bullet)" OFF)
+
+	IF(WIN32)
+		SET(BUILD_SHARED_LIBS OFF CACHE BOOL "Shared Libs" FORCE)
+	ELSE(WIN32)
+		SET(BUILD_SHARED_LIBS ON CACHE BOOL "Shared Libs" FORCE)
+	ENDIF(WIN32)
+ENDIF(BUILD_PYBULLET)
+
 IF(BUILD_BULLET3)
 	 IF(APPLE)
-                MESSAGE("Mac OSX Version is ${_CURRENT_OSX_VERSION}")
-                IF(_CURRENT_OSX_VERSION  VERSION_LESS 10.9)
-                        MESSAGE("Mac OSX below 10.9 has no OpenGL 3 support so please disable the BUILD_OPENGL3_DEMOS option")
-                        #unset(BUILD_OPENGL3_DEMOS CACHE)
+		MESSAGE("Mac OSX Version is ${_CURRENT_OSX_VERSION}")
+		IF(_CURRENT_OSX_VERSION  VERSION_LESS 10.9)
+			MESSAGE("Mac OSX below 10.9 has no OpenGL 3 support so please disable the BUILD_OPENGL3_DEMOS option")
+			#unset(BUILD_OPENGL3_DEMOS CACHE)
 
-                        OPTION(BUILD_OPENGL3_DEMOS "Set when you want to build the OpenGL3+ demos" OFF)
-                ELSE()
-                        OPTION(BUILD_OPENGL3_DEMOS "Set when you want to build the OpenGL3+ demos" ON)
-                ENDIF()
-        ELSE()
-                OPTION(BUILD_OPENGL3_DEMOS "Set when you want to build Bullet 3 OpenGL3+ demos" ON)
-        ENDIF()
+			OPTION(BUILD_OPENGL3_DEMOS "Set when you want to build the OpenGL3+ demos" OFF)
+		ELSE()
+			OPTION(BUILD_OPENGL3_DEMOS "Set when you want to build the OpenGL3+ demos" ON)
+		ENDIF()
+	ELSE()
+		OPTION(BUILD_OPENGL3_DEMOS "Set when you want to build Bullet 3 OpenGL3+ demos" ON)
+	ENDIF()
 ELSE(BUILD_BULLET3)
 	unset(BUILD_OPENGL3_DEMOS CACHE)
 	OPTION(BUILD_OPENGL3_DEMOS "Set when you want to build Bullet 3 OpenGL3+ demos" OFF)
@@ -221,9 +268,18 @@ ENDIF(BUILD_OPENGL3_DEMOS)
 OPTION(BUILD_BULLET2_DEMOS "Set when you want to build the Bullet 2 demos" ON)
 IF(BUILD_BULLET2_DEMOS)
 
-        IF(EXISTS ${BULLET_PHYSICS_SOURCE_DIR}/examples AND IS_DIRECTORY ${BULLET_PHYSICS_SOURCE_DIR}/examples)
-                SUBDIRS(examples)
-        ENDIF()
+	IF(EXISTS ${BULLET_PHYSICS_SOURCE_DIR}/examples AND IS_DIRECTORY ${BULLET_PHYSICS_SOURCE_DIR}/examples)
+		SUBDIRS(examples)
+	ENDIF()
+
+        IF (BULLET2_USE_THREAD_LOCKS)
+            OPTION(BULLET2_MULTITHREADED_OPEN_MP_DEMO "Build Bullet 2 MultithreadedDemo using OpenMP (requires a compiler with OpenMP support)" OFF)
+            OPTION(BULLET2_MULTITHREADED_TBB_DEMO "Build Bullet 2 MultithreadedDemo using Intel Threading Building Blocks (requires the TBB library to be already installed)" OFF)
+            IF (MSVC)
+                OPTION(BULLET2_MULTITHREADED_PPL_DEMO "Build Bullet 2 MultithreadedDemo using Microsoft Parallel Patterns Library (requires MSVC compiler)" OFF)
+            ENDIF (MSVC)
+        ENDIF (BULLET2_USE_THREAD_LOCKS)
+
 ENDIF(BUILD_BULLET2_DEMOS)
 
 
@@ -253,15 +309,15 @@ IF(INSTALL_LIBS)
 	SET (LIB_SUFFIX "" CACHE STRING "Define suffix of directory name (32/64)" )
 	SET (LIB_DESTINATION "lib${LIB_SUFFIX}" CACHE STRING "Library directory name")
 	## the following are directories where stuff will be installed to
-	SET(INCLUDE_INSTALL_DIR      "include/bullet/" CACHE PATH "The subdirectory to the header prefix")
+	SET(INCLUDE_INSTALL_DIR "include/bullet/" CACHE PATH "The subdirectory to the header prefix")
 	SET(PKGCONFIG_INSTALL_PREFIX "lib${LIB_SUFFIX}/pkgconfig/" CACHE STRING "Base directory for pkgconfig files")
 	IF(NOT MSVC)
 	  CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/bullet.pc.cmake ${CMAKE_CURRENT_BINARY_DIR}/bullet.pc @ONLY)
   	INSTALL(
-	    FILES
-    	${CMAKE_CURRENT_BINARY_DIR}/bullet.pc
-    	DESTINATION
-    	${PKGCONFIG_INSTALL_PREFIX})
+		FILES
+		${CMAKE_CURRENT_BINARY_DIR}/bullet.pc
+		DESTINATION
+		${PKGCONFIG_INSTALL_PREFIX})
 	ENDIF(NOT MSVC)
 ENDIF(INSTALL_LIBS)
 
@@ -273,20 +329,24 @@ ENDIF (${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} GREATER 2.5)
 OPTION(BUILD_UNIT_TESTS "Build Unit Tests"	ON)
 
 IF (BUILD_UNIT_TESTS)
+	ENABLE_TESTING()
 	SUBDIRS(test)
 ENDIF()
 
 set (BULLET_CONFIG_CMAKE_PATH lib${LIB_SUFFIX}/cmake/bullet )
 list (APPEND BULLET_LIBRARIES LinearMath)
+IF(BUILD_BULLET3)
+    list (APPEND BULLET_LIBRARIES BulletInverseDynamics)
+ENDIF(BUILD_BULLET3)
 list (APPEND BULLET_LIBRARIES BulletCollision)
 list (APPEND BULLET_LIBRARIES BulletDynamics)
 list (APPEND BULLET_LIBRARIES BulletSoftBody)
 set (BULLET_USE_FILE ${BULLET_CONFIG_CMAKE_PATH}/UseBullet.cmake)
-configure_file ( ${CMAKE_CURRENT_SOURCE_DIR}/BulletConfig.cmake.in
-                 ${CMAKE_CURRENT_BINARY_DIR}/BulletConfig.cmake
-                 @ONLY ESCAPE_QUOTES
-               )
+configure_file 	( ${CMAKE_CURRENT_SOURCE_DIR}/BulletConfig.cmake.in
+					${CMAKE_CURRENT_BINARY_DIR}/BulletConfig.cmake
+					@ONLY ESCAPE_QUOTES
+				)
 install ( FILES ${CMAKE_CURRENT_SOURCE_DIR}/UseBullet.cmake
-                ${CMAKE_CURRENT_BINARY_DIR}/BulletConfig.cmake
-          DESTINATION ${BULLET_CONFIG_CMAKE_PATH}
-        )
+		${CMAKE_CURRENT_BINARY_DIR}/BulletConfig.cmake
+		DESTINATION ${BULLET_CONFIG_CMAKE_PATH}
+	)

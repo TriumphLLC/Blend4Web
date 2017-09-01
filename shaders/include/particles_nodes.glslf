@@ -3085,7 +3085,7 @@ reflect_factor;
 
         float h = GLSL_TEXTURE(texture, texcoord).a; // get height
 
-        for (float i = _1_0; i <= steps; i++)
+        for (float i = 1.0; i <= steps; i++)
         {
             if (h < height) {
                 height   -= pstep;

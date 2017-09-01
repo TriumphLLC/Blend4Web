@@ -1,0 +1,66 @@
+#controls_container {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  width: 170px;
+}
+
+#controls_container .btn:last-child {
+  margin-bottom: 0;
+}
+
+.hmd_conf_dialog {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 10;
+   transform: translate(-50%, -50%);
+   -webkit-transform: translate(-50%, -50%);
+}
+
+a {
+  font-family: Arial, sans-serif;
+  background-color: transparent;
+  -webkit-text-decoration-skip: objects;
+}
+
+a:active,
+a:hover {
+  outline-width: 0;
+}
+
+#controls_container .btn {
+  background-color: #323232;
+  border: 2px solid rgba(98, 98, 98, .2);
+  border-radius: 2px;
+  width: 170px;
+  height: 30px;
+  display: block;
+  float: left;
+  font-size: 16px;
+  font-weight: normal;
+  color: #fff;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  padding-left: 0;
+  line-height: 28px;
+  margin-bottom: 4px;
+  box-shadow: 0px 0px 4px 0px rgba(98, 98, 98, .8);
+  -webkit-transition: opacity .1s ease-in-out;
+  transition: opacity .1s ease-in-out;
+}
+
+.btn.active {
+  background-color: #5276cf;
+}
+
+.btn:hover {
+  opacity: 0.8;
+}
+
+.row:after {
+  clear: both;
+  display: table;
+  content: " ";
+}

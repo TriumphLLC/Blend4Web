@@ -1,0 +1,476 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2014-2017, Triumph
+# This file is distributed under the same license as the Blend4Web. User
+# Manual package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2017.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Blend4Web. User Manual v17.06.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-08-25 11:24+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.3.4\n"
+
+msgid "Blender User Interface"
+msgstr ""
+
+msgid "Table of Contents"
+msgstr ""
+
+msgid ""
+"Blender is a free open source 3D creation suite that supports an entire "
+"3D pipeline from objects modeling to texturing, rigging and animating to "
+"rendering, compositing and even video editing. Blender can also be used "
+"to create interactive application, including web-based ones."
+msgstr ""
+
+msgid ""
+"Blender is a cross-platform software that runs on Windows, Linux and "
+"macOS platforms equally well."
+msgstr ""
+
+msgid ""
+"Blender interface consists of several windows. The number and types of "
+"windows present on the screen is not strictly defined and can be changed "
+"by a user manually or by selecting a preset from the ``Screen Layout`` "
+"menu at the top of the screen."
+msgstr ""
+
+msgid "3D View"
+msgstr ""
+
+msgid ""
+"The main window of the program, showing a currently loaded 3D scene "
+"(through a camera or otherwise). 3D objects that compose any 3D scene are"
+" created, edited and animated in this window."
+msgstr ""
+
+msgid "This window is open by default."
+msgstr ""
+
+msgid "Timeline"
+msgstr ""
+
+msgid ""
+"This window (usually located an the bottom of the screen) shows various "
+"data that concern animation. This includes the current frame, the total "
+"number of frames (i.e. the length of the animation in the current scene) "
+"and keyframes for the selected object. The keyframes themselves are also "
+"created in this window."
+msgstr ""
+
+msgid "Graph Editor"
+msgstr ""
+
+msgid ""
+"A tool for modifying various aspects of object animation using f-curves. "
+"Graph Editor can be used in Blend4Web same way it is used in Blender."
+msgstr ""
+
+msgid "Dope Sheet"
+msgstr ""
+
+msgid ""
+"A tool for managing keyframes. Dope Sheet can be used in Blend4Web same "
+"way it is used in Blender."
+msgstr ""
+
+msgid "NLA Editor"
+msgstr ""
+
+msgid ""
+"A tool for editing non-linear animations. Blend4Web engine supports NLAs;"
+" the user manual features a :ref:`dedicated section <nla>` on them."
+msgstr ""
+
+msgid "UV/Image Editor"
+msgstr ""
+
+msgid ""
+"This tool can be used for editing both object UV maps and various 2D "
+"assets such as texture images."
+msgstr ""
+
+msgid "UV maps are used in Blend4Web as well."
+msgstr ""
+
+msgid "Video Sequence Editor"
+msgstr ""
+
+msgid ""
+"An interface for editing video sequences. This is a fully-fledged video "
+"editing system that can be used to trim video files, apply effects to "
+"them and combine them into one video. It is not used in Blend4Web engine."
+msgstr ""
+
+msgid "Movie Clip Editor"
+msgstr ""
+
+msgid ""
+"A tool for editing movie clips. It is generally used for motion tracking "
+"and for masking movies. It is not used in Blend4Web engine."
+msgstr ""
+
+msgid "Text Editor"
+msgstr ""
+
+msgid ""
+"A simple text editor is included in Blender. It supports word wrapping, "
+"syntax highlighting, line numbers, find and replace functions and some "
+"other features."
+msgstr ""
+
+msgid ""
+"Text editor is not used in Blend4Web for editing project files, as "
+":ref:`Project Manager <project_management>` features its own built-in "
+":ref:`editor <project_edit>` for editing project files. However, text "
+"files created in Text Editor (or imported to a ``.blend`` file using it) "
+"can be used as description sources for :ref:`Meta Tags "
+"<objects_meta_tags>` in Blend4Web."
+msgstr ""
+
+msgid "Node Editor"
+msgstr ""
+
+msgid ""
+"An interface for creating node-base materials, textures and post-"
+"processing effect. :ref:`Material nodes <node_materials>` are supported "
+"in Blend4Web engine, while texture and compositing nodes are not. "
+"Blend4Web also features another type of nodes for creating :ref:`scene "
+"logic <logic_editor>`."
+msgstr ""
+
+msgid "Logic Editor"
+msgstr ""
+
+msgid "A tool for editing logic blocks used in Blender Game Engine."
+msgstr ""
+
+msgid ""
+"Blend4Web engine does not use Blender Logic Editor. Instead, it features "
+"a similar, but separate tool for editing scene logic: the node-based "
+":ref:`Logic Editor <logic_editor>`."
+msgstr ""
+
+msgid "Properties"
+msgstr ""
+
+msgid ""
+"The second main window of the program. Contains various settings, some of"
+" which only concern currently selected object, and other apply to the "
+"whole of the scene."
+msgstr ""
+
+msgid "This window is usually located at the right of the 3D View window."
+msgstr ""
+
+msgid ""
+"The Properties window consists of several tabs. Each one of these tabs "
+"house a specific group of parameters. The tabs are:"
+msgstr ""
+
+msgid "Render"
+msgstr ""
+
+msgid "This tab contains options that concern rendering."
+msgstr ""
+
+msgid ""
+"In Blend4Web mode, the Render tab features a slightly different set of "
+"options that are described :ref:`here <render_settings>`."
+msgstr ""
+
+msgid "Render Layers"
+msgstr ""
+
+msgid ""
+"This tab can be used to separate the rendered image into several “layers”"
+" (such as diffuse colors, shadows, normal maps etc.) that can than be "
+"used for compositing in Blender or in other software. This tab is not "
+"used in Blend4Web engine."
+msgstr ""
+
+msgid "Scene"
+msgstr ""
+
+msgid "Contains various parameters that concern 3D scene as a whole."
+msgstr ""
+
+msgid ""
+"This tab is supported in Blend4Web, but has a different set of options "
+"that are described :ref:`here <scene_settings>` in greater detail."
+msgstr ""
+
+msgid "World"
+msgstr ""
+
+msgid ""
+"Settings that control the environment of the scene can be found in this "
+"tab. This includes such parameters as background colors, environment "
+"lighting, mist etc."
+msgstr ""
+
+msgid ""
+"This tab is also used Blend4Web engine to set the environment. The "
+"settings themselves differ a bit from the ones in Blender. The "
+"differences are described :ref:`here <world_settings>`."
+msgstr ""
+
+msgid "Object"
+msgstr ""
+
+msgid ""
+"This tab contains various object settings such as name, location, groups "
+"and so on. Object parameters are extensively used in Blend4Web engine and"
+" are described in a :ref:`dedicated section <objects>` of this manual."
+msgstr ""
+
+msgid "Constraints"
+msgstr ""
+
+msgid ""
+"Constraints can be used to restrict object’s movement in various ways, or"
+" to set it along a certain path. Constraints are often utilized by 3D "
+"artists to simplify the process of creating complex animations and to "
+"make it more convenient. This tab contains tools for adding constraints "
+"to a selected object, setting them up or remove them, if necessary."
+msgstr ""
+
+msgid ""
+"The Constraints tab can be used in Blend4Web. However, at the moment the "
+"engine does not support some of the object constraints available in "
+"Blender. See the :ref:`dedicated section <objects_constraints>` to learn "
+"how to use object constraints in Blend4Web."
+msgstr ""
+
+msgid "Modifiers"
+msgstr ""
+
+msgid ""
+"This list contains all modifiers attached to the currently selected "
+"object. Modifiers can be added, configured and removed on this tab."
+msgstr ""
+
+msgid ""
+"Modifiers are supported in Blend4Web engine, but by default are not "
+"applied to objects upon export. You can apply modifiers using :ref:`Apply"
+" Modifiers <apply_modifiers>` or Apply Scale and Modifiers options."
+msgstr ""
+
+msgid "Data"
+msgstr ""
+
+msgid ""
+"This tab contains information on object’s vertex groups and colors, UV "
+"maps, shape keys and other similar stuff. It is supported in Blend4Web "
+"and does not feature any additional options."
+msgstr ""
+
+msgid "Material"
+msgstr ""
+
+msgid "The material (or multiple materials) of an object can be set here."
+msgstr ""
+
+msgid ""
+"Blend4Web engine utilizes materials in mostly the same way Blender does. "
+"The differences are described in a :ref:`dedicated chapter <materials>`."
+msgstr ""
+
+msgid "Texture"
+msgstr ""
+
+msgid ""
+"This tab is intended for setting up textures for materials and the "
+"environment alike."
+msgstr ""
+
+msgid ""
+"The same tab is used to set up textures in Blend4Web. Working with "
+"textures is described in a :ref:`dedicated chapter <textures>`."
+msgstr ""
+
+msgid "Particles"
+msgstr ""
+
+msgid "Here, particle systems are created and set up."
+msgstr ""
+
+msgid ""
+"Particles are supported in Blend4Web engine as well and can be used to "
+"create :ref:`fluids <particles>` and :ref:`object instances "
+"<particles_instancing>`."
+msgstr ""
+
+msgid "Physics"
+msgstr ""
+
+msgid ""
+"Physical settings of a selected object: a physical model associated with "
+"an object, its bounding volume and so on. Physic is utilized in Blend4Web"
+" engine and has an :ref:`entire chapter <physics>` dedicated to it."
+msgstr ""
+
+msgid "Outliner"
+msgstr ""
+
+msgid ""
+"Contains so-called scene graph, a tree-like structure that organizes all "
+"data present in the .blend file."
+msgstr ""
+
+msgid ""
+"By default, this window is located in the top right corner of the Blender"
+" window."
+msgstr ""
+
+msgid "User Preferences"
+msgstr ""
+
+msgid ""
+"This window contains various Blender settings. These settings are "
+"separated into several categories each one of which occupies one tab "
+"located at the top of the window. The tabs are:"
+msgstr ""
+
+msgid "Interface"
+msgstr ""
+
+msgid ""
+"This tab contains various setting for adjusting the interface of the "
+"program."
+msgstr ""
+
+msgid "Editing"
+msgstr ""
+
+msgid ""
+"This tab allows you to set how various object editing tools interact with"
+" your input."
+msgstr ""
+
+msgid "Input"
+msgstr ""
+
+msgid ""
+"User-interaction settings. Hot keys are set here, as are the way Blender "
+"reacts to mouse and keyboard events."
+msgstr ""
+
+msgid "Add-ons"
+msgstr ""
+
+msgid ""
+"Various Blender add-ons are installed, configured and removed here. This "
+"includes :ref:`Blend4Web add-on <addon>`."
+msgstr ""
+
+msgid "Themes"
+msgstr ""
+
+msgid ""
+"This tab allows the user to customize Blender interface and color scheme,"
+" both manually or by selecting one of the pre-existing interface themes."
+msgstr ""
+
+msgid "File"
+msgstr ""
+
+msgid ""
+"This tab is used to configure default file path for blend files, "
+"textures, rendered images and other files. Auto-save preferences are also"
+" set up here."
+msgstr ""
+
+msgid ""
+"The ``Scripts`` field on this tab is used for installing Blend4Web "
+"engine. The process of installation is thoroughly described in the "
+":ref:`dedicated chapter <sdk_install>`."
+msgstr ""
+
+msgid "System"
+msgstr ""
+
+msgid ""
+"Various system settings, including resolution, rendering device, viewport"
+" settings and interface language."
+msgstr ""
+
+msgid "Info"
+msgstr ""
+
+msgid ""
+"The main menu bar with a list of error messages. This window is open by "
+"default and can be found at the top of the screen (right above the ``3D "
+"View`` window)."
+msgstr ""
+
+msgid "The list of errors is folded by default."
+msgstr ""
+
+msgid "You can expand it by dragging the border of the ``Info`` window down."
+msgstr ""
+
+msgid "File Browser"
+msgstr ""
+
+msgid ""
+"This is a built-in file manager that can be used for various file-related"
+" operations, mostly opening/saving .blend files and importing/exporting "
+"scenes and assets."
+msgstr ""
+
+msgid "Python Console"
+msgstr ""
+
+msgid ""
+"This is a tool intended for an experienced user. The Python Console "
+"offers a quick way to execute commands, complete with auto-complete "
+"feature, a command history and full access to the entire Python API."
+msgstr ""
+
+#~ msgid "Blender Interface"
+#~ msgstr ""
+
+#~ msgid "This window is opened by default."
+#~ msgstr ""
+
+#~ msgid "A tool for editing non-linear animation (link)"
+#~ msgstr ""
+
+#~ msgid ""
+#~ msgstr ""
+
+#~ msgid "Various system settings, including interface language."
+#~ msgstr ""
+
+#~ msgid "This is the main menu bar with a list of error messages."
+#~ msgstr ""
+
+#~ msgid "A tool for managing keyframes."
+#~ msgstr ""
+
+#~ msgid "A tool for editing :ref:`non-linear animation <nla>`."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Blender is a cross-platform software "
+#~ "that runs on Windows, Linux and "
+#~ "MacOs platforms equally well."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Blend4Web engine does not use Blender"
+#~ " Logic Editor. Instead, it features a"
+#~ " similar, but separate toll for "
+#~ "editing scene logic: the node-based "
+#~ ":ref:`Logic Editor <logic_editor>`."
+#~ msgstr ""
+

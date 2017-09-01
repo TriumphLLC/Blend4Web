@@ -270,15 +270,6 @@ exports.apply_ext = function(obj, name_list, slot_num) {
     slot_num = slot_num || m_anim.SLOT_0;
 
     var name = name_list[0];
-    if (m_anim.is_animated(obj)) {
-        var applied_slot = m_anim.get_slot_num_by_anim(obj, name);
-        if (applied_slot != -1 && applied_slot != slot_num) {
-            m_print.error("Animation \"" + name +
-                          "\" is already applied to object \"" + obj.name +
-                          "\" (slot \"" + applied_slot + "\").");
-            return;
-        }
-    }
 
     if (!m_anim.validate_action_by_name(obj, name)) {
         m_print.error("No fcurves in action \"" + name + "\"");

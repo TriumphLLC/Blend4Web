@@ -692,6 +692,7 @@ Currently, this application contains the following examples:
     * Gamepad - an example of controlling a character via gamepad
     * Gyro (Mobile Only) - working with mobile devices' gyroscopes
     * Instancing - copying scene objects in runtime
+    * Leap Motion - an example of using Leap Motion controller
     * Lines - procedural lines rendering
     * Material API - tweaking material properties and replacing objects' materials
     * Morphing - using shape keys
@@ -797,7 +798,7 @@ Add the sensors into an array. Use the ``OR`` logic in the logic function. Place
     }
 
     // create the manifold
-    m_controls.create_sensor_manifold(stone, "IMPACT", m_ctl.CT_SHOT,
+    m_controls.create_sensor_manifold(stone, "IMPACT", m_controls.CT_SHOT,
         impact_sens_array, impact_sens_logic, impact_cb);
 
 

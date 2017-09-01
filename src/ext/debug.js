@@ -1290,16 +1290,25 @@ function eqv(result, exp_result, eps, expected_err, expected_warn) {
     if (result.length != exp_result.length)
         throw "debug.eqv: wrong expected vector length";
     eps = eps ? eps : EPS;
-    for (var i = 0; i < result.length; i++)
+    for (var i = 0; i < result.length; i++) {
+        // NaN values are not allowed
+        if (typeof exp_result[i] != "number" || isNaN(exp_result[i]))
+            throw "debug.eqv: wrong expected data type";
+        if (typeof result[i] != "number" || isNaN(result[i]))
+            throw "debug.eqv: wrong result data type";
         if (exp_result[i] > result[i] + eps || exp_result[i] < result[i] - eps)
             throw "debug.eqv: wrong result";
+    }
 
     check_err_warn_messages(expected_err, expected_warn, "eqv");
 }
 
 exports.eqf = function(result, exp_result, eps, expected_err, expected_warn) {
-    if (typeof exp_result != "number")
+    // NaN values are not allowed
+    if (typeof exp_result != "number" || isNaN(exp_result))
         throw "debug.eqf: wrong expected data type";
+    if (typeof result != "number" || isNaN(result))
+        throw "debug.eqf: wrong result data type";
     eps = eps ? eps : EPS;
     if (exp_result > result + eps || exp_result < result - eps)
         throw "debug.eqf: wrong result";

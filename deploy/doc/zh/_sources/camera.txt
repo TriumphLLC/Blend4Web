@@ -36,7 +36,7 @@
 
 相机设置在 "相机(物体数据)" 选项卡下 "Properties"  面板指定。
 
-[图片]
+   [图片]Settings available for "Camera" objects
 
 
 
@@ -88,7 +88,7 @@
 
 有几种限制/改变摄像机运动的设置。它们组合为 "相机限制".
 
-[图片]
+   [图片]Settings for limiting camera movement
 
 相机限制可以直接在Blender视图查看，如果 "Display Limits in Viewport"
 参数已启用。
@@ -221,9 +221,8 @@
 使用这些设置，物体可以对齐到激活的摄像机，这样该物体将保持在屏幕同一个
 地方，无关摄影机的位置和转动。这是用于创建 UI 元素尤其有用。
 
-   [图片]
-
-这张照片显示可以如何使用视区对齐选项的示例。
+   [图片]All interface elements on this picture are created using the
+   Viewport Alignment option.
 
 *视口对齐*
    此参数启用和禁用以下的所有参数。默认情况下禁用它。

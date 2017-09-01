@@ -387,7 +387,7 @@ function get_accumulator(element) {
         touch_move_cb: null,
         touch_end_cb: null,
 
-        registered_accum_values: {},
+        registered_accum_values: {}
     };
     for (var i = 0; i < MAX_COUNT_FINGERS; ++i)
         accumulator.touch_select_dlist[i] = create_input_point();
@@ -524,10 +524,8 @@ function get_accumulator(element) {
     }
 
     accumulator.pointerlock_cb = function(location) {
-        if (!cfg_dft.ie11_edge_touchscreen_hack || accumulator.mouse_state) {
-            accumulator.pointerlock_dx += location[0];
-            accumulator.pointerlock_dy += location[1];
-        }
+        accumulator.pointerlock_dx += location[0];
+        accumulator.pointerlock_dy += location[1];
     }
 
     accumulator.keyboard_down_keys_cb = function(key) {
@@ -1434,28 +1432,26 @@ function update_sensor(sensor, timeline, elapsed) {
         break;
     case ST_PLOCK_MOUSE_MOVE:
         var accum = get_accumulator(sensor.element);
-        if (!cfg_dft.ie11_edge_touchscreen_hack) {
 
-            var delta_x = accum.pointerlock_dx;
-            var delta_y = accum.pointerlock_dy;
+        var delta_x = accum.pointerlock_dx;
+        var delta_y = accum.pointerlock_dy;
 
-            var rot_x = m_util.smooth(delta_x, 0,
-                    elapsed, smooth_coeff_mouse());
-            var rot_y = m_util.smooth(delta_y, 0,
-                    elapsed, smooth_coeff_mouse());
+        var rot_x = m_util.smooth(delta_x, 0,
+                elapsed, smooth_coeff_mouse());
+        var rot_y = m_util.smooth(delta_y, 0,
+                elapsed, smooth_coeff_mouse());
 
-            if (Math.abs(delta_x) > MOUSE_DELTA_THRESHOLD ||
-                    Math.abs(delta_y) > MOUSE_DELTA_THRESHOLD) {
-                accum.pointerlock_dx -= rot_x;
-                accum.pointerlock_dy -= rot_y;
-                sensor.payload.coords[0] = rot_x;
-                sensor.payload.coords[1] = rot_y;
-            } else {
-                sensor.payload.coords[0] = 0.0;
-                sensor.payload.coords[1] = 0.0;
-            }
-            sensor_set_value(sensor, Math.sqrt(delta_x*delta_x + delta_y*delta_y));
+        if (Math.abs(delta_x) > MOUSE_DELTA_THRESHOLD ||
+                Math.abs(delta_y) > MOUSE_DELTA_THRESHOLD) {
+            accum.pointerlock_dx -= rot_x;
+            accum.pointerlock_dy -= rot_y;
+            sensor.payload.coords[0] = rot_x;
+            sensor.payload.coords[1] = rot_y;
+        } else {
+            sensor.payload.coords[0] = 0.0;
+            sensor.payload.coords[1] = 0.0;
         }
+        sensor_set_value(sensor, Math.sqrt(delta_x*delta_x + delta_y*delta_y));
         break;
     case ST_MOUSE_CLICK:
         var accum = get_accumulator(sensor.element);

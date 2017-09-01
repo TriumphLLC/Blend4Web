@@ -279,8 +279,7 @@ function drag_mouse_move_cb(e) {
     if (_use_mouse_control_cb()) {
 
         if (_drag_offset)
-            var coords = m_cont.client_to_element_coords(e.clientX, e.clientY,
-                    e.target, _vec2_tmp);
+            var coords = m_cont.get_coords_target_space(e, _vec2_tmp);
         else {
             var coords = _vec2_tmp;
             coords[0] = e.clientX;
@@ -297,8 +296,7 @@ function drag_mouse_move_cb(e) {
 
 function drag_mouse_down_cb(e) {
     if (_drag_offset)
-        var coords = m_cont.client_to_element_coords(e.clientX, e.clientY,
-                e.target, _vec2_tmp);
+        var coords = m_cont.get_coords_target_space(e, _vec2_tmp);
     else {
         var coords = _vec2_tmp;
         coords[0] = e.clientX;
@@ -368,7 +366,7 @@ function disable_mouse_hover_outline() {
 
 function objects_outline(e) {
     if (_hover_offset) {
-        var c_coord = m_cont.client_to_canvas_coords(e.clientX, e.clientY, _vec2_tmp);
+        var c_coord = m_cont.get_coords_target_space(e, false, _vec2_tmp);
         var obj = m_scs.pick_object(c_coord[0], c_coord[1]);
     } else
         var obj = m_scs.pick_object(e.clientX, e.clientY);
@@ -386,70 +384,82 @@ function objects_outline(e) {
 /**
  * Get mouse/touch X coordinate.
  * @param {MouseEvent|TouchEvent} event Mouse/touch event
- * @param {boolean} [target_touches=false] Use only those touches that were 
+ * @param {boolean} [use_target_touches=false] Use only those touches that were 
  * started on the event target element (the targetTouches property).
- * @param {boolean} [relative_canvas=false] Return coordinates relative to canvas.
+ * @param {boolean} [relative_canvas=false] Return coordinates relative to event 
+ * target.
  * @method module:mouse.get_coords_x
- * @returns {number} Client area horizontal coordinate or -1 if not defined
+ * @returns {number} Mouse/touch X coordinate or -1 if not defined.
+ * @example
+ * var m_cont = require("container");
+ * var m_input = require("input");
+ * var m_mouse = require("mouse");
+ *
+ * var canvas = m_cont.get_canvas();
+ * m_input.add_click_listener(canvas, function(event) {
+ *     var x = m_mouse.get_coords_x(event);
+ *     var y = m_mouse.get_coords_y(event);
+ * });
  */
 exports.get_coords_x = get_coords_x;
-function get_coords_x(event, target_touches, relative_canvas) {
+function get_coords_x(event, use_target_touches, relative_canvas) {
+
+    if (relative_canvas)
+        return m_cont.get_coords_target_space(event, use_target_touches, 
+                _vec2_tmp)[0];
+    
+    if ("clientX" in event)
+        return event.clientX;
 
     if (event.type == "touchend")
         var touches = event.changedTouches;
     else
-        var touches = target_touches ? event.targetTouches : event.touches;
+        var touches = use_target_touches ? event.targetTouches : event.touches;
+    
+    if (touches && touches[0] && "clientX" in touches[0])
+        return touches[0].clientX;
 
-    if (relative_canvas) {
-        if ("clientX" in event && "clientY" in event)
-            return m_cont.client_to_canvas_coords(event.clientX,
-                    event.clientY, _vec2_tmp)[0];
-        else if (touches && touches[0] && "clientX" in touches[0] && "clientY" in touches[0])
-            return m_cont.client_to_canvas_coords(touches[0].clientX,
-                touches[0].clientY, _vec2_tmp)[0];
-        else
-            return -1;
-    } else
-        if ("clientX" in event)
-            return event.clientX;
-        else if (touches && touches[0] && "clientX" in touches[0])
-            return touches[0].clientX;
-        else
-            return -1;
+    return -1;
 }
 /**
  * Get mouse/touch Y coordinate.
  * @param {MouseEvent|TouchEvent} event Mouse/touch event
- * @param {boolean} [target_touches=false] Use only those touches that were 
+ * @param {boolean} [use_target_touches=false] Use only those touches that were 
  * started on the event target element (the targetTouches property).
- * @param {boolean} [relative_canvas=false] Return coordinates relative to canvas.
+ * @param {boolean} [relative_canvas=false] Return coordinates relative to event 
+ * target.
  * @method module:mouse.get_coords_y
- * @returns {number} Client area vertical coordinate or -1 if not defined
+ * @returns {number} Mouse/touch Y coordinate or -1 if not defined.
+ * @example
+ * var m_cont = require("container");
+ * var m_input = require("input");
+ * var m_mouse = require("mouse");
+ *
+ * var canvas = m_cont.get_canvas();
+ * m_input.add_click_listener(canvas, function(event) {
+ *     var x = m_mouse.get_coords_x(event);
+ *     var y = m_mouse.get_coords_y(event);
+ * });
  */
 exports.get_coords_y = get_coords_y;
-function get_coords_y(event, target_touches, relative_canvas) {
+function get_coords_y(event, use_target_touches, relative_canvas) {
+
+    if (relative_canvas)
+        return m_cont.get_coords_target_space(event, use_target_touches, 
+                _vec2_tmp)[1];
+    
+    if ("clientY" in event)
+        return event.clientY;
 
     if (event.type == "touchend")
         var touches = event.changedTouches;
     else
-        var touches = target_touches ? event.targetTouches : event.touches;
+        var touches = use_target_touches ? event.targetTouches : event.touches;
+    
+    if (touches && touches[0] && "clientY" in touches[0])
+        return touches[0].clientY;
 
-    if (relative_canvas) {
-        if ("clientX" in event && "clientY" in event)
-            return m_cont.client_to_canvas_coords(event.clientX,
-                    event.clientY, _vec2_tmp)[1];
-        else if (touches && touches[0] && "clientX" in touches[0] && "clientY" in touches[0])
-            return m_cont.client_to_canvas_coords(touches[0].clientX,
-                    touches[0].clientY, _vec2_tmp)[1];
-        else
-            return -1;
-    } else
-        if ("clientY" in event)
-            return event.clientY;
-        else if (touches && touches[0] && "clientY" in touches[0])
-            return touches[0].clientY;
-        else
-            return -1;
+    return -1;
 }
 
 function smooth_coeff_mouse() {

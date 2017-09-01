@@ -121,7 +121,7 @@ uniform vec2  u_diffuse_params;
 uniform float u_diffuse_intensity;
 uniform float u_ambient; 
 
-uniform vec4 u_fresnel_params;
+uniform vec2 u_fresnel_params;
 
 uniform vec3 u_specular_color;
 uniform vec3 u_specular_params;
@@ -449,8 +449,8 @@ void main(void) {
     vec3 eye_reflected = reflect(-eye_dir, normal);
     vec3 reflected_halfway = normalize(eye_reflected + eye_dir);
     float one_minus_cos_theta = 1.0 - dot(eye_dir, reflected_halfway);
-    float r0 = u_fresnel_params[3];
-    float N = u_fresnel_params[2];
+    float N = u_fresnel_params[0];
+    float r0 = u_fresnel_params[1];
     float fresnel_fac = r0 + (1.0 - r0) * pow(one_minus_cos_theta, N);
 
     vec3 reflect_color = reflection(screen_coord, normal, eye_reflected,

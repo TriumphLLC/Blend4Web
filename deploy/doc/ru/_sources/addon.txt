@@ -364,8 +364,8 @@ HTML-файлы не могут применяться для дальнейше
 | mesh; The OBJECT_NAME object has both | допускается экспорт объекта с общим мешем и |
 | vertex groups and a shared mesh       | вертексными группами. Исключения: экспорт   |
 |                                       | возможен, если на объекте включены опции    |
-|                                       | "Apply modifiers", "Export vertex           |
-|                                       | animation", "Export edited normals", "Apply |
+|                                       | "Apply Modifiers", "Export Vertex           |
+|                                       | Animation", "Export Edited Normals", "Apply |
 |                                       | Scale and Modifiers" (т.к. в этом случае    |
 |                                       | при экспорте происходит полное копирование  |
 |                                       | мешей).                                     |

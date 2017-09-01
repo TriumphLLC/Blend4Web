@@ -46,7 +46,7 @@ exports.defaults = {
 
     alpha_sort_threshold       : 0.1,
 
-    min_format_version         : [6, 2],
+    min_format_version         : [6, 3],
 
     max_fps                    : 10000, // not accurate
 
@@ -55,6 +55,8 @@ exports.defaults = {
     do_not_load_resources      : false,
 
     use_min50                  : false,
+
+    enable_texture_cache       : true,
 
     fps_measurement_interval   : 1.0,
 
@@ -160,6 +162,8 @@ exports.defaults = {
 
     mobile_firefox_media_hack  : false,
 
+    ipad_video_hack            : false,
+
     enable_selectable          : true,
 
     enable_outlining           : true,
@@ -228,9 +232,9 @@ exports.defaults = {
 
     debug_loading              : false,
 
-    phy_race_condition_hack    : false,
+    mali_alpha_antialias_hack  : false,
 
-    ff_compositing_hack        : false
+    mali4_lamps_hack           : false
 }
 
 exports.defaults_save = m_util.clone_object_r(exports.defaults);
@@ -315,7 +319,7 @@ exports.physics = {
     calc_fps: false,
     ping: false,
     use_workers: true,
-    use_wasm: false
+    use_wasm: true
 }
 exports.physics_save = m_util.clone_object_r(exports.physics);
 
@@ -422,8 +426,6 @@ exports.apply_quality = function() {
 
         cfg_def.use_min50 = false;
 
-        cfg_def.precision = "highp";
-
         cfg_def.water_dynamic = true;
 
         cfg_def.shore_distance = true;
@@ -486,8 +488,6 @@ exports.apply_quality = function() {
 
         cfg_def.use_min50 = false;
 
-        cfg_def.precision = "highp";
-
         cfg_def.water_dynamic = true;
 
         cfg_def.shore_distance = true;
@@ -549,8 +549,6 @@ exports.apply_quality = function() {
         cfg_def.anisotropic_filtering = false;
 
         cfg_def.use_min50 = true;
-
-        cfg_def.precision = "mediump";
 
         cfg_def.water_dynamic = false;
 
@@ -774,6 +772,9 @@ function set(prop, value) {
     case "use_min50":
         exports.defaults.use_min50 = value;
         break;
+    case "enable_texture_cache":
+        exports.defaults.enable_texture_cache = value;
+        break;
     case "gl_debug":
         exports.defaults.gl_debug = value;
         break;
@@ -921,6 +922,8 @@ exports.get = function(prop) {
         return exports.defaults.url_params;
     case "use_min50":
         return exports.defaults.use_min50;
+    case "enable_texture_cache":
+        return exports.defaults.enable_texture_cache;
     case "gl_debug":
         return exports.defaults.gl_debug;
     case "srgb_type":

@@ -556,7 +556,7 @@ class B4W_Anim(bpy.types.PropertyGroup):
 
 class B4W_AnimAddOperator(bpy.types.Operator):
     bl_idname      = 'b4w.anim_add'
-    bl_label       = p_("Add animation", "Operator")
+    bl_label       = p_("Add Animation", "Operator")
     bl_description = _("Add animation")
     bl_options = {"INTERNAL"}
 
@@ -573,7 +573,7 @@ class B4W_AnimAddOperator(bpy.types.Operator):
  
 class B4W_AnimRemOperator(bpy.types.Operator):
     bl_idname      = 'b4w.anim_remove'
-    bl_label       = p_("Remove animation", "Operator")
+    bl_label       = p_("Remove Animation", "Operator")
     bl_description = _("Remove animation")
     bl_options = {"INTERNAL"}
 

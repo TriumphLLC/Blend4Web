@@ -70,22 +70,17 @@ typedef unsigned __int32 uint32_t;
 typedef unsigned __int64 uint64_t;
 
 #ifndef _INTPTR_T_DEFINED
-#ifdef _WIN64
-typedef __int64 intptr_t;
+	#ifdef _WIN64
+	typedef __int64 btintptr_t;
+	#else
+	typedef long btintptr_t;
+	#endif
+	
 #else
-typedef long intptr_t;
-#endif
-#define _INTPTR_T_DEFINED
+	typedef intptr_t btintptr_t;
 #endif
 
-#ifndef _UINTPTR_T_DEFINED
-#ifdef _WIN64
-typedef unsigned __int64 uintptr_t;
-#else
-typedef unsigned long uintptr_t;
-#endif
-#define _UINTPTR_T_DEFINED
-#endif
+
 
 #elif defined(__linux__) || defined(__NetBSD__)
 
@@ -120,6 +115,7 @@ typedef unsigned long uintptr_t;
 // include files for automatic dependancies
 #include "DNA_rigidbody.h"
 #include "LinearMath/btVector3.h"
+#include "LinearMath/btQuaternion.h"
 #include "LinearMath/btMatrix3x3.h"
 #include "LinearMath/btTransform.h"
 #include "BulletCollision/BroadphaseCollision/btQuantizedBvh.h"
@@ -152,6 +148,7 @@ typedef unsigned long uintptr_t;
 
 #include "BulletDynamics/Dynamics/btRigidBody.h"
 #include "BulletSoftBody/btSoftBodyData.h"
+#include "BulletDynamics/Featherstone/btMultiBody.h"
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -167,6 +164,7 @@ char *includefiles[] = {
 	// of makesdna.c (this file) as well
 	"../makesdna/DNA_rigidbody.h",
 	"../../../src/LinearMath/btVector3.h",
+	"../../../src/LinearMath/btQuaternion.h",
 	"../../../src/LinearMath/btMatrix3x3.h",
 	"../../../src/LinearMath/btTransform.h",
 	"../../../src/BulletCollision/BroadphaseCollision/btQuantizedBvh.h",
@@ -185,6 +183,7 @@ char *includefiles[] = {
 	"../../../src/BulletCollision/Gimpact/btGImpactShape.h",
 	"../../../src/BulletCollision/CollisionShapes/btConvexHullShape.h",
 	"../../../src/BulletCollision/CollisionDispatch/btCollisionObject.h",
+	"../../../src/BulletDynamics/ConstraintSolver/btContactSolverInfo.h",
 	"../../../src/BulletDynamics/Dynamics/btDynamicsWorld.h",
 	"../../../src/BulletDynamics/Dynamics/btRigidBody.h",
 	"../../../src/BulletDynamics/ConstraintSolver/btTypedConstraint.h",
@@ -196,8 +195,9 @@ char *includefiles[] = {
 	"../../../src/BulletDynamics/ConstraintSolver/btGeneric6DofSpring2Constraint.h",
 	"../../../src/BulletDynamics/ConstraintSolver/btSliderConstraint.h",
 	"../../../src/BulletDynamics/ConstraintSolver/btGearConstraint.h",
-	"../../../src/BulletDynamics/ConstraintSolver/btContactSolverInfo.h",
-	"../../../src/BulletSoftBody/btSoftBodyData.h",	
+	
+	"../../../src/BulletSoftBody/btSoftBodyData.h",
+	"../../../src/BulletDynamics/Featherstone/btMultiBody.h",
 	// empty string to indicate end of includefiles
 	""
 };
@@ -1065,7 +1065,7 @@ int make_structDNA(char *baseDirectory, FILE *file)
 		/* calculate size of datablock with strings */
 		cp= names[nr_names-1];
 		cp+= strlen(names[nr_names-1]) + 1;			/* +1: null-terminator */
-		len= (intptr_t) (cp - (char*) names[0]);
+		len= (btintptr_t) (cp - (char*) names[0]);
 		len= (len+3) & ~3;
 		dna_write(file, names[0], len);
 		
@@ -1078,7 +1078,7 @@ int make_structDNA(char *baseDirectory, FILE *file)
 		/* calculate datablock size */
 		cp= types[nr_types-1];
 		cp+= strlen(types[nr_types-1]) + 1;		/* +1: null-terminator */
-		len= (intptr_t) (cp - (char*) types[0]);
+		len= (btintptr_t) (cp - (char*) types[0]);
 		len= (len+3) & ~3;
 		
 		dna_write(file, types[0], len);
@@ -1100,7 +1100,7 @@ int make_structDNA(char *baseDirectory, FILE *file)
 		/* calc datablock size */
 		sp= structs[nr_structs-1];
 		sp+= 2+ 2*( sp[1] );
-		len= (intptr_t) ((char*) sp - (char*) structs[0]);
+		len= (btintptr_t) ((char*) sp - (char*) structs[0]);
 		len= (len+3) & ~3;
 		
 		dna_write(file, structs[0], len);

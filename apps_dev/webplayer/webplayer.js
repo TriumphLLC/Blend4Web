@@ -13,10 +13,14 @@ var m_hmd         = require("hmd");
 var m_hmd_conf    = require("hmd_conf");
 var m_input       = require("input");
 var m_main        = require("main");
+var m_quat        = require("quat");
 var m_scs         = require("scenes");
 var m_screen      = require("screen");
 var m_sfx         = require("sfx");
 var m_storage     = require("storage");
+var m_trans       = require("transform");
+var m_util        = require("util");
+var m_vec3        = require("vec3");
 var m_version     = require("version");
 
 var BUILT_IN_SCRIPTS_ID      = "built_in_scripts";
@@ -74,6 +78,9 @@ var _selected_object;
 var _stereo_mode;
 
 var _vec2_tmp = new Float32Array(2);
+var _vec3_tmp = new Float32Array(3);
+var _vec3_tmp2 = new Float32Array(3);
+var _quat_tmp = new Float32Array(4);
 
 var _pick = m_scs.pick_object;
 
@@ -150,7 +157,7 @@ var _url_params = {
     "alpha": ALPHA_PARAM_STR,
     "min_capabilities": MIN_CAP_PARAM_STR,
     "autorotate": AUTOROTATE_PARAM_STR,
-    "compressed_gzip": GZIP_PARAM_STR,
+    "compressed_gzip": GZIP_PARAM_STR
 };
 
 exports.init = function() {
@@ -1355,7 +1362,18 @@ function change_stereo(stereo) {
                 update_auto_rotate_button();
             }
 
-            m_hmd.enable_hmd(m_hmd.HMD_ALL_AXES_MOUSE_YAW);
+            var cam = m_scs.get_active_camera();
+            var pos = m_trans.get_translation(cam, _vec3_tmp);
+            var quat = m_trans.get_rotation(cam, _quat_tmp);
+            var new_x = m_vec3.transformQuat(m_util.AXIS_X, quat, _vec3_tmp2);
+            new_x[2] = 0;
+            m_vec3.normalize(new_x, new_x);
+            var offset_quat = m_quat.rotationTo(m_util.AXIS_X, new_x, _quat_tmp);
+            m_hmd.set_position(pos);
+            m_hmd.set_rotate_quat(offset_quat);
+
+            m_hmd.enable_hmd(m_hmd.HMD_ALL_AXES_MOUSE_NONE);
+
             _pick = m_scs.pick_center;
             // Check if app is in fullscreen mode.
             var fullscreen_button = document.querySelector("#fullscreen_on_button");

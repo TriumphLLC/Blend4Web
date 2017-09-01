@@ -63,7 +63,7 @@ class B4WPreferences(AddonPreferences):
     b4w_server_auto_start = BoolProperty(name=_("Run development server "
             "automatically"), default = True, description=_("Run on Startup"))
     b4w_check_for_updates = BoolProperty(name=_("Check for updates"),
-            default = False, description=_("Check for new addon version"))
+            default = False, description=_("Check for new add-on version"))
     b4w_enable_ext_requests = BoolProperty(name=_("Enable External Requests"),
             default = False, description=_("Enable external requests to the server"))
 

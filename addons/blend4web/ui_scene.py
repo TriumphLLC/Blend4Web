@@ -121,7 +121,7 @@ class B4W_SceneAudio(SceneButtonsPanel, Panel):
         box = row.box()
         box.active = getattr(scene, "b4w_enable_dynamic_compressor")
         col = box.column()
-        col.label(text=_("Compressor settings:"))
+        col.label(text=_("Compressor Settings:"))
         col.prop(dcompr, "threshold", text=_("Threshold"))
         col.prop(dcompr, "knee", text=_("Knee"))
         col.prop(dcompr, "ratio", text=_("Ratio"))

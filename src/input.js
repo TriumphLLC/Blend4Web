@@ -41,6 +41,7 @@ var cfg_hmdp = m_cfg.hmd_params;
 
 var _tsr_tmp = m_tsr.create();
 var _tsr_tmp2 = m_tsr.create();
+var _mat4_tmp = m_mat4.create();
 
 var DEVICE_GYRO = 10;
 var DEVICE_HMD = 20;
@@ -192,6 +193,12 @@ var _quat = m_quat.create();
 var _exist_touch = "ontouchstart" in document.documentElement;
 
 var _devices = [];
+
+var WHEEL_DELTA_MULT = 100;
+// this means about a 20-fold scroll action if Chrome event values are 
+// considered as a base
+var WHEEL_DELTA_LIMIT = 2000; 
+
 /**
  * add:
  *      "global" variable:
@@ -540,32 +547,34 @@ function get_fov(device, eye, dest) {
             m_vec4.copy(fov, dest);
         } else {
             var webvr_display = device.webvr_display || device.webvr_hmd_device;
-            if (webvr_display)
-                // TODO: uncomment until fieldOfView is not in WebVR 1.*
-                // if (type & HMD_WEBVR1_1) {
-                //     var proj_mat = _mat4_tmp;
-                //     if (eye == "left")
-                //         m_mat4.copy(device.frame_data.leftProjectionMatrix, proj_mat);
-                //     else
-                //         m_mat4.copy(device.frame_data.rightProjectionMatrix, proj_mat);
-                //     var inv_proj_mat = m_mat4.invert(proj_mat, proj_mat);
-                //     var right_top_near = m_vec3.transformMat4([1, 1, -1], inv_proj_mat, _vec3_tmp);
-                //
-                //     dest[0] = Math.atan(- _vec3_tmp[1] / _vec3_tmp[2]);
-                //     dest[1] = Math.atan(- _vec3_tmp[0] / _vec3_tmp[2]);
-                //     var left_down_near = m_vec3.transformMat4([-1, -1, -1], inv_proj_mat, _vec3_tmp);
-                //     dest[2] = Math.atan(_vec3_tmp[1] / _vec3_tmp[2]);
-                //     dest[3] = Math.atan(_vec3_tmp[0] / _vec3_tmp[2]);
-                //     console.log(dest)
-                // }
-
+            if (webvr_display) {
                 var param = webvr_display.getEyeParameters(eye);
                 var fov = param.fieldOfView || param.currentFieldOfView
-                // TODO: check Oculus FOV
-                dest[0] = m_util.deg_to_rad(fov["upDegrees"]);
-                dest[1] = m_util.deg_to_rad(fov["rightDegrees"]);
-                dest[2] = m_util.deg_to_rad(fov["downDegrees"]);
-                dest[3] = m_util.deg_to_rad(fov["leftDegrees"]);
+                // It seems param.fieldOfView can be null in last version of Chromium
+                // despite of https://w3c.github.io/webvr/spec/1.1/#interface-vreyeparameters
+                if (fov) {
+                    dest[0] = m_util.deg_to_rad(fov["upDegrees"]);
+                    dest[1] = m_util.deg_to_rad(fov["rightDegrees"]);
+                    dest[2] = m_util.deg_to_rad(fov["downDegrees"]);
+                    dest[3] = m_util.deg_to_rad(fov["leftDegrees"]);
+                } else {
+                    if (type & HMD_WEBVR1_1) {
+                        var proj_mat = _mat4_tmp;
+                        if (eye == "left")
+                            m_mat4.copy(device.frame_data.leftProjectionMatrix, proj_mat);
+                        else
+                            m_mat4.copy(device.frame_data.rightProjectionMatrix, proj_mat);
+                        // var inv_proj_mat = m_mat4.invert(proj_mat, proj_mat);
+                        // var right_top_near = m_vec3.transformMat4([1, 1, -1], inv_proj_mat, _vec3_tmp);
+
+                        dest[0] = Math.atan(- _vec3_tmp[1] / _vec3_tmp[2]);
+                        dest[1] = Math.atan(- _vec3_tmp[0] / _vec3_tmp[2]);
+                        // var left_down_near = m_vec3.transformMat4([-1, -1, -1], inv_proj_mat, _vec3_tmp);
+                        dest[2] = Math.atan(_vec3_tmp[1] / _vec3_tmp[2]);
+                        dest[3] = Math.atan(_vec3_tmp[0] / _vec3_tmp[2]);
+                    }
+                }
+            }
         }
         break;
     default:
@@ -767,7 +776,7 @@ function update_hmd(device, timeline) {
         // NOTE: update position and orientation only one time per frame
         // to prevent strange behavior of WebVR API 1.0
         var display = device.webvr_display;
-        var capabilities = display.capabilities;
+        // var capabilities = display.capabilities;
 
         if (device.frame_data && display.getFrameData(device.frame_data)) {
             var webvr_pose = device.frame_data.pose;
@@ -796,11 +805,15 @@ function update_hmd(device, timeline) {
                 var standing_tsr = m_tsr.set_quat(rot_X_quat, device.standing_tsr);
             }
 
-            if (capabilities.hasOrientation && webvr_pose.orientation)
+            // capabilities.hasOrientation is undefined in the last version of Chromium
+            // despite of https://w3c.github.io/webvr/spec/1.1/#interface-vrdisplaycapabilities
+            if (webvr_pose.orientation)
                 m_tsr.transform_quat(webvr_pose.orientation, standing_tsr,
                         device.orientation);
 
-            if (capabilities.hasPosition && webvr_pose.position)
+            // don't use capabilities.hasPosition bcz it may be undefined
+            // in the future like capabilities.hasOrientation.
+            if (webvr_pose.position)
                 m_tsr.transform_vec3(webvr_pose.position, standing_tsr,
                         device.position);
         }
@@ -1401,12 +1414,31 @@ function mouse_up_cb(event) {
             device.mouse_up_which_cb_list.splice(i, 1);
 }
 
+function normalized_wheel_delta(event) {
+
+    var delta = 0;
+
+    if (event.wheelDelta) {
+        if (event.wheelDelta % 120 == 0)
+            delta = event.wheelDelta / 120;
+        else
+            delta = m_util.sign(event.wheelDelta);
+    } else if (event.deltaY) {
+        if (event.deltaY % 3 == 0)
+            delta = -event.deltaY / 3;
+        else
+            delta = -m_util.sign(event.deltaY);
+    }
+
+    return m_util.clamp(WHEEL_DELTA_MULT * delta, -WHEEL_DELTA_LIMIT, WHEEL_DELTA_LIMIT);
+}
+
 function mouse_wheel_cb(event) {
     var device = get_device_by_type_element(DEVICE_MOUSE, event.currentTarget);
     for (var i = 0; i < device.mouse_wheel_cb_list.length; i++) {
         var cb = device.mouse_wheel_cb_list[i];
         if (cb)
-            cb(-event.deltaY);
+            cb(normalized_wheel_delta(event));
     }
 
     if (device.prevent_default)

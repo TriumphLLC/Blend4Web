@@ -3,6 +3,207 @@
 ********
 
 
+v17.08
+======
+
+
+新功能
+------
+
+* Support for Leap Motion hand tracking controller.
+
+     Added the new Leap Motion code snippet. This code snippet can
+     help you to integrate support for Leap Motion devices inside your
+     own applications. Snippet supports two modes: realistic skinned
+     hands and hands based on primitive objects.
+
+* New logic node "Date & Time".
+
+     This node allows to obtain current Local/UTC date and time (year,
+     month, day, hour, minute and second).
+
+* New logic node "Elapsed".
+
+     This node returns elapsed time since last frame rendered in
+     seconds. This node can be very useful for creating robust
+     procedural animations.
+
+* Improved texture cache. Added "enable_texture_cache" configuration
+  option.
+
+     The texture cache is used for dynamically loaded scenes and can
+     reduce scene loading time by reusing already existed textures
+     instead of creating new ones. This option allows to turn on/off
+     the texture cache. Enabled by default.
+
+* Added new API methods to show/hide groups of objects.
+
+     Methods hide_all_by_data_id and show_all_by_data_id have been
+     added to the objects module. They allow changing visibility of
+     multiple objects based on their "data_id" property. Thus, they
+     can be used to show/hide an entire dynamically loaded scene at
+     once.
+
+     replace_image was added in the textures module. Also,
+     change_image is considered deprecated.
+
+* Optimization for procedural materials.
+
+     Implemented new packing algorithm for VALUE GLSL node. This
+     algorithm uses a vec4 array instead of a float array as before.
+     This makes possible to use more VALUE nodes without a risk of
+     exceeding GPU limits.
+
+* A new internal module "material.js".
+
+     This module contains internal engine logics for materials. This
+     change requires to perform the "Check Modules" and "Update
+     Modules" operations for old projects in the Project Manager after
+     updating the SDK.
+
+* Refined Logic Editor user interface.
+
+     Introduced a new Time category with "Get Timeline", "Delay",
+     "Date & Time" and "Elapsed" nodes.
+
+* Physics engine improvements.
+
+     Bullet library used by the internal physics engine upgraded from
+     2.82 to 2.86 release. Also, the optimized version of the engine's
+     physics compiled with WebAssembly became enabled by default. The
+     advantages of this are: lesser size of the physics files, faster
+     physics initialization, improved physics stability and higher
+     FPS.
+
+
+变更
+----
+
+* The version of the JSON/BIN export format was increased to 6.03.
+
+     It's recommended to reexport old .blend files for using with the
+     latest engine version.
+
+* Rendering of the Fresnel effect was slightly optimized.
+
+* The option "Preserve Global Rotation and Scale" from the
+  "Object->Billboard" panel was renamed to "Preserve Global Rotation".
+
+     From now on the world scale value is always applied to a
+     billboard object.
+
+* Added error message in case of making recursive or self-applied
+  constraints via the constraints API.
+
+* Added export warning in case of using multiple constraints on an
+  object in Blender.
+
+* Unnecessary python module 'requests' has been removed from addon.
+
+* The user manual has been supplied with several updates:
+
+     * A detailed description of the Blender user interface has been
+       added
+
+     * A guide on using animation blending.
+
+     * A description of API methods of the constraints module.
+
+
+修复
+----
+
+* Minor CSS fixes in the Code Snippets application and Petigor's
+  Tale game.
+
+* From now on the Alpha-AntiAliasing blend mode is switched to Alpha
+  Clip for devices with ARM Mali-T720 GPU due to rendering artifacts.
+
+* Fixed some crashes in the Project Manager while building
+  applications.
+
+* Fixed a rare bug with wrong initial orientation of HOVER-type
+  cameras.
+
+* Disabled depth textures in Firefox under Windows for AMD GPUs to
+  avoid some postprocessing artifacts.
+
+* Fixed precision issues that led to some rendering artifacts on
+  mobile devices.
+
+* Fixed mouse wheel sensitivity, which was incorrect in some cases.
+
+* Depth textures and also such related effects as SSAO, Dynamic
+  Grass, Shore Smoothing, etc. were enabled for AMD GPUs in Chrome
+  under Windows and for other GPUs in Firefox under Windows.
+
+* Fixed frustum culling of billboard objects by properly calculating
+  their boundings.
+
+* Fixed rendering of the procedural fog.
+
+* Disabled MSAA for Mali-T720 GPU because of bad performance and
+  rendering artifacts.
+
+* Minor fixes in the API documentation.
+
+* Fixed bug in Safari when an object with a non-opaque node material
+  wasn't rendered if it had the Glow Output node with the zero alpha
+  value.
+
+* Fixed getting mouse/touch coordinates for IE11 and Edge when an
+  application's canvas is not aligned with the top left corner of the
+  browser window.
+
+* Disabled MSAA in Google Chrome 60 for macOS, because it doesn't
+  work correctly and can lead to an engine crash.
+
+* Minor fixes to improve stability of WebVR.
+
+* Fixed texture caching for dynamically loaded scenes, which
+  previously led to redundant GPU memory usage.
+
+* Fixed applying the "Array" modifier to meshes with multiple UV/VC
+  layers.
+
+* Fixed not applying multiple material animations on one object.
+
+* Fixed resolution of debug subscene.
+
+* Fixed constraints caused unpredictable behavior on IE11.
+
+* Fixed anchor visibility.
+
+* Fixed possible memory leak. Unused debug framebuffers are removed.
+
+* Fixed using the hasOrientation and hasPosition attributes of WebVR
+  API. In the last WebVR Chromium build the attributes can be
+  undefined.
+
+* Fixed engine crash in case of using environment cubemaps with no
+  image
+
+* Fixed encoding issue in "Project Manager" for macOS.
+
+* Fixed synchronization between the physics worker and the main
+  thread in Chrome 61+ and removed the corresponding physics lag.
+
+* Removed a hack for transparent node materials in Firefox under
+  Linux, because it produced different color output among browsers.
+
+* Fixed incorrect camera rotation via the rotate_camera method if
+  the "is_abs" parameter was set to "true".
+
+* Fixed bug when the "simple" optimization level was always used for
+  projects with the "Compile" application type regardless of their
+  configuration options. This also fixed the optimization level for
+  Blend4Web Player, which uses "advanced", thus the size of the player
+  and player-based applications (e.g. HTML-exported scenes) was
+  slightly reduced.
+
+* Fixed loading of video textures on iPads in case of HTML export.
+
+
 v17.06
 ======
 
@@ -10,105 +211,90 @@ v17.06
 新功能
 ------
 
-* Support for essential Blender constraints.
+* 支持基础的Blender约束。
 
-     "Copy Location", "Copy Rotation", "Copy Transforms" and "Track
-     To" are available to use now. Also the following API methods have
-     been added: append_copy_loc, append_copy_rot and
+     可以使用 "复制位置", "复制旋转", "复制变换" 和  "追踪到"  。还添
+     加了以下API方法：append_copy_loc, append_copy_rot and
      append_copy_trans.
 
-* Experimental Augmented Reality support.
+* 实验性增强现实支持。
 
-     Check out the AR application to get the look of the feature we're
-     going to improve much in our next releases. The application can
-     be found in the "apps_dev/AR" folder and is also available in
-     Project Manager.
+     查看AR应用程序以获得我们将在下一个版本中改进的功能的特性。该应用
+     程序可以在 "apps_dev / AR" 文件夹中找到，也在项目管理器中可以找到
+     。
 
-* New logic node "Set Camera Limits".
+* 新逻辑节点 "设置相机限制" 。
 
-     This node allows changing limits of the camera. Each limit can be
-     set separately. Only limits available for current move style of
-     the camera are applied after node execution.
+     该节点允许更改摄像机的限制。每个限制可以单独设置。限制仅能应用到
+     当前摄像机移动样式在节点执行后。
 
-* Improved AA rendering.
+* 改进的AA渲染。
 
-     Scheme of rendering post-processing effects has been changed. It
-     increases performance and quality of the anti-aliasing.
+     渲染后期处理效果的方案已经改变。它提高了抗锯齿的性能和质量。
 
-* New experimental environment lighting algorithm for scenes with
-  "Cycles" materials.
+* 场景的 "Cycles" 材质有了新的实验环境照明算法。
 
-     Materials with "Glossy BSDF" and "Diffuse BSDF" nodes
-     automatically enable environment lighting, which takes into
-     account roughness of the glossy component.
+     具有 "光泽BSDF" 和 "漫射BSDF" 节点的材质自动启用环境照明，考虑进
+     光泽组件的粗糙度。
 
-     New algorithm requires WebGL 2.0 or WebGL 1.0 with available
-     extension EXT_shader_texture_lod for correct work.
+     新算法需要具有可用扩展名为 EXT_shader_texture_lod 的WebGL 2.0或
+     WebGL 1.0扩展才能正常工作。
 
-* Optimized rendering of reflections.
+* 优化反射渲染。
 
-     Cube reflections for scenes with no reflexible objects has been
-     optimized. Now in such scenes the sky is used for reflections
-     directly without redrawing for each individual reflective object.
+     已经优化了没有可反射物体的场景立方体反射。现在在这样的场景中，天
+     空直接用于反射，而不需要为每个单独的反射物体重绘。
 
-* Support for camera loading.
+* 支持相机加载。
 
-     From now on it's possible to load additional cameras to the scene
-     using dynamic loading feature.
+     从现在开始，可以使用动态加载功能将其他摄像机加载到场景中。
 
-* Physics API improvements.
+* 物理API改进。
 
-     Added set_angular_velocity. It allows to set object's angular
-     velocity.
+     添加  set_angular_velocity. 它允许设置物体的角速度。
 
 
 变更
 ----
 
-* The "pivot" setting in the "params" parameter for the target_setup
-  method has been made optional.
+* 对于 target_setup  方法的 "参数" 参数中的  "中心点" 设置已被设置为
+  可 选项。
 
-* The Material API was improved to provide more clear messages in
-  the browser console in case of errors. Also two methods have been
-  added: is_node_material and is_water_material.
+* 材质 API被改进，以便在出现错误时在浏览器控制台中提供更清晰的消息。
+  还 添加了两种方法： is_node_material 和 is_water_material.
 
-* Sequential video fallback for video textures isn't applied anymore
-  in MS Edge due to the native support for HTMLVideoElement.
+* 由于HTMLVideoElement的本机支持，因此在MS Edge中不再应用视频纹理的
+  顺 序视频回退机制。
 
 
 修复
 ----
 
-* Fixed incorrect rendering of materials with normal mapping.
+* 修正了法线贴图材质的不正确渲染。
 
-* Fixed VR code snipped.
+* Fixed VR code snippet.
 
-* Fixed keyboard events when the engine is working inside an iframe.
+* 修复当引擎在iframe内部工作时的键盘事件问题。
 
-* MSAA is disabled from now on for Adreno 4xx/5xx GPUs to prevent
-  some rendering bugs.
+* Adreno 4xx / 5xx GPU从现在开始禁用MSAA，以防止出现一些渲染错误。
 
-* Fixed translating/rotating of non-active cameras.
+* 修复非激活摄像机的平移/旋转。
 
-* Fixed getting coordinates for mouse/touch events via the
-  get_coords_x and get_coords_y methods.
+* 通过  get_coords_x 和 get_coords_y 方法修复鼠标/触摸事件的坐标获取
+  。
 
-* Fixed bug with looped speakers that couldn't be stopped in Firefox
-  after calling the stop and the play methods sequentially.
+* 修正了循环播放扬声器的bug，在Firefox中调用 stop 和   play  方法后
+  无 法停止。
 
-* Fixed sky redrawing after world node material parameters change.
+* 修复世界节点材质参数变化后天空重绘问题。
 
-* Removed auto applying modifiers for objects with the "Array"
-  modifier.
+* 移除了对 "阵列" 修改器物体自动应用修改器。
 
-* Fixed rendering artifacts for the transparent node materials in
-  Firefox under Linux.
+* 修复了在Linux下，Firefox中的透明材质节点渲染瑕疵。
 
-* Fixed applying a node material animation after material
-  inheritance.
+* 修复了材质继承后应用材质节点动画。
 
-* Workers were disabled for physics simulation in IE11 and MS Edge
-  to improve physics stability.
+* 工作器在IE11和MS Edge中禁用物理模拟，以提高物理稳定性。
 
 
 v17.04
@@ -325,11 +511,9 @@ v17.02
 
 * 风弯曲设置API。
 
-     Wind Bending parameters can now be set with
-     set_wind_bending_params, and they can be extracted with
-     get_wind_bending_params. Note that this API works only with
-     dynamic objects. A special menu for Wind Bending was added to the
-     Viewer interface.
+     风弯曲参数现在可以通过以下方式设置 set_wind_bending_params, 它们
+     可以用 get_wind_bending_params 来提取。请注意，此API仅适用于动态
+     物体。风弯曲的特殊菜单被添加到 预览器 界面。
 
 * 影子模糊和反射质量配置
 

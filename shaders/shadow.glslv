@@ -45,7 +45,6 @@
 #var BILLBOARD 0
 #var STATIC_BATCH 0
 #var BILLBOARD_JITTERED 0
-#var BILLBOARD_PRES_GLOB_ORIENTATION 0
 
 /*==============================================================================
                                   INCLUDES
@@ -333,18 +332,16 @@ void main(void) {
     skin(position, tangent, binormal, normal);
 #endif
 
-# if USE_INSTANCED_PARTCLS
+#if USE_INSTANCED_PARTCLS
     mat3 model_tsr = mat3(a_part_ts[0], a_part_ts[1], a_part_ts[2],
                         a_part_ts[3], a_part_r[0], a_part_r[1],
                         a_part_r[2], a_part_r[3], 1.0);
-#  if !STATIC_BATCH
+# if !STATIC_BATCH
     model_tsr = tsr_multiply(u_model_tsr, model_tsr);
-#  endif
-# else
-#  if !DYNAMIC_GRASS
-    mat3 model_tsr = u_model_tsr;
-#  endif
 # endif
+#else
+    mat3 model_tsr = u_model_tsr;
+#endif
 
 #if (WIND_BEND || DYNAMIC_GRASS || BILLBOARD) && !USE_INSTANCED_PARTCLS
     vec3 center = au_center_pos;
@@ -370,7 +367,7 @@ void main(void) {
 #if DYNAMIC_GRASS
     vertex world = grass_vertex(position, vec3(0.0), vec3(0.0), vec3(0.0), normal,
             center, u_grass_map_depth, u_grass_map_color, u_grass_map_dim,
-            u_grass_size, u_camera_eye, u_camera_quat, view_tsr);
+            u_grass_size, u_camera_eye, u_camera_quat, view_tsr, model_tsr);
 #else
 
 # if BILLBOARD
@@ -382,12 +379,7 @@ void main(void) {
     mat3 bill_view_tsr = view_tsr;
 #  endif
 
-#  if BILLBOARD_PRES_GLOB_ORIENTATION && !STATIC_BATCH || USE_INSTANCED_PARTCLS
-    model_tsr = billboard_tsr_global(u_camera_eye, wcen,
-            bill_view_tsr, model_tsr);
-#  else
-    model_tsr = billboard_tsr(u_camera_eye, wcen, bill_view_tsr);
-#  endif
+    model_tsr = billboard_tsr(u_camera_eye, wcen, bill_view_tsr, model_tsr);
 
 #  if WIND_BEND && BILLBOARD_JITTERED
     model_tsr = bend_jitter_rotate_tsr(u_wind, u_time,

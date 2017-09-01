@@ -56,6 +56,7 @@ exports.detect_tegra_invalid_enum_issue = function(gl) {
 }
 
 exports.set_hardware_defaults = function(gl, print_warnings) {
+
     var warn = function(msg) {
         if (print_warnings)
             m_print.warn(msg);
@@ -127,6 +128,11 @@ exports.set_hardware_defaults = function(gl, print_warnings) {
         cfg_def.msaa_samples = 1;
     }
 
+    if (check_user_agent("Mac OS X") && check_user_agent("Chrome/60")) {
+        warn("macOS and Chrome 60 detected, disabling multisample");
+        cfg_def.msaa_samples = 1;
+    }
+
     m_render.set_draw_methods();
 
     var depth_tex_available = Boolean(m_ext.get_depth_texture());
@@ -145,12 +151,14 @@ exports.set_hardware_defaults = function(gl, print_warnings) {
                     + "Applying glow hack.");
             if (!cfg_ctx.alpha)
                 cfg_def.background_color[3] = 1.0;
-            cfg_def.safari_glow_hack = true;
+
+            // NOTE: temporary disable this hack because it can lead to rendering 
+            // bugs in case of using the zero alpha value in the GLOW_OUTPUT node
+            // cfg_def.safari_glow_hack = true;
             cfg_def.ios_copy_tex_hack = true;
             cfg_def.vert_anim_mix_normals_hack = true;
             cfg_def.smaa = false;
             cfg_def.ssao = false;
-            cfg_def.precision = "highp";
             cfg_def.init_wa_context_hack = true;
             if (Boolean(m_ext.get_pvr()) && cfg_ldr.pvr_available)
                 cfg_def.compress_format = "pvr";
@@ -195,6 +203,11 @@ exports.set_hardware_defaults = function(gl, print_warnings) {
         }
     }
 
+    if (check_user_agent("iPad")) {
+        warn("iPad detected, use \"autoplay\" hack for video textures.");
+        cfg_def.ipad_video_hack = true;
+    }
+
     if ((check_user_agent("Firefox/35.0") || check_user_agent("Firefox/36.0")) &&
             check_user_agent("Windows")) {
         warn("Windows/Firefox 35/36 detected, applying shadows slink hack");
@@ -215,7 +228,6 @@ exports.set_hardware_defaults = function(gl, print_warnings) {
         warn("Windows Phone detected. Disable debug view mode, "
                     + "glow materials, ssao, smaa, shadows, reflections, refractions.");
         cfg_def.debug_view = false;
-        cfg_def.precision = "highp";
         cfg_def.glow_materials = false;
         cfg_def.ssao = false;
         cfg_def.smaa = false;
@@ -233,10 +245,8 @@ exports.set_hardware_defaults = function(gl, print_warnings) {
     }
 
     if (check_user_agent("Firefox")) {
-        warn("Firefox detected, disabling workers, applying compositing hack " 
-                + "for transparent node materials.");
+        warn("Firefox detected, disabling workers");
         cfg_phy.use_workers = false;
-        cfg_def.ff_compositing_hack = true;
     }
 
     if (is_ie11() || check_user_agent("Edge")) {
@@ -244,10 +254,9 @@ exports.set_hardware_defaults = function(gl, print_warnings) {
         cfg_phy.use_workers = false;
     }
 
-    if (check_user_agent("Firefox") && check_user_agent("Windows")) {
-        warn("Firefox and Windows detected, applying RGBA shadows, disable SSAO.");
-        cfg_def.ssao = false;
-        cfg_def.rgba_fallback_shadows = true;
+    if (check_user_agent("Chrome") && check_user_agent("Linux")) {
+        warn("Chrome and Linux detected, disabling wasm physics.");
+        cfg_phy.use_wasm = false;
     }
 
     // NOTE: check compatibility for particular device
@@ -256,65 +265,56 @@ exports.set_hardware_defaults = function(gl, print_warnings) {
         var renderer = gl.getParameter(rinfo.UNMASKED_RENDERER_WEBGL);
         var mali_4x_re = /\b4\d{2}\b/;
 
-        if (check_user_agent("Firefox") && check_user_agent("Windows") 
-                && renderer.indexOf("AMD") > -1 && cfg_def.webgl2) {
-            warn("AMD, Windows and Firefox detected under WebGL 2, request depth" 
-                    + " bits value via gl.getParameter.");
-            cfg_lim.depth_bits = gl.getParameter(gl.DEPTH_BITS);
+        if (check_user_agent("Chrome") && renderer.indexOf("Mali-T720") > -1) {
+            warn("Chrome and ARM Mali-T720 detected, changing " 
+                    + "\"Alpha Anti-Aliasing\" materials to \"Alpha Clip\".");
+            cfg_def.mali_alpha_antialias_hack = true;
         }
 
-        if (renderer.indexOf("AMD") > -1 && check_user_agent("Windows")) {
-            if (check_user_agent("Chrome") && !(is_ie11() || check_user_agent("Edge"))) {
-                warn("AMD, Windows and Chrome detected, applying RGBA shadows, disable SSAO.");
-                cfg_def.ssao = false;
-                cfg_def.rgba_fallback_shadows = true;
-            }
+        if (renderer.indexOf("AMD") > -1 && check_user_agent("Windows") 
+                && check_user_agent("Firefox")) {
+            warn("AMD, Windows and Firefox detected, disabling depth textures.");
+            depth_tex_available = false;
         }
 
         if (vendor.indexOf("ARM") > -1 && mali_4x_re.test(renderer)) {
-            warn("ARM Mali-400 series detected, applying depth and frames blending hacks");
+            warn("ARM Mali-400 series detected, applying lamps, depth and frames blending hacks");
             depth_tex_available = false;
             cfg_anim.frames_blending_hack = true;
+            cfg_def.mali4_lamps_hack = true;
         }
         if (vendor.indexOf("ARM") > -1 && renderer.indexOf("Mali-T604") > -1) {
-            warn("ARM Mali-T604 detected, set \"highp\" precision and disable shadows.");
-            cfg_def.precision = "highp";
+            warn("ARM Mali-T604 detected, disabling shadows.");
             cfg_def.shadows = false;
         }
         if (vendor.indexOf("ARM") > -1 && renderer.indexOf("Mali-T760") > -1) {
-            warn("ARM Mali-T760 detected, set \"highp\" precision and disable SSAO.");
-            cfg_def.precision = "highp";
+            warn("ARM Mali-T760 detected, disabling SSAO.");
             cfg_def.ssao = false;
             cfg_def.skinning_hack = true;
             if (cfg_def.webgl2) {
                 cfg_def.msaa_samples = 1;
-                warn("ARM Mali-T760 and WebGL 2 detected, switch MSAA samples to 1.");
+                warn("ARM Mali-T760 and WebGL 2 detected, switching MSAA samples to 1.");
             }
         }
 
         if (vendor.indexOf("ARM") > -1 && renderer.indexOf("Mali-T720") > -1) {
-            warn("ARM Mali-T720 detected, applying RGBA shadows");
-            cfg_def.rgba_fallback_shadows = true;
+            warn("ARM Mali-T720 detected, disabling depth textures.");
+            depth_tex_available = false;
+            if (cfg_def.webgl2) {
+                cfg_def.msaa_samples = 1;
+                warn("ARM Mali-T720 and WebGL 2 detected, switching MSAA samples to 1.");
+            }
         }
 
         if (vendor.indexOf("Qualcomm") > -1 && renderer.indexOf("Adreno") > -1) {
             warn("Qualcomm Adreno detected, applying shader constants hack.");
             cfg_def.shader_constants_hack = true;
-            if (renderer.indexOf("305") > -1) {
-                warn("Qualcomm Adreno305 detected, set \"highp\" precision.");
-                cfg_def.precision = "highp";
-            }
-            if (renderer.indexOf("330") > -1) {
-                warn("Qualcomm Adreno330 detected, set \"highp\" precision.");
-                cfg_def.precision = "highp";
-            }
             if (renderer.indexOf("420") > -1) {
                 warn("Qualcomm Adreno420 detected, setting max cubemap size to 12288x8192, "
                         + "setting max texture size to 4096x4096.");
                 cfg_lim.max_texture_size = Math.min(cfg_lim.max_texture_size, 4096);
                 cfg_lim.max_cube_map_texture_size = Math.min(
                         cfg_lim.max_cube_map_texture_size, 4096);
-                cfg_def.phy_race_condition_hack = true;
             }
 
             if (check_user_agent("Chrome") && (renderer.match(/4../) 
@@ -394,10 +394,6 @@ exports.set_hardware_defaults = function(gl, print_warnings) {
         var high = gl.getShaderPrecisionFormat(gl.FRAGMENT_SHADER, gl.HIGH_FLOAT);
     if (!gl.getShaderPrecisionFormat || high.precision === 0)
         cfg_def.precision = "mediump";
-
-    // TODO: remove "medium", bcz it's unused.
-    // var medium = gl.getShaderPrecisionFormat(gl.FRAGMENT_SHADER,
-    //         gl.MEDIUM_FLOAT);
 
     if (is_ie11() && check_user_agent("Touch") || check_user_agent("Edge")) {
         warn("IE11 and touchscreen or Edge detected. Behaviour of the mouse move sensor will be changed.");

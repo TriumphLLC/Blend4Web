@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>工作流程 &mdash; Blend4Web 17.06 用户手册</title>
+  <title>工作流程 &mdash; Blend4Web 17.08 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.06 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 17.08 用户手册" href="index.html"/>
         <link rel="next" title="项目管理" href="project_manager.html"/>
         <link rel="prev" title="安装和更新" href="setup.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v17.06
+              v17.08
             </div>
           
         
@@ -85,6 +85,7 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">概述</a></li>
 <li class="toctree-l1"><a class="reference internal" href="engine_features.html">引擎功能</a></li>
+<li class="toctree-l1"><a class="reference internal" href="interface.html">Blender User Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">安装和更新</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">工作流程</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#creating-a-new-project">创建一个新项目</a></li>
@@ -189,18 +190,18 @@
 </li>
 </ul>
 </div>
-<p>开发任何产品是一个创造性的过程，需要许多参与者谁拥有不同的技能和经验。然而不论事情是多么的复杂，是它总是能够分离出许多生产阶段，其中的大部分资产和源代码是创作的目标。</p>
-<p>Any work with the Blend4Web engine should start with running Blender.</p>
-<p>Select <code class="docutils literal"><span class="pre">Blend4Web</span></code> from the render engine list at the top panel in the main Blender window, and you will see how the program interface have changed. Some parameters will disappear, and new ones will take their place. The most important of these new parameters are located in the <code class="docutils literal"><span class="pre">Properties</span></code> window (usually placed at the right side of the main window), on the Render panel.</p>
+<p>开发任何产品是一个创造性的过程，需要许多拥有不同技能和经验的参与者。然而不论事情是多么的复杂，是它总是能够从资产创造和源代码编写等工作中分离出许多生产阶段。</p>
+<p>任何使用 Blend4Web 引擎的工作首先都要启动Blender。</p>
+<p>在Blender的主窗口的顶部面板条上，从渲染引擎列表中选择 <code class="docutils literal"><span class="pre">Blend4Web</span></code>，你会看到程序界面有一定变化。一些参数会消失，并且新的参数会替换他们。其中最重要的这些新的参数位于 <code class="docutils literal"><span class="pre">属性</span></code> 窗口中 （通常放置在主窗口的右侧），渲染面板上。</p>
 <a class="reference internal image-reference" href="_images/workflow_development_tools.png"><img alt="_images/workflow_development_tools.png" class="align-center" src="_images/workflow_development_tools.png" style="width: 100%;" /></a>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
-<p>If the <code class="docutils literal"><span class="pre">Development</span> <span class="pre">Tools</span></code> tab shows the Development server is off message, this means that the development server is not working. It can be enabled with the <code class="docutils literal"><span class="pre">Start</span> <span class="pre">Server</span></code> button on the same panel. The server can also be configured to run on startup with the <code class="docutils literal"><span class="pre">Run</span> <span class="pre">On</span> <span class="pre">Startup</span></code> option found in the add-on settings (<code class="docutils literal"><span class="pre">User</span> <span class="pre">Preferences</span> <span class="pre">→</span> <span class="pre">Add-Ons</span> <span class="pre">→</span> <span class="pre">Blend4Web</span></code>).</p>
-<p class="last">If any problems occur as you try to run development server, please consult the <a class="reference internal" href="problems_and_solutions.html#problems-and-solutions"><span>Problems and Solutions</span></a> chapter.</p>
+<p>如果 <code class="docutils literal"><span class="pre">开发工具</span></code> 选项卡显示开发服务器是关闭的消息，这意味着开发服务器不工作。可以用在相同的面板上的启动服务器按钮启用。服务器还可以配置为在启动时运行，通过设置 <code class="docutils literal"><span class="pre">Run</span> <span class="pre">On</span> <span class="pre">Startup</span></code>  选项  (<code class="docutils literal"><span class="pre">用户首选项</span> <span class="pre">→</span> <span class="pre">插件</span> <span class="pre">→</span> <span class="pre">Blend4Web</span></code>).</p>
+<p class="last">如果您尝试运行开发服务器出现任何问题，请参考 <a class="reference internal" href="problems_and_solutions.html#problems-and-solutions"><span>问题及解决</span></a> 章节.</p>
 </div>
-<p>The <code class="docutils literal"><span class="pre">SDK</span> <span class="pre">Index</span></code> button opens the <a class="reference internal" href="addon.html#getting-started-launching-viewer"><span>index page</span></a> that can be found by this address: <a class="reference external" href="http://localhost:6687">http://localhost:6687</a>.</p>
-<p>The <code class="docutils literal"><span class="pre">Fast</span> <span class="pre">Preview</span></code> button opens the <a class="reference internal" href="viewer.html#viewer"><span>Scene Viewer</span></a> and loads the scene that is open in Blender at the moment. This is a useful feature for planning and debugging your scenes.</p>
-<p>The <code class="docutils literal"><span class="pre">Project</span> <span class="pre">Manager</span></code> button opens the <a class="reference internal" href="project_manager.html#project-management"><span>Project Manager</span></a> — a powerful and easy to use tool  for working with Blend4Web projects. Using Project Manager is the most simple way to start working with Blend4Web.</p>
+<p><code class="docutils literal"><span class="pre">SDK</span> <span class="pre">Index</span></code> 按钮打开  <a class="reference internal" href="addon.html#getting-started-launching-viewer"><span>索引页</span></a>  可以通过这个地址 <a class="reference external" href="http://localhost:6687">http://localhost:6687</a> 查看.</p>
+<p><code class="docutils literal"><span class="pre">快速预览</span></code> 按钮打开  <a class="reference internal" href="viewer.html#viewer"><span>场景观察器</span></a>  加载目前在Blender中打开的场景。这是一个用来规划和调试你的场景的有用功能。</p>
+<p><code class="docutils literal"><span class="pre">项目管理器</span></code> 按钮打开  <a class="reference internal" href="project_manager.html#project-management"><span>项目管理器</span></a>  — 用于处理 Blend4Web 项目的功能强大、 易于使用的工具。使用项目管理器是最简单的方法来开始使用 Blend4Web.</p>
 <p>当使用Blend4Web工作流程如下：</p>
 <ol class="arabic simple">
 <li><p class="first">创建一个新项目</p>
@@ -221,7 +222,7 @@
 <div class="section" id="creating-a-new-project">
 <h2><a class="toc-backref" href="#id2">创建一个新项目</a><a class="headerlink" href="#creating-a-new-project" title="永久链接至标题">¶</a></h2>
 <p>要在一个项目上工作，首先就是要创建它。</p>
-<p>The easiest way to create a new project is to use the <a class="reference internal" href="project_manager.html#project-manager"><span>Project Manager</span></a>. To do it, run the Project Manager (either from Blender or from index page) and press the Create New Project button at the top of the Project Manager’s main window.</p>
+<p>创建一个新项目最简单的方法是使用  <a class="reference internal" href="project_manager.html#project-manager"><span>项目管理器</span></a>.  要做到这一点启动项目管理器（从Blender或者首页都可以），在项目管理器的主窗口顶部按新建项目按钮。</p>
 <p>另一种方法是使用  <em>project.py</em>  命令行脚本，这个更通用。这个脚本的工作描述 <a class="reference internal" href="project_manager.html#creating-a-project"><span>在这里</span></a>.</p>
 </div>
 <div class="section" id="creating-scenes">
@@ -251,7 +252,8 @@
 </li>
 <li><p class="first">场景组件应该有不同的识别名称。他们不应该叫 &#8220;Cube.001&#8221;, &#8220;Material&#8221; 或者 &#8220;Armature&#8221;.</p>
 </li>
-<li>We recommend you to link components from other files (libraries).</li>
+<li><p class="first">我们建议您从其他文件 （库）来链接组件。</p>
+</li>
 </ol>
 </div>
 <div class="section" id="preparing-a-scene-to-use-in-blend4web">
@@ -319,7 +321,7 @@
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2017, Triumph.
-      最后更新于 2017-06-30.
+      最后更新于 2017-08-31.
 
     </p>
   </div>
@@ -375,7 +377,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.06',
+            VERSION:'v17.08',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

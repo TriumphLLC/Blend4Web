@@ -100,6 +100,11 @@
  * <dd>Boolean, enable the Depth of Field effect.
  * <dt>do_not_load_resources
  * <dd>Boolean, disable loading of assets (textures and sounds).
+ * <dt>enable_texture_cache
+ * <dd>Boolean, cache all textures to prevent redundant resource requests and 
+ * speed up scene dynamic loading. Enabled by default. Note: this option affects 
+ * the dynamic loading functionality only, if it's your case and you have some 
+ * issues with GPU memory overloading consider disabling this option.
  * <dt>glow_materials
  * <dd>Boolean, enable glow materials.
  * <dt>god_rays
@@ -199,7 +204,7 @@
  * @cc_externs antialiasing assets_path assets_dds_available assets_min50_available 
  * @cc_externs background_color built_in_module_name canvas_resolution_factor
  * @cc_externs console_verbose compositing do_not_load_resources enable_selectable
- * @cc_externs enable_outlining media_auto_activation outlining_overview_mode
+ * @cc_externs enable_outlining enable_texture_cache media_auto_activation outlining_overview_mode
  * @cc_externs physics_enabled physics_uranium_path physics_calc_fps physics_use_workers
  * @cc_externs precision prevent_caching quality physics_uranium_bin
  * @cc_externs sfx_mix_mode shaders_path show_hud_debug_info

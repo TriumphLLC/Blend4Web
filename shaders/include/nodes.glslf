@@ -376,8 +376,7 @@ float fresnel_dielectric(vec3 inc, vec3 norm, float eta)
     vec3 llp = u_lamp_light_positions[LAMP_INDEX];
 #  node_if LAMP_TYPE == SPOT || LAMP_TYPE == POINT
 
-        // mimic blender behavior
-        light_vec_out = -v_pos_world + llp;
+        light_vec_out = v_pos_world - llp;
         distance_out = length(light_vec_out);
         light_vec_out = normalize(light_vec_out);
 
@@ -385,7 +384,7 @@ float fresnel_dielectric(vec3 inc, vec3 norm, float eta)
         visibility_factor_out = LAMP_LIGHT_DIST / (LAMP_LIGHT_DIST + distance_out * distance_out);
 
 #    node_if LAMP_TYPE == SPOT
-            float spot_factor = dot(light_vec_out, lld);
+            float spot_factor = dot(-light_vec_out, lld);
             spot_factor *= smoothstep(_0_0, _1_0,
                     (spot_factor - LAMP_SPOT_SIZE) / LAMP_SPOT_BLEND);
             visibility_factor_out *= spot_factor;
@@ -3245,10 +3244,11 @@ float fresnel_dielectric(vec3 inc, vec3 norm, float eta)
 #endnode
 
 #node VALUE
-    #node_var VALUE_IND 0
+    #node_var VALUE_ROW_IND 0
+    #node_var VALUE_COL_IND 0
     #node_out float value_out
 
-    value_out = u_node_values[VALUE_IND];
+    value_out = u_node_values[VALUE_ROW_IND][VALUE_COL_IND];
 #endnode
 
 #node VECT_MATH_ADD
@@ -3410,7 +3410,7 @@ float fresnel_dielectric(vec3 inc, vec3 norm, float eta)
 
         float h = GLSL_TEXTURE(texture, texcoord).a; // get height
 
-        for (float i = _1_0; i <= steps; i++)
+        for (float i = 1.0; i <= steps; i++)
         {
             if (h < height) {
                 height   -= pstep;

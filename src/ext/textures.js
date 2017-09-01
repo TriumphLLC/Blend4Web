@@ -173,6 +173,7 @@ exports.update_canvas_ctx = function(obj, text_name) {
  * @param {string} text_name Texture name specified in Blender
  * @param {string} image_path Path to image (relative to the main html file)
  * @param {TexChangingFinishCallback} [callback] Callback to be executed after changing
+ * @deprecated [17.08] Use {@link module:textures.replace_image} instead
  * @example 
  * var m_scenes  = require("scenes");
  * var m_tex = require("textures");
@@ -181,6 +182,7 @@ exports.update_canvas_ctx = function(obj, text_name) {
  * m_tex.change_image(cube, "Texture", "./test.png");
  */
 exports.change_image = function(obj, text_name, image_path, callback) {
+    m_print.error_deprecated("change_image", "replace_image");
     callback = callback || function() {};
     var tex = m_textures.get_texture_by_name(obj, text_name);
     if (!tex) {
@@ -216,6 +218,50 @@ exports.change_image = function(obj, text_name, image_path, callback) {
             callback(false);
     }
     m_assets.enqueue([asset], asset_cb, null, null);
+}
+
+/**
+ * Change texture image. Changing video textures is forbidden.
+ * @method module:textures.replace_image
+ * @param {Object3D} obj Object 3D
+ * @param {string} text_name Texture name specified in Blender
+ * @param {HTMLElement} image HTML element Image.
+ * @param {TexChangingFinishCallback} [callback] Callback to be executed after changing
+ * @example 
+ * var m_scenes  = require("scenes");
+ * var m_tex = require("textures");
+ *
+ * var cube = m_scenes.get_object_by_name("Cube");
+ * var image = new Image();
+ * image.onload = function() {
+ *     m_tex.replace_image(cube, "Texture", image);
+ * }
+ * image.src = "./test.png";
+ */
+exports.replace_image = function(obj, text_name, image, callback) {
+    callback = callback || function() {};
+    var tex = m_textures.get_texture_by_name(obj, text_name);
+
+    if (!tex) {
+        m_print.error("Couldn't find texture \"" + text_name + "\" in object \"" + obj.name + "\".");
+        callback(false);
+        return;
+    }
+
+    if (tex.is_movie) {
+        m_print.error("Changing video textures is forbidden.");
+        callback(false);
+        return;
+    }
+
+    if (!("src" in image)) {
+        m_print.error("Incorrect image.");
+        callback(false);
+        return;
+    }
+
+    var image_path = image.src;
+    m_textures.change_image(obj, tex, text_name, image, image_path);
 }
 /**
  * Get texture names.

@@ -33,6 +33,7 @@ var m_cons       = require("__constraints");
 var m_cont       = require("__container");
 var m_geom       = require("__geometry");
 var m_lights     = require("__lights");
+var m_mat        = require("__material");
 var m_nla        = require("__nla");
 var m_nodemat    = require("__nodemat");
 var m_obj_util   = require("__obj_util");
@@ -141,10 +142,39 @@ function clear_outline_anim(obj) {
         _outline_anim_objs.splice(ind, 1);
 }
 
+exports.create_object_from_bpy = function(bpy_obj, is_world) {
+
+    var name = is_world ? "%meta_world%" + bpy_obj["name"] : bpy_obj["name"];
+    var origin_name = is_world ? "%meta_world%" + bpy_obj["name"] : bpy_obj["origin_name"];
+    var type = is_world ? "WORLD" : bpy_obj["type"];
+
+
+    var obj = m_obj_util.create_object(name, type, origin_name);
+
+    if (obj.type == "MESH") {
+        for (var i = 0; i < bpy_obj["data"]["materials"].length; i++)
+            // NOTE: material was previously generated and written into the bpy 
+            // object
+            obj.materials.push(bpy_obj["data"]["materials"][i]);
+    }
+
+    for (var i = 0; i < bpy_obj._scenes.length; i++)
+        m_obj_util.append_scene_data(obj, bpy_obj._scenes[i]);
+
+    bpy_obj._object = obj;
+
+    if (is_world)
+        update_world(bpy_obj, obj);
+    else
+        update_object(bpy_obj, obj);
+
+    return obj;
+}
+
 /**
  * Update object: updates b4w object from bpy object.
  */
-exports.update_object = function(bpy_obj, obj) {
+function update_object(bpy_obj, obj) {
 
     obj.uuid = bpy_obj["uuid"];
     obj.is_meta = false;
@@ -272,7 +302,7 @@ exports.update_object = function(bpy_obj, obj) {
 
         // HACK: forcing cube reflections for cycles mats with bsdf_glossy
         if (!render.reflective)
-            update_bsdf_glossy_reflections(bpy_obj, render);
+            update_obj_bsdf_glossy_reflections(obj);
 
         render.caustics = bpy_obj["b4w_caustics"];
 
@@ -302,19 +332,18 @@ exports.update_object = function(bpy_obj, obj) {
         if (render.dynamic_geometry) {
             obj._bpy_obj = bpy_obj;
 
-            for (var i = 0; i < bpy_obj["data"]["materials"].length; i++) {
-                var bpy_mat = bpy_obj["data"]["materials"][i];
-                obj.mat_inheritance_data.original_mat_names.push(bpy_mat["name"]);
-                obj.mat_inheritance_data.bpy_materials.push(bpy_mat);
+            for (var i = 0; i < obj.materials.length; i++) {
+                var mat = obj.materials[i];
+                obj.mat_inheritance_data.original_mat_names.push(mat.name);
                 obj.mat_inheritance_data.is_disabled.push(false);
             }
         }
 
         // assign params for object (bounding) physics simulation
         // it seems BGE uses first material to get physics param
-        var first_mat = first_mesh_material(bpy_obj);
-        render.friction = first_mat["physics"]["friction"];
-        render.elasticity = first_mat["physics"]["elasticity"];
+        var first_mat = obj.materials[0];
+        render.friction = first_mat.physics_settings.friction;
+        render.elasticity = first_mat.physics_settings.elasticity;
 
         render.lod_dist_min = 0;
         render.lod_dist_max = m_obj_util.LOD_DIST_MAX_INFINITY;
@@ -383,29 +412,7 @@ exports.update_object = function(bpy_obj, obj) {
     objects_storage_add(obj);
 }
 
-function update_bsdf_glossy_reflections(bpy_obj, render) {
-    var materials = bpy_obj["data"]["materials"];
-
-    for (var i = 0; i < materials.length; i++) {
-        var mat = materials[i];
-        if (mat["use_nodes"] && (check_bsdf_type(mat["node_tree"], "BSDF_GLOSSY") || check_bsdf_type(mat["node_tree"], "BSDF_DIFFUSE"))) {
-            render.reflective = true;
-            render.reflection_type = "CUBE";
-        }
-    }
-}
-
-function check_bsdf_type(node_tree, bsdf_type) {
-    if (node_tree._bsdf_types.indexOf(bsdf_type) != -1)
-        return true;
-    else
-        return false;
-}
-
-/**
- * Update world: updates b4w world object from bpy world.
- */
-exports.update_world = function(bpy_world, world) {
+function update_world(bpy_world, world) {
     world.uuid = bpy_world["uuid"];
     world.is_meta = false;
 
@@ -419,6 +426,25 @@ exports.update_world = function(bpy_world, world) {
     world.anim_behavior_def = m_anim.anim_behavior_bpy_b4w(bpy_world["b4w_anim_behavior"]);
 
     objects_storage_add(world);
+}
+
+function update_obj_bsdf_glossy_reflections(obj) {
+    var materials = obj.materials;
+    for (var i = 0; i < materials.length; i++) {
+        var mat = materials[i];
+        if (mat.use_nodes && (check_bsdf_type(mat.node_tree, "BSDF_GLOSSY") 
+                || check_bsdf_type(mat.node_tree, "BSDF_DIFFUSE"))) {
+            obj.render.reflective = true;
+            obj.render.reflection_type = "CUBE";
+        }
+    }
+}
+
+function check_bsdf_type(node_tree, bsdf_type) {
+    if (node_tree._bsdf_types.indexOf(bsdf_type) != -1)
+        return true;
+    else
+        return false;
 }
 
 exports.update_object_relations = function(bpy_obj, obj) {
@@ -691,11 +717,11 @@ function has_dynamic_mat(bpy_obj) {
     for (var i = 0; i < mesh["materials"].length; i++) {
         var mat = mesh["materials"][i];
 
-        if (mat["b4w_water"])
+        if (mat.water_settings.is_water)
             return true;
-        if (mat["b4w_lens_flares"])
+        if (mat.is_lens_flares)
             return true;
-        if (has_dynamic_nodes(mat["node_tree"]))
+        if (has_dynamic_nodes(mat.node_tree))
             return true;
     }
 
@@ -815,13 +841,6 @@ function prepare_shape_keys(bpy_obj, obj) {
         render.use_shape_keys = false;
 }
 
-function first_mesh_material(bpy_obj) {
-    if (bpy_obj["type"] !== "MESH")
-        m_util.panic("Wrong object");
-
-    return bpy_obj["data"]["materials"][0];
-}
-
 exports.get_meta_tags = function(obj) {
     return m_util.clone_object_r(obj.metatags);
 }
@@ -887,8 +906,6 @@ function copy_object(obj, new_name, deep_copy) {
 
     new_obj.mat_inheritance_data.original_mat_names 
             = m_obj_util.copy_bpy_object_props_by_link(obj.mat_inheritance_data.original_mat_names);
-    new_obj.mat_inheritance_data.bpy_materials 
-            = m_obj_util.copy_bpy_object_props_by_link(obj.mat_inheritance_data.bpy_materials);
     new_obj.mat_inheritance_data.is_disabled 
             = m_obj_util.copy_bpy_object_props_by_link(obj.mat_inheritance_data.is_disabled); 
     
@@ -931,6 +948,9 @@ function copy_object(obj, new_name, deep_copy) {
             m_obj_util.copy_object_props_by_value(obj.physics_settings);
 
     copy_batches(obj, new_obj, deep_copy);
+
+    for (var i = 0; i < obj.materials.length; i++)
+        new_obj.materials.push(m_mat.clone_material(obj.materials[i]));
 
     // disable scene data for the new obj until appending it to the scene
     m_obj_util.scene_data_set_active(new_obj, false);
@@ -1884,35 +1904,31 @@ function process_inherit_obj_after(obj_to, old_link_to_obj) {
 function process_inherit_bpy_mat_before(obj_from, mat_from_name, obj_to, mat_to_name) {
     var bpy_mat_from_index = obj_from.mat_inheritance_data.original_mat_names.indexOf(mat_from_name);
     var bpy_mat_to_index = obj_to.mat_inheritance_data.original_mat_names.indexOf(mat_to_name);
-    var bpy_mat_from = obj_from.mat_inheritance_data.bpy_materials[bpy_mat_from_index];
+    var bpy_mat_from = obj_from.materials[bpy_mat_from_index];
 
     // store a new material for the object
-    obj_to.mat_inheritance_data.bpy_materials[bpy_mat_to_index] = bpy_mat_from;
+    obj_to.materials[bpy_mat_to_index] = bpy_mat_from;
 
     // NOTE: assign proper name to keep it in batch.material_names
-    var old_bpy_mat_name = bpy_mat_from["name"];
-    bpy_mat_from["name"] = mat_to_name;
+    var old_bpy_mat_name = bpy_mat_from.name;
+    bpy_mat_from.name = mat_to_name;
 
-    // NOTE: override materials on bpy object from the object (needed for copied 
-    // objects, that reference the same bpy objects), prevent excessive batching 
-    // through deleting the corresponding materials
-    for (var i = 0; i < obj_to._bpy_obj["data"]["materials"].length; i++) {
-        obj_to._bpy_obj["data"]["materials"][i] = obj_to.mat_inheritance_data.bpy_materials[i];
+    // NOTE: prevent excessive batching through disabling the corresponding 
+    // materials
+    for (var i = 0; i < obj_to.materials.length; i++)
         obj_to.mat_inheritance_data.is_disabled[i] = !(i == bpy_mat_to_index);
-    }
 
     return old_bpy_mat_name;
 }
 
 function process_inherit_bpy_mat_after(obj_from, mat_from_name, obj_to, old_bpy_mat_name) {
     // enable all bpy materials
-    for (var i = 0; i < obj_to._bpy_obj["data"]["materials"].length; i++)
+    for (var i = 0; i < obj_to.materials.length; i++)
         obj_to.mat_inheritance_data.is_disabled[i] = false;
 
     // revert old name of the inherited bpy material
     var bpy_mat_from_index = obj_from.mat_inheritance_data.original_mat_names.indexOf(mat_from_name);
-    var bpy_mat_from = obj_from.mat_inheritance_data.bpy_materials[bpy_mat_from_index];
-    bpy_mat_from["name"] = old_bpy_mat_name;
+    obj_from.materials[bpy_mat_from_index].name = old_bpy_mat_name;
 }
 
 function recover_batch_state(obj_to, mat_to_name, obj_from, psys_dict, main_batch_from) {
@@ -2110,8 +2126,18 @@ exports.get_nodemat_rgb = function (batch, ind, dest) {
     return dest;
 }
 
-exports.get_node_ind_by_name_list = get_node_ind_by_name_list;
-function get_node_ind_by_name_list(inds, name_list, prefix_offset) {
+exports.get_node_val_ind_by_name_list = get_node_val_ind_by_name_list;
+function get_node_val_ind_by_name_list(inds, name_list, prefix_offset) {
+    var id = node_id_from_name_list(name_list, prefix_offset);
+    for (var i = 0; i < inds.length; i+=3) {
+        if (inds[i] == id)
+            return inds[i+1] * 4 + inds[i+2];
+    }
+    return null;
+}
+
+exports.get_node_rgb_ind_by_name_list = get_node_rgb_ind_by_name_list;
+function get_node_rgb_ind_by_name_list(inds, name_list, prefix_offset) {
     var id = node_id_from_name_list(name_list, prefix_offset);
     for (var i = 0; i < inds.length; i+=2) {
         if (inds[i] == id)

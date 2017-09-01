@@ -410,8 +410,8 @@ function init_hover_pivot(camobj, zero_level, dest) {
                 + "are parallel to each other. Hover pivot will be set based on the " 
                 + "camera position.");
         dest[0] = trans[0];
-        dest[1] = 0;
-        dest[2] = trans[2];
+        dest[1] = trans[1];
+        dest[2] = 0;
     }
 
     return dest;
@@ -1781,13 +1781,13 @@ exports.set_rotation_angles = function(obj, phi, theta) {
     var ms = render.move_style;
 
     if (ms === exports.MS_TARGET_CONTROLS)
-        set_rotation_target_angles(obj, phi, phi);
+        set_rotation_target_angles(obj, phi, theta);
     else if (ms === exports.MS_EYE_CONTROLS)
-        set_rotation_eye_angles(obj, phi, phi);
+        set_rotation_eye_angles(obj, phi, theta);
     else if (ms === exports.MS_HOVER_CONTROLS)
-        set_rotation_hover_angles(obj, phi, phi);
+        set_rotation_hover_angles(obj, phi, theta);
     else if (ms === exports.MS_STATIC)
-        set_rotation_static_angles(obj, phi, phi);
+        set_rotation_static_angles(obj, phi, theta);
 }
 
 /**

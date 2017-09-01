@@ -91,7 +91,6 @@ function init_attr_pointer() {
         frames: 1,
 
         num_comp: 0,
-        stride: 0,
         offset: 0,
         divisor: 0
     }
@@ -1086,7 +1085,7 @@ function extract_submesh(mesh, material_index, attr_names, bone_skinning_info,
     var base_length = bsub["base_length"];
     var mat = mesh["materials"][material_index];
 
-    var submesh = init_submesh("SUBMESH_" + mesh["name"] + "_" + mat["name"]);
+    var submesh = init_submesh("SUBMESH_" + mesh["name"] + "_" + mat.name);
 
     submesh.base_length = base_length;
 
@@ -1267,8 +1266,8 @@ function extract_texcoords(mesh, material_index) {
     var material = mesh["materials"][material_index];
     var submesh = mesh["submeshes"][material_index];
 
-    if (material["texture_slots"].length) {
-        var slot = material["texture_slots"][0];
+    if (material.texture_slots.length) {
+        var slot = material.texture_slots[0];
 
         switch (slot["texture_coords"]) {
         case "UV":

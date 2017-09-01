@@ -232,7 +232,9 @@ var _nodes_handlers = {
     "GET_TIMELINE": get_timeline_handler,
     "JSON": json_handler,
     "JS_CALLBACK": js_callback_handler,
-    "EMPTY": do_nothing_handler
+    "EMPTY": do_nothing_handler,
+    "DATE_TIME": date_time_handler,
+    "ELAPSED": elapsed_handler
 };
 
 var _logic_arr = [];
@@ -1651,7 +1653,7 @@ function set_shader_node_param_handler(node, logic, thread_state, timeline, elap
         }
 
         if (node.shader_nd_type == "ShaderNodeRGB") {
-            var ind = m_obj.get_node_ind_by_name_list(batch_main.node_rgb_inds,
+            var ind = m_obj.get_node_rgb_ind_by_name_list(batch_main.node_rgb_inds,
                                                         name_list, 1);
             m_obj.set_nodemat_rgb(obj, mat_name, ind,
                 node.bools["id0"] ?
@@ -1663,7 +1665,7 @@ function set_shader_node_param_handler(node, logic, thread_state, timeline, elap
         }
 
         if (node.shader_nd_type == "ShaderNodeValue") {
-            var ind = m_obj.get_node_ind_by_name_list(batch_main.node_value_inds,
+            var ind = m_obj.get_node_val_ind_by_name_list(batch_main.node_value_inds,
                                                         name_list, 1);
             m_obj.set_nodemat_value(obj, mat_name, ind,
                 node.bools["id0"] ?
@@ -2114,6 +2116,55 @@ function js_callback_handler(node, logic, thread_state, timeline, elapsed, start
 
         if (ret)
             thread_state.curr_node = node.slot_idx_order;
+        break;
+    }
+}
+
+function date_time_handler(node, logic, thread_state, timeline, elapsed, start_time) {
+    switch (logic.state) {
+    case RUNNING:
+        var type = node.common_usage_names["time_type"];
+        var D = new Date();
+        var y, M, d, h, m, s;
+        if (type == "L") {
+            y = D.getFullYear();
+            M = D.getMonth();
+            d = D.getDate();
+            h = D.getHours();
+            m = D.getMinutes();
+            s = D.getSeconds();
+        }
+        else {
+            y = D.getUTCFullYear();
+            M = D.getUTCMonth();
+            d = D.getUTCDate();
+            h = D.getUTCHours();
+            m = D.getUTCMinutes();
+            s = D.getUTCSeconds();
+        }
+        if (node.bools["y"])
+                set_var(node.vars["y"], logic.variables, thread_state.variables, y);
+        if (node.bools["M"])
+            set_var(node.vars["M"], logic.variables, thread_state.variables, M);
+        if (node.bools["d"])
+            set_var(node.vars["d"], logic.variables, thread_state.variables, d);
+        if (node.bools["h"])
+            set_var(node.vars["h"], logic.variables, thread_state.variables, h);
+        if (node.bools["m"])
+            set_var(node.vars["m"], logic.variables, thread_state.variables, m);
+        if (node.bools["s"])
+            set_var(node.vars["s"], logic.variables, thread_state.variables, s);
+
+        thread_state.curr_node = node.slot_idx_order;
+        break;
+    }
+}
+
+function elapsed_handler(node, logic, thread_state, timeline, elapsed, start_time) {
+    switch (logic.state) {
+    case RUNNING:
+        set_var(node.vars["s"], logic.variables, thread_state.variables, elapsed);
+        thread_state.curr_node = node.slot_idx_order;
         break;
     }
 }

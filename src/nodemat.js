@@ -318,7 +318,7 @@ function split_material_nodes(graph, mat_name, shader_type) {
             6: ["LIGHTING_APPLY", 6], // translucency_params
             7: ["MATERIAL_END", 3], // reflect_factor
             8: ["MATERIAL_END", 4], // specular_alpha
-            9: ["MATERIAL_END", 5], // alpha_in
+            9: ["MATERIAL_END", 5] // alpha_in
         }
 
         var in_count = m_graph.in_edge_count(graph, node_id);
@@ -2830,7 +2830,7 @@ function append_nmat_node(graph, bpy_node, output_num, mat_name, shader_type) {
         var trs_matrix = m_mat3.create();
 
         // rotation
-        var rot_matrix = m_util.euler_to_rotation_matrix(rot);
+        var rot_matrix = m_util.euler_to_rotation_matrix(rot, m_mat3.create());
 
         // HACK: set non-zero scale to allow matrix inverse
         if (vector_type == "TEXTURE") {
@@ -3148,7 +3148,7 @@ function append_nmat_node(graph, bpy_node, output_num, mat_name, shader_type) {
                 diffuse_shader: bpy_node["diffuse_shader"],
                 use_shadeless: bpy_node["use_shadeless"],
                 use_tangent_shading: bpy_node["use_tangent_shading"]
-            },
+            }
         }
 
         // MATERIAL BEGIN
@@ -3552,7 +3552,7 @@ function append_nmat_node(graph, bpy_node, output_num, mat_name, shader_type) {
 
         data = {
             name: bpy_node["name"],
-            output_world_surface: output_surface,
+            output_world_surface: output_surface
         };
         break;
     case "RGB":
@@ -4688,9 +4688,9 @@ function change_node_groups_links(node, links, graph) {
 }
 
 exports.check_material_glow_output = function(mat) {
-    if (mat["node_tree"])
-        for (var i = 0; i < mat["node_tree"]["nodes"].length; i++) {
-            var node = mat["node_tree"]["nodes"][i]
+    if (mat.node_tree)
+        for (var i = 0; i < mat.node_tree["nodes"].length; i++) {
+            var node = mat.node_tree["nodes"][i]
             if (node.type == "GROUP" && node["node_tree_name"] == "B4W_GLOW_OUTPUT")
                 return true;
         }

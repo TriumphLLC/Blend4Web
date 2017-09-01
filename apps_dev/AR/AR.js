@@ -146,9 +146,13 @@ function preloader_cb(percentage) {
  */
 function load_cb(data_id, success) {
     // prepare media devices, for example, a Web camera
-    navigator.mediaDevices.enumerateDevices()
-        .then(got_devices)
-        .catch(catch_error);
+    if (navigator.mediaDevices) {
+        navigator.mediaDevices.enumerateDevices()
+            .then(got_devices)
+            .catch(catch_error);
+    } else {
+        catch_error(new Error("WebRTC: It seems WebRTC is not supported on your device."));
+    }
 
     var control_panel = document.querySelector(".control");
     control_panel.style.display = null;

@@ -48,7 +48,7 @@ typedef struct
 	float m_frictionCoeff;
 } Body;
 
-__kernel void 
+__kernel void
 	copyTransformsToVBOKernel( __global Body* gBodies, __global float4* posOrnColor, const int numNodes)
 {
 	int nodeID = get_global_id(0);
@@ -76,14 +76,25 @@ m_window(0)
 	{
 		m_instancingRenderer = 0;
 	}
-	
+
 	m_window = helper->getAppInterface()->m_window;
 
 	m_data = new GpuRigidBodyDemoInternalData;
+	m_data->m_guiHelper = helper;
 }
+
+void GpuRigidBodyDemo::resetCamera()
+{
+	float dist = 114;
+	float pitch = 52;
+	float yaw = 35;
+	float targetPos[3]={0,0,0};
+	m_data->m_guiHelper->resetCamera(dist,pitch,yaw,targetPos[0],targetPos[1],targetPos[2]);
+}
+
 GpuRigidBodyDemo::~GpuRigidBodyDemo()
 {
-	
+
 	delete m_data;
 }
 
@@ -97,9 +108,9 @@ static void PairKeyboardCallback(int key, int state)
 {
 	if (key=='R' && state)
 	{
-		gReset = true;
+		//gReset = true;
 	}
-	
+
 	//b3DefaultKeyboardCallback(key,state);
 	oldCallback(key,state);
 }
@@ -122,13 +133,13 @@ void	GpuRigidBodyDemo::initPhysics()
 
 		cl_program rbProg=0;
 		m_data->m_copyTransformsToVBOKernel = b3OpenCLUtils::compileCLKernelFromString(m_clData->m_clContext,m_clData->m_clDevice,s_rigidBodyKernelString,"copyTransformsToVBOKernel",&errNum,rbProg);
-		
+
 		m_data->m_config.m_maxConvexBodies = b3Max(m_data->m_config.m_maxConvexBodies,gGpuArraySizeX*gGpuArraySizeY*gGpuArraySizeZ+10);
 		m_data->m_config.m_maxConvexShapes = m_data->m_config.m_maxConvexBodies;
 		int maxPairsPerBody = 16;
 		m_data->m_config.m_maxBroadphasePairs = maxPairsPerBody*m_data->m_config.m_maxConvexBodies;
 		m_data->m_config.m_maxContactCapacity = m_data->m_config.m_maxBroadphasePairs;
-		
+
 
 		b3GpuNarrowPhase* np = new b3GpuNarrowPhase(m_clData->m_clContext,m_clData->m_clDevice,m_clData->m_clQueue,m_data->m_config);
 		b3GpuBroadphaseInterface* bp =0;
@@ -155,11 +166,11 @@ void	GpuRigidBodyDemo::initPhysics()
 
 	}
 
-	
+
 
 	m_guiHelper->getRenderInterface()->writeTransforms();
-	
-	
+
+
 
 }
 
@@ -171,8 +182,8 @@ void	GpuRigidBodyDemo::exitPhysics()
 	delete m_data->m_rigidBodyPipeline;
 	delete m_data->m_broadphaseDbvt;
 
-	
-	
+
+
 	delete m_data->m_np;
 	m_data->m_np = 0;
 	delete m_data->m_bp;
@@ -185,7 +196,7 @@ void	GpuRigidBodyDemo::exitPhysics()
 void GpuRigidBodyDemo::renderScene()
 {
 	m_guiHelper->getRenderInterface()->renderScene();
-	
+
 
 }
 
@@ -216,13 +227,13 @@ void GpuRigidBodyDemo::stepSimulation(float deltaTime)
 	if (animate && numObjects)
 	{
 		B3_PROFILE("gl2cl");
-		
+
 		if (!m_data->m_instancePosOrnColor)
 		{
 			GLuint vbo = m_instancingRenderer->getInternalData()->m_vbo;
 			int arraySizeInBytes  = numObjects * (3)*sizeof(b3Vector4);
 			glBindBuffer(GL_ARRAY_BUFFER, vbo);
-			cl_bool blocking=  CL_TRUE;
+//			cl_bool blocking=  CL_TRUE;
 			positions=  (b3Vector4*)glMapBufferRange( GL_ARRAY_BUFFER,m_instancingRenderer->getMaxShapeCapacity(),arraySizeInBytes, GL_MAP_READ_BIT );//GL_READ_WRITE);//GL_WRITE_ONLY
 			GLint err = glGetError();
 			assert(err==GL_NO_ERROR);
@@ -234,11 +245,11 @@ void GpuRigidBodyDemo::stepSimulation(float deltaTime)
 			assert(err==GL_NO_ERROR);
 		}
 	}
-	
+
 	{
 		B3_PROFILE("stepSimulation");
 		m_data->m_rigidBodyPipeline->stepSimulation(1./60.f);
-		
+
 	}
 
 	if (numObjects)
@@ -247,7 +258,7 @@ void GpuRigidBodyDemo::stepSimulation(float deltaTime)
 		{
 			b3GpuNarrowPhaseInternalData*	npData = m_data->m_np->getInternalData();
 			npData->m_bodyBufferGPU->copyToHost(*npData->m_bodyBufferCPU);
-			
+
 			b3AlignedObjectArray<b3Vector4> vboCPU;
 			m_data->m_instancePosOrnColor->copyToHost(vboCPU);
 
@@ -285,7 +296,7 @@ void GpuRigidBodyDemo::stepSimulation(float deltaTime)
 		int arraySizeInBytes  = numObjects * (3)*sizeof(b3Vector4);
 
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		cl_bool blocking=  CL_TRUE;
+//		cl_bool blocking=  CL_TRUE;
 		positions=  (b3Vector4*)glMapBufferRange( GL_ARRAY_BUFFER,m_instancingRenderer->getMaxShapeCapacity(),arraySizeInBytes, GL_MAP_WRITE_BIT );//GL_READ_WRITE);//GL_WRITE_ONLY
 		err = glGetError();
 		assert(err==GL_NO_ERROR);
@@ -301,7 +312,7 @@ b3Vector3	GpuRigidBodyDemo::getRayTo(int x,int y)
 {
 	if (!m_instancingRenderer)
 		return b3MakeVector3(0,0,0);
-		
+
 	float top = 1.f;
 	float bottom = -1.f;
 	float nearPlane = 1.f;
@@ -318,7 +329,7 @@ b3Vector3	GpuRigidBodyDemo::getRayTo(int x,int y)
 	float farPlane = 10000.f;
 	rayForward*= farPlane;
 
-	b3Vector3 rightOffset;
+//	b3Vector3 rightOffset;
 	b3Vector3 m_cameraUp=b3MakeVector3(0,1,0);
 	b3Vector3 vertical = m_cameraUp;
 
@@ -339,7 +350,7 @@ b3Vector3	GpuRigidBodyDemo::getRayTo(int x,int y)
 	float height = m_instancingRenderer->getScreenHeight();
 
 	aspect =  width / height;
-	
+
 	hor*=aspect;
 
 
@@ -356,13 +367,13 @@ b3Vector3	GpuRigidBodyDemo::getRayTo(int x,int y)
 
 unsigned char* GpuRigidBodyDemo::loadImage(const char* fileName, int& width, int& height, int& n)
 {
-		unsigned char *data = stbi_load(fileName, &width, &height, &n, 0);
+		unsigned char *data = stbi_load(fileName, &width, &height, &n, 3);
 		return data;
 }
 
 bool	GpuRigidBodyDemo::keyboardCallback(int key, int state)
 {
-	
+
 	if (m_data)
 	{
 		if (key==B3G_ALT )
@@ -390,7 +401,7 @@ bool	GpuRigidBodyDemo::mouseMoveCallback(float x,float y)
 		m_data->m_rigidBodyPipeline->removeConstraintByUid(m_data->m_pickConstraint);
 		b3Vector3 newRayTo = getRayTo(x,y);
 		b3Vector3 rayFrom;
-		b3Vector3 oldPivotInB = m_data->m_pickPivotInB;
+	//	b3Vector3 oldPivotInB = m_data->m_pickPivotInB;
 		b3Vector3 newPivotB;
 		m_guiHelper->getRenderInterface()->getActiveCamera()->getCameraPosition(rayFrom);
 		b3Vector3 dir = newRayTo-rayFrom;
@@ -429,17 +440,17 @@ bool	GpuRigidBodyDemo::mouseButtonCallback(int button, int state, float x, float
 			m_data->m_rigidBodyPipeline->castRays(rays,hitResults);
 			if (hitResults[0].m_hitFraction<1.f)
 			{
-				
+
 				int hitBodyA = hitResults[0].m_hitBody;
 				if (m_data->m_np->getBodiesCpu()[hitBodyA].m_invMass)
 				{
 					//printf("hit!\n");
 					m_data->m_np->readbackAllBodiesToCpu();
 					m_data->m_pickBody = hitBodyA;
-					
 
-				
-			
+
+
+
 					//pivotInA
 					b3Vector3 pivotInB;
 					pivotInB.setInterpolate3(ray.m_from,ray.m_to,hitResults[0].m_hitFraction);
@@ -458,14 +469,14 @@ bool	GpuRigidBodyDemo::mouseButtonCallback(int button, int state, float x, float
 						m_data->m_pickFixedBody = m_data->m_rigidBodyPipeline->registerPhysicsInstance(0,pos,orn,fixedSphere,0,false);
 						m_data->m_rigidBodyPipeline->writeAllInstancesToGpu();
 						m_data->m_bp->writeAabbsToGpu();
-					
+
 						if (m_data->m_pickGraphicsShapeIndex<0)
 						{
 							int strideInBytes = 9*sizeof(float);
 							int numVertices = sizeof(point_sphere_vertices)/strideInBytes;
 							int numIndices = sizeof(point_sphere_indices)/sizeof(int);
 							m_data->m_pickGraphicsShapeIndex = m_guiHelper->getRenderInterface()->registerShape(&point_sphere_vertices[0],numVertices,point_sphere_indices,numIndices,B3_GL_POINTS);
-							
+
 							float color[4] ={1,0,0,1};
 							float scaling[4]={1,1,1,1};
 
@@ -480,7 +491,7 @@ bool	GpuRigidBodyDemo::mouseButtonCallback(int button, int state, float x, float
 								m_instancingRenderer->writeSingleInstanceTransformToGPU(pivotInB,orn,m_data->m_pickGraphicsShapeInstance);
 							m_data->m_np->setObjectTransformCpu(pos,orn,m_data->m_pickFixedBody);
 						}
-			
+
 					}
 					pivotInB.w = 0.f;
 					m_data->m_pickPivotInA = pivotInA;

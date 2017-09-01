@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Параметры сцены &mdash; Руководство пользователя Blend4Web 17.06</title>
+  <title>Параметры сцены &mdash; Руководство пользователя Blend4Web 17.08</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 17.06" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 17.08" href="index.html"/>
         <link rel="next" title="Объекты" href="objects.html"/>
         <link rel="prev" title="Аддон" href="addon.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v17.06
+              v17.08
             </div>
           
         
@@ -85,6 +85,7 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">Общие сведения</a></li>
 <li class="toctree-l1"><a class="reference internal" href="engine_features.html">Возможности движка</a></li>
+<li class="toctree-l1"><a class="reference internal" href="interface.html">Интерфейс Blender</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Установка и обновление</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Рабочий процесс</a></li>
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">Управление проектами</a></li>
@@ -467,14 +468,18 @@
 </div>
 <div class="section" id="meta-tags">
 <span id="scene-meta-tags"></span><h3><a class="toc-backref" href="#id27">Meta Tags</a><a class="headerlink" href="#meta-tags" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Мета-теги приложения.</p>
+<p>Мета-теги приложения. Настраиваются так же как и <a class="reference internal" href="objects.html#objects-meta-tags"><span>мета-теги объектов</span></a>.</p>
 <a class="reference internal image-reference" href="_images/scene_meta_tags.png"><img alt="_images/scene_meta_tags.png" class="align-center" src="_images/scene_meta_tags.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>Title</em></dt>
 <dd><p class="first last">Заголовок приложения.</p>
 </dd>
 <dt><em>Description</em></dt>
-<dd><p class="first last">Описание приложения. Может быть текстовым или представлять собой ссылку на файл (если параметр <code class="docutils literal"><span class="pre">Description</span> <span class="pre">Source</span></code> имеет значение <code class="docutils literal"><span class="pre">File</span></code>).</p>
+<dd><p class="first">Описание приложения. Может быть текстовым или представлять собой ссылку на файл (если параметр <code class="docutils literal"><span class="pre">Description</span> <span class="pre">Source</span></code> имеет значение <code class="docutils literal"><span class="pre">File</span></code>).</p>
+<div class="last admonition note">
+<p class="first admonition-title">Примечание</p>
+<p class="last">Если в качестве данных в поле <code class="docutils literal"><span class="pre">Description</span></code> требуется использовать текстовый файл, то данный файл может быть загружен в Blender через встроенный редактор <a class="reference internal" href="interface.html#ui-text-editor"><span>Text Editor</span></a>.</p>
+</div>
 </dd>
 <dt><em>Description Source</em></dt>
 <dd><p class="first last">Источник описания приложения. Описание может быть взято из файла или задано непосредственно в поле <code class="docutils literal"><span class="pre">Description</span></code>. Доступные значения - <code class="docutils literal"><span class="pre">Text</span></code> и <code class="docutils literal"><span class="pre">File</span></code>. Значение по умолчанию - <code class="docutils literal"><span class="pre">Text</span></code>.</p>
@@ -693,7 +698,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Триумф.
-      Обновлено: 2017-06-30.
+      Обновлено: 2017-08-31.
 
     </p>
   </div>
@@ -749,7 +754,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.06',
+            VERSION:'v17.08',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

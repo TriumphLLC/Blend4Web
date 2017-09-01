@@ -248,6 +248,5 @@ WebGL的无法初始化
 
 * Mali 400系列的GPU上谷歌Chrome浏览器渲染Alpha混合物体不正确。
 
-* Using several application instances in a single page can lead to
-  excessive memory usage or even a tab crash in Chrome 59. However,
-  this is fixed in Chrome 60.
+* 在Chrome 59中单个页面里使用几个应用程序实例可能导致过多的内存使用
+  ， 甚至会让选项卡崩溃。不过该问题已经在Chrome 60中修复。

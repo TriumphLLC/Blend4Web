@@ -60,7 +60,7 @@ vec4 texture2D_linear(sampler2D texture_sampler, vec2 tex_coord) {
 vertex grass_vertex(vec3 position, vec3 tangent, vec3 shade_tan, vec3 binormal,
         vec3 normal, vec3 center, PRECISION sampler2D grass_map_depth,
         sampler2D grass_map_color, vec3 grass_map_dim, float grass_size,
-        vec3 camera_eye, vec4 camera_quat, mat3 view_tsr)
+        vec3 camera_eye, vec4 camera_quat, mat3 view_tsr, mat3 model_tsr)
 {
 
     // get camera view angles
@@ -122,7 +122,7 @@ vertex grass_vertex(vec3 position, vec3 tangent, vec3 shade_tan, vec3 binormal,
 # if BILLBOARD
     // NOTE: position in local space: position - center
     position -= center;
-    mat3 bill_tsr = billboard_tsr(camera_eye, center, view_tsr);
+    mat3 bill_tsr = billboard_tsr(camera_eye, center, view_tsr, model_tsr);
     vertex world = to_world(position, center, tangent, shade_tan, binormal,
             normal, bill_tsr);
     world.center = center;

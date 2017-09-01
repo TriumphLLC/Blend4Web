@@ -114,7 +114,9 @@ slot_type_enum = [
         ("GET_TIMELINE", _("Get Timeline"), _("Get timeline current frame"), 32),
         ("JSON", _("JSON"), _("Perform a JSON operation"), 33),
         ("JS_CALLBACK", _("JS Callback"), _("Perform custom JavaScipt callback"), 34),
-        ("EMPTY", _("Empty"), _("Empty node for rerouting"), 35)
+        ("EMPTY", _("Empty"), _("Empty node for rerouting"), 35),
+        ("DATE_TIME", _("Date & Time"), _("Get current date & time"), 37),
+        ("ELAPSED", _("Elapsed"), _("Elapsed time"), 38)
     ]
 
 operation_type_enum = [
@@ -162,6 +164,11 @@ condition_type_enum = [
 js_cb_param_type_enum = [
     ("OBJECT", _("Object"), _("Object parameter")),
     ("VARIABLE", _("Variable"), _("Variable parameter")),
+]
+
+time_format_enum = [
+    ("L", _("Local"), _("Local time")),
+    ("U", _("UTC"), _("UTC time")),
 ]
 
 order_socket_color = (1.0, 1.0, 0.216, 0.5)
@@ -282,10 +289,10 @@ def check_node(node):
                 ob = object_by_bpy_collect_path(bpy.data.objects, item.path_arr)
                 wd = object_by_bpy_collect_path(bpy.data.worlds, item.path_arr)
                 if not ob and not wd:
-                    node.add_error_message(err_msgs, _("Bad object field!"))
+                    node.add_error_message(err_msgs, _("Bad Object field!"))
             else:
                 # case when objects_paths is not filled yet (type_init not invoked yet)
-                node.add_error_message(err_msgs, _("Bad object field!"))
+                node.add_error_message(err_msgs, _("Bad Object field!"))
 
     if node.type == "PAGEPARAM":
         if node.param_name == "":
@@ -447,7 +454,7 @@ def check_node(node):
                 item = node.objects_paths[id]
                 ob = object_by_bpy_collect_path(bpy.data.objects, item.path_arr)
                 if not ob:
-                    node.add_error_message(err_msgs, _("Bad object field: '%s'") % p1.path)
+                    node.add_error_message(err_msgs, _("Bad Object field:") +  "'%s'" % p1.path)
 
     if node.type in ["CONSOLE_PRINT"]:
         mess_err = True
@@ -724,7 +731,7 @@ def node_by_ob_mt_nd( ob_item, mt_item, nd_item):
 
 class B4W_LogicNodeTree(NodeTree):
     bl_idname = 'B4WLogicNodeTreeType'
-    bl_label = _('Blend4Web logic')
+    bl_label = _('Blend4Web Logic')
     bl_description = _('Blend4Web logic nodes')
     bl_icon = 'NODETREE'
 
@@ -858,6 +865,7 @@ class B4W_LogicNodeTree(NodeTree):
                 if nd:
                     ret["shader_nd_type"] = nd.bl_idname
 
+            ret["common_usage_names"]["time_type"] = node.param_time_type
             ret["floats"] = {}
             for f in node.floats:
                 ret["floats"][f.name] = f.float
@@ -1030,6 +1038,12 @@ class B4W_LogicNode(Node, B4W_LogicEditorNode):
 
     def update(self):
         check_node(self)
+
+    def add_optional_variable(self, varname):
+        self.bools.add()
+        self.bools[-1].name = varname
+        self.variables_names.add()
+        self.variables_names[-1].name = varname
 
     def type_init(self, context):
         # update vars always when new node was added
@@ -1556,6 +1570,20 @@ class B4W_LogicNode(Node, B4W_LogicEditorNode):
             self.bools[-1].name = "vtlmax"
             self.variables_names.add()
             self.variables_names[-1].name = "vtlmax"
+        
+        if self.type in ["DATE_TIME"]:
+            self.add_optional_variable("y")
+            self.add_optional_variable("M")
+            self.add_optional_variable("d")
+            self.add_optional_variable("h")
+            self.add_optional_variable("m")
+            self.add_optional_variable("s")
+            self.width = 180
+
+        if self.type in ["ELAPSED"]:
+            self.variables_names.add()
+            self.variables_names[-1].name = "s"
+            self.width = 180
 
     type = bpy.props.EnumProperty(name="type",items=slot_type_enum, update=type_init)
 
@@ -1775,10 +1803,17 @@ class B4W_LogicNode(Node, B4W_LogicEditorNode):
     )
 
     param_json_operation = bpy.props.EnumProperty(
-        name = _("JSON operation"),
+        name = _("JSON Operation"),
         description = _("JSON operation"),
         default = "PARSE",
         items = json_operation_type_enum
+    )
+
+    param_time_type = bpy.props.EnumProperty(
+        name = _("Time type"),
+        description = _(""),
+        default = "L",
+        items = time_format_enum
     )
 
     parse_json_list = bpy.props.CollectionProperty(type=B4W_ParseJsonStringWrap, name="B4W: parse json list")
@@ -2793,6 +2828,30 @@ class B4W_LogicNode(Node, B4W_LogicEditorNode):
 
         elif slot.type == "ENTRYPOINT":
             col.prop(self.bools["js"], "bool", text = _("Run From Script"))
+        
+        elif slot.type == "DATE_TIME":
+            row = col.row()
+            row.label(_("Time Format:"))
+            row.prop(self, "param_time_type", text = "")
+            if "entryp" in self:
+                if self.param_time_type in ["L", "U"]:
+                    for key in [("y", "Year"), ("M", "Month"), ("d", "Day"), ("h", "Hours"), ("m", "Minutes"), ("s", "Seconds")]:
+                        row = col.row()
+                        col1 = row.column()
+                        col2 = row.column()
+                        col1.prop(self.bools[key[0]], "bool", text=key[1])
+                        if (self.bools[key[0]].bool):
+                            col2.prop_search(self.variables_names[key[0]], "variable",
+                                        self.id_data.nodes[self["entryp"]], "variables", text = "")
+            else:
+                col.label(no_var_source_msg)
+
+        elif slot.type == "ELAPSED":
+            if "entryp" in self:
+                col.prop_search(self.variables_names["s"], "variable",
+                                self.id_data.nodes[self["entryp"]], "variables", text = "")
+            else:
+                col.label(no_var_source_msg)
 
     def draw_label(self):
         for t in slot_type_enum:
@@ -2810,7 +2869,6 @@ node_categories = [
     B4W_LogicNodeCategory("Control Flow", _("Control Flow"), items=[
         NodeItem("B4W_logic_node", label=_("Entry Point"),settings={"type": repr("ENTRYPOINT")}),
         NodeItem("B4W_logic_node", label=_("Switch Select"),settings={"type": repr("SWITCH_SELECT")}),
-        NodeItem("B4W_logic_node", label=_("Delay"),settings={"type": repr("DELAY")}),
         #NodeItem("B4W_logic_node", label=_("Jump"),settings={"type": repr("JUMP")}),
         NodeItem("B4W_logic_node", label=_("Conditional Jump"),settings={"type": repr("CONDJUMP")}),
         NodeItem("B4W_logic_node", label=_("JS Callback"),settings={"type": repr("JS_CALLBACK")}),
@@ -2818,7 +2876,6 @@ node_categories = [
     B4W_LogicNodeCategory("Animation", _("Animation"), items=[
         NodeItem("B4W_logic_node", label=_("Play Timeline"),settings={"type": repr("PLAY")}),
         NodeItem("B4W_logic_node", label=_("Stop Timeline"),settings={"type": repr("STOP_TIMELINE")}),
-        NodeItem("B4W_logic_node", label=_("Get Timeline"),settings={"type": repr("GET_TIMELINE")}),
         NodeItem("B4W_logic_node", label=_("Play Animation"),settings={"type": repr("PLAY_ANIM")}),
         NodeItem("B4W_logic_node", label=_("Stop Animation"),settings={"type": repr("STOP_ANIM")}),
     ]),
@@ -2852,8 +2909,11 @@ node_categories = [
         NodeItem("B4W_logic_node", label=_("Page Param"),settings={"type": repr("PAGEPARAM")}),
         NodeItem("B4W_logic_node", label=_("Page Redirect"),settings={"type": repr("REDIRECT")}),
     ]),
-    B4W_LogicNodeCategory("Debug", _("Debug"), items=[
-        NodeItem("B4W_logic_node", label=_("Console Print"),settings={"type": repr("CONSOLE_PRINT")})
+    B4W_LogicNodeCategory("Time", _("Time"), items=[
+        NodeItem("B4W_logic_node", label=_("Date & Time"),settings={"type": repr("DATE_TIME")}),
+        NodeItem("B4W_logic_node", label=_("Get Timeline"),settings={"type": repr("GET_TIMELINE")}),
+        NodeItem("B4W_logic_node", label=_("Elapsed"),settings={"type": repr("ELAPSED")}),
+        NodeItem("B4W_logic_node", label=_("Delay"),settings={"type": repr("DELAY")})
     ]),
     # B4W_LogicNodeCategory("Deprecared", _("Deprecated"), items=[
     #     #NodeItem("B4W_logic_node", label=_("Select (Deprecated)"),settings={"type": repr("SELECT")}),
@@ -2864,7 +2924,10 @@ node_categories = [
         NodeItem("NodeFrame"),
         NodeItem("NodeReroute"),
         NodeItem("B4W_logic_node", label=_("Empty"),settings={"type": repr("EMPTY")}),
-    ])
+    ]),
+    B4W_LogicNodeCategory("Debug", _("Debug"), items=[
+        NodeItem("B4W_logic_node", label=_("Console Print"),settings={"type": repr("CONSOLE_PRINT")})
+    ]),
     ]
 
 
@@ -3156,7 +3219,7 @@ class OperatorLogicConsolePrintAddVar(bpy.types.Operator):
 
 class OperatorLogicConsolePrintRemoveVar(bpy.types.Operator):
     bl_idname = "node.b4w_logic_console_print_remove_var"
-    bl_label = p_("Remove variable", "Operator")
+    bl_label = p_("Remove Variable", "Operator")
     node_tree = bpy.props.StringProperty(
         name = _("Node tree"),
     )

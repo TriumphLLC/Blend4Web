@@ -50,6 +50,8 @@ DEFAULT_PHYS_USING_OPT = True
 
 URANIUM_FILE_NAME = "uranium.js"
 URANIUM_FILE_NAME_BIN = "uranium.js.mem"
+URANIUM_WASM_FILE_NAME = "uranium_wasm.js"
+URANIUM_WASM_FILE_NAME_BIN = "uranium_wasm.wasm"
 ENGINE_ADV_FILE_NAME = "b4w.min.js"
 ENGINE_WHITE_FILE_NAME = "b4w.whitespace.min.js"
 ENGINE_SIM_FILE_NAME = "b4w.simple.min.js"
@@ -121,6 +123,7 @@ AVAIL_SNIPPETS_LIST = [
     "gyro",
     "instancing",
     "lines",
+    "leap",
     "material_api",
     "morphing",
     "multitouch",
@@ -1766,7 +1769,10 @@ def build_html(**kwargs):
             change_build_version(build_proj_path, engine_file_name, version, False)
 
         if use_physics:
-            change_uranium_mem_path(build_proj_path, version)
+            change_uranium_bin_path(build_proj_path, version, URANIUM_FILE_NAME, 
+                    URANIUM_FILE_NAME_BIN)
+            change_uranium_bin_path(build_proj_path, version, 
+                    URANIUM_WASM_FILE_NAME, URANIUM_WASM_FILE_NAME_BIN)
 
     css_strs = {}
 
@@ -1826,6 +1832,8 @@ def build_html(**kwargs):
 def copy_phys_to_proj_path(proj_path):
     shutil.copy(join(_engine_dir, URANIUM_FILE_NAME), proj_path)
     shutil.copy(join(_engine_dir, URANIUM_FILE_NAME_BIN), proj_path)
+    shutil.copy(join(_engine_dir, URANIUM_WASM_FILE_NAME), proj_path)
+    shutil.copy(join(_engine_dir, URANIUM_WASM_FILE_NAME_BIN), proj_path)
 
 def change_build_version(build_proj_path, engine_file_name, version, js_paths=False):
     processed_files = []
@@ -1995,7 +2003,8 @@ def compile_js(js_paths, file_name, opt_level, engine_type, use_source_map, dev_
                    normpath(join(_cc_dir, "extern_jquery-1.9.js")),
                    normpath(join(_cc_dir, "extern_fullscreen.js")),
                    normpath(join(_cc_dir, "extern_gl-matrix.js")),
-                   normpath(join(_cc_dir, "extern_pointerlock.js"))]
+                   normpath(join(_cc_dir, "extern_pointerlock.js")),
+                   normpath(join(_cc_dir, "extern_webassembly.js"))]
 
     for parent in js_paths:
         if engine_type == "compile":
@@ -2005,7 +2014,7 @@ def compile_js(js_paths, file_name, opt_level, engine_type, use_source_map, dev_
                               i for i in get_used_modules(js_paths[parent])])
             ENGINE_CP_TMP.extend(["--external-js=" + i for i in js_paths[parent]])
             ENGINE_CP_TMP.extend(["-d", join(parent, file_name + ".min.js")])
-            ENGINE_CP_TMP.append("--optimization=" + OPTIMIZATION_DICT[opt_level])
+            ENGINE_CP_TMP.append("--optimization=" + opt_level)
 
             proc = subprocess.Popen(ENGINE_CP_TMP, stdout=subprocess.PIPE,
                     stderr=subprocess.STDOUT, universal_newlines=True)
@@ -2079,19 +2088,19 @@ def compile_js(js_paths, file_name, opt_level, engine_type, use_source_map, dev_
                     print("File ", externs_gen_file.name, " not found")
 
             if use_source_map:
-                source_map_file = open(output_js_path + ".map")
+                source_map_file = open(output_js_path + ".map", encoding="utf-8")
                 source_map_text = source_map_file.read()
                 source_map_file.close()
                 src_paths = ["/" + relpath(join(dev_proj_path, relpath(i, build_proj_path)), _base_dir) for i in js_paths[parent]]
 
                 new_source_map_text = re.sub("(\"sources\":)\[.*\]", r"\1" + str(src_paths).replace('\'', '"'), source_map_text)
 
-                source_map_file = open(output_js_path + ".map", "w")
+                source_map_file = open(output_js_path + ".map", "w", encoding="utf-8")
                 source_map_file.write(new_source_map_text)
                 source_map_file.close()
 
                 if exists(output_js_path):
-                    output_js_file = open(output_js_path, "a")
+                    output_js_file = open(output_js_path, "a", encoding="utf-8")
                     output_js_file.write("//# sourceMappingURL=/" + relpath(output_js_path + ".map", _base_dir))
                     output_js_file.close()
 
@@ -3293,21 +3302,20 @@ Options:
     -h, --help   show this help and exit""")
 
 
-def change_uranium_mem_path(build_proj_path, version):
-    uranium_path = join(build_proj_path, URANIUM_FILE_NAME)
+def change_uranium_bin_path(build_proj_path, version, phys_js_name, phys_bin_name):
+    uranium_bin_path = join(build_proj_path, phys_js_name)
 
-    uranium_file = open(uranium_path, "r", encoding="utf-8")
+    uranium_file = open(uranium_bin_path, "r", encoding="utf-8")
     uranium_file_data = uranium_file.read()
     uranium_file.close()
 
-    regexp_pattern = r"uranium.js.mem"
+    regexp_pattern = r"" + phys_bin_name
+    uranium_file_data = re.sub(regexp_pattern, r"" + phys_bin_name + "?v=" 
+            + str(version), uranium_file_data)
 
-    uranium_file_data = re.sub(regexp_pattern, r"uranium.js.mem?v=" + str(version), uranium_file_data)
-
-    uranium_file = open(uranium_path, "w", encoding="utf-8")
+    uranium_file = open(uranium_bin_path, "w", encoding="utf-8")
     uranium_file.write(uranium_file_data)
     uranium_file.close()
-
 
 def get_base_dir(curr_work_dir):
     curr_dir = curr_work_dir

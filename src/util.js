@@ -49,6 +49,8 @@ var _vec3_tmp8 = new Float32Array(3);
 var _vec4_tmp = new Float32Array(4);
 var _vec4_tmp2 = new Float32Array(4);
 var _mat3_tmp = new Float32Array(9);
+var _mat3_tmp2 = new Float32Array(9);
+var _mat3_tmp3 = new Float32Array(9);
 var _mat4_tmp = new Float32Array(16);
 var _mat4_tmp2 = new Float32Array(16);
 var _quat_tmp = m_quat.create();
@@ -595,9 +597,9 @@ function quat_to_ordered_angles(q, order, angles) {
  * @methodOf util
  * @param {vec3} euler Euler
  */
-exports.euler_to_rotation_matrix = function(euler) {
+exports.euler_to_rotation_matrix = euler_to_rotation_matrix;
+function euler_to_rotation_matrix(euler, matrix) {
 
-    var matrix = m_mat3.create();
     var cosX = Math.cos(euler[0]);
     var cosY = Math.cos(euler[1]);
     var cosZ = Math.cos(euler[2]);
@@ -626,7 +628,8 @@ exports.euler_to_rotation_matrix = function(euler) {
 }
 
 // Engine uses ZYX intrinsic rotation sequence
-exports.quat_to_euler = function(quat, euler) {
+exports.quat_to_euler = quat_to_euler;
+function quat_to_euler(quat, euler) {
     var angles = quat_to_ordered_angles(quat, ZYX, _vec3_tmp);
 
     // reorder angles from XYZ to ZYX
@@ -1838,9 +1841,12 @@ function clamp(value, min, max) {
 }
 
 exports.smooth = function(curr, last, delta, period) {
-    var e = Math.exp(-delta/period);
 
-    return (1 - e) * curr + e * last;
+    if (period) {
+        var e = Math.exp(-delta/period);
+        return (1 - e) * curr + e * last;
+    } else
+        return curr;
 }
 
 /**
@@ -1850,10 +1856,13 @@ exports.smooth_v = function(curr, last, delta, period, dest) {
     if (!dest)
         dest = new Float32Array(curr.length);
 
-    var e = Math.exp(-delta/period);
+    if (period) {
+        var e = Math.exp(-delta/period);
 
-    for (var i = 0; i < dest.length; i++)
-        dest[i] = (1 - e) * curr[i] + e * last[i];
+        for (var i = 0; i < dest.length; i++)
+            dest[i] = (1 - e) * curr[i] + e * last[i];
+    } else
+        m_vec3.copy(curr, dest);
 
     return dest;
 }
@@ -1865,9 +1874,11 @@ exports.smooth_q = function(curr, last, delta, period, dest) {
     if (!dest)
         dest = new Float32Array(curr.length);
 
-    var e = Math.exp(-delta/period);
-
-    m_quat.slerp(curr, last, e, dest);
+    if (period) {
+        var e = Math.exp(-delta/period);
+        m_quat.slerp(curr, last, e, dest);
+    } else 
+        m_quat.copy(curr, dest);
 
     return dest;
 }
@@ -2675,73 +2686,12 @@ exports.quat_set_vertical_axis = function(quat, axis, target_axis, dir) {
     m_quat.multiply(rot_quat, quat, quat);
 }
 
-exports.get_y_rot_from_quat = function(quat) {
-    // use vector which is ortogonal to Y
-    var axis = AXIS_X;
-    var rot_v = m_vec3.transformQuat(axis, quat, _vec3_tmp);
-    // limit case
-    if (Math.abs(m_vec3.dot(rot_v, AXIS_Y)) > 0.999999) {
-        axis = AXIS_Z;
-        rot_v = m_vec3.transformQuat(axis, quat, _vec3_tmp);
-        // m_vec3.scale(rot_v, -1, rot_v);
-    }
-    // projection
-    rot_v[1] = 0;
-    m_vec3.normalize(rot_v, rot_v);
-
-    var angle = Math.acos(m_vec3.dot(axis, rot_v));
-    var third_vec = m_vec3.cross(axis, rot_v, _vec3_tmp2);
-    var angle_sign = sign(m_vec3.dot(third_vec, AXIS_Y));
-    return angle * angle_sign;
-}
-
-exports.get_x_rot_from_quat = function(quat) {
-    // use vector which is ortogonal to X
-    var axis = AXIS_Y;
-    var rot_v = m_vec3.transformQuat(axis, quat, _vec3_tmp);
-    // limit case
-    if (Math.abs(m_vec3.dot(rot_v, AXIS_X)) > 0.999999) {
-        axis = AXIS_Z;
-        rot_v = m_vec3.transformQuat(axis, quat, _vec3_tmp);
-        // m_vec3.scale(rot_v, -1, rot_v);
-    }
-    // projection
-    rot_v[0] = 0;
-    m_vec3.normalize(rot_v, rot_v);
-
-    var angle = Math.acos(m_vec3.dot(axis, rot_v));
-    var third_vec = m_vec3.cross(axis, rot_v, _vec3_tmp2);
-    var angle_sign = sign(m_vec3.dot(third_vec, AXIS_X));
-    return angle * angle_sign;
-}
-
-exports.get_z_rot_from_quat = function(quat) {
-    // use vector which is ortogonal to Z
-    var axis = AXIS_X;
-    var rot_v = m_vec3.transformQuat(axis, quat, _vec3_tmp);
-    // limit case
-    if (Math.abs(m_vec3.dot(rot_v, AXIS_Z)) > 0.999999) {
-        axis = AXIS_Y;
-        rot_v = m_vec3.transformQuat(axis, quat, _vec3_tmp);
-        // m_vec3.scale(rot_v, -1, rot_v);
-    }
-    // projection
-    rot_v[2] = 0;
-    m_vec3.normalize(rot_v, rot_v);
-
-    var angle = Math.acos(m_vec3.dot(axis, rot_v));
-    var third_vec = m_vec3.cross(axis, rot_v, _vec3_tmp2);
-    var angle_sign = sign(m_vec3.dot(third_vec, AXIS_Z));
-    return angle * angle_sign;
-}
-
 /**
 * it's Blender's void compatible_eul(float eul[3], const float oldrot[3])
 **/
 exports.compatible_euler = function(eul, oldrot) {
     var pi_thresh = 5.1;
     var pi_x2 = 2 * Math.PI;
-    var pi_d2 = Math.PI / 2;
 
     var deul = [];
 
@@ -2775,6 +2725,61 @@ exports.compatible_euler = function(eul, oldrot) {
         else
             eul[2] += pi_x2;
     }
+}
+
+exports.rotate_eul = function(beul, eul, dest) {
+    var mat1 = euler_to_rotation_matrix(eul, _mat3_tmp);
+    var mat2 = euler_to_rotation_matrix(beul, _mat3_tmp2);
+    var totmat = m_mat3.multiply(mat2, mat1, _mat3_tmp3);
+    return mat3_to_euler(totmat, dest); 
+}
+
+function mat3_to_eul_opt(mat, eul1, eul2) {
+    var cy = Math.sqrt(mat[0 * 3 + 0] * mat[0 * 3 + 0] + mat[0 * 3 + 1] * mat[0 * 3 + 1]);
+    // we use the next order: i = 0; j = 1; k = 2;
+    if (cy > 0.000001) {
+        eul1[0] = Math.atan2(mat[1 * 3 + 2], mat[2 * 3 + 2]);
+        eul1[1] = Math.atan2(-mat[0 * 3 + 2], cy);
+        eul1[2] = Math.atan2(mat[0 * 3 + 1], mat[0 * 3 + 0]);
+
+        eul2[0] = Math.atan2(-mat[1 * 3 + 2], -mat[2 * 3 + 2]);
+        eul2[1] = Math.atan2(-mat[0 * 3 + 2], -cy);
+        eul2[2] = Math.atan2(-mat[0 * 3 + 1], -mat[0 * 3 + 0]);
+    } else {
+        eul1[0] = Math.atan2(-mat[2 * 3 + 1], mat[1 * 3 + 1]);
+        eul1[1] = Math.atan2(-mat[0 * 3 + 2], cy);
+        eul1[2] = 0;
+
+        m_vec3.copy(eul1, eul2);
+    }
+}
+
+exports.quat_to_eul_opt = function(quat, oldrot, dest) {
+    var mat = m_mat3.fromQuat(quat, _mat3_tmp);
+    var eul1 = _vec3_tmp;
+    var eul2 = _vec3_tmp2;
+    mat3_to_eul_opt(mat, eul1, eul2);
+    var d1 = Math.abs(eul1[0] - oldrot[0]) + Math.abs(eul1[1] - oldrot[1]) + Math.abs(eul1[2] - oldrot[2]);
+    var d2 = Math.abs(eul2[0] - oldrot[0]) + Math.abs(eul2[1] - oldrot[1]) + Math.abs(eul2[2] - oldrot[2]);
+
+    var euler = d1 > d2 ? eul2 : eul1;
+    m_vec3.copy(euler, dest);
+
+    return dest;
+}
+
+function mat3_to_euler(mat, dest) {
+    var eul1 = _vec3_tmp;
+    var eul2 = _vec3_tmp2;
+    mat3_to_eul_opt(mat, eul1, eul2);
+
+    var d1 = Math.abs(eul1[0]) + Math.abs(eul1[1]) + Math.abs(eul1[2]);
+    var d2 = Math.abs(eul2[0]) + Math.abs(eul2[1]) + Math.abs(eul2[2]);
+
+    var euler = d1 > d2 ? eul2 : eul1;
+    m_vec3.copy(euler, dest);
+
+    return dest;
 }
 
 }

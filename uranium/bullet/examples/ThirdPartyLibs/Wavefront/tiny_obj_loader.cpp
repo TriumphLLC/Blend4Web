@@ -30,6 +30,40 @@
 
 namespace tinyobj {
 
+//See http://stackoverflow.com/questions/6089231/getting-std-ifstream-to-handle-lf-cr-and-crlf
+std::istream& safeGetline(std::istream& is, std::string& t)
+{
+    t.clear();
+
+    // The characters in the stream are read one-by-one using a std::streambuf.
+    // That is faster than reading them one-by-one using the std::istream.
+    // Code that uses streambuf this way must be guarded by a sentry object.
+    // The sentry object performs various tasks,
+    // such as thread synchronization and updating the stream state.
+
+    std::istream::sentry se(is, true);
+    std::streambuf* sb = is.rdbuf();
+
+    for(;;) {
+        int c = sb->sbumpc();
+        switch (c) {
+        case '\n':
+            return is;
+        case '\r':
+            if(sb->sgetc() == '\n')
+                sb->sbumpc();
+            return is;
+        case EOF:
+            // Also handle the case when the last line has no line ending
+            if(t.empty())
+                is.setstate(std::ios::eofbit);
+            return is;
+        default:
+            t += (char)c;
+        }
+    }
+}
+
 struct vertex_index {
   int v_idx, vt_idx, vn_idx, dummy;
 };
@@ -171,13 +205,13 @@ updateVertex(
     return it->second;
   }
 
-  assert(in_positions.size() > (3*i.v_idx+2));
+  assert(static_cast<int>(in_positions.size()) > (3*i.v_idx+2));
 
   positions.push_back(in_positions[3*i.v_idx+0]);
   positions.push_back(in_positions[3*i.v_idx+1]);
   positions.push_back(in_positions[3*i.v_idx+2]);
 
-  if (i.vn_idx >= 0) {
+  if (i.vn_idx >= 0 && ((3*i.vn_idx+2)<in_normals.size())) {
     normals.push_back(in_normals[3*i.vn_idx+0]);
     normals.push_back(in_normals[3*i.vn_idx+1]);
     normals.push_back(in_normals[3*i.vn_idx+2]);
@@ -313,9 +347,11 @@ std::string LoadMtl (
   int maxchars = 8192;  // Alloc enough size.
   std::vector<char> buf(maxchars);  // Alloc enough size.
   while (ifs.peek() != -1) {
-    ifs.getline(&buf[0], maxchars);
 
-    std::string linebuf(&buf[0]);
+    std::string linebuf;
+    safeGetline(ifs,linebuf);
+
+
 
     // Trim newline '\r\n' or '\r'
     if (linebuf.size() > 0) {
@@ -329,6 +365,8 @@ std::string LoadMtl (
     if (linebuf.empty()) {
       continue;
     }
+
+    linebuf = linebuf.substr(0, linebuf.find_last_not_of(" \t") + 1);
 
     // Skip leading space.
     const char* token = linebuf.c_str();
@@ -502,9 +540,9 @@ LoadObj(
   int maxchars = 8192;  // Alloc enough size.
   std::vector<char> buf(maxchars);  // Alloc enough size.
   while (ifs.peek() != -1) {
-    ifs.getline(&buf[0], maxchars);
 
-    std::string linebuf(&buf[0]);
+    std::string linebuf;
+    safeGetline(ifs,linebuf);
 
     // Trim newline '\r\n' or '\r'
     if (linebuf.size() > 0) {
@@ -606,8 +644,8 @@ LoadObj(
 
       std::string err_mtl = LoadMtl(material_map, namebuf, mtl_basepath);
       if (!err_mtl.empty()) {
-        faceGroup.resize(0);  // for safety
-        return err_mtl;
+        //faceGroup.resize(0);  // for safety
+        //return err_mtl;
       }
       continue;
     }

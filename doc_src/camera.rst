@@ -13,9 +13,11 @@ Move Styles and General Settings
 
 The camera settings are specified in the ``Properties`` panel under the ``Camera (Object Data)`` tab.
 
-.. image:: src_images/camera/camera_setup.png
-   :align: center
-   :width: 100%
+.. figure:: src_images/camera/camera_setup.png
+    :align: center
+    :width: 100%
+
+    Settings available for ``Camera`` objects
 
 |
 
@@ -58,9 +60,11 @@ Limiting the Camera Movement
 
 There are several settings for the camera which limit/change its movement one way or another. They are grouped as ``Camera Limits``.
 
-.. image:: src_images/camera/camera_limits.png
-   :align: center
-   :width: 100%
+.. figure:: src_images/camera/camera_limits.png
+    :align: center
+    :width: 100%
+
+    Settings for limiting camera movement
 
 Camera limits can be viewed right in the Blender viewport, if the ``Display Limits in Viewport`` parameter is enabled.
 
@@ -324,10 +328,11 @@ If an object is parented to a camera, the set of parameters known as *Viewport A
 
 Using these settings, the object can be aligned to the active camera, so that the object will remain in the same place of the screen regardless of the position and rotation of the camera. This is especially useful for creating UI elements.
 
-.. figure:: src_images/camera/camera_viewport_alignment_example.png
+.. figure:: src_images/camera/camera_viewport_alignment.png
     :width: 100%
+    :align: center
 
-This picture shows an example of how the Viewport Alignment option can be used.
+    All interface elements on this picture are created using the Viewport Alignment option.
 
 *Viewport Alignment*
     This parameter enables and disables all the following parameters. It is disabled by default.

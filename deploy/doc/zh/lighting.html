@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>照明、 阴影和背景 &mdash; Blend4Web 17.06 用户手册</title>
+  <title>照明、 阴影和背景 &mdash; Blend4Web 17.08 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.06 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 17.08 用户手册" href="index.html"/>
         <link rel="next" title="后期处理效果" href="postprocessing_effects.html"/>
         <link rel="prev" title="逻辑编辑器" href="logic_editor.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v17.06
+              v17.08
             </div>
           
         
@@ -85,6 +85,7 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">概述</a></li>
 <li class="toctree-l1"><a class="reference internal" href="engine_features.html">引擎功能</a></li>
+<li class="toctree-l1"><a class="reference internal" href="interface.html">Blender User Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">安装和更新</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">工作流程</a></li>
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理</a></li>
@@ -324,15 +325,18 @@
 <dt><em>World &gt; Environment Lighting &gt; Environment Color</em></dt>
 <dd><p class="first last">选择环境照明模拟的方法: <code class="docutils literal"><span class="pre">White</span></code> - 平照明，<code class="docutils literal"><span class="pre">Sky</span> <span class="pre">Color</span></code> - 半球模型，<code class="docutils literal"><span class="pre">Sky</span> <span class="pre">Texture</span></code> - 照明使用的 <a class="reference internal" href="textures.html#environment-map"><span>环境贴图</span></a> 。默认值是白色。</p>
 </dd>
-<dt><em>World &gt; Horizon Color</em> and <em>World &gt; Zenith Color</em></dt>
+<dt><em>World &gt; Horizon Color</em> 和 <em>World &gt; Zenith Color</em></dt>
 <dd><p class="first last">如果选择了半球模型 (<code class="docutils literal"><span class="pre">Sky</span> <span class="pre">Color</span></code>)  可以通过 <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Horizon</span> <span class="pre">Color</span></code> 和 <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Zenith</span> <span class="pre">Color</span></code>  颜色选取器指定的地平线和天顶角变化的颜色。建议以激活 <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Blend</span> <span class="pre">Sky</span></code> 选项为更好的颜色选择。</p>
 </dd>
-<dt><em>World &gt; Use Nodes (Cycles)</em></dt>
-<dd>If this option is enabled, <code class="docutils literal"><span class="pre">Cycles</span></code> nodes can be used to set up the environment. Disabled by default.</dd>
-<dt><em>World &gt; Reflect World</em></dt>
-<dd>If this parameter is enabled, environment will also be rendered for reflections (i.e., it will be reflected by mirror surfaces). Disabled by default.</dd>
-<dt><em>World &gt; Render Only Reflection</em></dt>
-<dd>If this parameter is enabled, environment will be rendered for reflections, but not for the scene itself. Disabled by default.</dd>
+<dt><em>世界 &gt; 使用节点 （Cycles）</em></dt>
+<dd><p class="first last">如果启用此选项， <code class="docutils literal"><span class="pre">Cycles</span></code> 节点可以用于设置环境。默认为禁用。</p>
+</dd>
+<dt><em>世界 &gt; 反射世界</em></dt>
+<dd><p class="first last">如果启用此参数，则环境也会在反射中被渲染 （环境能由镜面反射）。默认为禁用。</p>
+</dd>
+<dt><em>世界 &gt; 仅渲染反射</em></dt>
+<dd><p class="first last">如果启用此参数，则将渲染环境的反射，而不是场景本身。默认为禁用。</p>
+</dd>
 </dl>
 </div>
 <div class="section" id="environment-map-method">
@@ -580,7 +584,7 @@
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2017, Triumph.
-      最后更新于 2017-06-30.
+      最后更新于 2017-08-31.
 
     </p>
   </div>
@@ -636,7 +640,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.06',
+            VERSION:'v17.08',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

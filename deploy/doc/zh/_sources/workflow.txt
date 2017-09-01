@@ -24,41 +24,33 @@
 
   * 项目部署
 
-开发任何产品是一个创造性的过程，需要许多参与者谁拥有不同的技能和经验。
-然而不论事情是多么的复杂，是它总是能够分离出许多生产阶段，其中的大部分
-资产和源代码是创作的目标。
+开发任何产品是一个创造性的过程，需要许多拥有不同技能和经验的参与者。然
+而不论事情是多么的复杂，是它总是能够从资产创造和源代码编写等工作中分离
+出许多生产阶段。
 
-Any work with the Blend4Web engine should start with running Blender.
+任何使用 Blend4Web 引擎的工作首先都要启动Blender。
 
-Select "Blend4Web" from the render engine list at the top panel in the
-main Blender window, and you will see how the program interface have
-changed. Some parameters will disappear, and new ones will take their
-place. The most important of these new parameters are located in the
-"Properties" window (usually placed at the right side of the main
-window), on the Render panel.
+在Blender的主窗口的顶部面板条上，从渲染引擎列表中选择 "Blend4Web"，你
+会看到程序界面有一定变化。一些参数会消失，并且新的参数会替换他们。其中
+最重要的这些新的参数位于 "属性" 窗口中 （通常放置在主窗口的右侧），渲
+染面板上。
 
 [图片]
 
-注解: If the "Development Tools" tab shows the Development server is
-  off message, this means that the development server is not working.
-  It can be enabled with the "Start Server" button on the same panel.
-  The server can also be configured to run on startup with the "Run On
-  Startup" option found in the add-on settings ("User Preferences →
-  Add-Ons → Blend4Web").If any problems occur as you try to run
-  development server, please consult the Problems and Solutions
-  chapter.
+注解: 如果 "开发工具" 选项卡显示开发服务器是关闭的消息，这意味着开发
+  服务器 不工作。可以用在相同的面板上的启动服务器按钮启用。服务器还可
+  以配置为 在启动时运行，通过设置 "Run On Startup"  选项  ("用户首选项
+  → 插件 → Blend4Web").如果您尝试运行开发服务器出现任何问题，请参考 问
+  题及解决 章节.
 
-The "SDK Index" button opens the index page that can be found by this
-address: http://localhost:6687.
+"SDK Index" 按钮打开  索引页  可以通过这个地址 http://localhost:6687
+查看.
 
-The "Fast Preview" button opens the Scene Viewer and loads the scene
-that is open in Blender at the moment. This is a useful feature for
-planning and debugging your scenes.
+"快速预览" 按钮打开  场景观察器  加载目前在Blender中打开的场景。这是一
+个用来规划和调试你的场景的有用功能。
 
-The "Project Manager" button opens the Project Manager — a powerful
-and easy to use tool  for working with Blend4Web projects. Using
-Project Manager is the most simple way to start working with
-Blend4Web.
+"项目管理器" 按钮打开  项目管理器  — 用于处理 Blend4Web 项目的功能强大
+、 易于使用的工具。使用项目管理器是最简单的方法来开始使用 Blend4Web.
 
 当使用Blend4Web工作流程如下：
 
@@ -82,10 +74,9 @@ Blend4Web.
 
 要在一个项目上工作，首先就是要创建它。
 
-The easiest way to create a new project is to use the Project Manager.
-To do it, run the Project Manager (either from Blender or from index
-page) and press the Create New Project button at the top of the
-Project Manager’s main window.
+创建一个新项目最简单的方法是使用  项目管理器.  要做到这一点启动项目管
+理器（从Blender或者首页都可以），在项目管理器的主窗口顶部按新建项目按
+钮。
 
 另一种方法是使用  *project.py*  命令行脚本，这个更通用。这个脚本的工作
 描述 在这里.
@@ -132,8 +123,7 @@ Blend4Web的场景都跟Blender里创建场景都是以同样的方式，只有�
 4. 场景组件应该有不同的识别名称。他们不应该叫 "Cube.001",
    "Material" 或者 "Armature".
 
-5. We recommend you to link components from other files
-   (libraries).
+5. 我们建议您从其他文件 （库）来链接组件。
 
 
 准备一个在Blend4Web中使用的场景

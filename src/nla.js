@@ -81,12 +81,12 @@ exports.update_object = function(bpy_source, obj) {
         }
 
         if (m_obj_util.is_mesh(obj)) {
-            var materials = bpy_source["data"]["materials"];
+            var materials = obj.materials;
             for (var j = 0; j < materials.length; j++) {
                 var mat = materials[j];
-                if (mat["use_nodes"] && mat["node_tree"]) {
+                if (mat.use_nodes && mat.node_tree) {
                     var nla_tracks = [];
-                    get_nodetree_nla_tracks_r(mat["node_tree"], nla_tracks, [mat["name"]]);
+                    get_nodetree_nla_tracks_r(mat.node_tree, nla_tracks, [mat.name]);
                     var nla_events = get_nla_events(nla_tracks, slot_num);
                     if (nla_events.length) {
                         slot_num += assign_anim_slots(nla_events, slot_num);
@@ -811,8 +811,8 @@ function bpy_obj_has_nodemats_nla(bpy_obj) {
 
     for (var j = 0; j < materials.length; j++) {
         var mat = materials[j];
-        var node_tree = mat["node_tree"];
-        if (mat["use_nodes"] && node_tree) {
+        var node_tree = mat.node_tree;
+        if (mat.use_nodes && node_tree) {
             if (check_nodetree_nla_tracks_r(node_tree))
                 return true;
         }

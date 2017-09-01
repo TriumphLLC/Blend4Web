@@ -14,6 +14,14 @@ struct SimpleCamera : public CommonCameraInterface
 	virtual void getCameraProjectionMatrix(float m[16]) const;
 	virtual void getCameraViewMatrix(float m[16]) const;
 	
+	virtual void	setVRCamera(const float viewMat[16], const float projectionMatrix[16]);
+	virtual bool	getVRCamera(float viewMat[16], float projectionMatrix[16]);
+
+	virtual void	setVRCameraOffsetTransform(const float offset[16]);
+	virtual void disableVRCamera();
+
+	virtual bool isVRCamera() const;
+
 	virtual void getCameraTargetPosition(float pos[3]) const;
 	virtual void getCameraPosition(float pos[3]) const;
 
@@ -39,6 +47,9 @@ struct SimpleCamera : public CommonCameraInterface
 
 	virtual void	setAspectRatio(float ratio);
 	virtual float	getAspectRatio() const;
+    
+    virtual float getCameraFrustumFar() const;
+    virtual float getCameraFrustumNear() const;
 };
 
 #endif //SIMPLE_CAMERA_H

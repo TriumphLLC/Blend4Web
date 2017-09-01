@@ -15,8 +15,8 @@ deploy_dir =
 apps = 
 css_ignore = 
 engine_type = copy
-ignore = 
-js_ignore = 
+ignore =
+js_ignore = lib/artoolkit.min.js
 optimization = simple
 use_physics = True
 

@@ -16,9 +16,9 @@
 
   * 显示法线
 
-  * Rotate
+  * 旋转
 
-  * Scale
+  * 缩放
 
   * 绝对和偏移模式
 
@@ -28,7 +28,7 @@
 
   * 恢复
 
-  * 3D Cursor, Axis and Face
+  * 3D游标，轴和面
 
   * Copy（复制）/Paste（粘贴）
 
@@ -104,8 +104,8 @@ Display（网格显示）里的法线显示。您也可以经由设置Size栏来
 线长度。
 
 
-Rotate
-======
+旋转
+====
 
 使用这些工具，您可以更改法线的方向。Rotate（旋转）的功能也可通过
 Shift+Ctrl+R热键，允许类似于Blender的顶点法线旋转。
@@ -118,17 +118,14 @@ Rotate 按钮提供了更简便的方法来操纵法线。旋转在屏幕空间�
 Y 或 Z)。
 
 
-Scale
-=====
+缩放
+====
 
-This function can be used to change the scale of the normals and is
-available both from the Tool panel and by pressing the "Shift + Ctrl +
-S" hot keys. The length of a normal can be set with numeric keys,
-while "X", "Y" and "Z" keys are used to set the coordinate axis along
-which the normal is scaled.
+此函数可以用来改变法线的缩放，并可从工具面板和通过按 "Shift + Ctrl +
+S" 快捷键。法线的长度可以用数字键设置，"X", "Y" 和 "Z" 键用于设置沿着
+法线的哪个坐标轴进行缩放。
 
-注解: Keep in mind that the visible length of any normal never
-  changes and is always defined by the "Size" parameter.
+注解: 请记住，任何法线的可见长度不会改变，总是由  "大小"  参数定义。
 
 
 绝对和偏移模式
@@ -188,40 +185,29 @@ Restore（还原）按钮将还原所选顶点法线的原始方向。
 然后单击 Restore 按钮。
 
 
-3D Cursor, Axis and Face
-========================
+3D游标，轴和面
+==============
 
-The "3D Cursor" button directs the normals of the selected vertices
-away from the 3D cursor or toward it (if the "Towards" parameter in
-the "Vertex Normal Cursor" panel is enabled). The "Axis" button
-directs the normals of the vertices along a coordinate axis (the axis
-can be selected in the same "Vertex Normal Cursor" panel). The "Face"
-button directs the normals of the selected face parallel to the normal
-of this face.
+"3D 游标" 按钮可将所选顶点的法线远离3D游标或向其移动（如果 "顶点法线光
+标" 面板中的 "Towards"  参数已启用）。  "轴" 按钮将沿着坐标轴引导顶点
+的法线（该轴可以在同一个 "顶点法线光标" 面板中选择）。  "面" 按钮将所
+选面的法线平行于该面的法线。
 
-In order to use the "3D Cursor" function, select the desired vertices
-and place the 3D cursor in the desired position. Then click the "3D
-Cursor" button so all the selected vertices will turn their direction
-away from the cursor, as if they were shot from one point. Then you
-may check the "Towards" option in the "Vertex Normal Cursor" panel,
-which will make the normals to turn in the direction of the cursor.
+为了使用 "3D 游标" 功能，选择所需的顶点，并将3D光标放置在所需位置。然
+后单击 "3D 游标" 按钮，所有所选的顶点将其方向转离光标，就像从一个点发
+射出来一样。然后，您可以检查 "顶点法线光标" 面板中的  "Towards" 选项，
+这将使法线朝向光标方向。
 
-The "Axis" function is very easy to use: just select the vertices and
-press the button, so the function will direct their normals along the
-coordinate axis set in the "Vertex Normal Cursor" panel (Z axis is
-selected by default) or away from it, if you disable the "Towards"
-parameter on the same panel.
+"轴" 功能非常容易使用：只需选择顶点并按下按钮，该功能将沿着  "顶点法线
+光标" 面板中设置的坐标轴引导其法线（Z轴被默认选定）或远离它，如果您禁
+用同一面板上的  "Towards" 参数。
 
-In order to direct the normals parallel to the face normal, just
-select the desired face (or several faces) and click the "Face"
-button. The normals of the vertices which form the face will be
-directed parallel to the face normal. This function works only with
-one selected face at a time.
+为了使法线平行于面法线，只需选择所需的面（或多个面），然后单击 "面" 按
+钮。形成面的顶点的法线将平行于面法线。此功能一次只能与一个选定的面一起
+使用。
 
-The "3D Cursor", "Axis" and "Face" operators also possess the "Factor"
-parameter which is used to mix the initial position of the normals
-with the resulting position. The default value of this parameter is
-1.0 (the resulting position is used).
+"3D游标", "轴" 和 "面" 操作符也具有 "因子" 参数，用于将初始位置与结果
+位置的法线混合。此参数的默认值为1（使用结果位置）。
 
 
 Copy（复制）/Paste（粘贴）

@@ -6,6 +6,142 @@ Release Notes
 
 .. index:: release notes
 
+v17.08
+======
+
+New Features
+------------
+
+* Support for Leap Motion hand tracking controller.
+  
+    Added the new Leap Motion code snippet. This code snippet can help you to integrate support for Leap Motion devices inside your own applications. Snippet supports two modes: realistic skinned hands and hands based on primitive objects.
+
+* New logic node "Date & Time".
+
+    This node allows to obtain current Local/UTC date and time (year, month, day, hour, minute and second).
+
+* New logic node "Elapsed".
+
+    This node returns elapsed time since last frame rendered in seconds. This node can be very useful for creating robust procedural animations.
+
+* Improved texture cache. Added ``enable_texture_cache`` configuration option.
+  
+    The texture cache is used for dynamically loaded scenes and can reduce scene loading time by reusing already existed textures instead of creating new ones. This option allows to turn on/off the texture cache. Enabled by default.
+
+* Added new API methods to show/hide groups of objects.
+
+    Methods :b4wref:`objects.hide_all_by_data_id` and :b4wref:`objects.show_all_by_data_id` have been added to the :b4wmod:`objects` module. They allow changing visibility of multiple objects based on their ``data_id`` property. Thus, they can be used to show/hide an entire dynamically loaded scene at once. 
+
+    :b4wref:`textures.replace_image` was added in the :b4wmod:`textures` module. Also, :b4wref:`textures.change_image` is considered deprecated.
+
+* Optimization for procedural materials.
+  
+    Implemented new packing algorithm for VALUE GLSL node. This algorithm uses a vec4 array instead of a float array as before. This makes possible to use more VALUE nodes without a risk of exceeding GPU limits.
+
+* A new internal module ``material.js``.
+
+    This module contains internal engine logics for materials. This change requires to perform the ``Check Modules`` and ``Update Modules`` operations for old projects in the Project Manager after updating the SDK.
+
+* Refined Logic Editor user interface.
+
+    Introduced a new Time category with ``Get Timeline``, ``Delay``, ``Date & Time`` and ``Elapsed`` nodes.
+
+* Physics engine improvements.
+  
+    Bullet library used by the internal physics engine upgraded from 2.82 to 2.86 release. Also, the optimized version of the engine's physics compiled with WebAssembly became enabled by default. The advantages of this are: lesser size of the physics files, faster physics initialization, improved physics stability and higher FPS.
+
+Changes
+-------
+
+* The version of the JSON/BIN export format was increased to 6.03. 
+
+    It's recommended to reexport old .blend files for using with the latest engine version.
+
+* Rendering of the Fresnel effect was slightly optimized.
+
+* The option ``Preserve Global Rotation and Scale`` from the ``Object->Billboard`` panel was renamed to ``Preserve Global Rotation``. 
+
+    From now on the world scale value is always applied to a billboard object.
+
+* Added error message in case of making recursive or self-applied constraints via the :b4wmod:`constraints API constraints`.
+
+* Added export warning in case of using multiple constraints on an object in Blender.
+
+* Unnecessary python module 'requests' has been removed from addon.
+
+* The user manual has been supplied with several updates:
+
+    * A :ref:`detailed description <blender_interface>` of the Blender user interface has been added
+
+    * A guide on using :ref:`animation blending <anim_blend>`.
+
+    * A :ref:`description <objects_constraints>` of API methods of the :b4wmod:`constraints` module.
+
+Fixes
+-----
+
+* Minor CSS fixes in the Code Snippets application and Petigor's Tale game.
+
+* From now on the Alpha-AntiAliasing blend mode is switched to Alpha Clip for devices with ARM Mali-T720 GPU due to rendering artifacts.
+
+* Fixed some crashes in the Project Manager while building applications.
+
+* Fixed a rare bug with wrong initial orientation of HOVER-type cameras.
+
+* Disabled depth textures in Firefox under Windows for AMD GPUs to avoid some postprocessing artifacts.
+
+* Fixed precision issues that led to some rendering artifacts on mobile devices.
+
+* Fixed mouse wheel sensitivity, which was incorrect in some cases.
+
+* Depth textures and also such related effects as SSAO, Dynamic Grass, Shore Smoothing, etc. were enabled for AMD GPUs in Chrome under Windows and for other GPUs in Firefox under Windows.
+
+* Fixed frustum culling of billboard objects by properly calculating their boundings.
+
+* Fixed rendering of the procedural fog.
+
+* Disabled MSAA for Mali-T720 GPU because of bad performance and rendering artifacts.
+
+* Minor fixes in the API documentation.
+
+* Fixed bug in Safari when an object with a non-opaque node material wasn't rendered if it had the Glow Output node with the zero alpha value.
+
+* Fixed getting mouse/touch coordinates for IE11 and Edge when an application's canvas is not aligned with the top left corner of the browser window.
+
+* Disabled MSAA in Google Chrome 60 for macOS, because it doesn't work correctly and can lead to an engine crash.
+
+* Minor fixes to improve stability of WebVR.
+
+* Fixed texture caching for dynamically loaded scenes, which previously led to redundant GPU memory usage.
+
+* Fixed applying the ``Array`` modifier to meshes with multiple UV/VC layers.
+
+* Fixed not applying multiple material animations on one object.
+
+* Fixed resolution of debug subscene.
+
+* Fixed constraints caused unpredictable behavior on IE11.
+
+* Fixed anchor visibility.
+
+* Fixed possible memory leak. Unused debug framebuffers are removed.
+
+* Fixed using the hasOrientation and hasPosition attributes of WebVR API. In the last WebVR Chromium build the attributes can be undefined.
+
+* Fixed engine crash in case of using environment cubemaps with no image
+
+* Fixed encoding issue in ``Project Manager`` for macOS.
+
+* Fixed synchronization between the physics worker and the main thread in Chrome 61+ and removed the corresponding physics lag.
+
+* Removed a hack for transparent node materials in Firefox under Linux, because it produced different color output among browsers.
+
+* Fixed incorrect camera rotation via the :b4wref:`camera.rotate_camera` method if the ``is_abs`` parameter was set to ``true``.
+
+* Fixed bug when the "simple" optimization level was always used for projects with the "Compile" application type regardless of their configuration options. This also fixed the optimization level for Blend4Web Player, which uses "advanced", thus the size of the player and player-based applications (e.g. HTML-exported scenes) was slightly reduced.
+
+* Fixed loading of video textures on iPads in case of HTML export.
+
 v17.06
 ======
 
@@ -63,7 +199,7 @@ Fixes
 
 * Fixed incorrect rendering of materials with normal mapping.
 
-* Fixed VR code snipped.
+* Fixed VR code snippet.
 
 * Fixed keyboard events when the engine is working inside an iframe.
 

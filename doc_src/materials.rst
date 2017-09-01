@@ -90,7 +90,13 @@ Types
 
 Transparency implementation type can be selected in the ``Transparency`` menu on the ``Properties > Material`` panel.
 
-The engine supports all of the transparency types (sorted in the ascending order by performance):
+.. figure:: src_images/materials/alpha_types.png
+    :align: center
+    :width: 100%
+
+    The engine supports all of the transparency types available in Blender.
+
+Available transparency types are (sorted in the ascending order by performance):
 
 *Alpha Sort*
     Transparent with a gradient. The engine sorts the triangles by camera distance in order to render overlapping transparent surfaces correctly. This operation is computationally expensive. It is recommended to use this feature for closed transparent geometry (bottle, car glass etc).
@@ -109,10 +115,6 @@ The engine supports all of the transparency types (sorted in the ascending order
 
 *Opaque*
     Non-transparent. Alpha is ignored. This is the default value.
-
-.. image:: src_images/materials/alpha_types.png
-   :align: center
-   :width: 100%
 
 
 .. index:: transparency; settings
@@ -137,9 +139,11 @@ Additional Settings
 Reflection
 ==========
 
-.. image:: src_images/materials/panel_mirror.png
-   :align: center
-   :width: 100%
+.. figure:: src_images/materials/panel_mirror.png
+    :align: center
+    :width: 100%
+
+    Reflection settings in the ``Material`` tab
 
 .. index:: reflection; static
 

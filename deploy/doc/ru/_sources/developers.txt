@@ -906,6 +906,8 @@ URL-параметр "compressed_gzip". При разработке же соб�
 
    * Instancing - копирование объектов сцены
 
+   * Leap Motion - пример использования контроллера Leap Motion
+
    * Lines - рендеринг процедурных линий
 
    * Material API - изменение свойств материалов и замена материалов
@@ -1054,7 +1056,7 @@ create_sensor_manifold в документации по API):
    }
 
    // create the manifold
-   m_controls.create_sensor_manifold(stone, "IMPACT", m_ctl.CT_SHOT,
+   m_controls.create_sensor_manifold(stone, "IMPACT", m_controls.CT_SHOT,
        impact_sens_array, impact_sens_logic, impact_cb);
 
 При столкновении объекта "Stone" с любым из физических материалов

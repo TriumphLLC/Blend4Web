@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>逻辑编辑器 &mdash; Blend4Web 17.06 用户手册</title>
+  <title>逻辑编辑器 &mdash; Blend4Web 17.08 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.06 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 17.08 用户手册" href="index.html"/>
         <link rel="next" title="照明、 阴影和背景" href="lighting.html"/>
         <link rel="prev" title="节点材质" href="node_materials.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v17.06
+              v17.08
             </div>
           
         
@@ -85,6 +85,7 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">概述</a></li>
 <li class="toctree-l1"><a class="reference internal" href="engine_features.html">引擎功能</a></li>
+<li class="toctree-l1"><a class="reference internal" href="interface.html">Blender User Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">安装和更新</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">工作流程</a></li>
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理</a></li>
@@ -114,139 +115,142 @@
 <li class="toctree-l4"><a class="reference internal" href="#id4">内部参数</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#delay">延迟</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#conditional-jump">条件跳转</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id5">输入参数</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id6">输出参数</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id7">内部参数</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#conditional-jump">条件跳转</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#js-callback">JS 回调</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id8">输入参数</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id9">输出参数</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id10">内部参数</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#js-callback">JS 回调</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id11">输入参数</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id12">输出参数</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id13">内部参数</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#animation">动画</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#play-timeline-and-stop-timeline">播放时间轴和停止时间线</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id11">输入参数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id12">输出参数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id13">内部参数</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#play-animation">播放动画</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id14">输入参数</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id15">输出参数</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id16">内部参数</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#get-timeline">获取时间线</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#stop-animation">停止动画</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id17">输入参数</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id18">输出参数</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id19">内部参数</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#play-animation">播放动画</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id20">输入参数</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id21">输出参数</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id22">内部参数</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#stop-animation">停止动画</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id23">输入参数</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id24">输出参数</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id25">内部参数</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#camera">相机（Camera）</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#move-camera">移动相机</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id26">输入参数</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id27">输出参数</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id28">内部参数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id20">输入参数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id21">输出参数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id22">内部参数</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#set-camera-move-style">设置相机移动方式</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id29">输入参数</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id30">输出参数</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id31">内部参数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id23">输入参数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id24">输出参数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id25">内部参数</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#set-camera-limits">Set Camera Limits</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id32">输入参数</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id33">输出参数</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id34">内部参数</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#set-camera-limits">设置相机限制</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id26">输入参数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id27">输出参数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id28">内部参数</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#object">物体</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#show-object">显示物体</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id29">输入参数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id30">输出参数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id31">内部参数</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#hide-object">隐藏物体</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id32">输入参数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id33">输出参数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id34">内部参数</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#transform-object">变换物体</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id35">输入参数</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id36">输出参数</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id37">内部参数</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#hide-object">隐藏物体</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#move-to">移动到</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id38">输入参数</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id39">输出参数</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id40">内部参数</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#transform-object">变换物体</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#apply-shape-key">应用形状关键</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id41">输入参数</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id42">输出参数</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id43">内部参数</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#move-to">移动到</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#outline">轮廓</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id44">输入参数</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id45">输出参数</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id46">内部参数</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#apply-shape-key">应用形状关键</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#set-shader-node-param">设置着色器节点参数</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id47">输入参数</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id48">输出参数</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id49">内部参数</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#outline">轮廓</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#inherit-material">继承材质</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id50">输入参数</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id51">输出参数</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id52">内部参数</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#set-shader-node-param">设置着色器节点参数</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id53">输入参数</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id54">输出参数</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id55">内部参数</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#inherit-material">继承材质</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id56">输入参数</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id57">输出参数</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id58">内部参数</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#operations">操作</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#variable-store">变量存储</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id53">输入参数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id54">输出参数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id55">内部参数</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#math-operation">数学运算</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id56">输入参数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id57">输出参数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id58">内部参数</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#string-operation">字符串操作</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id59">输入参数</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id60">输出参数</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id61">内部参数</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#math-operation">数学运算</a><ul>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#sound">声音</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#play-sound">播放声音</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id62">输入参数</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id63">输出参数</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id64">内部参数</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#string-operation">字符串操作</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#stop-sound">停止声音</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id65">输入参数</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id66">输出参数</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id67">内部参数</a></li>
@@ -254,70 +258,76 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#sound">声音</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#play-sound">播放声音</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#network">网络</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#send-request">发送请求</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id68">输入参数</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id69">输出参数</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id70">内部参数</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#stop-sound">停止声音</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#json">JSON</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id71">输入参数</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id72">输出参数</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id73">内部参数</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#network">网络</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#send-request">发送请求</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id74">输入参数</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id75">输出参数</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id76">内部参数</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#json">JSON</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id77">输入参数</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id78">输出参数</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id79">内部参数</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#using-json-logic-node-to-encode-json-object">使用JSON逻辑节点编码JSON物体</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#using-json-logic-node-to-decode-json-object">使用JSON逻辑节点解码JSON物体</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#page-param">页面参数</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id80">输入参数</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id81">输出参数</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id82">内部参数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id74">输入参数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id75">输出参数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id76">内部参数</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#page-redirect">页转到</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id83">输入参数</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id84">输出参数</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id85">内部参数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id77">输入参数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id78">输出参数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id79">内部参数</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#debug">调试</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#console-print">控制台打印</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id80">输入参数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id81">输出参数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id82">内部参数</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#time">Time</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#date-time">Date &amp; Time</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id83">输入参数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id84">输出参数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id85">内部参数</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#get-timeline">获取时间线</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id86">输入参数</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id87">输出参数</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id88">内部参数</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#elapsed">Elapsed</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id89">输入参数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id90">输出参数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id91">内部参数</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#deprecated">已过时</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#select-deprecated">选择（已过时）</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#select-play-timeline-deprecated">选择并播放时间轴（已过时）</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#select-play-animation-deprecated">选择并播放动画（已过时）</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#delay">延迟</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id92">输入参数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id93">输出参数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id94">内部参数</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#layout">布局</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#empty">空物体</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id89">输入参数</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id90">输出参数</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id91">内部参数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id95">输入参数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id96">输出参数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id97">内部参数</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#reroute">路由</a></li>
@@ -384,29 +394,29 @@
            <div itemprop="articleBody">
             
   <div class="section" id="logic-editor">
-<span id="id1"></span><h1><a class="toc-backref" href="#id92">逻辑编辑器</a><a class="headerlink" href="#logic-editor" title="永久链接至标题">¶</a></h1>
+<span id="id1"></span><h1><a class="toc-backref" href="#id98">逻辑编辑器</a><a class="headerlink" href="#logic-editor" title="永久链接至标题">¶</a></h1>
 <div class="contents topic" id="table-of-content">
 <p class="topic-title first">目录</p>
 <ul class="simple">
-<li><a class="reference internal" href="#logic-editor" id="id92">逻辑编辑器</a><ul>
-<li><a class="reference internal" href="#basics" id="id93">基础</a></li>
-<li><a class="reference internal" href="#control-flow" id="id94">控制流</a></li>
-<li><a class="reference internal" href="#animation" id="id95">动画</a></li>
-<li><a class="reference internal" href="#camera" id="id96">相机（Camera）</a></li>
-<li><a class="reference internal" href="#object" id="id97">物体</a></li>
-<li><a class="reference internal" href="#operations" id="id98">操作</a></li>
-<li><a class="reference internal" href="#sound" id="id99">声音</a></li>
-<li><a class="reference internal" href="#network" id="id100">网络</a></li>
-<li><a class="reference internal" href="#debug" id="id101">调试</a></li>
-<li><a class="reference internal" href="#deprecated" id="id102">已过时</a></li>
-<li><a class="reference internal" href="#layout" id="id103">布局</a></li>
-<li><a class="reference internal" href="#debugging" id="id104">调试中</a></li>
+<li><a class="reference internal" href="#logic-editor" id="id98">逻辑编辑器</a><ul>
+<li><a class="reference internal" href="#basics" id="id99">基础</a></li>
+<li><a class="reference internal" href="#control-flow" id="id100">控制流</a></li>
+<li><a class="reference internal" href="#animation" id="id101">动画</a></li>
+<li><a class="reference internal" href="#camera" id="id102">相机（Camera）</a></li>
+<li><a class="reference internal" href="#object" id="id103">物体</a></li>
+<li><a class="reference internal" href="#operations" id="id104">操作</a></li>
+<li><a class="reference internal" href="#sound" id="id105">声音</a></li>
+<li><a class="reference internal" href="#network" id="id106">网络</a></li>
+<li><a class="reference internal" href="#debug" id="id107">调试</a></li>
+<li><a class="reference internal" href="#time" id="id108">Time</a></li>
+<li><a class="reference internal" href="#layout" id="id109">布局</a></li>
+<li><a class="reference internal" href="#debugging" id="id110">调试中</a></li>
 </ul>
 </li>
 </ul>
 </div>
 <div class="section" id="basics">
-<h2><a class="toc-backref" href="#id93">基础</a><a class="headerlink" href="#basics" title="永久链接至标题">¶</a></h2>
+<h2><a class="toc-backref" href="#id99">基础</a><a class="headerlink" href="#basics" title="永久链接至标题">¶</a></h2>
 <p>可视化编程是通过在Blender的节点编辑器创建逻辑节点树进行。这些节点可以无需任何编码也能显著的增强场景的功能性。</p>
 <a class="reference internal image-reference" href="_images/logic_editor_app_example.png"><img alt="_images/logic_editor_app_example.png" class="align-center" src="_images/logic_editor_app_example.png" style="width: 100%;" /></a>
 <p>要在给定场景激活逻辑，在 <code class="docutils literal"><span class="pre">Scene</span></code> 选项卡中设置  <code class="docutils literal"><span class="pre">Logic</span> <span class="pre">Editor</span></code>  属性并追加/选择活动节点树。</p>
@@ -426,7 +436,7 @@
 <p>下文介绍了所有可用的节点。</p>
 </div>
 <div class="section" id="control-flow">
-<h2><a class="toc-backref" href="#id94">控制流</a><a class="headerlink" href="#control-flow" title="永久链接至标题">¶</a></h2>
+<h2><a class="toc-backref" href="#id100">控制流</a><a class="headerlink" href="#control-flow" title="永久链接至标题">¶</a></h2>
 <div class="section" id="entry-point">
 <span id="logic-entry"></span><h3>入口点<a class="headerlink" href="#entry-point" title="永久链接至标题">¶</a></h3>
 <p>这是该脚本开始的地方。通过使用多个入口点您可以创建多线程应用程序。</p>
@@ -484,10 +494,10 @@
 </dl>
 </div>
 </div>
-<div class="section" id="delay">
-<span id="logic-delay"></span><h3>延迟<a class="headerlink" href="#delay" title="永久链接至标题">¶</a></h3>
-<p>在去下一个节点之前做一个延迟（以秒计）。</p>
-<a class="reference internal image-reference" href="_images/logic_editor_delay.png"><img alt="_images/logic_editor_delay.png" class="align-center" src="_images/logic_editor_delay.png" style="width: 100%;" /></a>
+<div class="section" id="conditional-jump">
+<span id="logic-jump"></span><h3>条件跳转<a class="headerlink" href="#conditional-jump" title="永久链接至标题">¶</a></h3>
+<p>如果满足一定的条件转到指定的节点。参数（操作数）也可以是使用相应的开关激活的变量。</p>
+<a class="reference internal image-reference" href="_images/logic_editor_conditional_jump.png"><img alt="_images/logic_editor_conditional_jump.png" class="align-center" src="_images/logic_editor_conditional_jump.png" style="width: 100%;" /></a>
 <div class="section" id="id5">
 <h4>输入参数<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
@@ -499,35 +509,6 @@
 <div class="section" id="id6">
 <h4>输出参数<a class="headerlink" href="#id6" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
-<dt><em>下一个</em></dt>
-<dd><p class="first last">下一个节点。</p>
-</dd>
-</dl>
-</div>
-<div class="section" id="id7">
-<h4>内部参数<a class="headerlink" href="#id7" title="永久链接至标题">¶</a></h4>
-<dl class="docutils">
-<dt><em>值</em></dt>
-<dd><p class="first last">将在下一个节点激活之前的时间 （以秒为单位）。默认情况设置为零。可以手动或通过一个变量来设置 （如果启用了 <code class="docutils literal"><span class="pre">Variable</span></code> 参数）。</p>
-</dd>
-</dl>
-</div>
-</div>
-<div class="section" id="conditional-jump">
-<span id="logic-jump"></span><h3>条件跳转<a class="headerlink" href="#conditional-jump" title="永久链接至标题">¶</a></h3>
-<p>如果满足一定的条件转到指定的节点。参数（操作数）也可以是使用相应的开关激活的变量。</p>
-<a class="reference internal image-reference" href="_images/logic_editor_conditional_jump.png"><img alt="_images/logic_editor_conditional_jump.png" class="align-center" src="_images/logic_editor_conditional_jump.png" style="width: 100%;" /></a>
-<div class="section" id="id8">
-<h4>输入参数<a class="headerlink" href="#id8" title="永久链接至标题">¶</a></h4>
-<dl class="docutils">
-<dt><em>上一个</em></dt>
-<dd><p class="first last">前一个节点。</p>
-</dd>
-</dl>
-</div>
-<div class="section" id="id9">
-<h4>输出参数<a class="headerlink" href="#id9" title="永久链接至标题">¶</a></h4>
-<dl class="docutils">
 <dt><em>真</em></dt>
 <dd><p class="first last">条件为真。</p>
 </dd>
@@ -536,8 +517,8 @@
 </dd>
 </dl>
 </div>
-<div class="section" id="id10">
-<h4>内部参数<a class="headerlink" href="#id10" title="永久链接至标题">¶</a></h4>
+<div class="section" id="id7">
+<h4>内部参数<a class="headerlink" href="#id7" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>条件</em></dt>
 <dd><p class="first">逻辑条件。可以有以下几种类型：</p>
@@ -557,7 +538,8 @@
 </ul>
 </dd>
 <dt><em>Operand1</em></dt>
-<dd>First operand of the logical condition. Contains a numeric value or a string (if the <code class="docutils literal"><span class="pre">String</span> <span class="pre">Operators</span></code> parameter is enabled). Can be specified in the node or can be a link to one of the variables (if the <code class="docutils literal"><span class="pre">Variable</span></code> parameter at the right of it is enabled).</dd>
+<dd><p class="first last">逻辑条件的第一个操作数。包含数值或字符串（如果 <code class="docutils literal"><span class="pre">String</span> <span class="pre">Operators</span></code> 参数已启用）。可以在节点中指定，也可以是指向其中一个变量的链接（如果右侧的 <code class="docutils literal"><span class="pre">Variable</span></code> 参数被启用）。</p>
+</dd>
 <dt><em>Operand2</em></dt>
 <dd><p class="first last">逻辑条件的第二个操作数。和第一个以同样的方式工作。</p>
 </dd>
@@ -571,24 +553,24 @@
 <span id="logic-callback"></span><h3>JS 回调<a class="headerlink" href="#js-callback" title="永久链接至标题">¶</a></h3>
 <p>可以用来调用您的 Blend4Web 应用程序中定义的自定义 JavaScript 回调。</p>
 <a class="reference internal image-reference" href="_images/logic_editor_js_callback.png"><img alt="_images/logic_editor_js_callback.png" class="align-center" src="_images/logic_editor_js_callback.png" style="width: 100%;" /></a>
-<div class="section" id="id11">
-<h4>输入参数<a class="headerlink" href="#id11" title="永久链接至标题">¶</a></h4>
+<div class="section" id="id8">
+<h4>输入参数<a class="headerlink" href="#id8" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>上一个</em></dt>
 <dd><p class="first last">前一个节点。</p>
 </dd>
 </dl>
 </div>
-<div class="section" id="id12">
-<h4>输出参数<a class="headerlink" href="#id12" title="永久链接至标题">¶</a></h4>
+<div class="section" id="id9">
+<h4>输出参数<a class="headerlink" href="#id9" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>下一个</em></dt>
 <dd><p class="first last">下一个节点。</p>
 </dd>
 </dl>
 </div>
-<div class="section" id="id13">
-<h4>内部参数<a class="headerlink" href="#id13" title="永久链接至标题">¶</a></h4>
+<div class="section" id="id10">
+<h4>内部参数<a class="headerlink" href="#id10" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>回调 ID</em></dt>
 <dd><p class="first last">一个 JavaScript 函数将被节点调用的 ID。</p>
@@ -615,11 +597,48 @@
 </div>
 </div>
 <div class="section" id="animation">
-<h2><a class="toc-backref" href="#id95">动画</a><a class="headerlink" href="#animation" title="永久链接至标题">¶</a></h2>
+<h2><a class="toc-backref" href="#id101">动画</a><a class="headerlink" href="#animation" title="永久链接至标题">¶</a></h2>
 <div class="section" id="play-timeline-and-stop-timeline">
 <span id="logic-play-timeline"></span><h3>播放时间轴和停止时间线<a class="headerlink" href="#play-timeline-and-stop-timeline" title="永久链接至标题">¶</a></h3>
 <p>可以用来控制 NLA 动画。&#8217;玩的时间线&#8217; 节点扮演 NLA 片段从指定的标记的帧开始。动画播放直至遇到下一个标记，或到场景的时间线的末尾。在那之后，控制传递到下一个节点。&#8217;停止时间线&#8217; 节点停止播放。</p>
 <a class="reference internal image-reference" href="_images/logic_editor_timeline.png"><img alt="_images/logic_editor_timeline.png" class="align-center" src="_images/logic_editor_timeline.png" style="width: 100%;" /></a>
+<div class="section" id="id11">
+<h4>输入参数<a class="headerlink" href="#id11" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>上一个</em></dt>
+<dd><p class="first last">前一个节点。</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="id12">
+<h4>输出参数<a class="headerlink" href="#id12" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>下一个</em></dt>
+<dd><p class="first last">下一个节点。</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="id13">
+<h4>内部参数<a class="headerlink" href="#id13" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>起始标记</em></dt>
+<dd><p class="first last">动画的第一帧。如果没有指定，动画从时间轴开始播放，并可能无法正常工作。</p>
+</dd>
+<dt><em>结束标记</em></dt>
+<dd><p class="first last">动画的最后一帧。如果没有指定，动画播放到时间轴的结束，可能无法正常工作。</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="play-animation">
+<span id="logic-select-play"></span><h3>播放动画<a class="headerlink" href="#play-animation" title="永久链接至标题">¶</a></h3>
+<p>可用于播放物体的动画。动画可以是以下类型之一：</p>
+<p>常规动作：</p>
+<a class="reference internal image-reference" href="_images/play_anim_action.png"><img alt="_images/play_anim_action.png" class="align-center" src="_images/play_anim_action.png" style="width: 100%;" /></a>
+<p>着色器动作：</p>
+<a class="reference internal image-reference" href="_images/play_anim_nodetree.png"><img alt="_images/play_anim_nodetree.png" class="align-center" src="_images/play_anim_nodetree.png" style="width: 100%;" /></a>
+<p>粒子系统：</p>
+<a class="reference internal image-reference" href="_images/play_anim_particle.png"><img alt="_images/play_anim_particle.png" class="align-center" src="_images/play_anim_particle.png" style="width: 100%;" /></a>
 <div class="section" id="id14">
 <h4>输入参数<a class="headerlink" href="#id14" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
@@ -639,19 +658,32 @@
 <div class="section" id="id16">
 <h4>内部参数<a class="headerlink" href="#id16" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
-<dt><em>起始标记</em></dt>
-<dd><p class="first last">动画的第一帧。如果没有指定，动画从时间轴开始播放，并可能无法正常工作。</p>
+<dt><em>物体</em></dt>
+<dd><p class="first last">物体，动画，其中将播放的名称。</p>
 </dd>
-<dt><em>结束标记</em></dt>
-<dd><p class="first last">动画的最后一帧。如果没有指定，动画播放到时间轴的结束，可能无法正常工作。</p>
+<dt><em>动画名称</em></dt>
+<dd><p class="first last">要播放动画的名字。如果未指定，则整个时间轴将播放。</p>
+</dd>
+<dt><em>行为</em></dt>
+<dd><p class="first">指定动画行为。可以有以下值之一：</p>
+<ul class="last simple">
+<li><p class="first"><em>完成停止</em>  - 动画将播放一次。</p>
+</li>
+<li><p class="first"><em>完成重置</em>  - 动画将被播放一次，则该物体将返回到起点。</p>
+</li>
+<li><p class="first"><em>循环</em>  - 动画将被反复播放直到它被 <code class="docutils literal"><span class="pre">Stop</span> <span class="pre">Animation</span></code> 节点停止掉。</p>
+</li>
+</ul>
+</dd>
+<dt><em>不要等</em></dt>
+<dd><p class="first last">如果该参数被启用，<code class="docutils literal"><span class="pre">Play</span> <span class="pre">Animation</span></code> 节点将控制传递到下一个节点上启动动画播放。如果不是，控制将被传递到播放完成后才会进入下一个节点。</p>
 </dd>
 </dl>
 </div>
 </div>
-<div class="section" id="get-timeline">
-<span id="logic-get-timeline"></span><h3>获取时间线<a class="headerlink" href="#get-timeline" title="永久链接至标题">¶</a></h3>
-<p>此节点可以用于获取 NLA 动画或时间线的当前帧。</p>
-<a class="reference internal image-reference" href="_images/logic_editor_get_timeline.png"><img alt="_images/logic_editor_get_timeline.png" class="align-center" src="_images/logic_editor_get_timeline.png" style="width: 100%;" /></a>
+<div class="section" id="stop-animation">
+<span id="logic-stop-anim"></span><h3>停止动画<a class="headerlink" href="#stop-animation" title="永久链接至标题">¶</a></h3>
+<p>可以用来停止物体的动画。</p>
 <div class="section" id="id17">
 <h4>输入参数<a class="headerlink" href="#id17" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
@@ -671,24 +703,19 @@
 <div class="section" id="id19">
 <h4>内部参数<a class="headerlink" href="#id19" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
-<dt><em>NLA Timeline</em></dt>
-<dd><p class="first last">如果启用此参数，则该节点将返回当前动画的帧的 NLA。如果禁用了它，则该节点将返回当前帧的时间线。默认情况下启用。</p>
-</dd>
-<dt><em>目标</em></dt>
-<dd><p class="first last">指定一个变量来存储当前帧的数量。默认设置为  <code class="docutils literal"><span class="pre">R1</span></code> 。</p>
+<dt><em>设置第一帧</em></dt>
+<dd><p class="first last">返回到第一帧的动画已经停止之后。</p>
 </dd>
 </dl>
 </div>
 </div>
-<div class="section" id="play-animation">
-<span id="logic-select-play"></span><h3>播放动画<a class="headerlink" href="#play-animation" title="永久链接至标题">¶</a></h3>
-<p>可用于播放物体的动画。动画可以是以下类型之一：</p>
-<p>常规动作：</p>
-<a class="reference internal image-reference" href="_images/play_anim_action.png"><img alt="_images/play_anim_action.png" class="align-center" src="_images/play_anim_action.png" style="width: 100%;" /></a>
-<p>着色器动作：</p>
-<a class="reference internal image-reference" href="_images/play_anim_nodetree.png"><img alt="_images/play_anim_nodetree.png" class="align-center" src="_images/play_anim_nodetree.png" style="width: 100%;" /></a>
-<p>粒子系统：</p>
-<a class="reference internal image-reference" href="_images/play_anim_particle.png"><img alt="_images/play_anim_particle.png" class="align-center" src="_images/play_anim_particle.png" style="width: 100%;" /></a>
+</div>
+<div class="section" id="camera">
+<h2><a class="toc-backref" href="#id102">相机（Camera）</a><a class="headerlink" href="#camera" title="永久链接至标题">¶</a></h2>
+<div class="section" id="move-camera">
+<span id="logic-move-camera"></span><h3>移动相机<a class="headerlink" href="#move-camera" title="永久链接至标题">¶</a></h3>
+<p>可用于移动相机，包括其位置的平滑插补。</p>
+<a class="reference internal image-reference" href="_images/logic_editor_move_camera.png"><img alt="_images/logic_editor_move_camera.png" class="align-center" src="_images/logic_editor_move_camera.png" style="width: 100%;" /></a>
 <div class="section" id="id20">
 <h4>输入参数<a class="headerlink" href="#id20" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
@@ -707,83 +734,6 @@
 </div>
 <div class="section" id="id22">
 <h4>内部参数<a class="headerlink" href="#id22" title="永久链接至标题">¶</a></h4>
-<dl class="docutils">
-<dt><em>物体</em></dt>
-<dd><p class="first last">物体，动画，其中将播放的名称。</p>
-</dd>
-<dt><em>动画。名称</em></dt>
-<dd><p class="first last">要播放动画的名字。如果未指定，则整个时间轴将播放。</p>
-</dd>
-<dt><em>行为</em></dt>
-<dd><p class="first">指定动画行为。可以有以下值之一：</p>
-<ul class="last simple">
-<li><p class="first"><em>完成停止</em>  - 动画将播放一次。</p>
-</li>
-<li><p class="first"><em>完成重置</em>  - 动画将被播放一次，则该物体将返回到起点。</p>
-</li>
-<li><p class="first"><em>循环</em>  - 直到它被 <code class="docutils literal"><span class="pre">停止Animation</span></code> 节点停止的动画将被反复播放。</p>
-</li>
-</ul>
-</dd>
-<dt><em>不要等</em></dt>
-<dd><p class="first last">如果该参数被启用，<code class="docutils literal"><span class="pre">Play</span> <span class="pre">Animation</span></code> 节点将控制传递到下一个节点上启动动画播放。如果不是，控制将被传递到播放完成后才会进入下一个节点。</p>
-</dd>
-</dl>
-</div>
-</div>
-<div class="section" id="stop-animation">
-<span id="logic-stop-anim"></span><h3>停止动画<a class="headerlink" href="#stop-animation" title="永久链接至标题">¶</a></h3>
-<p>可以用来停止物体的动画。</p>
-<div class="section" id="id23">
-<h4>输入参数<a class="headerlink" href="#id23" title="永久链接至标题">¶</a></h4>
-<dl class="docutils">
-<dt><em>上一个</em></dt>
-<dd><p class="first last">前一个节点。</p>
-</dd>
-</dl>
-</div>
-<div class="section" id="id24">
-<h4>输出参数<a class="headerlink" href="#id24" title="永久链接至标题">¶</a></h4>
-<dl class="docutils">
-<dt><em>下一个</em></dt>
-<dd><p class="first last">下一个节点。</p>
-</dd>
-</dl>
-</div>
-<div class="section" id="id25">
-<h4>内部参数<a class="headerlink" href="#id25" title="永久链接至标题">¶</a></h4>
-<dl class="docutils">
-<dt><em>设置第一帧</em></dt>
-<dd><p class="first last">返回到第一帧的动画已经停止之后。</p>
-</dd>
-</dl>
-</div>
-</div>
-</div>
-<div class="section" id="camera">
-<h2><a class="toc-backref" href="#id96">相机（Camera）</a><a class="headerlink" href="#camera" title="永久链接至标题">¶</a></h2>
-<div class="section" id="move-camera">
-<span id="logic-move-camera"></span><h3>移动相机<a class="headerlink" href="#move-camera" title="永久链接至标题">¶</a></h3>
-<p>可用于移动相机，包括其位置的平滑插补。</p>
-<a class="reference internal image-reference" href="_images/logic_editor_move_camera.png"><img alt="_images/logic_editor_move_camera.png" class="align-center" src="_images/logic_editor_move_camera.png" style="width: 100%;" /></a>
-<div class="section" id="id26">
-<h4>输入参数<a class="headerlink" href="#id26" title="永久链接至标题">¶</a></h4>
-<dl class="docutils">
-<dt><em>上一个</em></dt>
-<dd><p class="first last">前一个节点。</p>
-</dd>
-</dl>
-</div>
-<div class="section" id="id27">
-<h4>输出参数<a class="headerlink" href="#id27" title="永久链接至标题">¶</a></h4>
-<dl class="docutils">
-<dt><em>下一个</em></dt>
-<dd><p class="first last">下一个节点。</p>
-</dd>
-</dl>
-</div>
-<div class="section" id="id28">
-<h4>内部参数<a class="headerlink" href="#id28" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>相机</em></dt>
 <dd><p class="first last">将摄像机移动。</p>
@@ -804,24 +754,24 @@
 <span id="logic-set-camera-move-style"></span><h3>设置相机移动方式<a class="headerlink" href="#set-camera-move-style" title="永久链接至标题">¶</a></h3>
 <p>可以用来改变所选摄像机的移动方式。</p>
 <a class="reference internal image-reference" href="_images/logic_editor_set_camera_move_style.png"><img alt="_images/logic_editor_set_camera_move_style.png" class="align-center" src="_images/logic_editor_set_camera_move_style.png" style="width: 100%;" /></a>
-<div class="section" id="id29">
-<h4>输入参数<a class="headerlink" href="#id29" title="永久链接至标题">¶</a></h4>
+<div class="section" id="id23">
+<h4>输入参数<a class="headerlink" href="#id23" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>上一个</em></dt>
 <dd><p class="first last">前一个节点。</p>
 </dd>
 </dl>
 </div>
-<div class="section" id="id30">
-<h4>输出参数<a class="headerlink" href="#id30" title="永久链接至标题">¶</a></h4>
+<div class="section" id="id24">
+<h4>输出参数<a class="headerlink" href="#id24" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>下一个</em></dt>
 <dd><p class="first last">下一个节点。</p>
 </dd>
 </dl>
 </div>
-<div class="section" id="id31">
-<h4>内部参数<a class="headerlink" href="#id31" title="永久链接至标题">¶</a></h4>
+<div class="section" id="id25">
+<h4>内部参数<a class="headerlink" href="#id25" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>相机</em></dt>
 <dd><p class="first last">此参数指定的摄像机到的变化将被应用。</p>
@@ -863,9 +813,91 @@
 </div>
 </div>
 <div class="section" id="set-camera-limits">
-<span id="logic-set-camera-limits"></span><h3>Set Camera Limits<a class="headerlink" href="#set-camera-limits" title="永久链接至标题">¶</a></h3>
-<p>This node can be used to set limits of the selected camera. The node lists all available limits, but only ones that are compatible with the type of the camera are applied.</p>
+<span id="logic-set-camera-limits"></span><h3>设置相机限制<a class="headerlink" href="#set-camera-limits" title="永久链接至标题">¶</a></h3>
+<p>此节点可以用于设置选定相机的限制。节点列出了所有可用的限制，但只有那些与照相机类型兼容的限制可以被应用。</p>
 <a class="reference internal image-reference" href="_images/logic_editor_set_camera_limits.png"><img alt="_images/logic_editor_set_camera_limits.png" class="align-center" src="_images/logic_editor_set_camera_limits.png" style="width: 100%;" /></a>
+<div class="section" id="id26">
+<h4>输入参数<a class="headerlink" href="#id26" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>上一个</em></dt>
+<dd><p class="first last">前一个节点。</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="id27">
+<h4>输出参数<a class="headerlink" href="#id27" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>下一个</em></dt>
+<dd><p class="first last">下一个节点。</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="id28">
+<h4>内部参数<a class="headerlink" href="#id28" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>相机</em></dt>
+<dd><p class="first last">此参数指定将应用限制的摄像机。</p>
+</dd>
+<dt><em>Distance Limits</em></dt>
+<dd><p class="first last">设置 <code class="docutils literal"><span class="pre">距离限制</span></code> 参数用于   <a class="reference internal" href="camera.html#camera-target-type"><span>目标</span></a> 和 <a class="reference internal" href="camera.html#camera-hover-type"><span>悬停</span></a> 照相机类型。</p>
+</dd>
+<dt><em>Hor. Rotation Limits</em></dt>
+<dd><p class="first last">设置  <code class="docutils literal"><span class="pre">水平旋转限制</span></code> 参数用于于  <a class="reference internal" href="camera.html#camera-target-type"><span>目标</span></a> 和 <a class="reference internal" href="camera.html#camera-eye-type"><span>眼</span></a>  照相机类型。</p>
+</dd>
+<dt><em>Vert. Rotation Limits</em></dt>
+<dd><p class="first last">设置  <code class="docutils literal"><span class="pre">垂直旋转限制</span></code> 参数用于于  <a class="reference internal" href="camera.html#camera-target-type"><span>目标</span></a>, <a class="reference internal" href="camera.html#camera-hover-type"><span>悬停</span></a> 和 <a class="reference internal" href="camera.html#camera-eye-type"><span>眼</span></a>  照相机类型。</p>
+</dd>
+<dt><em>Pivot Translation Limits</em></dt>
+<dd><p class="first last">设置 <code class="docutils literal"><span class="pre">轴点移动限制</span></code>  参数用于  <a class="reference internal" href="camera.html#camera-target-type"><span>目标</span></a>  相机类型。</p>
+</dd>
+<dt><em>Hor. Translation Limits</em></dt>
+<dd><p class="first last">设置  <code class="docutils literal"><span class="pre">水平移动限制</span></code> 参数用于  <a class="reference internal" href="camera.html#camera-hover-type"><span>悬停</span></a> 相机类型。</p>
+</dd>
+<dt><em>Vert. Translation Limits</em></dt>
+<dd><p class="first last">设置 <code class="docutils literal"><span class="pre">垂直移动限制</span></code> 参数用于  <a class="reference internal" href="camera.html#camera-hover-type"><span>悬停</span></a>  相机类型。</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="section" id="object">
+<h2><a class="toc-backref" href="#id103">物体</a><a class="headerlink" href="#object" title="永久链接至标题">¶</a></h2>
+<div class="section" id="show-object">
+<span id="logic-show-object"></span><h3>显示物体<a class="headerlink" href="#show-object" title="永久链接至标题">¶</a></h3>
+<p>可用于显示3D物体。</p>
+<a class="reference internal image-reference" href="_images/logic_editor_show_object.png"><img alt="_images/logic_editor_show_object.png" class="align-center" src="_images/logic_editor_show_object.png" style="width: 100%;" /></a>
+<div class="section" id="id29">
+<h4>输入参数<a class="headerlink" href="#id29" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>上一个</em></dt>
+<dd><p class="first last">前一个节点。</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="id30">
+<h4>输出参数<a class="headerlink" href="#id30" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>下一个</em></dt>
+<dd><p class="first last">下一个节点。</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="id31">
+<h4>内部参数<a class="headerlink" href="#id31" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>物体</em></dt>
+<dd><p class="first last">显示一个物体。</p>
+</dd>
+<dt><em>处理子物体</em></dt>
+<dd><p class="first last">如果启用此参数，则将显示子物体。</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="hide-object">
+<span id="logic-hide-object"></span><h3>隐藏物体<a class="headerlink" href="#hide-object" title="永久链接至标题">¶</a></h3>
+<p>可以用来隐藏三维物体。</p>
+<a class="reference internal image-reference" href="_images/logic_editor_hide_object.png"><img alt="_images/logic_editor_hide_object.png" class="align-center" src="_images/logic_editor_hide_object.png" style="width: 100%;" /></a>
 <div class="section" id="id32">
 <h4>输入参数<a class="headerlink" href="#id32" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
@@ -885,30 +917,19 @@
 <div class="section" id="id34">
 <h4>内部参数<a class="headerlink" href="#id34" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
-<dt><em>相机</em></dt>
-<dd>This parameter specifies a camera to which the limits will be applied.</dd>
-<dt><em>Distance Limits</em></dt>
-<dd>Sets the <code class="docutils literal"><span class="pre">Distance</span> <span class="pre">Limits</span></code> parameter native to the <a class="reference internal" href="camera.html#camera-target-type"><span>Target</span></a> and <a class="reference internal" href="camera.html#camera-hover-type"><span>Hover</span></a> camera types.</dd>
-<dt><em>Hor. Rotation Limits</em></dt>
-<dd>Sets <code class="docutils literal"><span class="pre">Horizontal</span> <span class="pre">Rotation</span> <span class="pre">Limits</span></code> parameter native to <a class="reference internal" href="camera.html#camera-target-type"><span>Target</span></a> and <a class="reference internal" href="camera.html#camera-eye-type"><span>Eye</span></a> camera types.</dd>
-<dt><em>Vert. Rotation Limits</em></dt>
-<dd>Sets <code class="docutils literal"><span class="pre">Vertical</span> <span class="pre">Rotation</span> <span class="pre">Limits</span></code> parameter native to <a class="reference internal" href="camera.html#camera-target-type"><span>Target</span></a>, <a class="reference internal" href="camera.html#camera-hover-type"><span>Hover</span></a> and <a class="reference internal" href="camera.html#camera-eye-type"><span>Eye</span></a> camera types.</dd>
-<dt><em>Pivot Translation Limits</em></dt>
-<dd>Sets <code class="docutils literal"><span class="pre">Pivot</span> <span class="pre">Translation</span> <span class="pre">Limits</span></code> parameter native to <a class="reference internal" href="camera.html#camera-target-type"><span>Target</span></a> camera type.</dd>
-<dt><em>Hor. Translation Limits</em></dt>
-<dd>Sets <code class="docutils literal"><span class="pre">Horizontal</span> <span class="pre">Translation</span> <span class="pre">Limits</span></code> parameter native to <a class="reference internal" href="camera.html#camera-hover-type"><span>Hover</span></a> camera type.</dd>
-<dt><em>Vert. Translation Limits</em></dt>
-<dd>Sets <code class="docutils literal"><span class="pre">Vertical</span> <span class="pre">Translation</span> <span class="pre">Limits</span></code> parameter native to <a class="reference internal" href="camera.html#camera-hover-type"><span>Hover</span></a> camera type.</dd>
+<dt><em>物体</em></dt>
+<dd><p class="first last">一个物体隐藏。</p>
+</dd>
+<dt><em>处理子物体</em></dt>
+<dd><p class="first last">如果启用此参数，则将隐藏子物体。</p>
+</dd>
 </dl>
 </div>
 </div>
-</div>
-<div class="section" id="object">
-<h2><a class="toc-backref" href="#id97">物体</a><a class="headerlink" href="#object" title="永久链接至标题">¶</a></h2>
-<div class="section" id="show-object">
-<span id="logic-show-object"></span><h3>显示物体<a class="headerlink" href="#show-object" title="永久链接至标题">¶</a></h3>
-<p>可用于显示3D物体。</p>
-<a class="reference internal image-reference" href="_images/logic_editor_show_object.png"><img alt="_images/logic_editor_show_object.png" class="align-center" src="_images/logic_editor_show_object.png" style="width: 100%;" /></a>
+<div class="section" id="transform-object">
+<span id="logic-transform"></span><h3>变换物体<a class="headerlink" href="#transform-object" title="永久链接至标题">¶</a></h3>
+<p>可以用来改变物体的位置，大小和旋转角度。</p>
+<a class="reference internal image-reference" href="_images/logic_editor_transform_object.png"><img alt="_images/logic_editor_transform_object.png" class="align-center" src="_images/logic_editor_transform_object.png" style="width: 100%;" /></a>
 <div class="section" id="id35">
 <h4>输入参数<a class="headerlink" href="#id35" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
@@ -927,70 +948,6 @@
 </div>
 <div class="section" id="id37">
 <h4>内部参数<a class="headerlink" href="#id37" title="永久链接至标题">¶</a></h4>
-<dl class="docutils">
-<dt><em>物体</em></dt>
-<dd><p class="first last">显示一个物体。</p>
-</dd>
-<dt><em>处理子物体</em></dt>
-<dd><p class="first last">如果启用此参数，则将显示子物体。</p>
-</dd>
-</dl>
-</div>
-</div>
-<div class="section" id="hide-object">
-<span id="logic-hide-object"></span><h3>隐藏物体<a class="headerlink" href="#hide-object" title="永久链接至标题">¶</a></h3>
-<p>可以用来隐藏三维物体。</p>
-<a class="reference internal image-reference" href="_images/logic_editor_hide_object.png"><img alt="_images/logic_editor_hide_object.png" class="align-center" src="_images/logic_editor_hide_object.png" style="width: 100%;" /></a>
-<div class="section" id="id38">
-<h4>输入参数<a class="headerlink" href="#id38" title="永久链接至标题">¶</a></h4>
-<dl class="docutils">
-<dt><em>上一个</em></dt>
-<dd><p class="first last">前一个节点。</p>
-</dd>
-</dl>
-</div>
-<div class="section" id="id39">
-<h4>输出参数<a class="headerlink" href="#id39" title="永久链接至标题">¶</a></h4>
-<dl class="docutils">
-<dt><em>下一个</em></dt>
-<dd><p class="first last">下一个节点。</p>
-</dd>
-</dl>
-</div>
-<div class="section" id="id40">
-<h4>内部参数<a class="headerlink" href="#id40" title="永久链接至标题">¶</a></h4>
-<dl class="docutils">
-<dt><em>物体</em></dt>
-<dd><p class="first last">一个物体隐藏。</p>
-</dd>
-<dt><em>处理子物体</em></dt>
-<dd><p class="first last">如果启用此参数，则将隐藏子物体。</p>
-</dd>
-</dl>
-</div>
-</div>
-<div class="section" id="transform-object">
-<span id="logic-transform"></span><h3>变换物体<a class="headerlink" href="#transform-object" title="永久链接至标题">¶</a></h3>
-<p>可以用来改变物体的位置，大小和旋转角度。</p>
-<a class="reference internal image-reference" href="_images/logic_editor_transform_object.png"><img alt="_images/logic_editor_transform_object.png" class="align-center" src="_images/logic_editor_transform_object.png" style="width: 100%;" /></a>
-<div class="section" id="id41">
-<h4>输入参数<a class="headerlink" href="#id41" title="永久链接至标题">¶</a></h4>
-<dl class="docutils">
-<dt><em>上一个</em></dt>
-<dd><p class="first last">前一个节点。</p>
-</dd>
-</dl>
-</div>
-<div class="section" id="id42">
-<h4>输出参数<a class="headerlink" href="#id42" title="永久链接至标题">¶</a></h4>
-<dl class="docutils">
-<dt><em>下一个</em></dt>
-<dd><p class="first last">下一个节点。</p>
-</dd>
-</dl>
-</div>
-<div class="section" id="id43">
-<h4>内部参数<a class="headerlink" href="#id43" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>物体</em></dt>
 <dd><p class="first last">需要进行变换的物体。</p>
@@ -1026,6 +983,76 @@
 <span id="logic-move-to"></span><h3>移动到<a class="headerlink" href="#move-to" title="永久链接至标题">¶</a></h3>
 <p>可用于移动物体。</p>
 <a class="reference internal image-reference" href="_images/logic_editor_move_to.png"><img alt="_images/logic_editor_move_to.png" class="align-center" src="_images/logic_editor_move_to.png" style="width: 100%;" /></a>
+<div class="section" id="id38">
+<h4>输入参数<a class="headerlink" href="#id38" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>上一个</em></dt>
+<dd><p class="first last">前一个节点。</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="id39">
+<h4>输出参数<a class="headerlink" href="#id39" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>下一个</em></dt>
+<dd><p class="first last">下一个节点。</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="id40">
+<h4>内部参数<a class="headerlink" href="#id40" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>物体</em></dt>
+<dd><p class="first last">你需要移动的物体。</p>
+</dd>
+<dt><em>目标</em></dt>
+<dd><p class="first last">一个目标（另一个物体或光源，摄像机或其他东西）选择的物体会移动。物体的坐标和目标的运动完成后的将是相同的。</p>
+</dd>
+<dt><em>持续</em></dt>
+<dd><p class="first last">该物体将移到新位置花的时间 （以秒为单位）。默认情况下，此参数设置为零 （和在这种情况下，物体实际上并不移动，它只是改变了其在一个时刻的位置）。它可以设置手动或用变量 （仅当启用了变量参数可用）。</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="apply-shape-key">
+<span id="logic-shape-key"></span><h3>应用形状关键<a class="headerlink" href="#apply-shape-key" title="永久链接至标题">¶</a></h3>
+<p>设置形状关键因素。</p>
+<a class="reference internal image-reference" href="_images/logic_editor_apply_shape_key.png"><img alt="_images/logic_editor_apply_shape_key.png" class="align-center" src="_images/logic_editor_apply_shape_key.png" style="width: 100%;" /></a>
+<div class="section" id="id41">
+<h4>输入参数<a class="headerlink" href="#id41" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>上一个</em></dt>
+<dd><p class="first last">前一个节点。</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="id42">
+<h4>输出参数<a class="headerlink" href="#id42" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>下一个</em></dt>
+<dd><p class="first last">下一个节点。</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="id43">
+<h4>内部参数<a class="headerlink" href="#id43" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>物体</em></dt>
+<dd><p class="first last">待转化需要的物体。</p>
+</dd>
+<dt><em>形变关键帧</em></dt>
+<dd><p class="first last">形状将被应用到物体的密钥。</p>
+</dd>
+<dt><em>值</em></dt>
+<dd><p class="first last">多少的形状关键将影响物体。此值可以直接在节点中设置或使用的变量。值应该是 0 和 1 之间。</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="outline">
+<span id="logic-outline"></span><h3>轮廓<a class="headerlink" href="#outline" title="永久链接至标题">¶</a></h3>
+<p>控制物体概述效果。</p>
+<a class="reference internal image-reference" href="_images/logic_editor_outline.png"><img alt="_images/logic_editor_outline.png" class="align-center" src="_images/logic_editor_outline.png" style="width: 100%;" /></a>
 <div class="section" id="id44">
 <h4>输入参数<a class="headerlink" href="#id44" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
@@ -1044,76 +1071,6 @@
 </div>
 <div class="section" id="id46">
 <h4>内部参数<a class="headerlink" href="#id46" title="永久链接至标题">¶</a></h4>
-<dl class="docutils">
-<dt><em>物体</em></dt>
-<dd><p class="first last">你需要移动的物体。</p>
-</dd>
-<dt><em>目标</em></dt>
-<dd><p class="first last">一个目标（另一个物体或光源，摄像机或其他东西）选择的物体会移动。物体的坐标和目标的运动完成后的将是相同的。</p>
-</dd>
-<dt><em>持续</em></dt>
-<dd><p class="first last">该物体将移到新位置花的时间 （以秒为单位）。默认情况下，此参数设置为零 （和在这种情况下，物体实际上并不移动，它只是改变了其在一个时刻的位置）。它可以设置手动或用变量 （仅当启用了变量参数可用）。</p>
-</dd>
-</dl>
-</div>
-</div>
-<div class="section" id="apply-shape-key">
-<span id="logic-shape-key"></span><h3>应用形状关键<a class="headerlink" href="#apply-shape-key" title="永久链接至标题">¶</a></h3>
-<p>设置形状关键因素。</p>
-<a class="reference internal image-reference" href="_images/logic_editor_apply_shape_key.png"><img alt="_images/logic_editor_apply_shape_key.png" class="align-center" src="_images/logic_editor_apply_shape_key.png" style="width: 100%;" /></a>
-<div class="section" id="id47">
-<h4>输入参数<a class="headerlink" href="#id47" title="永久链接至标题">¶</a></h4>
-<dl class="docutils">
-<dt><em>上一个</em></dt>
-<dd><p class="first last">前一个节点。</p>
-</dd>
-</dl>
-</div>
-<div class="section" id="id48">
-<h4>输出参数<a class="headerlink" href="#id48" title="永久链接至标题">¶</a></h4>
-<dl class="docutils">
-<dt><em>下一个</em></dt>
-<dd><p class="first last">下一个节点。</p>
-</dd>
-</dl>
-</div>
-<div class="section" id="id49">
-<h4>内部参数<a class="headerlink" href="#id49" title="永久链接至标题">¶</a></h4>
-<dl class="docutils">
-<dt><em>物体</em></dt>
-<dd><p class="first last">待转化需要的物体。</p>
-</dd>
-<dt><em>形变关键帧</em></dt>
-<dd><p class="first last">形状将被应用到物体的密钥。</p>
-</dd>
-<dt><em>值</em></dt>
-<dd><p class="first last">多少的形状关键将影响物体。此值可以直接在节点中设置或使用的变量。值应该是 0 和 1 之间。</p>
-</dd>
-</dl>
-</div>
-</div>
-<div class="section" id="outline">
-<span id="logic-outline"></span><h3>轮廓<a class="headerlink" href="#outline" title="永久链接至标题">¶</a></h3>
-<p>控制物体概述效果。</p>
-<a class="reference internal image-reference" href="_images/logic_editor_outline.png"><img alt="_images/logic_editor_outline.png" class="align-center" src="_images/logic_editor_outline.png" style="width: 100%;" /></a>
-<div class="section" id="id50">
-<h4>输入参数<a class="headerlink" href="#id50" title="永久链接至标题">¶</a></h4>
-<dl class="docutils">
-<dt><em>上一个</em></dt>
-<dd><p class="first last">前一个节点。</p>
-</dd>
-</dl>
-</div>
-<div class="section" id="id51">
-<h4>输出参数<a class="headerlink" href="#id51" title="永久链接至标题">¶</a></h4>
-<dl class="docutils">
-<dt><em>下一个</em></dt>
-<dd><p class="first last">下一个节点。</p>
-</dd>
-</dl>
-</div>
-<div class="section" id="id52">
-<h4>内部参数<a class="headerlink" href="#id52" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>物体</em></dt>
 <dd><p class="first last">的轮廓效果的任何更改将只适用于由该参数指定的物体。</p>
@@ -1139,24 +1096,24 @@
 <span id="logic-shader-node"></span><h3>设置着色器节点参数<a class="headerlink" href="#set-shader-node-param" title="永久链接至标题">¶</a></h3>
 <p>可用于设置着色器节点的值。目前，只有 <code class="docutils literal"><span class="pre">Value</span></code> 和 <code class="docutils literal"><span class="pre">RGB</span></code> 节点被支持。</p>
 <a class="reference internal image-reference" href="_images/logic_editor_set_shader_node_param.png"><img alt="_images/logic_editor_set_shader_node_param.png" class="align-center" src="_images/logic_editor_set_shader_node_param.png" style="width: 100%;" /></a>
-<div class="section" id="id53">
-<h4>输入参数<a class="headerlink" href="#id53" title="永久链接至标题">¶</a></h4>
+<div class="section" id="id47">
+<h4>输入参数<a class="headerlink" href="#id47" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>上一个</em></dt>
 <dd><p class="first last">前一个节点。</p>
 </dd>
 </dl>
 </div>
-<div class="section" id="id54">
-<h4>输出参数<a class="headerlink" href="#id54" title="永久链接至标题">¶</a></h4>
+<div class="section" id="id48">
+<h4>输出参数<a class="headerlink" href="#id48" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>下一个</em></dt>
 <dd><p class="first last">下一个节点。</p>
 </dd>
 </dl>
 </div>
-<div class="section" id="id55">
-<h4>内部参数<a class="headerlink" href="#id55" title="永久链接至标题">¶</a></h4>
+<div class="section" id="id49">
+<h4>内部参数<a class="headerlink" href="#id49" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>物体</em></dt>
 <dd><p class="first last">有需要被编辑材质的物体。</p>
@@ -1177,24 +1134,24 @@
 <span id="logic-inherit-material"></span><h3>继承材质<a class="headerlink" href="#inherit-material" title="永久链接至标题">¶</a></h3>
 <p>从一个材质拷贝属性到另一个。</p>
 <a class="reference internal image-reference" href="_images/logic_editor_inherit_material.png"><img alt="_images/logic_editor_inherit_material.png" class="align-center" src="_images/logic_editor_inherit_material.png" style="width: 100%;" /></a>
-<div class="section" id="id56">
-<h4>输入参数<a class="headerlink" href="#id56" title="永久链接至标题">¶</a></h4>
+<div class="section" id="id50">
+<h4>输入参数<a class="headerlink" href="#id50" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>上一个</em></dt>
 <dd><p class="first last">前一个节点。</p>
 </dd>
 </dl>
 </div>
-<div class="section" id="id57">
-<h4>输出参数<a class="headerlink" href="#id57" title="永久链接至标题">¶</a></h4>
+<div class="section" id="id51">
+<h4>输出参数<a class="headerlink" href="#id51" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>下一个</em></dt>
 <dd><p class="first last">下一个节点。</p>
 </dd>
 </dl>
 </div>
-<div class="section" id="id58">
-<h4>内部参数<a class="headerlink" href="#id58" title="永久链接至标题">¶</a></h4>
+<div class="section" id="id52">
+<h4>内部参数<a class="headerlink" href="#id52" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>源</em></dt>
 <dd><p class="first last">物体的材质可以被继承。</p>
@@ -1213,29 +1170,29 @@
 </div>
 </div>
 <div class="section" id="operations">
-<h2><a class="toc-backref" href="#id98">操作</a><a class="headerlink" href="#operations" title="永久链接至标题">¶</a></h2>
+<h2><a class="toc-backref" href="#id104">操作</a><a class="headerlink" href="#operations" title="永久链接至标题">¶</a></h2>
 <div class="section" id="variable-store">
 <span id="logic-var-store"></span><h3>变量存储<a class="headerlink" href="#variable-store" title="永久链接至标题">¶</a></h3>
 <p>保存数字或字符串值的变量。</p>
 <a class="reference internal image-reference" href="_images/logic_editor_variable_store.png"><img alt="_images/logic_editor_variable_store.png" class="align-center" src="_images/logic_editor_variable_store.png" style="width: 100%;" /></a>
-<div class="section" id="id59">
-<h4>输入参数<a class="headerlink" href="#id59" title="永久链接至标题">¶</a></h4>
+<div class="section" id="id53">
+<h4>输入参数<a class="headerlink" href="#id53" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>上一个</em></dt>
 <dd><p class="first last">前一个节点。</p>
 </dd>
 </dl>
 </div>
-<div class="section" id="id60">
-<h4>输出参数<a class="headerlink" href="#id60" title="永久链接至标题">¶</a></h4>
+<div class="section" id="id54">
+<h4>输出参数<a class="headerlink" href="#id54" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>下一个</em></dt>
 <dd><p class="first last">下一个节点。</p>
 </dd>
 </dl>
 </div>
-<div class="section" id="id61">
-<h4>内部参数<a class="headerlink" href="#id61" title="永久链接至标题">¶</a></h4>
+<div class="section" id="id55">
+<h4>内部参数<a class="headerlink" href="#id55" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>变量名称</em></dt>
 <dd><p class="first last">变量的名称。可以从变量列表中选定或手动指定 (如果 <code class="docutils literal"><span class="pre">New</span> <span class="pre">variable</span></code> 参数已启用)。</p>
@@ -1260,24 +1217,24 @@
 <span id="logic-math"></span><h3>数学运算<a class="headerlink" href="#math-operation" title="永久链接至标题">¶</a></h3>
 <p>执行数学运算，并将结果存储在变量中。任何参数 （操作数） 可以是一个数值或变量。</p>
 <a class="reference internal image-reference" href="_images/logic_editor_math_operation.png"><img alt="_images/logic_editor_math_operation.png" class="align-center" src="_images/logic_editor_math_operation.png" style="width: 100%;" /></a>
-<div class="section" id="id62">
-<h4>输入参数<a class="headerlink" href="#id62" title="永久链接至标题">¶</a></h4>
+<div class="section" id="id56">
+<h4>输入参数<a class="headerlink" href="#id56" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>上一个</em></dt>
 <dd><p class="first last">前一个节点。</p>
 </dd>
 </dl>
 </div>
-<div class="section" id="id63">
-<h4>输出参数<a class="headerlink" href="#id63" title="永久链接至标题">¶</a></h4>
+<div class="section" id="id57">
+<h4>输出参数<a class="headerlink" href="#id57" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>下一个</em></dt>
 <dd><p class="first last">下一个节点。</p>
 </dd>
 </dl>
 </div>
-<div class="section" id="id64">
-<h4>内部参数<a class="headerlink" href="#id64" title="永久链接至标题">¶</a></h4>
+<div class="section" id="id58">
+<h4>内部参数<a class="headerlink" href="#id58" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>操作</em></dt>
 <dd><p class="first">数学运算。可以有以下几种类型：</p>
@@ -1334,24 +1291,24 @@
 <span id="logic-string"></span><h3>字符串操作<a class="headerlink" href="#string-operation" title="永久链接至标题">¶</a></h3>
 <p>可以用来执行一个包含两个字符串的操作，并将结果保存到一个变量。</p>
 <a class="reference internal image-reference" href="_images/logic_editor_string.png"><img alt="_images/logic_editor_string.png" class="align-center" src="_images/logic_editor_string.png" style="width: 100%;" /></a>
-<div class="section" id="id65">
-<h4>输入参数<a class="headerlink" href="#id65" title="永久链接至标题">¶</a></h4>
+<div class="section" id="id59">
+<h4>输入参数<a class="headerlink" href="#id59" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>上一个</em></dt>
 <dd><p class="first last">前一个节点。</p>
 </dd>
 </dl>
 </div>
-<div class="section" id="id66">
-<h4>输出参数<a class="headerlink" href="#id66" title="永久链接至标题">¶</a></h4>
+<div class="section" id="id60">
+<h4>输出参数<a class="headerlink" href="#id60" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>下一个</em></dt>
 <dd><p class="first last">下一个节点。</p>
 </dd>
 </dl>
 </div>
-<div class="section" id="id67">
-<h4>内部参数<a class="headerlink" href="#id67" title="永久链接至标题">¶</a></h4>
+<div class="section" id="id61">
+<h4>内部参数<a class="headerlink" href="#id61" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>操作</em></dt>
 <dd><p class="first">您需要有两个字符串，其可具有以下值中的一个来执行操作：</p>
@@ -1391,11 +1348,75 @@
 </div>
 </div>
 <div class="section" id="sound">
-<h2><a class="toc-backref" href="#id99">声音</a><a class="headerlink" href="#sound" title="永久链接至标题">¶</a></h2>
+<h2><a class="toc-backref" href="#id105">声音</a><a class="headerlink" href="#sound" title="永久链接至标题">¶</a></h2>
 <div class="section" id="play-sound">
 <span id="logic-play-sound"></span><h3>播放声音<a class="headerlink" href="#play-sound" title="永久链接至标题">¶</a></h3>
 <p>可以用来播放扬声器的声音。</p>
 <a class="reference internal image-reference" href="_images/logic_editor_play_sound.png"><img alt="_images/logic_editor_play_sound.png" class="align-center" src="_images/logic_editor_play_sound.png" style="width: 100%;" /></a>
+<div class="section" id="id62">
+<h4>输入参数<a class="headerlink" href="#id62" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>上一个</em></dt>
+<dd><p class="first last">前一个节点。</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="id63">
+<h4>输出参数<a class="headerlink" href="#id63" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>下一个</em></dt>
+<dd><p class="first last">下一个节点。</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="id64">
+<h4>内部参数<a class="headerlink" href="#id64" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>扬声器</em></dt>
+<dd><p class="first last">将启用的扬声器。</p>
+</dd>
+<dt><em>不要等</em></dt>
+<dd><p class="first last">如果启用此参数，控制将声音开始播放后立即传递到下一个节点。如果未启用它，当播放完成控制只会通过。</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="stop-sound">
+<span id="logic-stop-sound"></span><h3>停止声音<a class="headerlink" href="#stop-sound" title="永久链接至标题">¶</a></h3>
+<p>可以用来阻止扬声器的声音。</p>
+<a class="reference internal image-reference" href="_images/logic_editor_stop_sound.png"><img alt="_images/logic_editor_stop_sound.png" class="align-center" src="_images/logic_editor_stop_sound.png" style="width: 100%;" /></a>
+<div class="section" id="id65">
+<h4>输入参数<a class="headerlink" href="#id65" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>上一个</em></dt>
+<dd><p class="first last">前一个节点。</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="id66">
+<h4>输出参数<a class="headerlink" href="#id66" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>下一个</em></dt>
+<dd><p class="first last">下一个节点。</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="id67">
+<h4>内部参数<a class="headerlink" href="#id67" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>扬声器</em></dt>
+<dd><p class="first last">将被关闭的扬声器。</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="section" id="network">
+<h2><a class="toc-backref" href="#id106">网络</a><a class="headerlink" href="#network" title="永久链接至标题">¶</a></h2>
+<div class="section" id="send-request">
+<span id="logic-send-request"></span><h3>发送请求<a class="headerlink" href="#send-request" title="永久链接至标题">¶</a></h3>
+<p>将 HTTP GET 请求发送到指定的 URL 和保存响应字段变量。</p>
+<a class="reference internal image-reference" href="_images/logic_editor_send_request.png"><img alt="_images/logic_editor_send_request.png" class="align-center" src="_images/logic_editor_send_request.png" style="width: 100%;" /></a>
 <div class="section" id="id68">
 <h4>输入参数<a class="headerlink" href="#id68" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
@@ -1414,70 +1435,6 @@
 </div>
 <div class="section" id="id70">
 <h4>内部参数<a class="headerlink" href="#id70" title="永久链接至标题">¶</a></h4>
-<dl class="docutils">
-<dt><em>扬声器</em></dt>
-<dd><p class="first last">将启用的扬声器。</p>
-</dd>
-<dt><em>不要等</em></dt>
-<dd><p class="first last">如果启用此参数，控制将声音开始播放后立即传递到下一个节点。如果未启用它，当播放完成控制只会通过。</p>
-</dd>
-</dl>
-</div>
-</div>
-<div class="section" id="stop-sound">
-<span id="logic-stop-sound"></span><h3>停止声音<a class="headerlink" href="#stop-sound" title="永久链接至标题">¶</a></h3>
-<p>可以用来阻止扬声器的声音。</p>
-<a class="reference internal image-reference" href="_images/logic_editor_stop_sound.png"><img alt="_images/logic_editor_stop_sound.png" class="align-center" src="_images/logic_editor_stop_sound.png" style="width: 100%;" /></a>
-<div class="section" id="id71">
-<h4>输入参数<a class="headerlink" href="#id71" title="永久链接至标题">¶</a></h4>
-<dl class="docutils">
-<dt><em>上一个</em></dt>
-<dd><p class="first last">前一个节点。</p>
-</dd>
-</dl>
-</div>
-<div class="section" id="id72">
-<h4>输出参数<a class="headerlink" href="#id72" title="永久链接至标题">¶</a></h4>
-<dl class="docutils">
-<dt><em>下一个</em></dt>
-<dd><p class="first last">下一个节点。</p>
-</dd>
-</dl>
-</div>
-<div class="section" id="id73">
-<h4>内部参数<a class="headerlink" href="#id73" title="永久链接至标题">¶</a></h4>
-<dl class="docutils">
-<dt><em>扬声器</em></dt>
-<dd><p class="first last">将被关闭的扬声器。</p>
-</dd>
-</dl>
-</div>
-</div>
-</div>
-<div class="section" id="network">
-<h2><a class="toc-backref" href="#id100">网络</a><a class="headerlink" href="#network" title="永久链接至标题">¶</a></h2>
-<div class="section" id="send-request">
-<span id="logic-send-request"></span><h3>发送请求<a class="headerlink" href="#send-request" title="永久链接至标题">¶</a></h3>
-<p>将 HTTP GET 请求发送到指定的 URL 和保存响应字段变量。</p>
-<a class="reference internal image-reference" href="_images/logic_editor_send_request.png"><img alt="_images/logic_editor_send_request.png" class="align-center" src="_images/logic_editor_send_request.png" style="width: 100%;" /></a>
-<div class="section" id="id74">
-<h4>输入参数<a class="headerlink" href="#id74" title="永久链接至标题">¶</a></h4>
-<dl class="docutils">
-<dt><em>上一个</em></dt>
-<dd><p class="first last">前一个节点。</p>
-</dd>
-</dl>
-</div>
-<div class="section" id="id75">
-<h4>输出参数<a class="headerlink" href="#id75" title="永久链接至标题">¶</a></h4>
-<dl class="docutils">
-<dt><em>下一个</em></dt>
-<dd><p class="first last">下一个节点。</p>
-</dd>
-</dl>
-</div>
-<div class="section" id="id76">
-<h4>内部参数<a class="headerlink" href="#id76" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>方法</em></dt>
 <dd><p class="first">请求方法。可以有两个值之一：</p>
@@ -1521,24 +1478,24 @@
 <span id="logic-json"></span><h3>JSON<a class="headerlink" href="#json" title="永久链接至标题">¶</a></h3>
 <p>此节点可以用于编码和解码复杂的 JSON 物体。</p>
 <a class="reference internal image-reference" href="_images/logic_editor_json.png"><img alt="_images/logic_editor_json.png" class="align-center" src="_images/logic_editor_json.png" style="width: 100%;" /></a>
-<div class="section" id="id77">
-<h4>输入参数<a class="headerlink" href="#id77" title="永久链接至标题">¶</a></h4>
+<div class="section" id="id71">
+<h4>输入参数<a class="headerlink" href="#id71" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>上一个</em></dt>
 <dd><p class="first last">前一个节点。</p>
 </dd>
 </dl>
 </div>
-<div class="section" id="id78">
-<h4>输出参数<a class="headerlink" href="#id78" title="永久链接至标题">¶</a></h4>
+<div class="section" id="id72">
+<h4>输出参数<a class="headerlink" href="#id72" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>下一个</em></dt>
 <dd><p class="first last">下一个节点。</p>
 </dd>
 </dl>
 </div>
-<div class="section" id="id79">
-<h4>内部参数<a class="headerlink" href="#id79" title="永久链接至标题">¶</a></h4>
+<div class="section" id="id73">
+<h4>内部参数<a class="headerlink" href="#id73" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>JSON</em></dt>
 <dd><p class="first last">链接到一个您需要进行解码或编码的 JSON 物体。默认设置为 <code class="docutils literal"><span class="pre">R1</span></code> 。</p>
@@ -1593,6 +1550,67 @@
 <span id="logic-page-param"></span><h3>页面参数<a class="headerlink" href="#page-param" title="永久链接至标题">¶</a></h3>
 <p>允许在一个给定的变量中存储任何 web 页参数。</p>
 <a class="reference internal image-reference" href="_images/logic_editor_page_param.png"><img alt="_images/logic_editor_page_param.png" class="align-center" src="_images/logic_editor_page_param.png" style="width: 100%;" /></a>
+<div class="section" id="id74">
+<h4>输入参数<a class="headerlink" href="#id74" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>上一个</em></dt>
+<dd><p class="first last">前一个节点。</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="id75">
+<h4>输出参数<a class="headerlink" href="#id75" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>下一个</em></dt>
+<dd><p class="first last">下一个节点。</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="id76">
+<h4>内部参数<a class="headerlink" href="#id76" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>参数名称</em></dt>
+<dd><p class="first">网页参数的名称。</p>
+<p class="last">如果该字段中指定的参数在URL中显示，则其值将被保存到 <code class="docutils literal"><span class="pre">Destination</span></code> 参数指定的变量中。</p>
+</dd>
+<dt><em>目标</em></dt>
+<dd><p class="first last">将用来保存参数的变量。</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="page-redirect">
+<span id="logic-page-redirect"></span><h3>页转到<a class="headerlink" href="#page-redirect" title="永久链接至标题">¶</a></h3>
+<p>可以用来浏览器重定向到另一页。此节点总是标记节点树的结束，并且没有任何输出参数。</p>
+<a class="reference internal image-reference" href="_images/logic_editor_page_redirect.png"><img alt="_images/logic_editor_page_redirect.png" class="align-center" src="_images/logic_editor_page_redirect.png" style="width: 100%;" /></a>
+<div class="section" id="id77">
+<h4>输入参数<a class="headerlink" href="#id77" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>上一个</em></dt>
+<dd><p class="first last">前一个节点。</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="id78">
+<h4>输出参数<a class="headerlink" href="#id78" title="永久链接至标题">¶</a></h4>
+<p>空</p>
+</div>
+<div class="section" id="id79">
+<h4>内部参数<a class="headerlink" href="#id79" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>Url</em></dt>
+<dd><p class="first last">将打开的网页的 web 地址。默认设置为 &#8220;<a class="reference external" href="https://www.blend4web.com">https://www.blend4web.com</a>&#8221; 。</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="section" id="debug">
+<h2><a class="toc-backref" href="#id107">调试</a><a class="headerlink" href="#debug" title="永久链接至标题">¶</a></h2>
+<div class="section" id="console-print">
+<span id="logic-console-print"></span><h3>控制台打印<a class="headerlink" href="#console-print" title="永久链接至标题">¶</a></h3>
+<p>此节点打印变量的值和附加的文本到Web浏览器的控制台。它可用于调试目的。</p>
+<a class="reference internal image-reference" href="_images/logic_editor_console_print.png"><img alt="_images/logic_editor_console_print.png" class="align-center" src="_images/logic_editor_console_print.png" style="width: 100%;" /></a>
 <div class="section" id="id80">
 <h4>输入参数<a class="headerlink" href="#id80" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
@@ -1612,20 +1630,22 @@
 <div class="section" id="id82">
 <h4>内部参数<a class="headerlink" href="#id82" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
-<dt><em>参数名称</em></dt>
-<dd><p class="first">网页参数的名称。</p>
-<p class="last">如果该字段中指定的参数在URL中显示，则其值将被保存到 <code class="docutils literal"><span class="pre">Destination</span></code> 参数指定的变量中。</p>
+<dt><em>信息</em></dt>
+<dd><p class="first last">将与值一起打印到控制台的消息。</p>
 </dd>
-<dt><em>目标</em></dt>
-<dd><p class="first last">将用来保存参数的变量。</p>
+<dt>&lt;variable name&gt;</dt>
+<dd><p class="first last">将打印到控制台的变量。默认情况下，<code class="docutils literal"><span class="pre">Console</span> <span class="pre">Print</span></code> 节点都有一个这样的参数，但您可以添加新成员和删除现有的 （节点甚至可能没有这种参数）。</p>
 </dd>
 </dl>
 </div>
 </div>
-<div class="section" id="page-redirect">
-<span id="logic-page-redirect"></span><h3>页转到<a class="headerlink" href="#page-redirect" title="永久链接至标题">¶</a></h3>
-<p>可以用来浏览器重定向到另一页。此节点总是标记节点树的结束，并且没有任何输出参数。</p>
-<a class="reference internal image-reference" href="_images/logic_editor_page_redirect.png"><img alt="_images/logic_editor_page_redirect.png" class="align-center" src="_images/logic_editor_page_redirect.png" style="width: 100%;" /></a>
+</div>
+<div class="section" id="time">
+<h2><a class="toc-backref" href="#id108">Time</a><a class="headerlink" href="#time" title="永久链接至标题">¶</a></h2>
+<div class="section" id="date-time">
+<span id="logic-time"></span><h3>Date &amp; Time<a class="headerlink" href="#date-time" title="永久链接至标题">¶</a></h3>
+<p>This node returns the current time and date.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_time.png"><img alt="_images/logic_editor_time.png" class="align-center" src="_images/logic_editor_time.png" style="width: 100%;" /></a>
 <div class="section" id="id83">
 <h4>输入参数<a class="headerlink" href="#id83" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
@@ -1636,24 +1656,51 @@
 </div>
 <div class="section" id="id84">
 <h4>输出参数<a class="headerlink" href="#id84" title="永久链接至标题">¶</a></h4>
-<p>空</p>
+<dl class="docutils">
+<dt><em>下一个</em></dt>
+<dd><p class="first last">下一个节点。</p>
+</dd>
+</dl>
 </div>
 <div class="section" id="id85">
 <h4>内部参数<a class="headerlink" href="#id85" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
-<dt><em>Url</em></dt>
-<dd><p class="first last">将打开的网页的 web 地址。默认设置为 &#8220;<a class="reference external" href="https://www.blend4web.com">https://www.blend4web.com</a>&#8221; 。</p>
+<dt><em>Time Format</em></dt>
+<dd><p class="first">This parameter defines the format in which time is measured. It can be set to one of the following values:</p>
+<dl class="last docutils">
+<dt><em>UTC</em></dt>
+<dd><p class="first">Coordinated Universal Time.</p>
+<div class="last admonition note">
+<p class="first admonition-title">注解</p>
+<p class="last">The Coordinated Universal Time this node returns is based on local system time and a time zone.</p>
+</div>
 </dd>
+<dt><em>Local</em></dt>
+<dd>If this value is selected, time is retrieved from local system time. This value is selected by default.</dd>
+</dl>
+</dd>
+</dl>
+<p>The time and date are returned as a set of numbers (current year, month, day etc.), each one of which can be stored into a specific variable. These numbers include:</p>
+<dl class="docutils">
+<dt><em>Year</em></dt>
+<dd>The current year.</dd>
+<dt><em>Month</em></dt>
+<dd>The current month.</dd>
+<dt><em>Day</em></dt>
+<dd>The current day.</dd>
+<dt><em>Hours</em></dt>
+<dd>The current hour.</dd>
+<dt><em>Minutes</em></dt>
+<dd>The current minutes.</dd>
+<dt><em>Seconds</em></dt>
+<dd>The current seconds.</dd>
 </dl>
 </div>
 </div>
-</div>
-<div class="section" id="debug">
-<h2><a class="toc-backref" href="#id101">调试</a><a class="headerlink" href="#debug" title="永久链接至标题">¶</a></h2>
-<div class="section" id="console-print">
-<span id="logic-console-print"></span><h3>控制台打印<a class="headerlink" href="#console-print" title="永久链接至标题">¶</a></h3>
-<p>此节点打印变量的值和附加的文本到Web浏览器的控制台。它可用于调试目的。</p>
-<a class="reference internal image-reference" href="_images/logic_editor_console_print.png"><img alt="_images/logic_editor_console_print.png" class="align-center" src="_images/logic_editor_console_print.png" style="width: 100%;" /></a>
+<div class="section" id="get-timeline">
+<span id="logic-get-timeline"></span><h3>获取时间线<a class="headerlink" href="#get-timeline" title="永久链接至标题">¶</a></h3>
+<p>此节点可以用于获取 NLA 动画或时间线的当前帧。</p>
+<a class="reference internal image-reference" href="_images/logic_editor_get_timeline.png"><img alt="_images/logic_editor_get_timeline.png" class="align-center" src="_images/logic_editor_get_timeline.png" style="width: 100%;" /></a>
 <div class="section" id="id86">
 <h4>输入参数<a class="headerlink" href="#id86" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
@@ -1673,54 +1720,24 @@
 <div class="section" id="id88">
 <h4>内部参数<a class="headerlink" href="#id88" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
-<dt><em>信息</em></dt>
-<dd><p class="first last">将与值一起打印到控制台的消息。</p>
+<dt><em>NLA Timeline</em></dt>
+<dd><p class="first last">如果启用此参数，则该节点将返回当前动画的帧的 NLA。如果禁用了它，则该节点将返回当前帧的时间线。默认情况下启用。</p>
 </dd>
-<dt>&lt;variable name&gt;</dt>
-<dd><p class="first last">将打印到控制台的变量。默认情况下，<code class="docutils literal"><span class="pre">Console</span> <span class="pre">Print</span></code> 节点都有一个这样的参数，但您可以添加新成员和删除现有的 （节点甚至可能没有这种参数）。</p>
+<dt><em>目标</em></dt>
+<dd><p class="first last">指定一个变量来存储当前帧的数量。默认设置为  <code class="docutils literal"><span class="pre">R1</span></code> 。</p>
 </dd>
 </dl>
 </div>
 </div>
-</div>
-<div class="section" id="deprecated">
-<h2><a class="toc-backref" href="#id102">已过时</a><a class="headerlink" href="#deprecated" title="永久链接至标题">¶</a></h2>
-<div class="section" id="select-deprecated">
-<h3>选择（已过时）<a class="headerlink" href="#select-deprecated" title="永久链接至标题">¶</a></h3>
-<div class="admonition note">
-<p class="first admonition-title">注解</p>
-<p class="last">已过时！不推荐使用。相反，推荐使用 <code class="docutils literal"><span class="pre">Switch</span> <span class="pre">Select</span></code> 节点。</p>
-</div>
-<p>它类似于  <code class="docutils literal"><span class="pre">Select</span> <span class="pre">&amp;</span> <span class="pre">Play</span></code> 节点，除了过渡发生代替动画。这个功能可以实现一个复杂的逻辑，因为在这种情况下，存在这样的可能性，以确定所述用户选择的结果。</p>
-</div>
-<div class="section" id="select-play-timeline-deprecated">
-<h3>选择并播放时间轴（已过时）<a class="headerlink" href="#select-play-timeline-deprecated" title="永久链接至标题">¶</a></h3>
-<div class="admonition note">
-<p class="first admonition-title">注解</p>
-<p class="last">已过时！不推荐使用。相反，建议使用 <code class="docutils literal"><span class="pre">Switch</span> <span class="pre">Select</span></code> 和 <code class="docutils literal"><span class="pre">Play</span> <span class="pre">Timeline</span></code> 节点。</p>
-</div>
-<p>等到用户选择的物体（在桌面上 - 用鼠标点击，移动设备 - 带有触摸）。如果物体，这是在本节点中指定时，选择 - 然后启动类似于 <code class="docutils literal"><span class="pre">Play</span> <span class="pre">Timeline</span></code> 节点动画。如果选择了任何其他物体 - 然后立即转移控制到下一个节点。</p>
-</div>
-<div class="section" id="select-play-animation-deprecated">
-<h3>选择并播放动画（已过时）<a class="headerlink" href="#select-play-animation-deprecated" title="永久链接至标题">¶</a></h3>
-<div class="admonition note">
-<p class="first admonition-title">注解</p>
-<p class="last">已过时！不推荐使用。相反，建议使用 <code class="docutils literal"><span class="pre">Switch</span> <span class="pre">Select</span></code> 和 <code class="docutils literal"><span class="pre">Play</span> <span class="pre">Timeline</span></code> 节点。</p>
-</div>
-<p>等到用户选择的物体（在桌面上 - 用鼠标点击，移动设备 - 带有触摸）。如果物体，这是在本节点中指定时，选择 - 然后启动类似于  <code class="docutils literal"><span class="pre">Play</span> <span class="pre">Animation</span></code> 节点动画。如果选择了任何其他物体 - 然后立即转移控制到下一个节点。</p>
-</div>
-</div>
-<div class="section" id="layout">
-<h2><a class="toc-backref" href="#id103">布局</a><a class="headerlink" href="#layout" title="永久链接至标题">¶</a></h2>
-<div class="section" id="empty">
-<span id="logic-empty"></span><h3>空物体<a class="headerlink" href="#empty" title="永久链接至标题">¶</a></h3>
-<p>这是一个不自身执行任何操作的简单的直通节点。它可以用于多个逻辑线程组合到一个或简单地使逻辑节点设置更容易阅读和理解。</p>
-<a class="reference internal image-reference" href="_images/logic_editor_empty.png"><img alt="_images/logic_editor_empty.png" class="align-center" src="_images/logic_editor_empty.png" style="width: 100%;" /></a>
+<div class="section" id="elapsed">
+<span id="logic-elapsed"></span><h3>Elapsed<a class="headerlink" href="#elapsed" title="永久链接至标题">¶</a></h3>
+<p>This node returns the amount of time elapsed since the previous frame has been rendered.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_elapsed.png"><img alt="_images/logic_editor_elapsed.png" class="align-center" src="_images/logic_editor_elapsed.png" style="width: 100%;" /></a>
 <div class="section" id="id89">
 <h4>输入参数<a class="headerlink" href="#id89" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>上一个</em></dt>
-<dd><p class="first last">前一个节点（或多个节点）。</p>
+<dd><p class="first last">前一个节点。</p>
 </dd>
 </dl>
 </div>
@@ -1734,6 +1751,63 @@
 </div>
 <div class="section" id="id91">
 <h4>内部参数<a class="headerlink" href="#id91" title="永久链接至标题">¶</a></h4>
+<p>The <code class="docutils literal"><span class="pre">Elapsed</span></code> logic node has one internal parameter that allows user to specify the variable to save the number of seconds passed since the previous frame. By default, it uses the <code class="docutils literal"><span class="pre">R1</span></code> variable.</p>
+</div>
+</div>
+<div class="section" id="delay">
+<span id="logic-delay"></span><h3>延迟<a class="headerlink" href="#delay" title="永久链接至标题">¶</a></h3>
+<p>在去下一个节点之前做一个延迟（以秒计）。</p>
+<a class="reference internal image-reference" href="_images/logic_editor_delay.png"><img alt="_images/logic_editor_delay.png" class="align-center" src="_images/logic_editor_delay.png" style="width: 100%;" /></a>
+<div class="section" id="id92">
+<h4>输入参数<a class="headerlink" href="#id92" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>上一个</em></dt>
+<dd><p class="first last">前一个节点。</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="id93">
+<h4>输出参数<a class="headerlink" href="#id93" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>下一个</em></dt>
+<dd><p class="first last">下一个节点。</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="id94">
+<h4>内部参数<a class="headerlink" href="#id94" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>值</em></dt>
+<dd><p class="first last">将在下一个节点激活之前的时间 （以秒为单位）。默认情况设置为零。可以手动或通过一个变量来设置 （如果启用了 <code class="docutils literal"><span class="pre">Variable</span></code> 参数）。</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="section" id="layout">
+<h2><a class="toc-backref" href="#id109">布局</a><a class="headerlink" href="#layout" title="永久链接至标题">¶</a></h2>
+<div class="section" id="empty">
+<span id="logic-empty"></span><h3>空物体<a class="headerlink" href="#empty" title="永久链接至标题">¶</a></h3>
+<p>这是一个不自身执行任何操作的简单的直通节点。它可以用于多个逻辑线程组合到一个或简单地使逻辑节点设置更容易阅读和理解。</p>
+<a class="reference internal image-reference" href="_images/logic_editor_empty.png"><img alt="_images/logic_editor_empty.png" class="align-center" src="_images/logic_editor_empty.png" style="width: 100%;" /></a>
+<div class="section" id="id95">
+<h4>输入参数<a class="headerlink" href="#id95" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>上一个</em></dt>
+<dd><p class="first last">前一个节点（或多个节点）。</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="id96">
+<h4>输出参数<a class="headerlink" href="#id96" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>下一个</em></dt>
+<dd><p class="first last">下一个节点。</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="id97">
+<h4>内部参数<a class="headerlink" href="#id97" title="永久链接至标题">¶</a></h4>
 <p>空</p>
 </div>
 </div>
@@ -1749,7 +1823,7 @@
 </div>
 </div>
 <div class="section" id="debugging">
-<span id="logic-debug"></span><h2><a class="toc-backref" href="#id104">调试中</a><a class="headerlink" href="#debugging" title="永久链接至标题">¶</a></h2>
+<span id="logic-debug"></span><h2><a class="toc-backref" href="#id110">调试中</a><a class="headerlink" href="#debugging" title="永久链接至标题">¶</a></h2>
 <p>为了调试的目的，逻辑树中的一些节点可以被静音。要做到这一点，选择所需的节点，并按“M”键。静音节点不执行，并简单地传递控制到后面节点。如果静音节点有两个输出执行从负的结果（<code class="docutils literal"><span class="pre">Miss</span></code>，<code class="docutils literal"><span class="pre">False</span></code>）继续输出。</p>
 </div>
 </div>
@@ -1774,7 +1848,7 @@
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2017, Triumph.
-      最后更新于 2017-06-30.
+      最后更新于 2017-08-31.
 
     </p>
   </div>
@@ -1830,7 +1904,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.06',
+            VERSION:'v17.08',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

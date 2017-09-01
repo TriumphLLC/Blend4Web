@@ -33,6 +33,7 @@ void SimpleOpenGL2Renderer::updateCamera(int upAxis)
     float projection[16];
     float view[16];
     m_camera.setAspectRatio((float)m_width/(float)m_height);
+	m_camera.setCameraUpAxis(upAxis);
     m_camera.update();
     m_camera.getCameraProjectionMatrix(projection);
     m_camera.getCameraViewMatrix(view);
@@ -64,6 +65,20 @@ void SimpleOpenGL2Renderer::writeSingleInstanceColorToCPU(double* color, int src
 {
     
 }
+
+void SimpleOpenGL2Renderer::writeSingleInstanceScaleToCPU(float* scale, int srcIndex)
+{
+}
+void SimpleOpenGL2Renderer::writeSingleInstanceScaleToCPU(double* scale, int srcIndex)
+{
+}
+
+
+int SimpleOpenGL2Renderer::getTotalNumInstances() const
+{
+    return 0;
+}
+
 void	SimpleOpenGL2Renderer::getCameraViewMatrix(float viewMat[16]) const
 {
     b3Assert(0);
@@ -159,4 +174,9 @@ void SimpleOpenGL2Renderer::updateShape(int shapeIndex, const float* vertices)
 
 void SimpleOpenGL2Renderer::enableBlend(bool blend)
 {
+}
+
+void SimpleOpenGL2Renderer::clearZBuffer()
+{
+	glClear(GL_DEPTH_BUFFER_BIT);
 }

@@ -7,8 +7,12 @@ b4w.require;
 b4w.register;
 b4w.module_check;
 b4w.get_namespace;
+
+// for using in physics engine, which is separated from the other code
 b4w.worker_listeners;
 b4w.worker_namespaces;
+b4w.version.get_build_version;
+
 
 // missing in closure compiler https://github.com/google/closure-compiler/issues/806
 HTMLLinkElement.prototype.download;

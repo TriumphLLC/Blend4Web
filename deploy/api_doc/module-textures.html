@@ -164,6 +164,10 @@
 
         
             
+<li> <a href="#.replace_image">replace_image<span class="signature">(obj, text_name, image, callback<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
+
+        
+            
 <li> <a href="#.reset_video">reset_video<span class="signature">(texture_name, data_id<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
 
         
@@ -401,6 +405,8 @@
 
     
 
+    
+        <dt class="important tag-deprecated">Deprecated since 17.08:</dt><dd><ul class="dummy"><li>Use <a href="module-textures.html#.replace_image">module:textures.replace_image</a> instead</li></ul></dd>
     
 
     
@@ -776,7 +782,7 @@ var ctx = m_tex.get_canvas_ctx(cube, "Texture");</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_textures.js.html">ext/textures.js</a>, <a href="ext_textures.js.html#line204">line 204</a>
+        <a href="ext_textures.js.html">ext/textures.js</a>, <a href="ext_textures.js.html#line250">line 250</a>
     </li></ul></dd>
     
 
@@ -1174,6 +1180,259 @@ var ctx = m_tex.get_canvas_ctx(cube, "Texture");</code></pre>
     
 </dl>
 
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".replace_image">replace_image<span class="signature">(obj, text_name, image, callback<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Change texture image. Changing video textures is forbidden.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Object 3D</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>text_name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Texture name specified in Blender</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>image</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">HTMLElement</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">HTML element Image.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="module-textures.html#~TexChangingFinishCallback">TexChangingFinishCallback</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Callback to be executed after changing</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_textures.js.html">ext/textures.js</a>, <a href="ext_textures.js.html#line207">line 207</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scenes  = require("scenes");
+var m_tex = require("textures");
+
+var cube = m_scenes.get_object_by_name("Cube");
+var image = new Image();
+image.onload = function() {
+    m_tex.replace_image(cube, "Texture", image);
+}
+image.src = "./test.png";</code></pre>
 
 
 </div>
@@ -1703,7 +1962,7 @@ m_tex.update_canvas_ctx(cube, "Texture");</code></pre>
 <br class="clear">
 
 <footer>
-    Blend4Web API Reference (generated by JSDoc 3.4.0 on Fri Jun 30 2017 14:29:58 GMT+0300 (MSK))
+    Blend4Web API Reference (generated by JSDoc 3.4.0 on Thu Aug 31 2017 18:52:56 GMT+0300 (MSK))
     <a href="https://www.blend4web.com">www.blend4web.com</a>
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">

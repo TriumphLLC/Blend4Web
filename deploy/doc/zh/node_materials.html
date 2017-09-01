@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>节点材质 &mdash; Blend4Web 17.06 用户手册</title>
+  <title>节点材质 &mdash; Blend4Web 17.08 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.06 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 17.08 用户手册" href="index.html"/>
         <link rel="next" title="逻辑编辑器" href="logic_editor.html"/>
         <link rel="prev" title="材质库" href="material_library.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v17.06
+              v17.08
             </div>
           
         
@@ -85,6 +85,7 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">概述</a></li>
 <li class="toctree-l1"><a class="reference internal" href="engine_features.html">引擎功能</a></li>
+<li class="toctree-l1"><a class="reference internal" href="interface.html">Blender User Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">安装和更新</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">工作流程</a></li>
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理</a></li>
@@ -158,7 +159,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#cycles-nodes">Cycles 节点</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#limitations">Limitations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#limitations">限制</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="logic_editor.html">逻辑编辑器</a></li>
@@ -242,7 +243,7 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#cycles-nodes" id="id38">Cycles 节点</a></li>
-<li><a class="reference internal" href="#limitations" id="id39">Limitations</a></li>
+<li><a class="reference internal" href="#limitations" id="id39">限制</a></li>
 </ul>
 </li>
 </ul>
@@ -551,7 +552,7 @@
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p>Please keep in mind that node materials have certain limitations concerning the number of specific nodes in the material. These limitations are described <a class="reference internal" href="#node-material-limits"><span>here</span></a>.</p>
+<p>请牢记材质中的一些特定节点有着数量上的限制使得节点材质具有一定的局限性，有关材质中的特定节点的数目。这些限制在 <a class="reference internal" href="#node-material-limits"><span>这里</span></a> 作了介绍。</p>
 </div>
 <div class="section" id="engine-specific-nodes">
 <span id="custom-node-materials"></span><h2><a class="toc-backref" href="#id25">游戏引擎特定节点</a><a class="headerlink" href="#engine-specific-nodes" title="永久链接至标题">¶</a></h2>
@@ -909,122 +910,133 @@
 <li><p class="first"><code class="docutils literal"><span class="pre">Emission</span></code> (不会影响场景中的打灯效果).</p>
 </li>
 </ul>
-<p><code class="docutils literal"><span class="pre">Cycles</span></code> nodes are also supported for <code class="docutils literal"><span class="pre">World</span></code> object. However, at the moment node material does not affect the colors of the environment.</p>
+<p><code class="docutils literal"><span class="pre">Cycles</span></code> 节点也支持  <code class="docutils literal"><span class="pre">世界</span></code> 物体。但是，现在节点材质不会影响到环境的颜色。</p>
 <p>其他 <code class="docutils literal"><span class="pre">Cycles</span></code> 节点在大多数情况下在不会在Blend4Web中跟他们在Blender中一样良好工作。他们不会工作也可能引起材质的不正常显示和工作。但是，使用这些节点不会在应用程序工作流中导致不稳定。</p>
 </div>
 <div class="section" id="limitations">
-<span id="node-material-limits"></span><h2><a class="toc-backref" href="#id39">Limitations</a><a class="headerlink" href="#limitations" title="永久链接至标题">¶</a></h2>
-<p>Node materials can be complex, but their complexity is limited by the capabilities of the hardware you use. It might not be noticeable most of the time, but if you are making a very complex material, you might exceed the number of textures and varying vectors (vectors that are used by a vertex shader to hand over data to a fragment shader) that your system allows to use in one shader. And even if you won&#8217;t, some users of your application might not have devices as powerful as yours, so they can experience problems where you will not.</p>
-<p>If you want to know how your scene would behave on a low-end device but don&#8217;t have one in your possession, there is also a very useful option called <code class="docutils literal"><span class="pre">Min</span> <span class="pre">Capabilities</span> <span class="pre">Mode</span></code>. It is native to <a class="reference internal" href="viewer.html#viewer"><span>Scene Viewer</span></a> and can be found on the <a class="reference internal" href="viewer.html#viewer-tools-and-debug"><span>Tools &amp; Debug</span></a> panel.</p>
-<p>The number of textures and varying vectors supported by your device can be viewed on the WebGL Report web page accessible from the <a class="reference internal" href="addon.html#getting-started-launching-viewer"><span>SDK Index</span></a> page.</p>
-<p>The two following tables list various material nodes along with the numbers of textures and varying vectors the engine allocates to them.</p>
-<p><strong>Varying Vectors</strong></p>
+<span id="node-material-limits"></span><h2><a class="toc-backref" href="#id39">限制</a><a class="headerlink" href="#limitations" title="永久链接至标题">¶</a></h2>
+<p>节点材质可能很复杂，但它们的复杂性受您使用的硬件功能的限制。大部分时间可能不太明显，但是如果你做了一个非常复杂的材质，你可能会超过纹理数量限制和向量变量（顶点着色器用来把数据交给片段着色器）你的系统允许在一个着色器中使用的量。即使你不这样做，你的应用程序的一些用户可能没有像你一样强大的设备，所以他们会遇到你不会遇到的问题。</p>
+<p>如果你想要知道如何你的场景会表现在低端的设备上，但是你又刚好没有这样的设备，这里有个非常有用的选项，称为 <code class="docutils literal"><span class="pre">最小功能模式</span></code>. 它是原产于 <a class="reference internal" href="viewer.html#viewer"><span>场景预览器</span></a> 可以在  <a class="reference internal" href="viewer.html#viewer-tools-and-debug"><span>工具 &amp; 处理错误</span></a> 面板中找到。</p>
+<p>您的设备所支持的变向量和纹理数量可以在 WebGL 报告 web 页访问  <a class="reference internal" href="addon.html#getting-started-launching-viewer"><span>SDK索引</span></a> 页上查看.</p>
+<p>下面两个表列出了各种材质节点及其所在的纹理和变向量有多少是引擎将分配给他们的。</p>
+<p><strong>变向量</strong></p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="48%" />
 <col width="52%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><strong>Node/Effect</strong></td>
-<td><strong>Allocated Varying Vectors</strong></td>
+<tr class="row-odd"><td><p class="first last"><strong>节点 / 影响</strong></p>
+</td>
+<td><p class="first last"><strong>分配变向量</strong></p>
+</td>
 </tr>
-<tr class="row-even"><td>Always reserved</td>
+<tr class="row-even"><td><p class="first last">始终保留</p>
+</td>
 <td>3</td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">Input</span> <span class="pre">-&gt;</span> <span class="pre">Texture</span></code> node (if the <code class="docutils literal"><span class="pre">Normal</span></code>
-output is used)</td>
+<tr class="row-odd"><td><p class="first last"><code class="docutils literal"><span class="pre">Input</span> <span class="pre">-&gt;</span> <span class="pre">Texture</span></code> 节点(如果 <code class="docutils literal"><span class="pre">法线</span></code> 输出被使用)</p>
+</td>
 <td>1</td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">-&gt;</span> <span class="pre">Parallax</span></code> node</td>
+<tr class="row-even"><td><p class="first last"><code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">-&gt;</span> <span class="pre">Parallax</span></code> 节点</p>
+</td>
 <td>1</td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">Vector</span> <span class="pre">-&gt;</span> <span class="pre">Normal</span> <span class="pre">Map</span></code> node</td>
+<tr class="row-odd"><td><p class="first last"><code class="docutils literal"><span class="pre">Vector</span> <span class="pre">-&gt;</span> <span class="pre">Normal</span> <span class="pre">Map</span></code> 节点</p>
+</td>
 <td>1</td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">Input</span> <span class="pre">-&gt;</span> <span class="pre">Material</span></code> node (if the
-<code class="docutils literal"><span class="pre">Shading</span> <span class="pre">-&gt;</span> <span class="pre">Tangent</span> <span class="pre">Shading</span></code> option is enabled
-on that material)</td>
+<tr class="row-even"><td><p class="first last"><code class="docutils literal"><span class="pre">Input</span> <span class="pre">-&gt;</span> <span class="pre">Material</span></code> 节点 (如果 <code class="docutils literal"><span class="pre">Shading</span> <span class="pre">-&gt;</span> <span class="pre">Tangent</span> <span class="pre">Shading</span></code> 选项在材质上启用)</p>
+</td>
 <td>1</td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">Input</span> <span class="pre">-&gt;</span> <span class="pre">Geometry</span></code> node (if the <code class="docutils literal"><span class="pre">UV</span></code> output
-is used)</td>
+<tr class="row-odd"><td><p class="first last"><code class="docutils literal"><span class="pre">Input</span> <span class="pre">-&gt;</span> <span class="pre">Geometry</span></code> 节点 (如果 <code class="docutils literal"><span class="pre">UV</span></code> 输出被启用)</p>
+</td>
 <td>1</td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">Input</span> <span class="pre">-&gt;</span> <span class="pre">UV</span> <span class="pre">Map</span></code> cycles node</td>
+<tr class="row-even"><td><p class="first last"><code class="docutils literal"><span class="pre">Input</span> <span class="pre">-&gt;</span> <span class="pre">UV</span> <span class="pre">Map</span></code> cycles 节点</p>
+</td>
 <td>1</td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">Input</span> <span class="pre">-&gt;</span> <span class="pre">Texture</span> <span class="pre">Coordinate</span></code> cycles node (if
-the <code class="docutils literal"><span class="pre">UV</span></code> output is used)</td>
+<tr class="row-odd"><td><p class="first last"><code class="docutils literal"><span class="pre">Input</span> <span class="pre">-&gt;</span> <span class="pre">Texture</span> <span class="pre">Coordinate</span></code> cycles 节点 (如果 <code class="docutils literal"><span class="pre">UV</span></code> 输出被使用)</p>
+</td>
 <td>1</td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">Input</span> <span class="pre">-&gt;</span> <span class="pre">Geometry</span></code> node (if the
-<code class="docutils literal"><span class="pre">Vertex</span> <span class="pre">Color</span></code> output is used)</td>
+<tr class="row-even"><td><p class="first last"><code class="docutils literal"><span class="pre">Input</span> <span class="pre">-&gt;</span> <span class="pre">Geometry</span></code> 节点 (如果 <code class="docutils literal"><span class="pre">Vertex</span> <span class="pre">Color</span></code> 输出被使用)</p>
+</td>
 <td>1</td>
 </tr>
-<tr class="row-odd"><td>Shadows on an object with the <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Blend</span></code>
-material</td>
+<tr class="row-odd"><td><p class="first last">在带有 <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">混合</span></code> 材质的物体上有阴影</p>
+</td>
 <td><p class="first">1 - 4</p>
-<p class="last">(depending on the number of
-shadow cascades or shadow casters)</p>
+<p class="last">（取决于阴影级联或阴影脚轮的数目）</p>
 </td>
 </tr>
-<tr class="row-even"><td><p class="first">Shadows on an object with the``Opaque`` material</p>
-<p>Refraction effect on a material</p>
-<p class="last">Plane Reflections enabled on an object</p>
+<tr class="row-even"><td><p class="first"><code class="docutils literal"><span class="pre">不透明</span></code> 材质物体上的阴影</p>
+<p>材质的折射效果</p>
+<p class="last">平面反射在物体上启用</p>
 </td>
 <td>1</td>
 </tr>
-<tr class="row-odd"><td>Refraction effect on a material</td>
+<tr class="row-odd"><td><p class="first last">材质的折射效果</p>
+</td>
 <td>2</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Textures</strong></p>
+<p><strong>纹理</strong></p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="48%" />
 <col width="52%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><strong>Node/Effect</strong></td>
-<td><strong>Allocated Textures</strong></td>
+<tr class="row-odd"><td><p class="first last"><strong>节点 / 影响</strong></p>
+</td>
+<td><p class="first last"><strong>已分配纹理</strong></p>
+</td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">-&gt;</span> <span class="pre">Parallax</span></code> node</td>
+<tr class="row-even"><td><p class="first last"><code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">-&gt;</span> <span class="pre">Parallax</span></code> 节点</p>
+</td>
 <td>1</td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">Input</span> <span class="pre">-&gt;</span> <span class="pre">Texture</span></code> node</td>
+<tr class="row-odd"><td><p class="first last"><code class="docutils literal"><span class="pre">Input</span> <span class="pre">-&gt;</span> <span class="pre">Texture</span></code> 节点</p>
+</td>
 <td>1</td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">Texture</span> <span class="pre">-&gt;</span> <span class="pre">Environment</span> <span class="pre">Texture</span></code> cycles node</td>
+<tr class="row-even"><td><p class="first last"><code class="docutils literal"><span class="pre">Texture</span> <span class="pre">-&gt;</span> <span class="pre">Environment</span> <span class="pre">Texture</span></code> cycles 节点</p>
+</td>
 <td>1</td>
 </tr>
-<tr class="row-odd"><td><p class="first"><code class="docutils literal"><span class="pre">Vector</span> <span class="pre">-&gt;</span> <span class="pre">Vector</span> <span class="pre">Curves</span></code> node</p>
-<p><code class="docutils literal"><span class="pre">Color</span> <span class="pre">-&gt;</span> <span class="pre">RGB</span> <span class="pre">Curves</span></code> node</p>
-<p class="last"><code class="docutils literal"><span class="pre">Converter</span> <span class="pre">-&gt;</span> <span class="pre">Color</span> <span class="pre">Ramp</span></code> node</p>
+<tr class="row-odd"><td><p class="first"><code class="docutils literal"><span class="pre">Vector</span> <span class="pre">-&gt;</span> <span class="pre">Vector</span> <span class="pre">Curves</span></code> 节点</p>
+<p><code class="docutils literal"><span class="pre">Color</span> <span class="pre">-&gt;</span> <span class="pre">RGB</span> <span class="pre">Curves</span></code> 节点</p>
+<p class="last"><code class="docutils literal"><span class="pre">Converter</span> <span class="pre">-&gt;</span> <span class="pre">Color</span> <span class="pre">Ramp</span></code> 节点</p>
 </td>
 <td><p class="first">1</p>
-<p class="last">(the number of the nodes in the material
-doesn&#8217;t matter)</p>
+<p class="last">（材质中节点的数目并不重要）</p>
 </td>
 </tr>
-<tr class="row-even"><td>Shadows on an object with the <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Blend</span></code>
-material</td>
+<tr class="row-even"><td><p class="first last">在带有 <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">混合</span></code> 材质的物体上有阴影</p>
+</td>
 <td><p class="first">1 - 4</p>
-<p class="last">(depending on the number of shadow
-casters and/or shadow cascades)</p>
+<p class="last">（取决于阴影脚轮的数量和/或影栅）</p>
 </td>
 </tr>
-<tr class="row-odd"><td>Shadows on an object with an <code class="docutils literal"><span class="pre">Opaque</span></code> material</td>
+<tr class="row-odd"><td><p class="first last"><code class="docutils literal"><span class="pre">不透明</span></code> 材质物体上的阴影</p>
+</td>
 <td>1</td>
 </tr>
-<tr class="row-even"><td>Refraction effect on a material</td>
+<tr class="row-even"><td><p class="first last">材质的折射效果</p>
+</td>
 <td>2</td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">World</span> <span class="pre">-&gt;</span> <span class="pre">Environment</span> <span class="pre">Lighting</span> <span class="pre">-&gt;</span> <span class="pre">SkyTexture</span></code> is
-enabled for a World</td>
+<tr class="row-odd"><td><p class="first last"><code class="docutils literal"><span class="pre">World</span> <span class="pre">-&gt;</span> <span class="pre">Environment</span> <span class="pre">Lighting</span> <span class="pre">-&gt;</span> <span class="pre">SkyTexture</span></code> 为世界启用</p>
+</td>
 <td>1</td>
 </tr>
-<tr class="row-even"><td>Reflection effect on an object</td>
+<tr class="row-even"><td><p class="first last">在物体上反射效果</p>
+</td>
 <td>1</td>
 </tr>
 </tbody>
@@ -1052,7 +1064,7 @@ enabled for a World</td>
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2017, Triumph.
-      最后更新于 2017-06-30.
+      最后更新于 2017-08-31.
 
     </p>
   </div>
@@ -1108,7 +1120,7 @@ enabled for a World</td>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.06',
+            VERSION:'v17.08',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

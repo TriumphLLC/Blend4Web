@@ -15,12 +15,18 @@ deploy_dir =
 apps = 
 css_ignore = 
 engine_type = copy
-js_ignore = scripts/*.js;highlight.pack.js
+js_ignore = scripts/*.js;scripts/libs/*.js;highlight.pack.js
 optimization = advanced
-use_physics = 
+use_physics = True
 use_smaa_textures = 
 version = 
+ignore = 
 
 [deploy]
 assets_path_prefix = 
 override = 
+assets_path_dest = 
+ignore = 
+
+[url_params]
+

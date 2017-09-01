@@ -51,8 +51,8 @@ var BLACK_BG_COLOR = [0,0,0,0];
 
 var SKY_HACK_COLOR = new Uint8Array([0.36*255, 0.56*255, 0.96*255, 255]);
 
-var CUBEMAP_UPPER_SIDE = 2;
-var CUBEMAP_BOTTOM_SIDE = 3;
+var CUBEMAP_UPPER_SIDE = 4;
+var CUBEMAP_BOTTOM_SIDE = 5;
 
 // smaa stuff
 var JITTER = [new Float32Array([0.25, -0.25]),
@@ -554,14 +554,10 @@ function update_subs_sky_fog(subscene, cubemap_side_ind) {
         subscene.cube_fog[3]  = res_r;
         subscene.cube_fog[7]  = res_g;
         subscene.cube_fog[11] = res_b;
-    } else if (cubemap_side_ind < 2) {
-        subscene.cube_fog[4 * cubemap_side_ind]     = res_r;
+    } else {
+        subscene.cube_fog[4 * cubemap_side_ind] = res_r;
         subscene.cube_fog[4 * cubemap_side_ind + 1] = res_g;
         subscene.cube_fog[4 * cubemap_side_ind + 2] = res_b;
-    } else {
-        subscene.cube_fog[4 * (cubemap_side_ind - 2)]     = res_r;
-        subscene.cube_fog[4 * (cubemap_side_ind - 2) + 1] = res_g;
-        subscene.cube_fog[4 * (cubemap_side_ind - 2) + 2] = res_b;
     }
 }
 
@@ -605,7 +601,6 @@ exports.assign_attribute_setters = function(batch) {
             base_offset: p.offset * type_size,
             frame_length: p.frames > 1 ? p.length * type_size : 0,
             num_comp: p.num_comp,
-            stride: p.stride * type_size,
             divisor: p.divisor
         };
         attr_setters.push(setter);
@@ -660,8 +655,8 @@ function assign_vao(batch) {
                     var offset = setter.base_offset + setter.frame_length * i;
 
                     var normalized = setter.gl_type == _gl.FLOAT ? false : true;
-                    _gl.vertexAttribPointer(setter.loc, setter.num_comp, setter.gl_type, normalized,
-                            setter.stride, offset);
+                    _gl.vertexAttribPointer(setter.loc, setter.num_comp, 
+                            setter.gl_type, normalized, 0, offset);
                     _gl_vert_attr_div(setter.loc, setter.divisor);
                 }
             }
@@ -693,7 +688,6 @@ exports.clone_attribute_setters = function(setters) {
             base_offset: setter.base_offset,
             frame_length: setter.frame_length,
             num_comp: setter.num_comp,
-            stride: setter.stride,
             divisor: setter.divisor
         };
 
@@ -1347,7 +1341,7 @@ function assign_uniform_setters(shader) {
             break;
         case "u_node_values":
             fun = function(gl, loc, obj_render, batch) {
-                gl.uniform1fv(loc, batch.node_values);
+                gl.uniform4fv(loc, batch.node_values);
             }
             transient_uni = true;
             break;
@@ -1558,7 +1552,7 @@ function assign_uniform_setters(shader) {
             break;
         case "u_fresnel_params":
             fun = function(gl, loc, obj_render, batch) {
-                gl.uniform4fv(loc, batch.fresnel_params);
+                gl.uniform2fv(loc, batch.fresnel_params);
             }
             transient_uni = true;
             break;
@@ -2140,7 +2134,7 @@ exports.set_draw_methods = function() {
 
                         var normalized = setter.gl_type == _gl.FLOAT ? false : true;
                         _gl.vertexAttribPointer(setter.loc, setter.num_comp, 
-                                setter.gl_type, normalized, setter.stride, offset);
+                                setter.gl_type, normalized, 0, offset);
                         _gl_vert_attr_div(setter.loc, setter.divisor);
                     }
                 }

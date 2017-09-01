@@ -581,10 +581,10 @@ function pick_anchor_visibility(anchor) {
     m_render.read_pixels(anchor_cam.framebuffer, viewport_xy[0], 
             anchor_cam.height - viewport_xy[1], 2, 2, _pixels);
 
-    if (_pixels[5] + _pixels[6] + _pixels[9] + _pixels[10] == 4 * 255)
+    if (_pixels[0] + _pixels[4] + _pixels[8] + _pixels[12] >= 255)
         return "visible";
     else if (anchor.appearance == "out" || 
-            _pixels[5] + _pixels[6] + _pixels[9] + _pixels[10] == 0)
+            _pixels[0] + _pixels[4] + _pixels[8] + _pixels[12] == 0)
         return "covered";
     else
         return anchor.appearance;

@@ -35,7 +35,9 @@ var m_trans   = require("__transform");
 var m_util    = require("__util");
 
 var cfg_def = m_cfg.defaults;
+var cfg_lim = m_cfg.context_limits;
 
+var _gl          = null;
 var _canvas      = null;
 var _canvas_hud  = null;
 var _canvas_cont = null;
@@ -50,6 +52,14 @@ var _viewport_layout = {
     scale: 1,   // divice pixels/css pixels
     offset_top: 0,  // css pixels
     offset_left: 0  // css pixels
+}
+
+/**
+ * Setup WebGL context
+ * @param gl WebGL context
+ */
+exports.setup_context = function(gl) {
+    _gl = gl;
 }
 
 exports.get_canvas = get_canvas;
@@ -163,6 +173,28 @@ exports.client_to_canvas_coords = function(client_x, client_y, dest) {
     return client_to_element_coords(client_x, client_y, _canvas, dest);
 }
 
+exports.get_coords_target_space = get_coords_target_space;
+function get_coords_target_space(event, use_target_touches, dest) {
+
+    if (event.constructor == MouseEvent) {
+        dest[0] = event.offsetX;
+        dest[1] = event.offsetY;
+    } else if (event.constructor == TouchEvent) {
+        if (event.type == "touchend")
+            var touches = event.changedTouches;
+        else
+            var touches = use_target_touches ? event.targetTouches : event.touches;
+
+        client_to_element_coords(touches[0].clientX, touches[0].clientY, 
+                event.target, dest);
+    } else {
+        dest[0] = -1;
+        dest[1] = -1;
+    }
+
+    return dest;
+}
+
 exports.client_to_element_coords = client_to_element_coords;
 function client_to_element_coords(client_x, client_y, element, dest) {
     if (!cfg_def.ie11_edge_mouseoffset_hack) {
@@ -179,9 +211,11 @@ function client_to_element_coords(client_x, client_y, element, dest) {
         dest[0] = event.offsetX;
         dest[1] = event.offsetY;
     } else {
-        // TODO: fix, MouseEvent is not supported by IE
-        dest[0] = client_x;
-        dest[1] = client_y;
+        // doesn't support complex CSS transformations, but still better 
+        // than nothing
+        var rect = element.getBoundingClientRect();
+        dest[0] = client_x - rect.left;
+        dest[1] = client_y - rect.top;
     }
 
     return dest;
@@ -273,10 +307,34 @@ function resize(width, height, update_canvas_css) {
         m_hud.update_dim();
     }
 
-    canvas_webgl.width  = width;
-    canvas_webgl.height = height;
+    var cw = width * cfg_def.canvas_resolution_factor;
+    var ch = height * cfg_def.canvas_resolution_factor;
 
-    m_scenes.setup_dim(width, height);
+    canvas_webgl.width  = cw;
+    canvas_webgl.height = ch;
+
+    var width_limit = Math.min(_gl.drawingBufferWidth,
+            cfg_lim.max_renderbuffer_size, cfg_lim.max_viewport_dims[0]);
+    var height_limit = Math.min(_gl.drawingBufferHeight,
+            cfg_lim.max_renderbuffer_size, cfg_lim.max_viewport_dims[1]);
+    if (cw > width_limit || ch > height_limit) {
+        m_print.warn("Canvas size exceeds platform limits, downscaling");
+
+        var downscale = Math.min(width_limit / cw, width_limit / ch);
+
+        cw *= downscale;
+        ch *= downscale;
+    }
+
+    if (width)
+        var scale = cw / width;
+    else
+        var scale = 1;
+
+    canvas_webgl.width  = Math.floor(cw);
+    canvas_webgl.height = Math.floor(ch);
+
+    m_scenes.setup_dim(canvas_webgl.width, canvas_webgl.height, scale);
 
     // needed for frustum culling/constraints
     if (m_scenes.check_active())
@@ -328,6 +386,7 @@ exports.resize_to_container = function(force) {
 }
 
 exports.reset = function() {
+    _gl          = null;
     _canvas      = null;
     _canvas_hud  = null;
     _canvas_cont = null;

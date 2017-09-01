@@ -129,6 +129,32 @@ exports.client_to_element_coords = function(x, y, element, dest) {
 }
 
 /**
+ * Get CSS coordinates from the given MouseEvent or TouchEvent transformed into 
+ * the space of its target element.
+ * @param {MouseEvent|TouchEvent} event An event to get values from.
+ * @param {boolean} [use_target_touches=false] For TouchEvent use only those 
+ * touches that were started on the event target element (the targetTouches 
+ * property).
+ * @param {Vec2} [dest=Float32Array(2)] Destination vector.
+ * @returns {Vec2} CSS coordinates relative to the Canvas.
+ * @example
+ * var m_cont = require("container");
+ * var m_input = require("input");
+ * var _vec2_tmp = new Float32Array(2);
+ *
+ * var canvas = m_cont.get_canvas();
+ * m_input.add_click_listener(canvas, function(event) {
+ *     var coords = m_cont.get_coords_target_space(event, false, _vec2_tmp);
+ * });
+ */
+exports.get_coords_target_space = function(event, use_target_touches, dest) {
+    if (!dest)
+        dest = new Float32Array(2);
+
+    return m_cont.get_coords_target_space(event, use_target_touches, dest);
+}
+
+/**
  * Update canvas offsets on the next request.
  * @method module:container.force_offsets_updating
  * @deprecated Not needed anymore.

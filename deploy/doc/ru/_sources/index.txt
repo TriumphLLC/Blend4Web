@@ -28,6 +28,42 @@
 
 * Возможности движка
 
+* Интерфейс Blender
+
+  * 3D View
+
+  * Timeline
+
+  * Graph Editor
+
+  * Dope Sheet
+
+  * NLA Editor
+
+  * UV/Image Editor
+
+  * Video Sequence Editor
+
+  * Movie Clip Editor
+
+  * Text Editor
+
+  * Node Editor
+
+  * Logic Editor
+
+  * Properties
+
+  * Outliner
+
+  * User Preferences
+
+  * Info
+
+  * File Browser
+
+  * Python Console
+
 * Установка и обновление
 
   * Установка
@@ -240,7 +276,7 @@
 
   * Debug
 
-  * Deprecated
+  * Time
 
   * Layout
 
@@ -479,6 +515,8 @@
   * Известные проблемы
 
 * Замечания к релизам
+
+  * v17.08
 
   * v17.06
 

@@ -1,3 +1,4 @@
+#ifdef _WIN32
 /*
 Copyright (c) 2012 Advanced Micro Devices, Inc.  
 
@@ -434,11 +435,10 @@ void Win32Window::setWindowTitle(const char* titleChar)
 	wchar_t  windowTitle[1024];
 	swprintf(windowTitle, 1024, L"%hs", titleChar);
 
-	DWORD dwResult;
-
 #ifdef _WIN64
 		SetWindowTextW(m_data->m_hWnd, windowTitle);
 #else
+		DWORD dwResult;
 		SendMessageTimeoutW(m_data->m_hWnd, WM_SETTEXT, 0,
 				reinterpret_cast<LPARAM>(windowTitle),
 				SMTO_ABORTIFHUNG, 2000, &dwResult);
@@ -717,15 +717,6 @@ void Win32Window::runMainLoop()
 void	Win32Window::startRendering()
 {
 		pumpMessage();
-
-//		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);	//clear buffers
-		
-		//glCullFace(GL_BACK);
-		//glFrontFace(GL_CCW);
-	//	glEnable(GL_DEPTH_TEST);
-
-
-
 }
 
 
@@ -805,5 +796,5 @@ b3WheelCallback Win32Window::getWheelCallback()
 {
 	return m_data->m_wheelCallback;
 }
-
+#endif
 	

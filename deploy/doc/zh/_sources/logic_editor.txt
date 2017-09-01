@@ -26,7 +26,7 @@
 
   * 调试
 
-  * 已过时
+  * Time
 
   * 布局
 
@@ -143,36 +143,6 @@
    建和删除 "Hit" 参数。这样的参数的数量总是等于  "Hit" 参数的数目。
 
 
-延迟
-----
-
-在去下一个节点之前做一个延迟（以秒计）。
-
-[图片]
-
-
-输入参数
-~~~~~~~~
-
-*上一个*
-   前一个节点。
-
-
-输出参数
-~~~~~~~~
-
-*下一个*
-   下一个节点。
-
-
-内部参数
-~~~~~~~~
-
-*值*
-   将在下一个节点激活之前的时间 （以秒为单位）。默认情况设置为零。可以
-   手动或通过一个变量来设置 （如果启用了 "Variable" 参数）。
-
-
 条件跳转
 --------
 
@@ -218,10 +188,9 @@
    * *Greater Than Or Equal (=>)* - 第一个操作数是大于或等于第二个。
 
 *Operand1*
-   First operand of the logical condition. Contains a numeric value or
-   a string (if the "String Operators" parameter is enabled). Can be
-   specified in the node or can be a link to one of the variables (if
-   the "Variable" parameter at the right of it is enabled).
+   逻辑条件的第一个操作数。包含数值或字符串（如果 "String Operators"
+   参数已启用）。可以在节点中指定，也可以是指向其中一个变量的链接（如
+   果右侧的 "Variable" 参数被启用）。
 
 *Operand2*
    逻辑条件的第二个操作数。和第一个以同样的方式工作。
@@ -323,39 +292,6 @@ JS 回调
    工作。
 
 
-获取时间线
-----------
-
-此节点可以用于获取 NLA 动画或时间线的当前帧。
-
-[图片]
-
-
-输入参数
-~~~~~~~~
-
-*上一个*
-   前一个节点。
-
-
-输出参数
-~~~~~~~~
-
-*下一个*
-   下一个节点。
-
-
-内部参数
-~~~~~~~~
-
-*NLA Timeline*
-   如果启用此参数，则该节点将返回当前动画的帧的 NLA。如果禁用了它，则
-   该节点将返回当前帧的时间线。默认情况下启用。
-
-*目标*
-   指定一个变量来存储当前帧的数量。默认设置为  "R1" 。
-
-
 播放动画
 --------
 
@@ -394,7 +330,7 @@ JS 回调
 *物体*
    物体，动画，其中将播放的名称。
 
-*动画。名称*
+*动画名称*
    要播放动画的名字。如果未指定，则整个时间轴将播放。
 
 *行为*
@@ -404,7 +340,8 @@ JS 回调
 
    * *完成重置*  - 动画将被播放一次，则该物体将返回到起点。
 
-   * *循环*  - 直到它被 "停止Animation" 节点停止的动画将被反复播放。
+   * *循环*  - 动画将被反复播放直到它被 "Stop Animation" 节点停止掉
+     。
 
 *不要等*
    如果该参数被启用，"Play Animation" 节点将控制传递到下一个节点上启动
@@ -546,12 +483,11 @@ JS 回调
    相机的目标/轴心点的 "Z" 分量。
 
 
-Set Camera Limits
------------------
+设置相机限制
+------------
 
-This node can be used to set limits of the selected camera. The node
-lists all available limits, but only ones that are compatible with the
-type of the camera are applied.
+此节点可以用于设置选定相机的限制。节点列出了所有可用的限制，但只有那些
+与照相机类型兼容的限制可以被应用。
 
 [图片]
 
@@ -574,32 +510,25 @@ type of the camera are applied.
 ~~~~~~~~
 
 *相机*
-   This parameter specifies a camera to which the limits will be
-   applied.
+   此参数指定将应用限制的摄像机。
 
 *Distance Limits*
-   Sets the "Distance Limits" parameter native to the Target and Hover
-   camera types.
+   设置 "距离限制" 参数用于   目标 和 悬停 照相机类型。
 
 *Hor. Rotation Limits*
-   Sets "Horizontal Rotation Limits" parameter native to Target and
-   Eye camera types.
+   设置  "水平旋转限制" 参数用于于  目标 和 眼  照相机类型。
 
 *Vert. Rotation Limits*
-   Sets "Vertical Rotation Limits" parameter native to Target, Hover
-   and Eye camera types.
+   设置  "垂直旋转限制" 参数用于于  目标, 悬停 和 眼  照相机类型。
 
 *Pivot Translation Limits*
-   Sets "Pivot Translation Limits" parameter native to Target camera
-   type.
+   设置 "轴点移动限制"  参数用于  目标  相机类型。
 
 *Hor. Translation Limits*
-   Sets "Horizontal Translation Limits" parameter native to Hover
-   camera type.
+   设置  "水平移动限制" 参数用于  悬停 相机类型。
 
 *Vert. Translation Limits*
-   Sets "Vertical Translation Limits" parameter native to Hover camera
-   type.
+   设置 "垂直移动限制" 参数用于  悬停  相机类型。
 
 
 物体
@@ -1434,40 +1363,164 @@ JSON物体的以下片段：
    。
 
 
-已过时
-======
+Time
+====
 
 
-选择（已过时）
---------------
+Date & Time
+-----------
 
-注解: 已过时！不推荐使用。相反，推荐使用 "Switch Select" 节点。
+This node returns the current time and date.
 
-它类似于  "Select & Play" 节点，除了过渡发生代替动画。这个功能可以实现
-一个复杂的逻辑，因为在这种情况下，存在这样的可能性，以确定所述用户选择
-的结果。
+[图片]
 
 
-选择并播放时间轴（已过时）
---------------------------
+输入参数
+~~~~~~~~
 
-注解: 已过时！不推荐使用。相反，建议使用 "Switch Select" 和 "Play
-  Timeline" 节点。
-
-等到用户选择的物体（在桌面上 - 用鼠标点击，移动设备 - 带有触摸）。如果
-物体，这是在本节点中指定时，选择 - 然后启动类似于 "Play Timeline" 节点
-动画。如果选择了任何其他物体 - 然后立即转移控制到下一个节点。
+*上一个*
+   前一个节点。
 
 
-选择并播放动画（已过时）
-------------------------
+输出参数
+~~~~~~~~
 
-注解: 已过时！不推荐使用。相反，建议使用 "Switch Select" 和 "Play
-  Timeline" 节点。
+*下一个*
+   下一个节点。
 
-等到用户选择的物体（在桌面上 - 用鼠标点击，移动设备 - 带有触摸）。如果
-物体，这是在本节点中指定时，选择 - 然后启动类似于  "Play Animation" 节
-点动画。如果选择了任何其他物体 - 然后立即转移控制到下一个节点。
+
+内部参数
+~~~~~~~~
+
+*Time Format*
+   This parameter defines the format in which time is measured. It can
+   be set to one of the following values:
+
+   *UTC*
+      Coordinated Universal Time.
+
+      注解: The Coordinated Universal Time this node returns is
+        based on local system time and a time zone.
+
+   *Local*
+      If this value is selected, time is retrieved from local system
+      time. This value is selected by default.
+
+The time and date are returned as a set of numbers (current year,
+month, day etc.), each one of which can be stored into a specific
+variable. These numbers include:
+
+*Year*
+   The current year.
+
+*Month*
+   The current month.
+
+*Day*
+   The current day.
+
+*Hours*
+   The current hour.
+
+*Minutes*
+   The current minutes.
+
+*Seconds*
+   The current seconds.
+
+
+获取时间线
+----------
+
+此节点可以用于获取 NLA 动画或时间线的当前帧。
+
+[图片]
+
+
+输入参数
+~~~~~~~~
+
+*上一个*
+   前一个节点。
+
+
+输出参数
+~~~~~~~~
+
+*下一个*
+   下一个节点。
+
+
+内部参数
+~~~~~~~~
+
+*NLA Timeline*
+   如果启用此参数，则该节点将返回当前动画的帧的 NLA。如果禁用了它，则
+   该节点将返回当前帧的时间线。默认情况下启用。
+
+*目标*
+   指定一个变量来存储当前帧的数量。默认设置为  "R1" 。
+
+
+Elapsed
+-------
+
+This node returns the amount of time elapsed since the previous frame
+has been rendered.
+
+[图片]
+
+
+输入参数
+~~~~~~~~
+
+*上一个*
+   前一个节点。
+
+
+输出参数
+~~~~~~~~
+
+*下一个*
+   下一个节点。
+
+
+内部参数
+~~~~~~~~
+
+The "Elapsed" logic node has one internal parameter that allows user
+to specify the variable to save the number of seconds passed since the
+previous frame. By default, it uses the "R1" variable.
+
+
+延迟
+----
+
+在去下一个节点之前做一个延迟（以秒计）。
+
+[图片]
+
+
+输入参数
+~~~~~~~~
+
+*上一个*
+   前一个节点。
+
+
+输出参数
+~~~~~~~~
+
+*下一个*
+   下一个节点。
+
+
+内部参数
+~~~~~~~~
+
+*值*
+   将在下一个节点激活之前的时间 （以秒为单位）。默认情况设置为零。可以
+   手动或通过一个变量来设置 （如果启用了 "Variable" 参数）。
 
 
 布局
