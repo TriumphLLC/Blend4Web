@@ -19,7 +19,7 @@ var m_input     = require("input");
 var m_mouse     = require("mouse");
 var m_quat      = require("quat");
 var m_obj       = require("objects");
-var m_preloader = require("preloader");;
+var m_preloader = require("preloader");
 var m_print     = require("print");
 var m_phy       = require("physics");
 var m_scs       = require("scenes");
@@ -40,6 +40,7 @@ var _vec3_tmp2 = m_vec3.create();
 var _tsr_tmp = m_tsr.create();
 
 var QUAT4_IDENT = new Float32Array([0,0,0,1]);
+var VEC3_IDENT = m_vec3.fromValues(0, 0, 0);
 
 var ASTEROID_DEFAULT_SPEED = 20;
 var ASTEROID_DEFAULT_TARGET_OFFSET = 3;
@@ -91,6 +92,9 @@ var _burst_time = 0;
 
 var _burst_fire_sensor = m_ctl.create_custom_sensor(0);
 var _shake_sensor = m_ctl.create_custom_sensor(0);
+
+var _updated_eye_data = false;
+var _init_hmd_pos = m_vec3.create();
 
 // detect application mode
 var DEBUG = (m_ver.type() === "DEBUG");
@@ -185,16 +189,17 @@ function load_cb(data_id) {
     //     console.log("HMD device does not avaliable.");
 
     //==========================================================================
-    register_cockpit();
-
     // Third way to split screen: m_hmd.enable_hmd
-    if (m_hmd.check_browser_support())
+    var is_hmd = m_hmd.check_browser_support();
+    if (is_hmd)
         register_hmd();
 
-    register_mouse(m_hmd.check_browser_support());
+    register_cockpit(is_hmd);
+
+    register_mouse(is_hmd);
 
     register_keyboard();
-    register_gamepad(m_hmd.check_browser_support());
+    register_gamepad(is_hmd);
 
     //==========================================================================
     // Gameplay stuff
@@ -426,12 +431,14 @@ function spawn_cockpit() {
 
     _cockpit.hp = COCKPIT_MAX_HP;
 
+    _updated_eye_data = false;
+
     var cockpit_mesh_obj = _cockpit.cockpit_mesh_obj;
     if (cockpit_mesh_obj)
         m_mat.set_nodemat_value(cockpit_mesh_obj, ["screen", "life"], 0.19);
 }
 
-function register_cockpit() {
+function register_cockpit(is_hmd) {
     _cockpit = init_cockpit();
 
     var cockpit_empty = _cockpit.cockpit_empty;
@@ -463,9 +470,13 @@ function register_cockpit() {
                 var trans = m_trans.get_translation(obj, _vec3_tmp);
                 trans[0] += delta_x;
                 trans[2] += delta_z;
+                if (is_hmd) {
+                    m_hmd.set_position(m_vec3.add(trans, _init_hmd_pos, _vec3_tmp2));
+                } else {
+                    var cam_obj = m_scs.get_active_camera();
+                    m_trans.set_translation_v(cam_obj, trans);
+                }
                 m_trans.set_translation_v(obj, trans);
-                var cam_obj = m_scs.get_active_camera();
-                m_trans.set_translation_v(cam_obj, trans);
                 m_trans.set_translation_v(camera_asteroids_obj, trans);
 
                 trans[0] -= _dest_x_trans / 2;
@@ -673,16 +684,17 @@ function register_hmd() {
 
     var elapsed = m_ctl.create_elapsed_sensor();
     var psensor = m_ctl.create_hmd_position_sensor();
-    var updated_eye_data = false;
 
     var last_hmd_pos = m_vec3.create();
     var hmd_cb = function(obj, id, pulse) {
         if (pulse > 0) {
             var hmd_pos = m_ctl.get_sensor_payload(obj, id, 1);
 
-            if (!updated_eye_data) {
+            if (!_updated_eye_data) {
+                m_vec3.subtract(VEC3_IDENT, hmd_pos, _init_hmd_pos);
+                m_hmd.set_position(_init_hmd_pos);
                 m_vec3.copy(hmd_pos, last_hmd_pos);
-                updated_eye_data = true;
+                _updated_eye_data = true;
             } else {
                 var diff_hmd_pos = m_vec3.subtract(hmd_pos, last_hmd_pos, _vec3_tmp2);
                 m_vec3.scale(diff_hmd_pos, 15, diff_hmd_pos);

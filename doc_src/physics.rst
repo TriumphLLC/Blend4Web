@@ -507,3 +507,24 @@ If your application does not use physics, we recommend you to turn off the ``Ena
 .. code-block:: javascript
 
     m_config.set("physics_enabled", false);
+
+Physics subsystem is implemented in the “uranium” module and is loaded independently from the main engine code. The “uranium” module is a modification of the `Bullet physics engine <https://en.wikipedia.org/wiki/Bullet_(software)>`_ ported to work in web browsers.
+
+Blend4Web physics engine comes in two variations: the one compiled using WebAssembly (``uranium_wasm.js`` and  ``uranium_wasm.wasm`` files) is used by default, while the other version, compiled with ``asm.js`` (``uranium.js`` and  ``uranium.js.mem``) can be used as a fallback. The WebAssembly version is smaller in size, can be initialized quicker and using it might improve the stability and performance of the application. However, at the moment not every browser supports WebAssembly, so, if this technology is not available, the asm.js version of the physics engine is used instead.
+
+By default, physics engine is plugged in if the scene contains objects with physics enabled. You can manually disable physics by setting the ``Enable Physics`` option on the ``Scene -> Physics`` panel to ``OFF``. You can also uncheck the ``Use Physics`` flag on the :ref:`project configuration page <project_config>` in the :ref:`Project Manager <project_manager>` to exclude physics engine files from the build version of your project.
+
+.. note::
+    
+    Physics is not supported in ``WebPlayer HTML`` type projects and in the scenes exported into HTML.
+
+Several flags for configuring physics engine are available in the :b4wref:`app.init()` method that is used to initialize the application:
+
+    **physics_enabled** - load physics engine to use physics in the application. Set to ``true`` by default.
+
+    **physics_uranium_path** - the relative path to the folder containing the physics engine files (the ``uranium_wasm.js``, ``uranium_wasm.wasm``, ``uranium.js`` and ``uranium.js.mem`` files). Use this parameter if you need to place physics engine files in a custom location.
+
+    **physics_use_wasm** - if this paraemter is set to ``true``, WebAssembly version is used. If it is set to ``false``, the asm.js version is used instead. Default value is ``true``.
+
+    **physics_use_workers** - calculate physics in a separate thread using a worker (if this parameter is set to ``true``), or in the main thread (if it is set to ``false``). Default value is ``true``.
+

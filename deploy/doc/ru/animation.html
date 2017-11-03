@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Анимация &mdash; Руководство пользователя Blend4Web 17.08</title>
+  <title>Анимация &mdash; Руководство пользователя Blend4Web 17.10</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 17.08" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 17.10" href="index.html"/>
         <link rel="next" title="Природные эффекты" href="outdoor_rendering.html"/>
         <link rel="prev" title="Система частиц. Инстансинг" href="particles_instancing.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v17.08
+              v17.10
             </div>
           
         
@@ -103,7 +103,7 @@
 <li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Редактор логики</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Освещение, тени и фон</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Спецэффекты</a></li>
-<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">Стереоизображение</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vr_and_ar.html">VR и AR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles.html">Система частиц. Флюиды</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Система частиц. Инстансинг</a></li>
@@ -323,7 +323,7 @@
 <p class="last">Одновременно могут быть смешаны не более <strong>двух</strong> анимаций.</p>
 </div>
 <p>Для того, чтобы смешать анимации, необходимо сперва разрешить смешивание двум анимационным слотам:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_animation</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;animation&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_animation</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;animation&quot;</span><span class="p">);</span>
 
 <span class="kd">var</span> <span class="nx">m_scenes</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
 
@@ -436,7 +436,7 @@
 <div class="section" id="controlling-via-api">
 <h3><a class="toc-backref" href="#id16">Управление через API</a><a class="headerlink" href="#controlling-via-api" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Для управления нелинейной анимацией через API существует модуль <code class="docutils literal"><span class="pre">nla.js</span></code>.</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
 <span class="kd">var</span> <span class="nx">m_nla</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;nla&quot;</span><span class="p">);</span>
 <span class="c1">// ...</span>
 <span class="nx">m_nla</span><span class="p">.</span><span class="nx">set_frame</span><span class="p">(</span><span class="mi">150</span><span class="p">);</span>
@@ -506,7 +506,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Триумф.
-      Обновлено: 2017-08-31.
+      Обновлено: 2017-10-31.
 
     </p>
   </div>
@@ -562,7 +562,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.08',
+            VERSION:'v17.10',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

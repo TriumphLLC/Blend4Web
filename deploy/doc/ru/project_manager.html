@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Управление проектами &mdash; Руководство пользователя Blend4Web 17.08</title>
+  <title>Управление проектами &mdash; Руководство пользователя Blend4Web 17.10</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 17.08" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 17.10" href="index.html"/>
         <link rel="next" title="Просмотрщик сцен" href="viewer.html"/>
         <link rel="prev" title="Рабочий процесс" href="workflow.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v17.08
+              v17.10
             </div>
           
         
@@ -157,7 +157,7 @@
 <li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Редактор логики</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Освещение, тени и фон</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Спецэффекты</a></li>
-<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">Стереоизображение</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vr_and_ar.html">VR и AR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles.html">Система частиц. Флюиды</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Система частиц. Инстансинг</a></li>
@@ -711,7 +711,7 @@
 <p class="last">После загрузки на веб-сервер должна сохраняться внутренняя структура файлов архива и их относительные пути.</p>
 </div>
 <p>После этого приложение типа Web Player HTML можно разместить на веб-странице с помощью контейнера <code class="docutils literal"><span class="pre">iframe</span></code>. Ниже приводится пример HTML-кода, который можно использовать для этого:</p>
-<div class="highlight-html"><div class="highlight"><pre><span></span><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<div class="highlight-html"><div class="highlight"><pre><span class="cp">&lt;!DOCTYPE html&gt;</span>
 <span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
 <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
     <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>An Example Application<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
@@ -723,7 +723,7 @@
 </pre></div>
 </div>
 <p>Размещение JSON-проекта происходит почти так же, но вместо одного HTML-файла используется комбинация веб-плеера и JSON-файла, содержащего саму сцену.</p>
-<div class="highlight-html"><div class="highlight"><pre><span></span><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<div class="highlight-html"><div class="highlight"><pre><span class="cp">&lt;!DOCTYPE html&gt;</span>
 <span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
 <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
     <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>Another Example Application<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
@@ -744,11 +744,11 @@
 <div class="section" id="dependencies">
 <span id="project-deps"></span><h3><a class="toc-backref" href="#id20">Зависимости</a><a class="headerlink" href="#dependencies" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Система управления проектами работает на всех операционных системах, однако для некоторых операций может потребоваться установка дополнительных зависимостей. Проверить, установлены ли необходимые зависимости, можно с помощью команды:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>./project.py check_deps
+<div class="highlight-bash"><div class="highlight"><pre>./project.py check_deps
 </pre></div>
 </div>
 <p>Для пользователей ОС Windows:</p>
-<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">python project.py check_deps</span>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">python project.py check_deps</span>
 </pre></div>
 </div>
 <p>Для работы скрипта необходимо установить java и <a class="reference external" href="https://www.java.com/ru/download/help/path.xml">записать ее в переменную среды PATH</a>.</p>
@@ -761,14 +761,14 @@
 <div class="section" id="projects-list">
 <span id="project-list"></span><h3><a class="toc-backref" href="#id21">Список проектов</a><a class="headerlink" href="#projects-list" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Список всех проектов в SDK доступен посредством следующей команды:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 project.py -p myproject list
+<div class="highlight-bash"><div class="highlight"><pre>python3 project.py -p myproject list
 </pre></div>
 </div>
 </div>
 <div class="section" id="project-structure">
 <span id="id7"></span><h3><a class="toc-backref" href="#id22">Структура проекта</a><a class="headerlink" href="#project-structure" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Структура проекта, озаглавленного my_project и размещённого в директории <code class="docutils literal"><span class="pre">./projects</span></code> (в корне директории SDK), выглядит следующим образом:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>blend4web/
+<div class="highlight-python"><div class="highlight"><pre>blend4web/
     projects/
         my_project/
             assets/
@@ -807,7 +807,7 @@
 <span id="b4w-config"></span><h3><a class="toc-backref" href="#id23">Конфигурационный файл проекта (.b4w_project)</a><a class="headerlink" href="#project-configuration-file-b4w-project" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Конфигурационный файл проекта включает всю необходимую информацию о проекте, в том числе его заголовок, метаданные, каталоги, а также информацию для сборки и размещения приложения.</p>
 <p>Конфигурационный файл проекта можно редактировать вручную, но более удобным будет использование интерфейса <a class="reference internal" href="#project-edit"><span>редактирования проекта</span></a>.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>[info]
+<div class="highlight-python"><div class="highlight"><pre>[info]
 author = Blend4Web
 name = my_project
 title = MyProject
@@ -932,7 +932,7 @@ override =
 </div>
 <div class="section" id="creating-a-project">
 <span id="id8"></span><h3><a class="toc-backref" href="#id24">Создание проекта</a><a class="headerlink" href="#creating-a-project" title="Ссылка на этот заголовок">¶</a></h3>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>./project.py init my_project
+<div class="highlight-bash"><div class="highlight"><pre>./project.py init my_project
 </pre></div>
 </div>
 <p>Команда создает проект с указанной именем в текущей директории. По умолчанию в директории проекта будет находиться только конфигурационный файл.</p>
@@ -954,12 +954,12 @@ override =
 </li>
 </ul>
 <p>Пример:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>./project.py init -AS -C Blend4Web -o simple -T MyProject -t external my_project
+<div class="highlight-bash"><div class="highlight"><pre>./project.py init -AS -C Blend4Web -o simple -T MyProject -t external my_project
 </pre></div>
 </div>
 <p>Эта команда создаст директорию <em>my_project</em>, внутри которой будут располагаться следующие файлы: <em>my_project.js</em>, <em>my_project.css</em>, <em>my_project_dev.html</em> и <em>.b4w_project</em>.</p>
 <p>Файл .b4w_project будет выглядеть следующим образом:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>[info]
+<div class="highlight-python"><div class="highlight"><pre>[info]
 author = Blend4Web
 name = my_project
 title = MyProject
@@ -994,7 +994,7 @@ override =
 <div class="section" id="developing-multiple-apps-inside-a-project">
 <h3><a class="toc-backref" href="#id25">Разработка нескольких приложений в составе проекта</a><a class="headerlink" href="#developing-multiple-apps-inside-a-project" title="Ссылка на этот заголовок">¶</a></h3>
 <p>В проекте может содержаться несколько приложений. Для этого необходимо в конфигурационном файле указать соответствующие HTML-файлы через точку с запятой:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">...</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="o">...</span>
 <span class="p">[</span><span class="nb">compile</span><span class="p">]</span>
 <span class="n">apps</span> <span class="o">=</span> <span class="n">myapp1</span><span class="p">;</span><span class="n">myapp2</span><span class="p">;</span>
 <span class="o">...</span>
@@ -1004,7 +1004,7 @@ override =
 </div>
 <div class="section" id="building-projects">
 <span id="project-build"></span><h3><a class="toc-backref" href="#id26">Сборка проекта</a><a class="headerlink" href="#building-projects" title="Ссылка на этот заголовок">¶</a></h3>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 project.py -p my_project compile
+<div class="highlight-bash"><div class="highlight"><pre>python3 project.py -p my_project compile
 </pre></div>
 </div>
 <p>Собирает проект в директории <code class="docutils literal"><span class="pre">projects/my_project/build</span></code>.</p>
@@ -1031,7 +1031,7 @@ override =
 </div>
 <div class="section" id="automatic-blend-file-export">
 <h3><a class="toc-backref" href="#id27">Автоматический экспорт blend-файлов</a><a class="headerlink" href="#automatic-blend-file-export" title="Ссылка на этот заголовок">¶</a></h3>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 project.py -p my_project reexport
+<div class="highlight-bash"><div class="highlight"><pre>python3 project.py -p my_project reexport
 </pre></div>
 </div>
 <p>Повторно экспортирует blend-файлы в форматах JSON и HTML.</p>
@@ -1045,7 +1045,7 @@ override =
 </div>
 <div class="section" id="resource-conversion">
 <span id="project-resource-conv"></span><h3><a class="toc-backref" href="#id28">Конвертация ресурсов</a><a class="headerlink" href="#resource-conversion" title="Ссылка на этот заголовок">¶</a></h3>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 project.py -p my_project convert_resources
+<div class="highlight-bash"><div class="highlight"><pre>python3 project.py -p my_project convert_resources
 </pre></div>
 </div>
 <p>Конвертирует внешние ресурсы (текстуры, звуковые и видео-файлы) проекта в альтернативные форматы для обеспечения кроссбраузерности и кроссплатформенности.</p>
@@ -1058,7 +1058,7 @@ override =
 </div>
 <div class="section" id="deploying-projects">
 <span id="project-deploy-cli"></span><h3><a class="toc-backref" href="#id29">Развертывание проекта</a><a class="headerlink" href="#deploying-projects" title="Ссылка на этот заголовок">¶</a></h3>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 project.py -p my_project deploy DIRECTORY
+<div class="highlight-bash"><div class="highlight"><pre>python3 project.py -p my_project deploy DIRECTORY
 </pre></div>
 </div>
 <p>Сохраняет проект во внешнюю директорию со всеми необходимыми зависимостями.</p>
@@ -1078,7 +1078,7 @@ override =
 </div>
 <div class="section" id="remove-project">
 <span id="project-remove"></span><h3><a class="toc-backref" href="#id30">Удаление проекта</a><a class="headerlink" href="#remove-project" title="Ссылка на этот заголовок">¶</a></h3>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 project.py -p my_project remove
+<div class="highlight-bash"><div class="highlight"><pre>python3 project.py -p my_project remove
 </pre></div>
 </div>
 <p>Удаляет проект. Удаляемые директории берутся из конфигурационного файла.</p>
@@ -1093,11 +1093,11 @@ override =
 </li>
 </ol>
 <p>Для того, чтобы обновить список модулей, подключаемых в необфусцированной версии приложений, необходимо перейти в директорию с исходными файлами приложений <code class="docutils literal"><span class="pre">apps_dev/my_project</span></code>. Затем необходимо вызвать скрипт, генерирующий пути к файлам движка:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 ../../scripts/mod_list.py
+<div class="highlight-bash"><div class="highlight"><pre>python3 ../../scripts/mod_list.py
 </pre></div>
 </div>
 <p>Для пользователей ОС Windows:</p>
-<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">python ..\..\scripts\mod_list.py</span>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">python ..\..\scripts\mod_list.py</span>
 </pre></div>
 </div>
 <div class="admonition note">
@@ -1105,7 +1105,7 @@ override =
 <p class="last">Стоит отдельно отметить, что для запуска скриптов требуется интерпретатор языка Python версии 3.x</p>
 </div>
 <p>В консоли появится список модулей, которые необходимо скопировать и вставить в главный HTML-файл:</p>
-<div class="highlight-html"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+<div class="highlight-html"><div class="highlight"><pre><span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
     <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">&quot;UTF-8&quot;</span><span class="p">&gt;</span>
     <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;viewport&quot;</span> <span class="na">content</span><span class="o">=</span><span class="s">&quot;width=device-width, initial-scale=1, maximum-scale=1&quot;</span><span class="p">&gt;</span>
     <span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;../../src/b4w.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
@@ -1144,7 +1144,7 @@ override =
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Триумф.
-      Обновлено: 2017-08-31.
+      Обновлено: 2017-10-31.
 
     </p>
   </div>
@@ -1200,7 +1200,7 @@ override =
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.08',
+            VERSION:'v17.10',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

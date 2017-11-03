@@ -72,6 +72,87 @@ exports.get_depth_texture = function() {
 }
 
 /**
+ * Request OES_texture_float extension
+ * @methodOf extensions
+ */
+exports.get_texture_float = function() {
+
+    if (cfg_def.webgl2)
+        return webgl2_get("OES_texture_float");
+
+    var ext_texf = get("OES_texture_float");
+    return ext_texf;
+}
+
+/**
+ * Request OES_texture_half_float extension
+ * @methodOf extensions
+ */
+exports.get_texture_half_float = function() {
+
+    if (cfg_def.webgl2)
+        return webgl2_get("OES_texture_half_float");
+
+    var ext_texhf = get("OES_texture_half_float");
+    return ext_texhf;
+}
+
+
+/**
+ * Request OES_texture_float_linear extension
+ * @methodOf extensions
+ */
+exports.get_texture_float_linear = get_texture_float_linear;
+function get_texture_float_linear() {
+
+    if (cfg_def.webgl2)
+        return webgl2_get("OES_texture_float_linear");
+
+    var ext_texflin = get("OES_texture_float_linear");
+    return ext_texflin;
+}
+
+/**
+ * Request OES_texture_half_float_linear extension
+ * @methodOf extensions
+ */
+exports.get_texture_half_float_linear = function() {
+
+    if (cfg_def.webgl2)
+        return get_texture_float_linear();
+
+    var ext_texflin = get("OES_texture_half_float_linear");
+    return ext_texflin;
+}
+
+/**
+ * Request EXT_color_buffer_float extension
+ * @methodOf extensions
+ */
+exports.get_color_buffer_float = get_color_buffer_float;
+function get_color_buffer_float() {
+
+    if (cfg_def.webgl2)
+        return webgl2_get("EXT_color_buffer_float");
+
+    var ext_cbf = get("WEBGL_color_buffer_float");
+    return ext_cbf;
+}
+
+/**
+ * Request EXT_color_buffer_half_float extension
+ * @methodOf extensions
+ */
+exports.get_color_buffer_half_float = function() {
+
+    if (cfg_def.webgl2)
+        return get_color_buffer_float();
+
+    var ext_cbhf = get("EXT_color_buffer_half_float");
+    return ext_cbhf;
+}
+
+/**
  * Request EXT_texture_filter_anisotropic extension
  * @methodOf extensions
  */
@@ -275,6 +356,8 @@ function webgl2_get(name) {
     case "OES_element_index_uint":
     case "OES_standard_derivatives":
     case "EXT_shader_texture_lod":
+    case "OES_texture_float":
+    case "OES_texture_half_float":
         var ext = {};
         break;
     case "ANGLE_instanced_arrays":

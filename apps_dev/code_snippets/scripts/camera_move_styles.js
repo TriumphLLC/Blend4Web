@@ -84,7 +84,7 @@ function load() {
 }
 
 function load_cb(data_id) {
-    m_app.enable_camera_controls();
+    m_app.enable_camera_controls(false, false, false, null, true);
     init_interface();
 
     var camera = m_scenes.get_active_camera();

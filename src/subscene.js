@@ -81,6 +81,9 @@ var VELOCITY                            = 42;
 var SINK                                = 43;
 var PERFORMANCE                         = 44;
 var RESIZE                              = 45;
+var IRRADIANCE                          = 46;
+var ROUGHNESS_CONVOLUTION               = 47;
+var BRDF                                = 48;
 
 exports.MAIN_OPAQUE = MAIN_OPAQUE;
 exports.MAIN_BLEND = MAIN_BLEND;
@@ -127,6 +130,9 @@ exports.VELOCITY = VELOCITY;
 exports.SINK = SINK;
 exports.PERFORMANCE = PERFORMANCE;
 exports.RESIZE = RESIZE;
+exports.IRRADIANCE = IRRADIANCE;
+exports.ROUGHNESS_CONVOLUTION = ROUGHNESS_CONVOLUTION;
+exports.BRDF = BRDF;
 
 
 exports.create_subs_shadow_cast = function(csm_index, lamp_index, shadow_params, num_lights) {
@@ -300,6 +306,7 @@ function init_subs(type) {
         mb_factor: 0,
         motion_blur_exp: 0,
         pp_effect: "",
+        dof_bokeh: false,
         coc_type: "",
         jitter_projection_space: new Float32Array(2),
         last_mip_map_ind: 0.0,
@@ -501,6 +508,7 @@ exports.clone_subs = function(subs) {
     subs_new.motion_blur_exp = subs.motion_blur_exp;
     subs_new.pp_effect = subs.pp_effect;
     subs_new.coc_type = subs.coc_type;
+    subs_new.dof_bokeh = subs.dof_bokeh;
 
     subs_new.jitter_projection_space.set(subs.jitter_projection_space);
     subs_new.last_mip_map_ind = subs.last_mip_map_ind;
@@ -941,7 +949,7 @@ exports.create_subs_coc = function(cam, coc_type) {
     return subs;
 }
 
-exports.create_subs_dof = function(cam) {
+exports.create_subs_dof = function(cam, enable_bokeh) {
 
     var subs = init_subs(DOF);
     subs.clear_color = false;
@@ -949,7 +957,8 @@ exports.create_subs_dof = function(cam) {
     subs.depth_test = false;
 
     subs.camera = cam;
-    subs.texel_size_multiplier = subs.camera.dof_power;
+    subs.texel_size_multiplier = cam.dof_power;
+    subs.dof_bokeh = enable_bokeh;
 
     subs.is_pp = true;
 
@@ -1099,6 +1108,74 @@ exports.create_subs_sky = function(wls, num_lights, sky_params, size) {
     return subs;
 }
 
+exports.create_subs_irradiance = function(num_lights, size) {
+
+    var subs = init_subs(IRRADIANCE);
+
+    subs.enqueue = false;
+    subs.clear_color = false;
+    subs.clear_depth = false;
+    subs.depth_test = false;
+
+    var cam = m_cam.create_camera(m_cam.TYPE_NONE);
+
+    // NOTE: check it
+    cam.width = size;
+    cam.height = size;
+
+    subs.camera = cam;
+
+    subs.cube_view_matrices = m_util.generate_cubemap_matrices();
+
+    add_light_attributes(subs, num_lights);
+
+    return subs;
+}
+
+exports.create_subs_rougness_convolution = function(num_lights) {
+
+    var subs = init_subs(ROUGHNESS_CONVOLUTION);
+
+    subs.enqueue = false;
+    subs.clear_color = false;
+    subs.clear_depth = false;
+    subs.depth_test = false;
+
+    var cam = m_cam.create_camera(m_cam.TYPE_NONE);
+
+    // NOTE: check it
+    cam.width = 128;
+    cam.height = 128;
+
+    subs.camera = cam;
+
+    subs.cube_view_matrices = m_util.generate_cubemap_matrices();
+
+    add_light_attributes(subs, num_lights);
+
+    return subs;
+}
+
+exports.create_subs_brdf = function() {
+
+    var subs = init_subs(BRDF);
+
+    subs.enqueue = false;
+    subs.clear_color = false;
+    subs.clear_depth = false;
+    subs.depth_test = false;
+
+    var cam = m_cam.create_camera(m_cam.TYPE_NONE);
+
+    // NOTE: check it
+    cam.width = 512;
+    cam.height = 512;
+
+    subs.camera = cam;
+
+    return subs;
+}
+
 exports.create_subs_copy = function() {
 
     var subs = init_subs(COPY);
@@ -1111,12 +1188,13 @@ exports.create_subs_copy = function() {
     return subs;
 }
 
-exports.create_subs_stereo = function(is_hmd_stereo) {
+exports.create_subs_stereo = function(is_hmd_stereo, is_anaglyph_stereo) {
 
     var subs = init_subs(STEREO);
     subs.clear_color = false;
     subs.clear_depth = false;
-    subs.subtype = is_hmd_stereo? "HMD" : "ANAGLYPH";
+    subs.subtype = is_hmd_stereo? "HMD" :
+            is_anaglyph_stereo ? "ANAGLYPH": "SIDEBYSIDE";
 
     subs.camera = m_cam.create_camera(m_cam.TYPE_NONE);
     subs.is_pp = true;
@@ -1294,6 +1372,12 @@ exports.subs_label = function(subs) {
         return "GOD RAYS COMBINE";
     case SKY:
         return "SKY";
+    case IRRADIANCE:
+        return "IRRADIANCE";
+    case ROUGHNESS_CONVOLUTION:
+        return "ROUGHNESS_CONVOLUTION";
+    case BRDF:
+        return "PRE-COMPUTE_BRDF";
     case COPY:
         return "COPY";
     case STEREO:
@@ -1362,7 +1446,8 @@ function init_draw_data(shader, rb, alpha_antialiasing, offset_z, is_sky) {
         alpha_antialiasing: alpha_antialiasing,
         offset_z: offset_z,
         is_sky: is_sky,
-        do_render: true
+        do_render: true,
+        z_index: Infinity
     };
 }
 
@@ -1373,7 +1458,8 @@ exports.init_bundle = function(batch, render, world_bounds) {
         obj_render: render,
         batch: batch,
         world_bounds: world_bounds || null,
-        info_for_z_sort_updates: null
+        info_for_z_sort_updates: null,
+        z_index: Infinity
     };
 
     // NOTE: Z-sorting is possible only for indexed buffers
@@ -1417,7 +1503,8 @@ function sort_fun_draw_data(a, b) {
            sort_fun(a.is_sky, b.is_sky) ||
            sort_fun(a.offset_z, b.offset_z) ||
            sort_fun(a.shader.has_discard, b.shader.has_discard) ||
-           sort_fun(a.shader.shader_id, b.shader.shader_id);
+           // sort_fun(a.shader.shader_id, b.shader.shader_id);
+           sort_fun(a.z_index, b.z_index);
 }
 
 }

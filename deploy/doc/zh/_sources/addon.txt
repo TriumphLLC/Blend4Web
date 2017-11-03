@@ -538,7 +538,8 @@ player. 像这样的文件可以在任何计算机和有支持WebGL的Web浏览�
 | armature object or it is not          | 有导出。修改器被删除。                      |
 | exported. Modifier removed.           |                                             |
 +---------------------------------------+---------------------------------------------+
-| 该名称曲线修正没有对象。修改删除。    | 该名称曲线修正没有对象。修改删除。          |
+| The NAME curve modifier has no curve  | 该  NAME 曲线修改器没有物体。修改器删除。   |
+| object. Modifier removed.             |                                             |
 +---------------------------------------+---------------------------------------------+
 | The NAME curve modifier has           | 该名称的曲线修饰有不支持的对象。修改删除。  |
 | unsupported curve object. Modifier    |                                             |
@@ -548,10 +549,9 @@ player. 像这样的文件可以在任何计算机和有支持WebGL的Web浏览�
 | modifier and a vertex animation.      | 结果是，该改性剂已被删除。                  |
 | Modifier removed.                     |                                             |
 +---------------------------------------+---------------------------------------------+
-| 该名称 "Armature" 修正没有骨架问题，  | The NAME object has the NAME armature       |
-| 也没有导出。修改删除。                | modifier. The armature object in this       |
-|                                       | modifier isn't specified or belongs to a    |
-|                                       | not exported scene. Modifier removed.       |
+| The NAME object has the NAME armature | 该  NAME 拥有 一个名为  NAME 的 "Armature"  |
+| modifier. It belongs to a not         | 骨架修改器，该骨架物体在修 改器中未指明或者 |
+| exported scene. Modifier removed.     | 属于不导出场景。修改器移除。                |
 +---------------------------------------+---------------------------------------------+
 | The NAME LAMP node has no lamp        | 在指定的名字错了对象 "LAMP" 节点。          |
 | object. Material: NAME.               |                                             |
@@ -627,6 +627,11 @@ player. 像这样的文件可以在任何计算机和有支持WebGL的Web浏览�
 +---------------------------------------+---------------------------------------------+
 | Missing world or wrong active world   | 应该有至少有一个数据块的世界场景中。        |
 | object                                |                                             |
++---------------------------------------+---------------------------------------------+
+| Multiple constraints added on an      | Multiple constraints added on an object     |
+| object "Cube", but it supports only   | NAME, but it supports only one. Others      |
+| one. Others won't be used.            | won't be used. The engine currently doesn't |
+|                                       | support multiple constraints on an object.  |
 +---------------------------------------+---------------------------------------------+
 | NAME particle settings has the NAME   | 粒子设置数据块名称包含被用于渲染场景到纹理  |
 | texture rendering a scene. It has     | 名称。此纹理被替换为默认的纹 理。           |

@@ -100,6 +100,10 @@
  * <dd>Boolean, enable the Depth of Field effect.
  * <dt>do_not_load_resources
  * <dd>Boolean, disable loading of assets (textures and sounds).
+ * <dt>enable_outlining
+ * <dd>Boolean, enable object outlining.
+ * <dt>enable_selectable
+ * <dd>Boolean, enable object selection.
  * <dt>enable_texture_cache
  * <dd>Boolean, cache all textures to prevent redundant resource requests and 
  * speed up scene dynamic loading. Enabled by default. Note: this option affects 
@@ -107,14 +111,10 @@
  * issues with GPU memory overloading consider disabling this option.
  * <dt>glow_materials
  * <dd>Boolean, enable glow materials.
- * <dt>god_rays
- * <dd>Boolean, enable god rays.
- * <dt>enable_outlining
- * <dd>Boolean, enable object outlining.
- * <dt>enable_selectable
- * <dd>Boolean, enable object selection.
  * <dt>gl_debug
  * <dd>Boolean, enable gl errors check. Very slow.
+ * <dt>god_rays
+ * <dd>Boolean, enable god rays.
  * <dt>is_mobile_device
  * <dd>Boolean, check mobile device. Read-only.
  * <dt>lod_leap_smooth_threshold
@@ -143,10 +143,10 @@
  * <dt>physics_uranium_path
  * <dd>String, path to the directory of uranium.js file. If not specified, search in the
  * directory with the engine's sources.
- * <dt>physics_use_workers
- * <dd>Boolean, simulate physics in workers (default) or not.
  * <dt>physics_use_wasm
  * <dd>Boolean, use WebAssembly for physics or not(default).
+ * <dt>physics_use_workers
+ * <dd>Boolean, simulate physics in workers (default) or not.
  * <dt>precision
  * <dd>String, preferred GLSL floating point precision (use the 
  * {@link module:config.P_CUSTOM|P_CUSTOM} profile in order to change this parameter).
@@ -193,7 +193,7 @@
  * <dt>ssao
  * <dd>Boolean, enable SSAO.
  * <dt>stereo
- * <dd>String, stereoscopic mode: "ANAGLYPH", "HMD" or "NONE".
+ * <dd>String, stereoscopic mode: "ANAGLYPH", "SIDEBYSIDE", "HMD" or "NONE".
  * <dt>use_min50
  * <dd>Boolean, enable min50 textures.
  * </dl>

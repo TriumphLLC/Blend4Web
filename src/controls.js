@@ -105,6 +105,14 @@ var SENSOR_SMOOTH_PERIOD = 0.3;
 var CAM_SMOOTH_CHARACTER_MOUSE = 0.1;
 var MOUSE_DELTA_THRESHOLD = 0.01;
 
+// input states
+// 0 - not pressed; 1 - pressed
+// convention: MOUSE_STATE_ + prev_state + curr_sate
+var INPUT_STATE_00 = 0;
+var INPUT_STATE_01 = 1;
+var INPUT_STATE_11 = 2;
+var INPUT_STATE_10 = 3;
+
 var KEY_SHIFT = 16;
 
 var MAX_COUNT_FINGERS = 10;
@@ -281,23 +289,31 @@ function update_accumulator(accum) {
     // is_updated_keyboard is used for optimization
     if (!accum.is_updated_keyboard) {
         for (var i = 0; i < accum.downed_keys.length; i++) {
-            if (accum.downed_keys[i] == 1)
-                accum.downed_keys[i] = 2;
-            else if (accum.downed_keys[i] == 3)
-                accum.downed_keys[i] = 0;
+            if (accum.downed_keys[i] == INPUT_STATE_01)
+                accum.downed_keys[i] = INPUT_STATE_11;
+            else if (accum.downed_keys[i] == INPUT_STATE_10)
+                accum.downed_keys[i] = INPUT_STATE_00;
         }
         accum.is_updated_keyboard = true;
     }
 
-    if (accum.mouse_state == 1)
-        accum.mouse_state = 2;
-    else if (accum.mouse_state == 3)
-        accum.mouse_state = 0;
+    if (accum.mouse_state == INPUT_STATE_01)
+        accum.mouse_state = INPUT_STATE_11;
+    else if (accum.mouse_state == INPUT_STATE_10)
+        accum.mouse_state = INPUT_STATE_00;
+
+    for (var j = 0; j < accum.touch_select_dlist.length; j++) {
+        var t = accum.touch_select_dlist[j];
+        if (t.touch_state == INPUT_STATE_01)
+            t.touch_state = INPUT_STATE_11;
+        else if (t.touch_state == INPUT_STATE_10)
+            t.touch_state = INPUT_STATE_00;
+    }
 
     accum.wheel_delta = 0;
     accum.mouse_last_x = accum.mouse_curr_x;
     accum.mouse_last_y = accum.mouse_curr_y;
-    accum.downed_keys[0] = 0;
+    accum.downed_keys[0] = INPUT_STATE_00;
 
     accum.touches_last_x.set(accum.touches_curr_x);
     accum.touches_last_y.set(accum.touches_curr_y);
@@ -324,7 +340,7 @@ function get_accumulator(element) {
         element: element,
 
         is_updated_keyboard: true,
-        mouse_state: 0,
+        mouse_state: INPUT_STATE_00,
         is_touch_ended: true,
         // for ST_MOUSE_MOVE sensor
         mouse_last_x: 0,
@@ -400,7 +416,7 @@ function get_accumulator(element) {
 
             // use for touch
             identifier: -1,
-            is_released: true
+            touch_state: INPUT_STATE_00
         };
     }
 
@@ -438,8 +454,8 @@ function get_accumulator(element) {
         accumulator.mouse_last_y = loc[1];
         accumulator.mouse_curr_x = loc[0];
         accumulator.mouse_curr_y = loc[1];
-        if (accumulator.mouse_state == 3 || accumulator.mouse_state == 0)
-            accumulator.mouse_state = 1;
+        if (accumulator.mouse_state == INPUT_STATE_10 || accumulator.mouse_state == INPUT_STATE_00)
+            accumulator.mouse_state = INPUT_STATE_01;
         accumulator.which = wd;
     }
 
@@ -460,11 +476,12 @@ function get_accumulator(element) {
             var cur_touch = null;
             for (var j = 0; j < accumulator.touch_select_dlist.length; j++) {
                 var t = accumulator.touch_select_dlist[j];
+                var is_released = t.touch_state == INPUT_STATE_10 || t.touch_state == INPUT_STATE_00;
                 if (t.identifier == touch.identifier) {
-                    if (t.is_released)
+                    if (is_released)
                         cur_touch = t;
                     break;
-                } else if (!rel_touch && t.is_released) {
+                } else if (!rel_touch && is_released) {
                     rel_touch = t;
                     rel_touch.identifier = touch.identifier;
                 }
@@ -476,7 +493,7 @@ function get_accumulator(element) {
                         touches[i].clientX, touches[i].clientY, _vec2_tmp);
 
                 result_touch.is_updated = false;
-                result_touch.is_released = false;
+                result_touch.touch_state = INPUT_STATE_01;
                 result_touch.coord[0] = canvas_xy[0];
                 result_touch.coord[1] = canvas_xy[1];
             }
@@ -496,8 +513,8 @@ function get_accumulator(element) {
             }
 
             if (!found) {
-                touch_select.is_updated = true;
-                touch_select.is_released = true;
+                if (touch_select.touch_state != INPUT_STATE_00)
+                    touch_select.touch_state = INPUT_STATE_10;
                 touch_select.obj = null;
             }
         }
@@ -511,13 +528,13 @@ function get_accumulator(element) {
         accumulator.mouse_last_y = loc[1];
         accumulator.mouse_curr_x = loc[0];
         accumulator.mouse_curr_y = loc[1];
-        if (accumulator.mouse_state > 0)
-            accumulator.mouse_state = 3;
+        if (accumulator.mouse_state != INPUT_STATE_00)
+            accumulator.mouse_state = INPUT_STATE_10;
         accumulator.which = wd;
     }
 
     accumulator.mouse_location_cb = function(location) {
-        if (!cfg_dft.ie11_edge_touchscreen_hack || accumulator.mouse_state) {
+        if (!cfg_dft.ie11_edge_touchscreen_hack || accumulator.mouse_state != INPUT_STATE_00) {
             accumulator.mouse_curr_x = location[0];
             accumulator.mouse_curr_y = location[1];
         }
@@ -529,23 +546,23 @@ function get_accumulator(element) {
     }
 
     accumulator.keyboard_down_keys_cb = function(key) {
-        if (accumulator.downed_keys[key] != 2) {
-            accumulator.downed_keys[key] = 1;
+        if (accumulator.downed_keys[key] != INPUT_STATE_11) {
+            accumulator.downed_keys[key] = INPUT_STATE_01;
             accumulator.is_updated_keyboard = false;
         }
     }
 
     accumulator.keyboard_down_mod_keys_cb = function(key) {
         for(var i = 0; i < accumulator.downed_keys.length; i++)
-            if (accumulator.downed_keys[i] != 0) {
-                accumulator.downed_keys[i] = 3;
+            if (accumulator.downed_keys[i] != INPUT_STATE_00) {
+                accumulator.downed_keys[i] = INPUT_STATE_10;
                 accumulator.is_updated_keyboard = false;
             }
     }
 
     accumulator.keyboard_up_keys_cb = function(key) {
         accumulator.is_updated_keyboard = false;
-        accumulator.downed_keys[key] = 3;
+        accumulator.downed_keys[key] = INPUT_STATE_10;
     }
 
     accumulator.touch_start_cb = function(touches) {
@@ -1410,7 +1427,7 @@ function update_sensor(sensor, timeline, elapsed) {
     case ST_MOUSE_MOVE:
         var accum = get_accumulator(sensor.element);
         if (!cfg_dft.ie11_edge_touchscreen_hack ||
-                accum.mouse_state == 1 || accum.mouse_state == 2) {
+                accum.mouse_state == INPUT_STATE_01 || accum.mouse_state == INPUT_STATE_11) {
             var delta_x = accum.mouse_curr_x - accum.mouse_last_x;
             var delta_y = accum.mouse_curr_y - accum.mouse_last_y;
 
@@ -1455,7 +1472,7 @@ function update_sensor(sensor, timeline, elapsed) {
         break;
     case ST_MOUSE_CLICK:
         var accum = get_accumulator(sensor.element);
-        sensor_set_value(sensor, (accum.mouse_state > 0) | 0);
+        sensor_set_value(sensor, (accum.mouse_state != INPUT_STATE_00) | 0);
         sensor.payload.which = accum.which;
         sensor.payload.coords[0] = accum.mouse_curr_x;
         sensor.payload.coords[1] = accum.mouse_curr_y;
@@ -1464,13 +1481,14 @@ function update_sensor(sensor, timeline, elapsed) {
         var accum = get_accumulator(sensor.element);
         sensor_set_value(sensor, 0);
         if (!sensor.enable_toggle_switch) {
-            if (accum.mouse_state &&
+            if ((accum.mouse_state != INPUT_STATE_00) &&
                     accum.mouse_select_data.obj == sensor.source_object)
                 sensor_set_value(sensor, 1);
-            else if (!accum.is_touch_ended) {
+            else {
                 for (var i = 0; i < MAX_COUNT_FINGERS; ++i) {
                     var touch_data = accum.touch_select_dlist[i];
-                    if (touch_data.obj == sensor.source_object) {
+                    if (touch_data.touch_state != INPUT_STATE_00 &&
+                         touch_data.obj == sensor.source_object) {
                         sensor_set_value(sensor, 1);
                         break;
                     }

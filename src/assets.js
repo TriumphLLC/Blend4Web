@@ -791,6 +791,7 @@ function get_video_mime_type(file_path) {
         mime_type += "/webm";
         break;
     case "m4v":
+    case "mp4":
         mime_type += "/mp4";
         break;
     }

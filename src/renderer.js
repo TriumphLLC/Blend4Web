@@ -454,9 +454,12 @@ function draw_bundle(subscene, obj_render, batch, shader) {
 
     setup_textures(batch.textures);
 
-    if (subscene.type == m_subs.SKY) {
+    if (subscene.type == m_subs.SKY || subscene.type == m_subs.IRRADIANCE) {
         draw_sky(subscene, batch, shader);
         subscene.debug_render_calls+=6;
+    } else if (subscene.type == m_subs.ROUGHNESS_CONVOLUTION) {
+        draw_r_convolution(subscene, batch, shader);
+        subscene.debug_render_calls+=6*5;
     } else {
         _draw_batch(batch, obj_render.va_frame);
         subscene.debug_render_calls++;
@@ -527,6 +530,47 @@ function draw_sky(subscene, batch, shader) {
         _gl.bindTexture(w_tar, w_tex);
         _gl.generateMipmap(w_tar);
         _gl.texParameteri(w_tar, _gl.TEXTURE_MIN_FILTER, m_textures.TF_LINEAR_MIPMAP_LINEAR);
+    }
+}
+
+function draw_r_convolution(subscene, batch, shader) {
+    var camera = subscene.camera;
+    var uniforms = shader.uniforms;
+    var color_attachment = camera.color_attachment;
+    var w_tex            = color_attachment.w_texture;
+    var w_tar            = color_attachment.w_target;
+
+    var v_matrs = subscene.cube_view_matrices;
+
+    if (cfg_def.texture_lod_available) {
+        _gl.activeTexture(_gl.TEXTURE7);
+        _gl.bindTexture(w_tar, w_tex);
+        _gl.generateMipmap(w_tar);
+        _gl.texParameteri(w_tar, _gl.TEXTURE_MIN_FILTER, m_textures.TF_LINEAR_MIPMAP_LINEAR);
+    }
+
+
+    var maxMipLevels = 5;
+    for (var mip = 0; mip < maxMipLevels; ++mip) {
+        var mip_width  = 128 * Math.pow(0.5, mip);
+        var mip_height = 128 * Math.pow(0.5, mip);
+
+        _gl.viewport(0, 0, mip_width, mip_height);
+
+        var roughness = mip / (maxMipLevels - 1);
+
+        for (var i = 0; i < 6; i++) {
+            var w_target = get_cube_target_by_id(i);
+
+            _gl.uniformMatrix4fv(uniforms["u_cube_view_matrix"], false, v_matrs[i]);
+
+            _gl.uniform1f(uniforms["u_roughness"], roughness);
+
+            _gl.framebufferTexture2D(_gl.FRAMEBUFFER, _gl.COLOR_ATTACHMENT0,
+                w_target, w_tex, mip);
+
+            _draw_batch(batch, 0);
+        }
     }
 }
 

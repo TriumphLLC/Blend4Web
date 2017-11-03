@@ -69,14 +69,53 @@ void apply_mirror(inout vec3 base_color, vec3 eye_dir, vec3 normal,
     base_color = mix(base_color, reflect_color, reflect_factor * r);
 }
 
+#elif REFLECTION_TYPE == REFL_PBR_STANDARD
 
+vec3 fresnelSchlickRoughness(float cosTheta, vec3 F0, float roughness)
+{
+    return F0 + (max(vec3(1.0 - roughness), F0) - F0) * pow(1.0 - cosTheta, 5.0);
+}
+
+vec3 apply_mirror_bsdf(vec3 base_color, vec3 s_color, vec3 eye_dir, vec3 normal,
+                       float metalness, float s_r, mat3 view_tsr)
+{
+    vec3 N = normal;
+    vec3 V = eye_dir;
+    vec3 R = reflect(-eye_dir, normal);
+    float roughness = sqrt(s_r);
+    // metalness = 1.0 - s_r;
+
+    vec3 F0 = vec3(0.04);
+    F0      = mix(F0, s_color, metalness);
+
+    vec3 F = fresnelSchlickRoughness(max(dot(N, V), 0.0), F0, roughness);
+
+    vec3 kS = F;
+    vec3 kD = 1.0 - kS;
+    kD *= 1.0 - metalness;
+
+    vec3 irradiance = GLSL_TEXTURE_CUBE(u_cube_irradiance, normal).xyz;
+    vec3 diffuse    = irradiance * base_color;
+
+    const float MAX_REFLECTION_LOD = 5.0;
+    vec3 prefilteredColor = GLSL_TEXTURE_CUBE_LOD(u_cube_r_convolution, R, roughness * MAX_REFLECTION_LOD).rgb;
+    vec2 envBRDF  = GLSL_TEXTURE(u_brdf, vec2(max(dot(N, V), 0.0), roughness)).rg;
+    vec3 specular = prefilteredColor * (F * envBRDF.x + envBRDF.y);
+
+    vec3 ambient = (kD * diffuse + specular);
+
+    return ambient;
+}
+
+#elif REFLECTION_TYPE == REFL_PBR_SIMPLE
 // REFERENCES:
 //  environment lighting approximation without preprocessing
 //      http://graphics.cs.williams.edu/papers/EnvMipReport2013/
 vec3 apply_mirror_bsdf(vec3 base_color, vec3 s_color, vec3 eye_dir, vec3 normal,
                        float metalness, float s_r, mat3 view_tsr)
 {
-# if REFLECTION_TYPE == REFL_CUBE && USE_BSDF_SKY_DIM
+# if USE_BSDF_SKY_DIM
+
     float cos_theta = max(dot(normal, eye_dir), _0_0);
     float ks = metalness + (max(_1_0 - s_r, metalness) - metalness) * pow(_1_0 - cos_theta, 5.0);
     vec3 eye_reflected = reflect(-eye_dir, normal);
@@ -84,41 +123,27 @@ vec3 apply_mirror_bsdf(vec3 base_color, vec3 s_color, vec3 eye_dir, vec3 normal,
 #  if GLSL1
     float sky_tex_dim = u_bsdf_cube_sky_dim;
 #  else
-    float sky_tex_dim = float(textureSize(u_cube_reflection, 0).x);
+    float sky_tex_dim = float(textureSize(u_sky_reflection, 0).x);
 #  endif
 
     float mip_level = log2(sky_tex_dim * sqrt(3.0)) - _0_5 * log2(gexp + _1_0);
 
-    vec3 reflect_color = GLSL_TEXTURE_CUBE_LOD(u_cube_reflection, eye_reflected, mip_level).xyz;
+    vec3 reflect_color = GLSL_TEXTURE_CUBE_LOD(u_sky_reflection, eye_reflected, mip_level).xyz;
     srgb_to_lin(reflect_color);
     reflect_color *= s_color;
 
-    vec3 reflect_color_d = GLSL_TEXTURE_CUBE_LOD(u_cube_reflection, normal, 100.0).xyz;
+    vec3 reflect_color_d = GLSL_TEXTURE_CUBE_LOD(u_sky_reflection, normal, 100.0).xyz;
     srgb_to_lin(reflect_color_d);
     reflect_color_d *= base_color;
 
     // energy conservation is broken
     // but it looks closer to Blender
     return reflect_color_d + ks * reflect_color;
-# elif REFLECTION_TYPE == REFL_PLANE && REFLECTION_PASS == REFL_PASS_NONE
-    vec3 norm_proj_refl = u_refl_plane.xyz * dot(normal, u_refl_plane.xyz);
-    vec3 normal_offset = normal - norm_proj_refl;
-    vec2 normal_offset_view = tsr9_transform_dir(view_tsr, normal_offset).xy;
 
-    vec2 refl_coord = v_tex_pos_clip.xy/ v_tex_pos_clip.z;
-    refl_coord += normal_offset_view * REFL_BUMP;
-    vec3 reflect_color = GLSL_TEXTURE(u_plane_reflection, refl_coord).rgb;
-    srgb_to_lin(reflect_color);
-    reflect_color *= s_color;
-
-    return mix(base_color, reflect_color, metalness);
 # else
-    vec3 reflect_color = s_color;
-
-    return mix(base_color, reflect_color, metalness);
+    return base_color;
 # endif
 }
-
 #endif
 
 #endif

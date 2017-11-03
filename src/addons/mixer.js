@@ -25,10 +25,11 @@
 b4w.module["mixer"] = function(exports, require) {
 
 var m_ctl    = require("controls");
+var m_print  = require("print");
 var m_scenes = require("scenes");
 var m_screen = require("screen");
 var m_sfx    = require("sfx");
-var m_util   = require("__util");
+var m_util   = require("util");
 
 var TIMER_SLOW_PERIOD = 0.15;
 var TIMER_FAST_PERIOD = 0.05;
@@ -402,7 +403,7 @@ function param_inc_dec(dir) {
         m_sfx.set_compressor_params(cparams);
         break;
     default:
-        m_util.panic("Unknown strip param");
+        m_print.error("Unknown strip param");
         break;
     }
 }

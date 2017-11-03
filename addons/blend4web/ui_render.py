@@ -47,9 +47,8 @@ class B4W_RenderDevServer(RenderButtonsPanel, bpy.types.Panel):
     def draw(self, context):
         layout = self.layout
         if addon_prefs.has_valid_sdk_path():
-            is_started = server.B4WLocalServer.get_server_status() == server.SUB_THREAD_START_SERV_OK
+            is_started = bool(server.B4WLocalServer.server_process)
             is_waiting_for_shutdown = server.B4WLocalServer.is_waiting_for_shutdown()
-            allow_actions = server.B4WLocalServer.allow_actions()
 
             if is_started:
                 layout.label(text = _("Development server is running."))
@@ -58,13 +57,10 @@ class B4W_RenderDevServer(RenderButtonsPanel, bpy.types.Panel):
             else:
                 layout.label(text = _("Development server is off."))
 
-            if allow_actions:
-                if is_started:
-                    layout.operator("b4w.stop_server", text=p_("Stop Server", "Operator"), icon="PAUSE")
-                elif not is_waiting_for_shutdown:
-                    layout.operator("b4w.start_server", text=p_("Start Server", "Operator"), icon="PLAY")
-            else:
-                layout.label(text = _("Server is run by another Blender instance."))
+            if is_started:
+                layout.operator("b4w.stop_server", text=p_("Stop Server", "Operator"), icon="PAUSE")
+            elif not is_waiting_for_shutdown:
+                layout.operator("b4w.start_server", text=p_("Start Server", "Operator"), icon="PLAY")
 
             if is_started:
                 layout.operator("b4w.open_sdk", text=p_("SDK Index", "Operator"), icon="URL")

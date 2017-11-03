@@ -29,7 +29,7 @@ Table of Contents
     logic_editor.rst
     lighting.rst
     postprocessing_effects.rst
-    stereo_rendering.rst
+    vr_and_ar.rst
     textures.rst
     particles.rst
     particles_instancing.rst

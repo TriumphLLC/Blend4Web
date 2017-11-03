@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>相机 &mdash; Blend4Web 17.08 用户手册</title>
+  <title>相机 &mdash; Blend4Web 17.10 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.08 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 17.10 用户手册" href="index.html"/>
         <link rel="next" title="材质" href="materials.html"/>
         <link rel="prev" title="法线编辑器" href="normal_editor.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v17.08
+              v17.10
             </div>
           
         
@@ -85,7 +85,7 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">概述</a></li>
 <li class="toctree-l1"><a class="reference internal" href="engine_features.html">引擎功能</a></li>
-<li class="toctree-l1"><a class="reference internal" href="interface.html">Blender User Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="interface.html">Blender的用户界面</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">安装和更新</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">工作流程</a></li>
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理</a></li>
@@ -120,7 +120,7 @@
 <li class="toctree-l1"><a class="reference internal" href="logic_editor.html">逻辑编辑器</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">照明、 阴影和背景</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">后期处理效果</a></li>
-<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">立体渲染</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vr_and_ar.html">VR and AR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">纹理</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles.html">粒子系统,流体</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">粒子系统.实例化</a></li>
@@ -205,7 +205,7 @@
 <p>相机设置在 <code class="docutils literal"><span class="pre">相机(物体数据)</span></code> 选项卡下 <code class="docutils literal"><span class="pre">Properties</span></code>  面板指定。</p>
 <div class="figure align-center" id="id2">
 <a class="reference internal image-reference" href="_images/camera_setup.png"><img alt="_images/camera_setup.png" src="_images/camera_setup.png" style="width: 100%;" /></a>
-<p class="caption"><span class="caption-text">Settings available for <code class="docutils literal"><span class="pre">Camera</span></code> objects</span></p>
+<p class="caption"><span class="caption-text">可用于 <code class="docutils literal"><span class="pre">Camera</span></code> 物体的设置</span></p>
 </div>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -265,7 +265,7 @@
 <p>有几种限制/改变摄像机运动的设置。它们组合为 <code class="docutils literal"><span class="pre">相机限制</span></code>.</p>
 <div class="figure align-center" id="id3">
 <a class="reference internal image-reference" href="_images/camera_limits.png"><img alt="_images/camera_limits.png" src="_images/camera_limits.png" style="width: 100%;" /></a>
-<p class="caption"><span class="caption-text">Settings for limiting camera movement</span></p>
+<p class="caption"><span class="caption-text">限制摄像机移动的设置</span></p>
 </div>
 <p>相机限制可以直接在Blender视图查看，如果 <code class="docutils literal"><span class="pre">Display</span> <span class="pre">Limits</span> <span class="pre">in</span> <span class="pre">Viewport</span></code> 参数已启用。</p>
 <div class="line-block">
@@ -412,7 +412,7 @@
 <p>使用这些设置，物体可以对齐到激活的摄像机，这样该物体将保持在屏幕同一个地方，无关摄影机的位置和转动。这是用于创建 UI 元素尤其有用。</p>
 <div class="figure align-center" id="id4">
 <a class="reference internal image-reference" href="_images/camera_viewport_alignment.png"><img alt="_images/camera_viewport_alignment.png" src="_images/camera_viewport_alignment.png" style="width: 100%;" /></a>
-<p class="caption"><span class="caption-text">All interface elements on this picture are created using the Viewport Alignment option.</span></p>
+<p class="caption"><span class="caption-text">这张照片上的所有界面元素是使用视口对齐选项创建的。</span></p>
 </div>
 <dl class="docutils">
 <dt><em>视口对齐</em></dt>
@@ -458,7 +458,7 @@
 <div class="section" id="control-mode-setup">
 <span id="camera-move-style-change"></span><h3><a class="toc-backref" href="#id13">控制模式设置</a><a class="headerlink" href="#control-mode-setup" title="永久链接至标题">¶</a></h3>
 <p>若要更改控制模式，完全定义相机的行为，可以使用以下方法:   <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.static_setup">static_setup()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.eye_setup">eye_setup()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.target_setup">target_setup()</a> 和 <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.hover_setup">hover_setup()</a>.  这些方法接收一个包含一组可选的参数的物体，可以用于设置相机的位置、 旋转、 可用的限制，等等。</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">camera</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_active_camera</span><span class="p">();</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">camera</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_active_camera</span><span class="p">();</span>
 <span class="kd">var</span> <span class="nx">POS</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]);</span>
 <span class="kd">var</span> <span class="nx">LOOK_AT</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]);</span>
 <span class="kd">var</span> <span class="nx">EYE_HORIZ_LIMITS</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">left</span><span class="o">:</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="o">/</span><span class="mi">4</span><span class="p">,</span> <span class="nx">right</span><span class="o">:</span> <span class="o">-</span><span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="o">/</span><span class="mi">4</span> <span class="p">};</span>
@@ -509,7 +509,7 @@
 </pre></div>
 </div>
 <p><code class="docutils literal"><span class="pre">HOVER</span></code> 模式的主要特征在于，距离和仰角范围限制在一个确定的 <a class="reference internal" href="#hover-trajectory-figure"><span>路径</span></a>  来朝向中心点运动。相机会一直在这条路径上，所以其最终位置可能跟从 <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.hover_setup">hover_setup()</a>   (基本的，它是投射到路径上) 方法返回的不一样。如果你需要设置相机的位置在一些路径，你可以使用 <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.hover_setup_rel">hover_setup_rel()</a> 方法设置相对极限。</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">camera</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_active_camera</span><span class="p">();</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">camera</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_active_camera</span><span class="p">();</span>
 <span class="kd">var</span> <span class="nx">POS</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]);</span>
 <span class="kd">var</span> <span class="nx">PIVOT</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]);</span>
 
@@ -522,7 +522,7 @@
 </pre></div>
 </div>
 <p>当前相机模式可以通过检查  <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.is_static_camera">is_static_camera()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.is_eye_camera">is_eye_camera()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.is_target_camera">is_target_camera()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.is_hover_camera">is_hover_camera()</a> 或 <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.get_move_style">get_move_style()</a> 方法：</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">camera</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_active_camera</span><span class="p">();</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">camera</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_active_camera</span><span class="p">();</span>
 
 <span class="p">...</span>
 
@@ -541,7 +541,7 @@
 <div class="section" id="translation-and-rotation">
 <h3><a class="toc-backref" href="#id14">平移和旋转</a><a class="headerlink" href="#translation-and-rotation" title="永久链接至标题">¶</a></h3>
 <p>要旋转 <code class="docutils literal"><span class="pre">STATIC</span></code> 类型的相机，您需要使用 <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.static_get_rotation">static_get_rotation()</a> 和 <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.static_set_rotation">static_set_rotation()</a> 方法。在这些方法中，旋转通过一个四元数来定义。</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">camera</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_active_camera</span><span class="p">();</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">camera</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_active_camera</span><span class="p">();</span>
 
 <span class="p">...</span>
 
@@ -553,7 +553,7 @@
 </pre></div>
 </div>
 <p>对于 <code class="docutils literal"><span class="pre">EYE</span></code>，<code class="docutils literal"><span class="pre">TARGET</span></code> 和 <code class="docutils literal"><span class="pre">HOVER</span></code> 类型摄像机，旋转使用的是 <a class="reference internal" href="#camera-spherical-coordinates"><span>球面坐标</span></a>  使用 <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.eye_rotate">eye_rotate()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.target_rotate">target_rotate()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.hover_rotate">hover_rotate()</a> 和 <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.rotate_camera">rotate_camera()</a> 方法：</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">camera</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_active_camera</span><span class="p">();</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">camera</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_active_camera</span><span class="p">();</span>
 
 <span class="p">...</span>
 
@@ -565,7 +565,7 @@
 </pre></div>
 </div>
 <p>摄像机的当前球面坐标可通过使用  <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.get_camera_angles">get_camera_angles()</a> 方法获得：</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">camera</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_active_camera</span><span class="p">();</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">camera</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_active_camera</span><span class="p">();</span>
 <span class="kd">var</span> <span class="nx">_vec2_tmp</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
 
 <span class="p">...</span>
@@ -577,7 +577,7 @@
 </pre></div>
 </div>
 <p>获取摄像机的位置可以通过获得使用  <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.get_translation">get_translation()</a> 和 <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.set_translation">set_translation()</a> 方法。对于 <code class="docutils literal"><span class="pre">TARGET</span></code> 和 <code class="docutils literal"><span class="pre">HOVER</span></code> 模式，这意味着整个模型，包括摄像机的位置和中心点同时移动。</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">camera</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_active_camera</span><span class="p">();</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">camera</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_active_camera</span><span class="p">();</span>
 <span class="kd">var</span> <span class="nx">_vec3_tmp</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
 
 <span class="p">...</span>
@@ -646,7 +646,7 @@
 </tr>
 </tbody>
 </table>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">camera</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_active_camera</span><span class="p">();</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">camera</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_active_camera</span><span class="p">();</span>
 <span class="kd">var</span> <span class="nx">_limits_tmp</span> <span class="o">=</span> <span class="p">{};</span>
 <span class="kd">var</span> <span class="nx">EYE_HORIZ_LIMITS</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">left</span><span class="o">:</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="o">/</span><span class="mi">4</span><span class="p">,</span> <span class="nx">right</span><span class="o">:</span> <span class="o">-</span><span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="o">/</span><span class="mi">4</span> <span class="p">};</span>
 
@@ -704,7 +704,7 @@
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2017, Triumph.
-      最后更新于 2017-08-31.
+      最后更新于 2017-10-31.
 
     </p>
   </div>
@@ -760,7 +760,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.08',
+            VERSION:'v17.10',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

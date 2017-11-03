@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>物体 &mdash; Blend4Web 17.08 用户手册</title>
+  <title>物体 &mdash; Blend4Web 17.10 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.08 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 17.10 用户手册" href="index.html"/>
         <link rel="next" title="网格" href="meshes.html"/>
         <link rel="prev" title="场景设置" href="scene_settings.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v17.08
+              v17.10
             </div>
           
         
@@ -85,7 +85,7 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">概述</a></li>
 <li class="toctree-l1"><a class="reference internal" href="engine_features.html">引擎功能</a></li>
-<li class="toctree-l1"><a class="reference internal" href="interface.html">Blender User Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="interface.html">Blender的用户界面</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">安装和更新</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">工作流程</a></li>
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理</a></li>
@@ -100,7 +100,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#object-tab">物体选项卡</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#transform-panel">变换面板</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#groups-panel">组面板</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#display-panel">Display Panel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#display-panel">显示面板</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#levels-of-detail-panel">层次细节面板</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#animation-panel">动画面板</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#export-options-panel">导出选项面板</a></li>
@@ -112,7 +112,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#anchors-panel">锚面板</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#meta-tags-panel">元标签面板</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#relations-panel">关系面板。</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#duplication-panel">Duplication Panel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#duplication-panel">复制面板</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#wind-bending-panel">风弯曲面板</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#special-effects-panel">特效面板</a></li>
 </ul>
@@ -155,7 +155,7 @@
 <li class="toctree-l1"><a class="reference internal" href="logic_editor.html">逻辑编辑器</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">照明、 阴影和背景</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">后期处理效果</a></li>
-<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">立体渲染</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vr_and_ar.html">VR and AR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">纹理</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles.html">粒子系统,流体</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">粒子系统.实例化</a></li>
@@ -340,9 +340,9 @@
 </div>
 </div>
 <div class="section" id="display-panel">
-<span id="object-settings-display"></span><h4>Display Panel<a class="headerlink" href="#display-panel" title="永久链接至标题">¶</a></h4>
+<span id="object-settings-display"></span><h4>显示面板<a class="headerlink" href="#display-panel" title="永久链接至标题">¶</a></h4>
 <img alt="_images/object_settings_display.png" class="align-center" src="_images/object_settings_display.png" />
-<p>This panel contains parameters that define how the selected object looks in the 3D View window. It does not feature any additional options in Blend4Web mode.</p>
+<p>此面板包含定义3D视图窗口中所选物体的参数。它在Blend4Web模式下没有任何其他选项。</p>
 </div>
 <div class="section" id="levels-of-detail-panel">
 <span id="object-settings-lod"></span><h4>层次细节面板<a class="headerlink" href="#levels-of-detail-panel" title="永久链接至标题">¶</a></h4>
@@ -382,10 +382,10 @@
 </dl>
 <dl class="docutils" id="apply-modifiers">
 <dt><em>导出选项 &gt; 应用修改器</em></dt>
-<dd><p class="first">Apply the object’s modifiers upon export.</p>
+<dd><p class="first">导出时应用物体的修改器。</p>
 <div class="last admonition note">
 <p class="first admonition-title">注解</p>
-<p class="last">If the <code class="docutils literal"><span class="pre">Skin</span></code> modifier is used we recommend to apply it before the export because it resets vertex color and UV layers which may result in errors.</p>
+<p class="last">如果使用 <code class="docutils literal"><span class="pre">Skin</span></code> 修改器，我们建议在导出之前应用它，因为它会重置顶点颜色和UV层，这可能导致错误。</p>
 </div>
 </dd>
 <dt><em>导出选项 &gt; 应用缩放和修改器</em></dt>
@@ -454,15 +454,16 @@
 <span id="objects-billboarding-properties"></span><h4>广告牌面板<a class="headerlink" href="#billboard-panel" title="永久链接至标题">¶</a></h4>
 <img alt="_images/object_settings_billboard.png" class="align-center" src="_images/object_settings_billboard.png" />
 <dl class="docutils">
-<dt><em>看板</em></dt>
-<dd><p class="first last">使用物体作为看板（即自动定向面对摄像机）。</p>
+<dt><em>广告牌</em></dt>
+<dd><p class="first last">使用物体作为广告牌（即自动定向面对摄像机）。</p>
 </dd>
 </dl>
 <dl class="docutils" id="billboarding-preserve">
-<dt><em>Billboard &gt; Preserve Global Rotation</em></dt>
-<dd>Take into account rotation of the billboard object (in the world space). The object will be directed toward the camera with its side which is visible when viewing along the Y axis in Blender. Becomes available after enabling the <code class="docutils literal"><span class="pre">Billboard</span></code> checkbox.</dd>
-<dt><em>看板 &gt; 看板类型</em></dt>
-<dd><p class="first last">看板方向模式。 <code class="docutils literal"><span class="pre">Spherical</span></code> （默认） - 物体一面始终朝向相机，不管视角，<code class="docutils literal"><span class="pre">Cylindrical</span></code>  - 类似于 <code class="docutils literal"><span class="pre">Spherical</span></code>，但旋转仅限于Blender的世界Z轴。启用看板后变得可用。</p>
+<dt><em>广告牌 &gt; 保留全局旋转</em></dt>
+<dd><p class="first last">考虑到广告牌物体的旋转（在世界空间中）。物体将被指向相机，其侧面在Blender中沿着Y轴观察时可见。启用  <code class="docutils literal"><span class="pre">Billboard</span></code> 复选框后可用。</p>
+</dd>
+<dt><em>广告牌 &gt; 广告牌类型</em></dt>
+<dd><p class="first last">广告牌方向模式。 <code class="docutils literal"><span class="pre">Spherical</span></code> （默认） - 物体一面始终朝向相机，不管视角，<code class="docutils literal"><span class="pre">Cylindrical</span></code>  - 类似于 <code class="docutils literal"><span class="pre">Spherical</span></code>，但旋转仅限于Blender的世界Z轴。启用广告牌后变得可用。</p>
 </dd>
 </dl>
 </div>
@@ -524,11 +525,11 @@
 <dd><p class="first last">物体的类别。</p>
 </dd>
 <dt><em>元标签 &gt; 描述</em></dt>
-<dd><p class="first">物体描述。根据 <code class="docutils literal"><span class="pre">说明源</span></code>，此字段接受描述文本本身，或包含的文件的名称。</p>
+<dd><p class="first">物体描述。根据 <code class="docutils literal"><span class="pre">说明源</span></code>，此字段接受描述文本本身，或包含此描述的文件名称。</p>
 <div class="last admonition note">
 <p class="first admonition-title">注解</p>
-<p>To use a text file as a description source you first have to open an existing file in Blender <a class="reference internal" href="interface.html#ui-text-editor"><span>Text Editor</span></a> or to create a new text file in the same editor.</p>
-<p class="last">Then, you only have to set the name of the file in the <code class="docutils literal"><span class="pre">Description</span></code> field.</p>
+<p>要使用文本文件作为描述源，您首先必须在Blender的  <a class="reference internal" href="interface.html#ui-text-editor"><span>文本编辑器</span></a> 中打开一个现有文件，或者在同一个编辑器中创建一个新的文本文件。</p>
+<p class="last">然后，您只需要在 <code class="docutils literal"><span class="pre">Description</span></code> 字段中设置文件的名称。</p>
 </div>
 </dd>
 <dt><em>元标签 &gt; 描述源</em></dt>
@@ -554,9 +555,9 @@
 </dl>
 </div>
 <div class="section" id="duplication-panel">
-<span id="object-settings-duplication"></span><h4>Duplication Panel<a class="headerlink" href="#duplication-panel" title="永久链接至标题">¶</a></h4>
+<span id="object-settings-duplication"></span><h4>复制面板<a class="headerlink" href="#duplication-panel" title="永久链接至标题">¶</a></h4>
 <a class="reference internal image-reference" href="_images/objects_duplication.png"><img alt="_images/objects_duplication.png" class="align-center" src="_images/objects_duplication.png" style="width: 100%;" /></a>
-<p>This panel contains settings that concern object duplication. It does not feature any additional parameters in the Blend4Web mode; however, it should be noted that at the moment Blend4Web engine only supports <code class="docutils literal"><span class="pre">Group</span></code> duplication method.</p>
+<p>此面板包含有关物体复制的设置。它在Blend4Web模式下不具有任何其他参数;然而，应该注意的是，目前Blend4Web引擎只支持 <code class="docutils literal"><span class="pre">组</span></code> 复制方法。</p>
 </div>
 <div class="section" id="wind-bending-panel">
 <span id="object-settings-wind"></span><h4>风弯曲面板<a class="headerlink" href="#wind-bending-panel" title="永久链接至标题">¶</a></h4>
@@ -633,42 +634,42 @@
 </li>
 </ul>
 <p>其他约束并没有明显的类似功能在 API 中，虽然他们的行为可以在一定程度上通过 API 方法模仿使用。</p>
-<p>The <a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html">constraints</a> module also includes several additional methods:</p>
+<p><a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html">constraints</a> 模块还包括几个附加的方法：</p>
 <ul>
 <li><p class="first"><a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html#.append_semi_soft">append_semi_soft()</a></p>
 <blockquote>
-<div><p>This method can be used to attach one object to another one using a semi-soft constraint. The object will smoothly follow the object&#8217;s rear. This can be used to create third-person cameras.</p>
+<div><p>此方法可用于将一个物体附加到另一个使用半软约束。该物体将顺利跟在其他物体的后面。这可以用于创建第三人称的相机。</p>
 </div></blockquote>
 </li>
 <li><p class="first"><a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html#.append_semi_stiff">append_semi_stiff()</a></p>
 <blockquote>
-<div><p>This method can be used to attach the object to the other object using a semi-stiff constraint, meaning that the child object will move and rotate together with its parent, but it will also be possible to rotate it independently in the parent&#8217;s local space. A behavior similar to that of a tank turret can be created this way.</p>
+<div><p>此方法可用于将物体附加到其他物体使用半刚性约束，意味着物体的子物体将移动和旋转和其父，但它也可能独立地旋转它在父的局部空间。一种行为类似于坦克炮塔可以这种方式创建。</p>
 </div></blockquote>
 </li>
 <li><p class="first"><a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html#.append_stiff">append_stiff()</a></p>
 <blockquote>
-<div><p>This method attaches the object to another object (or to an armature bone) using a stiff constraint. The child object will move, rotate and scale together with its parent.</p>
-<p>Examples: a sword parented to the character&#8217;s hand; a character sitting in a vehicle.</p>
+<div><p>此方法附加物体到另一个物体 （或骨架骨骼上） 使用硬约束。物体的子物体将随着父物体移动、 旋转和缩放。</p>
+<p>例子：一个附加在角色手中的剑;坐在车上的角色。</p>
 </div></blockquote>
 </li>
 <li><p class="first"><a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html#.append_stiff_trans">append_stiff_trans()</a></p>
 <blockquote>
-<div><p>This method attaches the object to the other object using a stiff translation constraint. The child object moves together with its parent, but does not rotate along with it (it, however, can be rotated independently from the parent).</p>
+<div><p>此方法附加到使用硬性移动约束的其他物体的物体。物体的子物体和其父物体一起移动，但不一起旋转  （然而，可以独立于父物体旋转）。</p>
 </div></blockquote>
 </li>
 <li><p class="first"><a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html#.append_stiff_trans_rot">append_stiff_trans_rot()</a></p>
 <blockquote>
-<div><p>Can be used to attach the object to another object using a stiff translation/rotation constraint. In this case, the child object moves and rotates along with its parent, but does not scale in accord with it. However, the object still can be scaled independently from the parent.</p>
-<p>Example: a smoke emitter attached to the tractor pipe; exhaustion effects are achieved by scaling the emitter.</p>
+<div><p>可以使用刚性平移/旋转约束将物体附加到另一个物体。在这种情况下，子物体与其父物体一起移动并旋转，但不按照它进行缩放。物体仍然可以独立于父物体进行缩放。</p>
+<p>示例： 烟发射器附加到拖拉机管;通过缩放发射器来达到耗尽的效果。</p>
 </div></blockquote>
 </li>
 <li><p class="first"><a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html#.append_stiff_viewport">append_stiff_viewport()</a></p>
 <blockquote>
-<div><p>Attaches the object to the camera using a stiff viewport constraint (so the child object will preserve its orientation in the camera viewport).</p>
-<p>This constraint can be used to create onscreen 2D/3D interfaces elements.</p>
+<div><p>附加到相机使用硬性视口约束 （这样子物体将一直朝向摄影机视图方向） 的物体。</p>
+<p>此约束可以用于创建屏幕上的 2D/3D 界面元素。</p>
 </div></blockquote>
 </li>
-<li><p class="first"><a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html#.remove">remove()</a> - this method removes any constraints that were previously applied to the object.</p>
+<li><p class="first"><a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html#.remove">remove()</a> - 此方法移除以前应用于该物体的任何约束。</p>
 </li>
 </ul>
 </div>
@@ -769,7 +770,7 @@
 <dl class="docutils">
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.get_object_by_name">get_object_by_name()</a></dt>
 <dd><p class="first">按名称获取物体。</p>
-<div class="last highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
+<div class="last highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
 <span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_object_by_name</span><span class="p">(</span><span class="s2">&quot;Object&quot;</span><span class="p">);</span>
 <span class="c1">// ...</span>
 </pre></div>
@@ -777,7 +778,7 @@
 </dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.get_object_by_dupli_name">get_object_by_dupli_name()</a></dt>
 <dd><p class="first">通过空名称和DUPLI名称找复制物体。</p>
-<div class="last highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
+<div class="last highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
 <span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_object_by_dupli_name</span><span class="p">(</span><span class="s2">&quot;Empty&quot;</span><span class="p">,</span> <span class="s2">&quot;Object&quot;</span><span class="p">);</span>
 <span class="c1">// ...</span>
 </pre></div>
@@ -785,7 +786,7 @@
 </dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.get_object_by_dupli_name_list">get_object_by_dupli_name_list()</a></dt>
 <dd><p class="first">通过空名称和DUPLI名单（<code class="docutils literal"><span class="pre">String</span></code> 类型元素的数组）获得复制物体。</p>
-<div class="last highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
+<div class="last highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
 <span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_object_by_dupli_name_list</span><span class="p">([</span><span class="s2">&quot;Empty1&quot;</span><span class="p">,</span> <span class="s2">&quot;Empty2&quot;</span><span class="p">,</span> <span class="s2">&quot;Object&quot;</span><span class="p">]);</span>
 <span class="c1">// ...</span>
 </pre></div>
@@ -793,7 +794,7 @@
 </dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.get_object_name_hierarchy">get_object_name_hierarchy()</a></dt>
 <dd><p class="first">用一个给定的物体，返回物体名层次队列（从最高层的父物体到物体本身）。</p>
-<div class="last highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
+<div class="last highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
 <span class="kd">var</span> <span class="nx">names</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_object_name_hierarchy</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span>
 <span class="c1">// ...</span>
 </pre></div>
@@ -801,7 +802,7 @@
 </dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.check_object_by_name">check_object_by_name()</a></dt>
 <dd><p class="first">检查是否具有给定名称的物体在场景存在。</p>
-<div class="last highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
+<div class="last highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
 <span class="kd">var</span> <span class="nx">object_exists</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">check_object_by_name</span><span class="p">(</span><span class="s2">&quot;Cube&quot;</span><span class="p">);</span>
 <span class="c1">// ...</span>
 </pre></div>
@@ -809,7 +810,7 @@
 </dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.check_object_by_dupli_name">check_object_by_dupli_name()</a></dt>
 <dd><p class="first">检查复制物体是空的名字和DUPLI名字出现在场景。</p>
-<div class="last highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
+<div class="last highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
 <span class="kd">var</span> <span class="nx">object_exists</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">check_object_by_dupli_name</span><span class="p">(</span><span class="s2">&quot;Empty&quot;</span><span class="p">,</span> <span class="s2">&quot;Cube&quot;</span><span class="p">);</span>
 <span class="c1">// ...</span>
 </pre></div>
@@ -817,7 +818,7 @@
 </dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.check_object_by_dupli_name_list">check_object_by_dupli_name_list()</a></dt>
 <dd><p class="first">检查复制物体是空的名字和DUPLI名单（<code class="docutils literal"><span class="pre">String</span></code> 类型元素的数组）出现在场景。</p>
-<div class="last highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
+<div class="last highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
 <span class="kd">var</span> <span class="nx">object_exists</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">check_object_by_dupli_name_list</span><span class="p">([</span><span class="s2">&quot;Empty1&quot;</span><span class="p">,</span> <span class="s2">&quot;Empty2&quot;</span><span class="p">,</span> <span class="s2">&quot;Object&quot;</span><span class="p">]);</span>
 <span class="c1">// ...</span>
 </pre></div>
@@ -825,7 +826,7 @@
 </dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.get_object_name">get_object_name()</a></dt>
 <dd><p class="first">获取物体的名称。</p>
-<div class="last highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
+<div class="last highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
 <span class="kd">var</span> <span class="nx">object_name</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_object_name</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span>
 <span class="c1">// ...</span>
 </pre></div>
@@ -841,7 +842,7 @@
 <p class="last">确保在 <code class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Object</span> <span class="pre">Outlining</span></code> 面板被设置为 <code class="docutils literal"><span class="pre">ON</span></code> 或 <code class="docutils literal"><span class="pre">AUTO</span></code>。</p>
 </div>
 <p>物体选择也可以通过API编程方式，例如，在 <code class="docutils literal"><span class="pre">scenes.js</span></code> 模块有基于二维的画布坐标选择物体的 <code class="docutils literal"><span class="pre">pick_object</span></code> 函数。</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
 <span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">clientX</span><span class="p">;</span>
 <span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">clientY</span><span class="p">;</span>
 
@@ -849,7 +850,7 @@
 <span class="c1">// ...</span>
 </pre></div>
 </div>
-<p>或使用 <a class="reference internal" href="logic_editor.html#logic-switch-select"><span>逻辑编辑器</span></a>.</p>
+<p>or using the <a class="reference internal" href="logic_editor.html#logic-select"><span>Logic Editor</span></a>.</p>
 <p>如果选择的物体已启用了 <code class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Selection</span></code> 和轮廓面板上的 <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">Outlining</span></code> 和 <code class="docutils literal"><span class="pre">Outline</span> <span class="pre">on</span> <span class="pre">Select</span></code> 选框，那么 <code class="docutils literal"><span class="pre">pick_object</span></code> 函数调用将激活 <a class="reference internal" href="postprocessing_effects.html#outline"><span>外轮廓辉光动画</span></a> 。</p>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
@@ -880,7 +881,7 @@
 <p>在深度复制的情况下，新物体将具有独特的性质，即它会有自己的网格。因此，如果原始物体的网格被改变，则复制的物体的网格将不被改变。另外，在复制的物体在画布纹理不同的纹理和不同一个像它与简单复制的情况。为了使深度复制可能，要求源物体启用 <a class="reference internal" href="#dynamic-geom"><span>渲染属性&gt;动态几何</span></a> 复选框. |</p>
 <p>在运行时复制物体可以使用 <code class="docutils literal"><span class="pre">objects.js</span></code> 模块的 <code class="docutils literal"><span class="pre">copy</span></code> 方法进行。此方法需要三个参数：源物体的id，新物体一个唯一的名称和布尔值，以指定复制模式（即简单或深度）。默认情况下，简单复制将被执行。</p>
 <p>新创建的物体，应添加到场景。这可以用 <code class="docutils literal"><span class="pre">scenes.js</span></code> 模块的 <code class="docutils literal"><span class="pre">append_object</span></code> 方法进行。新物体应该被传递给它作为参数。</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
 <span class="kd">var</span> <span class="nx">new_obj</span> <span class="o">=</span> <span class="nx">m_objects</span><span class="p">.</span><span class="nx">copy</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="s2">&quot;New_name&quot;</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
 <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">append_object</span><span class="p">(</span><span class="nx">new_obj</span><span class="p">);</span>
 <span class="nx">m_transform</span><span class="p">.</span><span class="nx">set_translation</span><span class="p">(</span><span class="nx">new_obj</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
@@ -891,7 +892,7 @@
 <div class="section" id="removing-objects">
 <h3><a class="toc-backref" href="#id20">删除物体</a><a class="headerlink" href="#removing-objects" title="永久链接至标题">¶</a></h3>
 <p>要删除物体，请使用 <code class="docutils literal"><span class="pre">scenes.js</span></code> 模块的 <code class="docutils literal"><span class="pre">remove_object</span></code> 方法。传递物体作为参数。动态网格-空类型的物体可以用这种方式删除。</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
 <span class="nx">m_objects</span><span class="p">.</span><span class="nx">remove_object</span><span class="p">(</span><span class="nx">new_obj</span><span class="p">);</span>
 <span class="c1">// ...</span>
 </pre></div>
@@ -948,7 +949,7 @@
 <div class="line"><br /></div>
 </div>
 <p>让我们在 <strong>aircraft</strong> 变量保存引用：</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">aircraft</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_object_by_name</span><span class="p">(</span><span class="s2">&quot;Cessna&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">aircraft</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_object_by_name</span><span class="p">(</span><span class="s2">&quot;Cessna&quot;</span><span class="p">);</span>
 </pre></div>
 </div>
 <p>旋转：</p>
@@ -961,7 +962,7 @@
 </ul>
 </div></blockquote>
 <p>因此，我们得到：</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// compose quaternion</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// compose quaternion</span>
 <span class="kd">var</span> <span class="nx">quat_60_Z_neg</span> <span class="o">=</span> <span class="nx">m_quat</span><span class="p">.</span><span class="nx">setAxisAngle</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="o">-</span><span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="nx">m_quat</span><span class="p">.</span><span class="nx">create</span><span class="p">());</span>
 
 <span class="c1">// get old rotation</span>
@@ -975,7 +976,7 @@
 </pre></div>
 </div>
 <p>优化的版本不创建新的物体：</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// cache arrays as global vars</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// cache arrays as global vars</span>
 <span class="kd">var</span> <span class="nx">AXIS_Z</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 <span class="kd">var</span> <span class="nx">quat_tmp</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">quat_tmp2</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
@@ -1007,7 +1008,7 @@
 <p>可以通过调用 <a class="reference external" href="https://www.blend4web.com/api_doc/module-geometry.html#.draw_line">draw_line()</a> API 方法渲染线条。其第一个参数是指向  <code class="docutils literal"><span class="pre">Empty</span></code> 物体 （见上面），而第二个是用于建立一条线的一列顶点数组。该方法也拥有第三个可选的参数，定义渲染模式︰ 方法由成对的顶点定义生成一条或一组线 （后一种情况下的顶点总数应该是偶数）。</p>
 <p>如果一个 <code class="docutils literal"><span class="pre">Empty</span></code> 物体在一条线渲染中不止一次使用，只有最后一个将可见。要渲染多条线，您将需要使用多个 <code class="docutils literal"><span class="pre">Empty</span></code> 物体。</p>
 <p>下面的示例演示了使用线渲染上面的图片中的坐标轴物体的一部分︰</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_scenes</span>    <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_scenes</span>    <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_material</span>  <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;material&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_geometry</span>  <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;geometry&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_rgba</span>      <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;rgba&quot;</span><span class="p">);</span>
@@ -1072,7 +1073,7 @@
 <p class="first admonition-title">注解</p>
 <p>平滑LOD转换并不总是必需的。例如，如果您立即将相机变换到一些遥远的物体，您可能不希望LOD切换发生在它的前面。在这样的情况下，应使用 <code class="docutils literal"><span class="pre">lod_leap_smooth_threshold</span></code> 参数。它定义的阈值距离（米），相机在一帧中的距离。如果超过这个值，LODs瞬时切换。参数可以用来在摄像机LOD传送到一个新的位置，或者移动很快时禁用平滑过渡。</p>
 <blockquote class="last">
-<div><div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
+<div><div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
 
 <span class="nx">m_cfg</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;lod_leap_smooth_threshold&quot;</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span> <span class="c1">// 5 meters</span>
 </pre></div>
@@ -1109,7 +1110,7 @@
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2017, Triumph.
-      最后更新于 2017-08-31.
+      最后更新于 2017-10-31.
 
     </p>
   </div>
@@ -1165,7 +1166,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.08',
+            VERSION:'v17.10',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

@@ -89,9 +89,11 @@ exports.set_hardware_defaults = function(gl, print_warnings) {
         var renderer = gl.getParameter(rinfo.UNMASKED_RENDERER_WEBGL);
 
         if (vendor.indexOf("Qualcomm") > -1 && renderer.indexOf("330") > -1 &&
-                check_user_agent("Chrome")) {
-            warn("Chrome and Qualcomm 330 detected, force enable WebGL 1.");
+                (check_user_agent("Chrome") || check_user_agent("Firefox"))) {
+            warn("Chrome/Firefox and Qualcomm 330 detected, " +
+                    "force enable WebGL 1, disable blending cascaded shadow maps.");
             cfg_def.webgl2 = false;
+            cfg_def.chrome_csm_blend_hack = true;
         }
     }
 
@@ -190,7 +192,7 @@ exports.set_hardware_defaults = function(gl, print_warnings) {
 
     if (check_user_agent("Mac OS X")) {
         cfg_def.mac_os_shadow_hack = true;
-        warn("OS X detected, applying shadows hack.");
+        warn("OS X detected, applying shadows hack");
     }
 
     if (detect_mobile()) {
@@ -264,6 +266,12 @@ exports.set_hardware_defaults = function(gl, print_warnings) {
         var vendor = gl.getParameter(rinfo.UNMASKED_VENDOR_WEBGL);
         var renderer = gl.getParameter(rinfo.UNMASKED_RENDERER_WEBGL);
         var mali_4x_re = /\b4\d{2}\b/;
+
+        if (vendor.indexOf("Intel") && (renderer.indexOf("3000") > -1
+                || renderer.indexOf("2000") > -1)) {
+            cfg_def.reuse_depth_optimization = false;
+            warn("Intel HD Graphics 2000/3000 detected, disable depth reuse.");
+        }
 
         if (check_user_agent("Chrome") && renderer.indexOf("Mali-T720") > -1) {
             warn("Chrome and ARM Mali-T720 detected, changing " 
@@ -419,8 +427,27 @@ exports.set_hardware_defaults = function(gl, print_warnings) {
     var aniso_available = Boolean(m_ext.get_aniso());
     cfg_def.anisotropic_available = aniso_available;
 
-    var tex_lod_available = Boolean(m_ext.get_texture_lod());
-    cfg_def.texture_lod_available = tex_lod_available;
+    var texture_lod_available = Boolean(m_ext.get_texture_lod());
+    cfg_def.texture_lod_available = texture_lod_available;
+
+
+    var tex_float_available = Boolean(m_ext.get_texture_float());
+    cfg_def.tex_float_available = tex_float_available;
+
+    var tex_hfloat_available = Boolean(m_ext.get_texture_half_float());
+    cfg_def.tex_hfloat_available = tex_hfloat_available;
+
+    var tex_float_lin_available = Boolean(m_ext.get_texture_float_linear());
+    cfg_def.tex_float_lin_available = tex_float_lin_available;
+
+    var tex_hfloat_lin_available = Boolean(m_ext.get_texture_half_float_linear());
+    cfg_def.tex_hfloat_lin_available = tex_hfloat_lin_available;
+
+    var cbuffer_float_available = Boolean(m_ext.get_color_buffer_float());
+    cfg_def.cbuffer_float_available = cbuffer_float_available;
+
+    var cbuffer_hfloat_available = Boolean(m_ext.get_color_buffer_half_float());
+    cfg_def.cbuffer_hfloat_available = cbuffer_hfloat_available;
 }
 
 exports.check_user_agent = check_user_agent;

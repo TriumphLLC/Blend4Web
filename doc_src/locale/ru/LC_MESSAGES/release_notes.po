@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2017-08-31 16:34+0300\n"
+"POT-Creation-Date: 2017-10-31 12:05+0300\n"
 "PO-Revision-Date: 2015-08-28 10:55+0300\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Russian <info [at] blend4web.com>\n"
@@ -19,11 +19,245 @@ msgstr ""
 msgid "Release Notes"
 msgstr "Замечания к релизам"
 
-msgid "v17.08"
-msgstr "v17.08"
+msgid "v17.10"
+msgstr ""
 
 msgid "New Features"
 msgstr "Новый функционал"
+
+msgid "Added side-by-side rendering stereo mode."
+msgstr "Добавлен режим стереорендеринга side-by-side."
+
+msgid "Auto start tornado developer server."
+msgstr "Автозапуск сервера разработки."
+
+msgid ""
+"Now closing one of the instances of Blender does not stop development "
+"server if there is another instance of Blender with started development "
+"server."
+msgstr ""
+"Теперь закрытие одной из копий Blender не приводит к остановке сервера "
+"разработки при наличии другой копии с запущенным сервером."
+
+msgid "Added synchronization the :ref:`Viewer <viewer>` application and Blender."
+msgstr "Добавлена синхронизация Blender с :ref:`Просмотрщиком сцен <viewer>`."
+
+msgid "Changes in the physics engine."
+msgstr "Улучшения в физическом движке."
+
+msgid ""
+"The ability to control gravity vector in the scene has been added. "
+"Stability of the ``HINGE`` constraints has been improved. Also the "
+":b4wref:`physics.set_character_vert_move_dir_angle` method has been added"
+" to the :b4wmod:`physics` module."
+msgstr ""
+"Добавлена возможность управлять вектором гравитации в сцене. Кроме того, "
+"теперь ограничитель ``HINGE`` работает стабильнее, а в модуль "
+":b4wmod:`physics` добавлен метод "
+":b4wref:`physics.set_character_vert_move_dir_angle`."
+
+msgid ""
+"Added new nodes to the ``Logic Editor``: ``Define Function``, ``Call "
+"Function``, ``Switch``"
+msgstr ""
+"Добавлены новые логические ноды: ``Define Function``, ``Call Function``, "
+"``Switch``"
+
+msgid ""
+"``Destination`` field has been added to the ``Select`` node. This field "
+"specifies a variable used to contains selected object after the event of "
+"selection."
+msgstr ""
+"В ноду ``Select`` добавлено поле ``Destination``, предназначенное для "
+"задания переменной, содержащей выбранный объект."
+
+msgid "Added ``Object`` variable type to the Logic Editor."
+msgstr "В Редактор логики добавлен тип переменной ``Object``"
+
+msgid ""
+"The UI of some nodes which use object selector is extended with ability "
+"to specify a variable"
+msgstr ""
+"В интерфейсе некоторых нод, работающих с объектами, появилась возможность"
+" задавать объекты с помощью переменных."
+
+msgid ""
+"Improved environment lighting algorithms for Cycles materials with "
+"``Glossy BSDF`` and ``Diffuse BSDF`` nodes."
+msgstr ""
+"Улучшен алгоритм рассчёта освещения от окружающей среды для материалов "
+"Cycles с нодами ``Glossy BSDF`` и ``Diffuse BSDF``."
+
+msgid "Changes"
+msgstr "Изменения"
+
+msgid "Now NLA can be stopped with API in case of using Logic Nodes."
+msgstr ""
+"Теперь NLA-анимация, запущенная при помощи логических нодов, может быть "
+"остановлена методами API."
+
+msgid "Blender 2.79 is a recommended version."
+msgstr "Для работы рекомендуется версия Blender 2.79."
+
+msgid "Optimized of LOD objects."
+msgstr "Оптимизирован рендеринг LoD'ов."
+
+msgid ""
+"Renamed logic nodes: ``Switch Select`` -> ``Select``, ``Conditional "
+"Jump`` -> ``Branch``"
+msgstr ""
+"Переименованы некоторые логические ноды: ``Switch Select`` -> ``Select``,"
+" ``Conditional Jump`` -> ``Branch``."
+
+msgid ""
+"We've started to use ``Datablock pointer properties`` - the new feature "
+"of Blender 2.79 in our addon. This means that you may have forward "
+"compatibility issues (see Blender 2.79 release notes)"
+msgstr ""
+"Теперь наш аддон использует новую возможность Blender 2.79 - ``Datablock "
+"pointer properties``. Это может приводить к некоторым проблемам "
+"совместимости (см. замечания к релизу Blender 2.79)."
+
+msgid ""
+"Simplified Logic Node Tree to the scene attachment procedure: Refresh "
+"button has been removed due to our patch for blender (D113)"
+msgstr ""
+"Благодаря нашему патчу для Blender (D113) упрощена процедура прикрепления"
+" нодового дерева к сцене: удалена кнопка Refresh."
+
+msgid "Fixes"
+msgstr "Исправления"
+
+msgid ""
+"Fixed DOF artifacts with bokeh enabled. The algorithm now requires WebGL "
+"extensions for floating-point render targets, otherwise bokeh is disabled"
+" automatically."
+msgstr ""
+"Исправлены артефакты глубины резкости при использовании эффекта боке. "
+"Теперь для работы эффекта требуется расширение WebGL для работы с render "
+"target'ами в формате с плавающей точкой; в противном случае боке "
+"автоматически отключается."
+
+msgid "Fixed HTML export of the ``Cycles`` world materials."
+msgstr "Исправлен экспор ``Cycles``-материалов окружения в формат HTML."
+
+msgid ""
+"Fixed false positive error producing console warning message: ``B4W WARN:"
+" Canvas size exceeds platform limits, downscaling``."
+msgstr ""
+"Исправлено ошибочное срабатывание предупреждения ``B4W WARN: Canvas size "
+"exceeds platform limits, downscaling``."
+
+msgid "Fixed invisibility of the control panel in AR demo in IE 11."
+msgstr "Исправлена видимость панели управления в AR-демо на IE11."
+
+msgid ""
+"Fixed the :b4wref:`camera_anim.rotate_camera` method of the "
+":b4wmod:`camera_anim` module."
+msgstr ""
+"Исправлена работа метода :b4wref:`camera_anim.rotate_camera` модуля "
+":b4wmod:`camera_anim`."
+
+msgid "Fixed the :b4wref:`screen.shot` method of the :b4wmod:`screen` module."
+msgstr "Исправлена работа метода :b4wref:`screen.shot` модуля :b4wmod:`screen`."
+
+msgid "Fixed some errors of API documentation."
+msgstr "Исправлен ряд неточностей в документации API."
+
+msgid "Fixed low FPS in the Petigor's Tale application."
+msgstr "Исправлен низкий FPS в приложении \"Сказ о Пятигоре\""
+
+msgid "Fixed visibility of God Rays on some mobile devices."
+msgstr "Исправлена видимость сумеречных лучей на ряде мобильных устройствах."
+
+msgid "Fixed ``Mapping`` node with zero scale."
+msgstr "Исправлена работа ноды ``Mapping`` при нулевом масштабе."
+
+msgid ""
+"Fixed the :b4wref:`camera.translate_view` and :b4wref:`camera.set_fov` "
+"methods of the :b4wmod:`camera` module."
+msgstr ""
+"Исправлена работа методов :b4wref:`camera.translate_view` и "
+":b4wref:`camera.set_fov` модуля :b4wmod:`camera`."
+
+msgid ""
+"Fixed the :b4wref:`material.get_materials_names` method of the "
+":b4wmod:`material` module."
+msgstr ""
+"Исправлена работа метода :b4wref:`material.get_materials_names` модуля "
+":b4wmod:`material`."
+
+msgid ""
+"Fixed character rotation with the  "
+":b4wref:`physics.set_character_rotation` and "
+":b4wref:`physics.set_character_rotation_v` methods of the "
+":b4wmod:`physics` module."
+msgstr ""
+"Исправлено вращение персонажа при помощи методов "
+":b4wref:`physics.set_character_rotation` и "
+":b4wref:`physics.set_character_rotation_v` модуля :b4wmod:`physics`."
+
+msgid ""
+"Fixed missing UV and vertex colors layers after applying of the "
+":b4wref:`material.inherit_material` method in some cases."
+msgstr ""
+"Исправлена ошибка, в некоторых случаях приводившая к отсутствию слоёв UV "
+"и вершинного цвета на объекте после применения метода "
+":b4wref:`material.inherit_material`."
+
+msgid "Fixed loading of video textures with the \".mp4\" extension."
+msgstr "Исправлена загрузка видеотекстур с расширением \".mp4\"."
+
+msgid ""
+"Fixed the :b4wref:`camera.get_ortho_scale` method of the :b4wmod:`camera`"
+" module."
+msgstr ""
+"Исправлена работа метода :b4wref:`camera.get_ortho_scale` модуля "
+":b4wmod:`camera`."
+
+msgid ""
+"Fixed the :b4wref:`app.enable_camera_controls` method of the "
+":b4wmod:`app` module."
+msgstr ""
+"Исправлена работа метода :b4wref:`app.enable_camera_controls` модуля "
+":b4wmod:`app`."
+
+msgid ""
+"Fixed engine crash in case of using the Value node in Emitter particles "
+"materials."
+msgstr ""
+"Исправлен крэш движка, возникавший при использовании ноды Value в "
+"материале частиц типа Emitter."
+
+msgid ""
+"Fixed the :b4wref:`material.set_nodemat_value`, "
+":b4wref:`material.get_nodemat_value`, :b4wref:`material.set_nodemat_rgb` "
+"and :b4wref:`material.get_nodemat_rgb` methods of the :b4wmod:`material` "
+"module."
+msgstr ""
+"Исправлена работа методов :b4wref:`material.set_nodemat_value`, "
+":b4wref:`material.get_nodemat_value`, :b4wref:`material.set_nodemat_rgb` "
+"и :b4wref:`material.get_nodemat_rgb` модуля :b4wmod:`material`."
+
+msgid ""
+"Fixed scale computation for the ``Curve`` objects with ``Apply Scale and "
+"Modifiers`` export option enabled."
+msgstr ""
+"Исправлен рассчёт масштаба для объектов типа ``Curve`` со включённым "
+"параметром ``Apply Scale and Modifiers``."
+
+msgid ""
+"Fixed bug with NLA initialization. The bug had impact on animation start "
+"frame."
+msgstr ""
+"Исправлена ошибка инициализации NLA. Ранее она влияла на стартовый кадр "
+"анимации."
+
+msgid "Fixed touch sensor on slow devices."
+msgstr "Исправлен тач-сенсор на устройствах с низкой производительностью."
+
+msgid "v17.08"
+msgstr "v17.08"
 
 msgid "Support for Leap Motion hand tracking controller."
 msgstr "Поддержка контроллера Leap Motion."
@@ -156,9 +390,6 @@ msgstr ""
 "меньший размер файлов физического движка, более быстрая инициализация, "
 "повышенная стабильность физики и более высокий FPS."
 
-msgid "Changes"
-msgstr "Изменения"
-
 msgid "The version of the JSON/BIN export format was increased to 6.03."
 msgstr "Версия формата экспорта JSON/BIN повышена до 6.03."
 
@@ -222,9 +453,6 @@ msgid ""
 msgstr ""
 ":ref:`Описание <objects_constraints>` методов модуля API "
 ":b4wmod:`constraints`."
-
-msgid "Fixes"
-msgstr "Исправления"
 
 msgid "Minor CSS fixes in the Code Snippets application and Petigor's Tale game."
 msgstr ""
@@ -10657,4 +10885,34 @@ msgstr "замечания к релизам"
 
 #~ msgid "``Cycles`` world node material support."
 #~ msgstr "Расширение поддержки нодовых материалов."
+
+#~ msgid "TODO: add description (mode, webplayer)"
+#~ msgstr ""
+
+#~ msgid "Autostart tornado developer server."
+#~ msgstr ""
+
+#~ msgid "Added sincranizating Viewer application and Blender."
+#~ msgstr ""
+
+#~ msgid "TODO: add description"
+#~ msgstr ""
+
+#~ msgid "Performance improved."
+#~ msgstr "Улучшения интерфейса."
+
+#~ msgid "Blender 2.79 is a recomended version."
+#~ msgstr ""
+
+#~ msgid "Fixed unvisible control panel in AR demo in IE 11."
+#~ msgstr ""
+
+#~ msgid "Fixed visibility on the God Rays in some mobile devices."
+#~ msgstr ""
+
+#~ msgid "Fixed Mapping node with zero scale."
+#~ msgstr ""
+
+#~ msgid "Added synchronization between the Viewer application and Blender."
+#~ msgstr ""
 

@@ -16,7 +16,7 @@
 
     * 烘焙参数
 
-    * Animation Blending
+    * 动画混合
 
   * 顶点动画
 
@@ -150,27 +150,22 @@ Propetries" 面板激活  "Force Dynamic Object"  选项。
   移除骨架 不需要的顶点组，请使用按钮 "Remove Clean Unused Vertex
   Groups".[图片 ]
 
-Blend4Web also has initial support of the armature constraints. For
-now, only several types of constraints are supported, including "Copy
-Transforms", which can be used to attach an armature to an object,
-producing effects such as ragdoll. Support of the other types of
-constraints will be added in further releases.
+Blend4Web 具备了对骨架约束的初步支持。现在，只支持几个类型的约束，包括
+"复制变换"，这可以用来附加骨架到物体，如布娃娃系统般产生影响。将进一步
+添加支持其他类型的约束到后续版本中。
 
-The full list of supported constraints and their descriptions can be
-found in a dedicated section.
+支持的约束和及其说明的完整列表可以在  专门章节 中找到。
 
 
-Animation Blending
-------------------
+动画混合
+--------
 
-The engine also supports animation blending. To use this feature, the
-"Animation Blending" (located on the "Animation" panel of the "Object"
-tab) property should be enabled.
+引擎还支持动画混合。若要使用此功能，  "动画混合``（位于 ``物体" 选项卡
+的  "动画" 面板上） 属性应启用。
 
-警告: No more than **two** animations can be blended simultaneously.
+警告: 不超过 **两个** 动画可以同时混合。
 
-To blend animations, you have to allow two animation slots to blend
-first:
+若要混合动画，你必须允许两个动画插槽首先混合：
 
    var m_animation = require("animation");
 
@@ -241,11 +236,10 @@ Blend4Web 也有可以自动播放物体动画的选项。要做到这一点，�
 项来设置开始和结束标记 （相反，它总是从时间线第一帧开始到最后一帧结束
 ）。您还可以设置动画的行为，像  播放动画  节点。
 
-*Animation Blending*
-   This option is only available for "Armature" type objects. It
-   should be enabled if you want to blend skeletal animations.
+*动画混合*
+   此选项仅可用于 "骨架" 类型的物体。如果你想要融合骨骼动画应启用它。
 
-   Blending animations is described in a dedicated section.
+   动画融合描述在  专门章节.
 
 
 非线性动画

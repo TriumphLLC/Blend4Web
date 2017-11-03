@@ -1,462 +1,414 @@
 
-Blender User Interface
-**********************
+Blender的用户界面
+*****************
 
 
-Table of Contents
-^^^^^^^^^^^^^^^^^
+目录
+^^^^
 
-* Blender User Interface
+* Blender的用户界面
 
-  * 3D View
+  * 3D 视图
 
-  * Timeline
+  * 时间轴
 
-  * Graph Editor
+  * 图形编辑器
 
-  * Dope Sheet
+  * 动画板
 
-  * NLA Editor
+  * 非线性编辑器
 
-  * UV/Image Editor
+  * UV /图像编辑器
 
-  * Video Sequence Editor
+  * 视频序列编辑器
 
-  * Movie Clip Editor
+  * 电影剪辑编辑器
 
-  * Text Editor
+  * 文本编辑器
 
-  * Node Editor
+  * 节点编辑器
 
-  * Logic Editor
+  * 逻辑编辑器
 
-  * Properties
+  * 属性
 
-  * Outliner
+  * 大纲
 
-  * User Preferences
+  * 使用者喜好設定
 
-  * Info
+  * 信息
 
-  * File Browser
+  * 文件浏览器
 
-  * Python Console
+  * Python 控制台
 
-Blender is a free open source 3D creation suite that supports an
-entire 3D pipeline from objects modeling to texturing, rigging and
-animating to rendering, compositing and even video editing. Blender
-can also be used to create interactive application, including web-
-based ones.
+Blender是一个免费的开源3D创建套件，支持从物体建模到纹理，索引和动画到
+渲染，合成甚至视频编辑的整个3D工作流。 Blender也可用于创建交互式应用程
+序，包括基于Web的应用程序。
 
-Blender is a cross-platform software that runs on Windows, Linux and
-macOS platforms equally well.
+Blender是一种跨平台的软件，可以在Windows，Linux和macOS平台上运行。
 
-Blender interface consists of several windows. The number and types of
-windows present on the screen is not strictly defined and can be
-changed by a user manually or by selecting a preset from the "Screen
-Layout" menu at the top of the screen.
+Blender界面由几个窗口组成。屏幕上存在的窗口的数量和类型不是严格定义的
+，可以由用户手动更改，也可以从屏幕顶部的“Screen Layout”菜单中选择一个
+预设。
 
 
-3D View
+3D 视图
 =======
 
 [图片]
 
-The main window of the program, showing a currently loaded 3D scene
-(through a camera or otherwise). 3D objects that compose any 3D scene
-are created, edited and animated in this window.
+程序的主窗口，显示当前加载的3D场景（通过相机或其他方式）。组合任何3D场
+景的3D物体在此窗口中创建，编辑和动画。
 
-This window is open by default.
-
-
-Timeline
-========
-
-[图片]
-
-This window (usually located an the bottom of the screen) shows
-various data that concern animation. This includes the current frame,
-the total number of frames (i.e. the length of the animation in the
-current scene) and keyframes for the selected object. The keyframes
-themselves are also created in this window.
-
-This window is open by default.
+此窗口默认打开。
 
 
-Graph Editor
-============
+时间轴
+======
 
 [图片]
 
-A tool for modifying various aspects of object animation using
-f-curves. Graph Editor can be used in Blend4Web same way it is used in
-Blender.
+该窗口（通常位于屏幕底部）显示关于动画的各种数据。这包括当前帧，总帧数
+（即当前场景中的动画长度）和所选物体的关键帧。关键帧本身也在此窗口中创
+建。
+
+此窗口默认打开。
 
 
-Dope Sheet
+图形编辑器
 ==========
 
 [图片]
 
-A tool for managing keyframes. Dope Sheet can be used in Blend4Web
-same way it is used in Blender.
+一种工具，修改各方面使用f-curves的物体动画。图形编辑器在blend4web中和
+在Blender中一样使用。
 
 
-NLA Editor
-==========
-
-[图片]
-
-A tool for editing non-linear animations. Blend4Web engine supports
-NLAs; the user manual features a dedicated section on them.
-
-
-UV/Image Editor
-===============
+动画板
+======
 
 [图片]
 
-This tool can be used for editing both object UV maps and various 2D
-assets such as texture images.
-
-UV maps are used in Blend4Web as well.
+用于管理关键帧的工具。动画板可以与Blender4Web一样在Blender中使用。
 
 
-Video Sequence Editor
-=====================
-
-[图片]
-
-An interface for editing video sequences. This is a fully-fledged
-video editing system that can be used to trim video files, apply
-effects to them and combine them into one video. It is not used in
-Blend4Web engine.
-
-
-Movie Clip Editor
-=================
-
-[图片]
-
-A tool for editing movie clips. It is generally used for motion
-tracking and for masking movies. It is not used in Blend4Web engine.
-
-
-Text Editor
-===========
-
-[图片]
-
-A simple text editor is included in Blender. It supports word
-wrapping, syntax highlighting, line numbers, find and replace
-functions and some other features.
-
-Text editor is not used in Blend4Web for editing project files, as
-Project Manager features its own built-in editor for editing project
-files. However, text files created in Text Editor (or imported to a
-".blend" file using it) can be used as description sources for Meta
-Tags in Blend4Web.
-
-
-Node Editor
-===========
-
-[图片]
-
-An interface for creating node-base materials, textures and post-
-processing effect. Material nodes are supported in Blend4Web engine,
-while texture and compositing nodes are not. Blend4Web also features
-another type of nodes for creating scene logic.
-
-
-Logic Editor
+非线性编辑器
 ============
 
 [图片]
 
-A tool for editing logic blocks used in Blender Game Engine.
+编辑非线性动画的工具。Blend4Web 引擎支持 NLAs;用户手册在  相应章节  。
 
-注解: Blend4Web engine does not use Blender Logic Editor. Instead,
-  it features a similar, but separate tool for editing scene logic:
-  the node-based Logic Editor.
 
-
-Properties
-==========
-
-[图片]
-
-The second main window of the program. Contains various settings, some
-of which only concern currently selected object, and other apply to
-the whole of the scene.
-
-This window is usually located at the right of the 3D View window.
-
-The Properties window consists of several tabs. Each one of these tabs
-house a specific group of parameters. The tabs are:
-
-
-Render
-------
-
-[图片]
-
-This tab contains options that concern rendering.
-
-In Blend4Web mode, the Render tab features a slightly different set of
-options that are described here.
-
-
-Render Layers
--------------
-
-[图片]
-
-This tab can be used to separate the rendered image into several
-“layers” (such as diffuse colors, shadows, normal maps etc.) that can
-than be used for compositing in Blender or in other software. This tab
-is not used in Blend4Web engine.
-
-
-Scene
------
-
-[图片]
-
-Contains various parameters that concern 3D scene as a whole.
-
-This tab is supported in Blend4Web, but has a different set of options
-that are described here in greater detail.
-
-
-World
------
-
-[图片]
-
-Settings that control the environment of the scene can be found in
-this tab. This includes such parameters as background colors,
-environment lighting, mist etc.
-
-This tab is also used Blend4Web engine to set the environment. The
-settings themselves differ a bit from the ones in Blender. The
-differences are described here.
-
-
-Object
-------
-
-[图片]
-
-This tab contains various object settings such as name, location,
-groups and so on. Object parameters are extensively used in Blend4Web
-engine and are described in a dedicated section of this manual.
-
-
-Constraints
------------
-
-[图片]
-
-Constraints can be used to restrict object’s movement in various ways,
-or to set it along a certain path. Constraints are often utilized by
-3D artists to simplify the process of creating complex animations and
-to make it more convenient. This tab contains tools for adding
-constraints to a selected object, setting them up or remove them, if
-necessary.
-
-The Constraints tab can be used in Blend4Web. However, at the moment
-the engine does not support some of the object constraints available
-in Blender. See the dedicated section to learn how to use object
-constraints in Blend4Web.
-
-
-Modifiers
----------
-
-[图片]
-
-This list contains all modifiers attached to the currently selected
-object. Modifiers can be added, configured and removed on this tab.
-
-Modifiers are supported in Blend4Web engine, but by default are not
-applied to objects upon export. You can apply modifiers using Apply
-Modifiers or Apply Scale and Modifiers options.
-
-
-Data
-----
-
-[图片]
-
-This tab contains information on object’s vertex groups and colors, UV
-maps, shape keys and other similar stuff. It is supported in Blend4Web
-and does not feature any additional options.
-
-
-Material
---------
-
-[图片]
-
-The material (or multiple materials) of an object can be set here.
-
-Blend4Web engine utilizes materials in mostly the same way Blender
-does. The differences are described in a dedicated chapter.
-
-
-Texture
--------
-
-[图片]
-
-This tab is intended for setting up textures for materials and the
-environment alike.
-
-The same tab is used to set up textures in Blend4Web. Working with
-textures is described in a dedicated chapter.
-
-
-Particles
----------
-
-[图片]
-
-Here, particle systems are created and set up.
-
-Particles are supported in Blend4Web engine as well and can be used to
-create fluids and object instances.
-
-
-Physics
--------
-
-[图片]
-
-Physical settings of a selected object: a physical model associated
-with an object, its bounding volume and so on. Physic is utilized in
-Blend4Web engine and has an entire chapter dedicated to it.
-
-
-Outliner
-========
-
-[图片]
-
-Contains so-called scene graph, a tree-like structure that organizes
-all data present in the .blend file.
-
-By default, this window is located in the top right corner of the
-Blender window.
-
-
-User Preferences
-================
-
-This window contains various Blender settings. These settings are
-separated into several categories each one of which occupies one tab
-located at the top of the window. The tabs are:
-
-
-Interface
----------
-
-[图片]
-
-This tab contains various setting for adjusting the interface of the
-program.
-
-
-Editing
--------
-
-[图片]
-
-This tab allows you to set how various object editing tools interact
-with your input.
-
-
-Input
------
-
-[图片]
-
-User-interaction settings. Hot keys are set here, as are the way
-Blender reacts to mouse and keyboard events.
-
-
-Add-ons
--------
-
-[图片]
-
-Various Blender add-ons are installed, configured and removed here.
-This includes Blend4Web add-on.
-
-
-Themes
-------
-
-[图片]
-
-This tab allows the user to customize Blender interface and color
-scheme, both manually or by selecting one of the pre-existing
-interface themes.
-
-
-File
-----
-
-[图片]
-
-This tab is used to configure default file path for blend files,
-textures, rendered images and other files. Auto-save preferences are
-also set up here.
-
-The "Scripts" field on this tab is used for installing Blend4Web
-engine. The process of installation is thoroughly described in the
-dedicated chapter.
-
-
-System
-------
-
-[图片]
-
-Various system settings, including resolution, rendering device,
-viewport settings and interface language.
-
-
-Info
-====
-
-[图片]
-
-The main menu bar with a list of error messages. This window is open
-by default and can be found at the top of the screen (right above the
-"3D View" window).
-
-注解: The list of errors is folded by default.
-
-小技巧: You can expand it by dragging the border of the "Info"
-  window down.
-
-
-File Browser
-============
-
-[图片]
-
-This is a built-in file manager that can be used for various file-
-related operations, mostly opening/saving .blend files and
-importing/exporting scenes and assets.
-
-
-Python Console
+UV /图像编辑器
 ==============
 
 [图片]
 
-This is a tool intended for an experienced user. The Python Console
-offers a quick way to execute commands, complete with auto-complete
-feature, a command history and full access to the entire Python API.
+此工具可用于编辑物体的 UV 贴图和各种 2D 的资产，如纹理图像。
+
+UV 贴图以相同方式用于 Blend4Web。
+
+
+视频序列编辑器
+==============
+
+[图片]
+
+可以编辑视频序列的界面。这是一个正式的视频编辑系统，可以用于修剪视频文
+件，将效果应用于它们，将它们组合成一段视频。它不用在 Blend4Web 引擎中
+。
+
+
+电影剪辑编辑器
+==============
+
+[图片]
+
+进行影片剪辑的工具。它通常用于运动跟踪和遮罩的电影。它不用在 Blend4Web
+引擎中。
+
+
+文本编辑器
+==========
+
+[图片]
+
+Blender里的一个简单的文本编辑器。它支持自动换行、 语法突出显示、 行号
+、 查找和替换功能和一些其他功能。
+
+文本编辑器是不对 Blend4Web 项目对文件进行编辑的， 因为 项目管理器  具
+有其自身的内置  编辑器 对项目文件进行编辑。然而，文本文件在文本编辑器
+中创建 （或导入到使用它的  ".blend" 文件） 可以在 Blend4Web 作描述来源
+元标签 。
+
+
+节点编辑器
+==========
+
+[图片]
+
+用于创建基于节点的材质，纹理和后期处理效果的界面。在 Blend4Web 引擎中
+支持 材质节点 ，而不支持纹理和合成节点。Blend4Web 还具有另一种类型的节
+点的创建 场景逻辑节点.
+
+
+逻辑编辑器
+==========
+
+[图片]
+
+用于编辑Blender游戏引擎中使用的逻辑块的工具。
+
+注解: Blend4Web 引擎不使用Blender逻辑编辑器。相反，它具有相似，但独
+  立的工 具进行编辑场景逻辑 逻辑编辑器.
+
+
+属性
+====
+
+[图片]
+
+第二个主窗口的程序。包含各种设置，一些只关注当前选定的物体，另外的适用
+于整个场景。
+
+此窗口通常位于3D视图窗口的右侧。
+
+属性窗口包含几个选项卡。这些选项卡保留了一组特定的参数。选项卡如下：
+
+
+渲染
+----
+
+[图片]
+
+此选项卡包含有关渲染的选项。
+
+在 Blend4Web 模式下，渲染选项卡功能选项组略有不同描述在  这里.
+
+
+渲染层
+------
+
+[图片]
+
+此选项卡可以用于渲染后的图像分成几个"图层"（如漫反射颜色、 阴影、 法线
+贴图等），可以比用于在Blender或其他软件的合成。在 Blend4Web 引擎中不使
+用此选项卡。
+
+
+场景
+----
+
+[图片]
+
+包含作为整体的 3D 场景的各种参数。
+
+此选项卡在 Blend4Web 中支持，但有一组不同的选项描述 这里 更详细。
+
+
+世界
+----
+
+[图片]
+
+控制场景环境的设置可以在此选项卡中找到。这包括背景颜色、 环境照明、 雾
+等等参数。
+
+此选项卡也是用的 Blend4Web 引擎设置环境。这些设置本身有点区别于Blender
+。 这里 介绍了差异 。
+
+
+物体
+----
+
+[图片]
+
+此选项卡包含各种物体设置，如名称、 位置、 组等等。物体参数广泛应用于
+Blend4Web 引擎中描述在本手册 相应章节 。
+
+
+约束
+----
+
+[图片]
+
+使用约束以各种方式限制物体的运动，或将其设置沿着一定的路径。 3D 艺术家
+常利用约束简化创建复杂动画的过程，使它更方便。此选项卡包含用于将约束添
+加到所选的物体，他们设置的工具，或删除它们，如果有必要。
+
+约束选项卡可以在 Blend4Web 中使用。然而，现在引擎不支持某些在Blender中
+的物体的约束。请参见  相应章节 学会如何在 Blend4Web 中使用物体约束。
+
+
+修改器
+------
+
+[图片]
+
+此列表包含附加到当前所选物体的所有修改器。在此选项卡上修改器可以添加、
+配置和删除。
+
+Blend4Web 引擎中支持修改器，但在默认情况导出时不应用于物体。您可以应用
+修改器通过  应用修改器 或应用缩放和修改器选项。
+
+
+数据
+----
+
+[图片]
+
+此选项卡包含对物体的顶点组和颜色、 UV贴图、 形变键和其他类似的东西的信
+息。在 Blend4Web 中支持没有其他更多选项。
+
+
+材质
+----
+
+[图片]
+
+可以在这里设置物体的材质 （或多个材质）。
+
+Blend4Web 引擎和Blender在使用材质的方式上大致相同。 相应章节 中介绍了
+差异。
+
+
+纹理
+----
+
+[图片]
+
+此选项卡用于设置纹理材质和环境相似。
+
+同一选项卡用于设置在 Blend4Web 的纹理。 相应章节 阐述了如何使用纹理。
+
+
+粒子
+----
+
+[图片]
+
+在这里，粒子系统创建和设置。
+
+粒子在 Blend4Web 引擎被支持和可用于创建  流体 和 物体实例.
+
+
+物理
+----
+
+[图片]
+
+所选物体的物理设置： 给一个物体它的包围等等相关的物理模型。 Blend4Web
+引擎使用物理有  一整章 的内容。
+
+
+大纲
+====
+
+[图片]
+
+包含所谓的场景图，将所有数据存在于.blend 文件都组织展示的树状结构。
+
+默认情况下，此窗口位于Blender右上角的窗口。
+
+
+使用者喜好設定
+==============
+
+此窗口包含各种Blender设置。这些设置可分为几个类别，每一项占有一个选项
+卡，位于窗口的顶部。选项卡如下：
+
+
+界面
+----
+
+[图片]
+
+此选项卡包含各种调整程序界面的设置。
+
+
+编辑
+----
+
+[图片]
+
+此选项卡允许您设置各种物体编辑工具如何与输入交互。
+
+
+输入
+----
+
+[图片]
+
+用户交互设置。正如Blender对鼠标和键盘事件做出反应的方式，在这里，设置
+热键。
+
+
+插件
+----
+
+[图片]
+
+各种Blender插件安装、 配置和删除在这里。包括  Blend4Web 插件.
+
+
+主题
+----
+
+[图片]
+
+此选项卡允许用户自定义Blender界面和配色方案，手动或通过选择的预先存在
+的界面主题之一。
+
+
+文件
+----
+
+[图片]
+
+此选项卡用于配置blend文件，纹理，渲染的图像和其他文件的默认文件路径。
+自动保存首选项也是在这里设置。
+
+此选项卡上的 "脚本" 字段用于安装 Blend4Web 引擎。安装过程在 相应章节
+详尽的描述。
+
+
+系統
+----
+
+[图片]
+
+各种系统设置，包括分辨率、渲染设备、 视区设置和界面语言。
+
+
+信息
+====
+
+[图片]
+
+主菜单栏的错误消息列表。这个窗口默认情况下是打开的，可以在屏幕顶部发现
+（3D 视图窗口右上方）。
+
+注解: 错误列表默认被折叠的。
+
+小技巧: 您可以通过拖动窗口边框的  "信息" 展开它。
+
+
+文件浏览器
+==========
+
+[图片]
+
+这是一个内置的文件管理器，可以用于各种文件相关的操作，主要是打开/保存
+.blend 文件和导入导出场景和资产。
+
+
+Python 控制台
+=============
+
+[图片]
+
+这是一个为有经验的用户准备的工具。Python 控制台提供快速的方法来执行命
+令，完整的自动完成功能、 命令历史记录和对整个 Python API 的完全访问权
+限。

@@ -318,6 +318,11 @@ GLSL_OUT vec4 GLSL_OUT_FRAG_COLOR;
 
 void main(void) {
 
+#if USE_LOD_SMOOTHING
+    if (!coverage_is_frag_visible(u_lod_coverage, u_lod_cmp_logic))
+        discard;
+#endif
+
 #if !DISABLE_FOG || (TEXTURE_NORM_CO != TEXTURE_COORDS_NONE && PARALLAX) \
         || (!SHADELESS && CAUSTICS && WATER_EFFECTS)
     float view_dist = length(v_pos_view);
@@ -583,11 +588,6 @@ void main(void) {
 #else  // ALPHA
     alpha = 1.0;
 #endif  // ALPHA
-
-#if USE_LOD_SMOOTHING
-    if (!coverage_is_frag_visible(u_lod_coverage, u_lod_cmp_logic))
-        discard;
-#endif
 
 #if REFRACTIVE
     vec2 normal_view = -(tsr9_transform_dir(view_tsr, normal)).xy;

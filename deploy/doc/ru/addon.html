@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Аддон &mdash; Руководство пользователя Blend4Web 17.08</title>
+  <title>Аддон &mdash; Руководство пользователя Blend4Web 17.10</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 17.08" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 17.10" href="index.html"/>
         <link rel="next" title="Параметры сцены" href="scene_settings.html"/>
         <link rel="prev" title="Веб-плеер" href="web_player.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v17.08
+              v17.10
             </div>
           
         
@@ -119,7 +119,7 @@
 <li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Редактор логики</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Освещение, тени и фон</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Спецэффекты</a></li>
-<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">Стереоизображение</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vr_and_ar.html">VR и AR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles.html">Система частиц. Флюиды</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Система частиц. Инстансинг</a></li>
@@ -997,30 +997,36 @@ object</td>
 <td><p class="first last">На сцене должен быть хотя бы один мир.</p>
 </td>
 </tr>
-<tr class="row-odd"><td>NAME particle settings has the NAME
+<tr class="row-odd"><td>Multiple constraints added on an
+object &#8220;Cube&#8221;, but it supports only
+one. Others won&#8217;t be used.</td>
+<td><p class="first last">Объекту NAME назначено несколько ограничителей, в то время как поддерживается только один. Остальные ограничители не будут использоваться (на данный момент движок поддерживает только один ограничитель на объекте).</p>
+</td>
+</tr>
+<tr class="row-even"><td>NAME particle settings has the NAME
 texture rendering a scene. It has
 been replaced by the default
 texture.</td>
 <td><p class="first last">NAME система частиц имеет NAME текстуру, которая отображает сцену. Эта текстура была заменена на стандартную.</p>
 </td>
 </tr>
-<tr class="row-even"><td>The action NAME has no fcurves.</td>
+<tr class="row-odd"><td>The action NAME has no fcurves.</td>
 <td><p class="first last">В анимации с именем &#8220;NAME&#8221; нет ни одного канала.</p>
 </td>
 </tr>
-<tr class="row-odd"><td>The &#8220;NAME&#8221; camera has unsupported
+<tr class="row-even"><td>The &#8220;NAME&#8221; camera has unsupported
 PANORAMIC type. Changed to
 PERSPECTIVE type.&#8221;</td>
 <td><p class="first last">Панорамная камера не поддерживается. Будет использована перспективная камера.</p>
 </td>
 </tr>
-<tr class="row-even"><td>Unsupported texture type or texture
+<tr class="row-odd"><td>Unsupported texture type or texture
 is missing for Lens Flare material
 &#8220;NAME&#8221;</td>
 <td><p class="first last">Текстура для материала Lens Flare с именем &#8220;NAME&#8221; отсутствует или имеет неподдерживаемый формат.</p>
 </td>
 </tr>
-<tr class="row-odd"><td>Use of ENVIRONMENT_MAP as diffuse
+<tr class="row-even"><td>Use of ENVIRONMENT_MAP as diffuse
 color is not supported. Use as
 mirror instead.</td>
 <td><p class="first last">Текстура типа ENVIRONMENT MAP не может быть использована как источник диффузного цвета. Чтобы использовать текстуру в качестве карты зеркального отражения (mirror map), отключите настройку Diffuse &gt; Color и включите Shading &gt; Mirror на панели Textures &gt; Influence.</p>
@@ -1239,7 +1245,7 @@ mirror instead.</td>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Триумф.
-      Обновлено: 2017-08-31.
+      Обновлено: 2017-10-31.
 
     </p>
   </div>
@@ -1295,7 +1301,7 @@ mirror instead.</td>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.08',
+            VERSION:'v17.10',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

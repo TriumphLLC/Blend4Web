@@ -761,6 +761,64 @@ function is_animated(obj) {
 }
 
 /**
+ * Init action cache
+ */
+exports.init_action_cache = init_action_cache;
+function init_action_cache(obj, name_list, uuid, name, slot_num) {
+
+    if (uuid)
+        var action = m_util.keysearch("uuid", uuid, _actions);
+    else {
+        var action = m_util.keysearch("name", name, _actions) ||
+        m_util.keysearch("name", name + "_B4W_BAKED", _actions);
+    }
+
+    if (!action)
+        return;
+
+    init_anim(obj, slot_num);
+    update_anim_cache(obj);
+
+    var frame_range = action["frame_range"];
+
+    if (frame_range[0] > frame_range[1]) {
+        m_print.warn("Incompatible action \"" + action["name"] +
+                "\" has been applied to object \"" + obj.name + "\"");
+        return false;
+    }
+
+    var act_render = action._render;
+
+    switch (act_render.type) {
+    case OBJ_ANIM_TYPE_ARMATURE:
+        if (m_obj_util.is_armature(obj)) {
+            var pose_data_frames = get_cached_anim_data(obj, name_list, action);
+            if (!pose_data_frames) {
+                pose_data_frames = calc_pose_data_frames(action,
+                                                    obj.render.bone_pointers);
+                cache_anim_data(obj, name_list, action, pose_data_frames);
+            }
+            init_skinned_objs_data(obj, slot_num, action, pose_data_frames);
+        }
+        break;
+    case OBJ_ANIM_TYPE_OBJECT:
+        var tsr = act_render.params["tsr"];
+        if (tsr) {
+            var obj_anim_data = get_cached_anim_data(obj, name_list, action);
+            if (!obj_anim_data) {
+                obj_anim_data = calc_obj_anim_data(obj, action, tsr);
+                cache_anim_data(obj, name_list, action, obj_anim_data);
+            }
+        } else {
+            m_print.warn("Incompatible action \"" + action["name"] +
+                    "\" has been applied to object \"" + obj.name + "\"");
+            return false;
+        }
+        break;
+    }
+}
+
+/**
  * Calculate object animation data:
  * quats, trans for each bone (group) index and pierced point
  * save them to obj.anim_slots

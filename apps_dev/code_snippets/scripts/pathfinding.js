@@ -223,7 +223,7 @@ function load_cb(data_id, success) {
         console.log("b4w load failure");
         return;
     }
-    m_app.enable_camera_controls();
+    m_app.enable_camera_controls(false, false, false, null, true);
     init_logic();
 }
 });

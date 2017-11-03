@@ -128,24 +128,6 @@ class B4W_SceneAudio(SceneButtonsPanel, Panel):
         col.prop(dcompr, "attack", text=_("Attack"))
         col.prop(dcompr, "release", text=_("Release"))
 
-def b4w_logic_editor_refresh_available_trees():
-    trees = bpy.context.scene.b4w_available_logic_trees
-    trees.clear()
-    for t in bpy.data.node_groups:
-        if t.bl_idname == 'B4WLogicNodeTreeType':
-            trees.add()
-            trees[-1].name = t.name
-
-class B4W_LogicEditorRefreshAvailableTrees(bpy.types.Operator):
-    bl_idname      = 'scene.b4w_logic_editor_refresh_available_trees'
-    bl_label       = p_("Refresh", "Operator")
-    bl_description = _("Refresh list of available Trees")
-
-    def invoke(self, context, event):
-        b4w_logic_editor_refresh_available_trees()
-
-        return {'FINISHED'}
-
 class B4W_LogicEditorAddNodeTree(bpy.types.Operator):
     bl_idname      = 'scene.b4w_logic_editor_add_tree'
     bl_label       = p_("Add", "Operator")
@@ -157,8 +139,7 @@ class B4W_LogicEditorAddNodeTree(bpy.types.Operator):
         node = ntree.nodes.new("B4W_logic_node")
         node.type = "ENTRYPOINT"
         node.location = (-500, 0)
-        context.scene.b4w_active_logic_node_tree = ntree.name
-        b4w_logic_editor_refresh_available_trees()
+        context.scene.b4w_active_logic_node_tree_new = ntree
 
         return {'FINISHED'}
 
@@ -168,20 +149,19 @@ class B4W_LogicEditorRemoveNodeTree(bpy.types.Operator):
     bl_description = _("Remove logic node tree")
 
     def invoke(self, context, event):
-        if context.scene.b4w_active_logic_node_tree in bpy.data.node_groups:
+        node_tree = context.scene.b4w_active_logic_node_tree_new
+        if context.scene.b4w_active_logic_node_tree_new:
             for area in bpy.context.screen.areas:
                 if area.type == "NODE_EDITOR":
                     for s in area.spaces:
                         if s.type == "NODE_EDITOR":
                             if s.tree_type == "B4WLogicNodeTreeType":
-                                if s.node_tree:
-                                    if s.node_tree.name == context.scene.b4w_active_logic_node_tree:
-                                        s.node_tree = None
-            bpy.data.node_groups[context.scene.b4w_active_logic_node_tree].use_fake_user = False
-            if bpy.data.node_groups[context.scene.b4w_active_logic_node_tree].users == 0:
-                bpy.data.node_groups.remove(bpy.data.node_groups[context.scene.b4w_active_logic_node_tree])
-        context.scene.b4w_active_logic_node_tree = ""
-        b4w_logic_editor_refresh_available_trees()
+                                if s.node_tree == context.scene.b4w_active_logic_node_tree_new:
+                                    s.node_tree = None
+            context.scene.b4w_active_logic_node_tree_new.use_fake_user = False
+            if context.scene.b4w_active_logic_node_tree_new.users == 0:
+                bpy.data.node_groups.remove(context.scene.b4w_active_logic_node_tree_new)
+        context.scene.b4w_active_logic_node_tree_new = None
 
         return {'FINISHED'}
 
@@ -201,13 +181,12 @@ class B4W_SceneLogicEditor(SceneButtonsPanel, Panel):
         row = layout.row()
         row.label(text=_("Active Node Tree:"))
         row = layout.row(align=True)
-        row.operator('scene.b4w_logic_editor_refresh_available_trees', icon='FILE_REFRESH', text='')
         row.operator('scene.b4w_logic_editor_add_tree', icon='ZOOMIN', text='')
         row.operator('scene.b4w_logic_editor_remove_tree', icon='ZOOMOUT', text='')
         icon='NODETREE'
-        if scene.b4w_use_logic_editor and not scene.b4w_active_logic_node_tree in scene.b4w_available_logic_trees:
+        if scene.b4w_use_logic_editor and not scene.b4w_active_logic_node_tree_new:
             icon = 'ERROR'
-        row.prop_search(scene, 'b4w_active_logic_node_tree', bpy.context.scene, 'b4w_available_logic_trees', icon=icon, text='')
+        row.prop_search(scene, 'b4w_active_logic_node_tree_new', bpy.data, 'node_groups', icon=icon, text='')
 
 class B4W_SceneNLA(SceneButtonsPanel, Panel):
     bl_label = _("NLA")

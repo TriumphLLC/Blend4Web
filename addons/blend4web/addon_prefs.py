@@ -71,6 +71,8 @@ class B4WPreferences(AddonPreferences):
     b4w_reexport_paths = bpy.props.CollectionProperty(
         type=B4WReexportPath)
     b4w_reexport_path_index = IntProperty(default=-1, min=-1)
+    b4w_sync_with_browser = BoolProperty(name=_("Syncronize With Viewer"),
+            default = True, description=_("Enable Data Syncronization between Viewer and Blender"))
 
     def draw(self, context):
         layout = self.layout
@@ -90,6 +92,8 @@ class B4WPreferences(AddonPreferences):
             for m in blend4web.init_mess:
                 row = layout.row()
                 row.label(m, icon="ERROR")
+            row = layout.row()
+            row.prop(self, "b4w_sync_with_browser", text="Syncronize With Viewer By Default")
 
 def get_prefs():
     return bpy.context.user_preferences.addons[__package__].preferences

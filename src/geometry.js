@@ -1271,7 +1271,8 @@ function extract_texcoords(mesh, material_index) {
 
         switch (slot["texture_coords"]) {
         case "UV":
-            texcoords = extract_uv_layer(submesh, slot["uv_layer"], mesh["name"]);
+            texcoords = extract_uv_layer(submesh, slot["uv_layer"] 
+                    || mesh["active_uv_name"], mesh["name"]);
             break;
         case "ORCO":
             texcoords = generate_orco_texcoords(mesh["b4w_boundings"]["bb_src"],
@@ -2302,22 +2303,23 @@ function apply_shape_key_pos(pos_pointer, batch, vbo_source, sk_data) {
 function apply_shape_key_tbn(tbn_pointer, batch, vbo_source, sk_data) {
     if (tbn_pointer) {
         var tbn_offset = tbn_pointer.offset;
-        var tbn_length = tbn_pointer.length + tbn_offset;
-        var tbn_first = batch.bufs_data.shape_keys[0].geometry["a_tbn"];
-        for (var i = tbn_offset; i < tbn_length; i+=m_tbn.TBN_NUM_COMP) {
-            var delta_tbn = m_tbn.identity(_tbn_tmp);
-            var tbn_ind = (i - tbn_offset) / m_tbn.TBN_NUM_COMP;
+        var tbn_count = tbn_pointer.length + tbn_offset;
+        var shape_keys = batch.bufs_data.shape_keys;
+        var tbn_first = shape_keys[0].geometry["a_tbn"];
+        var ident_tbn = m_tbn.identity(_tbn_tmp);
 
-            for (var j = 1; j < batch.bufs_data.shape_keys.length; j++) {
-                var tbn = batch.bufs_data.shape_keys[j].geometry["a_tbn"];
+        for (var i = tbn_offset; i < tbn_count; i+=m_tbn.TBN_NUM_COMP) {
+            var delta_tbn = m_tbn.identity(_tbn_tmp3);
+            var tbn_ind = (i - tbn_offset) / m_tbn.TBN_NUM_COMP;
+            for (var j = 1; j < shape_keys.length; j++) {
                 var value = sk_data[j]["value"];
                 if (!value)
                     continue;
 
+                var tbn = shape_keys[j].geometry["a_tbn"];
                 var d_tbn = m_tbn.get_item(tbn, tbn_ind, _tbn_tmp2);
-                var cur_d_tbn = m_tbn.slerp(m_tbn.identity(_tbn_tmp3), d_tbn,
-                        value, _tbn_tmp2);
-                m_tbn.multiply_tbn(cur_d_tbn, delta_tbn, delta_tbn);
+                var cur_d_tbn = m_tbn.slerp(ident_tbn, d_tbn, value, _tbn_tmp2);
+                m_tbn.multiply_tbn(cur_d_tbn, ident_tbn, delta_tbn);
             }
 
             var b_tbn = m_tbn.get_item(tbn_first, tbn_ind, _tbn_tmp2);

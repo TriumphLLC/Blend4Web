@@ -27,12 +27,17 @@ from blend4web.translator import _, p_
 
 def b4w_fast_preview(self, context):
     if addon_prefs.has_valid_sdk_path():
-        is_started = server.B4WLocalServer.get_server_status() == server.SUB_THREAD_START_SERV_OK
+        is_started = server.B4WLocalServer.is_started()
         
         if (context.scene.render.engine == "BLEND4WEB" 
         		or context.scene.render.engine == "CYCLES"):
-            self.layout.operator("b4w.preview",
-                        text=p_("Fast Preview", "Operator"), icon_value=render_engine.custom_icons["b4w_icon"].icon_id)
+            if is_started:
+                row = self.layout.row(align=True)
+                row.operator("b4w.preview",
+                            text=p_("Fast Preview", "Operator"), icon_value=render_engine.custom_icons["b4w_icon"].icon_id)
+                preferences = addon_prefs.get_prefs()
+                icon = "LINKED" if preferences.b4w_sync_with_browser else "UNLINKED"
+                row.prop(preferences, "b4w_sync_with_browser", icon=icon, text="", expand=False)
 
 def register():
     bpy.types.VIEW3D_HT_header.append(b4w_fast_preview)

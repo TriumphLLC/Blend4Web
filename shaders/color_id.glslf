@@ -239,6 +239,11 @@ GLSL_OUT vec4 GLSL_OUT_FRAG_COLOR;
 
 void main(void) {
 
+#if USE_LOD_SMOOTHING
+    if (!coverage_is_frag_visible(u_lod_coverage, u_lod_cmp_logic))
+        discard;
+#endif
+
 #if ALPHA
 # if NODES
     vec3 eye_dir = normalize(u_camera_eye_frag - v_pos_world);
@@ -273,11 +278,6 @@ void main(void) {
         discard;
     alpha = 1.0;
 # endif
-#endif
-
-#if USE_LOD_SMOOTHING
-    if (!coverage_is_frag_visible(u_lod_coverage, u_lod_cmp_logic))
-        discard;
 #endif
 
 #if USE_OUTLINE

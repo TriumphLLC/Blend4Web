@@ -22,6 +22,7 @@ duCharacter::duCharacter (btRigidBody* character, const btScalar angle,
     m_moveType(CM_WALKING),
     m_turnAngle(angle),
     m_verticalAngle(0.f),
+    m_verticalMoveDirAngle(0.f),
     m_distToWater(1.f),
     m_water(NULL),
     m_waterInd(0),
@@ -130,7 +131,7 @@ void duCharacter::move(btScalar dt)
     if (m_distToWater < m_waterLine || m_moveType == CM_FLYING) {
         // when in water or flying rotate direction in vertical plane as well
         walkDirection = QmV3(walkDirection,
-                     btQuaternion(btVector3(1.f, 0.f, 0.f), m_verticalAngle));
+                     btQuaternion(btVector3(1.f, 0.f, 0.f), m_verticalMoveDirAngle));
     }
 
     // rotate walk direction according to rigid body's horizontal rotation angle
@@ -206,7 +207,7 @@ void duCharacter::move(btScalar dt)
 
         //change sign of vertical velocity depending on vertical angle
         linearVelocity[2] = -m_moveDirection[1] * m_walkVelocity
-                            * (m_verticalAngle < 0 ? 1: -1);
+                            * (m_verticalMoveDirAngle < 0 ? 1: -1);
         m_rigidBody->setLinearVelocity (linearVelocity);
 
     } else if (m_moveType == CM_FLYING) {
@@ -280,6 +281,11 @@ void duCharacter::setVertRotation(const btScalar angle)
     m_verticalAngle = angle;
 }
 
+void duCharacter::setVertMoveDirAngle(const btScalar angle)
+{
+    m_verticalMoveDirAngle = angle;
+}
+
 btVector3 duCharacter::QmV3(const btVector3 & v, const btQuaternion & q)
 {
     // transform Vector3 with a given quaternion
@@ -323,6 +329,11 @@ btScalar duCharacter::getHorRotationAngle() const
 btScalar duCharacter::getVertRotationAngle() const
 {
     return m_verticalAngle;
+}
+
+btScalar duCharacter::getVertMoveDirAngle() const
+{
+    return m_verticalMoveDirAngle;
 }
 
 void duCharacter::setMoveType(CharMovingType move_type)

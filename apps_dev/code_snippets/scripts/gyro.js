@@ -45,7 +45,7 @@ function load() {
 }
 
 function load_cb(data_id) {
-    m_app.enable_camera_controls();
+    m_app.enable_camera_controls(false, false, false, null, true);
     var obj = m_scenes.get_object_by_name("Plane");
     create_obj_rotation_sensors(obj);
 }

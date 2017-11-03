@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Разработчикам движка &mdash; Руководство пользователя Blend4Web 17.08</title>
+  <title>Разработчикам движка &mdash; Руководство пользователя Blend4Web 17.10</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 17.08" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 17.10" href="index.html"/>
         <link rel="next" title="Работа в команде с использованием Git" href="git_short_manual.html"/>
         <link rel="prev" title="Разработчикам приложений" href="developers.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v17.08
+              v17.10
             </div>
           
         
@@ -103,7 +103,7 @@
 <li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Редактор логики</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Освещение, тени и фон</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Спецэффекты</a></li>
-<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">Стереоизображение</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vr_and_ar.html">VR и AR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles.html">Система частиц. Флюиды</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Система частиц. Инстансинг</a></li>
@@ -214,7 +214,7 @@
 <span id="id1"></span><h2><a class="toc-backref" href="#id5">Стиль оформления кода</a><a class="headerlink" href="#coding-style" title="Ссылка на этот заголовок">¶</a></h2>
 <p>В движке применяется структурное программирование. Код организуется в модули. Подходы ООП не используются, классы не определяются, наследование не осуществляется и т.п.</p>
 <p>Используется <a class="reference external" href="http://en.wikipedia.org/wiki/1_true_brace_style#K.26R_style">K&amp;R стиль</a>, за исключением того, что открывающая скобка для составного оператора ставится на той же строке, например:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">function</span> <span class="nx">foo_bar</span><span class="p">()</span> <span class="p">{</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">foo_bar</span><span class="p">()</span> <span class="p">{</span>
     <span class="c1">// ...</span>
 <span class="p">}</span>
 
@@ -227,20 +227,20 @@
 <div class="section" id="examples">
 <h3><a class="toc-backref" href="#id6">Примеры</a><a class="headerlink" href="#examples" title="Ссылка на этот заголовок">¶</a></h3>
 <p>В именах переменных и функций используется знак подчеркивания:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">foo_bar</span> <span class="o">=</span> <span class="mi">123</span><span class="p">;</span>  <span class="c1">// correct</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">foo_bar</span> <span class="o">=</span> <span class="mi">123</span><span class="p">;</span>  <span class="c1">// correct</span>
 <span class="kd">var</span> <span class="nx">fooBar</span> <span class="o">=</span> <span class="mi">123</span><span class="p">;</span>   <span class="c1">// wrong</span>
 </pre></div>
 </div>
 <p>Все глобальные переменные начинаются со знака подчеркивания:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">_foo_bar</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">_foo_bar</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
 </pre></div>
 </div>
 <p>Константы пишутся прописными буквами и никогда не начинаются со знака подчеркивания:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">FOO_BAR</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">FOO_BAR</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
 </pre></div>
 </div>
 <p>Для внешних API названия методов и свойств задаются через точку. Поля, требующие защиту от обфускации, помещаются в специальный тэг <code class="docutils literal"><span class="pre">&#64;cc_externs</span></code>:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">exports</span><span class="p">.</span><span class="nx">FOO_BAR</span> <span class="o">=</span> <span class="mi">123</span><span class="p">;</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">exports</span><span class="p">.</span><span class="nx">FOO_BAR</span> <span class="o">=</span> <span class="mi">123</span><span class="p">;</span>
 
 <span class="nx">exports</span><span class="p">.</span><span class="nx">foo_bar</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
 
@@ -271,19 +271,19 @@
 <h2><a class="toc-backref" href="#id7">Сборка движка</a><a class="headerlink" href="#building-the-engine" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Перед сборкой необходимо убедиться, что в системе присутствуют все необходимые зависимости, для чего следует свериться с <a class="reference internal" href="#dependencies"><span>таблицей</span></a>.</p>
 <p>Для компиляции движка и входящих в SDK приложений достаточно выполнить команду из корневой директории SDK:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>make compile
+<div class="highlight-bash"><div class="highlight"><pre>make compile
 </pre></div>
 </div>
 <p>Полная сборка, включающая конвертацию ресурсов (текстур, звуков и видео), компиляцию и подготовку документации вызывается командой:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>make build
+<div class="highlight-bash"><div class="highlight"><pre>make build
 </pre></div>
 </div>
 <p>Сборка архивов с дистрибутивами:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>make dist
+<div class="highlight-bash"><div class="highlight"><pre>make dist
 </pre></div>
 </div>
 <p>Все вышеперечисленные операции могут быть выполнены одной командой:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>make all
+<div class="highlight-bash"><div class="highlight"><pre>make all
 </pre></div>
 </div>
 </div>
@@ -302,7 +302,7 @@
 </dd>
 </dl>
 <p>Запуск сборки осуществляется следующим образом:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 ./csrc/b4w_bin/build.py
+<div class="highlight-bash"><div class="highlight"><pre>python3 ./csrc/b4w_bin/build.py
 </pre></div>
 </div>
 <p>Результатом сборки будет бинарный файл с именем:</p>
@@ -472,7 +472,7 @@ texlive-xetex</td>
 <span id="id3"></span><h2><a class="toc-backref" href="#id11">Отладка</a><a class="headerlink" href="#debugging" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Отладка движка производится с помощью методов модуля <code class="docutils literal"><span class="pre">debug.js</span></code>.</p>
 <p>Структура текущего рендер-графа может быть сохранена в формате DOT с помощью вызова <code class="docutils literal"><span class="pre">b4w.debug.scenegraph_to_dot()</span></code>, например, в консоли браузера. После вызова данного метода содержимое консоли сохранить в файл с расширением .gv. Чтобы получить граф в графическом виде, необходим набор утилит <a class="reference external" href="http://www.graphviz.org/">graphviz</a>. Преобразование в формат SVG выполняется с помощью вызова:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; dot -Tsvg graph.gv -o graph.svg
+<div class="highlight-bash"><div class="highlight"><pre>&gt; dot -Tsvg graph.gv -o graph.svg
 </pre></div>
 </div>
 <p>где <code class="docutils literal"><span class="pre">graph.gv</span></code> имя файла с сохранённым графом.</p>
@@ -489,7 +489,7 @@ texlive-xetex</td>
 </li>
 </ul>
 <p>Для запуска компиляции требуется выполнить одну из команд в корневой директории SDK:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; make compile_shaders
+<div class="highlight-bash"><div class="highlight"><pre>&gt; make compile_shaders
 &gt; make verify_shaders
 </pre></div>
 </div>
@@ -541,7 +541,7 @@ texlive-xetex</td>
 </li>
 </ul>
 <p>Примером удаления бесполезных фигурных скобок может служить замена кода</p>
-<div class="highlight-glsl"><div class="highlight"><pre><span></span><span class="k">void</span> <span class="n">function</span><span class="p">(){</span>
+<div class="highlight-glsl"><div class="highlight"><pre><span class="k">void</span> <span class="n">function</span><span class="p">(){</span>
     <span class="k">int</span> <span class="n">a</span><span class="p">;</span>
     <span class="p">{</span>
         <span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
@@ -550,14 +550,14 @@ texlive-xetex</td>
 </pre></div>
 </div>
 <p>следующим кодом</p>
-<div class="highlight-glsl"><div class="highlight"><pre><span></span><span class="k">void</span> <span class="n">function</span><span class="p">(){</span>
+<div class="highlight-glsl"><div class="highlight"><pre><span class="k">void</span> <span class="n">function</span><span class="p">(){</span>
     <span class="k">int</span> <span class="n">a</span><span class="p">;</span>
     <span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
 </div>
 <p>Использование малого числа буферных локальных переменных заключается в том, что они повторно используются в разных контекстах. Например, следующий код</p>
-<div class="highlight-glsl"><div class="highlight"><pre><span></span><span class="k">int</span> <span class="n">function</span><span class="p">(){</span>
+<div class="highlight-glsl"><div class="highlight"><pre><span class="k">int</span> <span class="n">function</span><span class="p">(){</span>
     <span class="k">int</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
     <span class="k">int</span> <span class="n">b</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="mi">3</span><span class="p">;</span>
     <span class="k">return</span> <span class="n">b</span><span class="p">;</span>
@@ -565,7 +565,7 @@ texlive-xetex</td>
 </pre></div>
 </div>
 <p>будет заменен на</p>
-<div class="highlight-glsl"><div class="highlight"><pre><span></span><span class="k">int</span> <span class="n">function</span><span class="p">(){</span>
+<div class="highlight-glsl"><div class="highlight"><pre><span class="k">int</span> <span class="n">function</span><span class="p">(){</span>
     <span class="k">int</span> <span class="n">_int_tmp0</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
     <span class="n">_int_tmp0</span> <span class="o">=</span> <span class="n">_int_tmp0</span> <span class="o">+</span> <span class="mi">3</span><span class="p">;</span>
     <span class="k">return</span> <span class="n">_int_tmp0</span><span class="p">;</span>
@@ -580,7 +580,7 @@ texlive-xetex</td>
 <div class="section" id="import-export-directives">
 <span id="index-4"></span><h3><a class="toc-backref" href="#id16">Директивы import/export</a><a class="headerlink" href="#import-export-directives" title="Ссылка на этот заголовок">¶</a></h3>
 <p>В целях упорядочивания, структурирования и повышения удобочитаемости кода шейдеров в include-файлах используются директивы import и export. Они указываются в начале файла и должны выглядеть примерно следующим образом:</p>
-<div class="highlight-glsl"><div class="highlight"><pre><span></span><span class="cp">#import u_frame_factor u_quatsb u_quatsa u_transb u_transa a_influence</span>
+<div class="highlight-glsl"><div class="highlight"><pre><span class="cp">#import u_frame_factor u_quatsb u_quatsa u_transb u_transa a_influence</span>
 <span class="cp">#import qrot</span>
 
 <span class="cp">#export skin</span>
@@ -598,7 +598,7 @@ texlive-xetex</td>
 <li><p class="first">Обязательное использование специальной директивы <code class="docutils literal"><span class="pre">#var</span></code> для описания констант, определяемых движком в момент запуска. Например:</p>
 </li>
 </ol>
-<div class="highlight-glsl"><div class="highlight"><pre><span></span><span class="cp">#var AU_QUALIFIER uniform</span>
+<div class="highlight-glsl"><div class="highlight"><pre><span class="cp">#var AU_QUALIFIER uniform</span>
 <span class="n">AU_QUALIFIER</span> <span class="k">float</span> <span class="n">a</span><span class="p">;</span>
 </pre></div>
 </div>
@@ -618,7 +618,7 @@ texlive-xetex</td>
 </li>
 </ol>
 <p>Например:</p>
-<div class="highlight-glsl"><div class="highlight"><pre><span></span><span class="cp">#var EQUAL =</span>
+<div class="highlight-glsl"><div class="highlight"><pre><span class="cp">#var EQUAL =</span>
 <span class="p">...</span>
 <span class="n">a</span> <span class="o">*</span><span class="n">EQUAL</span> <span class="n">b</span><span class="p">;</span>
 <span class="p">...</span>
@@ -632,7 +632,7 @@ texlive-xetex</td>
 <li><p class="first">К неработоспособности шейдера может привести нетривиальное использование препроцессинга, например, создающее невалидный GLSL-код:</p>
 </li>
 </ol>
-<div class="highlight-glsl"><div class="highlight"><pre><span></span><span class="cp">#if TYPE</span>
+<div class="highlight-glsl"><div class="highlight"><pre><span class="cp">#if TYPE</span>
 <span class="k">void</span> <span class="n">function1</span><span class="p">()</span> <span class="p">{</span>
 <span class="cp">#else</span>
 <span class="k">void</span> <span class="n">function1</span><span class="p">(</span><span class="k">int</span> <span class="n">i</span><span class="p">)</span> <span class="p">{</span>
@@ -779,15 +779,15 @@ FILE_NAME, but never used.</td>
 <div class="section" id="updating-add-on-translations">
 <h2><a class="toc-backref" href="#id20">Обновление переводов аддона</a><a class="headerlink" href="#updating-add-on-translations" title="Ссылка на этот заголовок">¶</a></h2>
 <p>При необходимости обновить все существующие .po файлы, запустите скрипт <em>translator.py</em> из директории SDK/scripts без параметра:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; python3 translator.py
+<div class="highlight-bash"><div class="highlight"><pre>&gt; python3 translator.py
 </pre></div>
 </div>
 <p>Для обновления существующего .po файла необходимо вызвать скрипт с передачей ему одного из поддерживаемых языков:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; python3 translator.py ru_RU
+<div class="highlight-bash"><div class="highlight"><pre>&gt; python3 translator.py ru_RU
 </pre></div>
 </div>
 <p>Для просмотра списка поддерживаемых языков вызовите скрипт следующим образом:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; python3 translator.py <span class="nb">help</span>
+<div class="highlight-bash"><div class="highlight"><pre>&gt; python3 translator.py <span class="nb">help</span>
 </pre></div>
 </div>
 <p>При вызове скрипта в любом случае будет обновлен файл <em>empty.po</em>.</p>
@@ -815,7 +815,7 @@ FILE_NAME, but never used.</td>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Триумф.
-      Обновлено: 2017-08-31.
+      Обновлено: 2017-10-31.
 
     </p>
   </div>
@@ -871,7 +871,7 @@ FILE_NAME, but never used.</td>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.08',
+            VERSION:'v17.10',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

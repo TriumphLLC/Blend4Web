@@ -621,29 +621,29 @@ def remove_overrided_meshes():
     for mesh in _overrided_meshes:
         bpy.data.meshes.remove(mesh)
 
-def mesh_get_active_vc(mesh):
+def mesh_get_active_vc_name(mesh):
     # NOTE: cannot rely on vertex_colors.active or vertex_colors.active_index
     # properties (may be incorrect)
     if mesh.vertex_colors:
         for vc in mesh.vertex_colors:
             if vc.active:
-                return vc
+                return vc.name
 
-        return mesh.vertex_colors[0]
+        return mesh.vertex_colors[0].name
 
-    return None
+    return ""
 
-def mesh_get_active_uv(mesh):
+def mesh_get_active_uv_name(mesh):
     # NOTE: cannot rely on uv_textures.active or uv_textures.active_index
     # properties (may be incorrect)
     if mesh.uv_textures:
         for uv in mesh.uv_textures:
             if uv.active:
-                return uv
+                return uv.name
 
-        return mesh.uv_textures[0]
+        return mesh.uv_textures[0].name
 
-    return None
+    return ""
 
 def scenes_store_select_all_layers():
     global _scene_active_layers
@@ -1231,7 +1231,9 @@ def get_node_idx_by_name(nodes, name):
     return -1
 
 def get_logic_nodetree_name(scene):
-    tree_name = scene.b4w_active_logic_node_tree
+    tree_name = ""
+    if scene.b4w_active_logic_node_tree_new:
+        tree_name = scene.b4w_active_logic_node_tree_new.name
 
     # check tree name, allow empty name
     if (not tree_name in bpy.data.node_groups) or tree_name == "":
@@ -1264,44 +1266,40 @@ def get_logic_nodetree_name(scene):
     return tree_name
 
 def force_mute_node(node_data, desc=None):
+    if desc:
+        warn("Logic Editor: node '%s' - %s, force muting node" % (node_data["name"], desc))
     node_data['mute'] = True
 
-def process_scene_nla(scene, scene_data):
-    scene_data["b4w_use_nla"] = scene.b4w_use_nla
-    scene_data["b4w_nla_cyclic"] = scene.b4w_nla_cyclic
+def check_url(scene_data, slot):
+    if slot["bools"]["url"]:
+        if slot["variables_names"]["url"] != "":
+            return True
+    else:
+        if slot["strings"]["url"] != "":
+            return True
+
+    err("Incorrect Logic script node " + "\"" + slot_data["name"] \
+            + "\"" + ", falling back to simple sequential NLA.")
     scene_data["b4w_logic_nodes"] = []
-    scene_data["b4w_use_logic_editor"] = scene.b4w_use_logic_editor
+    return False
 
-    def check_url(slot):
-        if slot["bools"]["url"]:
-            if slot["variables_names"]["url"] != "":
-                return True
-        else:
-            if slot["strings"]["url"] != "":
-                return True
-
-        err("Incorrect Logic script node " + "\"" + slot_data["name"] \
-             + "\"" + ", falling back to simple sequential NLA.")
-        scene_data["b4w_logic_nodes"] = []
-        return False
-
-    if not scene.b4w_use_logic_editor:
-        return
-
+def process_logic_node_tree(scene, scene_data, tree, logic_root, process_function = None):
+    ret = []
     scripts = []
-    tree_name = get_logic_nodetree_name(scene)
+    scripts, errors = tree.get_tree()
 
-    if not tree_name == "":
-        tree = bpy.data.node_groups[tree_name]
-        scripts, errors = tree.get_tree()
-
-        if len(errors) != 0:
-            for name, mes in errors:
-                err("Logic Editor wrong syntax in '%s': %s" % (name, mes) + ".")
+    if len(errors) != 0:
+        for name, mes in errors:
+            err("Logic Editor wrong syntax in '%s': %s" % (name, mes) + ".")
 
     for script in scripts:
-        scene_data["b4w_logic_nodes"].append([])
-        nla_subtree = scene_data["b4w_logic_nodes"][-1]
+        if process_function:
+            if script[0]["type"] != "DEF_FUNC":
+                continue
+            if script[0]["logic_functions"]["id0"] != process_function:
+                continue
+
+        logic_subtree = []
         for slot in script:
             slot_data = OrderedDict()
             slot_data["label"] = slot['label']
@@ -1328,6 +1326,8 @@ def process_scene_nla(scene, scene_data):
             slot_data["common_usage_names"] = slot["common_usage_names"]
             slot_data["encode_json_vars"] = slot["encode_json_vars"]
             slot_data["encode_json_paths"] = slot["encode_json_paths"]
+            slot_data["logic_functions"] = slot["logic_functions"]
+            slot_data["logic_node_trees"] = slot["logic_node_trees"]
             slot_data["links"] = {}
 
             if slot['type'] == "PLAY":
@@ -1336,38 +1336,32 @@ def process_scene_nla(scene, scene_data):
                 slot_data["frame_range"] = frame_range
                 slot_data["frame_range_mask"] = frame_range_mask
 
-            elif slot['type'] == "SELECT":
-                obj = logic_node_tree.object_by_path(bpy.data.objects, slot['objects_paths']["id0"])
-                if (obj and do_export(obj) and object_is_valid(obj)):
-                    slot_data["object"] = slot["objects_paths"]["id0"]
-                    if slot['link_jump']:
-                        slot_data["slot_idx_jump"] = get_node_idx_by_name(script, slot['link_jump'])
-                else:
-                    force_mute_node(slot_data, "Object is not selected or not exported.")
-
             elif slot['type'] == "SWITCH_SELECT":
-                ind = 0
                 for k in slot["objects_paths"]:
                     obj = logic_node_tree.object_by_path(bpy.data.objects, slot["objects_paths"][k])
-                    if (obj and do_export(obj) and object_is_valid(obj)):
-                        idx = -1
-                        if k in slot["links"]:
-                            idx = get_node_idx_by_name(script, slot['links'][k])
-                        slot_data["links"][k] = idx
-                    else:
-                        force_mute_node(slot_data, "Object is not selected or not exported.")
-                        break
-                    ind += 1
-
+                    if not slot["bools"][k]:
+                        if not (obj and do_export(obj) and object_is_valid(obj)):
+                            force_mute_node(slot_data, "Object is not selected or not exported.")
+                            break
+                    idx = -1
+                    if k in slot["links"]:
+                        idx = get_node_idx_by_name(script, slot['links'][k])
+                    slot_data["links"][k] = idx
+            elif slot['type'] == "SWITCH":
+                for k in slot["variables_names"]:
+                    idx = -1
+                    if k in slot["links"]:
+                        idx = get_node_idx_by_name(script, slot['links'][k])
+                    slot_data["links"][k] = idx
             elif slot['type'] == "PLAY_ANIM" or slot['type'] == "STOP_ANIM":
                 # NOTE: temporary compatibility fix for deprecated SELECT_PLAY_ANIM node
                 if "env" not in slot["bools"] or not slot["bools"]["env"]:
                     obj = logic_node_tree.object_by_path(bpy.data.objects, slot['objects_paths']["id0"])
-
-                    if (obj and do_export(obj) and object_is_valid(obj)):
-                        slot_data["object"] = slot['objects_paths']["id0"]
-                    else:
-                        force_mute_node(slot_data, "Object is not selected or not exported.")
+                    if not slot["bools"]["id0"]:
+                        if (obj and do_export(obj) and object_is_valid(obj)):
+                            slot_data["object"] = slot['objects_paths']["id0"]
+                        else:
+                            force_mute_node(slot_data, "Object is not selected or not exported.")
                 else:
                     wrld = logic_node_tree.object_by_path(bpy.data.worlds, slot['objects_paths']["id0"])
 
@@ -1379,27 +1373,28 @@ def process_scene_nla(scene, scene_data):
             elif slot['type'] == "INHERIT_MAT":
                 for o in slot["objects_paths"]:
                     obj = logic_node_tree.object_by_path(bpy.data.objects, slot["objects_paths"][o])
-                    if (obj and do_export(obj) and object_is_valid(obj) and obj.b4w_dynamic_geometry):
-                        pass
-                    else:
-                        force_mute_node(slot_data)
+                    if not slot["bools"][o]:
+                        if not (obj and do_export(obj) and object_is_valid(obj) and obj.b4w_dynamic_geometry):
+                            force_mute_node(slot_data)
                 check_materials_names(slot, slot_data)
 
             elif slot['type'] == "SET_SHADER_NODE_PARAM":
                 obj = logic_node_tree.object_by_path(bpy.data.objects, slot["objects_paths"]["id0"])
-                if (obj and do_export(obj) and object_is_valid(obj)):
-                    slot_data["object"] = slot['objects_paths']["id0"]
-                else:
-                    force_mute_node(slot_data, "Object is not selected or not exported.")
+                if not slot["bools"]["id0"]:
+                    if (obj and do_export(obj) and object_is_valid(obj)):
+                        slot_data["object"] = slot['objects_paths']["id0"]
+                    else:
+                        force_mute_node(slot_data, "Object is not selected or not exported.")
                 if not slot_data['shader_nd_type']:
                     slot_data['mute'] = True
 
             elif slot['type'] == "APPLY_SHAPE_KEY":
                 obj = logic_node_tree.object_by_path(bpy.data.objects, slot["objects_paths"]["id0"])
-                if (obj and do_export(obj) and object_is_valid(obj)):
-                    pass
-                else:
-                    force_mute_node(slot_data, "Object is not selected or not exported.")
+                if not slot["bools"]["skv"]:
+                    if (obj and do_export(obj) and object_is_valid(obj)):
+                        pass
+                    else:
+                        force_mute_node(slot_data, "Object is not selected or not exported.")
                 if slot_data['common_usage_names']['sk'] == '':
                     slot_data['mute'] = True
 
@@ -1407,34 +1402,35 @@ def process_scene_nla(scene, scene_data):
                 slot_data["slot_idx_jump"] = get_node_idx_by_name(script, slot['link_jump'])
 
                 if slot['type'] == "CONDJUMP":
-                    if not slot['param_var_flag1']:
-                        slot_data["variables"]["v1"][1] = -1
+                    if not slot['bools']["id0"]:
+                        slot_data["variables"]["id0"][1] = -1
 
-                    if not slot['param_var_flag2']:
-                        slot_data["variables"]["v2"][1] = -1
+                    if not slot['bools']["id1"]:
+                        slot_data["variables"]["id1"][1] = -1
 
             elif slot['type'] == "REGSTORE":
-                if slot['param_var_flag1']:
-                    slot_data["variables"]["vd"] = slot['param_var_define']
+                if slot['bools']["new"]:
+                    slot_data["variables"]["vd"] = slot['variables_definitions']["id0"][1]
 
             elif slot['type'] == "MATH":
                 slot_data["operation"] = slot['param_operation']
-                if not slot['param_var_flag1']:
-                    slot_data["variables"]["v1"][1] = -1
-                if not slot['param_var_flag2']:
-                    slot_data["variables"]["v2"][1] = -1
+                if not slot['bools']["id0"]:
+                    slot_data["variables"]["id0"][1] = -1
+                if not slot['bools']["id1"]:
+                    slot_data["variables"]["id1"][1] = -1
             elif slot['type'] == "REDIRECT":
-                if not check_url(slot):
+                if not check_url(scene_data, slot):
                     return
             elif slot['type'] == "SEND_REQ":
-                if not check_url(slot):
+                if not check_url(scene_data, slot):
                     return
             elif slot['type'] == "SHOW" or slot['type'] == "HIDE":
                 obj = logic_node_tree.object_by_path(bpy.data.objects, slot['objects_paths']["id0"])
-                if obj and do_export(obj) and object_is_valid(obj):
-                    slot_data["object"] = slot['objects_paths']["id0"]
-                else:
-                    force_mute_node(slot_data, "Object is not selected or not exported.")
+                if not slot["bools"]["id0"]:
+                    if obj and do_export(obj) and object_is_valid(obj):
+                        slot_data["object"] = slot['objects_paths']["id0"]
+                    else:
+                        force_mute_node(slot_data, "Object is not selected or not exported.")
 
             elif slot['type'] == "PAGEPARAM":
                 if slot['param_name']:
@@ -1448,33 +1444,29 @@ def process_scene_nla(scene, scene_data):
                     slot_data["floats"]["ptp"] = 1
 
             elif slot['type'] == "MOVE_CAMERA":
-                check_objects_paths(slot, slot_data)
+                check_objects_paths(slot, slot_data, True)
 
             elif slot['type'] == "SET_CAMERA_MOVE_STYLE":
                 obj = logic_node_tree.object_by_path(bpy.data.objects, slot["objects_paths"]["id0"])
-                if (obj and do_export(obj) and object_is_valid(obj)):
-                    pass
-                else:
-                    force_mute_node(slot_data, "Object is not selected or not exported.")
-                if slot["common_usage_names"]['camera_move_style'] in ["HOVER", "TARGET"] and slot['bools']['pvo']:
-                    obj = logic_node_tree.object_by_path(bpy.data.objects, slot["objects_paths"]["id1"])
-                    if (obj and do_export(obj) and object_is_valid(obj)):
-                        pass
-                    else:
+                if not slot["bools"]["id0"]:
+                    if not (obj and do_export(obj) and object_is_valid(obj)):
                         force_mute_node(slot_data, "Object is not selected or not exported.")
+                if slot["common_usage_names"]['camera_move_style'] in ["HOVER", "TARGET"] and slot['bools']['pvo']:
+                    if not slot["bools"]["id1"]:
+                        obj = logic_node_tree.object_by_path(bpy.data.objects, slot["objects_paths"]["id1"])
+                        if not (obj and do_export(obj) and object_is_valid(obj)):
+                            force_mute_node(slot_data, "Object is not selected or not exported.")
 
             elif slot['type'] == "SET_CAMERA_LIMITS":
                 obj = logic_node_tree.object_by_path(bpy.data.objects, slot["objects_paths"]["id0"])
-                if (obj and do_export(obj) and object_is_valid(obj)):
-                    pass
-                else:
+                if not (obj and do_export(obj) and object_is_valid(obj)):
                     force_mute_node(slot_data, "Object is not selected or not exported.")
 
             elif slot['type'] == "MOVE_TO":
-                check_objects_paths(slot, slot_data)
+                check_objects_paths(slot, slot_data, True)
 
             elif slot['type'] == "TRANSFORM_OBJECT":
-                check_objects_paths(slot, slot_data)
+                check_objects_paths(slot, slot_data, True)
 
             elif slot['type'] == "STRING":
                 #remove unused elements
@@ -1486,24 +1478,65 @@ def process_scene_nla(scene, scene_data):
                     del slot_data["strings"]["id2"]
 
             elif slot['type'] == "SPEAKER_PLAY" or slot['type'] == "SPEAKER_STOP":
-                check_objects_paths(slot, slot_data)
+                check_objects_paths(slot, slot_data, True)
 
             elif slot['type'] == "NOOP":
                 pass
 
-            nla_subtree.append(slot_data)
+            elif slot['type'] == "CALL_FUNC":
+                # find and export function
+                node_tree_path = slot["logic_node_trees"]["id0"]
+                node_tree = None
 
-    # import pprint
-    # pprint.pprint(scene_data["b4w_logic_nodes"])
+                # if from library
+                if node_tree_path[0] != "":
+                    for t in bpy.data.node_groups:
+                        if t.bl_idname == "B4WLogicNodeTreeType" and \
+                        t.library and \
+                        t.library.filepath == node_tree_path[0] and \
+                        node_tree_path[1] == t.name:
+                            node_tree = t
+                            break
+                    if not node_tree:
+                        err("can't find a tree ", message_type=M_ALL)
+                    else:
+                        if node_tree != tree:
+                            print("process")
+                            subtree = process_logic_node_tree(scene, scene_data, node_tree, logic_root, slot["logic_functions"]["id0"])
+                            logic_root.append(subtree[0])
+
+            logic_subtree.append(slot_data)
+
+        ret.append(logic_subtree)
+    #import pprint
+    #pprint.pprint(scene_data["b4w_logic_nodes"])
+    return ret
+
+def process_scene_nla(scene, scene_data):
+    scene_data["b4w_use_nla"] = scene.b4w_use_nla
+    scene_data["b4w_nla_cyclic"] = scene.b4w_nla_cyclic
+    scene_data["b4w_logic_nodes"] = []
+    scene_data["b4w_use_logic_editor"] = scene.b4w_use_logic_editor
+
+    if not scene.b4w_use_logic_editor:
+        return
+
+    tree_name = get_logic_nodetree_name(scene)
+    if not tree_name == "":
+        tree = bpy.data.node_groups[tree_name]
+
+    logic_subtrees = process_logic_node_tree(scene, scene_data, tree, scene_data["b4w_logic_nodes"])
+    for subtree in logic_subtrees:
+        scene_data["b4w_logic_nodes"].append(subtree)
 
 
-def check_objects_paths(slot, slot_data):
+def check_objects_paths(slot, slot_data, consider_is_var=None):
     for o in slot["objects_paths"]:
         obj = logic_node_tree.object_by_path(bpy.data.objects, slot["objects_paths"][o])
-        if (obj and do_export(obj) and object_is_valid(obj)):
-            pass
-        else:
-            force_mute_node(slot_data, "Object is not selected or not exported.")
+        check_obj = True if consider_is_var == None else not slot["bools"][o]
+        if check_obj:
+            if not (obj and do_export(obj) and object_is_valid(obj)):
+                force_mute_node(slot_data, "Object is not selected or not exported.")
 
 def check_materials_names(slot, slot_data):
     for index in slot["materials_names"]:
@@ -1924,10 +1957,14 @@ def process_object(obj, is_curve=False, is_hair=False):
 
     rot = get_rotation_quat(obj)
     loc = obj.location
-    if (not (obj_data["type"] == "MESH" and (obj.b4w_apply_scale or obj_auto_apply_scale(obj)))
-        and not(obj_data["type"] == "EMPTY" and obj.type == "META")):
-        sca = obj.scale
-    else:
+
+    sca = obj.scale
+    # applied scale
+    if obj.b4w_apply_scale or obj_auto_apply_scale(obj):
+        if (obj_data["type"] == "MESH" 
+                or obj.type == "CURVE" and obj_data["type"] == "EMPTY"):
+            sca = [1.0, 1.0, 1.0]
+    if obj.type == "META" and obj_data["type"] == "EMPTY":
         sca = [1.0, 1.0, 1.0]
 
     obj_data["pass_index"] = obj.pass_index
@@ -2953,11 +2990,8 @@ def process_mesh(mesh, obj_user):
     for uv_texture in mesh.uv_textures:
         mesh_data["uv_textures"].append(uv_texture.name)
 
-    active_vc = mesh_get_active_vc(mesh)
-    if active_vc:
-        mesh_data["active_vcol_name"] = active_vc.name
-    else:
-        mesh_data["active_vcol_name"] = None
+    mesh_data["active_vcol_name"] = mesh_get_active_vc_name(mesh)
+    mesh_data["active_uv_name"] = mesh_get_active_uv_name(mesh)
 
     mesh_data["submeshes"] = []
 
@@ -3226,20 +3260,21 @@ def uv_node_usage_iter(node_tree, nodes_usage):
     for node in node_tree.nodes:
 
         uv_name = ""
+        curr_mesh = _curr_stack["data"][-1]
 
         if node.type == "GEOMETRY" and node.outputs["UV"].is_linked:
-                uv_name = get_uv_layer(_curr_stack["data"][-1], node.uv_layer)
+            uv_name = node.uv_layer or mesh_get_active_uv_name(curr_mesh)
                 
         elif node.type == "UVMAP" and node.outputs["UV"].is_linked:
-                uv_name = get_uv_layer(_curr_stack["data"][-1],  node.uv_map)
+            uv_name = node.uv_map or mesh_get_active_uv_name(curr_mesh)
 
         elif node.type == "TEX_COORD" and node.outputs["UV"].is_linked:
-                uv_name = get_uv_layer(_curr_stack["data"][-1],  "")
+            uv_name = mesh_get_active_uv_name(curr_mesh)
 
         elif node.type == "NORMAL_MAP":
             # no need to export a UV map in this case
             # if node.outputs["Normal"].is_linked:
-            #     uv_name = get_uv_layer(_curr_stack["data"][-1],  node.uv_map)
+            #     uv_name = node.uv_map or mesh_get_active_uv_name(curr_mesh)
             pass
 
         elif node.type == "GROUP" and node.node_tree is not None:
@@ -3262,7 +3297,7 @@ def uv_stack_tex_usage(mat):
             slot = slots[i]
             if (slot is not None and use_slots[i] and slot.texture 
                     and do_export(slot.texture) and slot.texture_coords == "UV"):
-                uv_name = get_uv_layer(_curr_stack["data"][-1], slot.uv_layer)
+                uv_name = slot.uv_layer or mesh_get_active_uv_name(_curr_stack["data"][-1])
 
                 if uv_name != "":
                     stack_usage[uv_name] = True
@@ -3320,8 +3355,9 @@ def vc_node_usage_iter(node_tree, vc_nodes_usage):
     for link in node_tree.links:
         if link.from_node.bl_idname == "ShaderNodeGeometry" \
                 and link.from_socket.identifier == "Vertex Color":
-            vcol_name = get_vertex_color(_curr_stack["data"][-1], link.from_node.color_layer)
 
+            vcol_name = (link.from_node.color_layer 
+                    or mesh_get_active_vc_name(_curr_stack["data"][-1]))
             if vcol_name:
                 to_name = link.to_node.name
                 if vcol_name not in geometry_vcols:
@@ -3404,9 +3440,9 @@ def vc_channel_color_paint_usage(mesh, mat):
     vc_cpaint_usage = {}
 
     if mat is not None and mat.use_vertex_color_paint and len(mesh.vertex_colors):
-        vc_active = mesh_get_active_vc(mesh)
-        if vc_active:
-            vc_cpaint_usage[vc_active.name] = rgb_channels_to_mask("RGB")
+        vc_active_name = mesh_get_active_vc_name(mesh)
+        if vc_active_name != "":
+            vc_cpaint_usage[vc_active_name] = rgb_channels_to_mask("RGB")
 
     return vc_cpaint_usage
 
@@ -4504,36 +4540,26 @@ def process_node_tree(data, tree_source, is_group = False):
         if (node.type == "OUTPUT_LAMP"):
             continue
 
+        active_uv_name = ("" if "b4w_sky_settings" in tree_source 
+                else mesh_get_active_uv_name(_curr_stack["data"][-1]))
+
         if node.type == "GEOMETRY":
-            if node.outputs["UV"].is_linked:
-                node_data["uv_layer"] = get_uv_layer(_curr_stack["data"][-1], node.uv_layer)
-            else:
-                node_data["uv_layer"] = node.uv_layer
-            data["uv_vc_key"] += node.uv_layer + node_data["uv_layer"]
+            node_data["uv_layer"] = node.uv_layer
+            data["uv_vc_key"] += node.uv_layer or active_uv_name
 
             if node.outputs["Orco"].is_linked:
                 data["use_orco_tex_coord"] = True
 
-            if node.outputs["Vertex Color"].is_linked:
-                node_data["color_layer"] = get_vertex_color(_curr_stack["data"][-1], node.color_layer)
-            else:
-                node_data["color_layer"] = node.color_layer
-            data["uv_vc_key"] += node.color_layer + node_data["color_layer"]
+            node_data["color_layer"] = node.color_layer
+            data["uv_vc_key"] += node.color_layer or active_uv_name
                 
         elif node.type == "UVMAP":
-            # second condition for worlds
-            if node.outputs["UV"].is_linked and not "b4w_sky_settings" in tree_source:
-                node_data["uv_layer"] = get_uv_layer(_curr_stack["data"][-1],  node.uv_map)
-            else:
-                node_data["uv_layer"] =  node.uv_map
-            data["uv_vc_key"] += node.uv_map + node_data["uv_layer"]
+            node_data["uv_layer"] =  node.uv_map
+            data["uv_vc_key"] += node.uv_map or active_uv_name
 
         elif node.type == "TEX_COORD":
-            if node.outputs["UV"].is_linked:
-                node_data["uv_layer"] = get_uv_layer(_curr_stack["data"][-1],  "")
-            else:
-                node_data["uv_layer"] = ""
-            data["uv_vc_key"] += node_data["uv_layer"]
+            node_data["uv_layer"] = ""
+            data["uv_vc_key"] += active_uv_name
             if node.outputs["Generated"].is_linked:
                 data["use_orco_tex_coord"] = True
 
@@ -4681,11 +4707,9 @@ def process_node_tree(data, tree_source, is_group = False):
 
         elif node.type == "NORMAL_MAP":
             node_data["space"] = node.space
-            if node.outputs["Normal"].is_linked:
-                node_data["uv_map"] = get_uv_layer(_curr_stack["data"][-1],  node.uv_map)
-            else:
-                node_data["uv_map"] =  node.uv_map
-            data["uv_vc_key"] += node.uv_map + node_data["uv_map"]
+            # "uv_map" is currently unused
+            node_data["uv_map"] =  node.uv_map
+            data["uv_vc_key"] += node.uv_map or active_uv_name
 
         elif node.type == "BUMP":
             node_data["invert"] = node.invert
@@ -4954,12 +4978,9 @@ def process_material_texture_slots(mat_data, material):
                 check_tex_slot(slot)
 
                 slot_data["texture_coords"] = tc
-
-                if tc == "UV":
-                    slot_data["uv_layer"] = get_uv_layer(_curr_stack["data"][-1], slot.uv_layer)
-                else:
-                    slot_data["uv_layer"] = ""
-                mat_data["uv_vc_key"] += slot.uv_layer + slot_data["uv_layer"]
+                slot_data["uv_layer"] = slot.uv_layer
+                mat_data["uv_vc_key"] += (slot.uv_layer 
+                        or mesh_get_active_uv_name(_curr_stack["data"][-1]))
 
                 slot_data["use_map_color_diffuse"] = slot.use_map_color_diffuse
                 slot_data["diffuse_color_factor"] \
@@ -5424,14 +5445,19 @@ class B4W_ExportProcessor(bpy.types.Operator):
                         fb.write(_bpy_bindata_uchar)
                         fb.close()
 
-                    if self.run_in_viewer:
-                        path_to_sdk = bpy.context.user_preferences.addons[__package__].preferences.b4w_src_path
-                        path_to_viewer = os.path.join(path_to_sdk, os.path.dirname(PATH_TO_VIEWER))
-                        relpath_to_viewer = os.path.relpath(export_filepath, path_to_viewer)
-                        relpath_to_viewer = guard_slashes(os.path.normpath(relpath_to_viewer))
+                    path_to_sdk = bpy.context.user_preferences.addons[__package__].preferences.b4w_src_path
+                    path_to_viewer = os.path.join(path_to_sdk, os.path.dirname(PATH_TO_VIEWER))
+                    relpath_to_viewer = os.path.relpath(export_filepath, path_to_viewer)
+                    relpath_to_viewer = guard_slashes(os.path.normpath(relpath_to_viewer))
 
+                    sync_option = bpy.context.user_preferences.addons[__package__].preferences.b4w_sync_with_browser
+                    is_sync_instance = False
+                    if not bpy.app.background:
+                        is_sync_instance = server.is_synchronized(relpath_to_viewer)
+                    if self.run_in_viewer and ((sync_option and not is_sync_instance) or not sync_option):
+                        sync = "&sync=true" if sync_option else "&sync=false"
                         port = bpy.context.user_preferences.addons[__package__].preferences.b4w_port_number
-                        url = "http://localhost:" + str(port) + "/" + PATH_TO_VIEWER + "?load=" + relpath_to_viewer
+                        url = "http://localhost:" + str(port) + "/" + PATH_TO_VIEWER + "?load=" + relpath_to_viewer + sync
                         server.open_browser(url)
                     print("EXPORT OK")
         else:
@@ -5687,24 +5713,6 @@ def check_vertex_color_empty(mesh, vc_name):
             return True
     # no found
     return False
-
-def get_uv_layer(mesh, uv_layer_name):
-    if uv_layer_name == "":
-        if mesh.uv_textures:
-            return mesh_get_active_uv(mesh).name
-        else:
-            return ""
-
-    return uv_layer_name
-
-def get_vertex_color(mesh, vc_name):
-    if vc_name == "":
-        if mesh.vertex_colors:
-            return mesh_get_active_vc(mesh).name
-        else:
-            return ""
-
-    return vc_name
 
 def check_tex_slot(tex_slot):
     tex = tex_slot.texture

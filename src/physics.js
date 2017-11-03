@@ -356,7 +356,7 @@ function process_message(worker, msg_id, msg) {
         var out_time = (msg[2] - msg[1]).toFixed(3);
         var in_time = (performance.now() - msg[2]).toFixed(3);
         var all_time = (performance.now() - msg[1]).toFixed(3);
-        console.log("Physics #" + idx + " Ping: OUT " + out_time +
+        m_print.log("Physics #" + idx + " Ping: OUT " + out_time +
                 " ms, IN " + in_time + " ms, ALL " + all_time + " ms");
         break;
     case m_ipc.IN_FPS:
@@ -365,8 +365,8 @@ function process_message(worker, msg_id, msg) {
     case m_ipc.IN_DEBUG_STATS:
         var idx = _workers.indexOf(worker);
         // TODO: add scene name
-        console.log("Worker: #" + String(idx));
-        console.log(msg[1]);
+        m_print.log("Worker: #" + String(idx));
+        m_print.log(msg[1]);
         break;
     default:
         m_print.error("Wrong message: " + msg_id);
@@ -1153,10 +1153,10 @@ exports.has_simulated_physics = function(obj) {
         return false;
 }
 
-exports.set_gravity = function(obj, gravity) {
+exports.set_gravity = function(obj, grav_x, grav_y, grav_z) {
     var body_id = obj.physics.body_id;
     var worker = find_worker_by_body_id(body_id);
-    m_ipc.post_msg(worker, m_ipc.OUT_SET_GRAVITY, body_id, gravity);
+    m_ipc.post_msg(worker, m_ipc.OUT_SET_GRAVITY, body_id, grav_x, grav_y, grav_z);
 }
 
 /**
@@ -1178,6 +1178,10 @@ function process_rigid_body_joints(obj) {
 
         var trans = get_rbj_trans(cons);
         var quat = get_rbj_quat(cons);
+
+        // bullet's initial HINGE axis is Z, need to convert to Blender's X-axis
+        if (pivot_type == "HINGE")
+            m_quat.rotateY(quat, Math.PI / 2, quat);
 
         var local = m_tsr.identity(_tsr_tmp);
 
@@ -1609,6 +1613,12 @@ exports.set_character_rotation_v = function(obj, angle) {
     var body_id = obj.physics.body_id;
     var worker = find_worker_by_body_id(body_id);
     m_ipc.post_msg(worker, m_ipc.OUT_SET_CHARACTER_VERT_ROTATION, body_id, angle);
+}
+
+exports.set_character_vert_move_dir_angle = function(obj, angle) {
+    var body_id = obj.physics.body_id;
+    var worker = find_worker_by_body_id(body_id);
+    m_ipc.post_msg(worker, m_ipc.OUT_SET_CHARACTER_VERT_MOVE_DIR_ANGLE, body_id, angle);
 }
 
 exports.append_collision_test = function(obj_src, collision_id, callback,

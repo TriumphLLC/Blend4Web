@@ -21,6 +21,7 @@ HTMLAreaElement.prototype.download;
 // missing WebGL 2.0 stuff
 WebGLRenderingContext.RGB8;
 WebGLRenderingContext.RGBA8;
+WebGLRenderingContext.RGBA32F;
 WebGLRenderingContext.DEPTH;
 WebGLRenderingContext.DEPTH_COMPONENT24;
 WebGLRenderingContext.DEPTH_COMPONENT32F;

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Physics &mdash; Blend4Web 17.08 User Manual</title>
+  <title>Physics &mdash; Blend4Web 17.10 User Manual</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.08 User Manual" href="index.html"/>
+    <link rel="top" title="Blend4Web 17.10 User Manual" href="index.html"/>
         <link rel="next" title="For Application Developers" href="developers.html"/>
         <link rel="prev" title="Audio" href="audio.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v17.08
+              v17.10
             </div>
           
         
@@ -103,7 +103,7 @@
 <li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Editor</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
-<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">Stereo Rendering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vr_and_ar.html">VR and AR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
@@ -428,7 +428,7 @@
 <h3><a class="toc-backref" href="#id19">Controlling Characters with API</a><a class="headerlink" href="#controlling-characters-with-api" title="Permalink to this headline">¶</a></h3>
 <p>Basic character described above can only provide generic functionality. If you need more control over character behavior, you should use methods from the <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html">fps</a> module.</p>
 <p>The most important of them is the <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.enable_fps_controls">enable_fps_controls()</a> method which, as its name suggests, is used to initialize characters in the scene. It can be used as follows:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_fps</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;fps&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_fps</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;fps&quot;</span><span class="p">);</span>
 
 <span class="nx">m_fps</span><span class="p">.</span><span class="nx">enable_fps_controls</span><span class="p">();</span>
 </pre></div>
@@ -461,7 +461,7 @@
 <p><a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.CS_WALK">CS_WALK</a> - a character is walking.</p>
 </div></blockquote>
 <p>Current state of a specific character can be retrieved using the <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.get_character_state">get_character_state()</a> method, while a specific state can be assigned to a character with the <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.switch_state">switch_state()</a> method. The following example shows how these two methods can be used:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_fps</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;fps&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_fps</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;fps&quot;</span><span class="p">);</span>
 
 <span class="kd">var</span> <span class="nx">current_state</span> <span class="o">=</span> <span class="nx">m_fps</span><span class="p">.</span><span class="nx">get_character_state</span><span class="p">();</span>
 
@@ -473,7 +473,7 @@
 <div class="section" id="action-binding">
 <h4>Action Binding<a class="headerlink" href="#action-binding" title="Permalink to this headline">¶</a></h4>
 <p>The <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html">fps</a> module also provides means for binding various actions to character events. The <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.bind_action">bind_action()</a> method is used for this:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_fps</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;fps&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_fps</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;fps&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_ctl</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;controls&quot;</span><span class="p">);</span>
 
 <span class="kd">var</span> <span class="nx">action_cb</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
@@ -576,7 +576,7 @@
 <span id="using-physics"></span><h2><a class="toc-backref" href="#id23">Use in Applications</a><a class="headerlink" href="#use-in-applications" title="Permalink to this headline">¶</a></h2>
 <p>The physics system is implemented in the <strong>uranium.js</strong> module and loaded separately from the engine&#8217;s main code. The <strong>uranium.js</strong> module itself is a modification of the <a class="reference external" href="http://bulletphysics.org/">Bullet</a> physics engine, which is ported to work in browsers. In order to activate the physics system, it is enough to put the <strong>uranium.js</strong> and <strong>uranium.js.mem</strong> files in the same directory as the source code of the application.</p>
 <p>Another way is to explicitly specify the loading path of the <strong>uranium.js</strong> module by using the following API method:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">m_config</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;physics_uranium_path&quot;</span><span class="p">,</span> <span class="s2">&quot;.../uranium.js&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">m_config</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;physics_uranium_path&quot;</span><span class="p">,</span> <span class="s2">&quot;.../uranium.js&quot;</span><span class="p">);</span>
 </pre></div>
 </div>
 <div class="admonition note">
@@ -584,9 +584,23 @@
 <p class="last">When applications are developed <a class="reference internal" href="project_manager.html#project-management"><span>within the SDK</span></a>, the path to the physics engine is detected automatically.</p>
 </div>
 <p>If your application does not use physics, we recommend you to turn off the <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">Physics</span></code> flag in the <code class="docutils literal"><span class="pre">Physics</span></code> panel under the scene tab in Blender. It is also possible to forcibly disable loading of the <strong>uranium.js</strong> module by calling the following method before initialization of the engine:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">m_config</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;physics_enabled&quot;</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">m_config</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;physics_enabled&quot;</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
 </pre></div>
 </div>
+<p>Physics subsystem is implemented in the “uranium” module and is loaded independently from the main engine code. The “uranium” module is a modification of the <a class="reference external" href="https://en.wikipedia.org/wiki/Bullet_(software)">Bullet physics engine</a> ported to work in web browsers.</p>
+<p>Blend4Web physics engine comes in two variations: the one compiled using WebAssembly (<code class="docutils literal"><span class="pre">uranium_wasm.js</span></code> and  <code class="docutils literal"><span class="pre">uranium_wasm.wasm</span></code> files) is used by default, while the other version, compiled with <code class="docutils literal"><span class="pre">asm.js</span></code> (<code class="docutils literal"><span class="pre">uranium.js</span></code> and  <code class="docutils literal"><span class="pre">uranium.js.mem</span></code>) can be used as a fallback. The WebAssembly version is smaller in size, can be initialized quicker and using it might improve the stability and performance of the application. However, at the moment not every browser supports WebAssembly, so, if this technology is not available, the asm.js version of the physics engine is used instead.</p>
+<p>By default, physics engine is plugged in if the scene contains objects with physics enabled. You can manually disable physics by setting the <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">Physics</span></code> option on the <code class="docutils literal"><span class="pre">Scene</span> <span class="pre">-&gt;</span> <span class="pre">Physics</span></code> panel to <code class="docutils literal"><span class="pre">OFF</span></code>. You can also uncheck the <code class="docutils literal"><span class="pre">Use</span> <span class="pre">Physics</span></code> flag on the <a class="reference internal" href="project_manager.html#project-config"><span>project configuration page</span></a> in the <a class="reference internal" href="project_manager.html#project-manager"><span>Project Manager</span></a> to exclude physics engine files from the build version of your project.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Physics is not supported in <code class="docutils literal"><span class="pre">WebPlayer</span> <span class="pre">HTML</span></code> type projects and in the scenes exported into HTML.</p>
+</div>
+<p>Several flags for configuring physics engine are available in the <a class="reference external" href="https://www.blend4web.com/api_doc/module-app.html#.init">init()</a> method that is used to initialize the application:</p>
+<blockquote>
+<div><p><strong>physics_enabled</strong> - load physics engine to use physics in the application. Set to <code class="docutils literal"><span class="pre">true</span></code> by default.</p>
+<p><strong>physics_uranium_path</strong> - the relative path to the folder containing the physics engine files (the <code class="docutils literal"><span class="pre">uranium_wasm.js</span></code>, <code class="docutils literal"><span class="pre">uranium_wasm.wasm</span></code>, <code class="docutils literal"><span class="pre">uranium.js</span></code> and <code class="docutils literal"><span class="pre">uranium.js.mem</span></code> files). Use this parameter if you need to place physics engine files in a custom location.</p>
+<p><strong>physics_use_wasm</strong> - if this paraemter is set to <code class="docutils literal"><span class="pre">true</span></code>, WebAssembly version is used. If it is set to <code class="docutils literal"><span class="pre">false</span></code>, the asm.js version is used instead. Default value is <code class="docutils literal"><span class="pre">true</span></code>.</p>
+<p><strong>physics_use_workers</strong> - calculate physics in a separate thread using a worker (if this parameter is set to <code class="docutils literal"><span class="pre">true</span></code>), or in the main thread (if it is set to <code class="docutils literal"><span class="pre">false</span></code>). Default value is <code class="docutils literal"><span class="pre">true</span></code>.</p>
+</div></blockquote>
 </div>
 </div>
 
@@ -610,7 +624,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Triumph.
-      Last updated on 2017-08-31.
+      Last updated on 2017-10-31.
 
     </p>
   </div>
@@ -666,7 +680,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.08',
+            VERSION:'v17.10',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

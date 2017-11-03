@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Физика &mdash; Руководство пользователя Blend4Web 17.08</title>
+  <title>Физика &mdash; Руководство пользователя Blend4Web 17.10</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 17.08" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 17.10" href="index.html"/>
         <link rel="next" title="Разработчикам приложений" href="developers.html"/>
         <link rel="prev" title="Звук" href="audio.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v17.08
+              v17.10
             </div>
           
         
@@ -103,7 +103,7 @@
 <li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Редактор логики</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Освещение, тени и фон</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Спецэффекты</a></li>
-<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">Стереоизображение</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vr_and_ar.html">VR и AR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles.html">Система частиц. Флюиды</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Система частиц. Инстансинг</a></li>
@@ -451,7 +451,7 @@
 <h3><a class="toc-backref" href="#id19">Управление персонажем с помощью API</a><a class="headerlink" href="#controlling-characters-with-api" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Базовые персонажи обладают только стандартным набором возможностей. Если вам требуется более тонкая настройка поведения персонажа, следует использовать методы модуля <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html">fps</a>.</p>
 <p>Наиболее важный из них - метод <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.enable_fps_controls">enable_fps_controls()</a>, который, как понятно из его названия, используется для инициализации персонажей в сцене. Он может быть использован следующим образом:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_fps</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;fps&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_fps</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;fps&quot;</span><span class="p">);</span>
 
 <span class="nx">m_fps</span><span class="p">.</span><span class="nx">enable_fps_controls</span><span class="p">();</span>
 </pre></div>
@@ -484,7 +484,7 @@
 <p><a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.CS_WALK">CS_WALK</a> - персонаж идёт.</p>
 </div></blockquote>
 <p>Текущее состояние персонажа можно получить при помощи метода <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.get_character_state">get_character_state()</a>. С помощью метода <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.switch_state">switch_state()</a> персонажу может быть присвоено то или иное состояние. Пример ниже демонстрирует использование этих двух методов:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_fps</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;fps&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_fps</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;fps&quot;</span><span class="p">);</span>
 
 <span class="kd">var</span> <span class="nx">current_state</span> <span class="o">=</span> <span class="nx">m_fps</span><span class="p">.</span><span class="nx">get_character_state</span><span class="p">();</span>
 
@@ -496,7 +496,7 @@
 <div class="section" id="action-binding">
 <h4>Привязка действий<a class="headerlink" href="#action-binding" title="Ссылка на этот заголовок">¶</a></h4>
 <p>В модуле <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html">fps</a> также есть средства для привязки различных действий к событиям персонажа. Для этого используется метод <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.bind_action">bind_action()</a>:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_fps</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;fps&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_fps</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;fps&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_ctl</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;controls&quot;</span><span class="p">);</span>
 
 <span class="kd">var</span> <span class="nx">action_cb</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
@@ -612,7 +612,7 @@
 <span id="using-physics"></span><h2><a class="toc-backref" href="#id23">Особенности использования в приложениях</a><a class="headerlink" href="#use-in-applications" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Физическая подсистема реализована в модуле <strong>uranium.js</strong> и загружается отдельно от основного кода движка. Модуль <strong>uranium.js</strong> представляет собой модификацию физического движка <a class="reference external" href="http://bulletphysics.org/">Bullet</a>, портированную для работы в браузерах. Быстрое подключение физической подсистемы можно осуществить, разместив файлы <strong>uranium.js</strong> и <strong>uranium.js.mem</strong> в той же директории, где расположен исходный код движка, используемого в приложении.</p>
 <p>В противном случае необходимо указать путь к модулю, используя конструкцию вида:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">m_config</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;physics_uranium_path&quot;</span><span class="p">,</span> <span class="s2">&quot;.../uranium.js&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">m_config</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;physics_uranium_path&quot;</span><span class="p">,</span> <span class="s2">&quot;.../uranium.js&quot;</span><span class="p">);</span>
 </pre></div>
 </div>
 <div class="admonition note">
@@ -620,9 +620,23 @@
 <p class="last">При разработке приложения <a class="reference internal" href="project_manager.html#project-management"><span>в составе SDK</span></a> путь к физическому движку определяется автоматически.</p>
 </div>
 <p>Если использование физики не требуется, рекомендуется отключить флаг <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">Physics</span></code> в панели <code class="docutils literal"><span class="pre">Physics</span></code> на вкладкe сцены в Blender&#8217;е. Также можно принудительно отключить загрузку модуля <strong>uranium.js</strong>, если до начала инициализации движка вызывать следующий метод:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">m_config</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;physics_enabled&quot;</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">m_config</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;physics_enabled&quot;</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
 </pre></div>
 </div>
+<p>Физическая подсистема реализована в модуле <code class="docutils literal"><span class="pre">uranium</span></code> и загружается отдельно от основного кода движка. Модуль <code class="docutils literal"><span class="pre">uranium</span></code> представляет собой модификацию <a class="reference external" href="https://ru.wikipedia.org/wiki/Bullet_Physics_Library">физического движка Bullet</a>, портированную для работы в браузерах.</p>
+<p>В Blend4Web физический движок существует в 2 вариантах: по умолчанию используется версия, скомпилированная для использования с WebAssembly - файлы <code class="docutils literal"><span class="pre">uranium_wasm.js</span></code> и <code class="docutils literal"><span class="pre">uranium_wasm.wasm</span></code>, а в качестве резерва, скомпилированная в <code class="docutils literal"><span class="pre">asm.js</span></code> - файлы <code class="docutils literal"><span class="pre">uranium.js</span></code> и <code class="docutils literal"><span class="pre">uranium.js.mem</span></code>. WebAssembly-версия имеет меньший размер, быстрее инициализируется, а также может повысить стабильность и FPS приложения. Однако WebAssembly на текущий момент поддерживается не всеми браузерами, поэтому там, где эта технология недоступна, используется asm.js-версия физического движка в качестве резерва.</p>
+<p>По умолчанию физический движок подключается, если в сцене присутствуют объекты, на которых настроена физика. Принудительно отключить физику можно, выставив опцию <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">Physics</span></code> на панели <code class="docutils literal"><span class="pre">Scene</span> <span class="pre">-&gt;</span> <span class="pre">Physics</span></code> в положение <code class="docutils literal"><span class="pre">OFF</span></code>. Также в <a class="reference internal" href="project_manager.html#project-config"><span>настройках конфигурации проекта</span></a> в <a class="reference internal" href="project_manager.html#project-manager"><span>Менеджере проектов</span></a> можно отключить флаг <code class="docutils literal"><span class="pre">Use</span> <span class="pre">Physics</span></code>, чтобы исключить файлы физического движка из build-версии проекта.</p>
+<div class="admonition note">
+<p class="first admonition-title">Примечание</p>
+<p class="last">Физика не поддерживается при HTML-экспорте и в проектах типа WebPlayer HTML.</p>
+</div>
+<p>При инициализации приложения методом <a class="reference external" href="https://www.blend4web.com/api_doc/module-app.html#.init">init()</a> можно указать несколько флагов конфигурации физического движка:</p>
+<blockquote>
+<div><p><strong>physics_enabled</strong> - использовать ли физику в приложении, подгружая физический движок, по умолчанию <code class="docutils literal"><span class="pre">true</span></code>.</p>
+<p><strong>physics_uranium_path</strong> - путь к директории с файлами физического движка относительно главного HTML-файла приложения; стоит указывать, если требуется их нестандартное расположение, по данному пути должны быть доступны файлы <code class="docutils literal"><span class="pre">uranium_wasm.js</span></code>, <code class="docutils literal"><span class="pre">uranium_wasm.wasm</span></code>, <code class="docutils literal"><span class="pre">uranium.js</span></code> и <code class="docutils literal"><span class="pre">uranium.js.mem</span></code>.</p>
+<p><strong>physics_use_wasm</strong> - использовать WebAssembly-версию (<code class="docutils literal"><span class="pre">true</span></code>) или версию, скомпилированную в asm.js (<code class="docutils literal"><span class="pre">false</span></code>). Значение по умолчанию - <code class="docutils literal"><span class="pre">true</span></code>.</p>
+<p><strong>physics_use_workers</strong> - обсчитывать физику в отдельном потоке с использованием Worker&#8217;а (<code class="docutils literal"><span class="pre">true</span></code>) или в одном совместно с рендерингом графики (<code class="docutils literal"><span class="pre">false</span></code>). Значение по умолчанию - <code class="docutils literal"><span class="pre">true</span></code>.</p>
+</div></blockquote>
 </div>
 </div>
 
@@ -646,7 +660,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Триумф.
-      Обновлено: 2017-08-31.
+      Обновлено: 2017-10-31.
 
     </p>
   </div>
@@ -702,7 +716,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.08',
+            VERSION:'v17.10',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

@@ -677,7 +677,7 @@ Object selection is possible programmatically via API, for example, in the ``sce
     var obj = m_scenes.pick_object(x, y);
     // ...
 
-or using the :ref:`Logic Editor <logic_switch_select>`.
+or using the :ref:`Logic Editor <logic_select>`.
 
 If the selectable object has enabled ``Enable Outlining`` and ``Outline on Select`` checkboxes on the ``Object > Selection`` and Outlining panel, then the ``pick_object`` function call will activate :ref:`outline glow animation <outline>`.
 

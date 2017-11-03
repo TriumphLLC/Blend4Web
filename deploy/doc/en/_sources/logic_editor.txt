@@ -83,10 +83,10 @@ Internal Parameters
 *Run From Script*
     If this parameter is enabled, the entry point can be triggered via API by using the :b4wref:`logic_nodes.run_entrypoint` method.
 
-.. _logic_switch_select:
+.. _logic_select:
 
-Switch Select
--------------
+Select
+------
 
 Can be used to trace the selection of any object from the object list.
 
@@ -104,10 +104,10 @@ Output Parameters
 .................
 
 *<object name> Hit*
-    This parameter will pass the control to the next node if the user selects (with a mouse or by touch) an object mentioned in the parameter’s name. The ``Switch Select`` node has one such parameter by default, but you can add new ones and remove existing ones (the node can even have no such parameters).
+    This parameter will pass the control to the next node if the user selects (with a mouse or by touch) an object mentioned in the parameter’s name. The ``Select`` node has one such parameter by default, but you can add new ones and remove existing ones (the node can even have no such parameters).
 
 *Miss*
-    This parameter will pass the control to the next node when the user selects any object with the ``Selectable`` property enabled (or used by another ``Switch Select`` node), but not specified in the ``Switch Select`` node.
+    This parameter will pass the control to the next node when the user selects any object with the ``Selectable`` property enabled (or used by another ``Select`` node), but not specified in the ``Select`` node.
 
 Internal Parameters
 ...................
@@ -115,10 +115,16 @@ Internal Parameters
 *Object*
     One of the objects that the user can select. These parameters are automatically created and deleted when you create or delete a ``Hit`` parameter. The number of such parameters is always equal to the number of the ``Hit`` parameters.
 
-.. _logic_jump:
+*Variable*
+    If this parameter is enabled, you can specify an object variable in the corresponding ``Object`` field.
 
-Conditional Jump
-----------------
+*Destination*
+    Sets a variable that will be used to store a selected object after an event of selection.
+
+.. _logic_branch:
+
+Branch
+------
 
 Go to the specified node if the certain condition is met. The parameters (operands) can also be variables that are activated using the corresponding switches.
 
@@ -160,8 +166,40 @@ Internal Parameters
 *Operand2*
     Second operand of the logical condition. Works the same way as the first.
 
-*String Operands*
-    If this parameter is enabled, first and second operands can use strings (set manually or by a variable) as their values.
+*Operand's Type*
+    The type of the operands. Available values are ``Number`` (the default option), ``String`` and ``Object``.
+
+.. _logic_switch:
+
+Switch
+------
+
+This node compares several variables with a given value and executes a conditional jump depending on the outcome.
+
+.. image:: src_images/logic_editor/logic_editor_switch.png
+    :align: center
+    :width: 100%
+
+Input Parameters
+................
+
+*Previous*
+    Previous node.
+
+Output Parameters
+.................
+
+*<variable name>*
+    One of the variables used for comparison. If the value of the variable specified by this parameter is equal to the value of the ``Variable`` parameter, control is passed to the node connected to this output. The ``Switch`` node has one such parameter by default, but you can add new ones and remove existing ones (the node can even have no such parameters).
+
+*Default*
+    This output will pass control to the next node in case none of the values are equal to that of the variable set by the ``Variable`` parameter.
+
+Internal Parameters
+...................
+
+*Variable*
+    Specifies a variable used for comparison.
 
 .. _logic_callback:
 
@@ -192,6 +230,8 @@ Internal Parameters
 *Callback ID*
     The ID of a JavaScript function that will be called by the node.
 
+    This value can be set directly or via a variable (if the ``Variable`` parameter is enabled).
+
 *In Params*
     A list of the input parameters of the function. Each parameter can be either a variable or a link to a scene object. The number of the input parameters can be adjusted. By default, this list is empty.
     
@@ -211,15 +251,87 @@ Internal Parameters
 *Param <param_number>*
     Specifies one of the variables that will be used as an output parameter. By default, ``R1`` variable is used.
 
+.. _logic_define_function:
+
+Define Function
+---------------
+
+This node can be used to combine several logic nodes into a function - a subroutine that can be accessed from the main logic setup. This node always serves as a starting point of a separate node tree and thus feature no input parameters.
+
+.. image:: src_images/logic_editor/logic_editor_define_function.png
+    :align: center
+    :width: 100%
+
+Input Parameters
+................
+
+None.
+
+Output Parameters
+.................
+
+*Next*
+    Next node.
+
+Internal Parameters
+...................
+
+*Function*
+    The name of the function.
+
+*In Params*
+    The list of the function's input parameters. This list is empty by default, but you can add and remove variables using ``+`` and ``-`` buttons. Each variable can also be named.
+
+*Out Params*
+    The list of the function's output parameters. Works in the same way as the ``In Params`` list.
+
+.. _logic_call_function:
+
+Call Function
+-------------
+
+This node can be used to call a function defined by a ``Define Function`` node.
+
+.. image:: src_images/logic_editor/logic_editor_call_function.png
+    :align: center
+    :width: 100%
+
+Input Parameters
+................
+
+*Previous*
+    Previous node.
+
+Output Parameters
+.................
+
+*Next*
+    Next node.
+
+Internal Parameters
+...................
+
+*NodeTree*
+    The name of the node tree from which the function is called.
+
+*Function*
+    The name of the function.
+
+*In Params*
+    The list of the variables to set the input parameters of the function specified by the ``Function`` parameter.
+
+*Out Params*
+    The list of the variables to store the output parameters of the function specified by the ``Function`` parameter.
+
 Animation
 =========
 
 .. _logic_play_timeline:
 
-Play Timeline and Stop Timeline
--------------------------------
+Play Timeline
+-------------
 
-Can be used to control NLA animations. The ``Play Timeline`` node plays NLA fragment starting with a frame specified by the marker. Animation plays until next marker is encountered, or to the end of the scene’s timeline. After that, control passes on to the next node. The ``Stop Timeline`` node stops the playback.
+This node can be used to control NLA animations. The ``Play Timeline`` node plays NLA fragment starting with a frame specified by the marker. Animation plays until next marker is encountered, or to the end of the scene’s timeline. After that, control passes on to the next node.
 
 .. image:: src_images/logic_editor/logic_editor_timeline.png
    :align: center
@@ -241,16 +353,63 @@ Internal Parameters
 ...................
 
 *Start Marker*
-    First frame of the animation. If not specified, an animation plays from the start of the timeline and may not work correctly.
+    First frame of the animation.
+
+    .. note::
+
+        If this parameter is not specified, the animation plays from the current frame, i.e. if animation hasn't been played yet, playback will start from the first frame of the timeline. If playback has been stopped with the ``Stop Timeline`` node and then started again, it will continue from the last played frame.
 
 *End Marker*
-    Last frame of the animation. If not specified, an animation plays to the end of the timeline and may not work correctly.
+    Last frame of the animation.
+
+    .. note::
+
+        If this parameter is not specified, an animation plays to the next marker (or to the end of the timeline, if there isn't any).
+
+*Do Not Wait*
+    If this parameter is enabled, the ``Play Timeline`` node will pass the control to the next node on starting the animation playback. If it isn’t, the control will be passed to the next node only after playback is finished.
+
+.. _logic_stop_timeline:
+
+Stop Timeline
+-------------
+
+Stops the playback of the NLA animation started by the ``Play Animation`` node.
+
+.. image:: src_images/logic_editor/logic_editor_stop_timeline.png
+   :align: center
+   :width: 100%
+
+Input Parameters
+................
+
+*Previous*
+    Previous node.
+
+Output Parameters
+.................
+
+*Next*
+    Next node.
+
+Internal Parameters
+...................
+
+*Set First Frame*
+    If this parameter is enabled, the timeline will be reset to the first frame after the animation playback stops. Otherwise, the timeline will be set to the frame specified by the ``End Marker`` parameter of the ``Play Timeline`` node.
 
 .. _logic_select_play:
 
 Play Animation
 --------------
-Can be used to play object’s animation. An animation can be one of the following types:
+
+This node can be used to play object animation.
+
+.. image:: src_images/logic_editor/logic_editor_play_animation.png
+   :align: center
+   :width: 100%
+
+An animation can be one of the following types:
 
 Regular Action:
 
@@ -285,8 +444,17 @@ Output Parameters
 Internal Parameters
 ...................
 
+*Environment Anim.*
+    If this parameter is enabled, animation of the scene environment (a ``World`` object) will be played.
+
+*World*
+    Specifies the ``World`` object, animation of which will be played. This parameter is only available if the ``Environment Anim.`` parameter is enabled.
+
 *Object*
     Name of the object, animation of which will be played.
+
+*Variable*
+    If this parameter is enabled, an Object-type variable can be set in the ``Object`` field.
 
 *Anim. Name*
     Name of an animation to play. If not specified, the entire timeline will be played.
@@ -305,7 +473,12 @@ Internal Parameters
 
 Stop Animation
 --------------
+
 Can be used to stop an object’s animation.
+
+.. image:: src_images/logic_editor/logic_editor_stop_animation.png
+   :align: center
+   :width: 100%
 
 Input Parameters
 ................
@@ -321,6 +494,19 @@ Output Parameters
 
 Internal Parameters
 ...................
+
+*Environmental Anim.*
+    If this parameter is turned on, animation of the scene environment (a ``World`` object) will be stopped.
+
+*World*
+    Specifies the ``World`` object, animation of which will be stopped. This parameter is only available if the ``Environment Anim.`` parameter is enabled.
+
+*Object*
+    Name of the object, animation of which will be stopped.
+
+*Variable*
+    If this parameter is enabled, an Object-type variable can be set in the ``Object`` field.
+
 *Set First Frame*
     Go back to the first frame after the animation has been stopped.
 
@@ -356,11 +542,17 @@ Internal Parameters
 *Camera*
     A camera that will be moved.
 
+    This parameter can be set directly or using an Object-type variable (if the ``Variable`` option is enabled).
+
 *Location*
     An object to which the camera will move. The camera’s coordinates will be the same as the object’s after the movement is finished.
 
+    This parameter can be set directly or using an Object-type variable (if the ``Variable`` option is enabled).
+
 *Target*
     The camera will point in the direction of this object after being moved.
+
+    This parameter can be set directly or using an Object-type variable (if the ``Variable`` option is enabled).
 
 *Duration*
     Time (in seconds) that the camera will spend being moved to a new location. Set to zero by default (and in this case the camera doesn’t actually move, it simply changes its position). It can be specified manually or as a link to a variable (if the ``Variable`` parameter is enabled).
@@ -393,6 +585,8 @@ Internal Parameters
 
 *Camera*
     This parameter specifies a camera to which the changes will be applied.
+
+    This parameter can be set directly or using an Object-type variable (if the ``Variable`` option is enabled).
 
 *New Camera Move Style*
     This parameter specifies the new move style that the camera will use. Four options are available: ``Hover``, ``Eye``, ``Target`` and ``Static``.
@@ -453,6 +647,8 @@ Internal Parameters
 *Camera*
     This parameter specifies a camera to which the limits will be applied.
 
+    This parameter can be set directly or using an Object-type variable (if the ``Variable`` option is enabled).
+
 *Distance Limits*
     Sets the ``Distance Limits`` parameter native to the :ref:`Target <camera_target_type>` and :ref:`Hover <camera_hover_type>` camera types.
 
@@ -503,6 +699,9 @@ Internal Parameters
 *Object*
     An object to show.
 
+*Variable*
+    If this parameter is enabled, an Object-type variable can be set in the ``Object`` field.
+
 *Process child objects*
     If this parameter is enabled, child objects will be shown as well.
 
@@ -535,6 +734,9 @@ Internal Parameters
 *Object*
     An object to hide.
 
+*Variable*
+    If this parameter is enabled, an Object-type variable can be set in the ``Object`` field.
+
 *Process child objects*
     If this parameter is enabled, child objects will be hidden as well.
 
@@ -566,6 +768,9 @@ Internal Parameters
 
 *Object*
     An object that needs to be translated.
+
+*Variable*
+    If this parameter is enabled, an Object-type variable can be set in the ``Object`` field.
 
 *Space*
     This parameter defines the coordinate space that will be used to transform the object. It can have one of the following values:
@@ -615,10 +820,12 @@ Internal Parameters
 ...................
 
 *Object*
-    An object that you need to move.
+    An object that you need to move. It can be set directly or using an Object-type variable (if the ``Variable`` option is enabled)
 
 *Destination*
     A target (another object or a light source, camera or anything else) to which the selected object will move. The object’s coordinated will be the same as the target’s after the movement is finished.
+
+    This parameter can be set directly or using an Object-type variable (if the ``Variable`` option is enabled).
 
 *Duration*
     Time (in seconds) that the object will spend moving to the new location. By default, this parameter is set to zero (and in this case, the object doesn’t actually move, it just changes its position in a moment). It can be set manually or with a variable (available only if the ``Variable`` parameter is enabled).
@@ -656,7 +863,7 @@ Internal Parameters
     Shape key that will be applied to the object.
 
 *Value*
-    How much the shape key will influence the object. This value can be set directly in the node or using a variable. The value should be between 0 and 1.
+    How much the shape key will influence the object. This value can be set directly in the node or using a variable (if the ``Variable`` parameter is set). The value should be between 0 and 1.
 
 .. _logic_outline:
 
@@ -686,6 +893,9 @@ Internal Parameters
 
 *Object*
     Any changes of the outline effect will be applied only to an object specified by this parameter.
+
+*Variable*
+    If this parameter is enabled, an Object-type variable can be set in the ``Object`` field.
 
 *Operation*
     Specifies an operation that will be done to the object’s outline. This parameter can have one of the following values:
@@ -805,8 +1015,11 @@ Internal Parameters
 *Var. name.*
     Name of the variable. Can be selected from the list of variables or specified manually (if the ``New variable`` parameter is enabled).
 
-*Var. type*
-    Variable’s type. This parameter can have one of two values: ``Number`` (for numerical variables) and ``String`` (for string variables).
+*Type*
+    Variable’s type. This parameter can have one of the three values: ``Number`` (for numerical variables), ``String`` (for string variables) or ``Object`` (for object variables).
+
+*Object*
+    This parameter is used to specify the object that will be used as a variable. It is only available if the ``Type`` parameter is set to ``Object``.
 
 *New Variable*
     If this parameter is enabled, you can manually input a variable’s name and not just select one of the variables. This can be used to transfer the data between the application and the server.
@@ -817,9 +1030,6 @@ Internal Parameters
     .. image:: src_images/logic_editor/logic_editor_variable_global.png
         :align: center
         :width: 100%
-
-*Num./Str.*
-    Numeric or string (depending on the ``Var. type`` parameter value) value of the variable.
 
 .. _logic_math:
 
@@ -962,6 +1172,9 @@ Internal Parameters
 *Speaker*
     A speaker that will be enabled.
 
+*Variable*
+    If this parameter is enabled, an Object-type variable can be set in the ``Speaker`` field.
+
 *Do Not Wait*
     If this parameter is enabled, the control will pass to the next node right after sound playback starts. If it isn’t enabled, the control will pass only when the playback is finished.
 
@@ -993,6 +1206,9 @@ Internal Parameters
 
 *Speaker*
     A speaker that will be turned off.
+
+*Variable*
+    If this parameter is enabled, an Object-type variable can be set in the ``Speaker`` field.
 
 Network
 =======
@@ -1032,7 +1248,7 @@ Internal Parameters
     Set to ``GET`` by default.
 
 *Url*
-    A web address to send request to. Set to “https://www.blend4web.com” by default.
+    A web address to send request to. It can be defined directly or using a variable (if the ``Variable URL`` option is enabled). Set to “https://www.blend4web.com” by default.
 
 *Response Params*
     Specifies the variable to save the data received from the server.
@@ -1172,6 +1388,12 @@ Internal Parameters
 *Destination*
     A variable that will be used to save the parameter.
 
+*Param type*
+    The type of the web page parameter. Available values are ``Number``, ``String`` and ``Object``.
+
+*Hash param*
+    If this option is enabled, the ``Page Param`` node will process hash parameters; if it isn't, the node will process regular URL parameters.
+
 .. _logic_page_redirect:
 
 Page Redirect
@@ -1198,42 +1420,7 @@ Internal Parameters
 ...................
 
 *Url*
-    Web address of a page that will be opened. Set to “https://www.blend4web.com” by default.
-
-Debug
-=====
-
-.. _logic_console_print:
-
-Console Print
--------------
-
-This node prints variables’s values and additional text to the web browser console. It can be used for debug purposes.
-
-.. image:: src_images/logic_editor/logic_editor_console_print.png
-    :align: center
-    :width: 100%
-
-Input Parameters
-................
-
-*Previous*
-    Previous node.
-
-Output Parameters
-.................
-
-*Next*
-    Next node.
-
-Internal Parameters
-...................
-
-*Message*
-    A message that will be printed to the console along with the values.
-
-<variable name>
-    A variable that will be printed to the console. By default, a ``Console Print`` node has one such parameter, but you can add new and delete existing ones (the node might not even have such parameters at all).
+    Web address of a page that will be opened. It can be defined manually or using a variable (if the ``Variable URL`` parameter is enabled). Set to “https://www.blend4web.com” by default.
 
 Time
 ====
@@ -1388,6 +1575,25 @@ Internal Parameters
 Layout
 ======
 
+.. _logic_frame:
+
+Frame
+-----
+
+An auxillary element used to separate nodes into groups.
+
+.. tip::
+
+    This is not required, but we recommend to use frames in complex node setups so it would be easier to read and understand them.
+
+.. image:: src_images/logic_editor/logic_editor_frame.png
+    :align: center
+    :width: 100%
+
+``Frame`` elements feature several parameters that can be accessed from the Properties side panel. These parameters include ``Label`` (can be used to set a title for the frame) and ``Color`` (defines the color of the frame).
+
+This element is also available in regular Blender node editors.
+
 .. _logic_empty:
 
 Empty
@@ -1434,7 +1640,43 @@ Unlike the ``Empty`` node, ``Reroute`` element can only handle a single logic th
 
 .. _logic_debug:
 
-Debugging
-=========
+Debug
+=====
+
+.. _logic_console_print:
+
+Console Print
+-------------
+
+This node prints variables’s values and additional text to the web browser console. It can be used for debug purposes.
+
+.. image:: src_images/logic_editor/logic_editor_console_print.png
+    :align: center
+    :width: 100%
+
+Input Parameters
+................
+
+*Previous*
+    Previous node.
+
+Output Parameters
+.................
+
+*Next*
+    Next node.
+
+Internal Parameters
+...................
+
+*Message*
+    A message that will be printed to the console along with the values.
+
+<variable name>
+    A variable that will be printed to the console. By default, a ``Console Print`` node has one such parameter, but you can add new and delete existing ones (the node might not even have such parameters at all).
+
+
+Other Features
+==============
 
 For debugging purposes some nodes inside logic tree can be muted. To do that select the required node and press the ``M`` key. Muted nodes are not evaluated and simply pass control to the next ones. If the muted node has two outputs the execution continues from the output with negative result (``Miss``, ``False``).

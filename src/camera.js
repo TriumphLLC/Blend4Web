@@ -103,7 +103,6 @@ var _vec4_tmp2 = new Float32Array(4);
 var _mat4_tmp = new Float32Array(16);
 
 var _frustum_corners_tmp = new Float32Array(24);
-var _frustum_planes_tmp = create_frustum_planes();
 
 var _pline_tmp = new Float32Array(6);
 
@@ -476,6 +475,10 @@ function init_camera(type) {
         world_tsr             : new Float32Array(9),
         view_matrix           : new Float32Array(16),
         view_refl_matrix      : new Float32Array(16),
+        view_transform_params : {
+            trans: m_vec3.create(),
+            angle: 0
+        },
         proj_matrix           : new Float32Array(16),
         view_proj_matrix      : new Float32Array(16),
         view_proj_inv_matrix  : new Float32Array(16),
@@ -558,12 +561,15 @@ function clone_camera(cam, reset_attachments) {
     m_tsr.copy(cam.world_tsr, cam_new.world_tsr);
 
     m_mat4.copy(cam.view_matrix, cam_new.view_matrix);
+    m_mat4.copy(cam.view_refl_matrix, cam_new.view_refl_matrix);
+    cam_new.view_transform_params = m_util.clone_object_r(cam.view_transform_params);
     m_mat4.copy(cam.proj_matrix, cam_new.proj_matrix);
     m_mat4.copy(cam.view_proj_matrix, cam_new.view_proj_matrix);
     m_mat4.copy(cam.view_proj_inv_matrix, cam_new.view_proj_inv_matrix);
     m_mat4.copy(cam.prev_view_proj_matrix, cam_new.prev_view_proj_matrix);
     m_mat4.copy(cam.sky_vp_inv_matrix, cam_new.sky_vp_inv_matrix);
 
+    cam_new.direction.set(cam.direction);
     m_tsr.copy(cam.view_tsr, cam_new.view_tsr);
     m_tsr.copy(cam.view_tsr_inv, cam_new.view_tsr_inv);
     m_tsr.copy(cam.real_view_tsr, cam_new.real_view_tsr);
@@ -1035,19 +1041,16 @@ function set_view(cam, camobj) {
         m_tsr.invert(cam.real_view_tsr, cam.real_view_tsr_inv);
         update_view_refl_matrix(cam);
         reflect_view_matrix(cam);
-        reflect_proj_matrix(cam);
+        set_projection_reflect(cam, true);
         m_vec3.transformMat4(trans, cam.view_refl_matrix, trans);
     }
 
     // update view tsr and view zup tsr
     m_tsr.from_mat4(cam.view_matrix, cam.view_tsr);
     m_tsr.invert(cam.view_tsr, cam.view_tsr_inv);
-
-    // update view projection matrix and inversed view projection matrix
-    calc_view_proj_inverse(cam);
-    calc_sky_vp_inverse(cam);
-
     m_tsr.set_sep(trans, 1, quat, cam.world_tsr);
+
+    set_view_projection_after(cam);
 }
 
 /**
@@ -1089,11 +1092,12 @@ function reflect_view_matrix(cam) {
     m_mat4.multiply(cam.view_matrix, cam.view_refl_matrix, cam.view_matrix);
 }
 
+exports.set_projection_reflect = set_projection_reflect;
 /**
  * Change projection matrix for reflected camera during reflection pass
  * uses _vec4_tmp, _vec4_tmp2, _mat4_tmp
  */
-function reflect_proj_matrix(cam) {
+function set_projection_reflect(cam, ignore_after_actions) {
     set_projection(cam, true);
 
     var plane = _vec4_tmp;
@@ -1121,16 +1125,13 @@ function reflect_proj_matrix(cam) {
     cam.proj_matrix[6]  = plane[1];
     cam.proj_matrix[10] = plane[2] + 1.0;
     cam.proj_matrix[14] = plane[3];
+
+    update_proj_transformed_view(cam);
+
+    if (!ignore_after_actions)
+        set_view_projection_after(cam);
 }
 
-exports.set_view_eye_target_up = set_view_eye_target_up;
-/**
- * Set camera view matrix
- * @param cam CAM object
- * @param {vec3} eye Camera eye point
- * @param {vec3} target Camera target point
- * @param {vec3} up Camera up direction
- */
 function set_view_eye_target_up(cam, eye, target, up) {
 
     m_mat4.lookAt(eye, target, up, cam.view_matrix);
@@ -1152,7 +1153,6 @@ function set_view_eye_target_up(cam, eye, target, up) {
 
     calc_view_proj_inverse(cam);
     calc_sky_vp_inverse(cam);
-
 
     m_tsr.set_trans(eye, cam.world_tsr);
 }
@@ -1245,7 +1245,6 @@ function update_camera_transform(obj, cam_scene_data) {
         var cam = cameras[i];
         set_view(cam, obj);
         m_vec3.copy(view_vector, cam.direction);
-        m_util.extract_frustum_planes(cam.view_proj_matrix, cam.frustum_planes);
         if (cam.dof_object) {
             if (cam.dof_on) {
                 var obj_loc = m_trans.get_translation(cam.dof_object, _vec3_tmp3);
@@ -1587,7 +1586,7 @@ function update_ortho_scale(obj) {
             for (var i = 0; i < cams.length; i++) {
                 var cam = cams[i];
                 cam.fov = new_scale;
-                set_projection(cam, false);
+                set_projection(cam, true);
             }
 
             update_camera_transform(obj, scenes_data[j]);
@@ -1997,9 +1996,11 @@ exports.get_aspect = function(cam) {
 exports.set_projection = set_projection;
 /**
  * @param cam Camera ID
- * @param {boolean} keep_proj_view Don't update view projection matrix
+ * @param {boolean} ignore_after_actions Don't update view projection matrix and 
+ * frustum planes. This is used when calling set_projection inside or right 
+ * before the set_view() method to avoid unnecessary calculations.
  */
-function set_projection(cam, keep_proj_view) {
+function set_projection(cam, ignore_after_actions) {
 
     switch (cam.type) {
     case exports.TYPE_PERSP:
@@ -2037,11 +2038,10 @@ function set_projection(cam, keep_proj_view) {
         m_util.panic("Wrong camera type: " + cam.type);
     }
 
-    // update view projection matrix
-    if (!keep_proj_view) {
-        calc_view_proj_inverse(cam);
-        calc_sky_vp_inverse(cam);
-    }
+    update_proj_transformed_view(cam);
+
+    if (!ignore_after_actions)
+        set_view_projection_after(cam);
 }
 
 function set_projection_stereo(cam) {
@@ -2159,11 +2159,30 @@ exports.set_color_pick_proj = function(camera, x, y, w, h) {
                 camera.proj_matrix);
         break;
     }
-    m_mat4.copy(camera.view_matrix, camera.view_proj_matrix);
-    m_mat4.multiply(camera.proj_matrix, camera.view_proj_matrix,
-            camera.view_proj_matrix);
-    m_util.extract_frustum_planes(camera.view_proj_matrix,
-            camera.frustum_planes);
+
+    update_proj_transformed_view(camera);
+
+    set_view_projection_after(camera);
+}
+
+function update_proj_transformed_view(cam) {
+    m_mat4.translate(cam.proj_matrix, cam.view_transform_params.trans, 
+            cam.proj_matrix);
+    m_mat4.rotateZ(cam.proj_matrix, cam.view_transform_params.angle, 
+            cam.proj_matrix);
+}
+
+function set_view_projection_after(cam) {
+    calc_view_proj_inverse(cam);
+    calc_sky_vp_inverse(cam);
+    m_util.extract_frustum_planes(cam.view_proj_matrix, cam.frustum_planes);
+}
+
+function calc_view_proj_inverse(cam) {
+    m_mat4.copy(cam.view_matrix, cam.view_proj_matrix);
+    m_mat4.multiply(cam.proj_matrix, cam.view_proj_matrix,
+            cam.view_proj_matrix);
+    m_mat4.invert(cam.view_proj_matrix, cam.view_proj_inv_matrix);
 }
 
 exports.calc_sky_vp_inverse = calc_sky_vp_inverse;
@@ -2178,14 +2197,6 @@ function calc_sky_vp_inverse(cam) {
     m_mat4.multiply(cam.proj_matrix, cam.sky_vp_inv_matrix,
             cam.sky_vp_inv_matrix);
     m_mat4.invert(cam.sky_vp_inv_matrix, cam.sky_vp_inv_matrix);
-}
-
-exports.calc_view_proj_inverse = calc_view_proj_inverse;
-function calc_view_proj_inverse(cam) {
-    m_mat4.copy(cam.view_matrix, cam.view_proj_matrix);
-    m_mat4.multiply(cam.proj_matrix, cam.view_proj_matrix,
-            cam.view_proj_matrix);
-    m_mat4.invert(cam.view_proj_matrix, cam.view_proj_inv_matrix);
 }
 
 /**
@@ -2754,11 +2765,10 @@ exports.set_hmd_fov = function(camobj, hmd_left_fov, hmd_right_fov) {
             if (cam.type == TYPE_HMD_RIGHT)
                 m_vec4.copy(hmd_right_fov, cam.hmd_fov);
 
-            if (!cam.reflection_plane)
+            if (cam.reflection_plane)
+                set_projection_reflect(cam, false);
+            else
                 set_projection(cam, false);
-
-            calc_view_proj_inverse(cam);
-            calc_sky_vp_inverse(cam);
         }
     }
 }
@@ -2779,8 +2789,8 @@ exports.set_hmd_proj_mat = function(camobj, hmd_left_proj_mat, hmd_right_proj_ma
             if (cam.type == TYPE_HMD_RIGHT && hmd_right_proj_mat)
                 m_mat4.copy(hmd_right_proj_mat, cam.proj_matrix);
 
-            calc_view_proj_inverse(cam);
-            calc_sky_vp_inverse(cam);
+            update_proj_transformed_view(cam);
+            set_view_projection_after(cam);
         }
     }
 }
@@ -2823,7 +2833,6 @@ exports.set_proj_mat = function(camobj, proj_mat) {
             far = -far_point[2] * far_point[3];
 
             new_proj_mat = m_mat4.frustum(left, right, bottom, top, near, far, _mat4_tmp);
-            m_util.extract_frustum_planes(new_proj_mat, _frustum_planes_tmp);
 
             aspect = (right - left) / (top - bottom);
 
@@ -2847,10 +2856,9 @@ exports.set_proj_mat = function(camobj, proj_mat) {
             cam.fov = Math.atan(top / near) - Math.atan(bottom / near);
 
             m_mat4.copy(new_proj_mat, cam.proj_matrix);
-            copy_frustum_planes(_frustum_planes_tmp, cam.frustum_planes);
 
-            calc_view_proj_inverse(cam);
-            calc_sky_vp_inverse(cam);
+            update_proj_transformed_view(cam);
+            set_view_projection_after(cam);
         }
     }
 }

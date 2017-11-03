@@ -25,7 +25,7 @@
  */
 b4w.module["storage"] = function(exports, require) {
 
-var m_print = require("__print");
+var m_print = require("print");
 
 var _prefix = "b4w";
 var _storage = null;

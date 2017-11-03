@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>纹理 &mdash; Blend4Web 17.08 用户手册</title>
+  <title>纹理 &mdash; Blend4Web 17.10 用户手册</title>
   
 
   
@@ -32,9 +32,9 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.08 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 17.10 用户手册" href="index.html"/>
         <link rel="next" title="粒子系统,流体" href="particles.html"/>
-        <link rel="prev" title="立体渲染" href="stereo_rendering.html"/> 
+        <link rel="prev" title="VR and AR" href="vr_and_ar.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v17.08
+              v17.10
             </div>
           
         
@@ -85,7 +85,7 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">概述</a></li>
 <li class="toctree-l1"><a class="reference internal" href="engine_features.html">引擎功能</a></li>
-<li class="toctree-l1"><a class="reference internal" href="interface.html">Blender User Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="interface.html">Blender的用户界面</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">安装和更新</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">工作流程</a></li>
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理</a></li>
@@ -103,7 +103,7 @@
 <li class="toctree-l1"><a class="reference internal" href="logic_editor.html">逻辑编辑器</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">照明、 阴影和背景</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">后期处理效果</a></li>
-<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">立体渲染</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vr_and_ar.html">VR and AR</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">纹理</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#texture-types">纹理类型</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#generic-settings">通用设置</a></li>
@@ -695,7 +695,7 @@
 <p>一个 &lt;canvas&gt;HTML 元素可以用作纹理。它可以通过 API 修改。</p>
 <p>设置主场景目标物体为 <code class="docutils literal"><span class="pre">无</span></code> 类型的纹理，在 <code class="docutils literal"><span class="pre">导出选项</span> <span class="pre">&gt;</span> <span class="pre">源类型</span></code> 菜单中选择 <code class="docutils literal"><span class="pre">画布</span></code> 类型。在 <code class="docutils literal"><span class="pre">导出选项</span> <span class="pre">&gt;</span> <span class="pre">源字号</span></code> 字段 （以像素为单位） 设置纹理的大小。</p>
 <p>使用 <code class="docutils literal"><span class="pre">纹理</span></code> 模块来处理这种纹理。请参阅下面的示例。</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_tex</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;textures&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_tex</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;textures&quot;</span><span class="p">);</span>
 <span class="p">...</span>
 <span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_object_by_name</span><span class="p">(</span><span class="s2">&quot;NAME&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">ctx</span> <span class="o">=</span> <span class="nx">m_tex</span><span class="p">.</span><span class="nx">get_canvas_ctx</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="s2">&quot;TEXTURE_NAME&quot;</span><span class="p">);</span>
@@ -726,7 +726,7 @@
         <a href="particles.html" class="btn btn-neutral float-right" title="粒子系统,流体" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="stereo_rendering.html" class="btn btn-neutral" title="立体渲染" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="vr_and_ar.html" class="btn btn-neutral" title="VR and AR" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -736,7 +736,7 @@
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2017, Triumph.
-      最后更新于 2017-08-31.
+      最后更新于 2017-10-31.
 
     </p>
   </div>
@@ -792,7 +792,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.08',
+            VERSION:'v17.10',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

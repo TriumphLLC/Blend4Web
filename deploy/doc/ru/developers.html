@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Разработчикам приложений &mdash; Руководство пользователя Blend4Web 17.08</title>
+  <title>Разработчикам приложений &mdash; Руководство пользователя Blend4Web 17.10</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 17.08" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 17.10" href="index.html"/>
         <link rel="next" title="Разработчикам движка" href="developers_advanced.html"/>
         <link rel="prev" title="Физика" href="physics.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v17.08
+              v17.10
             </div>
           
         
@@ -103,7 +103,7 @@
 <li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Редактор логики</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Освещение, тени и фон</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Спецэффекты</a></li>
-<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">Стереоизображение</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vr_and_ar.html">VR и AR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles.html">Система частиц. Флюиды</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Система частиц. Инстансинг</a></li>
@@ -236,7 +236,7 @@
 <span id="app-init-loading"></span><h3><a class="toc-backref" href="#id4">Структура кода приложения</a><a class="headerlink" href="#application-code-structure" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Процесс инициализации и загрузки приложения состоит из нескольких последовательных стадий, что отражено в структуре кода приложения. При использовании менеджера проектов каждый вновь созданный проект типов <code class="docutils literal"><span class="pre">Copy</span></code> и <code class="docutils literal"><span class="pre">Compile</span></code> будет содержать главный JS-файл, который находится внутри SDK по следующему пути: <code class="docutils literal"><span class="pre">./projects/ИМЯ_ПРОЕКТА/ИМЯ_ПРОЕКТА.js</span></code>.</p>
 <p>Этот файл содержит шаблонный код, оформленный в виде модуля. Он регистрируется специальной конструкцией:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">b4w</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">exports</span><span class="p">,</span> <span class="nx">require</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">b4w</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">exports</span><span class="p">,</span> <span class="nx">require</span><span class="p">)</span> <span class="p">{</span>
 
     <span class="c1">// module code</span>
     <span class="c1">//...</span>
@@ -257,7 +257,7 @@
 </li>
 <li><p class="first"><code class="docutils literal"><span class="pre">exports</span></code> - объект, служащий для доступа к функциям модуля извне, например, из других модулей. В данном случае внешней сделана только одна функция <code class="docutils literal"><span class="pre">init</span></code>:</p>
 <blockquote>
-<div><div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">b4w</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">exports</span><span class="p">,</span> <span class="nx">require</span><span class="p">)</span> <span class="p">{</span>
+<div><div class="highlight-javascript"><div class="highlight"><pre><span class="nx">b4w</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">exports</span><span class="p">,</span> <span class="nx">require</span><span class="p">)</span> <span class="p">{</span>
 
     <span class="p">...</span>
 
@@ -279,7 +279,7 @@
 </li>
 </ol>
 <p>С неё начинается инициализации приложения, и её вызов происходит как раз вне модуля:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">b4w</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">exports</span><span class="p">,</span> <span class="nx">require</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">b4w</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">exports</span><span class="p">,</span> <span class="nx">require</span><span class="p">)</span> <span class="p">{</span>
 
     <span class="p">...</span>
 
@@ -308,7 +308,7 @@
 </li>
 </ul>
 <p>Когда инициализация приложения будет закончена, вызовется функция <a class="reference external" href="https://www.blend4web.com/api_doc/module-app.html#~AppInitCallback">init_cb</a>, указанная в параметре <code class="docutils literal"><span class="pre">callback</span></code>:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">function</span> <span class="nx">init_cb</span><span class="p">(</span><span class="nx">canvas_elem</span><span class="p">,</span> <span class="nx">success</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">init_cb</span><span class="p">(</span><span class="nx">canvas_elem</span><span class="p">,</span> <span class="nx">success</span><span class="p">)</span> <span class="p">{</span>
 
     <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">success</span><span class="p">)</span> <span class="p">{</span>
         <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;b4w init failure&quot;</span><span class="p">);</span>
@@ -340,7 +340,7 @@
 <p class="last">Метод <a class="reference external" href="https://www.blend4web.com/api_doc/module-app.html#.init">app.init</a> назначает инициализацию на событие <code class="docutils literal"><span class="pre">window.onload</span></code>, поэтому в функции <code class="docutils literal"><span class="pre">init_cb</span></code> уже будет доступно все DOM-дерево HTML-документа.</p>
 </div>
 <p>Теперь можно начинать загрузку 3D-сцены. Это происходит в функции <code class="docutils literal"><span class="pre">load</span></code>, вызываемой из <code class="docutils literal"><span class="pre">init_cb</span></code>:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">APP_ASSETS_PATH</span> <span class="o">=</span> <span class="nx">m_cfg</span><span class="p">.</span><span class="nx">get_assets_path</span><span class="p">(</span><span class="s2">&quot;my_project&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">APP_ASSETS_PATH</span> <span class="o">=</span> <span class="nx">m_cfg</span><span class="p">.</span><span class="nx">get_assets_path</span><span class="p">(</span><span class="s2">&quot;my_project&quot;</span><span class="p">);</span>
 
 <span class="p">...</span>
 
@@ -351,7 +351,7 @@
 </div>
 <p>Для загрузки используется метод <a class="reference external" href="https://www.blend4web.com/api_doc/module-data.html#.load">data.load</a>, в который первым параметром подается путь к файлу 3D-сцены. Путь к JSON-файлу должен указываться относительно главного HTML-файла приложения. Проекты, созданные в менеджере проектов, имеют отдельную директорию для ресурсов, где стандартно располагаются JSON-файлы, и относительный путь к этой директории можно легко получить. В коде шаблонного приложения это делается заранее с введением глобальной переменной <code class="docutils literal"><span class="pre">APP_ASSETS_PATH</span></code>, которая затем и используется в <a class="reference external" href="https://www.blend4web.com/api_doc/module-data.html#.load">data.load</a>.</p>
 <p>Второй параметр метода - функция <a class="reference external" href="https://www.blend4web.com/api_doc/module-data.html#~LoadedCallback">load_cb</a>, вызываемая после того, как завершится загрузка и подготовка к рендерингу 3D-сцены:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">function</span> <span class="nx">load</span><span class="p">()</span> <span class="p">{</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">load</span><span class="p">()</span> <span class="p">{</span>
     <span class="nx">m_data</span><span class="p">.</span><span class="nx">load</span><span class="p">(</span><span class="nx">APP_ASSETS_PATH</span> <span class="o">+</span> <span class="s2">&quot;my_project.json&quot;</span><span class="p">,</span> <span class="nx">load_cb</span><span class="p">,</span> <span class="nx">preloader_cb</span><span class="p">);</span>
 <span class="p">}</span>
 
@@ -377,7 +377,7 @@
 <ol class="arabic">
 <li><p class="first">Метод <a class="reference external" href="https://www.blend4web.com/api_doc/module-app.html#.init">app.init</a>, стартующий инициализацию, принимает параметры конфигурации движка. Поэтому можно заняться конфигурированием прямо перед его вызовом, например, на основе параметров из URL-строки:</p>
 <blockquote>
-<div><div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">b4w</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">exports</span><span class="p">,</span> <span class="nx">require</span><span class="p">)</span> <span class="p">{</span>
+<div><div class="highlight-javascript"><div class="highlight"><pre><span class="nx">b4w</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">exports</span><span class="p">,</span> <span class="nx">require</span><span class="p">)</span> <span class="p">{</span>
 
 <span class="p">...</span>
 
@@ -426,7 +426,7 @@
 </li>
 </ol>
 <p>Отдельный модуль представляет собой блок кода, обернутый особой конструкцией, с помощью которой он регистрируется:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">b4w</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s2">&quot;my_module1&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">exports</span><span class="p">,</span> <span class="nx">require</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">b4w</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s2">&quot;my_module1&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">exports</span><span class="p">,</span> <span class="nx">require</span><span class="p">)</span> <span class="p">{</span>
 
     <span class="c1">// module code</span>
     <span class="p">...</span>
@@ -442,7 +442,7 @@
 </pre></div>
 </div>
 <p>Для регистрации используется метод <a class="reference external" href="https://www.blend4web.com/api_doc/b4w.html#.register">register</a>. Регистрация собственных модулей допустима только если их имена не пересекаются с именами имеющихся модулей API. При необходимости проверка наличия модуля с некоторым именем может быть осуществлена с помощью метода <a class="reference external" href="https://www.blend4web.com/api_doc/b4w.html#.module_check">module_check</a>:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="p">(</span><span class="nx">b4w</span><span class="p">.</span><span class="nx">module_check</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">))</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="nx">b4w</span><span class="p">.</span><span class="nx">module_check</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">))</span>
     <span class="k">throw</span> <span class="s2">&quot;Failed to register module: my_module&quot;</span><span class="p">;</span>
 
 <span class="nx">b4w</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">exports</span><span class="p">,</span> <span class="nx">require</span><span class="p">)</span> <span class="p">{</span>
@@ -458,7 +458,7 @@
 </li>
 </ol>
 <p>Подгружать собственные модули можно также как и библиотечные через метод <code class="docutils literal"><span class="pre">require</span></code>:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">b4w</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s2">&quot;my_module1&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">exports</span><span class="p">,</span> <span class="nx">require</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">b4w</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s2">&quot;my_module1&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">exports</span><span class="p">,</span> <span class="nx">require</span><span class="p">)</span> <span class="p">{</span>
 
     <span class="kd">var</span> <span class="nx">mod2</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;my_module2&quot;</span><span class="p">)</span>
 
@@ -471,7 +471,7 @@
 </li>
 </ol>
 <p>Инициализация приложения на Blend4Web обычно происходит с помощью подобного вызова:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">).</span><span class="nx">init</span><span class="p">();</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">).</span><span class="nx">init</span><span class="p">();</span>
 </pre></div>
 </div>
 <p>Здесь подгружаемый модуль <code class="docutils literal"><span class="pre">my_module</span></code> и его внешняя функция <code class="docutils literal"><span class="pre">init</span></code> являются своего рода точкой входа в приложение.</p>
@@ -491,7 +491,7 @@
 <div class="section" id="background-transparency">
 <h2><a class="toc-backref" href="#id5">Прозрачный фон</a><a class="headerlink" href="#background-transparency" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Параметры <code class="docutils literal"><span class="pre">background_color</span></code> и <code class="docutils literal"><span class="pre">alpha</span></code> передаются в метод <a class="reference external" href="https://www.blend4web.com/api_doc/module-m_app.html#.init">init</a>, который вызывается из callback-функции загрузчика (т.е., из функции, которая вызывается сразу после загрузки сцены), например, так:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">m_app</span><span class="p">.</span><span class="nx">init</span> <span class="p">({</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">m_app</span><span class="p">.</span><span class="nx">init</span> <span class="p">({</span>
     <span class="nx">alpha</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
     <span class="nx">background_color</span><span class="o">:</span> <span class="p">[</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
    <span class="c1">//this method sets the background to an opaque light gray color</span>
@@ -548,12 +548,12 @@
 <p>Во-первых, вы можете воспользоваться менеджером проектов. Кнопка <code class="docutils literal"><span class="pre">Convert</span> <span class="pre">Resources</span></code> находится на главной странице <a class="reference internal" href="project_manager.html#project-management"><span>менеджера проектов</span></a>, в разделе <code class="docutils literal"><span class="pre">Operations</span></code>, расположенном в правой части экрана.</p>
 <a class="reference internal image-reference" href="_images/developers_convert_resources.png"><img alt="_images/developers_convert_resources.png" class="align-center" src="_images/developers_convert_resources.png" style="width: 100%;" /></a>
 <p>Во-вторых, вы можете запустить скрипт вручную:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; <span class="nb">cd</span> &lt;path_to_sdk&gt;/scripts
+<div class="highlight-bash"><div class="highlight"><pre>&gt; <span class="nb">cd</span> &lt;path_to_sdk&gt;/scripts
 &gt; python3 converter.py <span class="o">[</span>options<span class="o">]</span> resize_textures <span class="p">|</span> convert_dds <span class="p">|</span> convert_media
 </pre></div>
 </div>
 <p>Для пользователей ОС Windows:</p>
-<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">cd &lt;path_to_sdk&gt;\scripts</span>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">cd &lt;path_to_sdk&gt;\scripts</span>
 <span class="go">python converter.py [options] resize_textures | convert_dds | convert_media</span>
 </pre></div>
 </div>
@@ -617,7 +617,7 @@
 <div class="section" id="dependencies">
 <span id="converter-deps"></span><h3><a class="toc-backref" href="#id9">Зависимости</a><a class="headerlink" href="#dependencies" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Убедитесь, что у вас установлены все необходимые для конвертации программы. Это можно сделать следующей командой:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; python3 &lt;path_to_sdk&gt;/scripts/converter.py check_dependencies
+<div class="highlight-bash"><div class="highlight"><pre>&gt; python3 &lt;path_to_sdk&gt;/scripts/converter.py check_dependencies
 </pre></div>
 </div>
 <p>Если какая-либо программа отсутствует, то будет выведено сообщения вида:</p>
@@ -664,21 +664,21 @@
 <p><strong>macOS</strong></p>
 <p>Пользователи mac OS могут установить менеджер пакетов <a class="reference external" href="http://www.brew.sh/">brew</a>, а затем с его помощью установить некоторые недостающие пакеты.</p>
 <p>Перед началом установки пакетов произведите установку библиотек libpng и libjpeg, выполнив следующие команды в консоли:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; brew install libpng
+<div class="highlight-bash"><div class="highlight"><pre>&gt; brew install libpng
 &gt; brew install libjpeg
 </pre></div>
 </div>
 <p>Теперь можно приступать к установке необходимых зависимостей:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; brew install imagemagick
+<div class="highlight-bash"><div class="highlight"><pre>&gt; brew install imagemagick
 &gt; brew install --with-theora --with-libvpx --with-fdk-aac ffmpeg
 </pre></div>
 </div>
 <p>Для установки NVIDIA Texture Tools необходимо склонировать репозиторий, выполнив следующую команду:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; git clone https://github.com/TriumphLLC/NvidiaTextureTools.git
+<div class="highlight-bash"><div class="highlight"><pre>&gt; git clone https://github.com/TriumphLLC/NvidiaTextureTools.git
 </pre></div>
 </div>
 <p>Теперь можно произвести сборку и установку пакета:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; <span class="nb">cd</span> NvidiaTextureTools
+<div class="highlight-bash"><div class="highlight"><pre>&gt; <span class="nb">cd</span> NvidiaTextureTools
 &gt; ./configure
 &gt; make
 &gt; make install
@@ -722,7 +722,7 @@
 </dl>
 <p>Пример файла на входе: <code class="docutils literal"><span class="pre">file_name.jpg</span></code>, пример файла на выходе: <code class="docutils literal"><span class="pre">file_name.jpg.dds</span></code>.</p>
 <p>В целях оптимизации работы приложения существует возможность использования текстур <code class="docutils literal"><span class="pre">min50</span></code> (уменьшенных вдвое) и текстур в форматах <code class="docutils literal"><span class="pre">DDS</span></code> и <code class="docutils literal"><span class="pre">PVRTC</span></code>. Для этого при инициализации приложения необходимо передать следующие параметры:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">exports</span><span class="p">.</span><span class="nx">init</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">exports</span><span class="p">.</span><span class="nx">init</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
     <span class="nx">m_app</span><span class="p">.</span><span class="nx">init</span><span class="p">({</span>
         <span class="c1">// . . .</span>
         <span class="nx">assets_dds_available</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
@@ -737,13 +737,13 @@
 <p class="first admonition-title">Примечание</p>
 <p>Для использования текстур, сжатых в формате <a class="reference internal" href="#pvrtc"><span>PVRTC</span></a>, необходимо заменить эту строку кода</p>
 <blockquote>
-<div><div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">assets_dds_available</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+<div><div class="highlight-javascript"><div class="highlight"><pre><span class="nx">assets_dds_available</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
 </pre></div>
 </div>
 </div></blockquote>
 <p>следующей:</p>
 <blockquote>
-<div><div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">assets_pvr_available</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+<div><div class="highlight-javascript"><div class="highlight"><pre><span class="nx">assets_pvr_available</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
 </pre></div>
 </div>
 </div></blockquote>
@@ -772,14 +772,14 @@
 <p>Как и в случае с форматом <code class="docutils literal"><span class="pre">DDS</span></code>, текстуры, сжатые с использованием алгоритма <code class="docutils literal"><span class="pre">PVRTC</span></code>, могут не работать на некоторых устройствах, особенно мобильных, так как для корректной работы этого формата сжатия требуется поддержка расширения WebGL <code class="docutils literal"><span class="pre">IMG_texture_compression_pvrtc</span></code>.</p>
 <p>Библиотеки и SDK PVRTC доступны в версиях для операционных систем Windows, Linux и macOS. Дистрибутивы можно загрузить с веб-сайта <a class="reference external" href="https://community.imgtec.com/developers/powervr/">Power VR Insider</a>.</p>
 <p>Движок Blend4Web использует консольную утилиту PVRTC. Для того, чтобы использовать её, необходимо добавить путь к ней в переменную окружающей среды <code class="docutils literal"><span class="pre">PATH</span></code>, например, так:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">PATH</span> <span class="o">=</span> &lt;InstallDir&gt;<span class="se">\P</span>VRTexTool<span class="se">\C</span>LI<span class="se">\&lt;</span>PLATFORM&gt;<span class="se">\</span>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nb">export</span> <span class="nv">PATH</span> <span class="o">=</span> &lt;InstallDir&gt;<span class="se">\P</span>VRTexTool<span class="se">\C</span>LI<span class="se">\&lt;</span>PLATFORM&gt;<span class="se">\</span>
 </pre></div>
 </div>
 <p>Здесь &lt;InstallDir&gt; - директория, в которой находится PVRTexTool, а &lt;PLATFORM&gt; - папка, содержащая версию утилиты, подходящую для вашей операционной системы, например, <code class="docutils literal"><span class="pre">\Windows_x86_64\</span></code> для 64-битной версии Windows.</p>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
 <p>В Windows переменные окружающей среды можно установить из диалогового окна <code class="docutils literal"><span class="pre">Система</span></code> (для Windows 8 и 10) или <code class="docutils literal"><span class="pre">Свойства</span></code> (для Windows 7 и Vista), выбрав <code class="docutils literal"><span class="pre">Дополнительные</span> <span class="pre">параметры</span> <span class="pre">системы</span></code> -&gt; <code class="docutils literal"><span class="pre">Переменные</span> <span class="pre">среды</span></code>, или с помощью консольных команд:</p>
-<div class="last highlight-bash"><div class="highlight"><pre><span></span>SET <span class="nv">PATH</span> <span class="o">=</span> &lt;InstallDir&gt;<span class="se">\P</span>VRTexTool<span class="se">\C</span>LI<span class="se">\&lt;</span>PLATFORM&gt;<span class="se">\</span>
+<div class="last highlight-bash"><div class="highlight"><pre>SET <span class="nv">PATH</span> <span class="o">=</span> &lt;InstallDir&gt;<span class="se">\P</span>VRTexTool<span class="se">\C</span>LI<span class="se">\&lt;</span>PLATFORM&gt;<span class="se">\</span>
 </pre></div>
 </div>
 </div>
@@ -801,7 +801,7 @@
 <p>Однако, если по каким-либо причинам это сделать невозможно, то есть вариант включить это на уровне конкретного приложения.</p>
 <p>Движок поддерживает загрузку запакованных ресурсов с расширением <code class="docutils literal"><span class="pre">.gz</span></code>. В проекте типа <code class="docutils literal"><span class="pre">WebPlayer</span> <span class="pre">JSON</span></code> для этого нужно передать URL-параметр <code class="docutils literal"><span class="pre">compressed_gzip</span></code>. При разработке же собственного приложения необходимо будет передать конфигурационный параметр <code class="docutils literal"><span class="pre">assets_gzip_available</span></code> при инициализации приложения:</p>
 <blockquote>
-<div><div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_app</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;app&quot;</span><span class="p">);</span>
+<div><div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_app</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;app&quot;</span><span class="p">);</span>
 
 <span class="nx">m_app</span><span class="p">.</span><span class="nx">init</span><span class="p">({</span>
     <span class="nx">canvas_container_id</span><span class="o">:</span> <span class="s2">&quot;main_canvas_container&quot;</span><span class="p">,</span>
@@ -816,7 +816,7 @@
 </div></blockquote>
 <p>При этом будет требоваться наличие сжатых <code class="docutils literal"><span class="pre">.gz</span></code> файлов рядом с оригинальными. Например:</p>
 <blockquote>
-<div><div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">my_project</span><span class="o">/</span>
+<div><div class="highlight-javascript"><div class="highlight"><pre><span class="nx">my_project</span><span class="o">/</span>
     <span class="nx">assets</span><span class="o">/</span>
         <span class="nx">my_scene</span><span class="p">.</span><span class="nx">json</span>
         <span class="nx">my_scene</span><span class="p">.</span><span class="nx">json</span><span class="p">.</span><span class="nx">gz</span>
@@ -884,7 +884,7 @@
 <h2><a class="toc-backref" href="#id13">Загрузка медиаресурсов приложения.</a><a class="headerlink" href="#loading-application-assets" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Для упрощения обслуживания проектов и развертывания сервера храните медиаданные приложений (сцены, текстуры, звуки и т.п.) отдельно от прочих файлов проекта (JavaScript, CSS, HTML и пр.). Папка медиаресурсов располагается по адресу <code class="docutils literal"><span class="pre">projects/my_project/assets</span></code> в каталоге SDK.</p>
 <p>Для загрузки файлов из директории (например, с помощью метода <a class="reference external" href="https://www.blend4web.com/api_doc/module-data.html#.load">load()</a>) используйте метод <a class="reference external" href="https://www.blend4web.com/api_doc/module-config.html#.get_assets_path">get_assets_path()</a>:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">m_data</span><span class="p">.</span><span class="nx">load</span><span class="p">(</span><span class="nx">m_config</span><span class="p">.</span><span class="nx">get_assets_path</span><span class="p">(</span><span class="s2">&quot;my_project&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;loaded_scene.json&quot;</span><span class="p">,</span> <span class="nx">load_cb</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">m_data</span><span class="p">.</span><span class="nx">load</span><span class="p">(</span><span class="nx">m_config</span><span class="p">.</span><span class="nx">get_assets_path</span><span class="p">(</span><span class="s2">&quot;my_project&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;loaded_scene.json&quot;</span><span class="p">,</span> <span class="nx">load_cb</span><span class="p">);</span>
 </pre></div>
 </div>
 <p>Такой подход гарантирует, что приложение (как разрабатываемое, так и собранное или развёрнутое) сможет загружать медиаресурсы вне зависимости от того, на какой стадии разработки оно находится.</p>
@@ -918,7 +918,7 @@
 <h3><a class="toc-backref" href="#id16">Пример</a><a class="headerlink" href="#example" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Поставлена задача озвучить удар бросаемого камня так, чтобы при ударе о различные среды (например, земля и стена) выводился характерный звук. На сцене в Blender&#8217;е имеются ограничивающие меши с физическими материалами, их идентификаторы &#8220;TERRAIN&#8221; и &#8220;WALL&#8221;. На сцене также присутствует бросаемый физический объект с названием &#8220;Stone&#8221;.</p>
 <p>Определим по одному сенсору соударения (Collision Sensor) для каждой среды, по типу издаваемого звука.</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// import the modules</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// import the modules</span>
 <span class="kd">var</span> <span class="nx">m_scenes</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_controls</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;controls&quot;</span><span class="p">);</span>
 
@@ -931,7 +931,7 @@
 </pre></div>
 </div>
 <p>Добавим сенсоры в массив. В качестве логической функции используем логическое <code class="docutils literal"><span class="pre">ИЛИ</span></code>. В обработчике напишем код для воспроизведения звука. Создадим множество сенсоров с идентификатором &#8220;IMPACT&#8221; и типом <code class="docutils literal"><span class="pre">CT_SHOT</span></code> (одномоментный).</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// array of the sensors</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// array of the sensors</span>
 <span class="kd">var</span> <span class="nx">impact_sens_array</span> <span class="o">=</span> <span class="p">[</span><span class="nx">sensor_impact_terrain</span><span class="p">,</span> <span class="nx">sensor_impact_wall</span><span class="p">];</span>
 
 <span class="c1">// manifold logic function</span>
@@ -1223,7 +1223,7 @@
 <div class="line"><br /></div>
 </div>
 <p>Переключение профилей качества осуществляется программно, до инициализации контекста WebGL. Профиль по умолчанию <code class="docutils literal"><span class="pre">P_HIGH</span></code>.</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_main</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;main&quot;</span><span class="p">);</span>
 
 <span class="nx">m_cfg</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;quality&quot;</span><span class="p">,</span> <span class="nx">m_cfg</span><span class="p">.</span><span class="nx">P_LOW</span><span class="p">);</span>
@@ -1231,7 +1231,7 @@
 </pre></div>
 </div>
 <p>Разработчики приложений могут также установить параметр <strong>quality</strong> при инициализации движка с использованием дополнения <code class="docutils literal"><span class="pre">app.js</span></code>:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_app</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;app&quot;</span><span class="p">);</span>
 
 <span class="nx">m_app</span><span class="p">.</span><span class="nx">init</span><span class="p">({</span>
@@ -1249,7 +1249,7 @@
 <li><p class="first">Если верхний левый угол Canvas&#8217;а совпадает с верхним левым углом окна браузера, и его местоположение не будет изменяться, то достаточно использовать координаты event.clientX и event.clientY соответствующего события либо функции API <a class="reference external" href="https://www.blend4web.com/api_doc/module-mouse.html#.get_coords_x">get_coords_x()</a> и <a class="reference external" href="https://www.blend4web.com/api_doc/module-mouse.html#.get_coords_y">get_coords_y()</a>:</p>
 </li>
 </ol>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_mouse</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;mouse&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_mouse</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;mouse&quot;</span><span class="p">);</span>
 
 <span class="c1">// . . .</span>
 <span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">clientX</span><span class="p">;</span>
@@ -1267,7 +1267,7 @@
 <li><p class="first">В случае более сложных манипуляций с положением элемента Canvas (скроллинг отдельных элементов страницы, смещение относительно левого верхнего угла окна браузера, манипуляции с DOM-деревом) требуется получить корректно рассчитанные координаты. Это можно сделать при помощи вышеупомянутых методов <a class="reference external" href="https://www.blend4web.com/api_doc/module-mouse.html#.get_coords_x">get_coords_x()</a> и <a class="reference external" href="https://www.blend4web.com/api_doc/module-mouse.html#.get_coords_y">get_coords_y()</a> с <code class="docutils literal"><span class="pre">true</span></code> в качестве третьего параметра.</p>
 </li>
 </ol>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_mouse</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;mouse&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_mouse</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;mouse&quot;</span><span class="p">);</span>
 
 <span class="c1">// . . .</span>
 <span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">m_mouse</span><span class="p">.</span><span class="nx">get_coords_x</span><span class="p">(</span><span class="nx">event</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
@@ -1279,7 +1279,7 @@
 <div class="line"><br /></div>
 </div>
 <p>Другой вариант - использовать метод <a class="reference external" href="https://www.blend4web.com/api_doc/module-container.html#.client_to_canvas_coords">client_to_canvas_coords()</a>, как на следующем примере:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_cont</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;container&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_cont</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;container&quot;</span><span class="p">);</span>
 
 <span class="kd">var</span> <span class="nx">_vec2_tmp</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
 
@@ -1292,12 +1292,12 @@
 <div class="section" id="mobile-web-apps">
 <span id="id1"></span><h2><a class="toc-backref" href="#id21">Мобильные веб-приложения</a><a class="headerlink" href="#mobile-web-apps" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Возможность масштабирования всей веб-страницы на мобильных устройствах также может приводить к смещению элемента Canvas. Описанные выше решения годятся и для этого случая, однако, в качестве альтернативы можно запретить масштабирование вовсе и избежать подобных проблем. Для этого достаточно в заголовке страницы добавить следующий мета-тег:</p>
-<div class="highlight-html"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">meta</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;viewport&quot;</span> <span class="na">content</span><span class="o">=</span><span class="s">&quot;width=device-width, initial-scale=1.0, user-scalable=no&quot;</span><span class="p">&gt;</span>
+<div class="highlight-html"><div class="highlight"><pre><span class="p">&lt;</span><span class="nt">meta</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;viewport&quot;</span> <span class="na">content</span><span class="o">=</span><span class="s">&quot;width=device-width, initial-scale=1.0, user-scalable=no&quot;</span><span class="p">&gt;</span>
 </pre></div>
 </div>
 <p>В некоторых случаях может потребоваться зафиксировать определённую ориентацию мобильного устройства (например, если вы не хотите создавать отдельные варианты интерфейса для ландшафтной и портретной ориентации). Поскольку штатный API для фиксации экрана - экспериментальный и не распространён широко, это проще сделать при помощи правил CSS.</p>
 <p>Для сохранения ориентации в ландшафтном режиме можно установить вращение элемента &lt;html&gt; на 90 градусов в портретном режиме:</p>
-<div class="highlight-css"><div class="highlight"><pre><span></span><span class="k">@media</span> <span class="o">(</span><span class="nt">orientation</span> <span class="o">:</span> <span class="nt">portrait</span><span class="o">)</span> <span class="p">{</span>
+<div class="highlight-css"><div class="highlight"><pre><span class="k">@media</span> <span class="o">(</span><span class="nt">orientation</span> <span class="o">:</span> <span class="nt">portrait</span><span class="o">)</span> <span class="p">{</span>
     <span class="nt">html</span> <span class="p">{</span>
         <span class="nb">position</span><span class="o">:</span> <span class="nb">absolute</span><span class="p">;</span>
         <span class="nb">width</span><span class="o">:</span> <span class="m">100</span><span class="n">vh</span><span class="p">;</span>
@@ -1322,7 +1322,7 @@
 <div class="line"><br /></div>
 </div>
 <p>В свою очередь, правило CSS для использования только портретного режима будет выглядеть следующим образом:</p>
-<div class="highlight-css"><div class="highlight"><pre><span></span><span class="k">@media</span> <span class="o">(</span><span class="nt">orientation</span> <span class="o">:</span> <span class="nt">landscape</span><span class="o">)</span> <span class="p">{</span>
+<div class="highlight-css"><div class="highlight"><pre><span class="k">@media</span> <span class="o">(</span><span class="nt">orientation</span> <span class="o">:</span> <span class="nt">landscape</span><span class="o">)</span> <span class="p">{</span>
     <span class="nt">html</span> <span class="p">{</span>
         <span class="nb">position</span><span class="o">:</span> <span class="nb">absolute</span><span class="p">;</span>
         <span class="nb">width</span><span class="o">:</span> <span class="m">100</span><span class="n">vh</span><span class="p">;</span>
@@ -1366,7 +1366,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Триумф.
-      Обновлено: 2017-08-31.
+      Обновлено: 2017-10-31.
 
     </p>
   </div>
@@ -1422,7 +1422,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.08',
+            VERSION:'v17.10',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

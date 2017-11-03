@@ -705,7 +705,7 @@ exports.create_keyboard_sensor = m_ctl.create_keyboard_sensor;
  * Detects collisions between the object and the entities (objects or physics
  * materials) with the specified collision ID. If the collision ID is not
  * specified, the sensor will detect collisions with any entities.
- * This sensor carries the following {@link module:controls~CollisionPayload|payload}.
+ * This sensor carries the following {@link CollisionPayload|payload}.
  * @method module:controls.create_collision_sensor
  * @param {Object3D} obj_src Collision object.
  * @param {?string} [collision_id="ANY"] Collision ID, "ANY" for any collision ID
@@ -739,7 +739,7 @@ exports.create_collision_impulse_sensor = m_ctl.create_collision_impulse_sensor;
  * Checks intersection of this ray with the specified collision ID. If the
  * collision ID is not specified, the sensor will detect collisions with any
  * entities.
- * This sensor carries the following {@link module:controls~RayPayload|payload}.
+ * This sensor carries the following {@link RayPayload|payload}.
  * @method module:controls.create_ray_sensor
  * @param {?Object3D} obj_src Source object, pass a non-null value to perform 
  * ray casting in object space, e.g. from/to vectors specified in object space.

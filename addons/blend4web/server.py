@@ -23,7 +23,6 @@ import sys
 import threading
 import time
 import webbrowser
-import requests
 import subprocess
 import string
 from collections import OrderedDict
@@ -36,6 +35,7 @@ import hashlib
 import shutil
 import tempfile
 import json
+import requests
 
 from os.path import basename, exists, join, normpath, relpath, abspath, split, isabs
 
@@ -52,7 +52,7 @@ WAIT_RESPONSE               = -1
 SUB_THREAD_START_SERV_OK    = 0
 SUB_THREAD_SERVER_EXC       = 1
 SUB_THREAD_STOP_SERV_OK     = 2
-SUB_THREAD_OTHER_EXC        = 3
+SUB_THREAD_START_OTHER_OK   = 3
 MAIN_THREAD_START_EXC       = 4
 MAIN_THREAD_STOP_EXC        = 5
 
@@ -86,7 +86,6 @@ class B4WLocalServer():
     server_status = WAIT_RESPONSE
 
     waiting_for_shutdown = False
-    server_was_found_at_start = False
 
     error_message = ""
 
@@ -140,49 +139,45 @@ class B4WLocalServer():
 
     @classmethod
     def start(cls):
-        if not cls.update_server_existed():
-            root = cls.get_root()
-            port = bpy.context.user_preferences.addons[__package__].preferences.b4w_port_number
-            allow_ext_requests = bpy.context.user_preferences.addons[__package__].preferences.b4w_enable_ext_requests
+        root = cls.get_root()
+        port = bpy.context.user_preferences.addons[__package__].preferences.b4w_port_number
+        allow_ext_requests = bpy.context.user_preferences.addons[__package__].preferences.b4w_enable_ext_requests
 
-            python_path = cls.get_python_binary(["5", "4"])
-            if not python_path:
-                print("Python3 not found", file=sys.stderr)
-                return
-            
-            blender_path = bpy.app.binary_path
+        python_path = cls.get_python_binary(["5", "4"])
+        if not python_path:
+            print("Python3 not found", file=sys.stderr)
+            return
 
-            proj_serv = cls.get_proj_serv()
+        blender_path = bpy.app.binary_path
 
-            cls.server_status = WAIT_RESPONSE
-            cls.server_process = threading.Thread(
-                    target=proj_serv.create_server,
-                    args=(root, port, allow_ext_requests, python_path,
-                            blender_path, B4WLocalServer))
-            cls.server_process.daemon = True
+        proj_serv = cls.get_proj_serv()
 
-            #for converting resources on MACOS
-            if sys.platform == "darwin" and not ":/usr/local/bin" in os.environ["PATH"]:
-                os.environ["PATH"] = os.environ["PATH"] + ":/usr/local/bin"
+        cls.server_status = WAIT_RESPONSE
+        cls.server_process = threading.Thread(
+                target=proj_serv.create_server,
+                args=(root, port, allow_ext_requests, python_path,
+                        blender_path, B4WLocalServer))
+        cls.server_process.daemon = True
 
-            try:
-                cls.server_process.start()
-            except BaseException as ex:
-                cls.server_status = MAIN_THREAD_START_EXC
-                cls.server_process = None
-                bpy.ops.b4w.server_message("INVOKE_DEFAULT", 
-                        message=get_translate(_("Server starting error: ")) + str(ex))
+        #for converting resources on MACOS
+        if sys.platform == "darwin" and not ":/usr/local/bin" in os.environ["PATH"]:
+            os.environ["PATH"] = os.environ["PATH"] + ":/usr/local/bin"
 
-            cls.wait_loop()
+        try:
+            cls.server_process.start()
+        except BaseException as ex:
+            cls.server_status = MAIN_THREAD_START_EXC
+            cls.server_process = None
+            bpy.ops.b4w.server_message("INVOKE_DEFAULT",
+                    message=get_translate(_("Server starting error: ")) + str(ex))
 
-            if cls.server_status == SUB_THREAD_SERVER_EXC:
-                bpy.ops.b4w.server_message("INVOKE_DEFAULT", 
-                        message=get_translate(_("Server starting error: ")) +  cls.error_message)
-            if cls.server_status == SUB_THREAD_OTHER_EXC:
-                bpy.ops.b4w.server_message("INVOKE_DEFAULT", 
-                        message=get_translate(_("Could not start the server: ")) + cls.error_message)
+        cls.wait_loop()
 
-            cls.panel_redraw()
+        if cls.server_status == SUB_THREAD_SERVER_EXC:
+            bpy.ops.b4w.server_message("INVOKE_DEFAULT",
+                    message=get_translate(_("Server starting error: ")) +  cls.error_message)
+
+        cls.panel_redraw()
 
     @classmethod
     def shutdown(cls):
@@ -206,47 +201,21 @@ class B4WLocalServer():
             cls.panel_redraw()
 
     @classmethod
-    def update_server_existed(cls):
-        is_existed = cls.check_server_existance()
-
-        if is_existed:
-            cls.server_status = SUB_THREAD_START_SERV_OK
-        else:
-            cls.server_status = SUB_THREAD_STOP_SERV_OK
-
-        cls.panel_redraw()
-        return is_existed
-
-    @classmethod
-    def check_server_existance(cls):
-        server_found = False
-        try:
-            port = bpy.context.user_preferences.addons[__package__].preferences.b4w_port_number
-            session = requests.Session()
-            session.trust_env = False
-            req = session.head("http://localhost:" + str(port))
-        except:
-            pass
-        else:
-            if (req.status_code == STATUS_OK and "B4W.LocalServer" in req.headers
-                    and req.headers["B4W.LocalServer"] == "1"):
-                server_found = True
-
-        cls.server_was_found_at_start = server_found
-        return server_found
-
-    @classmethod
     def wait_loop(cls):
         begin_time = time.time()
         while cls.server_status == WAIT_RESPONSE:
             if time.time() - begin_time > WAITING_TIME:
-                cls.waiting_for_shutdown = False
                 cls.server_status = SUB_THREAD_STOP_SERV_OK
                 break
+        cls.waiting_for_shutdown = False
 
     @classmethod
     def get_server_status(cls):
         return cls.server_status
+
+    @classmethod
+    def is_started(cls):
+        return cls.server_status in [SUB_THREAD_START_OTHER_OK, SUB_THREAD_START_SERV_OK]
 
     @classmethod
     def is_waiting_for_shutdown(cls):
@@ -263,17 +232,9 @@ class B4WLocalServer():
             prop_area.tag_redraw()
 
     @classmethod
-    def allow_actions(cls):
-        # allow actions (starting/stopping) for the main server instance or for 
-        # any instance if server wasn't already started
-        return cls.server_process is not None or not cls.server_was_found_at_start
-
-    @classmethod
     def open_url(cls, url):
-        can_open = True
-        if cls.server_process is None:
-            can_open = cls.update_server_existed()
-        if can_open:
+        if cls.server_status == SUB_THREAD_START_SERV_OK or \
+                cls.server_status == SUB_THREAD_START_OTHER_OK:
             open_browser(url)
 
 class B4WShutdownServer(bpy.types.Operator):
@@ -333,6 +294,7 @@ class B4WPreviewScene(bpy.types.Operator):
         previewdir = join(tmpdir, "preview")
         if not exists(previewdir):
             os.mkdir(previewdir)
+        preferences = addon_prefs.get_prefs()
         bpy.ops.export_scene.b4w_json(do_autosave = False, run_in_viewer = True,
                 override_filepath=join(previewdir, "preview.json"),
                 save_export_path = False, is_fast_preview=True)
@@ -346,6 +308,22 @@ def open_browser(url):
         bpy.ops.b4w.server_message("INVOKE_DEFAULT",
                 message=get_translate(_("Could not open browser: ")) + str(ex))
 
+def is_synchronized(json_relpath):
+    port = bpy.context.user_preferences.addons[__package__].preferences.b4w_port_number
+    url = "http://" + ADDRESS + ":" + str(port) + "/viewer/instances/"
+    # TODO: rewrite with websocket for server -> blender channel
+    r = requests.get(url)
+    try:
+        instances = json.loads(r.text)["instances"]
+    except:
+        print("Bad request format")
+        return False
+
+    for inst in instances:
+        if json_relpath == inst["id"]["file_path"] and inst["sync"]:
+            return True
+
+    return False
 
 @bpy.app.handlers.persistent
 def init_server(arg):
@@ -353,9 +331,7 @@ def init_server(arg):
         bpy.app.handlers.scene_update_pre.remove(init_server)
 
     if addon_prefs.has_valid_sdk_path():
-        already_started = B4WLocalServer.update_server_existed()
-        if (bpy.context.user_preferences.addons[__package__].preferences.b4w_server_auto_start
-                and not already_started):
+        if (bpy.context.user_preferences.addons[__package__].preferences.b4w_server_auto_start):
             bpy.ops.b4w.start_server()
 
 def correct_resources_path(previewdir):
@@ -403,4 +379,5 @@ def copy_resource(resource_path, previewdir):
     return new_file_name
 
 def register():
-    bpy.app.handlers.scene_update_pre.append(init_server)
+    if not bpy.app.background:
+        bpy.app.handlers.scene_update_pre.append(init_server)

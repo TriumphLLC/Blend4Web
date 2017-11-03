@@ -436,14 +436,19 @@ exports.shot = function(format, quality) {
     quality = quality || 1.0;
 
     var cb = function(url) {
-        var a = window.document.createElement("a");
-        document.body.appendChild(a);
-        a.style.display = "none";
-        a.href = url;
-        a.download = "screenshot." + format.split("/")[1];
-        a.click();
+        var file_name = "screenshot." + format.split("/")[1];
+        if (navigator.msSaveOrOpenBlob) {
+            navigator.msSaveOrOpenBlob(url, file_name);
+        } else {
+            var a = window.document.createElement("a");
+            document.body.appendChild(a);
+            a.style.display = "none";
+            a.href = url;
+            a.download = "screenshot." + format.split("/")[1];
+            a.click();
 
-        document.body.removeChild(a);
+            document.body.removeChild(a);
+        }
     }
 
     m_main.canvas_data_url(cb, format, quality, true);

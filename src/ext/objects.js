@@ -28,6 +28,7 @@
  * Objects (Instancing)}
  * @module objects
  * @local ObjectMetaTags
+ * @local WindBendingParams
  */
 b4w.module["objects"] = function(exports, require) {
 

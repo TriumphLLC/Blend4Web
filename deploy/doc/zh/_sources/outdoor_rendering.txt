@@ -412,7 +412,8 @@ Distance Map" 面板。设定参数：到岸最大距离（"最大Distance"）�
 
 [图片]
 
-注解: 只有场景中存在 "Sun" 型光源才会有效果。
+注解: This effect is strongly recommended to use with a single "Sun"
+  type light source present in the scene.
 
 
 镜头光晕设置
@@ -449,9 +450,7 @@ Distance Map" 面板。设定参数：到岸最大距离（"最大Distance"）�
 纹理设置
 ~~~~~~~~
 
-[图片]
-
-用来产生镜头光斑效果的纹理的例子。
+   [图片]用来产生镜头光斑效果的纹理的例子。
 
 用于镜头眩光物体纹理应包含在实际的应用程序的用于形成光斑的形状所有元素
 。纹理图像应该使用 "Alpha" 通道对 "Color" 和 "Alpha" 值都有影响。

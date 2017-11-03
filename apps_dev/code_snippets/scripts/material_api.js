@@ -42,7 +42,7 @@ function load() {
 }
 
 function load_cb(data_id) {
-    m_app.enable_camera_controls();
+    m_app.enable_camera_controls(false, false, false, null, true);
     set_stack_material_params();
     set_node_material_params();
 }

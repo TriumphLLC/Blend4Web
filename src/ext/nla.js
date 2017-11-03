@@ -63,10 +63,9 @@ exports.get_frame = function() {
  * @method module:nla.stop
  */
 exports.stop = function() {
-    if (m_nla.check_logic_nodes()) {
-        m_print.error("The active scene is using the Logic Editor.");
-        return;
-    }
+    if (m_nla.check_logic_nodes())
+        m_print.warn("The active scene is using the Logic Editor. It may conflicts with your JS-code.");
+
     m_nla.stop_nla();
 }
 
@@ -76,10 +75,8 @@ exports.stop = function() {
  * @param {?NlaFinishCallback} [callback=null] Nla finish callback.
  */
 exports.play = function(callback) {
-    if (m_nla.check_logic_nodes()) {
-        m_print.error("The active scene is using the Logic Editor.");
-        return;
-    }
+    if (m_nla.check_logic_nodes())
+        m_print.warn("The active scene is using the Logic Editor. It may conflicts with your JS-code.");
 
     m_nla.play_nla(callback);
 }

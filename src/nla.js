@@ -389,6 +389,26 @@ function get_nodetree_nla_tracks_r(node_tree, container, name_list) {
     }
 }
 
+exports.prepare = function() {
+    // init cache for all nla actions
+    for (var i = 0; i < _nla_arr.length; i++) {
+        var nla = _nla_arr[i];
+        for (var k = 0; k < nla.objects.length; k++) {
+            var objs = nla.objects[k];
+            if (!objs)
+                continue;
+            for (var i = 0; i < objs.length; i++) {
+                var obj = objs[i];
+                var nla_events = obj.nla_events;
+                for (var j = 0; j < nla_events.length; j++) {
+                    var ev = nla_events[j];
+                    m_anim.init_action_cache(obj, ev.name_list, ev.uuid, ev.anim_name, ev.anim_slot);
+                }
+            }
+        }
+    }
+}
+
 exports.start = function() {
     _start_time = 0;
 }
@@ -576,7 +596,7 @@ function process_nla_video_textures(timeline, nla, nla_frame) {
         }
 
         if (need_set_frame) {
-            m_tex.set_frame_video(tex, video_frame_clamped);
+            m_tex.set_frame_video(tex.video_tex_name, video_frame_clamped, tex.vtex_data_id);
             if (tex.seq_video)
                 tex.seq_last_discrete_mark = m_tex.seq_video_get_discrete_timemark(tex, timeline);
         } else if (need_update && m_tex.video_update_is_available(tex)) {

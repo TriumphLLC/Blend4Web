@@ -155,7 +155,8 @@ function load_cb(data_id, success) {
     }
 
     var control_panel = document.querySelector(".control");
-    control_panel.style.display = null;
+
+    control_panel.style.display = m_util.is_ie11() ? "block": "grid";
 
     if (!success) {
         console.log("b4w load failure");
@@ -506,7 +507,7 @@ function setup_non_ar() {
 function notify_user(error) {
     var error_el = document.getElementById("error");
     if (error_el) {
-        error_el.style.display = null;
+        error_el.style.display = m_util.is_ie11() ? "block": "grid";
         if (error.name == "DevicesNotFoundError") {
             error_el.textContent = ERROR_DEVICES_MSG;
         } else if (error.name == "TrackStartError") {

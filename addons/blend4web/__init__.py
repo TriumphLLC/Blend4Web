@@ -17,8 +17,8 @@
 bl_info = {
     "name": "Blend4Web",
     "author": "Blend4Web Development Team",
-    "version": (17, 8, 0),
-    "blender": (2, 78, 0),
+    "version": (17, 10, 0),
+    "blender": (2, 79, 0),
     "b4w_format_version": "6.03",
     "location": "File > Import-Export",
     "description": "Tool for interactive 3D visualization on the Internet",
@@ -109,7 +109,7 @@ class B4WInitErrorDialog(bpy.types.Operator):
     def draw(self, context):
         row = self.layout.row()
         if (self.msg == ""):
-            self.msg = "Incorrect addon directory name."
+            self.msg = "Incorrect addon directory name or addon is not supported."
         row.label(self.msg, icon="ERROR")
 bpy.utils.register_class(B4WInitErrorDialog)
 
@@ -178,57 +178,20 @@ def update_animated_glsl_mat(arg):
 
 @bpy.app.handlers.persistent
 def logic_nodetree_reform(arg):
+    for scene in bpy.data.scenes:
+        if "b4w_active_logic_node_tree" in scene:
+            if scene["b4w_active_logic_node_tree"] != "":
+                if scene["b4w_active_logic_node_tree"] in bpy.data.node_groups:
+                    tree = bpy.data.node_groups[scene["b4w_active_logic_node_tree"]]
+                    scene.b4w_active_logic_node_tree_new = tree
+                    del scene["b4w_active_logic_node_tree"]
+
     for tree in bpy.data.node_groups:
         if tree.bl_idname == "B4WLogicNodeTreeType":
             for node in tree.nodes:
                 if node.bl_idname == "B4W_logic_node":
-                    # registers
-                    for item in [("param_register1", 7, "param_var1"),
-                                      ("param_register2", 6, "param_var2"),
-                                      ("param_register_dest", 7, "param_var_dest")]:
-                        ind = item[1]
-                        if item[0] in node:
-                            node.update_var_def_callback(bpy.context)
-                            ind = node[item[0]]
-                            setattr(node, item[2], "R%s" % (8 - ind))
-                            del node[item[0]]
-                    for item in [("param_register_flag1", "param_var_flag1"),
-                                 ("param_register_flag2", "param_var_flag2")]:
-                        if item[0] in node:
-                            setattr(node, item[1], node[item[0]])
-                            del node[item[0]]
-
-                    if "ob0" in node:
-                        path = ""
-                        if not "id0" in node.objects_paths:
-                            node.objects_paths.add()
-                            item = node.objects_paths[-1].name = "id0"
-                        item = node.objects_paths["id0"]
-                        item.node_name = node.name
-                        item.tree_name = tree.name
-                        for i in range (10):
-                            if "ob%s"%i in node:
-                                ob = node["ob%s"%i]
-                                if ob == "":
-                                    break;
-                                delim = ">" if len(path) else ""
-                                item.path_arr.add()
-                                path += delim + ob
-                                item.path_arr[-1].name = ob
-                        for i in range (10):
-                            if "ob%s"%i in node:
-                                del node["ob%s"%i]
-                        item.path = path
-
-                    if node.type == "SELECT":
-                        if not "not_wait" in node.bools:
-                            node.bools.add()
-                            node.bools[-1].name = "not_wait"
-
                     if node.type == "MOVE_CAMERA":
-                        if not "dur" in node.bools:
-                            node.bools.add()
-                            node.bools[-1].name = "dur"
+                        node.ensure_bool("dur")
                         # fix aftereffect of the bug
                         # https://www.blend4web.com/en/forums/topic/1398/
                         tmp = []
@@ -244,163 +207,162 @@ def logic_nodetree_reform(arg):
                                     dur = node.durations[ind].float
                                 node.durations.remove(ind)
 
-                        if not "dur" in node.durations:
-                            node.durations.add()
-                            node.durations[-1].name = "dur"
-                        node.durations["dur"].float = dur
-                        #
-
-                        if not "dur" in node.variables_names:
-                            node.variables_names.add()
-                            node.variables_names[-1].name = "dur"
+                        node.ensure_duration("dur", dur)
+                        node.ensure_variable_name("dur")
 
                     if node.type == "DELAY":
                         if "dl" in node.floats and not "dl" in node.durations:
-                            node.durations.add()
-                            node.durations[-1].name = "dl"
                             i = 0
                             for k in node.floats:
                                 if k.name == "dl":
                                     break
                                 i += 1
-                            node.durations["dl"].float = node.floats["dl"].float
+                            node.ensure_duration("dl", node.floats["dl"].float)
                             node.floats.remove(i)
 
                     if node.type in ["SPEAKER_PLAY", "PLAY"]:
                         if not "not_wait" in node.bools:
-                            node.bools.add()
-                            node.bools[-1].name = "not_wait"
-                            if node.type == "SPEAKER_PLAY":
-                                node.bools[-1].bool = True
+                            node.ensure_bool("not_wait", True if node.type == "SPEAKER_PLAY" else None)
 
                     if node.type == "SEND_REQ":
-                        if not "prs" in node.bools:
-                            node.bools.add()
-                            node.bools[-1].name = "prs"
-                            node.bools[-1].bool = True
-                        if not "enc" in node.bools:
-                            node.bools.add()
-                            node.bools[-1].name = "enc"
-                            node.bools[-1].bool = True
-                        if not "dst" in node.variables_names:
-                            node.variables_names.add()
-                            node.variables_names[-1].name = "dst"
-                        if not "dst1" in node.variables_names:
-                            node.variables_names.add()
-                            node.variables_names[-1].name = "dst1"
-                        if not "ct" in node.bools:
-                            node.bools.add()
-                            node.bools[-1].name = "ct"
-                        if not "ct" in node.strings:
-                            node.strings.add()
-                            node.strings[-1].name = "ct"
+                        node.ensure_bool("prs", True)
+                        node.ensure_bool("enc", True)
+                        node.ensure_variable_name("dst")
+                        node.ensure_variable_name("dst1")
+                        node.ensure_bool("ct", True)
+                        node.ensure_string("ct")
 
                     if node.type in ["SEND_REQ", "REDIRECT"]:
                         if not "url" in node.strings:
-                            node.strings.add()
-                            node.strings[-1].name = "url"
-                            def_url = "https://www.blend4web.com" if "param_url" not in node else node["param_url"]
-                            node.strings[-1].string = def_url
-                        if not "url" in node.bools:
-                            node.bools.add()
-                            node.bools[-1].name = "url"
-                        if not "url" in node.variables_names:
-                            node.variables_names.add()
-                            node.variables_names[-1].name = "url"        
+                            node.ensure_string("url", "https://www.blend4web.com" if "param_url" not in node else node["param_url"])
+                        node.ensure_bool("url")
+                        node.ensure_variable_name("url")
 
                     if node.type == "PAGEPARAM":
-                        if not "hsh" in node.bools:
-                            node.bools.add()
-                            node.bools[-1].name = "hsh"
-
-                    if node.type == "REGSTORE":
-                        if not "gl" in node.bools:
-                            node.bools.add()
-                            node.bools[-1].name = "gl"
+                        node.ensure_bool("hsh")
 
                     # moving old properties to variables_names
                     if node.type in ["MATH", "CONDJUMP", "PAGEPARAM", "REGSTORE"]:
-                        if not "v1" in node.variables_names:
-                            node.variables_names.add()
-                            node.variables_names[-1].name = "v1"
-                            var = "R1" if "param_var1" not in node else node["param_var1"]
-                            node.variables_names[-1].variable = var
-                            if "param_var1" in node:
-                                del node["param_var1"]
-                        if not "v2" in node.variables_names:
-                            node.variables_names.add()
-                            node.variables_names[-1].name = "v2"
-                            var = "R1" if "param_var2" not in node else node["param_var2"]
-                            node.variables_names[-1].variable = var
-                            if "param_var2" in node:
-                                del node["param_var2"]
+                        if "v1" in node.variables_names:
+                            node.rename_prop("variables_names", "v1", "id0")
+                            node.rename_prop("variables_names", "v2", "id1")
+
+                        if not "id0" in node.variables_names:
+                            node.ensure_variable_name("id0", "R1" if "param_var1" not in node else node["param_var1"])
+                        if "param_var1" in node:
+                            del node["param_var1"]
+
+                        if not "id1" in node.variables_names:
+                            node.ensure_variable_name("id1", "R1" if "param_var2" not in node else node["param_var2"])
+                        if "param_var2" in node:
+                            del node["param_var2"]
+
                         if not "vd" in node.variables_names:
-                            node.variables_names.add()
-                            node.variables_names[-1].name = "vd"
-                            var = "R1" if "param_var_dest" not in node else node["param_var_dest"]
-                            node.variables_names[-1].variable = var
-                            if "param_var_dest" in node:
-                                del node["param_var_dest"]
+                            node.ensure_variable_name("vd", "R1" if "param_var_dest" not in node else node["param_var_dest"])
+                        if "param_var_dest" in node:
+                            del node["param_var_dest"]
+
                     if node.type in ["MATH", "CONDJUMP", "REGSTORE"]:
                         if not "inp1" in node.floats:
-                            node.floats.add()
-                            node.floats[-1].name = "inp1"
-                            node.floats[-1].float = 0 if "param_number1" not in node else node["param_number1"]
-                            if "param_number1" in node:
-                                del node["param_number1"]
+                            node.ensure_float("inp1", 0 if "param_number1" not in node else node["param_number1"])
+                        if "param_number1" in node:
+                            del node["param_number1"]
+
                     if node.type in ["MATH", "CONDJUMP"]:
                         if not "inp2" in node.floats:
-                            node.floats.add()
-                            node.floats[-1].name = "inp2"
-                            node.floats[-1].float = 0 if "param_number2" not in node else node["param_number2"]
-                            if "param_number2" in node:
-                                del node["param_number2"]
+                            node.ensure_float("inp2", 0 if "param_number2" not in node else node["param_number2"])
+                        if "param_number2" in node:
+                            del node["param_number2"]
+
                     if node.type in ["REGSTORE"]:
+                        node.ensure_bool("gl")
                         if not "inp1" in node.strings:
-                            node.strings.add()
-                            node.strings[-1].name = "inp1"
-                            node.strings[-1].string = "" if "param_string1" not in node else node["param_string1"]
-                            if "param_string1" in node:
-                                del node["param_string1"]
+                            node.ensure_string("inp1", "" if "param_string1" not in node else node["param_string1"])
+                        if "param_string1" in node:
+                            del node["param_string1"]
+
+                        if "param_var_define" in node:
+                            node.ensure_variable_definition("id0")
+                            node.variables_definitions["id0"].string = node["param_var_define"]
+                            del node["param_var_define"]
+
+                        node.ensure_object_path("id0")
+                        node.ensure_bool("id0")
+                        node.ensure_bool("new")
+                        if "param_var_flag1" in node:
+                            node.bools["new"].bool = node["param_var_flag1"]
+                            del node["param_var_flag1"]
+
+                        node.ensure_optional_variable("vs")
 
                     if node.type == "GET_TIMELINE":
-                        if not "nla" in node.bools:
-                            node.bools.add()
-                            node.bools[-1].name = "nla"
-                            node.bools[-1].bool = True
+                        node.ensure_bool("nla", True)
 
                     if node.type in ["PLAY_ANIM", "STOP_ANIM"]:
-                        if not "env" in node.bools:
-                            node.bools.add()
-                            node.bools[-1].name = "env"
+                        node.ensure_bool("env")
+                        node.ensure_bool("id0")
+
+                    if node.type in ["CONDJUMP", "MATH"]:
+                        node.ensure_complete_property_set("objects_paths", None, "id0")
+                        node.ensure_complete_property_set("objects_paths", None, "id1")
+
+                        if "param_var_flag1" in node:
+                            node.bools["id0"].bool = node["param_var_flag1"]
+                            del node["param_var_flag1"]
+                        if "param_var_flag2" in node:
+                            node.bools["id1"].bool = node["param_var_flag2"]
+                            del node["param_var_flag2"]
 
                     if node.type == "CONDJUMP":
-                        if not "str" in node.bools:
-                            node.bools.add()
-                            node.bools[-1].name = "str"
-                        if not "inp1" in node.strings:
-                            node.strings.add()
-                            node.strings[-1].name = "inp1"
-                        if not "inp2" in node.strings:
-                            node.strings.add()
-                            node.strings[-1].name = "inp2"
+                        node.ensure_string("inp1")
+                        node.ensure_string("inp2")
+                        if "str" in node.bools:
+                            node.param_variable_type = "STRING" if node.bools["str"].bool else "NUMBER"
+                            ind = node.bools.find("str")
+                            if ind >= 0:
+                                node.bools.remove(ind)
+                        if "sk" in node.bools:
+                            node.ensure_bool("skv", node.bools["sk"])
+                            del node.bools["sk"]
 
                     if node.type in ["SHOW", "HIDE"]:
-                        if not "ch" in node.bools:
-                            node.bools.add()
-                            node.bools[-1].name = "ch"
+                        node.ensure_bool("ch")
+                        node.ensure_bool("id0")
 
                     if node.type == "ENTRYPOINT":
-                        if not "js" in node.bools:
-                            node.bools.add()
-                            node.bools[-1].name = "js"
+                        node.ensure_bool("js")
 
+                    if node.type in ["SWITCH_SELECT", "JS_CALLBACK", "PLAY_ANIM",
+                                     "MOVE_CAMERA", "SET_CAMERA_MOVE_STYLE",
+                                     "SET_CAMERA_LIMITS", "TRANSFORM_OBJECT", "MOVE_TO",
+                                     "SPEAKER_PLAY", "SPEAKER_STOP"]:
+                        for item in node.objects_paths:
+                            node.ensure_bool(item.name)
+                            node.ensure_variable_name(item.name)
+                    
+                    if node.type == "SWITCH_SELECT":
+                        if not "vd" in node.variables_names:
+                            node.ensure_variable_name("vd")
+                            node.variables_names["vd"].variable = ""
+
+                    if node.type in ["INHERIT_MAT"]:
+                        node.ensure_bool("id0")
+                        node.ensure_bool("id1")
+
+                    if node.type == "OUTLINE":
+                        node.ensure_bool("id0")
+                    #node.debug_repetitions()
 
 def init_runtime_addon_data():
     p = bpy.context.user_preferences.addons[__package__].preferences
     p.b4w_src_path = init_validation.detect_sdk() or "";
 
 def register():
+    # Datablock Pointers are supported since Blender 2.79
+    global _init_is_ok
+    if bpy.app.version[0] == 2 and bpy.app.version[1] < 79:
+        _init_is_ok = False
+
     if not _init_is_ok:
         bpy.app.handlers.scene_update_pre.append(draw_init_error_message)
         return

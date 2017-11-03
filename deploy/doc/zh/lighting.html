@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>照明、 阴影和背景 &mdash; Blend4Web 17.08 用户手册</title>
+  <title>照明、 阴影和背景 &mdash; Blend4Web 17.10 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.08 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 17.10 用户手册" href="index.html"/>
         <link rel="next" title="后期处理效果" href="postprocessing_effects.html"/>
         <link rel="prev" title="逻辑编辑器" href="logic_editor.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v17.08
+              v17.10
             </div>
           
         
@@ -85,7 +85,7 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">概述</a></li>
 <li class="toctree-l1"><a class="reference internal" href="engine_features.html">引擎功能</a></li>
-<li class="toctree-l1"><a class="reference internal" href="interface.html">Blender User Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="interface.html">Blender的用户界面</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">安装和更新</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">工作流程</a></li>
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理</a></li>
@@ -127,7 +127,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">后期处理效果</a></li>
-<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">立体渲染</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vr_and_ar.html">VR and AR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">纹理</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles.html">粒子系统,流体</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">粒子系统.实例化</a></li>
@@ -531,7 +531,7 @@
 </li>
 <li><p class="first">用 <code class="docutils literal"><span class="pre">config.set()</span></code> 方法设置引擎的 <code class="docutils literal"><span class="pre">background_color</span></code> 参数。请注意，Blender的 <code class="docutils literal"><span class="pre">World</span></code> 选项卡下的  <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">Sky</span></code> 必须被禁止。这个值被用作WebGL的 <code class="docutils literal"><span class="pre">clearColor()</span></code> 方法的参数。对于正确的结果，建议将WebGL的背景透明度关闭（<code class="docutils literal"><span class="pre">alpha</span></code> 参数）。这样的配置在默认情况下引擎的标准网络播放器使用。</p>
 <blockquote>
-<div><div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
+<div><div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_main</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;main&quot;</span><span class="p">);</span>
 
 <span class="c1">// gray</span>
@@ -545,7 +545,7 @@
 </li>
 <li><p class="first">您可以在 <em>canvas</em> 元素之后使用任何HTML内容，作为背景进行渲染。要做到这一点，激活WebGL的背景透明度（ <code class="docutils literal"><span class="pre">alpha</span></code> 参数）。请注意，Blender的 <code class="docutils literal"><span class="pre">World</span></code> 选项卡下的 <code class="docutils literal"><span class="pre">World</span>&nbsp; <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">Sky</span></code> 必须禁止。想要正确的结果，建议设置完全透明的黑色背景色。这样的配置在Blend4Web SDK的  <a class="reference internal" href="viewer.html#viewer"><span>场景查看器</span></a> 默认情况下使用。</p>
 <blockquote>
-<div><div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
+<div><div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_main</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;main&quot;</span><span class="p">);</span>
 
 <span class="nx">m_cfg</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;background_color&quot;</span><span class="p">,</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]));</span>
@@ -584,7 +584,7 @@
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2017, Triumph.
-      最后更新于 2017-08-31.
+      最后更新于 2017-10-31.
 
     </p>
   </div>
@@ -640,7 +640,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.08',
+            VERSION:'v17.10',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

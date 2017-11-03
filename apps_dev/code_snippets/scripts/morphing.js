@@ -44,7 +44,7 @@ function load_cb(data_id) {
     main_interface_container.className = "main_sliders_container";
     main_interface_container.setAttribute("id", "main_sliders_container");
     document.body.appendChild(main_interface_container);
-    m_app.enable_camera_controls();
+    m_app.enable_camera_controls(false, false, false, null, true);
     var obj = m_scenes.get_object_by_name("body");
     if (obj)
         create_interface(obj);

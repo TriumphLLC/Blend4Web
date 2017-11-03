@@ -59,7 +59,7 @@ function load() {
 }
 
 function load_cb(data_id) {
-    m_app.enable_camera_controls();
+    m_app.enable_camera_controls(false, false, false, null, true);
     var container = m_cont.get_canvas();
     _world = m_scenes.get_world_by_name("World");
     _stand_1 = m_scenes.get_object_by_name("stand");

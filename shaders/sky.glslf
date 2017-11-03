@@ -23,6 +23,7 @@
 #include <color_util.glslf>
 
 uniform samplerCube u_sky;
+// uniform samplerCube u_irradiance;
 
 #if WATER_EFFECTS && !DISABLE_FOG && REFLECTION_PASS == REFL_PASS_NONE
 uniform vec3 u_camera_eye_frag;

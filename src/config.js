@@ -78,6 +78,18 @@ exports.defaults = {
 
     texture_lod_available      : false,
 
+    tex_float_available        : false,
+
+    tex_hfloat_available       : false,
+
+    tex_float_lin_available    : false,
+
+    tex_hfloat_lin_available   : false,
+
+    cbuffer_float_available    : false,
+
+    cbuffer_hfloat_available   : false,
+
     // init and show HUD on canvas provided by app
     show_hud_debug_info        : false,
 
@@ -234,7 +246,11 @@ exports.defaults = {
 
     mali_alpha_antialias_hack  : false,
 
-    mali4_lamps_hack           : false
+    mali4_lamps_hack           : false,
+
+    chrome_csm_blend_hack      : false,
+
+    reuse_depth_optimization   : true
 }
 
 exports.defaults_save = m_util.clone_object_r(exports.defaults);

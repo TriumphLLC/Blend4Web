@@ -16,7 +16,7 @@ body {
     position: absolute;
     top: 0px;
     left: 0px;
-    display: grid;
+    display: block;
 }
 
 .control select {
@@ -47,7 +47,7 @@ body {
   border: 2px solid rgba(98, 98, 98, .2);
   border-radius: 2px;
   min-height: 30px;
-  display: block;
+  display: none;
   float: left;
   font-size: 16px;
   font-weight: normal;

@@ -120,10 +120,12 @@ var _player_buttons = [
      callback:               open_stereo_menu,
      child_buttons_array_id: ["def_mode_button",
                               "anag_mode_button",
+                              "side_mode_button",
                               "hmd_mode_button"],
      child_buttons_array_cb: [
                  function(){change_stereo("NONE")},
                  function(){change_stereo("ANAGLYPH")},
+                 function(){change_stereo("SIDEBYSIDE")},
                  function(){change_stereo("HMD")}]},
 
     {type:                   "menu_button",
@@ -463,6 +465,9 @@ function set_stereo_button(stereo) {
         break;
     case "ANAGLYPH":
         _stereo_buttons_container.classList.add("anag_mode_button");
+        break;
+    case "SIDEBYSIDE":
+        _stereo_buttons_container.classList.add("side_mode_button");
         break;
     case "HMD":
         _stereo_buttons_container.classList.add("hmd_mode_button");
@@ -1047,7 +1052,8 @@ function open_stereo_menu(e, button) {
 
     _is_stereo_menu_opened = true;
 
-    _stereo_buttons_container.style.marginRight = "-30px";
+    if (!m_input.can_use_device(m_input.DEVICE_HMD))
+        _stereo_buttons_container.style.marginRight = "-30px";
 
     var child_id = button.child_buttons_array_id;
     var child_cb = button.child_buttons_array_cb;
@@ -1341,7 +1347,7 @@ function change_stereo(stereo) {
     switch (stereo) {
     case "NONE":
         m_storage.set("stereo", "NONE");
-        if (_stereo_mode == "ANAGLYPH")
+        if (_stereo_mode == "ANAGLYPH" || _stereo_mode == "SIDEBYSIDE")
             reload_app()
         else {
             m_hmd.disable_hmd();
@@ -1350,6 +1356,10 @@ function change_stereo(stereo) {
         break;
     case "ANAGLYPH":
         m_storage.set("stereo", "ANAGLYPH");
+        reload_app()
+        break;
+    case "SIDEBYSIDE":
+        m_storage.set("stereo", "SIDEBYSIDE");
         reload_app()
         break;
     case "HMD":

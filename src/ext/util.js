@@ -178,7 +178,7 @@ exports.matrix_to_quat = function(matrix) {
  * @method module:util.euler_to_quat
  * @param {Euler} euler Euler angles. The angles order: an angle of the rotation around the x axis,
  * an angle of the rotation around the y axis, an angle of the rotation around the z axis.
- * @param {Quat} quat Destination quaternion vector.
+ * @param {Quat} [quat] Destination quaternion vector.
  * @returns {Quat} Quaternion vector.
  */
 exports.euler_to_quat = function(euler, quat) {
@@ -194,7 +194,7 @@ exports.euler_to_quat = function(euler, quat) {
  * @param {Euler} angles Ordered Euler angles. Euler angles have the same order as
  * the intrinsic rotation sequence.
  * @param {RotationSequence} order Intrinsic rotation sequence.
- * @param {Quat} quat Destination quaternion vector.
+ * @param {Quat} [quat] Destination quaternion vector.
  * @returns {Quat} Quaternion vector.
  */
 exports.ordered_angles_to_quat = function(angles, order, quat) {
@@ -209,8 +209,8 @@ exports.ordered_angles_to_quat = function(angles, order, quat) {
  * @method module:util.quat_to_ordered_angles
  * @param {Quat} quat Quaternion vector.
  * @param {RotationSequence} order Intrinsic rotation sequence.
- * @param {Euler} angles Destination Euler angles vector. Euler angles have the same order as
- * the intrinsic rotation sequence.
+ * @param {Euler} [angles] Destination Euler angles vector. Euler angles have 
+ * the same order as the intrinsic rotation sequence.
  * @returns {Euler} Euler angles vector.
  */
 exports.quat_to_ordered_angles = function(quat, order, angles) {
@@ -224,7 +224,7 @@ exports.quat_to_ordered_angles = function(quat, order, angles) {
  * Convert quaternion rotation to euler rotation.
  * @method module:util.quat_to_euler
  * @param {Quat} quat Quaternion vector
- * @param {Euler} euler Destination euler vector
+ * @param {Euler} [euler] Destination euler vector
  * @returns {Euler} Euler vector
  */
 exports.quat_to_euler = function(quat, euler) {
@@ -266,7 +266,7 @@ exports.quat_to_dir = m_util.quat_to_dir;
  * Project camera quaternion rotation on a horizontal plane.
  * @method module:util.ground_project_cam_quat
  * @param {Quat} quat Source quaternion.
- * @param {Quat} dest Destination quaternion.
+ * @param {Quat} [dest] Destination quaternion.
  * @returns {Quat} Destination quaternion.
  */
 exports.ground_project_cam_quat = function(quat, dest) {

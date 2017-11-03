@@ -6,6 +6,96 @@ Release Notes
 
 .. index:: release notes
 
+v17.10
+======
+
+New Features
+------------
+
+* Added side-by-side rendering stereo mode.
+
+* Auto start tornado developer server.
+
+    Now closing one of the instances of Blender does not stop development server if there is another instance of Blender with started development server.
+
+* Added synchronization the :ref:`Viewer <viewer>` application and Blender.
+
+* Changes in the physics engine.
+
+    The ability to control gravity vector in the scene has been added. Stability of the ``HINGE`` constraints has been improved. Also the :b4wref:`physics.set_character_vert_move_dir_angle` method has been added to the :b4wmod:`physics` module.
+
+* Added new nodes to the ``Logic Editor``: ``Define Function``, ``Call Function``, ``Switch``
+
+* ``Destination`` field has been added to the ``Select`` node. This field specifies a variable used to contains selected object after the event of selection.
+
+* Added ``Object`` variable type to the Logic Editor.
+
+* The UI of some nodes which use object selector is extended with ability to specify a variable
+
+* Improved environment lighting algorithms for Cycles materials with ``Glossy BSDF`` and ``Diffuse BSDF`` nodes.
+
+Changes
+-------
+
+* Now NLA can be stopped with API in case of using Logic Nodes.
+
+* Blender 2.79 is a recommended version.
+
+* Optimized of LOD objects.
+
+* Renamed logic nodes: ``Switch Select`` -> ``Select``, ``Conditional Jump`` -> ``Branch``
+
+* We've started to use ``Datablock pointer properties`` - the new feature of Blender 2.79 in our addon. This means that you may have forward compatibility issues (see Blender 2.79 release notes) 
+
+* Simplified Logic Node Tree to the scene attachment procedure: Refresh button has been removed due to our patch for blender (D113)
+
+Fixes
+-----
+
+* Fixed DOF artifacts with bokeh enabled. The algorithm now requires WebGL extensions for floating-point render targets, otherwise bokeh is disabled automatically.
+
+* Fixed HTML export of the ``Cycles`` world materials.
+
+* Fixed false positive error producing console warning message: ``B4W WARN: Canvas size exceeds platform limits, downscaling``.
+
+* Fixed invisibility of the control panel in AR demo in IE 11.
+
+* Fixed the :b4wref:`camera_anim.rotate_camera` method of the :b4wmod:`camera_anim` module.
+
+* Fixed the :b4wref:`screen.shot` method of the :b4wmod:`screen` module.
+
+* Fixed some errors of API documentation.
+
+* Fixed low FPS in the Petigor's Tale application.
+
+* Fixed visibility of God Rays on some mobile devices.
+
+* Fixed ``Mapping`` node with zero scale.
+
+* Fixed the :b4wref:`camera.translate_view` and :b4wref:`camera.set_fov` methods of the :b4wmod:`camera` module.
+
+* Fixed the :b4wref:`material.get_materials_names` method of the :b4wmod:`material` module.
+
+* Fixed character rotation with the  :b4wref:`physics.set_character_rotation` and :b4wref:`physics.set_character_rotation_v` methods of the :b4wmod:`physics` module.
+
+* Fixed missing UV and vertex colors layers after applying of the :b4wref:`material.inherit_material` method in some cases.
+
+* Fixed loading of video textures with the ".mp4" extension.
+
+* Fixed the :b4wref:`camera.get_ortho_scale` method of the :b4wmod:`camera` module.
+
+* Fixed the :b4wref:`app.enable_camera_controls` method of the :b4wmod:`app` module.
+
+* Fixed engine crash in case of using the Value node in Emitter particles materials. 
+
+* Fixed the :b4wref:`material.set_nodemat_value`, :b4wref:`material.get_nodemat_value`, :b4wref:`material.set_nodemat_rgb` and :b4wref:`material.get_nodemat_rgb` methods of the :b4wmod:`material` module.
+
+* Fixed scale computation for the ``Curve`` objects with ``Apply Scale and Modifiers`` export option enabled.
+
+* Fixed bug with NLA initialization. The bug had impact on animation start frame.
+
+* Fixed touch sensor on slow devices.
+
 v17.08
 ======
 

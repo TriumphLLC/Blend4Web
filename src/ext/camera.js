@@ -49,7 +49,6 @@ b4w.module["camera"] = function(exports, require) {
 
 var m_cam      = require("__camera");
 var m_cont     = require("__container");
-var m_mat4     = require("__mat4");
 var m_math     = require("__math");
 var m_obj_util = require("__obj_util");
 var m_phy      = require("__physics");
@@ -1880,21 +1879,13 @@ exports.translate_view = function(camobj, x, y, angle) {
     for (var i = 0; i < cameras.length; i++) {
         var cam = cameras[i];
 
-        // NOTE: camera projection matrix already has been updated in
-        // set_view method of camera
-        if (!cam.reflection_plane)
+        m_vec3.set(-x, -y, 0, cam.view_transform_params.trans);
+        // cam.view_transform_params.angle = angle;
+
+        if (cam.reflection_plane)
+            m_cam.set_projection_reflect(cam, false);
+        else
             m_cam.set_projection(cam, false);
-
-        var vec3_tmp = _vec3_tmp;
-        vec3_tmp[0] = -x;
-        vec3_tmp[1] = -y;
-        vec3_tmp[2] = 0;
-
-        m_mat4.translate(cam.proj_matrix, vec3_tmp, cam.proj_matrix);
-        m_mat4.rotateZ(cam.proj_matrix, angle, cam.proj_matrix);
-
-        m_cam.calc_view_proj_inverse(cam);
-        m_cam.calc_sky_vp_inverse(cam);
     }
 }
 
@@ -1956,12 +1947,10 @@ exports.set_fov = function(camobj, fov) {
 
         m_cam.set_fov(cam, fov);
 
-        // see comments in translate_view()
-        if (!cam.reflection_plane)
+        if (cam.reflection_plane)
+            m_cam.set_projection_reflect(cam, false);
+        else
             m_cam.set_projection(cam, false);
-
-        m_cam.calc_view_proj_inverse(cam);
-        m_cam.calc_sky_vp_inverse(cam);
     }
 }
 
@@ -2024,7 +2013,7 @@ exports.set_ortho_scale = function(camobj, ortho_scale) {
         var active_scene = m_scs.get_active();
         var cam_scene_data = m_obj_util.get_scene_data(camobj, active_scene);
         // hover camera without distance limits, EYE or STATIC camera
-        cam_scene_data.cameras[0].top = ortho_scale / 2;
+        cam_scene_data.cameras[0].fov = ortho_scale / 2;
     }
 
     m_cam.update_ortho_scale(camobj);
@@ -2043,7 +2032,7 @@ exports.get_ortho_scale = function(camobj) {
     }
     var active_scene = m_scs.get_active();
     var cam_scene_data = m_obj_util.get_scene_data(camobj, active_scene);
-    return cam_scene_data.cameras[0].top * 2;
+    return cam_scene_data.cameras[0].fov * 2;
 }
 
 /**

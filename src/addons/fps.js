@@ -69,7 +69,7 @@ var m_trans = require("transform");
 var m_const = require("constraints");
 var m_vec3  = require("vec3");
 var m_hmd   = require("hmd");
-var m_print = require("__print");
+var m_print = require("print");
 
 var AT_PRESSED = 1;
 var AT_RELEASED = 2;
@@ -120,7 +120,8 @@ function default_rotation_cb(character, rot_x, rot_y) {
     var camera = m_scs.get_active_camera();
     m_cam.rotate_camera(camera, rot_x, rot_y);
     var angles = m_cam.get_camera_angles_char(camera, _vec2_tmp);
-    m_phy.set_character_rotation(character, angles[0], angles[1]);
+    m_phy.set_character_rotation_h(character, angles[0]);
+    m_phy.set_character_vert_move_dir_angle(character, angles[1]);
 }
 
 function smooth_cb(obj, id, pulse, rot_callback) {
@@ -190,7 +191,7 @@ function rotate_cam_by_axis(obj, camobj, id, elapsed) {
     vert_ang = m_util.clamp(vert_ang, MIN_VERT_ANG, MAX_VERT_ANG);
     m_cam.rotate_camera(camobj, hor_ang, vert_ang);
     var cam_angls = m_cam.get_camera_angles(camobj, _vec2_tmp);
-    m_phy.set_character_rotation(obj, cam_angls[0] + Math.PI, 0);
+    m_phy.set_character_rotation_h(obj, cam_angls[0] + Math.PI);
 }
 
 function disable_rotation(elem, character) {
@@ -329,7 +330,8 @@ function set_characters_camera(character, lock_camera) {
         m_const.append_stiff_trans(cam_obj, character, cam_trans);
     }
     var angles = m_cam.get_camera_angles_char(cam_obj, _vec2_tmp);
-    m_phy.set_character_rotation(character, angles[0], angles[1]);
+    m_phy.set_character_rotation_h(character, angles[0]);
+    m_phy.set_character_vert_move_dir_angle(character, angles[1]);
 }
 
 var _enable_vr_cb = null;
@@ -373,7 +375,7 @@ function create_character_vr_rotate_sensor(character) {
 
     var sensor_cb = function(obj, id, pulse) {
         var hor_angle = m_cam.get_camera_angles_char(camobj, _vec2_tmp)[0];
-        m_phy.set_character_rotation(obj, hor_angle /*+ Math.PI*/, 0);
+        m_phy.set_character_rotation_h(obj, hor_angle /*+ Math.PI*/);
     }
     m_ctl.create_sensor_manifold(character, "FPS_CHARECTER_VR_ROT", m_ctl.CT_CONTINUOUS,
                 [e_s], null, sensor_cb);

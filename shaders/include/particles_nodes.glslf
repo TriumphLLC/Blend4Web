@@ -2958,10 +2958,11 @@ reflect_factor;
 #endnode
 
 #node VALUE
-    #node_var VALUE_IND 0
+    #node_var VALUE_ROW_IND 0
+    #node_var VALUE_COL_IND 0
     #node_out float value_out
 
-    value_out = u_node_values[VALUE_IND];
+    value_out = u_node_values[VALUE_ROW_IND][VALUE_COL_IND];
 #endnode
 
 #node VECT_MATH_ADD

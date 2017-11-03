@@ -512,7 +512,7 @@ float fresnel_dielectric(vec3 inc, vec3 norm, float eta)
 
     color_out = color_in.rgb;
 
-# node_if REFLECTION_TYPE == REFL_CUBE
+# node_if REFLECTION_TYPE == REFL_PBR_STANDARD || REFLECTION_TYPE == REFL_PBR_SIMPLE
     color_out += apply_mirror_bsdf(d_color, s_color, nin_eye_dir, normal,
                                    metalness, s_roughness, mat3(_0_0));
 # node_elif REFLECTION_TYPE == REFL_PLANE
@@ -667,6 +667,7 @@ float fresnel_dielectric(vec3 inc, vec3 norm, float eta)
 
     d_color = color_in;
     d_roughness = roughness_in;
+    s_roughness = _1_0;
     metalness = _0_0;
     emission = _0_0;
     alpha = _1_0;
@@ -680,7 +681,6 @@ float fresnel_dielectric(vec3 inc, vec3 norm, float eta)
     // + explicit zeroing to prevent glitches in some browsers
     surface;
     s_color = vec3(_0_0);
-    s_roughness = _0_0;
     e_color = vec3(_0_0);
     a_color = vec3(_0_0);
 #endnode
@@ -1307,7 +1307,7 @@ float fresnel_dielectric(vec3 inc, vec3 norm, float eta)
     #node_out vec3  a_color_out
     #node_out float alpha_out
 
-    float clamped_factor = clamp(factor, _0_0, _1_0);
+    float clamped_factor = sqrt(clamp(factor, _0_0, _1_0));
 
     d_color_out = mix(d_color1, d_color2, clamped_factor);
     d_roughness_out = mix(d_roughness1, d_roughness2, clamped_factor);

@@ -74,10 +74,12 @@
 #define LINEAR_LIGHT 15
 
 // reflections
-#define REFL_NONE      0
-#define REFL_MIRRORMAP 1
-#define REFL_PLANE     2
-#define REFL_CUBE      3
+#define REFL_NONE      	  0
+#define REFL_MIRRORMAP 	  1
+#define REFL_PLANE     	  2
+#define REFL_CUBE      	  3
+#define REFL_PBR_SIMPLE   4
+#define REFL_PBR_STANDARD 5
 
 // fog types
 #define INVERSE_QUADRATIC 0

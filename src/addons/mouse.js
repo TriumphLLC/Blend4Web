@@ -333,7 +333,8 @@ function default_rotation_cb(rot_x, rot_y) {
     m_cam.rotate_camera(camera, rot_x, rot_y);
     if (character) {
         var angles = m_cam.get_camera_angles_char(camera, _vec2_tmp);
-        m_phy.set_character_rotation(character, angles[0], angles[1]);
+        m_phy.set_character_rotation_h(character, angles[0]);
+        m_phy.set_character_vert_move_dir_angle(character, angles[1]);
     }
 }
 /**

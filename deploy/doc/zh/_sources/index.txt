@@ -28,41 +28,41 @@
 
 * 引擎功能
 
-* Blender User Interface
+* Blender的用户界面
 
-  * 3D View
+  * 3D 视图
 
-  * Timeline
+  * 时间轴
 
-  * Graph Editor
+  * 图形编辑器
 
-  * Dope Sheet
+  * 动画板
 
-  * NLA Editor
+  * 非线性编辑器
 
-  * UV/Image Editor
+  * UV /图像编辑器
 
-  * Video Sequence Editor
+  * 视频序列编辑器
 
-  * Movie Clip Editor
+  * 电影剪辑编辑器
 
-  * Text Editor
+  * 文本编辑器
 
-  * Node Editor
+  * 节点编辑器
 
-  * Logic Editor
+  * 逻辑编辑器
 
-  * Properties
+  * 属性
 
-  * Outliner
+  * 大纲
 
-  * User Preferences
+  * 使用者喜好設定
 
-  * Info
+  * 信息
 
-  * File Browser
+  * 文件浏览器
 
-  * Python Console
+  * Python 控制台
 
 * 安装和更新
 
@@ -274,13 +274,13 @@
 
   * 网络
 
-  * 调试
-
-  * Time
+  * 时间
 
   * 布局
 
-  * 调试中
+  * 调试
+
+  * Other Features
 
 * 照明、 阴影和背景
 
@@ -312,13 +312,11 @@
 
   * 抗锯齿
 
-* 立体渲染
+* VR and AR
 
-  * 激活
+  * Virtual Reality
 
-  * 附加设置
-
-  * HMD设置
+  * Augmented Reality
 
 * 纹理
 
@@ -515,6 +513,8 @@
   * 已知问题
 
 * 发布说明
+
+  * v17.10
 
   * v17.08
 

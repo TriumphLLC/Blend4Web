@@ -1430,8 +1430,7 @@ def remove_obj_props():
 def remove_scenes_props():
     del bpy.types.Scene.b4w_use_nla
     del bpy.types.Scene.b4w_use_logic_editor
-    del bpy.types.Scene.b4w_active_logic_node_tree
-    del bpy.types.Scene.b4w_available_logic_trees
+    del bpy.types.Scene.b4w_active_logic_node_tree_new
     del bpy.types.Scene.b4w_nla_cyclic
     del bpy.types.Scene.b4w_enable_audio
     del bpy.types.Scene.b4w_enable_dynamic_compressor
@@ -1649,6 +1648,9 @@ def remove_b4w_props():
     remove_world_props()
     remove_camera_props()
 
+def logic_nodetree_prop_poll(self, value):
+    return value.bl_idname == "B4WLogicNodeTreeType"
+
 def add_scene_properties():
 
     scene_type = bpy.types.Scene
@@ -1673,9 +1675,11 @@ def add_scene_properties():
         default = False,
         options = set()
     )
-    scene_type.b4w_active_logic_node_tree = bpy.props.StringProperty(
+    scene_type.b4w_active_logic_node_tree_new = bpy.props.PointerProperty(
+        type=bpy.types.NodeTree,
         name = _("B4W: NLA active NodeTree"),
         description = _("NLA active NodeTree"),
+        poll = logic_nodetree_prop_poll
     )
     scene_type.b4w_available_logic_trees = bpy.props.CollectionProperty(
         name = _("B4W: NLA available NodeTrees"),

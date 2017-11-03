@@ -302,7 +302,7 @@ function update_object(bpy_obj, obj) {
 
         // HACK: forcing cube reflections for cycles mats with bsdf_glossy
         if (!render.reflective)
-            update_obj_bsdf_glossy_reflections(obj);
+            update_obj_pbr_reflections(obj);
 
         render.caustics = bpy_obj["b4w_caustics"];
 
@@ -428,14 +428,14 @@ function update_world(bpy_world, world) {
     objects_storage_add(world);
 }
 
-function update_obj_bsdf_glossy_reflections(obj) {
+function update_obj_pbr_reflections(obj) {
     var materials = obj.materials;
     for (var i = 0; i < materials.length; i++) {
         var mat = materials[i];
         if (mat.use_nodes && (check_bsdf_type(mat.node_tree, "BSDF_GLOSSY") 
                 || check_bsdf_type(mat.node_tree, "BSDF_DIFFUSE"))) {
             obj.render.reflective = true;
-            obj.render.reflection_type = "CUBE";
+            obj.render.reflection_type = "PBR";
         }
     }
 }
@@ -1743,7 +1743,13 @@ function init_obj_lod_settings(obj, scene) {
                     var batch = obj.scenes_data[i].batches[j]
                     var lod_set = batch.lod_settings;
 
-                    if (cfg_def.lod_smooth_transitions) {
+                    // if SHADOW RECEIVE depth is not reused then we don't need
+                    // smoothing discard in the SHADOW RECEIVE shader
+                    var disable_smoothing = batch.type == "SHADOW" 
+                            && batch.subtype == "RECEIVE" 
+                            && !cfg_def.reuse_depth_optimization;
+
+                    if (cfg_def.lod_smooth_transitions && !disable_smoothing) {
                         var sm_type = sc_render.lod_smooth_type;
                         if (sm_type == "ALL" || sm_type == "NON-OPAQUE" 
                                 && (batch.blend || batch.alpha_clip))

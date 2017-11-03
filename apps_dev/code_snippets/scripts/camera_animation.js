@@ -61,7 +61,7 @@ function load() {
 }
 
 function load_cb(data_id) {
-    m_app.enable_camera_controls();
+    m_app.enable_camera_controls(false, false, false, null, true);
     var camobj = m_scenes.get_active_camera();
     init_camera_animation(camobj);
 
@@ -169,7 +169,7 @@ function init_camera_animation(camobj) {
             m_cam.target_set_trans_pivot(camobj, _cam_anim.current_eye, _cam_anim.current_target);
 
         } else {
-            m_app.enable_camera_controls(false);
+            m_app.enable_camera_controls(false, false, false, null, true);
             if (!_anim_stop)
                 m_cam.target_set_trans_pivot(camobj, _cam_anim.final_eye, 
                         _cam_anim.final_target);

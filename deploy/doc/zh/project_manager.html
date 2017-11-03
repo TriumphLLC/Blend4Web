@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>项目管理 &mdash; Blend4Web 17.08 用户手册</title>
+  <title>项目管理 &mdash; Blend4Web 17.10 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.08 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 17.10 用户手册" href="index.html"/>
         <link rel="next" title="场景预览器" href="viewer.html"/>
         <link rel="prev" title="工作流程" href="workflow.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v17.08
+              v17.10
             </div>
           
         
@@ -85,7 +85,7 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">概述</a></li>
 <li class="toctree-l1"><a class="reference internal" href="engine_features.html">引擎功能</a></li>
-<li class="toctree-l1"><a class="reference internal" href="interface.html">Blender User Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="interface.html">Blender的用户界面</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">安装和更新</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">工作流程</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">项目管理</a><ul>
@@ -157,7 +157,7 @@
 <li class="toctree-l1"><a class="reference internal" href="logic_editor.html">逻辑编辑器</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">照明、 阴影和背景</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">后期处理效果</a></li>
-<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">立体渲染</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vr_and_ar.html">VR and AR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">纹理</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles.html">粒子系统,流体</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">粒子系统.实例化</a></li>
@@ -711,7 +711,7 @@
 <p class="last">将项目文件上传到Web服务器上，应保留对其文件的归档和相关路径的内部结构。</p>
 </div>
 <p>一个Web播放器的HTML应用程序然后可以使用一个 <code class="docutils literal"><span class="pre">iframe</span></code> 容器放置在任何网页。下面是可以用于此的HTML代码的示例：</p>
-<div class="highlight-html"><div class="highlight"><pre><span></span><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<div class="highlight-html"><div class="highlight"><pre><span class="cp">&lt;!DOCTYPE html&gt;</span>
 <span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
 <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
     <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>An Example Application<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
@@ -723,7 +723,7 @@
 </pre></div>
 </div>
 <p>部署JSON项目也是同样地进行，但不是一个HTML文件，它是使用的Web应用程序播放器，并包含实际场景中的JSON文件的组合。</p>
-<div class="highlight-html"><div class="highlight"><pre><span></span><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<div class="highlight-html"><div class="highlight"><pre><span class="cp">&lt;!DOCTYPE html&gt;</span>
 <span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
 <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
     <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>Another Example Application<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
@@ -744,11 +744,11 @@
 <div class="section" id="dependencies">
 <span id="project-deps"></span><h3><a class="toc-backref" href="#id20">依赖</a><a class="headerlink" href="#dependencies" title="永久链接至标题">¶</a></h3>
 <p>项目管理系统在所有操作系统都可用。但是，某些操作可能需要安装附加依赖项。为了检查是否满足所有依赖项，请使用以下命令 ︰</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>./project.py check_deps
+<div class="highlight-bash"><div class="highlight"><pre>./project.py check_deps
 </pre></div>
 </div>
 <p>对于MS Windows用户：</p>
-<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">python project.py check_deps</span>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">python project.py check_deps</span>
 </pre></div>
 </div>
 <p>对于脚本运行它需要安装Java和  <a class="reference external" href="https://www.java.com/en/download/help/path.xml">设置PATH系统变量</a>.</p>
@@ -761,14 +761,14 @@
 <div class="section" id="projects-list">
 <span id="project-list"></span><h3><a class="toc-backref" href="#id21">项目清单</a><a class="headerlink" href="#projects-list" title="永久链接至标题">¶</a></h3>
 <p>可以用下面的命令查看的 SDK 中的所有项目列表︰</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 project.py -p myproject list
+<div class="highlight-bash"><div class="highlight"><pre>python3 project.py -p myproject list
 </pre></div>
 </div>
 </div>
 <div class="section" id="project-structure">
 <span id="id7"></span><h3><a class="toc-backref" href="#id22">项目结构</a><a class="headerlink" href="#project-structure" title="永久链接至标题">¶</a></h3>
 <p>这是放置在 <code class="docutils literal"><span class="pre">/</span> <span class="pre">projects</span></code> 目录中的SDK文件夹的根目录下的一个项目名为MY_PROJECT结构以及，看上去的样子：</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>blend4web/
+<div class="highlight-python"><div class="highlight"><pre>blend4web/
     projects/
         my_project/
             assets/
@@ -807,7 +807,7 @@
 <span id="b4w-config"></span><h3><a class="toc-backref" href="#id23">项目配置文件（.b4w_project）</a><a class="headerlink" href="#project-configuration-file-b4w-project" title="永久链接至标题">¶</a></h3>
 <p>项目配置文件包含项目的所有必要的信息，包括姓名，元数据，目录，应用程序创建和部署信息。</p>
 <p>项目配置文件可以手动编辑，但一个更方便的方法是使用 <a class="reference internal" href="#project-edit"><span>项目编辑</span></a> 界面。</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>[info]
+<div class="highlight-python"><div class="highlight"><pre>[info]
 author = Blend4Web
 name = my_project
 title = MyProject
@@ -932,7 +932,7 @@ override =
 </div>
 <div class="section" id="creating-a-project">
 <span id="id8"></span><h3><a class="toc-backref" href="#id24">创建项目</a><a class="headerlink" href="#creating-a-project" title="永久链接至标题">¶</a></h3>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>./project.py init my_project
+<div class="highlight-bash"><div class="highlight"><pre>./project.py init my_project
 </pre></div>
 </div>
 <p>此命令将创建在当前目录指定名称的项目。默认情况下，项目目录只包括一个配置文件。</p>
@@ -954,12 +954,12 @@ override =
 </li>
 </ul>
 <p>示例：</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>./project.py init -AS -C Blend4Web -o simple -T MyProject -t external my_project
+<div class="highlight-bash"><div class="highlight"><pre>./project.py init -AS -C Blend4Web -o simple -T MyProject -t external my_project
 </pre></div>
 </div>
 <p>这个命令将创建一个名为 <em>my_project</em> 目录，这里面以下文件将被放置：<em>my_project.js</em>, <em>my_project.css</em>, <em>my_project_dev.html</em> 和 <em>.b4w_project</em>.</p>
 <p>该 .b4w_project 文件看起来像:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>[info]
+<div class="highlight-python"><div class="highlight"><pre>[info]
 author = Blend4Web
 name = my_project
 title = MyProject
@@ -994,7 +994,7 @@ override =
 <div class="section" id="developing-multiple-apps-inside-a-project">
 <h3><a class="toc-backref" href="#id25">开发一个项目中的多个应用程序</a><a class="headerlink" href="#developing-multiple-apps-inside-a-project" title="永久链接至标题">¶</a></h3>
 <p>一个项目可以包含多个应用程序。这可以通过用分号分隔的配置文件列表对应的HTML文件的形式提供:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">...</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="o">...</span>
 <span class="p">[</span><span class="nb">compile</span><span class="p">]</span>
 <span class="n">apps</span> <span class="o">=</span> <span class="n">myapp1</span><span class="p">;</span><span class="n">myapp2</span><span class="p">;</span>
 <span class="o">...</span>
@@ -1004,7 +1004,7 @@ override =
 </div>
 <div class="section" id="building-projects">
 <span id="project-build"></span><h3><a class="toc-backref" href="#id26">构建项目</a><a class="headerlink" href="#building-projects" title="永久链接至标题">¶</a></h3>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 project.py -p my_project compile
+<div class="highlight-bash"><div class="highlight"><pre>python3 project.py -p my_project compile
 </pre></div>
 </div>
 <p>构建在 <code class="docutils literal"><span class="pre">projects/my_project/build</span></code> 目录中的项目。</p>
@@ -1031,7 +1031,7 @@ override =
 </div>
 <div class="section" id="automatic-blend-file-export">
 <h3><a class="toc-backref" href="#id27">自动 Blend 文件导出</a><a class="headerlink" href="#automatic-blend-file-export" title="永久链接至标题">¶</a></h3>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 project.py -p my_project reexport
+<div class="highlight-bash"><div class="highlight"><pre>python3 project.py -p my_project reexport
 </pre></div>
 </div>
 <p>此命令将重新导出混合在 JSON 和 HTML 格式的文件。</p>
@@ -1045,7 +1045,7 @@ override =
 </div>
 <div class="section" id="resource-conversion">
 <span id="project-resource-conv"></span><h3><a class="toc-backref" href="#id28">资源转换</a><a class="headerlink" href="#resource-conversion" title="永久链接至标题">¶</a></h3>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 project.py -p my_project convert_resources
+<div class="highlight-bash"><div class="highlight"><pre>python3 project.py -p my_project convert_resources
 </pre></div>
 </div>
 <p>外部资源（纹理，音频和视频文件）转换为另一种格式，以确保跨浏览器和跨平台性能。</p>
@@ -1058,7 +1058,7 @@ override =
 </div>
 <div class="section" id="deploying-projects">
 <span id="project-deploy-cli"></span><h3><a class="toc-backref" href="#id29">部署项目</a><a class="headerlink" href="#deploying-projects" title="永久链接至标题">¶</a></h3>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 project.py -p my_project deploy DIRECTORY
+<div class="highlight-bash"><div class="highlight"><pre>python3 project.py -p my_project deploy DIRECTORY
 </pre></div>
 </div>
 <p>与所有依赖一起保存了一个项目在外部目录。</p>
@@ -1078,7 +1078,7 @@ override =
 </div>
 <div class="section" id="remove-project">
 <span id="project-remove"></span><h3><a class="toc-backref" href="#id30">移除项目</a><a class="headerlink" href="#remove-project" title="永久链接至标题">¶</a></h3>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 project.py -p my_project remove
+<div class="highlight-bash"><div class="highlight"><pre>python3 project.py -p my_project remove
 </pre></div>
 </div>
 <p>删除的项目。被删除的目录是从项目配置文件检索。</p>
@@ -1093,11 +1093,11 @@ override =
 </li>
 </ol>
 <p>为了更新应用程序的开发者版本导入模块列表转到项目源代码目录 <code class="docutils literal"><span class="pre">apps_dev/my_project</span></code> 和执行模块列表生成脚本：</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 ../../scripts/mod_list.py
+<div class="highlight-bash"><div class="highlight"><pre>python3 ../../scripts/mod_list.py
 </pre></div>
 </div>
 <p>对于MS Windows用户：</p>
-<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">python ..\..\scripts\mod_list.py</span>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">python ..\..\scripts\mod_list.py</span>
 </pre></div>
 </div>
 <div class="admonition note">
@@ -1105,7 +1105,7 @@ override =
 <p class="last">要运行的Python 3.x的需要安装在你的系统中的脚本。</p>
 </div>
 <p>控制台将打印模块列表 - 将它们复制并粘贴到主HTML文件：</p>
-<div class="highlight-html"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+<div class="highlight-html"><div class="highlight"><pre><span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
     <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">&quot;UTF-8&quot;</span><span class="p">&gt;</span>
     <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;viewport&quot;</span> <span class="na">content</span><span class="o">=</span><span class="s">&quot;width=device-width, initial-scale=1, maximum-scale=1&quot;</span><span class="p">&gt;</span>
     <span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;../../src/b4w.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
@@ -1144,7 +1144,7 @@ override =
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2017, Triumph.
-      最后更新于 2017-08-31.
+      最后更新于 2017-10-31.
 
     </p>
   </div>
@@ -1200,7 +1200,7 @@ override =
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.08',
+            VERSION:'v17.10',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

@@ -374,8 +374,10 @@ function create_texture(type, use_comparison, use_mipmap) {
         var tex_type = get_image2d_type(texture);
         if (type == exports.TT_DEPTH)
             var image_data = null;
+        else if (type == exports.TT_RGBA_FLOAT)
+            var image_data = new Float32Array([0.8*255, 0.8*255, 0.8*255, 1*255]);
         else
-            var image_data = new Uint8Array([0.8*255, 0.8*255, 0.8*255, 1*255]);
+            var image_data =  new Uint8Array([0.8*255, 0.8*255, 0.8*255, 1*255]);
 
         _gl.texImage2D(w_target, 0, iformat, 1, 1, 0, format, tex_type, image_data);
 
@@ -1217,7 +1219,7 @@ function get_image2d_iformat(texture) {
         format = cfg_def.webgl2 ? _gl.RGB8 : _gl.RGB;
         break;
     case exports.TT_RGBA_FLOAT:
-        format = cfg_def.webgl2 ? _gl.RGBA8 : _gl.RGBA;
+        format = cfg_def.webgl2 ? _gl.RGBA32F : _gl.RGBA;
         break;
     case exports.TT_RGB_FLOAT:
         format = cfg_def.webgl2 ? _gl.RGB8 : _gl.RGB;
@@ -1338,7 +1340,7 @@ exports.get_texture_texel_size = function(tex) {
         break;
     case exports.TT_RGBA_FLOAT:
     case exports.TT_RGB_FLOAT:
-        size = 16;
+        size = 32;
         break;
     case exports.TT_DEPTH:
         size = 3;

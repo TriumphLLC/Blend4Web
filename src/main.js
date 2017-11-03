@@ -64,12 +64,17 @@ exports.frame = function(timeline, delta) {
     // make screenshot
     var cb = _canvas_data_url_params.callback;
     if (cb) {
-        if (_canvas_data_url_params.last_auto_revoke)
+        if (_canvas_data_url_params.last_auto_revoke &&
+                _canvas_data_url_params.blob_url)
             URL.revokeObjectURL(_canvas_data_url_params.blob_url);
 
         to_blob(function(blob) {
-            _canvas_data_url_params.blob_url = URL.createObjectURL(blob);
-            cb(_canvas_data_url_params.blob_url);
+            if (navigator.msSaveOrOpenBlob) {
+                cb(blob);
+            } else {
+                _canvas_data_url_params.blob_url = URL.createObjectURL(blob);
+                cb(_canvas_data_url_params.blob_url);
+            }
         }, _canvas_data_url_params.format, _canvas_data_url_params.quality);
 
         _canvas_data_url_params.callback = null;

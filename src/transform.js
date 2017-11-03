@@ -395,7 +395,6 @@ function update_transform(obj) {
                     m_scs.update_plane_reflect_subs(plane_refl_subs[j], trans, quat);
                     m_obj_util.update_refl_objects(refl_objs, cam.reflection_plane);
                     m_cam.set_view(cam, m_scs.get_camera(scene));
-                    m_util.extract_frustum_planes(cam.view_proj_matrix, cam.frustum_planes);
                 }
             }
         }

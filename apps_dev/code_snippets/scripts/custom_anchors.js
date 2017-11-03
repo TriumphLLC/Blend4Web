@@ -49,7 +49,7 @@ function init_cb(canvas_elem, success) {
 }
 
 function load_cb(data_id) {
-    m_app.enable_camera_controls();
+    m_app.enable_camera_controls(false, false, false, null, true);
 
     // "Generic" anchor may be created (or replaced) anytime
     var cyl_text = document.createElement("span");

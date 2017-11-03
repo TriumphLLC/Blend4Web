@@ -35,6 +35,12 @@
 import bpy
 import sys
 import os
+import blend4web
+
+b4w_modules = ["server", "translator"]
+for m in b4w_modules:
+    exec(blend4web.load_module_script.format(m))
+
 from blend4web.translator import _, p_
 import bl_ui
 from bl_ui.properties_paint_common import UnifiedPaintPanel
@@ -709,8 +715,11 @@ def INFO_MT_render_draw_new(self, context):
          _INFO_MT_render_draw(self, context)
     else:
         layout = self.layout
-        layout.operator("b4w.preview",
-                        text=_("Fast Preview"), icon_value=custom_icons["b4w_icon"].icon_id)
+        if server.B4WLocalServer.is_started():
+            layout.operator("b4w.preview",
+                            text=_("Fast Preview"), icon_value=custom_icons["b4w_icon"].icon_id)
+        else:
+            layout.label("Not Available")
 
 def INFO_MT_help_draw_new(self, context):
     if "BLEND4WEB" not in context.scene.render.engine:

@@ -106,12 +106,12 @@ Support
 We are always glad to answer your questions on the `Blend4Web forums <https://www.blend4web.com/en/forums/>`_. We also offer assistance for Blend4Web PRO owners with any technical issues which may arise (more `here <https://www.blend4web.com/en/services/support/>`_).
 
 
-.. |latest_version| image:: https://img.shields.io/badge/latest%20version-17.08-blue.svg
+.. |latest_version| image:: https://img.shields.io/badge/latest%20version-17.10-blue.svg
     :target: https://www.blend4web.com/en/downloads/
     :alt: Latest Version of Blend4Web
 
-.. |compatible_blender_version| image:: https://img.shields.io/badge/compatible%20with%20Blender-2.78-orange.svg
-    :target: https://www.blend4web.com/blender/release/Blender2.78/
+.. |compatible_blender_version| image:: https://img.shields.io/badge/compatible%20with%20Blender-2.79-orange.svg
+    :target: https://www.blend4web.com/blender/release/Blender2.79/
     :alt: Compatible Blender Version
 
 .. |license| image:: https://img.shields.io/badge/license-GPLv3-lightgrey.svg

@@ -188,10 +188,13 @@ exports.get_materials_names = function(obj) {
     var scenes_data = obj.scenes_data;
     for (var i = 0; i < scenes_data.length; i++) {
         var batches = scenes_data[i].batches;
-        for (var j = 0; j < batches.length; j++)
-            for (var k = 0; k < batches[j].material_names.length; k++)
-                if (mat_names.indexOf(batches[j].material_names[k]) == -1)
-                    mat_names.push(batches[j].material_names[k]);
+        for (var j = 0; j < batches.length; j++) {
+            var batch = batches[j];
+            if (batch.type == "MAIN")
+                for (var k = 0; k < batch.material_names.length; k++)
+                    if (mat_names.indexOf(batch.material_names[k]) == -1)
+                        mat_names.push(batch.material_names[k]);
+        }
     }
 
     return mat_names;
@@ -1476,7 +1479,8 @@ exports.set_nodemat_value = function(obj, name_list, value) {
         var mat_name = name_list[0];
         var node_name_prefix_offset = 1;
 
-        var mat_batch = m_batch.find_batch_material_any(obj, mat_name, "MAIN");
+        var mat_batch = m_batch.find_batch_material_any(obj, mat_name, "MAIN") 
+                || m_batch.find_batch_material_any(obj, mat_name, "PARTICLES");
         if (!mat_batch) {
             m_print.error("set_nodemat_value(): Material \"" + mat_name 
                     + "\" wasn't found on the object \"" + obj_name + "\".");
@@ -1539,7 +1543,8 @@ exports.get_nodemat_value = function(obj, name_list) {
         var mat_name = name_list[0];
         var node_name_prefix_offset = 1;
 
-        var mat_batch = m_batch.find_batch_material_any(obj, mat_name, "MAIN");
+        var mat_batch = m_batch.find_batch_material_any(obj, mat_name, "MAIN") 
+                || m_batch.find_batch_material_any(obj, mat_name, "PARTICLES");
         if (!mat_batch) {
             m_print.error("get_nodemat_value(): Material \"" + mat_name 
                     + "\" wasn't found on the object \"" + obj_name + "\".");
@@ -1604,7 +1609,8 @@ exports.set_nodemat_rgb = function(obj, name_list, r, g, b) {
         var mat_name = name_list[0];
         var node_name_prefix_offset = 1;
 
-        var mat_batch = m_batch.find_batch_material_any(obj, mat_name, "MAIN");
+        var mat_batch = m_batch.find_batch_material_any(obj, mat_name, "MAIN") 
+                || m_batch.find_batch_material_any(obj, mat_name, "PARTICLES");
         if (!mat_batch) {
             m_print.error("set_nodemat_rgb(): Material \"" + mat_name 
                     + "\" wasn't found on the object \"" + obj_name + "\".");
@@ -1667,7 +1673,8 @@ exports.get_nodemat_rgb = function(obj, name_list, dest) {
         var mat_name = name_list[0];
         var node_name_prefix_offset = 1;
 
-        var mat_batch = m_batch.find_batch_material_any(obj, mat_name, "MAIN");
+        var mat_batch = m_batch.find_batch_material_any(obj, mat_name, "MAIN") 
+                || m_batch.find_batch_material_any(obj, mat_name, "PARTICLES");
         if (!mat_batch) {
             m_print.error("get_nodemat_rgb(): Material \"" + mat_name 
                     + "\" wasn't found on the object \"" + obj_name + "\".");

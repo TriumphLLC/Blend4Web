@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2017-08-25 18:52+0300\n"
-"PO-Revision-Date: 2017-07-03 11:08+0800\n"
+"POT-Creation-Date: 2017-10-26 11:36+0300\n"
+"PO-Revision-Date: 2017-09-03 21:24+0800\n"
 "Last-Translator: kidux <yuzukyo@gmail.com>\n"
 "Language-Team: Chinese <info [at] blend4web.com>\n"
 "MIME-Version: 1.0\n"
@@ -109,8 +109,8 @@ msgid ""
 " using the :b4wref:`logic_nodes.run_entrypoint` method."
 msgstr "如果启用此参数，切入点可以通过API使用  :b4wref:`logic_nodes.run_entrypoint` 方法触发。"
 
-msgid "Switch Select"
-msgstr "切换选择"
+msgid "Select"
+msgstr ""
 
 msgid "Can be used to trace the selection of any object from the object list."
 msgstr "可用于跟踪物体列表中的任何物体的选择。"
@@ -124,11 +124,12 @@ msgstr "前一个节点。"
 msgid "*<object name> Hit*"
 msgstr "*<object name> 命中*"
 
+#, fuzzy
 msgid ""
 "This parameter will pass the control to the next node if the user selects"
 " (with a mouse or by touch) an object mentioned in the parameter’s name. "
-"The ``Switch Select`` node has one such parameter by default, but you can"
-" add new ones and remove existing ones (the node can even have no such "
+"The ``Select`` node has one such parameter by default, but you can add "
+"new ones and remove existing ones (the node can even have no such "
 "parameters)."
 msgstr ""
 "如果用户选择（用鼠标或触摸）一个物体的参数名称被设置关注，这个参数将传递到下一个节点的控制。该 ``Switch Select``  "
@@ -137,11 +138,11 @@ msgstr ""
 msgid "*Miss*"
 msgstr "*未击中*"
 
+#, fuzzy
 msgid ""
 "This parameter will pass the control to the next node when the user "
 "selects any object with the ``Selectable`` property enabled (or used by "
-"another ``Switch Select`` node), but not specified in the ``Switch "
-"Select`` node."
+"another ``Select`` node), but not specified in the ``Select`` node."
 msgstr ""
 "当用户选择任何具有 ``Selectable`` 属性的物体（或使用另一个  ``Switch Select`` "
 "节点）时，该参数将控制传递给下一个节点，但在 ``Switch Select``  节点中未指定。"
@@ -158,8 +159,27 @@ msgstr ""
 "用户可以选择的物体之一。当您创建或删除命中参数时，这些参数会自动创建和删除 ``Hit`` 参数。这样的参数的数量总是等于  ``Hit`` "
 "参数的数目。"
 
-msgid "Conditional Jump"
-msgstr "条件跳转"
+#, fuzzy
+msgid "*Variable*"
+msgstr "*Variables*"
+
+#, fuzzy
+msgid ""
+"If this parameter is enabled, you can specify an object variable in the "
+"corresponding ``Object`` field."
+msgstr "如果启用此参数，则将隐藏子物体。"
+
+msgid "*Destination*"
+msgstr "*目标*"
+
+#, fuzzy
+msgid ""
+"Sets a variable that will be used to store a selected object after an "
+"event of selection."
+msgstr "将用来保存参数的变量。"
+
+msgid "Branch"
+msgstr ""
 
 msgid ""
 "Go to the specified node if the certain condition is met. The parameters "
@@ -225,13 +245,46 @@ msgstr "*Operand2*"
 msgid "Second operand of the logical condition. Works the same way as the first."
 msgstr "逻辑条件的第二个操作数。和第一个以同样的方式工作。"
 
-msgid "*String Operands*"
-msgstr "*字符串操作数*"
+#, fuzzy
+msgid "*Operand's Type*"
+msgstr "*操作数3*"
 
 msgid ""
-"If this parameter is enabled, first and second operands can use strings "
-"(set manually or by a variable) as their values."
-msgstr "如果启用此参数，则第一个和第二个操作数可以使用字符串（手动设置或由变量设置）作为它们的值。"
+"The type of the operands. Available values are ``Number`` (the default "
+"option), ``String`` and ``Object``."
+msgstr ""
+
+msgid "Switch"
+msgstr ""
+
+msgid ""
+"This node compares several variables with a given value and executes a "
+"conditional jump depending on the outcome."
+msgstr ""
+
+#, fuzzy
+msgid "*<variable name>*"
+msgstr "<variable name>"
+
+msgid ""
+"One of the variables used for comparison. If the value of the variable "
+"specified by this parameter is equal to the value of the ``Variable`` "
+"parameter, control is passed to the node connected to this output. The "
+"``Switch`` node has one such parameter by default, but you can add new "
+"ones and remove existing ones (the node can even have no such "
+"parameters)."
+msgstr ""
+
+msgid "*Default*"
+msgstr ""
+
+msgid ""
+"This output will pass control to the next node in case none of the values"
+" are equal to that of the variable set by the ``Variable`` parameter."
+msgstr ""
+
+msgid "Specifies a variable used for comparison."
+msgstr ""
 
 msgid "JS Callback"
 msgstr "JS 回调"
@@ -246,6 +299,12 @@ msgstr "*回调 ID*"
 
 msgid "The ID of a JavaScript function that will be called by the node."
 msgstr "一个 JavaScript 函数将被节点调用的 ID。"
+
+#, fuzzy
+msgid ""
+"This value can be set directly or via a variable (if the ``Variable`` "
+"parameter is enabled)."
+msgstr "物体的大小。可以指定直接或通过一个变量 （如果启用了变量参数）。默认设置为 1。"
 
 msgid "*In Params*"
 msgstr "*输入参数*"
@@ -302,18 +361,73 @@ msgid ""
 "By default, ``R1`` variable is used."
 msgstr "指定变量之一作为输出参数。默认情况下，使用 ``R1`` 变量。"
 
+msgid "Define Function"
+msgstr ""
+
+msgid ""
+"This node can be used to combine several logic nodes into a function - a "
+"subroutine that can be accessed from the main logic setup. This node "
+"always serves as a starting point of a separate node tree and thus "
+"feature no input parameters."
+msgstr ""
+
+#, fuzzy
+msgid "*Function*"
+msgstr "*位置*"
+
+#, fuzzy
+msgid "The name of the function."
+msgstr "返回到第一帧的动画已经停止之后。"
+
+msgid ""
+"The list of the function's input parameters. This list is empty by "
+"default, but you can add and remove variables using ``+`` and ``-`` "
+"buttons. Each variable can also be named."
+msgstr ""
+
+msgid ""
+"The list of the function's output parameters. Works in the same way as "
+"the ``In Params`` list."
+msgstr ""
+
+msgid "Call Function"
+msgstr ""
+
+msgid ""
+"This node can be used to call a function defined by a ``Define Function``"
+" node."
+msgstr ""
+
+#, fuzzy
+msgid "*NodeTree*"
+msgstr "RGB节点"
+
+msgid "The name of the node tree from which the function is called."
+msgstr ""
+
+msgid ""
+"The list of the variables to set the input parameters of the function "
+"specified by the ``Function`` parameter."
+msgstr ""
+
+msgid ""
+"The list of the variables to store the output parameters of the function "
+"specified by the ``Function`` parameter."
+msgstr ""
+
 msgid "Animation"
 msgstr "动画"
 
-msgid "Play Timeline and Stop Timeline"
-msgstr "播放时间轴和停止时间线"
+#, fuzzy
+msgid "Play Timeline"
+msgstr "获取时间线"
 
+#, fuzzy
 msgid ""
-"Can be used to control NLA animations. The ``Play Timeline`` node plays "
-"NLA fragment starting with a frame specified by the marker. Animation "
-"plays until next marker is encountered, or to the end of the scene’s "
-"timeline. After that, control passes on to the next node. The ``Stop "
-"Timeline`` node stops the playback."
+"This node can be used to control NLA animations. The ``Play Timeline`` "
+"node plays NLA fragment starting with a frame specified by the marker. "
+"Animation plays until next marker is encountered, or to the end of the "
+"scene’s timeline. After that, control passes on to the next node."
 msgstr ""
 "可以用来控制 NLA 动画。'玩的时间线' 节点扮演 NLA "
 "片段从指定的标记的帧开始。动画播放直至遇到下一个标记，或到场景的时间线的末尾。在那之后，控制传递到下一个节点。'停止时间线' 节点停止播放。"
@@ -321,26 +435,71 @@ msgstr ""
 msgid "*Start Marker*"
 msgstr "*起始标记*"
 
+#, fuzzy
+msgid "First frame of the animation."
+msgstr "返回到第一帧的动画已经停止之后。"
+
 msgid ""
-"First frame of the animation. If not specified, an animation plays from "
-"the start of the timeline and may not work correctly."
-msgstr "动画的第一帧。如果没有指定，动画从时间轴开始播放，并可能无法正常工作。"
+"If this parameter is not specified, the animation plays from the current "
+"frame, i.e. if animation hasn't been played yet, playback will start from"
+" the first frame of the timeline. If playback has been stopped with the "
+"``Stop Timeline`` node and then started again, it will continue from the "
+"last played frame."
+msgstr ""
 
 msgid "*End Marker*"
 msgstr "*结束标记*"
 
+msgid "Last frame of the animation."
+msgstr ""
+
 msgid ""
-"Last frame of the animation. If not specified, an animation plays to the "
-"end of the timeline and may not work correctly."
-msgstr "动画的最后一帧。如果没有指定，动画播放到时间轴的结束，可能无法正常工作。"
+"If this parameter is not specified, an animation plays to the next marker"
+" (or to the end of the timeline, if there isn't any)."
+msgstr ""
+
+msgid "*Do Not Wait*"
+msgstr "*不要等*"
+
+#, fuzzy
+msgid ""
+"If this parameter is enabled, the ``Play Timeline`` node will pass the "
+"control to the next node on starting the animation playback. If it isn’t,"
+" the control will be passed to the next node only after playback is "
+"finished."
+msgstr ""
+"如果该参数被启用，``Play Animation`` "
+"节点将控制传递到下一个节点上启动动画播放。如果不是，控制将被传递到播放完成后才会进入下一个节点。"
+
+#, fuzzy
+msgid "Stop Timeline"
+msgstr "获取时间线"
+
+msgid ""
+"Stops the playback of the NLA animation started by the ``Play Animation``"
+" node."
+msgstr ""
+
+msgid "*Set First Frame*"
+msgstr "*设置第一帧*"
+
+msgid ""
+"If this parameter is enabled, the timeline will be reset to the first "
+"frame after the animation playback stops. Otherwise, the timeline will be"
+" set to the frame specified by the ``End Marker`` parameter of the ``Play"
+" Timeline`` node."
+msgstr ""
 
 msgid "Play Animation"
 msgstr "播放动画"
 
-msgid ""
-"Can be used to play object’s animation. An animation can be one of the "
-"following types:"
-msgstr "可用于播放物体的动画。动画可以是以下类型之一："
+#, fuzzy
+msgid "This node can be used to play object animation."
+msgstr "可以用来停止物体的动画。"
+
+#, fuzzy
+msgid "An animation can be one of the following types:"
+msgstr "逻辑条件。可以有以下几种类型："
 
 msgid "Regular Action:"
 msgstr "常规动作："
@@ -351,8 +510,33 @@ msgstr "着色器动作："
 msgid "Particle system:"
 msgstr "粒子系统："
 
+msgid "*Environment Anim.*"
+msgstr ""
+
+#, fuzzy
+msgid ""
+"If this parameter is enabled, animation of the scene environment (a "
+"``World`` object) will be played."
+msgstr "如果启用此参数，则将显示子物体。"
+
+#, fuzzy
+msgid "*World*"
+msgstr "*Url*"
+
+msgid ""
+"Specifies the ``World`` object, animation of which will be played. This "
+"parameter is only available if the ``Environment Anim.`` parameter is "
+"enabled."
+msgstr ""
+
 msgid "Name of the object, animation of which will be played."
 msgstr "物体，动画，其中将播放的名称。"
+
+#, fuzzy
+msgid ""
+"If this parameter is enabled, an Object-type variable can be set in the "
+"``Object`` field."
+msgstr "如果启用此参数，则将显示子物体。"
 
 msgid "*Anim. Name*"
 msgstr "*动画名称*"
@@ -381,9 +565,6 @@ msgid ""
 "``Stop Animation`` node."
 msgstr "*循环*  - 动画将被反复播放直到它被 ``Stop Animation`` 节点停止掉。"
 
-msgid "*Do Not Wait*"
-msgstr "*不要等*"
-
 msgid ""
 "If this parameter is enabled, the ``Play Animation`` node will pass the "
 "control to the next node on starting the animation playback. If it isn’t,"
@@ -399,8 +580,23 @@ msgstr "停止动画"
 msgid "Can be used to stop an object’s animation."
 msgstr "可以用来停止物体的动画。"
 
-msgid "*Set First Frame*"
-msgstr "*设置第一帧*"
+msgid "*Environmental Anim.*"
+msgstr ""
+
+msgid ""
+"If this parameter is turned on, animation of the scene environment (a "
+"``World`` object) will be stopped."
+msgstr ""
+
+msgid ""
+"Specifies the ``World`` object, animation of which will be stopped. This "
+"parameter is only available if the ``Environment Anim.`` parameter is "
+"enabled."
+msgstr ""
+
+#, fuzzy
+msgid "Name of the object, animation of which will be stopped."
+msgstr "物体，动画，其中将播放的名称。"
 
 msgid "Go back to the first frame after the animation has been stopped."
 msgstr "返回到第一帧的动画已经停止之后。"
@@ -421,6 +617,12 @@ msgstr "*相机*"
 
 msgid "A camera that will be moved."
 msgstr "将摄像机移动。"
+
+#, fuzzy
+msgid ""
+"This parameter can be set directly or using an Object-type variable (if "
+"the ``Variable`` option is enabled)."
+msgstr "物体的大小。可以指定直接或通过一个变量 （如果启用了变量参数）。默认设置为 1。"
 
 msgid "*Location*"
 msgstr "*位置*"
@@ -708,11 +910,11 @@ msgstr "移动到"
 msgid "Can be used to move objects."
 msgstr "可用于移动物体。"
 
-msgid "An object that you need to move."
-msgstr "你需要移动的物体。"
-
-msgid "*Destination*"
-msgstr "*目标*"
+#, fuzzy
+msgid ""
+"An object that you need to move. It can be set directly or using an "
+"Object-type variable (if the ``Variable`` option is enabled)"
+msgstr "物体的大小。可以指定直接或通过一个变量 （如果启用了变量参数）。默认设置为 1。"
 
 msgid ""
 "A target (another object or a light source, camera or anything else) to "
@@ -748,10 +950,11 @@ msgstr "形状将被应用到物体的密钥。"
 msgid "*Value*"
 msgstr "*值*"
 
+#, fuzzy
 msgid ""
 "How much the shape key will influence the object. This value can be set "
-"directly in the node or using a variable. The value should be between 0 "
-"and 1."
+"directly in the node or using a variable (if the ``Variable`` parameter "
+"is set). The value should be between 0 and 1."
 msgstr "多少的形状关键将影响物体。此值可以直接在节点中设置或使用的变量。值应该是 0 和 1 之间。"
 
 msgid "Outline"
@@ -865,13 +1068,18 @@ msgid ""
 "specified manually (if the ``New variable`` parameter is enabled)."
 msgstr "变量的名称。可以从变量列表中选定或手动指定 (如果 ``New variable`` 参数已启用)。"
 
-msgid "*Var. type*"
-msgstr "*变量类型*"
+#, fuzzy
+msgid ""
+"Variable’s type. This parameter can have one of the three values: "
+"``Number`` (for numerical variables), ``String`` (for string variables) "
+"or ``Object`` (for object variables)."
+msgstr "变量的类型。此参数可以有以下两个值之一： ``Number`` （数值变量）和 ``String`` （字符串变量）。"
 
 msgid ""
-"Variable’s type. This parameter can have one of two values: ``Number`` "
-"(for numerical variables) and ``String`` (for string variables)."
-msgstr "变量的类型。此参数可以有以下两个值之一： ``Number`` （数值变量）和 ``String`` （字符串变量）。"
+"This parameter is used to specify the object that will be used as a "
+"variable. It is only available if the ``Type`` parameter is set to "
+"``Object``."
+msgstr ""
 
 msgid "*New Variable*"
 msgstr "*新变量*"
@@ -889,14 +1097,6 @@ msgid ""
 "Enabling this parameter makes the variable global. Available only if the "
 "``New Variable`` parameter has been enabled."
 msgstr "启用此参数可使变量成全局变量。仅当启用了 ``New Variable`` 参数可用。"
-
-msgid "*Num./Str.*"
-msgstr "*数/STR*"
-
-msgid ""
-"Numeric or string (depending on the ``Var. type`` parameter value) value "
-"of the variable."
-msgstr "数值或字符串（取决于 ``Var. type`` 参数值）的变量的值。"
 
 msgid "Math Operation"
 msgstr "数学运算"
@@ -1083,6 +1283,12 @@ msgstr "*扬声器*"
 msgid "A speaker that will be enabled."
 msgstr "将启用的扬声器。"
 
+#, fuzzy
+msgid ""
+"If this parameter is enabled, an Object-type variable can be set in the "
+"``Speaker`` field."
+msgstr "如果启用此参数，则将显示子物体。"
+
 msgid ""
 "If this parameter is enabled, the control will pass to the next node "
 "right after sound playback starts. If it isn’t enabled, the control will "
@@ -1127,10 +1333,12 @@ msgstr "默认设置为 ``GET`` 。"
 msgid "*Url*"
 msgstr "*Url*"
 
+#, fuzzy
 msgid ""
-"A web address to send request to. Set to “https://www.blend4web.com” by "
-"default."
-msgstr "将请求发送到的 web 地址。默认设置为 “https://www.blend4web.com” 。"
+"A web address to send request to. It can be defined directly or using a "
+"variable (if the ``Variable URL`` option is enabled). Set to "
+"“https://www.blend4web.com” by default."
+msgstr "物体的大小。可以指定直接或通过一个变量 （如果启用了变量参数）。默认设置为 1。"
 
 msgid "*Response Params*"
 msgstr "*响应参数*"
@@ -1262,6 +1470,24 @@ msgstr "如果该字段中指定的参数在URL中显示，则其值将被保存
 msgid "A variable that will be used to save the parameter."
 msgstr "将用来保存参数的变量。"
 
+#, fuzzy
+msgid "*Param type*"
+msgstr "*变量类型*"
+
+msgid ""
+"The type of the web page parameter. Available values are ``Number``, "
+"``String`` and ``Object``."
+msgstr ""
+
+#, fuzzy
+msgid "*Hash param*"
+msgstr "*输入参数*"
+
+msgid ""
+"If this option is enabled, the ``Page Param`` node will process hash "
+"parameters; if it isn't, the node will process regular URL parameters."
+msgstr ""
+
 msgid "Page Redirect"
 msgstr "页转到"
 
@@ -1270,123 +1496,90 @@ msgid ""
 "marks the end of the node tree and doesn’t have any output parameters."
 msgstr "可以用来浏览器重定向到另一页。此节点总是标记节点树的结束，并且没有任何输出参数。"
 
+#, fuzzy
 msgid ""
-"Web address of a page that will be opened. Set to "
+"Web address of a page that will be opened. It can be defined manually or "
+"using a variable (if the ``Variable URL`` parameter is enabled). Set to "
 "“https://www.blend4web.com” by default."
-msgstr "将打开的网页的 web 地址。默认设置为 \"https://www.blend4web.com\" 。"
-
-msgid "Debug"
-msgstr "调试"
-
-msgid "Console Print"
-msgstr "控制台打印"
-
-msgid ""
-"This node prints variables’s values and additional text to the web "
-"browser console. It can be used for debug purposes."
-msgstr "此节点打印变量的值和附加的文本到Web浏览器的控制台。它可用于调试目的。"
-
-msgid "*Message*"
-msgstr "*信息*"
-
-msgid "A message that will be printed to the console along with the values."
-msgstr "将与值一起打印到控制台的消息。"
-
-msgid "<variable name>"
-msgstr "<variable name>"
-
-msgid ""
-"A variable that will be printed to the console. By default, a ``Console "
-"Print`` node has one such parameter, but you can add new and delete "
-"existing ones (the node might not even have such parameters at all)."
-msgstr ""
-"将打印到控制台的变量。默认情况下，``Console Print`` 节点都有一个这样的参数，但您可以添加新成员和删除现有的 "
-"（节点甚至可能没有这种参数）。"
+msgstr "物体的大小。可以指定直接或通过一个变量 （如果启用了变量参数）。默认设置为 1。"
 
 msgid "Time"
-msgstr ""
+msgstr "时间"
 
 msgid "Date & Time"
-msgstr ""
+msgstr "日期及时间"
 
 msgid "This node returns the current time and date."
-msgstr ""
+msgstr "此节点返回当前时间和日期。"
 
 msgid "*Time Format*"
-msgstr ""
+msgstr "*时间格式*"
 
-#, fuzzy
 msgid ""
 "This parameter defines the format in which time is measured. It can be "
 "set to one of the following values:"
-msgstr "此参数定义将用于转换的物体的坐标空间。它可以具有下列值之一 ︰"
+msgstr "此参数定义测量时间的格式。它可以设置为以下值之一："
 
-#, fuzzy
 msgid "*UTC*"
-msgstr "*源*"
+msgstr "*世界标准时间*"
 
 msgid "Coordinated Universal Time."
-msgstr ""
+msgstr "协调世界时"
 
 msgid ""
 "The Coordinated Universal Time this node returns is based on local system"
 " time and a time zone."
-msgstr ""
+msgstr "该节点返回的协调世界时间是基于本地系统时间和时区。"
 
-#, fuzzy
 msgid "*Local*"
-msgstr "*全局*"
+msgstr "*本地*"
 
 msgid ""
 "If this value is selected, time is retrieved from local system time. This"
 " value is selected by default."
-msgstr ""
+msgstr "如果选择此值，则从本地系统时间检索时间。默认情况下选择此值。"
 
 msgid ""
 "The time and date are returned as a set of numbers (current year, month, "
 "day etc.), each one of which can be stored into a specific variable. "
 "These numbers include:"
-msgstr ""
+msgstr "时间和日期作为一组数字（当前年，月，日等）返回，其中每一个可以存储到特定变量中。这些数字包括："
 
-#, fuzzy
 msgid "*Year*"
-msgstr "*y*"
+msgstr "*年*"
 
 msgid "The current year."
-msgstr ""
+msgstr "本年度"
 
 msgid "*Month*"
-msgstr ""
+msgstr "*月*"
 
 msgid "The current month."
-msgstr ""
+msgstr "本月"
 
-#, fuzzy
 msgid "*Day*"
-msgstr "*y*"
+msgstr "*天*"
 
 msgid "The current day."
-msgstr ""
+msgstr "本日"
 
-#, fuzzy
 msgid "*Hours*"
-msgstr "*源*"
+msgstr "*小时*"
 
 msgid "The current hour."
-msgstr ""
+msgstr "当前小时"
 
-#, fuzzy
 msgid "*Minutes*"
-msgstr "*强度*"
+msgstr "*分钟*"
 
 msgid "The current minutes."
-msgstr ""
+msgstr "当前分钟。"
 
 msgid "*Seconds*"
-msgstr ""
+msgstr "*秒*"
 
 msgid "The current seconds."
-msgstr ""
+msgstr "当前的秒数。"
 
 msgid "Get Timeline"
 msgstr "获取时间线"
@@ -1397,7 +1590,7 @@ msgid ""
 msgstr "此节点可以用于获取 NLA 动画或时间线的当前帧。"
 
 msgid "*NLA Timeline*"
-msgstr "* NLA 时间线 *"
+msgstr "*NLA 时间线*"
 
 msgid ""
 "If this parameter is enabled, the node will return the current frame of "
@@ -1411,18 +1604,18 @@ msgid ""
 msgstr "指定一个变量来存储当前帧的数量。默认设置为  ``R1`` 。"
 
 msgid "Elapsed"
-msgstr ""
+msgstr "用去"
 
 msgid ""
 "This node returns the amount of time elapsed since the previous frame has"
 " been rendered."
-msgstr ""
+msgstr "该节点返回自上一帧渲染以来经过的时间量。"
 
 msgid ""
 "The ``Elapsed`` logic node has one internal parameter that allows user to"
 " specify the variable to save the number of seconds passed since the "
 "previous frame. By default, it uses the ``R1`` variable."
-msgstr ""
+msgstr "``Elapsed`` 逻辑节点具有一个内部参数，允许用户指定变量以保存自上一帧以来通过的秒数。默认情况下，它使用  ``R1`` 变量。"
 
 msgid "Delay"
 msgstr "延迟"
@@ -1438,6 +1631,27 @@ msgstr "将在下一个节点激活之前的时间 （以秒为单位）。默�
 
 msgid "Layout"
 msgstr "布局"
+
+msgid "Frame"
+msgstr ""
+
+msgid "An auxillary element used to separate nodes into groups."
+msgstr ""
+
+msgid ""
+"This is not required, but we recommend to use frames in complex node "
+"setups so it would be easier to read and understand them."
+msgstr ""
+
+msgid ""
+"``Frame`` elements feature several parameters that can be accessed from "
+"the Properties side panel. These parameters include ``Label`` (can be "
+"used to set a title for the frame) and ``Color`` (defines the color of "
+"the frame)."
+msgstr ""
+
+msgid "This element is also available in regular Blender node editors."
+msgstr ""
 
 msgid "Empty"
 msgstr "空物体"
@@ -1474,8 +1688,36 @@ msgid ""
 "``Reroute`` elements."
 msgstr "输出参数不能被连接到相同的节点的输入参数。如果你需要做到这一点（例如做一个循环），你应该使用 ``Reroute`` 元素。"
 
-msgid "Debugging"
-msgstr "调试中"
+msgid "Debug"
+msgstr "调试"
+
+msgid "Console Print"
+msgstr "控制台打印"
+
+msgid ""
+"This node prints variables’s values and additional text to the web "
+"browser console. It can be used for debug purposes."
+msgstr "此节点打印变量的值和附加的文本到Web浏览器的控制台。它可用于调试目的。"
+
+msgid "*Message*"
+msgstr "*信息*"
+
+msgid "A message that will be printed to the console along with the values."
+msgstr "将与值一起打印到控制台的消息。"
+
+msgid "<variable name>"
+msgstr "<variable name>"
+
+msgid ""
+"A variable that will be printed to the console. By default, a ``Console "
+"Print`` node has one such parameter, but you can add new and delete "
+"existing ones (the node might not even have such parameters at all)."
+msgstr ""
+"将打印到控制台的变量。默认情况下，``Console Print`` 节点都有一个这样的参数，但您可以添加新成员和删除现有的 "
+"（节点甚至可能没有这种参数）。"
+
+msgid "Other Features"
+msgstr ""
 
 msgid ""
 "For debugging purposes some nodes inside logic tree can be muted. To do "
@@ -1485,27 +1727,58 @@ msgid ""
 "result (``Miss``, ``False``)."
 msgstr "为了调试的目的，逻辑树中的一些节点可以被静音。要做到这一点，选择所需的节点，并按“M”键。静音节点不执行，并简单地传递控制到后面节点。如果静音节点有两个输出执行从负的结果（``Miss``，``False``）继续输出。"
 
-#~ msgid "Deprecated"
-#~ msgstr "已过时"
-
-#~ msgid "Select (Deprecated)"
-#~ msgstr "选择（已过时）"
+#~ msgid "Play Timeline and Stop Timeline"
+#~ msgstr "播放时间轴和停止时间线"
 
 #~ msgid ""
 #~ msgstr ""
 
-#~ msgid "Select & Play Timeline (Deprecated)"
-#~ msgstr "选择并播放时间轴（已过时）"
+#~ msgid "Debugging"
+#~ msgstr "调试中"
 
-#~ msgid "Select & Play Animation (Deprecated)"
-#~ msgstr "选择并播放动画（已过时）"
+#~ msgid "Switch Select"
+#~ msgstr "切换选择"
+
+#~ msgid "Conditional Jump"
+#~ msgstr "条件跳转"
+
+#~ msgid "*String Operands*"
+#~ msgstr "*字符串操作数*"
 
 #~ msgid ""
-#~ "The ``Elapsed`` logic node has one "
-#~ "internal parameter that allows user to"
-#~ " specify the variable to save the "
-#~ "number of seconds passed since the "
-#~ "previous frame. By defaut, it uses "
-#~ "the ``R1`` variable."
-#~ msgstr ""
+#~ "If this parameter is enabled, first "
+#~ "and second operands can use strings "
+#~ "(set manually or by a variable) as"
+#~ " their values."
+#~ msgstr "如果启用此参数，则第一个和第二个操作数可以使用字符串（手动设置或由变量设置）作为它们的值。"
+
+#~ msgid ""
+#~ "Can be used to play object’s "
+#~ "animation. An animation can be one "
+#~ "of the following types:"
+#~ msgstr "可用于播放物体的动画。动画可以是以下类型之一："
+
+#~ msgid "An object that you need to move."
+#~ msgstr "你需要移动的物体。"
+
+#~ msgid "*Num./Str.*"
+#~ msgstr "*数/STR*"
+
+#~ msgid ""
+#~ "Numeric or string (depending on the "
+#~ "``Var. type`` parameter value) value of"
+#~ " the variable."
+#~ msgstr "数值或字符串（取决于 ``Var. type`` 参数值）的变量的值。"
+
+#~ msgid ""
+#~ "A web address to send request to."
+#~ " Set to “https://www.blend4web.com” by "
+#~ "default."
+#~ msgstr "将请求发送到的 web 地址。默认设置为 “https://www.blend4web.com” 。"
+
+#~ msgid ""
+#~ "Web address of a page that will"
+#~ " be opened. Set to "
+#~ "“https://www.blend4web.com” by default."
+#~ msgstr "将打开的网页的 web 地址。默认设置为 \"https://www.blend4web.com\" 。"
 

@@ -953,6 +953,11 @@ exports.check_bpy_data = function(bpy_data) {
                 va["allow_nla"] = true;
             }
         }
+
+        if (!("active_uv_name" in mesh)) {
+            report("mesh", mesh, "active_uv_name");
+            mesh["active_uv_name"] = "";
+        }
     }
 
     /* object data - cameras */
@@ -2822,21 +2827,23 @@ function mesh_transform_locations(mesh, matrix) {
  */
 exports.assign_logic_nodes_object_params = function(bpy_objects, bpy_world, scene) {
 
-    function set_bpy_objs_props(objects_paths, props) {
-        for (var id in objects_paths) {
-            var path = objects_paths[id];
-            var name = path[0];
-            if (path.length > 1)
-                for (var k = 1; k < path.length; k++)
-                    name += "*" + path[k];
-            for (var k = 0; k < bpy_objects.length; k++) {
-                var bpy_obj = bpy_objects[k];
-                if (bpy_obj["name"] == name) {
-                    for (var key in props) {
-                        bpy_obj[key] = props[key];
-                    }
+    function set_bpy_objs_prop(objects_path, props) {;
+        var name = objects_path[0];
+        if (objects_path.length > 1)
+            for (var k = 1; k < objects_path.length; k++)
+                name += "*" + objects_path[k];
+        for (var k = 0; k < bpy_objects.length; k++) {
+            var bpy_obj = bpy_objects[k];
+            if (bpy_obj["name"] == name) {
+                for (var key in props) {
+                    bpy_obj[key] = props[key];
                 }
             }
+        }
+    }
+    function set_bpy_objs_props(objects_paths, props) {
+        for (var id in objects_paths) {
+            set_bpy_objs_prop(objects_paths[id], props)
         }
     }
 
@@ -2861,12 +2868,21 @@ exports.assign_logic_nodes_object_params = function(bpy_objects, bpy_world, scen
             }
             if (["MATH", "CONDJUMP", "PAGEPARAM", "REGSTORE"].indexOf(snode["type"]) >= 0) {
                 if ("variable1" in snode)
-                    snode["variables"]["v1"] = [false, snode["variable1"]];
+                    snode["variables"]["id0"] = [false, snode["variable1"]];
                 if ("variable2" in snode)
-                    snode["variables"]["v2"] = [false, snode["variable2"]];
+                    snode["variables"]["id1"] = [false, snode["variable2"]];
                 if ("variabled" in snode)
                     snode["variables"]["vd"] = [false, snode["variabled"]];
             }
+
+            for (var l in snode["links"]) {
+                if (!l.startsWith("id"))
+                    delete snode["links"][l];
+            }
+
+            var cu_names = snode["common_usage_names"];
+            var var_names = snode["variables"];
+
             switch (snode["type"]) {
             case "SELECT":
                 for (var k = 0; k < bpy_objects.length; k++) {
@@ -2903,13 +2919,14 @@ exports.assign_logic_nodes_object_params = function(bpy_objects, bpy_world, scen
                 report_raw("Logic nodes type \"SELECT_PLAY_ANIM\" is deprecated");
                 break;    
             case "SHOW":
+            case "HIDE":
                 if (!snode["bools"])
-                        snode["bools"] = {};
+                    snode["bools"] = {};
 
                 if (snode["bools"]["ch"] === undefined)
                     snode["bools"]["ch"] = false;
-            case "HIDE":
-                set_bpy_objs_props(snode["objects_paths"], {"b4w_do_not_batch": true});
+                if (!snode["bools"]["id0"])
+                    set_bpy_objs_props(snode["objects_paths"], {"b4w_do_not_batch": true});
                 break;
             case "SET_SHADER_NODE_PARAM":
             case "INHERIT_MAT":
@@ -2924,15 +2941,15 @@ exports.assign_logic_nodes_object_params = function(bpy_objects, bpy_world, scen
             case "TRANSFORM_OBJECT":
                 set_bpy_objs_props(snode["objects_paths"], {"b4w_do_not_batch": true});
 
-                switch(snode["common_usage_names"]["space_type"]){
+                switch(cu_names["space_type"]){
                 case "WORLD":
-                    snode["common_usage_names"]["space_type"] = m_logn.NST_WORLD;
+                    cu_names["space_type"] = m_logn.NST_WORLD;
                     break;
                 case "PARENT":
-                    snode["common_usage_names"]["space_type"] = m_logn.NST_PARENT;
+                    cu_names["space_type"] = m_logn.NST_PARENT;
                     break;
                 case "LOCAL":
-                    snode["common_usage_names"]["space_type"] = m_logn.NST_LOCAL;
+                    cu_names["space_type"] = m_logn.NST_LOCAL;
                     break;
                 }
                 break;
@@ -2941,29 +2958,29 @@ exports.assign_logic_nodes_object_params = function(bpy_objects, bpy_world, scen
                 break;
             case "CONDJUMP":
                 if (snode["condition"])
-                    snode["common_usage_names"]["condition"] = snode["condition"];
+                    cu_names["condition"] = snode["condition"];
 
                 if ("cnd" in snode["floats"])
-                    snode["common_usage_names"]["condition"] = snode["floats"]["cnd"];
+                    cu_names["condition"] = snode["floats"]["cnd"];
                 else {
-                    switch(snode["common_usage_names"]["condition"]){
+                    switch(cu_names["condition"]){
                     case "GEQUAL":
-                        snode["common_usage_names"]["condition"] = m_logn.NC_GEQUAL;
+                        cu_names["condition"] = m_logn.NC_GEQUAL;
                         break;
                     case "LEQUAL":
-                        snode["common_usage_names"]["condition"] = m_logn.NC_LEQUAL;
+                        cu_names["condition"] = m_logn.NC_LEQUAL;
                         break;
                     case "GREATER":
-                        snode["common_usage_names"]["condition"] = m_logn.NC_GREATER;
+                        cu_names["condition"] = m_logn.NC_GREATER;
                         break;
                     case "LESS":
-                        snode["common_usage_names"]["condition"] = m_logn.NC_LESS;
+                        cu_names["condition"] = m_logn.NC_LESS;
                         break;
                     case "NOTEQUAL":
-                        snode["common_usage_names"]["condition"] = m_logn.NC_NOTEQUAL;
+                        cu_names["condition"] = m_logn.NC_NOTEQUAL;
                         break;
                     case "EQUAL":
-                        snode["common_usage_names"]["condition"] = m_logn.NC_EQUAL;
+                        cu_names["condition"] = m_logn.NC_EQUAL;
                         break;
                     }
                 }
@@ -2972,11 +2989,30 @@ exports.assign_logic_nodes_object_params = function(bpy_objects, bpy_world, scen
                 if (snode["number2"] != undefined)
                     snode["input2"] = snode["number2"];
                 if (!snode["bools"])
-                        snode["bools"] = {};
-                if (snode["bools"]["str"] === undefined) {
-                    snode["bools"]["str"] = false;
+                    snode["bools"] = {};
+                if (snode["bools"]["str"])
+                    cu_names["variable_type"] = "STRING";
+                switch (cu_names["variable_type"]) {
+                case "NUMBER":
+                    cu_names["variable_type"] = m_logn.NT_NUMBER;
+                    break;
+                case "STRING":
+                    cu_names["variable_type"] = m_logn.NT_STRING;
+                    break;
+                case "OBJECT":
+                    cu_names["variable_type"] = m_logn.NT_OBJECT;
+                    break;
+                }
+
+                if (cu_names["variable_type"] === undefined) {
+                    cu_names["variable_type"] = m_logn.NT_NUMBER;
                     snode["floats"]["inp1"] = snode["input1"];
                     snode["floats"]["inp2"] = snode["input2"];
+                }
+
+                if (var_names["id0"] === undefined) {
+                    var_names["id0"] = var_names["v1"];
+                    var_names["id1"] = var_names["v2"];
                 }
                 break;
             case "SEND_REQ":
@@ -3055,6 +3091,10 @@ exports.assign_logic_nodes_object_params = function(bpy_objects, bpy_world, scen
                     snode["operation"] = m_logn.NMO_ABS;
                     break;
                 }
+                if (var_names["id0"] === undefined) {
+                    var_names["id0"] = var_names["v1"];
+                    var_names["id1"] = var_names["v2"];
+                }
                 break;
             case "REGSTORE":
                 if (!snode["floats"])
@@ -3068,19 +3108,23 @@ exports.assign_logic_nodes_object_params = function(bpy_objects, bpy_world, scen
                     switch (typeof(snode["input1"])) {
                     case "number":
                         snode["floats"]["inp1"] = snode["input1"];
-                        snode["common_usage_names"]["variable_type"] = "NUMBER";
+                        cu_names["variable_type"] = "NUMBER";
                         break;
                     default:
                         snode["strings"]["inp1"] = snode["input1"];
-                        snode["common_usage_names"]["variable_type"] = "STRING";
+                        cu_names["variable_type"] = "STRING";
                     }
 
-                switch(snode["common_usage_names"]["variable_type"]) {
+                switch(cu_names["variable_type"]) {
                 case "NUMBER":
-                    snode["common_usage_names"]["variable_type"] = m_logn.NT_NUMBER;
+                    cu_names["variable_type"] = m_logn.NT_NUMBER;
                     break;
                 case "STRING":
-                    snode["common_usage_names"]["variable_type"] = m_logn.NT_STRING;
+                    cu_names["variable_type"] = m_logn.NT_STRING;
+                    break;
+                case "OBJECT":
+                    cu_names["variable_type"] = m_logn.NT_OBJECT;
+                    set_bpy_objs_props(snode["objects_paths"], {"b4w_do_not_batch": true});
                     break;
                 }
 
@@ -3096,64 +3140,64 @@ exports.assign_logic_nodes_object_params = function(bpy_objects, bpy_world, scen
                 if (snode["floats"]["ptp"] === undefined)
                     snode["floats"]["ptp"] = 0;
                 break;
-            case "PLAY_ANIM":
-                set_bpy_objs_props(snode["objects_paths"], {"b4w_do_not_batch": true});
-                if (!snode["bools"])
-                    snode["bools"] = {};
-                if (snode["bools"]["env"] === undefined)
-                    snode["bools"]["env"] = false;
-
-                var behavior = snode["common_usage_names"]["param_anim_behavior"];
-                if(!behavior)
-                     behavior = "FINISH_STOP";
-                snode["common_usage_names"]["param_anim_behavior"] = m_anim.anim_behavior_bpy_b4w(behavior);
-                break;
             case "STOP_ANIM":
+            case "PLAY_ANIM":
                 if (!snode["bools"])
                     snode["bools"] = {};
                 if (snode["bools"]["env"] === undefined)
                     snode["bools"]["env"] = false;
+                if (snode["bools"]["id0"] === undefined)
+                    snode["bools"]["id0"] = false;
+                if (!snode["bools"]["id0"])
+                    set_bpy_objs_prop(snode["objects_paths"]["id0"], {"b4w_do_not_batch": true});
+
+                if (snode["type"] == "PLAY_ANIM") {
+                    var behavior = cu_names["param_anim_behavior"];
+                    if(!behavior)
+                        behavior = "FINISH_STOP";
+                    cu_names["param_anim_behavior"] = m_anim.anim_behavior_bpy_b4w(behavior);
+                }
                 break;
             case "STRING":
-                switch(snode["common_usage_names"]["string_operation"]){
+                switch(cu_names["string_operation"]){
                 case "JOIN":
-                    snode["common_usage_names"]["string_operation"] = m_logn.NSO_JOIN;
+                    cu_names["string_operation"] = m_logn.NSO_JOIN;
                     break;
                 case "FIND":
-                    snode["common_usage_names"]["string_operation"] = m_logn.NSO_FIND;
+                    cu_names["string_operation"] = m_logn.NSO_FIND;
                     break;
                 case "REPLACE":
-                    snode["common_usage_names"]["string_operation"] = m_logn.NSO_REPLACE;
+                    cu_names["string_operation"] = m_logn.NSO_REPLACE;
                     break;
                 case "SPLIT":
-                    snode["common_usage_names"]["string_operation"] = m_logn.NSO_SPLIT;
+                    cu_names["string_operation"] = m_logn.NSO_SPLIT;
                     break;
                 case "COMPARE":
-                    snode["common_usage_names"]["string_operation"] = m_logn.NSO_COMPARE;
+                    cu_names["string_operation"] = m_logn.NSO_COMPARE;
                     break;
                 }
 
                 if ("cnd" in snode["floats"])
-                    snode["common_usage_names"]["condition"] = snode["floats"]["cnd"];
+                    cu_names["condition"] = snode["floats"]["cnd"];
                 else {
-                    switch(snode["common_usage_names"]["condition"]){
+                    switch(cu_names["condition"]){
                     case "GEQUAL":
-                        snode["common_usage_names"]["condition"] = m_logn.NC_GEQUAL;
+                        cu_names["condition"] = m_logn.NC_GEQUAL;
                         break;
                     case "LEQUAL":
-                        snode["common_usage_names"]["condition"] = m_logn.NC_LEQUAL;
+                        cu_names["condition"] = m_logn.NC_LEQUAL;
                         break;
                     case "GREATER":
-                        snode["common_usage_names"]["condition"] = m_logn.NC_GREATER;
+                        cu_names["condition"] = m_logn.NC_GREATER;
                         break;
                     case "LESS":
-                        snode["common_usage_names"]["condition"] = m_logn.NC_LESS;
+                        cu_names["condition"] = m_logn.NC_LESS;
                         break;
                     case "NOTEQUAL":
-                        snode["common_usage_names"]["condition"] = m_logn.NC_NOTEQUAL;
+                        cu_names["condition"] = m_logn.NC_NOTEQUAL;
                         break;
                     case "EQUAL":
-                        snode["common_usage_names"]["condition"] = m_logn.NC_EQUAL;
+                        cu_names["condition"] = m_logn.NC_EQUAL;
                         break;
                     }
                 }
@@ -3166,18 +3210,18 @@ exports.assign_logic_nodes_object_params = function(bpy_objects, bpy_world, scen
                 }
                 break;
             case "SET_CAMERA_MOVE_STYLE":
-                switch(snode["common_usage_names"]["camera_move_style"]){
+                switch(cu_names["camera_move_style"]){
                 case "STATIC":
-                    snode["common_usage_names"]["camera_move_style"] = m_logn.NCMS_STATIC;
+                    cu_names["camera_move_style"] = m_logn.NCMS_STATIC;
                     break;
                 case "TARGET":
-                    snode["common_usage_names"]["camera_move_style"] = m_logn.NCMS_TARGET;
+                    cu_names["camera_move_style"] = m_logn.NCMS_TARGET;
                     break;
                 case "EYE":
-                    snode["common_usage_names"]["camera_move_style"] = m_logn.NCMS_EYE;
+                    cu_names["camera_move_style"] = m_logn.NCMS_EYE;
                     break;
                 case "HOVER":
-                    snode["common_usage_names"]["camera_move_style"] = m_logn.NCMS_HOVER;
+                    cu_names["camera_move_style"] = m_logn.NCMS_HOVER;
                     break;
                 }
                 break;
@@ -3191,7 +3235,7 @@ exports.assign_logic_nodes_object_params = function(bpy_objects, bpy_world, scen
                     snode["mute"] = true;
                 break;
             case "JS_CALLBACK":
-                var cb_params_dict = snode["common_usage_names"]["js_cb_params"];
+                var cb_params_dict = cu_names["js_cb_params"];
                 for (var key in cb_params_dict)
                     switch(cb_params_dict[key]) {
                         case "OBJECT":

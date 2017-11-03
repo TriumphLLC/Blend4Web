@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>插件 &mdash; Blend4Web 17.08 用户手册</title>
+  <title>插件 &mdash; Blend4Web 17.10 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.08 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 17.10 用户手册" href="index.html"/>
         <link rel="next" title="场景设置" href="scene_settings.html"/>
         <link rel="prev" title="网络播放器" href="web_player.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v17.08
+              v17.10
             </div>
           
         
@@ -85,7 +85,7 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">概述</a></li>
 <li class="toctree-l1"><a class="reference internal" href="engine_features.html">引擎功能</a></li>
-<li class="toctree-l1"><a class="reference internal" href="interface.html">Blender User Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="interface.html">Blender的用户界面</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">安装和更新</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">工作流程</a></li>
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理</a></li>
@@ -119,7 +119,7 @@
 <li class="toctree-l1"><a class="reference internal" href="logic_editor.html">逻辑编辑器</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">照明、 阴影和背景</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">后期处理效果</a></li>
-<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">立体渲染</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vr_and_ar.html">VR and AR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">纹理</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles.html">粒子系统,流体</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">粒子系统.实例化</a></li>
@@ -855,9 +855,9 @@ exported. Modifier removed.</td>
 <td><p class="first last">NAME``Armature`` 修饰符没有谷歌物体，或者没有导出。修改器被删除。</p>
 </td>
 </tr>
-<tr class="row-odd"><td><p class="first last">该名称曲线修正没有对象。修改删除。</p>
-</td>
-<td><p class="first last">该名称曲线修正没有对象。修改删除。</p>
+<tr class="row-odd"><td>The NAME curve modifier has no curve
+object. Modifier removed.</td>
+<td><p class="first last">该  NAME 曲线修改器没有物体。修改器删除。</p>
 </td>
 </tr>
 <tr class="row-even"><td>The NAME curve modifier has
@@ -872,13 +872,12 @@ animation. Modifier removed.</td>
 <td><p class="first last">Name对象既有顶点动画和不支持的电枢修改。其结果是，该改性剂已被删除。</p>
 </td>
 </tr>
-<tr class="row-even"><td><p class="first last">该名称 <code class="docutils literal"><span class="pre">Armature</span></code> 修正没有骨架问题，也没有导出。修改删除。</p>
-</td>
-<td>The NAME object has the NAME
-armature modifier. The armature object in
-this modifier isn&#8217;t specified or belongs
-to a not exported scene. Modifier
+<tr class="row-even"><td>The NAME object has the NAME
+armature modifier. It belongs to a
+not exported scene. Modifier
 removed.</td>
+<td><p class="first last">该  NAME 拥有 一个名为  NAME 的 <code class="docutils literal"><span class="pre">Armature</span></code> 骨架修改器，该骨架物体在修改器中未指明或者属于不导出场景。修改器移除。</p>
+</td>
 </tr>
 <tr class="row-odd"><td>The NAME LAMP node has no lamp
 object. Material: NAME.</td>
@@ -998,30 +997,39 @@ object</td>
 <td><p class="first last">应该有至少有一个数据块的世界场景中。</p>
 </td>
 </tr>
-<tr class="row-odd"><td>NAME particle settings has the NAME
+<tr class="row-odd"><td>Multiple constraints added on an
+object &#8220;Cube&#8221;, but it supports only
+one. Others won&#8217;t be used.</td>
+<td>Multiple constraints added on an object
+NAME, but it supports only one. Others
+won&#8217;t be used. The engine currently
+doesn&#8217;t support multiple constraints on
+an object.</td>
+</tr>
+<tr class="row-even"><td>NAME particle settings has the NAME
 texture rendering a scene. It has
 been replaced by the default
 texture.</td>
 <td><p class="first last">粒子设置数据块名称包含被用于渲染场景到纹理名称。此纹理被替换为默认的纹理。</p>
 </td>
 </tr>
-<tr class="row-even"><td>The action NAME has no fcurves.</td>
+<tr class="row-odd"><td>The action NAME has no fcurves.</td>
 <td>The action with the name &#8220;NAME&#8221; has no
 fcurves.</td>
 </tr>
-<tr class="row-odd"><td>The &#8220;NAME&#8221; camera has unsupported
+<tr class="row-even"><td>The &#8220;NAME&#8221; camera has unsupported
 PANORAMIC type. Changed to
 PERSPECTIVE type.&#8221;</td>
 <td><p class="first last">不支持全景相机。立体模式来代替。</p>
 </td>
 </tr>
-<tr class="row-even"><td>Unsupported texture type or texture
+<tr class="row-odd"><td>Unsupported texture type or texture
 is missing for Lens Flare material
 &#8220;NAME&#8221;</td>
 <td><p class="first last">不支持的纹理类型或纹理缺少镜头光晕材质 &#8220;NAME&#8221;</p>
 </td>
 </tr>
-<tr class="row-odd"><td>Use of ENVIRONMENT_MAP as diffuse
+<tr class="row-even"><td>Use of ENVIRONMENT_MAP as diffuse
 color is not supported. Use as
 mirror instead.</td>
 <td><p class="first last">ENVIRONMENT MAP纹理不能用作漫反射颜色。禁用漫射&gt;颜色并启用“纹理”&gt;“影响”面板上的“着色&gt;镜像”选项，将此纹理用作镜像贴图。</p>
@@ -1240,7 +1248,7 @@ mirror instead.</td>
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2017, Triumph.
-      最后更新于 2017-08-31.
+      最后更新于 2017-10-31.
 
     </p>
   </div>
@@ -1296,7 +1304,7 @@ mirror instead.</td>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.08',
+            VERSION:'v17.10',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>室外效果 &mdash; Blend4Web 17.08 用户手册</title>
+  <title>室外效果 &mdash; Blend4Web 17.10 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.08 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 17.10 用户手册" href="index.html"/>
         <link rel="next" title="色彩管理" href="colors.html"/>
         <link rel="prev" title="动画" href="animation.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v17.08
+              v17.10
             </div>
           
         
@@ -85,7 +85,7 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">概述</a></li>
 <li class="toctree-l1"><a class="reference internal" href="engine_features.html">引擎功能</a></li>
-<li class="toctree-l1"><a class="reference internal" href="interface.html">Blender User Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="interface.html">Blender的用户界面</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">安装和更新</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">工作流程</a></li>
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理</a></li>
@@ -103,7 +103,7 @@
 <li class="toctree-l1"><a class="reference internal" href="logic_editor.html">逻辑编辑器</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">照明、 阴影和背景</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">后期处理效果</a></li>
-<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">立体渲染</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vr_and_ar.html">VR and AR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">纹理</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles.html">粒子系统,流体</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">粒子系统.实例化</a></li>
@@ -218,43 +218,43 @@
            <div itemprop="articleBody">
             
   <div class="section" id="outdoor-effects">
-<span id="outdoor-rendering"></span><h1><a class="toc-backref" href="#id12">室外效果</a><a class="headerlink" href="#outdoor-effects" title="永久链接至标题">¶</a></h1>
+<span id="outdoor-rendering"></span><h1><a class="toc-backref" href="#id13">室外效果</a><a class="headerlink" href="#outdoor-effects" title="永久链接至标题">¶</a></h1>
 <div class="contents topic" id="table-of-contents">
 <p class="topic-title first">目录</p>
 <ul class="simple">
-<li><a class="reference internal" href="#outdoor-effects" id="id12">室外效果</a><ul>
-<li><a class="reference internal" href="#water" id="id13">水</a><ul>
-<li><a class="reference internal" href="#activation" id="id14">激活</a></li>
-<li><a class="reference internal" href="#basic-settings" id="id15">基本设置</a></li>
-<li><a class="reference internal" href="#waves-dynamics" id="id16">波浪运动</a></li>
-<li><a class="reference internal" href="#surface-wetting" id="id17">表面润湿</a></li>
-<li><a class="reference internal" href="#reflection-and-fresnel-effect" id="id18">反射与菲涅尔效应</a></li>
-<li><a class="reference internal" href="#shoreline-smoothing" id="id19">平滑的海岸线</a></li>
-<li><a class="reference internal" href="#color-gradient" id="id20">颜色渐变</a></li>
-<li><a class="reference internal" href="#refraction" id="id21">折射</a></li>
-<li><a class="reference internal" href="#foam" id="id22">泡沫</a></li>
-<li><a class="reference internal" href="#caustics-and-chromatic-aberration" id="id23">焦散和色差</a></li>
-<li><a class="reference internal" href="#underwater-environment" id="id24">水下环境</a></li>
-<li><a class="reference internal" href="#volumetric-waves" id="id25">体积波</a></li>
-<li><a class="reference internal" href="#settings-for-surface-generation" id="id26">地表生成设置</a></li>
+<li><a class="reference internal" href="#outdoor-effects" id="id13">室外效果</a><ul>
+<li><a class="reference internal" href="#water" id="id14">水</a><ul>
+<li><a class="reference internal" href="#activation" id="id15">激活</a></li>
+<li><a class="reference internal" href="#basic-settings" id="id16">基本设置</a></li>
+<li><a class="reference internal" href="#waves-dynamics" id="id17">波浪运动</a></li>
+<li><a class="reference internal" href="#surface-wetting" id="id18">表面润湿</a></li>
+<li><a class="reference internal" href="#reflection-and-fresnel-effect" id="id19">反射与菲涅尔效应</a></li>
+<li><a class="reference internal" href="#shoreline-smoothing" id="id20">平滑的海岸线</a></li>
+<li><a class="reference internal" href="#color-gradient" id="id21">颜色渐变</a></li>
+<li><a class="reference internal" href="#refraction" id="id22">折射</a></li>
+<li><a class="reference internal" href="#foam" id="id23">泡沫</a></li>
+<li><a class="reference internal" href="#caustics-and-chromatic-aberration" id="id24">焦散和色差</a></li>
+<li><a class="reference internal" href="#underwater-environment" id="id25">水下环境</a></li>
+<li><a class="reference internal" href="#volumetric-waves" id="id26">体积波</a></li>
+<li><a class="reference internal" href="#settings-for-surface-generation" id="id27">地表生成设置</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#atmosphere" id="id27">大气</a><ul>
-<li><a class="reference internal" href="#scattering" id="id28">散射</a></li>
-<li><a class="reference internal" href="#fog" id="id29">雾</a></li>
-<li><a class="reference internal" href="#time-of-day" id="id30">当日时间</a></li>
-<li><a class="reference internal" href="#stars" id="id31">星星</a></li>
+<li><a class="reference internal" href="#atmosphere" id="id28">大气</a><ul>
+<li><a class="reference internal" href="#scattering" id="id29">散射</a></li>
+<li><a class="reference internal" href="#fog" id="id30">雾</a></li>
+<li><a class="reference internal" href="#time-of-day" id="id31">当日时间</a></li>
+<li><a class="reference internal" href="#stars" id="id32">星星</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#lens-flare" id="id32">镜头光晕</a><ul>
-<li><a class="reference internal" href="#lens-flare-settings" id="id33">镜头光晕设置</a></li>
-<li><a class="reference internal" href="#lens-flare-object" id="id34">镜头光晕物体</a></li>
+<li><a class="reference internal" href="#lens-flare" id="id33">镜头光晕</a><ul>
+<li><a class="reference internal" href="#lens-flare-settings" id="id34">镜头光晕设置</a></li>
+<li><a class="reference internal" href="#lens-flare-object" id="id35">镜头光晕物体</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#wind" id="id35">风</a><ul>
-<li><a class="reference internal" href="#id8" id="id36">激活</a></li>
-<li><a class="reference internal" href="#id9" id="id37">设置</a></li>
-<li><a class="reference internal" href="#animation-of-grass-and-tree-leaves" id="id38">草和树叶的动画</a></li>
+<li><a class="reference internal" href="#wind" id="id36">风</a><ul>
+<li><a class="reference internal" href="#id8" id="id37">激活</a></li>
+<li><a class="reference internal" href="#id9" id="id38">设置</a></li>
+<li><a class="reference internal" href="#animation-of-grass-and-tree-leaves" id="id39">草和树叶的动画</a></li>
 </ul>
 </li>
 </ul>
@@ -263,14 +263,14 @@
 </div>
 <p>Blend4Web有几个环境的效果，对创建室外场景非常有用。</p>
 <div class="section" id="water">
-<span id="id1"></span><h2><a class="toc-backref" href="#id13">水</a><a class="headerlink" href="#water" title="永久链接至标题">¶</a></h2>
+<span id="id1"></span><h2><a class="toc-backref" href="#id14">水</a><a class="headerlink" href="#water" title="永久链接至标题">¶</a></h2>
 <div class="section" id="activation">
-<h3><a class="toc-backref" href="#id14">激活</a><a class="headerlink" href="#activation" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id15">激活</a><a class="headerlink" href="#activation" title="永久链接至标题">¶</a></h3>
 <p>对于所谓水材质激活 <code class="docutils literal"><span class="pre">Material</span></code> 选项卡下的 <code class="docutils literal"><span class="pre">Water</span></code> 面板选项。</p>
 <a class="reference internal image-reference" href="_images/water_material_setup.png"><img alt="_images/water_material_setup.png" class="align-center" src="_images/water_material_setup.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="basic-settings">
-<h3><a class="toc-backref" href="#id15">基本设置</a><a class="headerlink" href="#basic-settings" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id16">基本设置</a><a class="headerlink" href="#basic-settings" title="永久链接至标题">¶</a></h3>
 <dl class="docutils">
 <dt><em>透明</em></dt>
 <dd><p class="first last">推荐使用渐变透明度 （设置  <code class="docutils literal"><span class="pre">Transparency</span> <span class="pre">&gt;</span> <span class="pre">Type</span></code> 参数的 <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Blend</span></code> 值） 和调整的 <code class="docutils literal"><span class="pre">Alpha</span></code> 值。</p>
@@ -281,20 +281,20 @@
 </dl>
 </div>
 <div class="section" id="waves-dynamics">
-<h3><a class="toc-backref" href="#id16">波浪运动</a><a class="headerlink" href="#waves-dynamics" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id17">波浪运动</a><a class="headerlink" href="#waves-dynamics" title="永久链接至标题">¶</a></h3>
 <p>水上的波纹通过法线贴图的动画UV（从0到4个）模拟。对于法线贴图使用了唯一共享的图像 - 纹理只能由  <code class="docutils literal"><span class="pre">Mapping</span> <span class="pre">&gt;</span> <span class="pre">Size</span></code> 参数不同来调节。水网格必须有一个UV层。</p>
 </div>
 <div class="section" id="surface-wetting">
-<h3><a class="toc-backref" href="#id17">表面润湿</a><a class="headerlink" href="#surface-wetting" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id18">表面润湿</a><a class="headerlink" href="#surface-wetting" title="永久链接至标题">¶</a></h3>
 <p>是自动进行的。要激活效果打开 <code class="docutils literal"><span class="pre">Rendering</span> <span class="pre">Options</span></code> 面板 <code class="docutils literal"><span class="pre">Wettable</span></code> 选项上所需要的材质。</p>
 </div>
 <div class="section" id="reflection-and-fresnel-effect">
-<h3><a class="toc-backref" href="#id18">反射与菲涅尔效应</a><a class="headerlink" href="#reflection-and-fresnel-effect" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id19">反射与菲涅尔效应</a><a class="headerlink" href="#reflection-and-fresnel-effect" title="永久链接至标题">¶</a></h3>
 <p>水材质支持静态和动态的反射以及菲涅耳效应。请参阅：参考 <a class="reference internal" href="materials.html#material-mirror"><span>反射</span></a> 章节.</p>
 <a class="reference internal image-reference" href="_images/water_reflection_dynamic.png"><img alt="_images/water_reflection_dynamic.png" class="align-center" src="_images/water_reflection_dynamic.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="shoreline-smoothing">
-<h3><a class="toc-backref" href="#id19">平滑的海岸线</a><a class="headerlink" href="#shoreline-smoothing" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id20">平滑的海岸线</a><a class="headerlink" href="#shoreline-smoothing" title="永久链接至标题">¶</a></h3>
 <p>效果影响海岸线附近水 - 它变得更加透明。</p>
 <dl class="docutils">
 <dt><em>水&gt;海岸平滑</em></dt>
@@ -306,7 +306,7 @@
 </dl>
 </div>
 <div class="section" id="color-gradient">
-<h3><a class="toc-backref" href="#id20">颜色渐变</a><a class="headerlink" href="#color-gradient" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id21">颜色渐变</a><a class="headerlink" href="#color-gradient" title="永久链接至标题">¶</a></h3>
 <p>对于颜色渐变的水材质必须具有 <code class="docutils literal"><span class="pre">Export</span> <span class="pre">Options</span> <span class="pre">&gt;</span> <span class="pre">Shore</span> <span class="pre">Distance</span> <span class="pre">Map</span></code> 选项启用。 该纹理可以通过 <a class="reference internal" href="#shore-distance-bake"><span>烘焙海岸线参数</span></a> 用脚本生成.</p>
 <dl class="docutils">
 <dt><em>浅水&gt;颜色</em></dt>
@@ -324,12 +324,12 @@
 </dl>
 </div>
 <div class="section" id="refraction">
-<h3><a class="toc-backref" href="#id21">折射</a><a class="headerlink" href="#refraction" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id22">折射</a><a class="headerlink" href="#refraction" title="永久链接至标题">¶</a></h3>
 <p>在 <code class="docutils literal"><span class="pre">Reflections</span> <span class="pre">and</span> <span class="pre">Refractions</span></code> 面板 <code class="docutils literal"><span class="pre">Render</span></code> 选项卡中设置 <code class="docutils literal"><span class="pre">Refractions</span></code> 选项 <code class="docutils literal"><span class="pre">ON</span></code> 或 <code class="docutils literal"><span class="pre">AUTO</span></code>。</p>
 <a class="reference internal image-reference" href="_images/water_refraction.png"><img alt="_images/water_refraction.png" class="align-center" src="_images/water_refraction.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="foam">
-<h3><a class="toc-backref" href="#id22">泡沫</a><a class="headerlink" href="#foam" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id23">泡沫</a><a class="headerlink" href="#foam" title="永久链接至标题">¶</a></h3>
 <div class="section" id="id2">
 <h4>激活<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h4>
 <p>要生成泡沫就要在水材质槽中加入一个漫射纹理。这个图像中的每个RGB通道必须包含有BW的泡沫纹理。然后在 <code class="docutils literal"><span class="pre">Water</span> <span class="pre">Foam</span></code> 面板启用。</p>
@@ -356,7 +356,7 @@
 </div>
 </div>
 <div class="section" id="caustics-and-chromatic-aberration">
-<h3><a class="toc-backref" href="#id23">焦散和色差</a><a class="headerlink" href="#caustics-and-chromatic-aberration" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id24">焦散和色差</a><a class="headerlink" href="#caustics-and-chromatic-aberration" title="永久链接至标题">¶</a></h3>
 <p>要建立焦散效果开启水材质的 <code class="docutils literal"><span class="pre">Caustics</span></code> 选项。另外，必须有至少一个 <code class="docutils literal"><span class="pre">Sun</span></code> 在场景中。</p>
 <a class="reference internal image-reference" href="_images/water_caustics.png"><img alt="_images/water_caustics.png" class="align-center" src="_images/water_caustics.png" style="width: 100%;" /></a>
 <dl class="docutils">
@@ -369,7 +369,7 @@
 </dl>
 </div>
 <div class="section" id="underwater-environment">
-<h3><a class="toc-backref" href="#id24">水下环境</a><a class="headerlink" href="#underwater-environment" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id25">水下环境</a><a class="headerlink" href="#underwater-environment" title="永久链接至标题">¶</a></h3>
 <a class="reference internal image-reference" href="_images/underwater.png"><img alt="_images/underwater.png" class="align-center" src="_images/underwater.png" style="width: 100%;" /></a>
 <div class="section" id="visibility-settings-fog">
 <h4>可见性设置（“雾”）<a class="headerlink" href="#visibility-settings-fog" title="永久链接至标题">¶</a></h4>
@@ -390,7 +390,7 @@
 </div>
 </div>
 <div class="section" id="volumetric-waves">
-<span id="water-volumetric-waves"></span><h3><a class="toc-backref" href="#id25">体积波</a><a class="headerlink" href="#volumetric-waves" title="永久链接至标题">¶</a></h3>
+<span id="water-volumetric-waves"></span><h3><a class="toc-backref" href="#id26">体积波</a><a class="headerlink" href="#volumetric-waves" title="永久链接至标题">¶</a></h3>
 <div class="section" id="id3">
 <h4>激活<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h4>
 <p>为了使用程序浪 <code class="docutils literal"><span class="pre">Waves</span></code> 选项必须打开。</p>
@@ -447,7 +447,7 @@
 </div>
 </div>
 <div class="section" id="settings-for-surface-generation">
-<h3><a class="toc-backref" href="#id26">地表生成设置</a><a class="headerlink" href="#settings-for-surface-generation" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id27">地表生成设置</a><a class="headerlink" href="#settings-for-surface-generation" title="永久链接至标题">¶</a></h3>
 <dl class="docutils">
 <dt><em>生成网格</em></dt>
 <dd><p class="first last">这使得产生的表面。</p>
@@ -471,9 +471,9 @@
 </div>
 </div>
 <div class="section" id="atmosphere">
-<span id="id4"></span><h2><a class="toc-backref" href="#id27">大气</a><a class="headerlink" href="#atmosphere" title="永久链接至标题">¶</a></h2>
+<span id="id4"></span><h2><a class="toc-backref" href="#id28">大气</a><a class="headerlink" href="#atmosphere" title="永久链接至标题">¶</a></h2>
 <div class="section" id="scattering">
-<h3><a class="toc-backref" href="#id28">散射</a><a class="headerlink" href="#scattering" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id29">散射</a><a class="headerlink" href="#scattering" title="永久链接至标题">¶</a></h3>
 <p>启用 <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">Sky</span></code>, 然后激活世界标签下  <code class="docutils literal"><span class="pre">Procedural</span> <span class="pre">Sky</span></code> 面板。请注意，如果一 <a class="reference internal" href="textures.html#skydome-texture"><span>静态天穹材质</span></a> 同时正在被使用，它将被替换。</p>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
@@ -518,37 +518,37 @@
 </dl>
 </div>
 <div class="section" id="fog">
-<span id="id5"></span><h3><a class="toc-backref" href="#id29">雾</a><a class="headerlink" href="#fog" title="永久链接至标题">¶</a></h3>
+<span id="id5"></span><h3><a class="toc-backref" href="#id30">雾</a><a class="headerlink" href="#fog" title="永久链接至标题">¶</a></h3>
 <p>该引擎支持位于 <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Mist</span></code> 面板上的标准参数。除此之外，可能覆盖雾的颜色。</p>
 <p>雾设置在 <a class="reference internal" href="scene_settings.html#world-mist"><span>场景设置</span></a> 章节中描述。</p>
 <p>当使用动态天穹，雾的颜色是由天空的颜色定义。</p>
 </div>
 <div class="section" id="time-of-day">
-<h3><a class="toc-backref" href="#id30">当日时间</a><a class="headerlink" href="#time-of-day" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id31">当日时间</a><a class="headerlink" href="#time-of-day" title="永久链接至标题">¶</a></h3>
 <p>启用灯的  <code class="docutils literal"><span class="pre">Dynamic</span> <span class="pre">Intensity</span></code> 选项。</p>
 <p>一天中的时间可以在应用程序通过API进行设置。一天中的时间可以用 <a class="reference internal" href="viewer.html#viewer"><span>场景查看器</span></a> 的 <code class="docutils literal"><span class="pre">Lighting</span></code> 界面来设置。</p>
 <a class="reference internal image-reference" href="_images/sunset.png"><img alt="_images/sunset.png" class="align-center" src="_images/sunset.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="stars">
-<h3><a class="toc-backref" href="#id31">星星</a><a class="headerlink" href="#stars" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id32">星星</a><a class="headerlink" href="#stars" title="永久链接至标题">¶</a></h3>
 <p>星的设置描述在 <a class="reference internal" href="materials.html#material-halo"><span>光晕材质</span></a></p>
 <a class="reference internal image-reference" href="_images/stars.png"><img alt="_images/stars.png" class="align-center" src="_images/stars.png" style="width: 100%;" /></a>
 </div>
 </div>
 <div class="section" id="lens-flare">
-<span id="id6"></span><h2><a class="toc-backref" href="#id32">镜头光晕</a><a class="headerlink" href="#lens-flare" title="永久链接至标题">¶</a></h2>
+<span id="id6"></span><h2><a class="toc-backref" href="#id33">镜头光晕</a><a class="headerlink" href="#lens-flare" title="永久链接至标题">¶</a></h2>
 <a class="reference internal image-reference" href="_images/outdoor_rendering_lens_flare_example.png"><img alt="_images/outdoor_rendering_lens_flare_example.png" class="align-center" src="_images/outdoor_rendering_lens_flare_example.png" style="width: 100%;" /></a>
 <p>此功能可以通过 <code class="docutils literal"><span class="pre">Lens</span> <span class="pre">Flare</span></code> 位于 <code class="docutils literal"><span class="pre">Material</span></code> 面板的 <code class="docutils literal"><span class="pre">渲染Options</span></code> 复选框启用。</p>
 <a class="reference internal image-reference" href="_images/outdoor_rendering_lens_flare.png"><img alt="_images/outdoor_rendering_lens_flare.png" class="align-center" src="_images/outdoor_rendering_lens_flare.png" style="width: 100%;" /></a>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
-<p class="last">只有场景中存在 <code class="docutils literal"><span class="pre">Sun</span></code> 型光源才会有效果。</p>
+<p class="last">This effect is strongly recommended to use with a single <code class="docutils literal"><span class="pre">Sun</span></code> type light source present in the scene.</p>
 </div>
 <div class="section" id="lens-flare-settings">
-<h3><a class="toc-backref" href="#id33">镜头光晕设置</a><a class="headerlink" href="#lens-flare-settings" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id34">镜头光晕设置</a><a class="headerlink" href="#lens-flare-settings" title="永久链接至标题">¶</a></h3>
 </div>
 <div class="section" id="lens-flare-object">
-<h3><a class="toc-backref" href="#id34">镜头光晕物体</a><a class="headerlink" href="#lens-flare-object" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id35">镜头光晕物体</a><a class="headerlink" href="#lens-flare-object" title="永久链接至标题">¶</a></h3>
 <a class="reference internal image-reference" href="_images/outdoor_rendering_lens_flare_object.png"><img alt="_images/outdoor_rendering_lens_flare_object.png" class="align-center" src="_images/outdoor_rendering_lens_flare_object.png" style="width: 100%;" /></a>
 <p>镜头眩光物体是用于实际渲染的效果。从本质上说，这样的一个物体由几个平面与每个平面包含一个耀斑元素。每一平面的法线矢量应指向 “-Y” 方向。每一个元素都可以在屏幕上滑动和对相机的旋转，唯一的例外是中央平面（明亮的白色的 “星” 在上面的图片）。这个平面作为镜头眩光物体的中心，应该有一个 <em>本地</em> 的 <code class="docutils literal"><span class="pre">Y</span></code> 坐标设置为1。</p>
 <p>在渲染过程中，物体本身的位置和空间方向没有考虑。</p>
@@ -561,14 +561,16 @@
 </div>
 <div class="section" id="texture-settings">
 <h4>纹理设置<a class="headerlink" href="#texture-settings" title="永久链接至标题">¶</a></h4>
-<a class="reference internal image-reference" href="_images/outdoor_rendering_lens_texture.png"><img alt="_images/outdoor_rendering_lens_texture.png" class="align-center" src="_images/outdoor_rendering_lens_texture.png" style="width: 100%;" /></a>
-<p>用来产生镜头光斑效果的纹理的例子。</p>
+<div class="figure align-center" id="id12">
+<a class="reference internal image-reference" href="_images/outdoor_rendering_lens_texture.png"><img alt="_images/outdoor_rendering_lens_texture.png" src="_images/outdoor_rendering_lens_texture.png" style="width: 100%;" /></a>
+<p class="caption"><span class="caption-text">用来产生镜头光斑效果的纹理的例子。</span></p>
+</div>
 <p>用于镜头眩光物体纹理应包含在实际的应用程序的用于形成光斑的形状所有元素。纹理图像应该使用 <code class="docutils literal"><span class="pre">Alpha</span></code> 通道对 <code class="docutils literal"><span class="pre">Color</span></code> 和 <code class="docutils literal"><span class="pre">Alpha</span></code> 值都有影响。</p>
 </div>
 </div>
 </div>
 <div class="section" id="wind">
-<span id="id7"></span><h2><a class="toc-backref" href="#id35">风</a><a class="headerlink" href="#wind" title="永久链接至标题">¶</a></h2>
+<span id="id7"></span><h2><a class="toc-backref" href="#id36">风</a><a class="headerlink" href="#wind" title="永久链接至标题">¶</a></h2>
 <dl class="docutils">
 <dt>风的强度和方向的影响：</dt>
 <dd><ul class="first last simple">
@@ -582,11 +584,11 @@
 </dd>
 </dl>
 <div class="section" id="id8">
-<h3><a class="toc-backref" href="#id36">激活</a><a class="headerlink" href="#id8" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id37">激活</a><a class="headerlink" href="#id8" title="永久链接至标题">¶</a></h3>
 <p>添加 <code class="docutils literal"><span class="pre">Wind</span></code> 类型的力场物体。</p>
 </div>
 <div class="section" id="id9">
-<h3><a class="toc-backref" href="#id37">设置</a><a class="headerlink" href="#id9" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id38">设置</a><a class="headerlink" href="#id9" title="永久链接至标题">¶</a></h3>
 <dl class="docutils">
 <dt><em>方向</em></dt>
 <dd><p class="first last">方向可以通过旋转力场物体进行设定。</p>
@@ -597,7 +599,7 @@
 </dl>
 </div>
 <div class="section" id="animation-of-grass-and-tree-leaves">
-<span id="wind-bending"></span><h3><a class="toc-backref" href="#id38">草和树叶的动画</a><a class="headerlink" href="#animation-of-grass-and-tree-leaves" title="永久链接至标题">¶</a></h3>
+<span id="wind-bending"></span><h3><a class="toc-backref" href="#id39">草和树叶的动画</a><a class="headerlink" href="#animation-of-grass-and-tree-leaves" title="永久链接至标题">¶</a></h3>
 <p><a class="reference internal" href="particles_instancing.html#particles-grass"><span>草地</span></a> 章节讲述了草渲染创作需要的资源。</p>
 <div class="section" id="id10">
 <h4>激活<a class="headerlink" href="#id10" title="永久链接至标题">¶</a></h4>
@@ -666,7 +668,7 @@
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2017, Triumph.
-      最后更新于 2017-08-31.
+      最后更新于 2017-10-31.
 
     </p>
   </div>
@@ -722,7 +724,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.08',
+            VERSION:'v17.10',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

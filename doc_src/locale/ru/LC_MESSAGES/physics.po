@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2017-04-20 16:04+0300\n"
+"POT-Creation-Date: 2017-09-12 15:46+0300\n"
 "PO-Revision-Date: 2015-08-28 10:55+0300\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Russian <info [at] blend4web.com>\n"
@@ -16,19 +16,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.3.4\n"
 
-#: ../physics.rst:5
 msgid "Physics"
 msgstr "Физика"
 
-#: ../physics.rst
 msgid "Table of Contents"
 msgstr "Содержание"
 
-#: ../physics.rst:12
 msgid "Preparing for Use"
 msgstr "Подготовка к использованию"
 
-#: ../physics.rst:14
 msgid ""
 "In order to enable physics on the scene, please use the ``Enable "
 "Physics`` checkbox in the ``Physics`` panel under the scene tab in "
@@ -37,11 +33,9 @@ msgstr ""
 "Для задействования физики на сцене необходимо установить флаг ``Enable "
 "Physics`` в панели ``Physics`` на сцене."
 
-#: ../physics.rst:25
 msgid "Static Physics Type"
 msgstr "Статический тип физики"
 
-#: ../physics.rst:27
 msgid ""
 "Can be used to limit the movement of other objects, for example to detect"
 " collisions with a landscape, walls and so on. In the physics settings of"
@@ -53,7 +47,6 @@ msgstr ""
 "физики такого объекта для опции ``Physics Type`` должно быть выбрано "
 "значение ``Static`` (значение по умолчанию)."
 
-#: ../physics.rst:35
 msgid ""
 "One or multiple physics materials can be assigned to a mesh. Under the "
 "``Material`` tab the ``Special: Collision`` panel must be activated."
@@ -62,7 +55,6 @@ msgstr ""
 "вкладке ``Material`` должна быть активирована панель ``Special: "
 "Collision``."
 
-#: ../physics.rst:43
 msgid ""
 "The ``Ghost`` option excludes the material from physical interactions but"
 " still notifies the application about the contact with it. An example - "
@@ -72,7 +64,6 @@ msgstr ""
 "сообщает приложению о контакте с ним. Пример - определение, что игровой "
 "персонаж находится на вертикальной лестнице."
 
-#: ../physics.rst:51
 msgid ""
 "The ``Collision ID`` field is intended for detecting collisions with "
 "specific materials and can be left empty. An example of ``Collision ID`` "
@@ -85,7 +76,6 @@ msgstr ""
 "персонажа на разных типах покрытия ландшафта - трава, песок, деревянное "
 "покрытие и т.д."
 
-#: ../physics.rst:53
 msgid ""
 "The ``Margin`` field allows to customize the width of the zone where mesh"
 " reacts on collisions. This option improves physical collisions "
@@ -95,7 +85,6 @@ msgstr ""
 "соударения с сеткой данного объекта. Данная настройка позволяет улучшить "
 "стабильность симуляций столкновений объектов."
 
-#: ../physics.rst:55
 msgid ""
 "Also, there are material physics settings in this panel. The following "
 "settings are supported: ``Friction``, ``Elasticity``."
@@ -104,7 +93,6 @@ msgstr ""
 "Поддерживаются следующие настройки: трение (``Friction``), упругость "
 "(``Elasticity``)."
 
-#: ../physics.rst:57
 msgid ""
 "The ``Collision Group`` field corresponds to the physics group which the "
 "material belongs to. The ``Collision Mask`` field defines all physics "
@@ -114,15 +102,12 @@ msgstr ""
 "относится материал. Поле ``Collision Mask`` определяет все физические "
 "группы, с которыми будет взаимодействовать данный материал."
 
-#: ../physics.rst:62
 msgid "Dynamic Physics Type"
 msgstr "Динамический тип физики"
 
-#: ../physics.rst:64
 msgid "Intended for rigid body movement simulation."
 msgstr "Предназначен для симуляции движения жесткого тела."
 
-#: ../physics.rst:72
 msgid ""
 "The ``Object Physics`` checkbox must be enabled under the object's "
 "``Physics`` panel. The ``Collision ID`` field is intended for detecting "
@@ -135,7 +120,6 @@ msgstr ""
 "прикрепленный к камере объект для определения близости FPS персонажа к "
 "предметам), и может быть оставлено пустым."
 
-#: ../physics.rst:74
 msgid ""
 "In the physics settings of such an object the ``Rigid Body`` (with "
 "rotations) or ``Dynamic`` (without rotations) values can be selected for "
@@ -152,7 +136,6 @@ msgstr ""
 "массy (``Mass``), демпфирование (``Damping``) - для перемещения "
 "(``Translation``) и вращения (``Rotation``)."
 
-#: ../physics.rst:76
 msgid ""
 "The ``Collision Group`` field corresponds to the physics group which the "
 "object belongs to."
@@ -160,7 +143,6 @@ msgstr ""
 "Поле ``Collision Group`` отвечает за физическую группу, к которой "
 "относится объект."
 
-#: ../physics.rst:78
 msgid ""
 "The ``Collision Mask`` field defines all physics groups with which this "
 "object will interact."
@@ -168,7 +150,6 @@ msgstr ""
 "Поле ``Collision Mask`` определяет все физические группы, с которыми "
 "будет взаимодействовать данный объект."
 
-#: ../physics.rst:86
 msgid ""
 "``Friction`` and ``Elasticity`` are supported for the material of such an"
 " object. When multiple materials are used on a single mesh, the physics "
@@ -178,7 +159,6 @@ msgstr ""
 "упругость (``Elasticity``). В случае использования на одном меше "
 "нескольких материалов физические настройки считываются с первого из них."
 
-#: ../physics.rst:88
 msgid ""
 "For the camera object the ``Physics Type`` = ``Dynamic`` parameter must "
 "be used, and the ``Object Physics`` checkbox must be enabled."
@@ -186,11 +166,9 @@ msgstr ""
 "Для объекта-камеры должна использоваться настройка ``Physics Type`` = "
 "``Dynamic``, должен быть установлен флаг ``Object Physics``."
 
-#: ../physics.rst:93
 msgid "Constraints"
 msgstr "Ограничители (Constraints)"
 
-#: ../physics.rst:95
 msgid ""
 "Physical constraints are used for limiting the objects' degrees of "
 "freedom."
@@ -198,7 +176,6 @@ msgstr ""
 "Физические ограничители используются для уменьшения числа степеней "
 "свободы объектов."
 
-#: ../physics.rst:103
 msgid ""
 "Adding a physical constraint (``Rigid Body Joint``) to the object can be "
 "performed on the ``Object Constraints`` panel. The supported types "
@@ -217,11 +194,9 @@ msgstr ""
 "типом физики. В ограничителях (кроме ``Ball``) могут настраиваться "
 "пределы перемещения и вращения."
 
-#: ../physics.rst:114
 msgid "Wheeled Vehicles"
 msgstr "Колесные транспортные средства"
 
-#: ../physics.rst:116
 msgid ""
 "The model of a vehicle must consist of 6 separate objects - a chassis, 4 "
 "wheels and a steering wheel. The chassis' mesh center should correspond "
@@ -237,7 +212,6 @@ msgstr ""
 "в локальной системе координат: X - ось вращения, Y - вправо, Z - вверх. "
 "Объекты могут иметь любые названия."
 
-#: ../physics.rst:124
 msgid ""
 "For all 6 objects: select the ``Part``, specify the same id in the "
 "``Vehicle Name`` field, select the right object type - ``Chassis``, "
@@ -250,7 +224,6 @@ msgstr ""
 "Для колес имеется также настройка компенсирующего хода подвески "
 "``Suspension Rest Length``."
 
-#: ../physics.rst:126
 msgid ""
 "It is necessary to specify a realistic mass for the chassis (because the "
 "default value is only 1 kg). To do this go to the physics settings, "
@@ -262,55 +235,42 @@ msgstr ""
 "``Physics Type`` выбрать значение ``Rigid Body``, и выставить нужное "
 "значение (например, 1000 кг) в поле ``Mass``."
 
-#: ../physics.rst:129
 msgid "Chassis Settings"
 msgstr "Параметры настройки для шасси"
 
-#: ../physics.rst:132 ../physics.rst:207
 msgid "*Force Max*"
 msgstr "*Force Max*"
 
-#: ../physics.rst:132 ../physics.rst:207
 msgid "Maximum driving force of the vehicle."
 msgstr "Максимальная движущая сила транспортного средства."
 
-#: ../physics.rst:135 ../physics.rst:210
 msgid "*Brake Max*"
 msgstr "*Brake Max*"
 
-#: ../physics.rst:135 ../physics.rst:210
 msgid "Maximum braking coefficient."
 msgstr "Максимальный коэффициент торможения."
 
-#: ../physics.rst:138
 msgid "*Suspension Compression*"
 msgstr "*Suspension Compression*"
 
-#: ../physics.rst:138
 msgid "Damping coefficient for suspension stretching."
 msgstr "Коэффициент демпфирования при растяжении подвески."
 
-#: ../physics.rst:141
 msgid "*Suspension Stiffness*"
 msgstr "*Suspension Stiffness*"
 
-#: ../physics.rst:141
 msgid "Suspension stiffness coefficient."
 msgstr "Коэффициент жесткости подвески."
 
-#: ../physics.rst:144
 msgid "*Suspension Damping*"
 msgstr "*Suspension Damping*"
 
-#: ../physics.rst:144
 msgid "Suspension damping coefficient."
 msgstr "Коэффициент амортизации подвески."
 
-#: ../physics.rst:147
 msgid "*Wheel Friction*"
 msgstr "*Wheel Friction*"
 
-#: ../physics.rst:147
 msgid ""
 "Friction constant between the wheels and the surface. It should be around"
 " 0.8 for realistic vehicles. But it can be increased significantly to "
@@ -320,11 +280,9 @@ msgstr ""
 " районе 0.8. Но может быть значительно увеличен, для улучшения "
 "управляемости (1000 и более)"
 
-#: ../physics.rst:150
 msgid "*Roll Influence*"
 msgstr "*Roll Influence*"
 
-#: ../physics.rst:150
 msgid ""
 "Decreases the wheels' torque decreasing the probability of the vehicle "
 "overturning (0 - no torque, 1 - real physics behavior)."
@@ -333,15 +291,12 @@ msgstr ""
 "транспортного средства (0 - нет вращающего момента, 1 - реальное "
 "физическое поведение)."
 
-#: ../physics.rst:153
 msgid "*Max Suspension Travel Cm*"
 msgstr "*Max Suspension Travel Cm*"
 
-#: ../physics.rst:153
 msgid "Maximum suspension travel in centimeters."
 msgstr "Максимальный ход подвески в сантиметрах."
 
-#: ../physics.rst:155
 msgid ""
 "For the ``Steering Wheel`` it is necessary to specify the maximum "
 "steering angle (``Steering Max``) and the ratio between the turn of the "
@@ -360,7 +315,6 @@ msgstr ""
 "равным 10, максимальный поворот руля получится равным 360 градусам, а "
 "максимальный поворот передних колес 36 градусов."
 
-#: ../physics.rst:157
 msgid ""
 "On this stage you can export and load the scene into the engine. We "
 "recommend to create a road surface with a physics material. To choose the"
@@ -372,7 +326,6 @@ msgstr ""
 "просмотрщике нажать клавишу ``Q`` для выбора контролируемого объекта, и "
 "выбрать шасси. Использовать ``W``, ``A``, ``S``, ``D`` для управления."
 
-#: ../physics.rst:159
 msgid ""
 "We can additionally tweak the ``Damping`` of ``Translation`` and "
 "``Rotation``. This will influence the speed and inertia of the vehicle."
@@ -381,7 +334,6 @@ msgstr ""
 "(``Translation``) и вращения (``Rotation``). Свойство влияет на скорость "
 "перемещения и инерционность ТС."
 
-#: ../physics.rst:161
 msgid ""
 "The friction and elasticity of the road surface material do not influence"
 " the vehicle's behavior."
@@ -389,11 +341,9 @@ msgstr ""
 "Настройка трения и эластичности физического материала дорожного покрытия "
 "не влияют на поведение ТС."
 
-#: ../physics.rst:166
 msgid "Floating Objects"
 msgstr "Плавающие объекты"
 
-#: ../physics.rst:174
 msgid ""
 "In order for the object to float on the water surface (an object with the"
 " ``Water`` material), it is necessary to enable the ``Floater`` panel. "
@@ -411,7 +361,6 @@ msgstr ""
 "``Bob``. В качестве поплавков могут использоваться как меши, так и "
 "объекты типа ``Empty``."
 
-#: ../physics.rst:176
 msgid ""
 "All objects that are part of the same floating object must have the same "
 "name in the ``Floater Name`` field."
@@ -419,23 +368,18 @@ msgstr ""
 "Всем объектам, входящим в состав одного плавающего объекта необходимо "
 "выставить одинаковое имя в поле ``Floater Name``"
 
-#: ../physics.rst:179
 msgid "Floating Object Settings"
 msgstr "Параметры настройки плавающего объекта"
 
-#: ../physics.rst:182 ../physics.rst:213
 msgid "*Floating Factor*"
 msgstr "*Floating Factor*"
 
-#: ../physics.rst:182 ../physics.rst:213
 msgid "Buoyancy coefficient."
 msgstr "Коэффициент выталкивания объекта из воды."
 
-#: ../physics.rst:185 ../physics.rst:216
 msgid "*Water Linear Damping*"
 msgstr "*Water Linear Damping*"
 
-#: ../physics.rst:185 ../physics.rst:216
 msgid ""
 "Linear velocity damping when the object is on the water surface (or under"
 " water). When the object is not in water, the physics settings are used."
@@ -444,11 +388,9 @@ msgstr ""
 "воды (или под водой). Когда объект находится вне воды, используется "
 "значение из настроек физики."
 
-#: ../physics.rst:188 ../physics.rst:219
 msgid "*Water Rotation Damping*"
 msgstr "*Water Rotation Damping*"
 
-#: ../physics.rst:188 ../physics.rst:219
 msgid ""
 "Rotation damping when the object is on the water surface (or under "
 "water). When the object is not in water, the physics settings are used."
@@ -457,11 +399,9 @@ msgstr ""
 "под водой). Когда объект находится вне воды, используется значение из "
 "настроек физики."
 
-#: ../physics.rst:193
 msgid "Floating Vehicles aka Watercrafts"
 msgstr "Плавающие транспортные средства"
 
-#: ../physics.rst:201
 msgid ""
 "Watercrafts use some parameters from the ``Vehicle`` settings and all the"
 " settings which are similar to ``Floater`` setting. It is necessary to "
@@ -474,15 +414,12 @@ msgstr ""
 " ``Hull``. Так же как и плавающий объект плавающее транспортное средство "
 "требует наличия вспомогательных объектов типа ``Bob``."
 
-#: ../physics.rst:204
 msgid "Watercraft Settings"
 msgstr "Параметры настройки плавающего транспортного средства"
 
-#: ../physics.rst:224
 msgid "Characters"
 msgstr "Персонажи"
 
-#: ../physics.rst:230
 msgid ""
 "This feature can be activated by clicking the ``Character`` check-box in "
 "the title of the eponymous tab on the ``Physics`` panel."
@@ -490,7 +427,6 @@ msgstr ""
 "Эта возможность включается с помощью флажка ``Character`` в заголовке "
 "одноимённой вкладки на панели ``Physics``."
 
-#: ../physics.rst:232
 msgid ""
 "From the engine standpoint, the character itself is a proper physical "
 "object that can collide with other physical objects or be influenced by "
@@ -501,7 +437,6 @@ msgstr ""
 "могут воздействовать физические силы, такие как гравитация и сила "
 "Архимеда."
 
-#: ../physics.rst:234
 msgid ""
 "Character object can be easily controlled using several API methods with "
 "a `character` keyword in their names. All such methods reside in the "
@@ -511,11 +446,9 @@ msgstr ""
 "содержащих слово `character` в названии. Эти методы находятся в модуле "
 "API :b4wmod:`physics`."
 
-#: ../physics.rst:237
 msgid "Character Settings"
 msgstr "Параметры настройки объекта-персонажа"
 
-#: ../physics.rst:243
 msgid ""
 "All the settings listed here become available after activating the "
 "``Character`` tab."
@@ -523,11 +456,9 @@ msgstr ""
 "Все настройки, перечисленные в этом разделе, становятся доступны при "
 "включении панели ``Character``"
 
-#: ../physics.rst:248
 msgid "*Walk Speed*"
 msgstr "*Walk Speed*"
 
-#: ../physics.rst:246
 msgid ""
 "This parameter sets the speed of a character walking (measured in meters "
 "per second). The lowest possible value of this parameter is zero, while "
@@ -536,15 +467,12 @@ msgstr ""
 "Задаёт скорость ходьбы персонажа (измеряется в метрах в секунду). "
 "Минимальное возможное значение параметра - 0, максимальное - 10."
 
-#: ../physics.rst:248
 msgid "Its default value is 4."
 msgstr "Значение по умолчанию - 4."
 
-#: ../physics.rst:253
 msgid "*Run Speed*"
 msgstr "*Run Speed*"
 
-#: ../physics.rst:251
 msgid ""
 "This is the speed of the character running (measured in meters per "
 "second). Its value can vary from zero to 20."
@@ -552,15 +480,12 @@ msgstr ""
 "Скорость бега персонажа (измеряется в метрах в секунду). Значение может "
 "изменяться от нуля до 20."
 
-#: ../physics.rst:253
 msgid "This parameter is set to 8 by default."
 msgstr "По умолчанию равна 8."
 
-#: ../physics.rst:258
 msgid "*Step Height*"
 msgstr "*Step Height*"
 
-#: ../physics.rst:256
 msgid ""
 "This is the maximum height of an obstacle that character can overstep (in"
 " meters). The value of this parameter can vary from zero to 1."
@@ -568,29 +493,23 @@ msgstr ""
 "Максимальная высота (в метрах) препятствия, которое может преодолеть "
 "персонаж. Значение этого параметра может изменяться от 0 до 1."
 
-#: ../physics.rst:258
 msgid "Default value of this parameter is 0.250."
 msgstr "Значение по умолчанию - 0.250."
 
-#: ../physics.rst:263
 msgid "*Jump Strength*"
 msgstr "*Jump Strength*"
 
-#: ../physics.rst:261
 msgid ""
 "This parameter sets the strength of the character jumping. Its minimum "
 "value is zero, while its maximum value is 50."
 msgstr "Сила прыжка персонажа. Минимальное значение - 0, максимальное - 50."
 
-#: ../physics.rst:263
 msgid "Set to 5 by default."
 msgstr "По умолчанию равна 5."
 
-#: ../physics.rst:268
 msgid "*Waterline*"
 msgstr "*Waterline*"
 
-#: ../physics.rst:266
 msgid ""
 "This parameter sets up the waterline for the character object. The "
 "waterline is measured from the center of the physical shape of the object"
@@ -602,15 +521,12 @@ msgstr ""
 "от центра меша). Если объект погружён в воду ниже ватерлинии, он будет "
 "плавать. Значение параметра может изменяться от -2 до 2."
 
-#: ../physics.rst:268
 msgid "It is set to zero by default."
 msgstr "Значение по умолчанию равно нулю."
 
-#: ../physics.rst:271
 msgid "Basic Character"
 msgstr "Базовый персонаж"
 
-#: ../physics.rst:273
 msgid ""
 "Blend4Web engine has an option to quickly set up a user-controlled first-"
 "person character. Such character will only have very basic functionality,"
@@ -621,15 +537,12 @@ msgstr ""
 "обладает только самыми основными функциями, но его создание не требует "
 "программирования."
 
-#: ../physics.rst:275
 msgid "To set up a basic character, follow these steps:"
 msgstr "Для создания базового персонажа следуйте инструкции:"
 
-#: ../physics.rst:277
 msgid "Select an object you intend to use as a character."
 msgstr "Выберите объект, который вы хотите использовать в качестве персонажа."
 
-#: ../physics.rst:278
 msgid ""
 "Enable physics for the selected object and set physics type to "
 "``Dynamic`` or ``Rigid Body``."
@@ -637,17 +550,14 @@ msgstr ""
 "Включите физику для выбранного объекта и установите тип физики на "
 "``Dynamic`` или ``Rigid Body``."
 
-#: ../physics.rst:279
 msgid "Enable Character option for the object."
 msgstr "Включите для объекта опцию Character."
 
-#: ../physics.rst:280
 msgid "Create a new Camera or select an existing one and set its type to ``Eye``."
 msgstr ""
 "Создайте новую камеру или выберите уже имеющуюся, и установите тип камеры"
 " ``Eye``."
 
-#: ../physics.rst:282
 msgid ""
 "Now a basic character with an attached camera will be present in your "
 "scene."
@@ -655,7 +565,6 @@ msgstr ""
 "Теперь в сцене будет присутствовать базовый персонаж с прикреплённой "
 "камерой."
 
-#: ../physics.rst:284
 msgid ""
 "The character can be controlled in mostly the same way as a regular "
 "``Eye`` type camera:"
@@ -663,11 +572,9 @@ msgstr ""
 "Такой персонаж управляется практически так же, как обычная камера типа "
 "``Eye``:"
 
-#: ../physics.rst:286
 msgid "WASD keys move the character."
 msgstr "Клавиши WASD перемещают персонажа."
 
-#: ../physics.rst:287
 msgid ""
 "Camera angles are controlled by arrow keys or moving the mouse while "
 "holding its left button."
@@ -675,13 +582,11 @@ msgstr ""
 "Направление взгляда управляется с помощью клавиш-стрелок или перемещения "
 "мыши с зажатой левой кнопкой."
 
-#: ../physics.rst:288
 msgid "Pressing the C key toggles fly mode (enabled by default)."
 msgstr ""
 "Нажатие клавиши C включает и выключает режим полёта (включён по "
 "умолчанию)."
 
-#: ../physics.rst:291
 msgid ""
 "Only one basic character can be present in the scene. If a scene has "
 "multiple characters, the engine will use the first of them as the basic "
@@ -691,11 +596,9 @@ msgstr ""
 "персонажей больше одного, движок будет использовать первого из них и "
 "игнорировать остальных."
 
-#: ../physics.rst:294
 msgid "Controlling Characters with API"
 msgstr "Управление персонажем с помощью API"
 
-#: ../physics.rst:296
 msgid ""
 "Basic character described above can only provide generic functionality. "
 "If you need more control over character behavior, you should use methods "
@@ -705,7 +608,6 @@ msgstr ""
 "вам требуется более тонкая настройка поведения персонажа, следует "
 "использовать методы модуля :b4wmod:`fps`."
 
-#: ../physics.rst:298
 msgid ""
 "The most important of them is the :b4wref:`fps.enable_fps_controls()` "
 "method which, as its name suggests, is used to initialize characters in "
@@ -715,7 +617,6 @@ msgstr ""
 "который, как понятно из его названия, используется для инициализации "
 "персонажей в сцене. Он может быть использован следующим образом:"
 
-#: ../physics.rst:306
 msgid ""
 "This method should be used at the start of the application (in the "
 "**load_cb** function) to enable character controls."
@@ -723,7 +624,6 @@ msgstr ""
 "Для включения управления персонажем этот метод следует вызывать при "
 "запуске приложения (из функции **load_cb**)."
 
-#: ../physics.rst:310
 msgid ""
 "This method may conflict with the :b4wref:`app.enable_camera_controls()` "
 "method which is used to enable basic character described in the previous "
@@ -734,11 +634,9 @@ msgstr ""
 "активации базового персонажа, описанного в предыдущем разделе. Эти два "
 "метода не следует использовать одновременно."
 
-#: ../physics.rst:312
 msgid "The method also has the following optional parameters:"
 msgstr "Опциональные параметры метода:"
 
-#: ../physics.rst:314
 msgid ""
 "``character`` sets the character object. The link to the character can be"
 " retrieved by calling the :b4wref:`scenes.get_first_character()` method. "
@@ -748,11 +646,9 @@ msgstr ""
 "при помощи метода :b4wref:`scenes.get_first_character()`. Следует "
 "использовать, если в сцене присутствует более одного персонажа."
 
-#: ../physics.rst:316
 msgid "``element`` specifies the HTML element to which the method adds listeners."
 msgstr "``element`` - определяет HTML-элемент, к которому метод добавляет сенсоры."
 
-#: ../physics.rst:318
 msgid ""
 "``motion_cb`` specifies the callback function that is called when "
 "character changes its direction."
@@ -760,11 +656,9 @@ msgstr ""
 "``motion_cb`` задаёт callback-функцию, которая вызывается, когда персонаж"
 " меняет направление движения."
 
-#: ../physics.rst:320
 msgid "``gamepad_id`` specifies the ID of the gamepad plugged to the system."
 msgstr "``gamepad_id`` - задаёт ID геймпада, подключённого к системе."
 
-#: ../physics.rst:322
 msgid ""
 "``forward_sens``, ``backward_sens``, ``right_sens``, ``left_sens``, "
 "``jump_sens``, ``fly_sens`` - these parameters are used to set arrays of "
@@ -776,7 +670,6 @@ msgstr ""
 "массивов типов сенсоров для различных действий персонажа (например, "
 "ходьбы в разных направлениях, прыжков и т.п.)."
 
-#: ../physics.rst:324
 msgid ""
 "``rotation_cb`` specifies the callback function that is called when a "
 "character or camera rotates."
@@ -784,7 +677,6 @@ msgstr ""
 "``rotation_cb`` задаёт callback-функцию, которая вызывается при повороте "
 "камеры."
 
-#: ../physics.rst:326
 msgid ""
 "``lock_camera`` - setting this parameter to ``true`` will parent the "
 "scene camera to the character."
@@ -792,7 +684,6 @@ msgstr ""
 "``lock_camera`` - если этот параметр имеет значение ``true``, камера "
 "будет прикреплена к персонажу."
 
-#: ../physics.rst:328
 msgid ""
 "Other important methods are :b4wref:`fps.set_cam_sensitivity()` and "
 ":b4wref:`fps.set_cam_smooth_factor()`. The first one of them sets the "
@@ -806,11 +697,9 @@ msgstr ""
 "определяет, насколько плавно камера движется (плавность движения "
 "изменяется от 0 до 1.0)."
 
-#: ../physics.rst:331
 msgid "Character States"
 msgstr "Состояния персонажей"
 
-#: ../physics.rst:333
 msgid ""
 "Character states are constant values that represent current behavior of "
 "the character (does it currently walk or fly or do anything else). Every "
@@ -821,31 +710,24 @@ msgstr ""
 "летит, или совершает какое-то другое действие). Каждый персонаж, "
 "присутствующий в сцене, всегда имеет одно и только одно состояние."
 
-#: ../physics.rst:335
 msgid "Available character states:"
 msgstr "Доступные состояния:"
 
-#: ../physics.rst:337
 msgid ":b4wref:`fps.CS_CLIMB` - a character is climbing."
 msgstr ":b4wref:`fps.CS_CLIMB` - персонаж лезет по лестнице."
 
-#: ../physics.rst:339
 msgid ":b4wref:`fps.CS_FLY` - a character is flying."
 msgstr ":b4wref:`fps.CS_FLY` - персонаж летит."
 
-#: ../physics.rst:341
 msgid ":b4wref:`fps.CS_RUN` - a character is running."
 msgstr ":b4wref:`fps.CS_RUN` - персонаж бежит."
 
-#: ../physics.rst:343
 msgid ":b4wref:`fps.CS_STAY` - a character does not move."
 msgstr ":b4wref:`fps.CS_STAY` - персонаж не двигается."
 
-#: ../physics.rst:345
 msgid ":b4wref:`fps.CS_WALK` - a character is walking."
 msgstr ":b4wref:`fps.CS_WALK` - персонаж идёт."
 
-#: ../physics.rst:347
 msgid ""
 "Current state of a specific character can be retrieved using the "
 ":b4wref:`fps.get_character_state()` method, while a specific state can be"
@@ -857,11 +739,9 @@ msgstr ""
 ":b4wref:`fps.switch_state()` персонажу может быть присвоено то или иное "
 "состояние. Пример ниже демонстрирует использование этих двух методов:"
 
-#: ../physics.rst:359
 msgid "Action Binding"
 msgstr "Привязка действий"
 
-#: ../physics.rst:361
 msgid ""
 "The :b4wmod:`fps` module also provides means for binding various actions "
 "to character events. The :b4wref:`fps.bind_action()` method is used for "
@@ -871,15 +751,12 @@ msgstr ""
 "действий к событиям персонажа. Для этого используется метод "
 ":b4wref:`fps.bind_action()`:"
 
-#: ../physics.rst:374
 msgid "This method features the following parameters:"
 msgstr "Метод обладает следующими параметрами:"
 
-#: ../physics.rst:376
 msgid "the first parameter is the type of action:"
 msgstr "первый параметр задаёт тип действия:"
 
-#: ../physics.rst:378
 msgid ""
 ":b4wref:`fps.AT_CONTINUOUS` - an input type that detects a continuous "
 "user action such as mouse movement, keyboard key held down, gamepad stick"
@@ -889,13 +766,11 @@ msgstr ""
 "например, перемещение мыши, продолжительное нажатие кнопки на клавиатуре,"
 " отклонение стика геймпада и т.п."
 
-#: ../physics.rst:380
 msgid ""
 ":b4wref:`fps.AT_PRESSED` - this input type detects a discrete user "
 "action, e.g. pressing a button."
 msgstr ":b4wref:`fps.AT_PRESSED` - однократное действие, например, нажатие кнопки."
 
-#: ../physics.rst:382
 msgid ""
 ":b4wref:`fps.AT_RELEASED` - an input type that detects button (mouse, "
 "gamepad or keyboard) being released."
@@ -903,13 +778,11 @@ msgstr ""
 ":b4wref:`fps.AT_RELEASED` - событие, возникающее, когда пользователь "
 "отпускает кнопку."
 
-#: ../physics.rst:384
 msgid ""
 "the second parameter defines an array of sensor types (such as keyboard "
 "keys, gamepad buttons or mouse actions)."
 msgstr "второй параметр - массив типов сенсоров (клавиши, кнопки геймпада и мыши)."
 
-#: ../physics.rst:385
 msgid ""
 "**action_cb** is a callback function that will be called each time user "
 "performs action defined by the first parameter."
@@ -917,11 +790,9 @@ msgstr ""
 "**action_cb** - callback-функция, которая вызывается каждый раз, когда "
 "пользователь совершает действие, определённое первым параметром. "
 
-#: ../physics.rst:389
 msgid "Navigation Meshes"
 msgstr "Навигационные меши"
 
-#: ../physics.rst:391
 msgid ""
 "Navigation meshes (commonly abbreviated *navmeshes*) are mesh objects "
 "that are used to make pathfinding simpler by eliminating the need for "
@@ -931,7 +802,6 @@ msgstr ""
 "упрощения построения траекторий, в частности, за счёт ликвидации "
 "дополнительных вычислений, таких как расчёт столкновений."
 
-#: ../physics.rst:397
 msgid ""
 "In this example (taken from Code Snippets), navigation mesh is used to "
 "build a path through the labyrinth."
@@ -939,11 +809,9 @@ msgstr ""
 "В этом примере (взятом из Code Snippets) навигационный меш используется "
 "для построения пути через лабиринт."
 
-#: ../physics.rst:400
 msgid "Creating Navigation Meshes"
 msgstr "Создание навигационных мешей"
 
-#: ../physics.rst:402
 msgid ""
 "To make a navmesh out of an object, turn on the ``Object Physics`` "
 "parameter on the ``Physics`` panel and select ``Navigation Mesh`` from "
@@ -953,7 +821,6 @@ msgstr ""
 "``Object Physics`` на панели ``Physics`` и выберите ``Navigation Mesh`` "
 "из списка ``Physics Type``."
 
-#: ../physics.rst:408
 msgid ""
 "Navigation meshes can either be created manually or generated "
 "automatically using a specific tool."
@@ -961,13 +828,11 @@ msgstr ""
 "Навигационные меши могут создаваться вручную или генерироваться с помощью"
 " специального инструмента."
 
-#: ../physics.rst:415
 msgid "This tool is native to Blender and not a part of the Blend4Web engine."
 msgstr ""
 "Этот инструмент изначально присутствует в Blender и не является частью "
 "движка Blend4Web."
 
-#: ../physics.rst:417
 msgid ""
 "This Navigation Mesh generation interface can be found on a dedicated "
 "panel under the ``Scene`` tab, but, as this feature is intended for real-"
@@ -981,7 +846,6 @@ msgstr ""
 "случае, если выбран тип движка ``Blend4Web`` или ``Blender Game`` (не "
 "Blender Internal, Cycles или любая другая система рендеринга)."
 
-#: ../physics.rst:419
 msgid ""
 "The main tool on this panel is the ``Build Navigation Mesh`` button. As "
 "the title suggests, it is used for building navigation meshes based on "
@@ -994,7 +858,6 @@ msgstr ""
 "создаётся как отдельный объект, располагающийся над оригинальным "
 "объектом, который никак не изменяется при генерации."
 
-#: ../physics.rst:421
 msgid ""
 "Aside from this button, the ``Navigation Mesh`` panel offers users "
 "several groups of parameters to fine-tune the navmesh that will be "
@@ -1003,15 +866,12 @@ msgstr ""
 "Помимо этой кнопки, на панели ``Navigation Mesh`` также находится "
 "несколько групп параметров для тонкой настройки создаваемых навмешей."
 
-#: ../physics.rst:423
 msgid "``Rasterization`` group of parameters:"
 msgstr "Группа параметров ``Rasterization``:"
 
-#: ../physics.rst:426
 msgid "*Cell Size*"
 msgstr "*Cell Size*"
 
-#: ../physics.rst:426
 msgid ""
 "Rasterized cell size. Greater values lead to bigger navmesh polygons. The"
 " highest possible value is 1.0. Default value is 0.3."
@@ -1020,11 +880,9 @@ msgstr ""
 "полигонов навмеша. Максимальное значение - 1.0. Значение по умолчанию - "
 "0.3."
 
-#: ../physics.rst:429
 msgid "*Cell Height*"
 msgstr "*Cell Height*"
 
-#: ../physics.rst:429
 msgid ""
 "Rasterized cell height (the distance between the navmesh and the object "
 "from which it was generated). Default value is 0.2."
@@ -1032,33 +890,26 @@ msgstr ""
 "Растеризованная высота клетки (расстояние между навмешем, и объектом, на "
 "котором он основан). Значение по умолчанию - 0.2."
 
-#: ../physics.rst:431
 msgid "``Agent`` group of parameters:"
 msgstr "Группа параметров ``Agent``:"
 
-#: ../physics.rst:434
 msgid "*Height*"
 msgstr "*Height*"
 
-#: ../physics.rst:434
 msgid "Minimum height where the agent can still walk. Default value is 2.0."
 msgstr ""
 "Минимальная высота, необходимая агенту для перемещения. Значение по "
 "умолчанию - 2.0."
 
-#: ../physics.rst:437
 msgid "*Radius*"
 msgstr "*Radius*"
 
-#: ../physics.rst:437
 msgid "The radius of the agent. Default value is 0.6."
 msgstr "Радиус агента. Значение по умолчанию - 0.6."
 
-#: ../physics.rst:440
 msgid "*Max Slope*"
 msgstr "*Max Slope*"
 
-#: ../physics.rst:440
 msgid ""
 "Maximum angle of a slope agent can walk on. Measured in degrees. Default "
 "value is 45."
@@ -1066,11 +917,9 @@ msgstr ""
 "Максимальный проходимый угол наклона. Измеряется в градусах, значение по "
 "умолчанию - 45."
 
-#: ../physics.rst:443
 msgid "*Max Climb*"
 msgstr "*Max Climb*"
 
-#: ../physics.rst:443
 msgid ""
 "The maximum height between grid cells the agent can climb. Default value "
 "is 0.9."
@@ -1078,15 +927,12 @@ msgstr ""
 "Максимальная высота между клетками сетки, на которую может взобраться "
 "агент. Значение по умолчанию - 0.9."
 
-#: ../physics.rst:445
 msgid "``Region`` group of parameters:"
 msgstr "Группа параметров ``Region``:"
 
-#: ../physics.rst:448
 msgid "*Min Region Size*"
 msgstr "*Min Region Size*"
 
-#: ../physics.rst:448
 msgid ""
 "The minimum size of a region (smaller regions will be deleted). Default "
 "value is 8.0."
@@ -1094,11 +940,9 @@ msgstr ""
 "Минимальный размер региона (регионы меньшего размера удаляются). Значение"
 " по умолчанию - 8.0."
 
-#: ../physics.rst:451
 msgid "*Merged Region Size*"
 msgstr "*Merged Region Size*"
 
-#: ../physics.rst:451
 msgid ""
 "The minimum size of a region (smaller regions will be merged). Default "
 "value is 20.0."
@@ -1106,15 +950,12 @@ msgstr ""
 "Минимальный размер региона для объединения (регионы меньшего размера "
 "объединяются). Значение по умолчанию - 20.0."
 
-#: ../physics.rst:460
 msgid "*Partitioning*"
 msgstr "*Partitioning*"
 
-#: ../physics.rst:454
 msgid "The method used to partition the navigation mesh. Supported methods are:"
 msgstr "Метод разбиения навигационного меша. Поддерживаемые методы:"
 
-#: ../physics.rst:456
 msgid ""
 "``Monotone`` is the fastest method. Using it may generate long thin "
 "polygons."
@@ -1122,7 +963,6 @@ msgstr ""
 "``Monotone`` — наиболее быстрый метод. Может генерировать длинные узкие "
 "полигоны."
 
-#: ../physics.rst:458
 msgid ""
 "``Layers`` — a slower, but still reasonably fast method that produces "
 "better triangulations than Monotone partitioning."
@@ -1130,7 +970,6 @@ msgstr ""
 "``Layers`` — более сложный, но достаточно быстрый метод, генерирующий "
 "более оптимальные сетки треугольников, чем метод Monotone."
 
-#: ../physics.rst:460
 msgid ""
 "``Watershed`` — classic Recast partitioning method that generates the "
 "nicest tessellation. This option is selected by default."
@@ -1138,65 +977,51 @@ msgstr ""
 "``Watershed`` — классический Recast-алгоритм, создающий наилучшие "
 "разбиения. Этот вариант выбран по умолчанию."
 
-#: ../physics.rst:462
 msgid "``Polygonization`` group of parameters:"
 msgstr "Группа параметров ``Polygonization``:"
 
-#: ../physics.rst:465
 msgid "*Max Edge Length*"
 msgstr "*Max Edge Length*"
 
-#: ../physics.rst:465
 msgid "The maximum length of a contour edge. Default value is 12.0."
 msgstr "Максимальная длинна ребра контура. Значение по умолчанию - 12.0."
 
-#: ../physics.rst:468
 msgid "*Max Edge Error*"
 msgstr "*Max Edge Error*"
 
-#: ../physics.rst:468
 msgid ""
 "The maximum error of the distance from the contour to the cells. Default "
 "value is 1.3."
 msgstr "Максимальное отклонение от контуров клеток. Значение по умолчанию - 1.3."
 
-#: ../physics.rst:471
 msgid "*Verts Per Poly*"
 msgstr "*Verts Per Poly*"
 
-#: ../physics.rst:471
 msgid "The maximum number of vertices per polygon. Default value is 6."
 msgstr "Максимальное количество вершин на полигон. Значение по умолчанию - 6."
 
-#: ../physics.rst:473
 msgid "``Detail Mesh`` group of parameters:"
 msgstr "Группа параметров ``Detail Mesh``:"
 
-#: ../physics.rst:476
 msgid "*Sample Distance*"
 msgstr "*Sample Distance*"
 
-#: ../physics.rst:476
 msgid "Detail mesh sample spacing. Default value is 6.0."
 msgstr ""
 "Интервал сэмплирования детализированной полисетки. Значение по умолчанию "
 "- 6.0."
 
-#: ../physics.rst:479
 msgid "*Max Sample Error*"
 msgstr "*Max Sample Error*"
 
-#: ../physics.rst:479
 msgid "Maximum error of the mesh simplification. Default value is 1.00."
 msgstr ""
 "Максимальное отклонение сэмплирования при упрощении детализированной "
 "полисетки. Значение по умолчанию - 1.0."
 
-#: ../physics.rst:482
 msgid "Using Navigation Meshes"
 msgstr "Использование навигационных мешей"
 
-#: ../physics.rst:484
 msgid ""
 "After a navmesh is created, it then can be used in the application for "
 "calculating trajectories between two points. This can be done using two "
@@ -1215,7 +1040,6 @@ msgstr ""
 "навмеша), а второй — для получения самой траектории (в виде массива "
 "координат)."
 
-#: ../physics.rst:486
 msgid ""
 "An example of using navigation meshes for pathfinding can be viewed in "
 "the :ref:`Code Snippets <code_snippets>` (the corresponding snippet is "
@@ -1225,11 +1049,9 @@ msgstr ""
 "можно ознакомиться в приложении :ref:`Code Snippets<code_snippets>` "
 "(образец ``Pathfinding``)."
 
-#: ../physics.rst:491
 msgid "Use in Applications"
 msgstr "Особенности использования в приложениях"
 
-#: ../physics.rst:493
 msgid ""
 "The physics system is implemented in the **uranium.js** module and loaded"
 " separately from the engine's main code. The **uranium.js** module itself"
@@ -1247,7 +1069,6 @@ msgstr ""
 "файлы **uranium.js** и **uranium.js.mem** в той же директории, где "
 "расположен исходный код движка, используемого в приложении."
 
-#: ../physics.rst:495
 msgid ""
 "Another way is to explicitly specify the loading path of the "
 "**uranium.js** module by using the following API method:"
@@ -1255,7 +1076,6 @@ msgstr ""
 "В противном случае необходимо указать путь к модулю, используя "
 "конструкцию вида:"
 
-#: ../physics.rst:503
 msgid ""
 "When applications are developed :ref:`within the SDK "
 "<project_management>`, the path to the physics engine is detected "
@@ -1264,7 +1084,6 @@ msgstr ""
 "При разработке приложения :ref:`в составе SDK <project_management>` путь "
 "к физическому движку определяется автоматически."
 
-#: ../physics.rst:505
 msgid ""
 "If your application does not use physics, we recommend you to turn off "
 "the ``Enable Physics`` flag in the ``Physics`` panel under the scene tab "
@@ -1276,6 +1095,108 @@ msgstr ""
 "``Enable Physics`` в панели ``Physics`` на вкладкe сцены в Blender'е. "
 "Также можно принудительно отключить загрузку модуля **uranium.js**, если "
 "до начала инициализации движка вызывать следующий метод:"
+
+msgid ""
+"Physics subsystem is implemented in the “uranium” module and is loaded "
+"independently from the main engine code. The “uranium” module is a "
+"modification of the `Bullet physics engine "
+"<https://en.wikipedia.org/wiki/Bullet_(software)>`_ ported to work in web"
+" browsers."
+msgstr ""
+"Физическая подсистема реализована в модуле ``uranium`` и загружается "
+"отдельно от основного кода движка. Модуль ``uranium`` представляет собой "
+"модификацию `физического движка Bullet "
+"<https://ru.wikipedia.org/wiki/Bullet_Physics_Library>`_, портированную "
+"для работы в браузерах."
+
+msgid ""
+"Blend4Web physics engine comes in two variations: the one compiled using "
+"WebAssembly (``uranium_wasm.js`` and  ``uranium_wasm.wasm`` files) is "
+"used by default, while the other version, compiled with ``asm.js`` "
+"(``uranium.js`` and  ``uranium.js.mem``) can be used as a fallback. The "
+"WebAssembly version is smaller in size, can be initialized quicker and "
+"using it might improve the stability and performance of the application. "
+"However, at the moment not every browser supports WebAssembly, so, if "
+"this technology is not available, the asm.js version of the physics "
+"engine is used instead."
+msgstr ""
+"В Blend4Web физический движок существует в 2 вариантах: по умолчанию "
+"используется версия, скомпилированная для использования с WebAssembly - "
+"файлы ``uranium_wasm.js`` и ``uranium_wasm.wasm``, а в качестве резерва, "
+"скомпилированная в ``asm.js`` - файлы ``uranium.js`` и "
+"``uranium.js.mem``. WebAssembly-версия имеет меньший размер, быстрее "
+"инициализируется, а также может повысить стабильность и FPS приложения. "
+"Однако WebAssembly на текущий момент поддерживается не всеми браузерами, "
+"поэтому там, где эта технология недоступна, используется asm.js-версия "
+"физического движка в качестве резерва."
+
+msgid ""
+"By default, physics engine is plugged in if the scene contains objects "
+"with physics enabled. You can manually disable physics by setting the "
+"``Enable Physics`` option on the ``Scene -> Physics`` panel to ``OFF``. "
+"You can also uncheck the ``Use Physics`` flag on the :ref:`project "
+"configuration page <project_config>` in the :ref:`Project Manager "
+"<project_manager>` to exclude physics engine files from the build version"
+" of your project."
+msgstr ""
+"По умолчанию физический движок подключается, если в сцене присутствуют "
+"объекты, на которых настроена физика. Принудительно отключить физику "
+"можно, выставив опцию ``Enable Physics`` на панели ``Scene -> Physics`` в"
+" положение ``OFF``. Также в :ref:`настройках конфигурации проекта "
+"<project_config>` в :ref:`Менеджере проектов <project_manager>` можно "
+"отключить флаг ``Use Physics``, чтобы исключить файлы физического движка "
+"из build-версии проекта."
+
+msgid ""
+"Physics is not supported in ``WebPlayer HTML`` type projects and in the "
+"scenes exported into HTML."
+msgstr ""
+"Физика не поддерживается при HTML-экспорте и в проектах типа WebPlayer "
+"HTML."
+
+msgid ""
+"Several flags for configuring physics engine are available in the "
+":b4wref:`app.init()` method that is used to initialize the application:"
+msgstr ""
+"При инициализации приложения методом :b4wref:`app.init()` можно указать "
+"несколько флагов конфигурации физического движка:"
+
+msgid ""
+"**physics_enabled** - load physics engine to use physics in the "
+"application. Set to ``true`` by default."
+msgstr ""
+"**physics_enabled** - использовать ли физику в приложении, подгружая "
+"физический движок, по умолчанию ``true``."
+
+msgid ""
+"**physics_uranium_path** - the relative path to the folder containing the"
+" physics engine files (the ``uranium_wasm.js``, ``uranium_wasm.wasm``, "
+"``uranium.js`` and ``uranium.js.mem`` files). Use this parameter if you "
+"need to place physics engine files in a custom location."
+msgstr ""
+"**physics_uranium_path** - путь к директории с файлами физического движка"
+" относительно главного HTML-файла приложения; стоит указывать, если "
+"требуется их нестандартное расположение, по данному пути должны быть "
+"доступны файлы ``uranium_wasm.js``, ``uranium_wasm.wasm``, ``uranium.js``"
+" и ``uranium.js.mem``."
+
+msgid ""
+"**physics_use_wasm** - if this paraemter is set to ``true``, WebAssembly "
+"version is used. If it is set to ``false``, the asm.js version is used "
+"instead. Default value is ``true``."
+msgstr ""
+"**physics_use_wasm** - использовать WebAssembly-версию (``true``) или "
+"версию, скомпилированную в asm.js (``false``). Значение по умолчанию - "
+"``true``."
+
+msgid ""
+"**physics_use_workers** - calculate physics in a separate thread using a "
+"worker (if this parameter is set to ``true``), or in the main thread (if "
+"it is set to ``false``). Default value is ``true``."
+msgstr ""
+"**physics_use_workers** - обсчитывать физику в отдельном потоке с "
+"использованием Worker'а (``true``) или в одном совместно с рендерингом "
+"графики (``false``). Значение по умолчанию - ``true``."
 
 #~ msgid ""
 #~ msgstr ""

@@ -117,11 +117,9 @@
 
 "属性 > 材质" 面板菜单中的 "透明" ，可以选择透明度的类型。
 
-   [图片]The engine supports all of the transparency types available
-   in Blender.
+   [图片]引擎支持全部Blender的透明度类型 ︰
 
-Available transparency types are (sorted in the ascending order by
-performance):
+支持的透明度实现类型是 （按性能升序排序） ︰
 
 *Alpha 排序*
    带渐变透明。引擎按三角与相机间的距离进行排序来正确渲染重叠的透明表
@@ -169,7 +167,7 @@ performance):
 反射
 ====
 
-   [图片]Reflection settings in the "Material" tab
+   [图片]"材质" 选项卡中的反射设置
 
 
 静态反射

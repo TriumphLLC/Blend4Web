@@ -196,14 +196,36 @@ exports.has_dynamic_physics = function(obj) {
  * Set the object's gravity.
  * @method module:physics.set_gravity
  * @param {Object3D} obj Object 3D
- * @param {number} gravity Positive object gravity
+ * @param {number} gravity Object gravity value along the Z axis.
+ * @deprecated [17.10] Use {@link module:physics.set_object_gravity} instead
  */
 exports.set_gravity = function(obj, gravity) {
+    m_print.error_deprecated("set_gravity", "set_object_gravity");
     if (!m_phy.obj_has_physics(obj)) {
         m_print.error_once("No physics for object " + obj.name);
         return;
     }
-    m_phy.set_gravity(obj, gravity);
+    // handling old behavior when positive gravity aligned with negative Z.
+    m_phy.set_gravity(obj, 0, 0, -gravity);
+}
+/**
+ * Set the object's gravity.
+ * @method module:physics.set_object_gravity
+ * @param {Object3D} obj Object 3D
+ * @param {Vec3} gravity Gravity vector.
+ * @example var m_phy = require("physics");
+ * var m_scenes = require("scenes");
+ *
+ * var my_cube = m_scenes.get_object_by_name("Cube");
+ * var gravity_vec = new Float32Array([0, 0, 1]);
+ * m_phy.set_object_gravity(my_cube, gravity_vec);
+ */
+exports.set_object_gravity = function(obj, gravity) {
+    if (!m_phy.obj_has_physics(obj)) {
+        m_print.error_once("No physics for object " + obj.name);
+        return;
+    }
+    m_phy.set_gravity(obj, gravity[0], gravity[1], gravity[2]);
 }
 /**
  * Set the object's transform (for static/kinematic objects)
@@ -729,6 +751,33 @@ exports.set_character_rotation_h = function(obj, angle) {
         return;
     }
     m_phy.set_character_rotation_h(obj, angle);
+}
+/**
+ * Set the vertical angle of the moving direction for a character. Applies only 
+ * in FLYING and SWIMMING mode. Used to control the moving direction from the 
+ * camera vertical angle.
+ * @method module:physics.set_character_vert_move_dir_angle
+ * @param {Object3D} obj Character object.
+ * @param {number} angle Angle (in radians) in vertical plane
+ * @example
+ * var m_cam = require("camera");
+ * var m_phys = require("physics");
+ * var m_scenes = require("scenes");
+ * 
+ * var _vec2_tmp = new Float32Array(2);
+ *
+ * var char = m_scenes.get_first_character();
+ * var camera = m_scenes.get_active_camera();
+ * var angles = m_cam.get_camera_angles_char(camera, _vec2_tmp);
+ *
+ * m_phys.set_character_vert_move_dir_angle(char, angles[1]);
+ */
+exports.set_character_vert_move_dir_angle = function(obj, angle) {
+    if (!m_phy.obj_has_physics(obj)) {
+        m_print.error_once("No physics for object " + obj.name);
+        return;
+    }
+    m_phy.set_character_vert_move_dir_angle(obj, angle);
 }
 /**
  * Append a new async collision test to the given object.

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>发布说明 &mdash; Blend4Web 17.08 用户手册</title>
+  <title>发布说明 &mdash; Blend4Web 17.10 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.08 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 17.10 用户手册" href="index.html"/>
         <link rel="prev" title="存在的问题及解决方案" href="problems_and_solutions.html"/> 
 
   
@@ -60,7 +60,7 @@
           
           
             <div class="version">
-              v17.08
+              v17.10
             </div>
           
         
@@ -84,7 +84,7 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">概述</a></li>
 <li class="toctree-l1"><a class="reference internal" href="engine_features.html">引擎功能</a></li>
-<li class="toctree-l1"><a class="reference internal" href="interface.html">Blender User Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="interface.html">Blender的用户界面</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">安装和更新</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">工作流程</a></li>
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理</a></li>
@@ -102,7 +102,7 @@
 <li class="toctree-l1"><a class="reference internal" href="logic_editor.html">逻辑编辑器</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">照明、 阴影和背景</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">后期处理效果</a></li>
-<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">立体渲染</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vr_and_ar.html">VR and AR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">纹理</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles.html">粒子系统,流体</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">粒子系统.实例化</a></li>
@@ -116,213 +116,219 @@
 <li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">团队工作。使用 Git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">存在的问题及解决方案</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">发布说明</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#v17-08">v17.08</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#v17-10">v17.10</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#new-features">新功能</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#changes">变更</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#fixes">修复</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#v17-06">v17.06</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#v17-08">v17.08</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id2">新功能</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id3">变更</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id4">修复</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#v17-04">v17.04</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#v17-06">v17.06</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id5">新功能</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id6">变更</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id7">修复</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#v17-02">v17.02</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#v17-04">v17.04</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id8">新功能</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id9">变更</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id10">修复</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#v16-12">v16.12</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#v17-02">v17.02</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id11">新功能</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id12">变更</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id13">修复</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#v16-11">v16.11</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#v16-12">v16.12</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id14">新功能</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id15">变更</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id16">修复</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#v16-10">v16.10</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#v16-11">v16.11</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id17">新功能</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id18">变更</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id19">修复</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#v16-09">v16.09</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#v16-10">v16.10</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id20">新功能</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id21">变更</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id22">修复</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#v16-08">v16.08</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#v16-09">v16.09</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id23">新功能</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id24">变更</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id25">修复</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#v16-07">v16.07</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#v16-08">v16.08</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id26">新功能</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id27">变更</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id28">修复</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#v16-06">v16.06</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#v16-07">v16.07</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id29">新功能</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id30">变更</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id31">修复</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#v16-05">v16.05</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#v16-06">v16.06</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id32">新功能</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id33">变更</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id34">修复</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#v16-04">v16.04</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#v16-05">v16.05</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id35">新功能</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id36">变更</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id37">修复</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#v16-03">v16.03</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#v16-04">v16.04</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id38">新功能</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id39">变更</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id40">修复</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#v16-02">v16.02</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#v16-03">v16.03</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id41">新功能</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id42">变更</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id43">修复</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#v16-02">v16.02</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id44">新功能</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id45">变更</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id46">修复</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#known-issues">Known Issues</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v16-01">v16.01</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id44">新功能</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id45">变更</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id46">修复</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id47">Known Issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id47">新功能</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id48">变更</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id49">修复</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id50">Known Issues</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v15-12">v15.12</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id48">新功能</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id49">变更</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id50">修复</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id51">Known Issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id51">新功能</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id52">变更</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id53">修复</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id54">Known Issues</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v15-11">v15.11</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id53">新功能</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id54">变更</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id55">修复</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id56">Known Issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id56">新功能</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id57">变更</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id58">修复</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id59">Known Issues</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v15-10">v15.10</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id58">新功能</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id59">变更</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id60">修复</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id61">Known Issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id61">新功能</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id62">变更</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id63">修复</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id64">Known Issues</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v15-09">v15.09</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id63">新功能</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id64">变更</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id65">修复</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id66">Known Issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id66">新功能</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id67">变更</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id68">修复</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id69">Known Issues</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v15-08">v15.08</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id67">新功能</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id68">变更</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id69">修复</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id70">Known Issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id70">新功能</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id71">变更</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id72">修复</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id73">Known Issues</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v15-07">v15.07</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id71">新功能</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id72">变更</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id73">修复</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id74">Known Issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id74">新功能</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id75">变更</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id76">修复</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id77">Known Issues</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v15-06">v15.06</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id75">新功能</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id76">变更</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id77">修复</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id78">Known Issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id78">新功能</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id79">变更</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id80">修复</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id81">Known Issues</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v15-05">v15.05</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id80">新功能</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id81">变更</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id82">修复</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id83">Known Issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id83">新功能</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id84">变更</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id85">修复</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id86">Known Issues</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v15-04">v15.04</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id84">新功能</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id85">变更</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id86">修复</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#v15-03">v15.03</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id87">新功能</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id88">变更</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id89">修复</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id90">Known Issues</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#v15-03">v15.03</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id90">新功能</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id91">变更</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id92">修复</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id93">Known Issues</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v15-02">v15.02</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id91">新功能</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id92">变更</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id93">修复</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id94">Known Issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id94">新功能</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id95">变更</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id96">修复</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id97">Known Issues</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v15-01">v15.01</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id95">新功能</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id96">变更</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id97">修复</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id98">Known Issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id98">新功能</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id99">变更</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id100">修复</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id101">Known Issues</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v14-12">v14.12</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id99">新功能</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id100">变更</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id101">修复</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id102">Known Issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id102">新功能</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id103">变更</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id104">修复</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id105">Known Issues</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v14-11">v14.11</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id103">新功能</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id104">变更</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id105">修复</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id106">Known Issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id106">新功能</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id107">变更</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id108">修复</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id109">Known Issues</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v14-10">v14.10</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id107">新功能</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id108">变更</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id109">修复</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id110">Known Issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id110">新功能</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id111">变更</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id112">修复</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id113">Known Issues</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v14-09">v14.09</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id111">新功能</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id112">变更</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id113">修复</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id114">Known Issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id114">新功能</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id115">变更</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id116">修复</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id117">Known Issues</a></li>
 </ul>
 </li>
 </ul>
@@ -370,132 +376,236 @@
             
   <div class="section" id="release-notes">
 <span id="id1"></span><h1>发布说明<a class="headerlink" href="#release-notes" title="永久链接至标题">¶</a></h1>
-<div class="section" id="v17-08">
-<span id="index-0"></span><h2>v17.08<a class="headerlink" href="#v17-08" title="永久链接至标题">¶</a></h2>
+<div class="section" id="v17-10">
+<span id="index-0"></span><h2>v17.10<a class="headerlink" href="#v17-10" title="永久链接至标题">¶</a></h2>
 <div class="section" id="new-features">
 <h3>新功能<a class="headerlink" href="#new-features" title="永久链接至标题">¶</a></h3>
 <ul>
-<li><p class="first">Support for Leap Motion hand tracking controller.</p>
+<li><p class="first">Added side-by-side rendering stereo mode.</p>
+</li>
+<li><p class="first">Auto start tornado developer server.</p>
 <blockquote>
-<div><p>Added the new Leap Motion code snippet. This code snippet can help you to integrate support for Leap Motion devices inside your own applications. Snippet supports two modes: realistic skinned hands and hands based on primitive objects.</p>
+<div><p>Now closing one of the instances of Blender does not stop development server if there is another instance of Blender with started development server.</p>
 </div></blockquote>
 </li>
-<li><p class="first">New logic node &#8220;Date &amp; Time&#8221;.</p>
+<li><p class="first">Added synchronization the <a class="reference internal" href="viewer.html#viewer"><span>Viewer</span></a> application and Blender.</p>
+</li>
+<li><p class="first">Changes in the physics engine.</p>
 <blockquote>
-<div><p>This node allows to obtain current Local/UTC date and time (year, month, day, hour, minute and second).</p>
+<div><p>The ability to control gravity vector in the scene has been added. Stability of the <code class="docutils literal"><span class="pre">HINGE</span></code> constraints has been improved. Also the <a class="reference external" href="https://www.blend4web.com/api_doc/module-physics.html#.set_character_vert_move_dir_angle">set_character_vert_move_dir_angle</a> method has been added to the <a class="reference external" href="https://www.blend4web.com/api_doc/module-physics.html">physics</a> module.</p>
 </div></blockquote>
 </li>
-<li><p class="first">New logic node &#8220;Elapsed&#8221;.</p>
-<blockquote>
-<div><p>This node returns elapsed time since last frame rendered in seconds. This node can be very useful for creating robust procedural animations.</p>
-</div></blockquote>
+<li><p class="first">Added new nodes to the <code class="docutils literal"><span class="pre">Logic</span> <span class="pre">Editor</span></code>: <code class="docutils literal"><span class="pre">Define</span> <span class="pre">Function</span></code>, <code class="docutils literal"><span class="pre">Call</span> <span class="pre">Function</span></code>, <code class="docutils literal"><span class="pre">Switch</span></code></p>
 </li>
-<li><p class="first">Improved texture cache. Added <code class="docutils literal"><span class="pre">enable_texture_cache</span></code> configuration option.</p>
-<blockquote>
-<div><p>The texture cache is used for dynamically loaded scenes and can reduce scene loading time by reusing already existed textures instead of creating new ones. This option allows to turn on/off the texture cache. Enabled by default.</p>
-</div></blockquote>
+<li><p class="first"><code class="docutils literal"><span class="pre">Destination</span></code> field has been added to the <code class="docutils literal"><span class="pre">Select</span></code> node. This field specifies a variable used to contains selected object after the event of selection.</p>
 </li>
-<li><p class="first">Added new API methods to show/hide groups of objects.</p>
-<blockquote>
-<div><p>Methods <a class="reference external" href="https://www.blend4web.com/api_doc/module-objects.html#.hide_all_by_data_id">hide_all_by_data_id</a> and <a class="reference external" href="https://www.blend4web.com/api_doc/module-objects.html#.show_all_by_data_id">show_all_by_data_id</a> have been added to the <a class="reference external" href="https://www.blend4web.com/api_doc/module-objects.html">objects</a> module. They allow changing visibility of multiple objects based on their <code class="docutils literal"><span class="pre">data_id</span></code> property. Thus, they can be used to show/hide an entire dynamically loaded scene at once.</p>
-<p><a class="reference external" href="https://www.blend4web.com/api_doc/module-textures.html#.replace_image">replace_image</a> was added in the <a class="reference external" href="https://www.blend4web.com/api_doc/module-textures.html">textures</a> module. Also, <a class="reference external" href="https://www.blend4web.com/api_doc/module-textures.html#.change_image">change_image</a> is considered deprecated.</p>
-</div></blockquote>
+<li><p class="first">Added <code class="docutils literal"><span class="pre">Object</span></code> variable type to the Logic Editor.</p>
 </li>
-<li><p class="first">Optimization for procedural materials.</p>
-<blockquote>
-<div><p>Implemented new packing algorithm for VALUE GLSL node. This algorithm uses a vec4 array instead of a float array as before. This makes possible to use more VALUE nodes without a risk of exceeding GPU limits.</p>
-</div></blockquote>
+<li><p class="first">The UI of some nodes which use object selector is extended with ability to specify a variable</p>
 </li>
-<li><p class="first">A new internal module <code class="docutils literal"><span class="pre">material.js</span></code>.</p>
-<blockquote>
-<div><p>This module contains internal engine logics for materials. This change requires to perform the <code class="docutils literal"><span class="pre">Check</span> <span class="pre">Modules</span></code> and <code class="docutils literal"><span class="pre">Update</span> <span class="pre">Modules</span></code> operations for old projects in the Project Manager after updating the SDK.</p>
-</div></blockquote>
-</li>
-<li><p class="first">Refined Logic Editor user interface.</p>
-<blockquote>
-<div><p>Introduced a new Time category with <code class="docutils literal"><span class="pre">Get</span> <span class="pre">Timeline</span></code>, <code class="docutils literal"><span class="pre">Delay</span></code>, <code class="docutils literal"><span class="pre">Date</span> <span class="pre">&amp;</span> <span class="pre">Time</span></code> and <code class="docutils literal"><span class="pre">Elapsed</span></code> nodes.</p>
-</div></blockquote>
-</li>
-<li><p class="first">Physics engine improvements.</p>
-<blockquote>
-<div><p>Bullet library used by the internal physics engine upgraded from 2.82 to 2.86 release. Also, the optimized version of the engine&#8217;s physics compiled with WebAssembly became enabled by default. The advantages of this are: lesser size of the physics files, faster physics initialization, improved physics stability and higher FPS.</p>
-</div></blockquote>
+<li><p class="first">Improved environment lighting algorithms for Cycles materials with <code class="docutils literal"><span class="pre">Glossy</span> <span class="pre">BSDF</span></code> and <code class="docutils literal"><span class="pre">Diffuse</span> <span class="pre">BSDF</span></code> nodes.</p>
 </li>
 </ul>
 </div>
 <div class="section" id="changes">
 <h3>变更<a class="headerlink" href="#changes" title="永久链接至标题">¶</a></h3>
-<ul>
-<li><p class="first">The version of the JSON/BIN export format was increased to 6.03.</p>
-<blockquote>
-<div><p>It&#8217;s recommended to reexport old .blend files for using with the latest engine version.</p>
-</div></blockquote>
-</li>
-<li><p class="first">Rendering of the Fresnel effect was slightly optimized.</p>
-</li>
-<li><p class="first">The option <code class="docutils literal"><span class="pre">Preserve</span> <span class="pre">Global</span> <span class="pre">Rotation</span> <span class="pre">and</span> <span class="pre">Scale</span></code> from the <code class="docutils literal"><span class="pre">Object-&gt;Billboard</span></code> panel was renamed to <code class="docutils literal"><span class="pre">Preserve</span> <span class="pre">Global</span> <span class="pre">Rotation</span></code>.</p>
-<blockquote>
-<div><p>From now on the world scale value is always applied to a billboard object.</p>
-</div></blockquote>
-</li>
-<li><p class="first">Added error message in case of making recursive or self-applied constraints via the <a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html">constraints API</a>.</p>
-</li>
-<li><p class="first">Added export warning in case of using multiple constraints on an object in Blender.</p>
-</li>
-<li><p class="first">Unnecessary python module &#8216;requests&#8217; has been removed from addon.</p>
-</li>
-<li><p class="first">The user manual has been supplied with several updates:</p>
-<blockquote>
-<div><ul class="simple">
-<li>A <a class="reference internal" href="interface.html#blender-interface"><span>detailed description</span></a> of the Blender user interface has been added</li>
-<li>A guide on using <a class="reference internal" href="animation.html#anim-blend"><span>animation blending</span></a>.</li>
-<li>A <a class="reference internal" href="objects.html#objects-constraints"><span>description</span></a> of API methods of the <a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html">constraints</a> module.</li>
-</ul>
-</div></blockquote>
-</li>
+<ul class="simple">
+<li>Now NLA can be stopped with API in case of using Logic Nodes.</li>
+<li>Blender 2.79 is a recommended version.</li>
+<li>Optimized of LOD objects.</li>
+<li>Renamed logic nodes: <code class="docutils literal"><span class="pre">Switch</span> <span class="pre">Select</span></code> -&gt; <code class="docutils literal"><span class="pre">Select</span></code>, <code class="docutils literal"><span class="pre">Conditional</span> <span class="pre">Jump</span></code> -&gt; <code class="docutils literal"><span class="pre">Branch</span></code></li>
+<li>We&#8217;ve started to use <code class="docutils literal"><span class="pre">Datablock</span> <span class="pre">pointer</span> <span class="pre">properties</span></code> - the new feature of Blender 2.79 in our addon. This means that you may have forward compatibility issues (see Blender 2.79 release notes)</li>
+<li>Simplified Logic Node Tree to the scene attachment procedure: Refresh button has been removed due to our patch for blender (D113)</li>
 </ul>
 </div>
 <div class="section" id="fixes">
 <h3>修复<a class="headerlink" href="#fixes" title="永久链接至标题">¶</a></h3>
 <ul class="simple">
-<li>Minor CSS fixes in the Code Snippets application and Petigor&#8217;s Tale game.</li>
-<li>From now on the Alpha-AntiAliasing blend mode is switched to Alpha Clip for devices with ARM Mali-T720 GPU due to rendering artifacts.</li>
-<li>Fixed some crashes in the Project Manager while building applications.</li>
-<li>Fixed a rare bug with wrong initial orientation of HOVER-type cameras.</li>
-<li>Disabled depth textures in Firefox under Windows for AMD GPUs to avoid some postprocessing artifacts.</li>
-<li>Fixed precision issues that led to some rendering artifacts on mobile devices.</li>
-<li>Fixed mouse wheel sensitivity, which was incorrect in some cases.</li>
-<li>Depth textures and also such related effects as SSAO, Dynamic Grass, Shore Smoothing, etc. were enabled for AMD GPUs in Chrome under Windows and for other GPUs in Firefox under Windows.</li>
-<li>Fixed frustum culling of billboard objects by properly calculating their boundings.</li>
-<li>Fixed rendering of the procedural fog.</li>
-<li>Disabled MSAA for Mali-T720 GPU because of bad performance and rendering artifacts.</li>
-<li>Minor fixes in the API documentation.</li>
-<li>Fixed bug in Safari when an object with a non-opaque node material wasn&#8217;t rendered if it had the Glow Output node with the zero alpha value.</li>
-<li>Fixed getting mouse/touch coordinates for IE11 and Edge when an application&#8217;s canvas is not aligned with the top left corner of the browser window.</li>
-<li>Disabled MSAA in Google Chrome 60 for macOS, because it doesn&#8217;t work correctly and can lead to an engine crash.</li>
-<li>Minor fixes to improve stability of WebVR.</li>
-<li>Fixed texture caching for dynamically loaded scenes, which previously led to redundant GPU memory usage.</li>
-<li>Fixed applying the <code class="docutils literal"><span class="pre">Array</span></code> modifier to meshes with multiple UV/VC layers.</li>
-<li>Fixed not applying multiple material animations on one object.</li>
-<li>Fixed resolution of debug subscene.</li>
-<li>Fixed constraints caused unpredictable behavior on IE11.</li>
-<li>Fixed anchor visibility.</li>
-<li>Fixed possible memory leak. Unused debug framebuffers are removed.</li>
-<li>Fixed using the hasOrientation and hasPosition attributes of WebVR API. In the last WebVR Chromium build the attributes can be undefined.</li>
-<li>Fixed engine crash in case of using environment cubemaps with no image</li>
-<li>Fixed encoding issue in <code class="docutils literal"><span class="pre">Project</span> <span class="pre">Manager</span></code> for macOS.</li>
-<li>Fixed synchronization between the physics worker and the main thread in Chrome 61+ and removed the corresponding physics lag.</li>
-<li>Removed a hack for transparent node materials in Firefox under Linux, because it produced different color output among browsers.</li>
-<li>Fixed incorrect camera rotation via the <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.rotate_camera">rotate_camera</a> method if the <code class="docutils literal"><span class="pre">is_abs</span></code> parameter was set to <code class="docutils literal"><span class="pre">true</span></code>.</li>
-<li>Fixed bug when the &#8220;simple&#8221; optimization level was always used for projects with the &#8220;Compile&#8221; application type regardless of their configuration options. This also fixed the optimization level for Blend4Web Player, which uses &#8220;advanced&#8221;, thus the size of the player and player-based applications (e.g. HTML-exported scenes) was slightly reduced.</li>
-<li>Fixed loading of video textures on iPads in case of HTML export.</li>
+<li>Fixed DOF artifacts with bokeh enabled. The algorithm now requires WebGL extensions for floating-point render targets, otherwise bokeh is disabled automatically.</li>
+<li>Fixed HTML export of the <code class="docutils literal"><span class="pre">Cycles</span></code> world materials.</li>
+<li>Fixed false positive error producing console warning message: <code class="docutils literal"><span class="pre">B4W</span> <span class="pre">WARN:</span> <span class="pre">Canvas</span> <span class="pre">size</span> <span class="pre">exceeds</span> <span class="pre">platform</span> <span class="pre">limits,</span> <span class="pre">downscaling</span></code>.</li>
+<li>Fixed invisibility of the control panel in AR demo in IE 11.</li>
+<li>Fixed the <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera_anim.html#.rotate_camera">rotate_camera</a> method of the <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera_anim.html">camera_anim</a> module.</li>
+<li>Fixed the <a class="reference external" href="https://www.blend4web.com/api_doc/module-screen.html#.shot">shot</a> method of the <a class="reference external" href="https://www.blend4web.com/api_doc/module-screen.html">screen</a> module.</li>
+<li>Fixed some errors of API documentation.</li>
+<li>Fixed low FPS in the Petigor&#8217;s Tale application.</li>
+<li>Fixed visibility of God Rays on some mobile devices.</li>
+<li>Fixed <code class="docutils literal"><span class="pre">Mapping</span></code> node with zero scale.</li>
+<li>Fixed the <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.translate_view">translate_view</a> and <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.set_fov">set_fov</a> methods of the <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html">camera</a> module.</li>
+<li>Fixed the <a class="reference external" href="https://www.blend4web.com/api_doc/module-material.html#.get_materials_names">get_materials_names</a> method of the <a class="reference external" href="https://www.blend4web.com/api_doc/module-material.html">material</a> module.</li>
+<li>Fixed character rotation with the  <a class="reference external" href="https://www.blend4web.com/api_doc/module-physics.html#.set_character_rotation">set_character_rotation</a> and <a class="reference external" href="https://www.blend4web.com/api_doc/module-physics.html#.set_character_rotation_v">set_character_rotation_v</a> methods of the <a class="reference external" href="https://www.blend4web.com/api_doc/module-physics.html">physics</a> module.</li>
+<li>Fixed missing UV and vertex colors layers after applying of the <a class="reference external" href="https://www.blend4web.com/api_doc/module-material.html#.inherit_material">inherit_material</a> method in some cases.</li>
+<li>Fixed loading of video textures with the &#8221;.mp4&#8221; extension.</li>
+<li>Fixed the <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.get_ortho_scale">get_ortho_scale</a> method of the <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html">camera</a> module.</li>
+<li>Fixed the <a class="reference external" href="https://www.blend4web.com/api_doc/module-app.html#.enable_camera_controls">enable_camera_controls</a> method of the <a class="reference external" href="https://www.blend4web.com/api_doc/module-app.html">app</a> module.</li>
+<li>Fixed engine crash in case of using the Value node in Emitter particles materials.</li>
+<li>Fixed the <a class="reference external" href="https://www.blend4web.com/api_doc/module-material.html#.set_nodemat_value">set_nodemat_value</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-material.html#.get_nodemat_value">get_nodemat_value</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-material.html#.set_nodemat_rgb">set_nodemat_rgb</a> and <a class="reference external" href="https://www.blend4web.com/api_doc/module-material.html#.get_nodemat_rgb">get_nodemat_rgb</a> methods of the <a class="reference external" href="https://www.blend4web.com/api_doc/module-material.html">material</a> module.</li>
+<li>Fixed scale computation for the <code class="docutils literal"><span class="pre">Curve</span></code> objects with <code class="docutils literal"><span class="pre">Apply</span> <span class="pre">Scale</span> <span class="pre">and</span> <span class="pre">Modifiers</span></code> export option enabled.</li>
+<li>Fixed bug with NLA initialization. The bug had impact on animation start frame.</li>
+<li>Fixed touch sensor on slow devices.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="v17-08">
+<h2>v17.08<a class="headerlink" href="#v17-08" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id2">
+<h3>新功能<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h3>
+<ul>
+<li><p class="first">支持Leap Motion手动跟踪控制器。</p>
+<blockquote>
+<div><p>添加了新的Leap Motion代码段。此代码段可以帮助您集成对您自己的应用程序中的Leap Motion设备的支持。代码段支持两种模式：基于原始物体的手和逼真皮肤手。</p>
+</div></blockquote>
+</li>
+<li><p class="first">新的逻辑节点 &#8220;日期和时间&#8221; 。</p>
+<blockquote>
+<div><p>此节点，可以获取当前本地/UTC 日期和时间 （年、 月、 日、 小时、 分钟和秒）。</p>
+</div></blockquote>
+</li>
+<li><p class="first">新的逻辑节点  &#8220;耗时&#8221;.</p>
+<blockquote>
+<div><p>此节点返回自上一帧渲染后的已用时间（以秒计）。该节点对于创建鲁棒的程序动画非常有用。</p>
+</div></blockquote>
+</li>
+<li><p class="first">改进的纹理缓存。添加了  <code class="docutils literal"><span class="pre">enable_texture_cache</span></code>  配置选项。</p>
+<blockquote>
+<div><p>纹理缓存用于动态加载的场景，可以通过重用已有的纹理，而不是创建新的来减少场景加载时间。此选项允许打开/关闭纹理缓存。默认情况下启用。</p>
+</div></blockquote>
+</li>
+<li><p class="first">添加新的 API 的方法来显示/隐藏的物体组。</p>
+<blockquote>
+<div><p>方法 <a class="reference external" href="https://www.blend4web.com/api_doc/module-objects.html#.hide_all_by_data_id">hide_all_by_data_id</a> 和 <a class="reference external" href="https://www.blend4web.com/api_doc/module-objects.html#.show_all_by_data_id">show_all_by_data_id</a> 已添加到  <a class="reference external" href="https://www.blend4web.com/api_doc/module-objects.html">objects</a>  模块。他们允许更改基于他们  <code class="docutils literal"><span class="pre">data_id</span></code> 属性的多个物体的可见性。因此，他们可以用来立即显示/隐藏整个动态加载的场景。</p>
+<p><a class="reference external" href="https://www.blend4web.com/api_doc/module-textures.html#.replace_image">replace_image</a> 添加到 <a class="reference external" href="https://www.blend4web.com/api_doc/module-textures.html">textures</a> 模块。此外， <a class="reference external" href="https://www.blend4web.com/api_doc/module-textures.html#.change_image">change_image</a> 被认为是不推荐使用。</p>
+</div></blockquote>
+</li>
+<li><p class="first">优化程序材质。</p>
+<blockquote>
+<div><p>实现了 VALUE GLSL节点的新封包算法。相比以前该算法利用 vec4 数组而不是浮点数组。这使得可能使用更多值节点而不超过 GPU 限制的风险。</p>
+</div></blockquote>
+</li>
+<li><p class="first">新的内部模块 <code class="docutils literal"><span class="pre">material.js</span></code>.</p>
+<blockquote>
+<div><p>此模块包含引擎材质的内部逻辑。更新 SDK 后，这一更改需要在项目管理器中的旧项目执行 <code class="docutils literal"><span class="pre">检查模块</span></code> 和 <code class="docutils literal"><span class="pre">更新模块</span></code> 操作。</p>
+</div></blockquote>
+</li>
+<li><p class="first">精细化逻辑编辑器用户界面。</p>
+<blockquote>
+<div><p>引入了一个新的时间类有 <code class="docutils literal"><span class="pre">Get</span> <span class="pre">Timeline</span></code>, <code class="docutils literal"><span class="pre">Delay</span></code>, <code class="docutils literal"><span class="pre">Date</span> <span class="pre">&amp;</span> <span class="pre">Time</span></code> 和 <code class="docutils literal"><span class="pre">Elapsed</span></code> 节点。</p>
+</div></blockquote>
+</li>
+<li><p class="first">物理引擎的改进。</p>
+<blockquote>
+<div><p>内部物理引擎使用的Bullet库从 2.82 升级到 2.86 版本。此外，引擎的物理用 WebAssembly 编译优化的版本成为默认启用的。优点终于： 较小的物理文件、 更快的物理初始化、 改进的物理稳定性和更高的 FPS。</p>
+</div></blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="id3">
+<h3>变更<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h3>
+<ul>
+<li><p class="first">JSON/BIN 导出格式的版本增加至 6.03。</p>
+<blockquote>
+<div><p>建议重导出旧.blend 文件与最新的引擎版本一起使用。</p>
+</div></blockquote>
+</li>
+<li><p class="first">菲涅耳效应渲染略进行了优化。</p>
+</li>
+<li><p class="first">从 <code class="docutils literal"><span class="pre">物体-&gt;广告牌</span></code> 面板的  <code class="docutils literal"><span class="pre">保持全局旋转和缩放</span></code> 选项更名为 <code class="docutils literal"><span class="pre">保持全局缩放</span></code>.</p>
+<blockquote>
+<div><p>从现在起世界缩放值总是应用于广告牌物体。</p>
+</div></blockquote>
+</li>
+<li><p class="first">在使用  <a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html">constraints API</a> 时用了递归或通过自我应用的约束的情况下添加的错误信息。</p>
+</li>
+<li><p class="first">在Blender中一个物体使用多个约束的情况导出会有警告。</p>
+</li>
+<li><p class="first">不必要的python模块  &#8216;requests&#8217; 已从插件中删除。</p>
+</li>
+<li><p class="first">用户手册已提供多个更新：</p>
+<blockquote>
+<div><ul class="simple">
+<li><p class="first">添加了一份 <a class="reference internal" href="interface.html#blender-interface"><span>详细说明</span></a> Blender用户界面的文档</p>
+</li>
+<li><p class="first">一份关于 <a class="reference internal" href="animation.html#anim-blend"><span>动画混合</span></a> 的使用指南</p>
+</li>
+<li><p class="first">一份 <a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html">constraints</a> 模块的API 方法 <a class="reference internal" href="objects.html#objects-constraints"><span>描述</span></a></p>
+</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="id4">
+<h3>修复<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h3>
+<ul class="simple">
+<li><p class="first">微量修复代码片段中的应用和 Petigor 的故事游戏的CSS 。</p>
+</li>
+<li><p class="first">从现在起因为ARM Mali-T720 GPU上渲染失真，所有该类设备透明抗锯齿混合模式都切换到透明裁切模式。</p>
+</li>
+<li><p class="first">修复了一些在项目管理器中构建应用程序时崩溃的问题。</p>
+</li>
+<li><p class="first">修复了一个罕见的悬停型相机初始方向错误。</p>
+</li>
+<li><p class="first">在 Windows下为 AMD GPU 的火狐浏览器禁用的深度纹理，避免一些后期处理的失真。</p>
+</li>
+<li><p class="first">修复了导致一些移动设备上渲染失真的精度问题。</p>
+</li>
+<li><p class="first">修复了的鼠标轮灵敏度，在某些情况下不正确。</p>
+</li>
+<li><p class="first">启用深度纹理和相关效果如 SSAO、 动态草、 岸边平滑等，为AMD GPU在Windows下的Chrome浏览器，以及其他GPU设备的Windows下的Firefox 。</p>
+</li>
+<li><p class="first">修复了广告牌物体的视域剔除，通过适当地计算其边界。</p>
+</li>
+<li><p class="first">修复了程序雾的渲染。</p>
+</li>
+<li><p class="first">因为 Mali-T720 GPU 在用MSAA时渲染失真和性能很差，将MSAA禁用。</p>
+</li>
+<li><p class="first">修复了API文档中的一些不准确之处。</p>
+</li>
+<li><p class="first">修复了一个带不透明节点材质的物体有一个带零值透明的辉光输出节点会在 Safari 中渲染不正确的问题。</p>
+</li>
+<li><p class="first">修复了IE11和Edge获得鼠标/触摸坐标时应用程序的画布不与浏览器窗口的左上角对齐的问题。</p>
+</li>
+<li><p class="first">禁用了谷歌 Chrome 60在macOS中的 MSAA，因为它不能正常工作，导致引擎崩溃。</p>
+</li>
+<li><p class="first">少量修复以提高  WebVR 的稳定性。</p>
+</li>
+<li><p class="first">修复了场景的纹理缓存动态加载，以前会导致冗余 GPU 内存使用量。</p>
+</li>
+<li><p class="first">修复了网格有多重 UV/VC 层时应用 <code class="docutils literal"><span class="pre">阵列</span></code> 修改器的问题 。</p>
+</li>
+<li><p class="first">修复了不能在一个物体上应用多个材质动画的问题。</p>
+</li>
+<li><p class="first">修复了调试子场景的分辨率。</p>
+</li>
+<li><p class="first">修复了约束在 IE11 造成不可预知的行为。</p>
+</li>
+<li><p class="first">修复了锚的可见性。</p>
+</li>
+<li><p class="first">修复了可能的内存泄漏。未使用的调试帧缓存将被删除。</p>
+</li>
+<li><p class="first">修复了使用 WebVR API 的 hasOrientation 和 hasPosition 属性。在最近的的 WebVR Chromium 中属性可以是未定义的。</p>
+</li>
+<li><p class="first">修复了如果环境立方体贴图没有图像引起的引擎崩溃</p>
+</li>
+<li><p class="first">修复了macOS的 <code class="docutils literal"><span class="pre">项目管理器</span></code> 的编码问题。</p>
+</li>
+<li><p class="first">修复了在 Chrome 61 + 中物理工作组件与主线程之间的同步问题也移除相应的物理滞后问题。</p>
+</li>
+<li><p class="first">在 Linux 火狐浏览器下，删除一个硬编码的透明节点材质，因为它在不同浏览器之间产生不同的颜色输出。</p>
+</li>
+<li><p class="first">修复了通过  <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.rotate_camera">rotate_camera</a> 方法当  <code class="docutils literal"><span class="pre">is_abs</span></code> 参数被设置为 <code class="docutils literal"><span class="pre">true</span></code> 时的不正确的摄像机旋转。</p>
+</li>
+<li><p class="first">修复了 &#8220;编译&#8221; 应用程序类型的项目总是使用 &#8220;简单&#8221; 级别的优化忽略配置选项的问题。这也同时修复了 Blend4Web 播放器的优化级别，虽然使用了 &#8220;高级&#8221; 级，但是播放器和基于播放器的应用程序 (比如 HTML-导出场景)体积只是轻微减小的问题。</p>
+</li>
+<li><p class="first">修复了在 Ipad 上的 HTML 导出的视频纹理加载问题。</p>
+</li>
 </ul>
 </div>
 </div>
 <div class="section" id="v17-06">
 <h2>v17.06<a class="headerlink" href="#v17-06" title="永久链接至标题">¶</a></h2>
-<div class="section" id="id2">
-<h3>新功能<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id5">
+<h3>新功能<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">支持基础的Blender约束。</p>
 <blockquote>
@@ -540,8 +650,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id3">
-<h3>变更<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id6">
+<h3>变更<a class="headerlink" href="#id6" title="永久链接至标题">¶</a></h3>
 <ul class="simple">
 <li><p class="first">对于 <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.target_setup">target_setup</a>  方法的 &#8220;参数&#8221; 参数中的  &#8220;中心点&#8221; 设置已被设置为可选项。</p>
 </li>
@@ -551,12 +661,13 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id4">
-<h3>修复<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id7">
+<h3>修复<a class="headerlink" href="#id7" title="永久链接至标题">¶</a></h3>
 <ul class="simple">
 <li><p class="first">修正了法线贴图材质的不正确渲染。</p>
 </li>
-<li>Fixed VR code snippet.</li>
+<li><p class="first">修复了VR代码片段。</p>
+</li>
 <li><p class="first">修复当引擎在iframe内部工作时的键盘事件问题。</p>
 </li>
 <li><p class="first">Adreno 4xx / 5xx GPU从现在开始禁用MSAA，以防止出现一些渲染错误。</p>
@@ -582,8 +693,8 @@
 </div>
 <div class="section" id="v17-04">
 <h2>v17.04<a class="headerlink" href="#v17-04" title="永久链接至标题">¶</a></h2>
-<div class="section" id="id5">
-<h3>新功能<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id8">
+<h3>新功能<a class="headerlink" href="#id8" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">在 <code class="docutils literal"><span class="pre">Cycles</span></code> 材质中支持世界材质。</p>
 <blockquote>
@@ -654,8 +765,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id6">
-<h3>变更<a class="headerlink" href="#id6" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id9">
+<h3>变更<a class="headerlink" href="#id9" title="永久链接至标题">¶</a></h3>
 <ul class="simple">
 <li><p class="first">删除了 <code class="docutils literal"><span class="pre">None</span></code> 类型的力场的警告。</p>
 </li>
@@ -673,8 +784,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id7">
-<h3>修复<a class="headerlink" href="#id7" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id10">
+<h3>修复<a class="headerlink" href="#id10" title="永久链接至标题">¶</a></h3>
 <ul class="simple">
 <li><p class="first">在帮助菜单中改进了插件的俄语翻译。</p>
 </li>
@@ -719,8 +830,8 @@
 </div>
 <div class="section" id="v17-02">
 <h2>v17.02<a class="headerlink" href="#v17-02" title="永久链接至标题">¶</a></h2>
-<div class="section" id="id8">
-<h3>新功能<a class="headerlink" href="#id8" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id11">
+<h3>新功能<a class="headerlink" href="#id11" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">项目管理器改进。</p>
 <blockquote>
@@ -781,8 +892,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id9">
-<h3>变更<a class="headerlink" href="#id9" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id12">
+<h3>变更<a class="headerlink" href="#id12" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">项目管理器变更。</p>
 <blockquote>
@@ -839,8 +950,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id10">
-<h3>修复<a class="headerlink" href="#id10" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id13">
+<h3>修复<a class="headerlink" href="#id13" title="永久链接至标题">¶</a></h3>
 <ul class="simple">
 <li><p class="first">修正了当锚点描述不只包含文本节点的错误。</p>
 </li>
@@ -903,8 +1014,8 @@
 </div>
 <div class="section" id="v16-12">
 <h2>v16.12<a class="headerlink" href="#v16-12" title="永久链接至标题">¶</a></h2>
-<div class="section" id="id11">
-<h3>新功能<a class="headerlink" href="#id11" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id14">
+<h3>新功能<a class="headerlink" href="#id14" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">项目管理器改进。</p>
 <blockquote>
@@ -944,8 +1055,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id12">
-<h3>变更<a class="headerlink" href="#id12" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id15">
+<h3>变更<a class="headerlink" href="#id15" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">项目管理器变更。</p>
 <blockquote>
@@ -959,8 +1070,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id13">
-<h3>修复<a class="headerlink" href="#id13" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id16">
+<h3>修复<a class="headerlink" href="#id16" title="永久链接至标题">¶</a></h3>
 <ul class="simple">
 <li><p class="first">修正了在移动浏览器的视频纹理错误。</p>
 </li>
@@ -991,8 +1102,8 @@
 </div>
 <div class="section" id="v16-11">
 <h2>v16.11<a class="headerlink" href="#v16-11" title="永久链接至标题">¶</a></h2>
-<div class="section" id="id14">
-<h3>新功能<a class="headerlink" href="#id14" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id17">
+<h3>新功能<a class="headerlink" href="#id17" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">添加了部分支持  <code class="docutils literal"><span class="pre">Cycles</span></code>  渲染器节点的材质。当前支持的 <code class="docutils literal"><span class="pre">Cycles</span></code> 节点的列表︰</p>
 <blockquote>
@@ -1029,8 +1140,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id15">
-<h3>变更<a class="headerlink" href="#id15" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id18">
+<h3>变更<a class="headerlink" href="#id18" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">API 变更。</p>
 <blockquote>
@@ -1054,8 +1165,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id16">
-<h3>修复<a class="headerlink" href="#id16" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id19">
+<h3>修复<a class="headerlink" href="#id19" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">项目管理器与旧的构建类型 <code class="docutils literal"><span class="pre">update</span></code>  兼容性被添加 。</p>
 </li>
@@ -1103,8 +1214,8 @@
 </div>
 <div class="section" id="v16-10">
 <h2>v16.10<a class="headerlink" href="#v16-10" title="永久链接至标题">¶</a></h2>
-<div class="section" id="id17">
-<h3>新功能<a class="headerlink" href="#id17" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id20">
+<h3>新功能<a class="headerlink" href="#id20" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">增加了导航网格的支持。</p>
 <blockquote>
@@ -1176,8 +1287,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id18">
-<h3>变更<a class="headerlink" href="#id18" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id21">
+<h3>变更<a class="headerlink" href="#id21" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">在SDK内重构项目。</p>
 <blockquote>
@@ -1234,8 +1345,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id19">
-<h3>修复<a class="headerlink" href="#id19" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id22">
+<h3>修复<a class="headerlink" href="#id22" title="永久链接至标题">¶</a></h3>
 <ul class="simple">
 <li><p class="first">修正了 <a class="reference external" href="https://www.blend4web.com/api_doc/module-util.html#.quat_to_euler">quat_to_euler</a> 函数。</p>
 </li>
@@ -1264,8 +1375,8 @@
 </div>
 <div class="section" id="v16-09">
 <h2>v16.09<a class="headerlink" href="#v16-09" title="永久链接至标题">¶</a></h2>
-<div class="section" id="id20">
-<h3>新功能<a class="headerlink" href="#id20" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id23">
+<h3>新功能<a class="headerlink" href="#id23" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">网络播放器改进</p>
 <blockquote>
@@ -1312,8 +1423,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id21">
-<h3>变更<a class="headerlink" href="#id21" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id24">
+<h3>变更<a class="headerlink" href="#id24" title="永久链接至标题">¶</a></h3>
 <ul class="simple">
 <li><p class="first">指定着色器指令系统被重构。此功能可以减少引擎加载时间和简化调试。</p>
 </li>
@@ -1327,8 +1438,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id22">
-<h3>修复<a class="headerlink" href="#id22" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id25">
+<h3>修复<a class="headerlink" href="#id25" title="永久链接至标题">¶</a></h3>
 <ul class="simple">
 <li><p class="first">修正了如果在场景中有许多锚会在三星互联网浏览器中崩溃的问题。</p>
 </li>
@@ -1355,8 +1466,8 @@
 </div>
 <div class="section" id="v16-08">
 <h2>v16.08<a class="headerlink" href="#v16-08" title="永久链接至标题">¶</a></h2>
-<div class="section" id="id23">
-<h3>新功能<a class="headerlink" href="#id23" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id26">
+<h3>新功能<a class="headerlink" href="#id26" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">现在支持材质的  <code class="docutils literal"><span class="pre">切向着色</span></code> 选项。</p>
 <blockquote>
@@ -1415,8 +1526,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id24">
-<h3>变更<a class="headerlink" href="#id24" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id27">
+<h3>变更<a class="headerlink" href="#id27" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">景深 (DOF) 散景效果算法的改进。</p>
 <blockquote>
@@ -1434,8 +1545,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id25">
-<h3>修复<a class="headerlink" href="#id25" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id28">
+<h3>修复<a class="headerlink" href="#id28" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">修复转化顶点组长度。</p>
 <blockquote>
@@ -1463,8 +1574,8 @@
 </div>
 <div class="section" id="v16-07">
 <h2>v16.07<a class="headerlink" href="#v16-07" title="永久链接至标题">¶</a></h2>
-<div class="section" id="id26">
-<h3>新功能<a class="headerlink" href="#id26" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id29">
+<h3>新功能<a class="headerlink" href="#id29" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Optimized Particle system rendering.</p>
 <blockquote>
@@ -1501,8 +1612,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id27">
-<h3>变更<a class="headerlink" href="#id27" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id30">
+<h3>变更<a class="headerlink" href="#id30" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Color picking optimization.</p>
 <blockquote>
@@ -1524,8 +1635,8 @@ performance of selection sensor.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id28">
-<h3>修复<a class="headerlink" href="#id28" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id31">
+<h3>修复<a class="headerlink" href="#id31" title="永久链接至标题">¶</a></h3>
 <ul class="simple">
 <li>Fixed the broken Canvas Resolution Factor slider in the Scene Viewer.</li>
 <li>Fixed <code class="docutils literal"><span class="pre">get_matrix</span></code>, <code class="docutils literal"><span class="pre">set_matrix</span></code>, <code class="docutils literal"><span class="pre">get_matrix_rel</span></code>, <code class="docutils literal"><span class="pre">set_matrix_rel</span></code> methods of the <code class="docutils literal"><span class="pre">transform</span></code> module.</li>
@@ -1541,8 +1652,8 @@ performance of selection sensor.</p>
 </div>
 <div class="section" id="v16-06">
 <h2>v16.06<a class="headerlink" href="#v16-06" title="永久链接至标题">¶</a></h2>
-<div class="section" id="id29">
-<h3>新功能<a class="headerlink" href="#id29" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id32">
+<h3>新功能<a class="headerlink" href="#id32" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Fast Preview improvements.</p>
 <blockquote>
@@ -1556,7 +1667,7 @@ performance of selection sensor.</p>
 <p>Added the new <code class="docutils literal"><span class="pre">check_modules</span></code> command to the <em>project.py</em> utility. This command allows users to check missing or no longer required modules.</p>
 </div></blockquote>
 </li>
-<li><p class="first"><a class="reference internal" href="stereo_rendering.html#stereo"><span>Experimental support of the GearVR</span></a> virtual reality headset.</p>
+<li><p class="first"><a class="reference internal" href="vr_and_ar.html#stereo"><span>Experimental support of the GearVR</span></a> virtual reality headset.</p>
 <blockquote>
 <div><p>Support for new WebVR API 1.0 has been added to the engine allowing the use of GearVR devices.</p>
 </div></blockquote>
@@ -1604,8 +1715,8 @@ Note, that this works only when there is a <code class="docutils literal"><span 
 </li>
 </ul>
 </div>
-<div class="section" id="id30">
-<h3>变更<a class="headerlink" href="#id30" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id33">
+<h3>变更<a class="headerlink" href="#id33" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Several material nodes are now using Blender&#8217;s viewport world space.</p>
 <blockquote>
@@ -1685,8 +1796,8 @@ method should be used in its stead.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id31">
-<h3>修复<a class="headerlink" href="#id31" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id34">
+<h3>修复<a class="headerlink" href="#id34" title="永久链接至标题">¶</a></h3>
 <ul class="simple">
 <li>Fixed decreased performance in stereo-mode.</li>
 <li>Fixed <code class="docutils literal"><span class="pre">window.screen.orientation.angle</span></code> obfuscation.</li>
@@ -1704,8 +1815,8 @@ method should be used in its stead.</p>
 </div>
 <div class="section" id="v16-05">
 <h2>v16.05<a class="headerlink" href="#v16-05" title="永久链接至标题">¶</a></h2>
-<div class="section" id="id32">
-<h3>新功能<a class="headerlink" href="#id32" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id35">
+<h3>新功能<a class="headerlink" href="#id35" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Experimental HMD configurator.</p>
 <blockquote>
@@ -1759,8 +1870,8 @@ is the implementation of the new texture functions.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id33">
-<h3>变更<a class="headerlink" href="#id33" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id36">
+<h3>变更<a class="headerlink" href="#id36" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">UI and export usability improvements for objects with no option from the <code class="docutils literal"><span class="pre">Export</span> <span class="pre">Options</span></code> list selected.</p>
 <blockquote>
@@ -1822,8 +1933,8 @@ is the implementation of the new texture functions.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id34">
-<h3>修复<a class="headerlink" href="#id34" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id37">
+<h3>修复<a class="headerlink" href="#id37" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Fixed issue with incorrect automatic updates in addon.</p>
 </li>
@@ -1861,8 +1972,8 @@ is the implementation of the new texture functions.</p>
 </div>
 <div class="section" id="v16-04">
 <h2>v16.04<a class="headerlink" href="#v16-04" title="永久链接至标题">¶</a></h2>
-<div class="section" id="id35">
-<h3>新功能<a class="headerlink" href="#id35" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id38">
+<h3>新功能<a class="headerlink" href="#id38" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Support for gamepads and controllers.</p>
 <p>It&#8217;s possible now to use gamepads and controllers as input devices. New functions have been added to work with these devices. The first one is <a class="reference external" href="https://www.blend4web.com/api_doc/module-controls.html#.create_gamepad_btn_sensor">create_gamepad_btn_sensor</a>. It handles gamepad buttons. The second one is <a class="reference external" href="https://www.blend4web.com/api_doc/module-controls.html#.create_gamepad_axes_sensor">create_gamepad_axes_sensor</a>. It handles gamepad axes.</p>
@@ -1922,8 +2033,8 @@ object in the world space.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id36">
-<h3>变更<a class="headerlink" href="#id36" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id39">
+<h3>变更<a class="headerlink" href="#id39" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Viewer&#8217;s <code class="docutils literal"><span class="pre">HUD</span> <span class="pre">Info</span></code> now has detailed info on each column.</p>
 </li>
@@ -1938,8 +2049,8 @@ object in the world space.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id37">
-<h3>修复<a class="headerlink" href="#id37" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id40">
+<h3>修复<a class="headerlink" href="#id40" title="永久链接至标题">¶</a></h3>
 <ul class="simple">
 <li>Fixed anchors behavior.</li>
 <li>Fixed a cubemap issue for some old NVIDIA GPUs in Firefox.</li>
@@ -1958,8 +2069,8 @@ object in the world space.</p>
 </div>
 <div class="section" id="v16-03">
 <h2>v16.03<a class="headerlink" href="#v16-03" title="永久链接至标题">¶</a></h2>
-<div class="section" id="id38">
-<h3>新功能<a class="headerlink" href="#id38" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id41">
+<h3>新功能<a class="headerlink" href="#id41" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Node Logic Editor improvements.</p>
 <blockquote>
@@ -2014,8 +2125,8 @@ For more information see API documentation on the <a class="reference external" 
 </li>
 </ul>
 </div>
-<div class="section" id="id39">
-<h3>变更<a class="headerlink" href="#id39" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id42">
+<h3>变更<a class="headerlink" href="#id42" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">API 变更。</p>
 <blockquote>
@@ -2056,8 +2167,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id40">
-<h3>修复<a class="headerlink" href="#id40" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id43">
+<h3>修复<a class="headerlink" href="#id43" title="永久链接至标题">¶</a></h3>
 <ul class="simple">
 <li>Fixed webplayer menu behavior.</li>
 <li>Fixed rare development server crash when the response headers contained a specific date (29Feb).</li>
@@ -2070,8 +2181,8 @@ as long as they are dynamic.</p>
 </div>
 <div class="section" id="v16-02">
 <h2>v16.02<a class="headerlink" href="#v16-02" title="永久链接至标题">¶</a></h2>
-<div class="section" id="id41">
-<h3>新功能<a class="headerlink" href="#id41" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id44">
+<h3>新功能<a class="headerlink" href="#id44" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Extended support of Emitter type particle systems.</p>
 <blockquote>
@@ -2149,8 +2260,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id42">
-<h3>变更<a class="headerlink" href="#id42" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id45">
+<h3>变更<a class="headerlink" href="#id45" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">The <code class="docutils literal"><span class="pre">Generate</span> <span class="pre">Shadows</span></code> light source parameter has been renamed to <code class="docutils literal"><span class="pre">Shadow</span></code> and now also enables shadow rendering in the Blender Viewport.</p>
 </li>
@@ -2178,8 +2289,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id43">
-<h3>修复<a class="headerlink" href="#id43" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id46">
+<h3>修复<a class="headerlink" href="#id46" title="永久链接至标题">¶</a></h3>
 <ul class="simple">
 <li>Incorrect behavior of the <code class="docutils literal"><span class="pre">canvas_resolution_factor</span></code> engine parameter on Apple iOS devices has been fixed.</li>
 <li>Engine error that occurred in case of absence of the selected object in the <code class="docutils literal"><span class="pre">Show</span> <span class="pre">Object</span></code> and <code class="docutils literal"><span class="pre">Hide</span> <span class="pre">Object</span></code> logic nodes has been fixed.</li>
@@ -2210,8 +2321,8 @@ as long as they are dynamic.</p>
 </div>
 <div class="section" id="v16-01">
 <h2>v16.01<a class="headerlink" href="#v16-01" title="永久链接至标题">¶</a></h2>
-<div class="section" id="id44">
-<h3>新功能<a class="headerlink" href="#id44" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id47">
+<h3>新功能<a class="headerlink" href="#id47" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Line rendering.</p>
 <blockquote>
@@ -2264,8 +2375,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id45">
-<h3>变更<a class="headerlink" href="#id45" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id48">
+<h3>变更<a class="headerlink" href="#id48" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Using cubic reflections has been simplified.</p>
 <blockquote>
@@ -2302,8 +2413,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id46">
-<h3>修复<a class="headerlink" href="#id46" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id49">
+<h3>修复<a class="headerlink" href="#id49" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Positioning and flickering of the particle systems with world coordinates have been fixed.</p>
 </li>
@@ -2336,8 +2447,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id47">
-<h3>Known Issues<a class="headerlink" href="#id47" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id50">
+<h3>Known Issues<a class="headerlink" href="#id50" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Problems with updating of the add-on.</p>
 <blockquote>
@@ -2362,15 +2473,15 @@ as long as they are dynamic.</p>
 </div>
 <div class="section" id="v15-12">
 <h2>v15.12<a class="headerlink" href="#v15-12" title="永久链接至标题">¶</a></h2>
-<div class="section" id="id48">
-<h3>新功能<a class="headerlink" href="#id48" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id51">
+<h3>新功能<a class="headerlink" href="#id51" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Support for shadows from multiple sources.</p>
 <blockquote>
 <div><p>Support for shadows from multiple sources has been added. This feature can be used to greatly improve the realism of scenes lit by multiple light sources. Its functions and limitations are described in the <a class="reference internal" href="lighting.html#shadows"><span>documentation</span></a>.</p>
 </div></blockquote>
 </li>
-<li><p class="first"><a class="reference internal" href="stereo_rendering.html#stereo"><span>Experimental support of the HMD (Head-mounted display).</span></a></p>
+<li><p class="first"><a class="reference internal" href="vr_and_ar.html#stereo"><span>Experimental support of the HMD (Head-mounted display).</span></a></p>
 <blockquote>
 <div><p>Experimental support for the head-mounted displays with the WebVR API has been added. For now, using this technology requires a web browser with WebVR support and an Oculus Rift device. More details in the documentation.</p>
 </div></blockquote>
@@ -2431,8 +2542,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id49">
-<h3>变更<a class="headerlink" href="#id49" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id52">
+<h3>变更<a class="headerlink" href="#id52" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">The <code class="docutils literal"><span class="pre">Fast</span> <span class="pre">Preview</span></code> button has been duplicated in the UI low panel.</p>
 <blockquote>
@@ -2451,8 +2562,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id50">
-<h3>修复<a class="headerlink" href="#id50" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id53">
+<h3>修复<a class="headerlink" href="#id53" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Incorrect physics of a copied object has been fixed.</p>
 <blockquote>
@@ -2471,8 +2582,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id51">
-<h3>Known Issues<a class="headerlink" href="#id51" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id54">
+<h3>Known Issues<a class="headerlink" href="#id54" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Problems with updating of the add-on.</p>
 <blockquote>
@@ -2500,8 +2611,8 @@ as long as they are dynamic.</p>
 </div>
 <div class="section" id="v15-11">
 <h2>v15.11<a class="headerlink" href="#v15-11" title="永久链接至标题">¶</a></h2>
-<div class="section" id="id53">
-<h3>新功能<a class="headerlink" href="#id53" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id56">
+<h3>新功能<a class="headerlink" href="#id56" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Initial support of WebGL 2.0 technology.</p>
 <blockquote>
@@ -2565,8 +2676,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id54">
-<h3>变更<a class="headerlink" href="#id54" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id57">
+<h3>变更<a class="headerlink" href="#id57" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">The <code class="docutils literal"><span class="pre">Copy</span> <span class="pre">Cursor</span> <span class="pre">Location</span></code> button has been renamed to <code class="docutils literal"><span class="pre">Look</span> <span class="pre">At</span> <span class="pre">Cursor</span></code>, and its behavior has also been changed.</p>
 <blockquote>
@@ -2607,8 +2718,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id55">
-<h3>修复<a class="headerlink" href="#id55" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id58">
+<h3>修复<a class="headerlink" href="#id58" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Project Manager errors were fixed.</p>
 <blockquote>
@@ -2640,8 +2751,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id56">
-<h3>Known Issues<a class="headerlink" href="#id56" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id59">
+<h3>Known Issues<a class="headerlink" href="#id59" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Problems with updating of the add-on.</p>
 <blockquote>
@@ -2669,8 +2780,8 @@ as long as they are dynamic.</p>
 </div>
 <div class="section" id="v15-10">
 <h2>v15.10<a class="headerlink" href="#v15-10" title="永久链接至标题">¶</a></h2>
-<div class="section" id="id58">
-<h3>新功能<a class="headerlink" href="#id58" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id61">
+<h3>新功能<a class="headerlink" href="#id61" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">New Project Manager features.</p>
 <blockquote>
@@ -2733,8 +2844,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id59">
-<h3>变更<a class="headerlink" href="#id59" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id62">
+<h3>变更<a class="headerlink" href="#id62" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Project Manager interface has been improved.</p>
 <blockquote>
@@ -2765,8 +2876,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id60">
-<h3>修复<a class="headerlink" href="#id60" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id63">
+<h3>修复<a class="headerlink" href="#id63" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Project Manager errors were fixed.</p>
 </li>
@@ -2802,8 +2913,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id61">
-<h3>Known Issues<a class="headerlink" href="#id61" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id64">
+<h3>Known Issues<a class="headerlink" href="#id64" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Problems with updating of the add-on.</p>
 <blockquote>
@@ -2831,8 +2942,8 @@ as long as they are dynamic.</p>
 </div>
 <div class="section" id="v15-09">
 <h2>v15.09<a class="headerlink" href="#v15-09" title="永久链接至标题">¶</a></h2>
-<div class="section" id="id63">
-<h3>新功能<a class="headerlink" href="#id63" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id66">
+<h3>新功能<a class="headerlink" href="#id66" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Project Management.</p>
 <blockquote>
@@ -2911,8 +3022,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id64">
-<h3>变更<a class="headerlink" href="#id64" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id67">
+<h3>变更<a class="headerlink" href="#id67" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Add-ons (such as <a class="reference external" href="https://www.blend4web.com/api_doc/module-app.html">app</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-mouse.html">mouse</a> and others) are now a part of the compiled engine version:</p>
 <blockquote>
@@ -2984,8 +3095,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id65">
-<h3>修复<a class="headerlink" href="#id65" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id68">
+<h3>修复<a class="headerlink" href="#id68" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first"><code class="docutils literal"><span class="pre">Render</span> <span class="pre">Above</span> <span class="pre">All</span></code> option now works correctly with node materials.</p>
 </li>
@@ -3026,8 +3137,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id66">
-<h3>Known Issues<a class="headerlink" href="#id66" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id69">
+<h3>Known Issues<a class="headerlink" href="#id69" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Problems with updating of the add-on.</p>
 <blockquote>
@@ -3048,8 +3159,8 @@ as long as they are dynamic.</p>
 </div>
 <div class="section" id="v15-08">
 <h2>v15.08<a class="headerlink" href="#v15-08" title="永久链接至标题">¶</a></h2>
-<div class="section" id="id67">
-<h3>新功能<a class="headerlink" href="#id67" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id70">
+<h3>新功能<a class="headerlink" href="#id70" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Node-based logic editor.</p>
 <blockquote>
@@ -3103,8 +3214,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id68">
-<h3>变更<a class="headerlink" href="#id68" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id71">
+<h3>变更<a class="headerlink" href="#id71" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Changes in node material editor.</p>
 <blockquote>
@@ -3125,8 +3236,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id69">
-<h3>修复<a class="headerlink" href="#id69" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id72">
+<h3>修复<a class="headerlink" href="#id72" title="永久链接至标题">¶</a></h3>
 <ul class="simple">
 <li>Fixed a compilation error in the <em>project.py</em> utility when a project is compiled to some external directory.</li>
 <li>Fixed a web server error which could arise due corrupted Windows registry.</li>
@@ -3139,8 +3250,8 @@ as long as they are dynamic.</p>
 <li>Fixed a bug with touch events in the Microsoft Edge browser.</li>
 </ul>
 </div>
-<div class="section" id="id70">
-<h3>Known Issues<a class="headerlink" href="#id70" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id73">
+<h3>Known Issues<a class="headerlink" href="#id73" title="永久链接至标题">¶</a></h3>
 <ul class="simple">
 <li>In the logic editor, some of looped links are highlighted in red. This issue has only cosmetic effect and can be safely ignored.</li>
 </ul>
@@ -3148,8 +3259,8 @@ as long as they are dynamic.</p>
 </div>
 <div class="section" id="v15-07">
 <h2>v15.07<a class="headerlink" href="#v15-07" title="永久链接至标题">¶</a></h2>
-<div class="section" id="id71">
-<h3>新功能<a class="headerlink" href="#id71" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id74">
+<h3>新功能<a class="headerlink" href="#id74" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Support for <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Clip</span></code> transparency for node materials.</p>
 <blockquote>
@@ -3216,8 +3327,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id72">
-<h3>变更<a class="headerlink" href="#id72" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id75">
+<h3>变更<a class="headerlink" href="#id75" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Various usability improvements in the addon interface.</p>
 </li>
@@ -3280,8 +3391,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id73">
-<h3>修复<a class="headerlink" href="#id73" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id76">
+<h3>修复<a class="headerlink" href="#id76" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Fixed a bug with incorrect Canvas element size appeared on the engine&#8217;s startup.</p>
 </li>
@@ -3317,8 +3428,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id74">
-<h3>Known Issues<a class="headerlink" href="#id74" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id77">
+<h3>Known Issues<a class="headerlink" href="#id77" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Problems with updating of the add-on.</p>
 <blockquote>
@@ -3347,8 +3458,8 @@ as long as they are dynamic.</p>
 </div>
 <div class="section" id="v15-06">
 <h2>v15.06<a class="headerlink" href="#v15-06" title="永久链接至标题">¶</a></h2>
-<div class="section" id="id75">
-<h3>新功能<a class="headerlink" href="#id75" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id78">
+<h3>新功能<a class="headerlink" href="#id78" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">New add-on user interface.</p>
 <blockquote>
@@ -3444,8 +3555,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id76">
-<h3>变更<a class="headerlink" href="#id76" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id79">
+<h3>变更<a class="headerlink" href="#id79" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">New API spec for collision detection and ray casting.</p>
 <blockquote>
@@ -3511,8 +3622,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id77">
-<h3>修复<a class="headerlink" href="#id77" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id80">
+<h3>修复<a class="headerlink" href="#id80" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Fixes in <code class="docutils literal"><span class="pre">screenshooter.js</span></code> addon.</p>
 <blockquote>
@@ -3551,8 +3662,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id78">
-<h3>Known Issues<a class="headerlink" href="#id78" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id81">
+<h3>Known Issues<a class="headerlink" href="#id81" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Problems with updating of the add-on.</p>
 <blockquote>
@@ -3571,8 +3682,8 @@ as long as they are dynamic.</p>
 </div>
 <div class="section" id="v15-05">
 <h2>v15.05<a class="headerlink" href="#v15-05" title="永久链接至标题">¶</a></h2>
-<div class="section" id="id80">
-<h3>新功能<a class="headerlink" href="#id80" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id83">
+<h3>新功能<a class="headerlink" href="#id83" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first"><em>Glow effect</em>.</p>
 <blockquote>
@@ -3632,8 +3743,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id81">
-<h3>变更<a class="headerlink" href="#id81" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id84">
+<h3>变更<a class="headerlink" href="#id84" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first"><em>Reorganized SDK&#8217;s scene list.</em></p>
 <blockquote>
@@ -3681,8 +3792,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id82">
-<h3>修复<a class="headerlink" href="#id82" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id85">
+<h3>修复<a class="headerlink" href="#id85" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first"><em>The error that led to the wrong height of the description element in module &#8220;anchors.js&#8221; has been fixed.</em></p>
 </li>
@@ -3706,8 +3817,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id83">
-<h3>Known Issues<a class="headerlink" href="#id83" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id86">
+<h3>Known Issues<a class="headerlink" href="#id86" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Problems with updating of the add-on.</p>
 <blockquote>
@@ -3719,8 +3830,8 @@ as long as they are dynamic.</p>
 </div>
 <div class="section" id="v15-04">
 <h2>v15.04<a class="headerlink" href="#v15-04" title="永久链接至标题">¶</a></h2>
-<div class="section" id="id84">
-<h3>新功能<a class="headerlink" href="#id84" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id87">
+<h3>新功能<a class="headerlink" href="#id87" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first"><em>Deformations by using Shape Keys (Morphing).</em></p>
 <blockquote>
@@ -3774,8 +3885,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id85">
-<h3>变更<a class="headerlink" href="#id85" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id88">
+<h3>变更<a class="headerlink" href="#id88" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first"><em>The API documentation has changed its appearance. Links for quick access to methods and properties were added.</em></p>
 </li>
@@ -3853,8 +3964,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id86">
-<h3>修复<a class="headerlink" href="#id86" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id89">
+<h3>修复<a class="headerlink" href="#id89" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first"><em>Fixed a bug in the &#8220;anchors.js&#8221; module which caused objects&#8217; descriptions to disappear.</em></p>
 </li>
@@ -3890,8 +4001,8 @@ as long as they are dynamic.</p>
 </div>
 <div class="section" id="v15-03">
 <h2>v15.03<a class="headerlink" href="#v15-03" title="永久链接至标题">¶</a></h2>
-<div class="section" id="id87">
-<h3>新功能<a class="headerlink" href="#id87" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id90">
+<h3>新功能<a class="headerlink" href="#id90" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first"><em>New tool for adding annotations to 3D objects.</em></p>
 <blockquote>
@@ -3940,8 +4051,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id88">
-<h3>变更<a class="headerlink" href="#id88" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id91">
+<h3>变更<a class="headerlink" href="#id91" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first"><em>Origin for counting off the camera limits has been changed.</em></p>
 <blockquote>
@@ -4006,8 +4117,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id89">
-<h3>修复<a class="headerlink" href="#id89" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id92">
+<h3>修复<a class="headerlink" href="#id92" title="永久链接至标题">¶</a></h3>
 <ul class="simple">
 <li><em>Fixed camera autorotate feature of the web player.</em></li>
 <li><em>Fixed an error related to the fullscreen mode in the Web Player.</em></li>
@@ -4024,8 +4135,8 @@ as long as they are dynamic.</p>
 <li><em>Fixed fog rendering error in some versions of Chrome/Firefox under Windows.</em></li>
 </ul>
 </div>
-<div class="section" id="id90">
-<h3>Known Issues<a class="headerlink" href="#id90" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id93">
+<h3>Known Issues<a class="headerlink" href="#id93" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Problems with updating of the add-on.</p>
 <blockquote>
@@ -4039,8 +4150,8 @@ as long as they are dynamic.</p>
 </div>
 <div class="section" id="v15-02">
 <h2>v15.02<a class="headerlink" href="#v15-02" title="永久链接至标题">¶</a></h2>
-<div class="section" id="id91">
-<h3>新功能<a class="headerlink" href="#id91" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id94">
+<h3>新功能<a class="headerlink" href="#id94" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first"><em>The local development server can be run from Blender.</em></p>
 <blockquote>
@@ -4126,8 +4237,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id92">
-<h3>变更<a class="headerlink" href="#id92" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id95">
+<h3>变更<a class="headerlink" href="#id95" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first"><em>Now it is possible to add options with the same names via browser address bar.</em></p>
 <blockquote>
@@ -4165,8 +4276,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id93">
-<h3>修复<a class="headerlink" href="#id93" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id96">
+<h3>修复<a class="headerlink" href="#id96" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first"><em>Corrected behavior of the preloader for the Web Player.</em></p>
 <blockquote>
@@ -4189,8 +4300,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id94">
-<h3>Known Issues<a class="headerlink" href="#id94" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id97">
+<h3>Known Issues<a class="headerlink" href="#id97" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Problems with updating of the add-on.</p>
 <blockquote>
@@ -4204,8 +4315,8 @@ as long as they are dynamic.</p>
 </div>
 <div class="section" id="v15-01">
 <h2>v15.01<a class="headerlink" href="#v15-01" title="永久链接至标题">¶</a></h2>
-<div class="section" id="id95">
-<h3>新功能<a class="headerlink" href="#id95" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id98">
+<h3>新功能<a class="headerlink" href="#id98" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first"><em>Support for panning on touchscreen devices.</em></p>
 <blockquote>
@@ -4289,8 +4400,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id96">
-<h3>变更<a class="headerlink" href="#id96" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id99">
+<h3>变更<a class="headerlink" href="#id99" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first"><em>SDK file hierarchy was simplified.</em></p>
 <blockquote>
@@ -4324,8 +4435,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id97">
-<h3>修复<a class="headerlink" href="#id97" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id100">
+<h3>修复<a class="headerlink" href="#id100" title="永久链接至标题">¶</a></h3>
 <ul class="simple">
 <li><em>When using &#8220;Panoramic&#8221; camera type in Blender the camera automatically obtains &#8220;Perspective&#8221; type when exported.</em></li>
 <li><em>Fixed bug with &#8220;Target&#8221; camera dragging in rare cases.</em></li>
@@ -4337,8 +4448,8 @@ as long as they are dynamic.</p>
 <li><em>Fixed rendering issue in node materials with ``REFRACTION`` node.</em></li>
 </ul>
 </div>
-<div class="section" id="id98">
-<h3>Known Issues<a class="headerlink" href="#id98" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id101">
+<h3>Known Issues<a class="headerlink" href="#id101" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Problems with updating of the add-on.</p>
 <blockquote>
@@ -4357,8 +4468,8 @@ as long as they are dynamic.</p>
 </div>
 <div class="section" id="v14-12">
 <h2>v14.12<a class="headerlink" href="#v14-12" title="永久链接至标题">¶</a></h2>
-<div class="section" id="id99">
-<h3>新功能<a class="headerlink" href="#id99" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id102">
+<h3>新功能<a class="headerlink" href="#id102" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first"><em>Camera velocity settings are now available.</em></p>
 <blockquote>
@@ -4387,8 +4498,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id100">
-<h3>变更<a class="headerlink" href="#id100" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id103">
+<h3>变更<a class="headerlink" href="#id103" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first"><em>Removed support for deprecated &#8220;UV translation velocity&#8221; texture settings.</em></p>
 <blockquote>
@@ -4424,8 +4535,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id101">
-<h3>修复<a class="headerlink" href="#id101" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id104">
+<h3>修复<a class="headerlink" href="#id104" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first"><em>Fixed audio playback error occurred when using NLA.</em></p>
 <blockquote>
@@ -4457,8 +4568,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id102">
-<h3>Known Issues<a class="headerlink" href="#id102" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id105">
+<h3>Known Issues<a class="headerlink" href="#id105" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Problems with updating of the add-on.</p>
 <blockquote>
@@ -4472,8 +4583,8 @@ as long as they are dynamic.</p>
 </div>
 <div class="section" id="v14-11">
 <h2>v14.11<a class="headerlink" href="#v14-11" title="永久链接至标题">¶</a></h2>
-<div class="section" id="id103">
-<h3>新功能<a class="headerlink" href="#id103" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id106">
+<h3>新功能<a class="headerlink" href="#id106" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first"><em>Video textures support.</em></p>
 <blockquote>
@@ -4515,8 +4626,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id104">
-<h3>变更<a class="headerlink" href="#id104" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id107">
+<h3>变更<a class="headerlink" href="#id107" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first"><em>The webplayer&#8217;s &#8220;bg&#8221; parameter is renamed to &#8220;fallback_image&#8221;.</em></p>
 <blockquote>
@@ -4533,8 +4644,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id105">
-<h3>修复<a class="headerlink" href="#id105" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id108">
+<h3>修复<a class="headerlink" href="#id108" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first"><em>Normal maps now work with Generated and Normal texture coordinates.</em></p>
 <blockquote>
@@ -4550,8 +4661,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id106">
-<h3>Known Issues<a class="headerlink" href="#id106" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id109">
+<h3>Known Issues<a class="headerlink" href="#id109" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Problems with updating of the add-on.</p>
 <blockquote>
@@ -4563,8 +4674,8 @@ as long as they are dynamic.</p>
 </div>
 <div class="section" id="v14-10">
 <h2>v14.10<a class="headerlink" href="#v14-10" title="永久链接至标题">¶</a></h2>
-<div class="section" id="id107">
-<h3>新功能<a class="headerlink" href="#id107" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id110">
+<h3>新功能<a class="headerlink" href="#id110" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first"><em>A new Web Player.</em></p>
 <blockquote>
@@ -4607,8 +4718,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id108">
-<h3>变更<a class="headerlink" href="#id108" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id111">
+<h3>变更<a class="headerlink" href="#id111" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first"><em>Changed SDK path setting for HTML export.</em></p>
 <blockquote>
@@ -4634,8 +4745,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id109">
-<h3>修复<a class="headerlink" href="#id109" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id112">
+<h3>修复<a class="headerlink" href="#id112" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first"><em>Fixed rendering error for HALO materials.</em></p>
 </li>
@@ -4660,8 +4771,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id110">
-<h3>Known Issues<a class="headerlink" href="#id110" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id113">
+<h3>Known Issues<a class="headerlink" href="#id113" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Problems with updating of the add-on.</p>
 <blockquote>
@@ -4678,8 +4789,8 @@ as long as they are dynamic.</p>
 </div>
 <div class="section" id="v14-09">
 <h2>v14.09<a class="headerlink" href="#v14-09" title="永久链接至标题">¶</a></h2>
-<div class="section" id="id111">
-<h3>新功能<a class="headerlink" href="#id111" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id114">
+<h3>新功能<a class="headerlink" href="#id114" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first"><em>ABSOLUTE type support for the MATH node.</em></p>
 </li>
@@ -4744,8 +4855,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id112">
-<h3>变更<a class="headerlink" href="#id112" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id115">
+<h3>变更<a class="headerlink" href="#id115" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first"><em>Shadow rendering improved.</em></p>
 <blockquote>
@@ -4775,8 +4886,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id113">
-<h3>修复<a class="headerlink" href="#id113" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id116">
+<h3>修复<a class="headerlink" href="#id116" title="永久链接至标题">¶</a></h3>
 <ul class="simple">
 <li><em>The preloader didn&#8217;t disappear in case of a loading error (texture or sound file).</em></li>
 <li><em>Lagging during scaling and turning on mobile devices is fixed.</em></li>
@@ -4789,8 +4900,8 @@ as long as they are dynamic.</p>
 <li><em>The particle system error when the object being instanced is parented to another object, has been fixed.</em></li>
 </ul>
 </div>
-<div class="section" id="id114">
-<h3>Known Issues<a class="headerlink" href="#id114" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id117">
+<h3>Known Issues<a class="headerlink" href="#id117" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Problems with updating of the add-on.</p>
 <blockquote>
@@ -4800,7 +4911,7 @@ as long as they are dynamic.</p>
 <li><p class="first"><em>Armature animation mixing doesn&#8217;t work with some browsers.</em></p>
 <blockquote>
 <div><p>If skeletal animation mixing API brings unexpected errors, it is necessary to override standard Math.sign function as follows:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_util</span>  <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;util&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_util</span>  <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;util&quot;</span><span class="p">);</span>
 <span class="nb">Math</span><span class="p">.</span><span class="nx">sign</span> <span class="o">=</span> <span class="nx">m_util</span><span class="p">.</span><span class="nx">sign</span><span class="p">;</span>
 </pre></div>
 </div>
@@ -4829,7 +4940,7 @@ as long as they are dynamic.</p>
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2017, Triumph.
-      最后更新于 2017-08-31.
+      最后更新于 2017-10-31.
 
     </p>
   </div>
@@ -4885,7 +4996,7 @@ as long as they are dynamic.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.08',
+            VERSION:'v17.10',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

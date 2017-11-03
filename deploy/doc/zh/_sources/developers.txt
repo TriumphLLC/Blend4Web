@@ -773,7 +773,7 @@ SDK中包含的代码片段应用程序，它演示了如何使用引擎的功�
 
    * Instancing - 复制现场运行时对象
 
-   * Leap Motion - an example of using Leap Motion controller
+   * Leap Motion - 使用Leap Motion控制器的示例
 
    * 线 - 程序线渲染
 

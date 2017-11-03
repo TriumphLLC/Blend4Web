@@ -133,6 +133,7 @@ _du_character_jump \
 _du_set_character_rotation \
 _du_set_character_hor_rotation \
 _du_set_character_vert_rotation \
+_du_set_character_vert_move_dir_angle \
 _du_character_rotation_inc \
 _du_get_character_trans_quat \
 _du_get_vehicle_speed \

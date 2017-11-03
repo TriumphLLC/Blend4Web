@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2017-08-31 16:34+0300\n"
-"PO-Revision-Date: 2017-07-03 15:43+0800\n"
+"POT-Creation-Date: 2017-10-31 12:05+0300\n"
+"PO-Revision-Date: 2017-09-04 00:35+0800\n"
 "Last-Translator: kidux <yuzukyo@gmail.com>\n"
 "Language-Team: Chinese <info [at] blend4web.com>\n"
 "MIME-Version: 1.0\n"
@@ -19,14 +19,200 @@ msgstr ""
 msgid "Release Notes"
 msgstr "发布说明"
 
-msgid "v17.08"
+msgid "v17.10"
 msgstr ""
 
 msgid "New Features"
 msgstr "新功能"
 
-msgid "Support for Leap Motion hand tracking controller."
+msgid "Added side-by-side rendering stereo mode."
 msgstr ""
+
+msgid "Auto start tornado developer server."
+msgstr ""
+
+msgid ""
+"Now closing one of the instances of Blender does not stop development "
+"server if there is another instance of Blender with started development "
+"server."
+msgstr ""
+
+msgid "Added synchronization the :ref:`Viewer <viewer>` application and Blender."
+msgstr ""
+
+#, fuzzy
+msgid "Changes in the physics engine."
+msgstr "更改导出UV层的执行过程。"
+
+msgid ""
+"The ability to control gravity vector in the scene has been added. "
+"Stability of the ``HINGE`` constraints has been improved. Also the "
+":b4wref:`physics.set_character_vert_move_dir_angle` method has been added"
+" to the :b4wmod:`physics` module."
+msgstr ""
+
+msgid ""
+"Added new nodes to the ``Logic Editor``: ``Define Function``, ``Call "
+"Function``, ``Switch``"
+msgstr ""
+
+msgid ""
+"``Destination`` field has been added to the ``Select`` node. This field "
+"specifies a variable used to contains selected object after the event of "
+"selection."
+msgstr ""
+
+msgid "Added ``Object`` variable type to the Logic Editor."
+msgstr ""
+
+msgid ""
+"The UI of some nodes which use object selector is extended with ability "
+"to specify a variable"
+msgstr ""
+
+msgid ""
+"Improved environment lighting algorithms for Cycles materials with "
+"``Glossy BSDF`` and ``Diffuse BSDF`` nodes."
+msgstr ""
+
+msgid "Changes"
+msgstr "变更"
+
+msgid "Now NLA can be stopped with API in case of using Logic Nodes."
+msgstr ""
+
+msgid "Blender 2.79 is a recommended version."
+msgstr ""
+
+#, fuzzy
+msgid "Optimized of LOD objects."
+msgstr "优化反射渲染。"
+
+msgid ""
+"Renamed logic nodes: ``Switch Select`` -> ``Select``, ``Conditional "
+"Jump`` -> ``Branch``"
+msgstr ""
+
+msgid ""
+"We've started to use ``Datablock pointer properties`` - the new feature "
+"of Blender 2.79 in our addon. This means that you may have forward "
+"compatibility issues (see Blender 2.79 release notes)"
+msgstr ""
+
+msgid ""
+"Simplified Logic Node Tree to the scene attachment procedure: Refresh "
+"button has been removed due to our patch for blender (D113)"
+msgstr ""
+
+msgid "Fixes"
+msgstr "修复"
+
+msgid ""
+"Fixed DOF artifacts with bokeh enabled. The algorithm now requires WebGL "
+"extensions for floating-point render targets, otherwise bokeh is disabled"
+" automatically."
+msgstr ""
+
+msgid "Fixed HTML export of the ``Cycles`` world materials."
+msgstr ""
+
+msgid ""
+"Fixed false positive error producing console warning message: ``B4W WARN:"
+" Canvas size exceeds platform limits, downscaling``."
+msgstr ""
+
+msgid "Fixed invisibility of the control panel in AR demo in IE 11."
+msgstr ""
+
+msgid ""
+"Fixed the :b4wref:`camera_anim.rotate_camera` method of the "
+":b4wmod:`camera_anim` module."
+msgstr ""
+
+msgid "Fixed the :b4wref:`screen.shot` method of the :b4wmod:`screen` module."
+msgstr ""
+
+#, fuzzy
+msgid "Fixed some errors of API documentation."
+msgstr "修复了API文档中的一些不准确之处。"
+
+msgid "Fixed low FPS in the Petigor's Tale application."
+msgstr ""
+
+#, fuzzy
+msgid "Fixed visibility of God Rays on some mobile devices."
+msgstr "修复在移动设备上引擎崩溃问题。"
+
+msgid "Fixed ``Mapping`` node with zero scale."
+msgstr ""
+
+msgid ""
+"Fixed the :b4wref:`camera.translate_view` and :b4wref:`camera.set_fov` "
+"methods of the :b4wmod:`camera` module."
+msgstr ""
+
+msgid ""
+"Fixed the :b4wref:`material.get_materials_names` method of the "
+":b4wmod:`material` module."
+msgstr ""
+
+msgid ""
+"Fixed character rotation with the  "
+":b4wref:`physics.set_character_rotation` and "
+":b4wref:`physics.set_character_rotation_v` methods of the "
+":b4wmod:`physics` module."
+msgstr ""
+
+msgid ""
+"Fixed missing UV and vertex colors layers after applying of the "
+":b4wref:`material.inherit_material` method in some cases."
+msgstr ""
+
+#, fuzzy
+msgid "Fixed loading of video textures with the \".mp4\" extension."
+msgstr "修复了在 Ipad 上的 HTML 导出的视频纹理加载问题。"
+
+msgid ""
+"Fixed the :b4wref:`camera.get_ortho_scale` method of the :b4wmod:`camera`"
+" module."
+msgstr ""
+
+msgid ""
+"Fixed the :b4wref:`app.enable_camera_controls` method of the "
+":b4wmod:`app` module."
+msgstr ""
+
+msgid ""
+"Fixed engine crash in case of using the Value node in Emitter particles "
+"materials."
+msgstr ""
+
+msgid ""
+"Fixed the :b4wref:`material.set_nodemat_value`, "
+":b4wref:`material.get_nodemat_value`, :b4wref:`material.set_nodemat_rgb` "
+"and :b4wref:`material.get_nodemat_rgb` methods of the :b4wmod:`material` "
+"module."
+msgstr ""
+
+msgid ""
+"Fixed scale computation for the ``Curve`` objects with ``Apply Scale and "
+"Modifiers`` export option enabled."
+msgstr ""
+
+msgid ""
+"Fixed bug with NLA initialization. The bug had impact on animation start "
+"frame."
+msgstr ""
+
+#, fuzzy
+msgid "Fixed touch sensor on slow devices."
+msgstr "修复在移动设备上引擎崩溃问题。"
+
+msgid "v17.08"
+msgstr ""
+
+msgid "Support for Leap Motion hand tracking controller."
+msgstr "支持Leap Motion手动跟踪控制器。"
 
 msgid ""
 "Added the new Leap Motion code snippet. This code snippet can help you to"
@@ -34,37 +220,39 @@ msgid ""
 "Snippet supports two modes: realistic skinned hands and hands based on "
 "primitive objects."
 msgstr ""
+"添加了新的Leap Motion代码段。此代码段可以帮助您集成对您自己的应用程序中的Leap "
+"Motion设备的支持。代码段支持两种模式：基于原始物体的手和逼真皮肤手。"
 
 msgid "New logic node \"Date & Time\"."
-msgstr ""
+msgstr "新的逻辑节点 \"日期和时间\" 。"
 
 msgid ""
 "This node allows to obtain current Local/UTC date and time (year, month, "
 "day, hour, minute and second)."
-msgstr ""
+msgstr "此节点，可以获取当前本地/UTC 日期和时间 （年、 月、 日、 小时、 分钟和秒）。"
 
 msgid "New logic node \"Elapsed\"."
-msgstr ""
+msgstr "新的逻辑节点  \"耗时\"."
 
 msgid ""
 "This node returns elapsed time since last frame rendered in seconds. This"
 " node can be very useful for creating robust procedural animations."
-msgstr ""
+msgstr "此节点返回自上一帧渲染后的已用时间（以秒计）。该节点对于创建鲁棒的程序动画非常有用。"
 
 msgid ""
 "Improved texture cache. Added ``enable_texture_cache`` configuration "
 "option."
-msgstr ""
+msgstr "改进的纹理缓存。添加了  ``enable_texture_cache``  配置选项。"
 
 msgid ""
 "The texture cache is used for dynamically loaded scenes and can reduce "
 "scene loading time by reusing already existed textures instead of "
 "creating new ones. This option allows to turn on/off the texture cache. "
 "Enabled by default."
-msgstr ""
+msgstr "纹理缓存用于动态加载的场景，可以通过重用已有的纹理，而不是创建新的来减少场景加载时间。此选项允许打开/关闭纹理缓存。默认情况下启用。"
 
 msgid "Added new API methods to show/hide groups of objects."
-msgstr ""
+msgstr "添加新的 API 的方法来显示/隐藏的物体组。"
 
 msgid ""
 "Methods :b4wref:`objects.hide_all_by_data_id` and "
@@ -73,42 +261,48 @@ msgid ""
 "objects based on their ``data_id`` property. Thus, they can be used to "
 "show/hide an entire dynamically loaded scene at once."
 msgstr ""
+"方法 :b4wref:`objects.hide_all_by_data_id` 和 "
+":b4wref:`objects.show_all_by_data_id` 已添加到  :b4wmod:`objects`  "
+"模块。他们允许更改基于他们  ``data_id`` 属性的多个物体的可见性。因此，他们可以用来立即显示/隐藏整个动态加载的场景。"
 
 msgid ""
 ":b4wref:`textures.replace_image` was added in the :b4wmod:`textures` "
 "module. Also, :b4wref:`textures.change_image` is considered deprecated."
 msgstr ""
+":b4wref:`textures.replace_image` 添加到 :b4wmod:`textures` 模块。此外， "
+":b4wref:`textures.change_image` 被认为是不推荐使用。"
 
 msgid "Optimization for procedural materials."
-msgstr ""
+msgstr "优化程序材质。"
 
 msgid ""
 "Implemented new packing algorithm for VALUE GLSL node. This algorithm "
 "uses a vec4 array instead of a float array as before. This makes possible"
 " to use more VALUE nodes without a risk of exceeding GPU limits."
 msgstr ""
+"实现了 VALUE GLSL节点的新封包算法。相比以前该算法利用 vec4 数组而不是浮点数组。这使得可能使用更多值节点而不超过 GPU "
+"限制的风险。"
 
 msgid "A new internal module ``material.js``."
-msgstr ""
+msgstr "新的内部模块 ``material.js``."
 
 msgid ""
 "This module contains internal engine logics for materials. This change "
 "requires to perform the ``Check Modules`` and ``Update Modules`` "
 "operations for old projects in the Project Manager after updating the "
 "SDK."
-msgstr ""
+msgstr "此模块包含引擎材质的内部逻辑。更新 SDK 后，这一更改需要在项目管理器中的旧项目执行 ``检查模块`` 和 ``更新模块`` 操作。"
 
 msgid "Refined Logic Editor user interface."
-msgstr ""
+msgstr "精细化逻辑编辑器用户界面。"
 
 msgid ""
 "Introduced a new Time category with ``Get Timeline``, ``Delay``, ``Date &"
 " Time`` and ``Elapsed`` nodes."
-msgstr ""
+msgstr "引入了一个新的时间类有 ``Get Timeline``, ``Delay``, ``Date & Time`` 和 ``Elapsed`` 节点。"
 
-#, fuzzy
 msgid "Physics engine improvements."
-msgstr "物理API改进。"
+msgstr "物理引擎的改进。"
 
 msgid ""
 "Bullet library used by the internal physics engine upgraded from 2.82 to "
@@ -117,182 +311,181 @@ msgid ""
 "this are: lesser size of the physics files, faster physics "
 "initialization, improved physics stability and higher FPS."
 msgstr ""
-
-msgid "Changes"
-msgstr "变更"
+"内部物理引擎使用的Bullet库从 2.82 升级到 2.86 版本。此外，引擎的物理用 WebAssembly "
+"编译优化的版本成为默认启用的。优点终于： 较小的物理文件、 更快的物理初始化、 改进的物理稳定性和更高的 FPS。"
 
 msgid "The version of the JSON/BIN export format was increased to 6.03."
-msgstr ""
+msgstr "JSON/BIN 导出格式的版本增加至 6.03。"
 
 msgid ""
 "It's recommended to reexport old .blend files for using with the latest "
 "engine version."
-msgstr ""
+msgstr "建议重导出旧.blend 文件与最新的引擎版本一起使用。"
 
 msgid "Rendering of the Fresnel effect was slightly optimized."
-msgstr ""
+msgstr "菲涅耳效应渲染略进行了优化。"
 
 msgid ""
 "The option ``Preserve Global Rotation and Scale`` from the "
 "``Object->Billboard`` panel was renamed to ``Preserve Global Rotation``."
-msgstr ""
+msgstr "从 ``物体->广告牌`` 面板的  ``保持全局旋转和缩放`` 选项更名为 ``保持全局缩放``."
 
 msgid "From now on the world scale value is always applied to a billboard object."
-msgstr ""
+msgstr "从现在起世界缩放值总是应用于广告牌物体。"
 
 msgid ""
 "Added error message in case of making recursive or self-applied "
 "constraints via the :b4wmod:`constraints API constraints`."
-msgstr ""
+msgstr "在使用  :b4wmod:`constraints API constraints` 时用了递归或通过自我应用的约束的情况下添加的错误信息。"
 
 msgid ""
 "Added export warning in case of using multiple constraints on an object "
 "in Blender."
-msgstr ""
+msgstr "在Blender中一个物体使用多个约束的情况导出会有警告。"
 
 msgid "Unnecessary python module 'requests' has been removed from addon."
-msgstr ""
+msgstr "不必要的python模块  'requests' 已从插件中删除。"
 
 msgid "The user manual has been supplied with several updates:"
-msgstr ""
+msgstr "用户手册已提供多个更新："
 
 msgid ""
 "A :ref:`detailed description <blender_interface>` of the Blender user "
 "interface has been added"
-msgstr ""
+msgstr "添加了一份 :ref:`详细说明 <blender_interface>` Blender用户界面的文档"
 
 msgid "A guide on using :ref:`animation blending <anim_blend>`."
-msgstr ""
+msgstr "一份关于 :ref:`动画混合 <anim_blend>` 的使用指南 "
 
 msgid ""
 "A :ref:`description <objects_constraints>` of API methods of the "
 ":b4wmod:`constraints` module."
-msgstr ""
-
-msgid "Fixes"
-msgstr "修复"
+msgstr "一份 :b4wmod:`constraints` 模块的API 方法 :ref:`描述 <objects_constraints>`"
 
 msgid "Minor CSS fixes in the Code Snippets application and Petigor's Tale game."
-msgstr ""
+msgstr "微量修复代码片段中的应用和 Petigor 的故事游戏的CSS 。"
 
 msgid ""
 "From now on the Alpha-AntiAliasing blend mode is switched to Alpha Clip "
 "for devices with ARM Mali-T720 GPU due to rendering artifacts."
-msgstr ""
+msgstr "从现在起因为ARM Mali-T720 GPU上渲染失真，所有该类设备透明抗锯齿混合模式都切换到透明裁切模式。"
 
 msgid "Fixed some crashes in the Project Manager while building applications."
-msgstr ""
+msgstr "修复了一些在项目管理器中构建应用程序时崩溃的问题。"
 
 msgid "Fixed a rare bug with wrong initial orientation of HOVER-type cameras."
-msgstr ""
+msgstr "修复了一个罕见的悬停型相机初始方向错误。"
 
 msgid ""
 "Disabled depth textures in Firefox under Windows for AMD GPUs to avoid "
 "some postprocessing artifacts."
-msgstr ""
+msgstr "在 Windows下为 AMD GPU 的火狐浏览器禁用的深度纹理，避免一些后期处理的失真。"
 
 msgid ""
 "Fixed precision issues that led to some rendering artifacts on mobile "
 "devices."
-msgstr ""
+msgstr "修复了导致一些移动设备上渲染失真的精度问题。"
 
 msgid "Fixed mouse wheel sensitivity, which was incorrect in some cases."
-msgstr ""
+msgstr "修复了的鼠标轮灵敏度，在某些情况下不正确。"
 
 msgid ""
 "Depth textures and also such related effects as SSAO, Dynamic Grass, "
 "Shore Smoothing, etc. were enabled for AMD GPUs in Chrome under Windows "
 "and for other GPUs in Firefox under Windows."
 msgstr ""
+"启用深度纹理和相关效果如 SSAO、 动态草、 岸边平滑等，为AMD "
+"GPU在Windows下的Chrome浏览器，以及其他GPU设备的Windows下的Firefox 。"
 
 msgid ""
 "Fixed frustum culling of billboard objects by properly calculating their "
 "boundings."
-msgstr ""
+msgstr "修复了广告牌物体的视域剔除，通过适当地计算其边界。"
 
-#, fuzzy
 msgid "Fixed rendering of the procedural fog."
-msgstr "修正了程序线的渲染。"
+msgstr "修复了程序雾的渲染。"
 
 msgid ""
 "Disabled MSAA for Mali-T720 GPU because of bad performance and rendering "
 "artifacts."
-msgstr ""
+msgstr "因为 Mali-T720 GPU 在用MSAA时渲染失真和性能很差，将MSAA禁用。"
 
-#, fuzzy
 msgid "Minor fixes in the API documentation."
 msgstr "修复了API文档中的一些不准确之处。"
 
 msgid ""
 "Fixed bug in Safari when an object with a non-opaque node material wasn't"
 " rendered if it had the Glow Output node with the zero alpha value."
-msgstr ""
+msgstr "修复了一个带不透明节点材质的物体有一个带零值透明的辉光输出节点会在 Safari 中渲染不正确的问题。"
 
 msgid ""
 "Fixed getting mouse/touch coordinates for IE11 and Edge when an "
 "application's canvas is not aligned with the top left corner of the "
 "browser window."
-msgstr ""
+msgstr "修复了IE11和Edge获得鼠标/触摸坐标时应用程序的画布不与浏览器窗口的左上角对齐的问题。"
 
 msgid ""
 "Disabled MSAA in Google Chrome 60 for macOS, because it doesn't work "
 "correctly and can lead to an engine crash."
-msgstr ""
+msgstr "禁用了谷歌 Chrome 60在macOS中的 MSAA，因为它不能正常工作，导致引擎崩溃。"
 
 msgid "Minor fixes to improve stability of WebVR."
-msgstr ""
+msgstr "少量修复以提高  WebVR 的稳定性。"
 
 msgid ""
 "Fixed texture caching for dynamically loaded scenes, which previously led"
 " to redundant GPU memory usage."
-msgstr ""
+msgstr "修复了场景的纹理缓存动态加载，以前会导致冗余 GPU 内存使用量。"
 
 msgid ""
 "Fixed applying the ``Array`` modifier to meshes with multiple UV/VC "
 "layers."
-msgstr ""
+msgstr "修复了网格有多重 UV/VC 层时应用 ``阵列`` 修改器的问题 。"
 
-#, fuzzy
 msgid "Fixed not applying multiple material animations on one object."
-msgstr "这使得一个物体的多个顶点动画可由NLA控制。"
+msgstr "修复了不能在一个物体上应用多个材质动画的问题。"
 
 msgid "Fixed resolution of debug subscene."
-msgstr ""
+msgstr "修复了调试子场景的分辨率。"
 
 msgid "Fixed constraints caused unpredictable behavior on IE11."
-msgstr ""
+msgstr "修复了约束在 IE11 造成不可预知的行为。"
 
 msgid "Fixed anchor visibility."
-msgstr ""
+msgstr "修复了锚的可见性。"
 
 msgid "Fixed possible memory leak. Unused debug framebuffers are removed."
-msgstr ""
+msgstr "修复了可能的内存泄漏。未使用的调试帧缓存将被删除。"
 
 msgid ""
 "Fixed using the hasOrientation and hasPosition attributes of WebVR API. "
 "In the last WebVR Chromium build the attributes can be undefined."
 msgstr ""
+"修复了使用 WebVR API 的 hasOrientation 和 hasPosition 属性。在最近的的 WebVR Chromium "
+"中属性可以是未定义的。"
 
 msgid "Fixed engine crash in case of using environment cubemaps with no image"
-msgstr ""
+msgstr "修复了如果环境立方体贴图没有图像引起的引擎崩溃"
 
 msgid "Fixed encoding issue in ``Project Manager`` for macOS."
-msgstr ""
+msgstr "修复了macOS的 ``项目管理器`` 的编码问题。"
 
 msgid ""
 "Fixed synchronization between the physics worker and the main thread in "
 "Chrome 61+ and removed the corresponding physics lag."
-msgstr ""
+msgstr "修复了在 Chrome 61 + 中物理工作组件与主线程之间的同步问题也移除相应的物理滞后问题。"
 
 msgid ""
 "Removed a hack for transparent node materials in Firefox under Linux, "
 "because it produced different color output among browsers."
-msgstr ""
+msgstr "在 Linux 火狐浏览器下，删除一个硬编码的透明节点材质，因为它在不同浏览器之间产生不同的颜色输出。"
 
 msgid ""
 "Fixed incorrect camera rotation via the :b4wref:`camera.rotate_camera` "
 "method if the ``is_abs`` parameter was set to ``true``."
 msgstr ""
+"修复了通过  :b4wref:`camera.rotate_camera` 方法当  ``is_abs`` 参数被设置为 ``true`` "
+"时的不正确的摄像机旋转。"
 
 msgid ""
 "Fixed bug when the \"simple\" optimization level was always used for "
@@ -302,9 +495,11 @@ msgid ""
 "and player-based applications (e.g. HTML-exported scenes) was slightly "
 "reduced."
 msgstr ""
+"修复了 \"编译\" 应用程序类型的项目总是使用 \"简单\" 级别的优化忽略配置选项的问题。这也同时修复了 Blend4Web "
+"播放器的优化级别，虽然使用了 \"高级\" 级，但是播放器和基于播放器的应用程序 (比如 HTML-导出场景)体积只是轻微减小的问题。 "
 
 msgid "Fixed loading of video textures on iPads in case of HTML export."
-msgstr ""
+msgstr "修复了在 Ipad 上的 HTML 导出的视频纹理加载问题。"
 
 msgid "v17.06"
 msgstr ""
@@ -416,9 +611,8 @@ msgstr "由于HTMLVideoElement的本机支持，因此在MS Edge中不再应用�
 msgid "Fixed incorrect rendering of materials with normal mapping."
 msgstr "修正了法线贴图材质的不正确渲染。"
 
-#, fuzzy
 msgid "Fixed VR code snippet."
-msgstr "修复的VR代码片段。"
+msgstr "修复了VR代码片段。"
 
 msgid "Fixed keyboard events when the engine is working inside an iframe."
 msgstr "修复当引擎在iframe内部工作时的键盘事件问题。"
@@ -7929,15 +8123,46 @@ msgstr ""
 msgid "release notes"
 msgstr ""
 
-#~ msgid "New logic node \"Date & Time\""
+#~ msgid "TODO: add description (mode, webplayer)"
 #~ msgstr ""
 
-#~ msgid "New logic node \"Elapsed\""
+#~ msgid "Autostart tornado developer server."
 #~ msgstr ""
 
 #~ msgid ""
 #~ msgstr ""
 
-#~ msgid "Fixed encoding issue in ``Project Manager`` for OSX."
+#~ msgid "Added sincranizating Viewer application and Blender."
+#~ msgstr ""
+
+#~ msgid "TODO: add description"
+#~ msgstr ""
+
+#~ msgid "Performance improved."
+#~ msgstr "用户界面的改进。"
+
+#~ msgid "Blender 2.79 is a recomended version."
+#~ msgstr ""
+
+#~ msgid "Fixed unvisible control panel in AR demo in IE 11."
+#~ msgstr ""
+
+#~ msgid "Fixed visibility on the God Rays in some mobile devices."
+#~ msgstr ""
+
+#~ msgid "Fixed Mapping node with zero scale."
+#~ msgstr ""
+
+#~ msgid "Added synchronization between the Viewer application and Blender."
+#~ msgstr ""
+
+#~ msgid "Added ``Object`` type of variable to the Logic Editor"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Added ``Destination`` field to the "
+#~ "``Select`` node. This field specifies a"
+#~ " variable used to contains selected "
+#~ "object after the event of selection."
 #~ msgstr ""
 

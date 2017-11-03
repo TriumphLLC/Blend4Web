@@ -389,7 +389,7 @@ exports.get_filter_freq_response = m_sfx.get_filter_freq_response;
 /**
  * Get duration of the speaker's playback cycle.
  * Zero duration means looped or non-ready speaker
- * @method module:sfx.get_volume
+ * @method module:sfx.get_duration
  * @param {?Object3D} obj Speaker object.
  * @returns {number} Duration
  */

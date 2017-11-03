@@ -699,6 +699,12 @@ These messages can be viewed in the browser console (opens with ``F12``) when a 
 | Missing world or wrong active world | There should be at least one world        |
 | object                              | datablock in the scene.                   |
 +-------------------------------------+-------------------------------------------+
+| Multiple constraints added on an    | Multiple constraints added on an object   |
+| object "Cube", but it supports only | NAME, but it supports only one. Others    |
+| one. Others won't be used.          | won't be used. The engine currently       |
+|                                     | doesn't support multiple constraints on   |
+|                                     | an object.                                |
++-------------------------------------+-------------------------------------------+
 | NAME particle settings has the NAME | The particle settings datablock NAME      |
 | texture rendering a scene. It has   | contains the texture NAME being used for  |
 | been replaced by the default        | rendering a scene into. This texture has  |

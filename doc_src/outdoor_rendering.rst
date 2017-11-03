@@ -357,7 +357,8 @@ This feature can be enabled by the ``Lens Flare`` check-box located in the ``Ren
    :width: 100%
 
 .. note::
-    The effect works only if a ``Sun`` type light source is present in the scene.
+
+    This effect is strongly recommended to use with a single ``Sun`` type light source present in the scene.
 
 Lens Flare Settings
 -------------------
@@ -387,11 +388,11 @@ The material used for the lens flare object should have the ``Alpha Blend`` tran
 Texture Settings
 ................
 
-.. image:: src_images/outdoor_rendering/outdoor_rendering_lens_texture.png
-   :align: center
-   :width: 100%
+.. figure:: src_images/outdoor_rendering/outdoor_rendering_lens_texture.png
+    :align: center
+    :width: 100%
 
-An example of texture used to generate Lens Flare effect.
+    An example of texture used to generate Lens Flare effect.
 
 The texture used for the Lens Flare object should contain all elements used to form the shape of the flare in an actual application. The texture image should use ``Alpha`` channel and influence both ``Color`` and ``Alpha`` values.
 

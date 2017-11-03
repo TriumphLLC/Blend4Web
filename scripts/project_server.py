@@ -14,8 +14,10 @@ import string
 import sys
 import tempfile
 import threading
+import http
+import time
 
-from os.path import basename, exists, join, normpath, relpath
+from os.path import basename, exists, join, normpath, relpath, abspath, sep
 from collections import OrderedDict
 from urllib.parse import quote, unquote
 
@@ -35,7 +37,7 @@ os.environ["PYTHONIOENCODING"] = "UTF-8"
 SUB_THREAD_START_SERV_OK    = 0
 SUB_THREAD_SERVER_EXC       = 1
 SUB_THREAD_STOP_SERV_OK     = 2
-SUB_THREAD_OTHER_EXC        = 3
+SUB_THREAD_START_OTHER_OK   = 3
 
 ADDRESS = "localhost"
 DEFAULT_FILENAME = "index.html"
@@ -61,6 +63,9 @@ COLOR_REGEX = re.compile(r'\[(?P<arg_1>\d+)(;(?P<arg_2>\d+)(;(?P<arg_3>\d+))?)?m
 BOLD_TEMPLATE = '<span style="color: rgb{}; font-weight: bolder">'
 LIGHT_TEMPLATE = '<span style="color: rgb{}">'
 
+# 2 sec
+CHECK_TORNADO_TIMEOUT = 2
+
 CGC_PATH = "cgc"
 
 MAX_SHOWN_FILE_GRP_ITEMS = 3
@@ -71,72 +76,99 @@ _python_path = None
 _blender_path = None
 _use_comp_player = False
 
+def check_server_existance(port):
+    tornado_is_started = False
+    try:
+        connection = http.client.HTTPConnection(ADDRESS, port)
+        req = connection.request("GET", "/")
+        res = connection.getresponse()
+    except:
+        pass
+    else:
+        if res.getheader("B4W.LocalServer") == "1":
+            tornado_is_started = True
+    return tornado_is_started
+
 def create_server(root, port, allow_ext_requests, python_path, blender_path, B4WLocalServer):
     global _root, _port, _python_path, _blender_path
 
-    _root = root
-    _port = port
-    _python_path = python_path
-    _blender_path = blender_path
+    while True:
+        if check_server_existance(port):
+            B4WLocalServer.server_status = SUB_THREAD_START_OTHER_OK
+            time.sleep(CHECK_TORNADO_TIMEOUT)
+        else:
+            _root = root
+            _port = port
+            _python_path = python_path
+            _blender_path = blender_path
 
-    if allow_ext_requests:
-        address = ""
-    else:
-        address = ADDRESS
+            if allow_ext_requests:
+                address = ""
+            else:
+                address = ADDRESS
 
-    application = tornado.web.Application([
-        (r"/console/?$", ConsoleHandler),
-        (r"/project/?$", ProjectRootHandler),
-        (r"/scenes_list/?$", GetScenesListHandler),
-        (r"/project/sort/up/?$", ProjectSortUpHandler),
-        (r"/project/sort/down/?$", ProjectSortDownHandler),
-        (r"/project/show_b4w/?$", ProjectShowHandler),
-        (r"/project/hide_b4w/?$", ProjectHideHandler),
-        (r"/project/import/?$", UploadProjectFile),
-        (r"/check_build_proj_path/$", CheckBuildProjPathHandler),
-        (r"/project/upload_icon/?$", UploadIconFile),
-        (r"/project/info/.+$", ProjectInfoHandler),
-        (r"/project/config/.+$", ProjectConfigHandler),
-        (r"/save_config/(.*)$", ProjectSaveConfigHandler),
-        (r"/project/edit/.+$", ProjectEditHandler),
-        (r"/project/clone_snippet/(.*)$", ProjectCloneSnippetHandler),
-        (r"/project/.+$", ProjectRequestHandler),
-        (r"/create/?$", ProjectCreateHandler),
-        (r"/export/?$", ProjectExportHandler),
-        (r"/export/show_b4w/?$", ExportShowHandler),
-        (r"/export/hide_b4w/?$", ExportHideHandler),
-        (r"/run_blender/(.*)$", RunBlenderHandler),
-        (r"/analyze_shader/(.*)$", AnalyzeShaderHandler),
-        (r"/get_file_body/(.*)$", GetFileBodyHandler),
-        (r"/get_proj_names/$", GetProjNamesHandler),
-        (r"/save_file/(.*)$", SaveFileHandler),
-        (r"/create_file/(.*)$", CreateFileHandler),
-        (r"/tests/send_req/?$", TestSendReq),
-        (r"/tests/time_of_day/?$", TestTimeOfDay),
-        (r"/(.*)$", StaticFileHandlerNoCache,
-            { "path": root, "default_filename": DEFAULT_FILENAME}),
-    ])
+            application = tornado.web.Application([
+                (r"/viewer/?$", ViewerHandler),
+                (r"/viewer/instances/?$", ViewerInstancesHandler),
+                (r"/console/?$", ConsoleHandler),
+                (r"/project/?$", ProjectRootHandler),
+                (r"/scenes_list/?$", GetScenesListHandler),
+                (r"/project/sort/up/?$", ProjectSortUpHandler),
+                (r"/project/sort/down/?$", ProjectSortDownHandler),
+                (r"/project/show_b4w/?$", ProjectShowHandler),
+                (r"/project/hide_b4w/?$", ProjectHideHandler),
+                (r"/project/import/?$", UploadProjectFile),
+                (r"/check_build_proj_path/$", CheckBuildProjPathHandler),
+                (r"/project/upload_icon/?$", UploadIconFile),
+                (r"/project/info/.+$", ProjectInfoHandler),
+                (r"/project/config/.+$", ProjectConfigHandler),
+                (r"/save_config/(.*)$", ProjectSaveConfigHandler),
+                (r"/project/edit/.+$", ProjectEditHandler),
+                (r"/project/clone_snippet/(.*)$", ProjectCloneSnippetHandler),
+                (r"/project/.+$", ProjectRequestHandler),
+                (r"/create/?$", ProjectCreateHandler),
+                (r"/export/?$", ProjectExportHandler),
+                (r"/export/show_b4w/?$", ExportShowHandler),
+                (r"/export/hide_b4w/?$", ExportHideHandler),
+                (r"/run_blender/(.*)$", RunBlenderHandler),
+                (r"/analyze_shader/(.*)$", AnalyzeShaderHandler),
+                (r"/get_file_body/(.*)$", GetFileBodyHandler),
+                (r"/get_proj_names/$", GetProjNamesHandler),
+                (r"/save_file/(.*)$", SaveFileHandler),
+                (r"/create_file/(.*)$", CreateFileHandler),
+                (r"/tests/send_req/?$", TestSendReq),
+                (r"/tests/time_of_day/?$", TestTimeOfDay),
+                (r"/(.*)$", StaticFileHandlerNoCache,
+                    { "path": root, "default_filename": DEFAULT_FILENAME}),
+            ])
 
-    try:
-        B4WLocalServer.server = tornado.httpserver.HTTPServer(application, max_buffer_size=10*1024*1024*1024)
-        B4WLocalServer.server.listen(port, address=address)
-        B4WLocalServer.server_status = SUB_THREAD_START_SERV_OK
-        print("serving at port", port)
-        c = tornado.ioloop.PeriodicCallback(ConsoleHandler.console_cb, 100)
-        c.start()
-        tornado.ioloop.IOLoop.instance().start()
+            try:
+                B4WLocalServer.server = tornado.httpserver.HTTPServer(application, max_buffer_size=10*1024*1024*1024)
+                B4WLocalServer.server.listen(port, address=address)
+                B4WLocalServer.server_status = SUB_THREAD_START_SERV_OK
+                print("serving at port", port)
+                c = tornado.ioloop.PeriodicCallback(ConsoleHandler.console_cb, 100)
+                c.start()
+                tornado.ioloop.IOLoop.instance().start()
 
-        print("stop serving at port", port)
-        B4WLocalServer.waiting_for_shutdown = False
-        B4WLocalServer.server_status = SUB_THREAD_STOP_SERV_OK
-    except OSError as ex:
-        B4WLocalServer.server_process = None
-        B4WLocalServer.server_status = SUB_THREAD_SERVER_EXC
-        B4WLocalServer.error_message = str(ex)
-    except BaseException as ex:
-        B4WLocalServer.server_process = None
-        B4WLocalServer.server_status = SUB_THREAD_OTHER_EXC
-        B4WLocalServer.error_message = str(ex)
+                print("stop serving at port", port)
+                B4WLocalServer.waiting_for_shutdown = False
+                B4WLocalServer.server_status = SUB_THREAD_STOP_SERV_OK
+                return
+            except OSError as ex:
+                B4WLocalServer.server_process = None
+                B4WLocalServer.server_status = SUB_THREAD_SERVER_EXC
+                B4WLocalServer.error_message = str(ex)
+                return
+            except KeyboardInterrupt as ex:
+                B4WLocalServer.server_process = None
+                print("\b\bstop serving at port", port)
+                B4WLocalServer.waiting_for_shutdown = False
+                B4WLocalServer.server_status = SUB_THREAD_STOP_SERV_OK
+                return
+            except BaseException as ex:
+                B4WLocalServer.server_status = SUB_THREAD_START_OTHER_OK
+
 
 def get_sdk_root():
     return _root
@@ -1303,6 +1335,82 @@ class RunBlenderHandler(tornado.web.RequestHandler):
 
         self.write(html_str)
 
+class ViewerHandler(tornado.websocket.WebSocketHandler):
+    instances = []
+    id = -1
+    def open(self):
+        ViewerHandler.instances.append(self)
+        self.inst = None
+        ViewerHandler.id += 1
+        self.id = ViewerHandler.id
+        self.watch = tornado.ioloop.PeriodicCallback(self.watch_cb, 100)
+        self.watch.start()
+
+    def find_instance(self, id):
+        for v in ViewerHandler.instances:
+            if v and v.inst:
+                id1 = v.inst["id"]
+                eq = True
+                for s in ["app_path", "file_path", "id"]:
+                    if not id[s] == id1[s]:
+                        eq = False
+                        break
+                if eq:
+                    return v
+        return None
+
+    def on_message(self, message):
+        command = json.loads(message)
+        if command["type"] == "sync":
+            data = command["data"]
+            id = command["id"]
+            app_path = id["app_path"]
+            file_path = id["file_path"]
+
+            app_dir = os.path.dirname(app_path)
+            path = abspath(_root + sep + app_dir + sep + file_path)
+            # insert connection number
+            id["id"] = self.id
+            cur_inst = self.find_instance(id)
+            if not cur_inst:
+                if os.path.isfile(path):
+                    self.inst = {
+                        "id": id,
+                        "sync": data["modif"]["sync"],
+                        "full_path": path,
+                        "time": os.path.getmtime(path)
+                    }
+                else:
+                    print("WARNING: file '" + path + "' does not exist.")
+            else:
+                if "sync" in data:
+                    cur_inst.inst["sync"] = data["sync"]
+
+    def on_close(self):
+        self.watch.stop()
+        if self in ViewerHandler.instances:
+            ViewerHandler.instances.remove(self)
+
+    def watch_cb(self):
+        if self.inst:
+            path = self.inst["full_path"]
+            old_mtime = self.inst["time"]
+            new_mtime = os.path.getmtime(path)
+            if old_mtime != new_mtime and self.inst["sync"]:
+                self.inst["time"] = new_mtime
+                self.write_message(json.dumps({
+                    "type" : "sync",
+                    "data" : {"file_path": self.inst["id"]["file_path"]}
+                }))
+
+class ViewerInstancesHandler(tornado.web.RequestHandler):
+    def get(self):
+        instance_list = []
+        for inst in ViewerHandler.instances:
+            if inst.inst:
+                instance_list.append(inst.inst)
+        resp = json.dumps({"instances": instance_list})
+        self.write(resp)
 
 class ConsoleHandler(tornado.websocket.WebSocketHandler):
     websocket_conn = None
@@ -1422,8 +1530,6 @@ def run():
 
     if serv_cls.server_status == SUB_THREAD_SERVER_EXC:
         print("server start failed: " + serv_cls.error_message, file=sys.stderr)
-    elif serv_cls.server_status == SUB_THREAD_OTHER_EXC:
-        print("server error: " + serv_cls.error_message, file=sys.stderr)
 
 if __name__ == "__main__":
     run()

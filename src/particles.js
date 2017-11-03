@@ -899,7 +899,7 @@ exports.update_start_pos = function(obj, trans, quats) {
     }
 }
 
-exports.update_particles_submesh = function(submesh, batch, pcount, material) {
+exports.update_particles_submesh = function(submesh, batch, pcount) {
 
     submesh.va_common["a_tbn"] = m_tbn.create(4 * pcount);
     m_tbn.identity(submesh.va_common["a_tbn"]);

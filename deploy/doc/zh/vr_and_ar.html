@@ -1,0 +1,475 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>VR and AR &mdash; Blend4Web 17.10 用户手册</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="author" title="关于这些文档"
+              href="about.html"/>
+    <link rel="top" title="Blend4Web 17.10 用户手册" href="index.html"/>
+        <link rel="next" title="纹理" href="textures.html"/>
+        <link rel="prev" title="后期处理效果" href="postprocessing_effects.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="index.html" class="icon icon-home"> Blend4Web. 用户手册
+        
+
+        
+        </a>
+
+        
+          
+          
+            <div class="version">
+              v17.10
+            </div>
+          
+        
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">概述</a></li>
+<li class="toctree-l1"><a class="reference internal" href="engine_features.html">引擎功能</a></li>
+<li class="toctree-l1"><a class="reference internal" href="interface.html">Blender的用户界面</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">安装和更新</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">工作流程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="viewer.html">场景预览器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">网络播放器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">插件</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scene_settings.html">场景设置</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html">物体</a></li>
+<li class="toctree-l1"><a class="reference internal" href="meshes.html">网格</a></li>
+<li class="toctree-l1"><a class="reference internal" href="normal_editor.html">法线编辑器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">相机</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materials.html">材质</a></li>
+<li class="toctree-l1"><a class="reference internal" href="material_library.html">材质库</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node_materials.html">节点材质</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">逻辑编辑器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">照明、 阴影和背景</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">后期处理效果</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">VR and AR</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#virtual-reality">Virtual Reality</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#activation">激活</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hmd-settings">HMD设置</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#profile">配置</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rendering-settings">渲染设置</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#other-control-tools">其他控制工具</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#augmented-reality">Augmented Reality</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#setting-up">Setting Up</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#leap-motion">Leap Motion</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">纹理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">粒子系统,流体</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">粒子系统.实例化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="animation.html">动画</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">室外效果</a></li>
+<li class="toctree-l1"><a class="reference internal" href="colors.html">色彩管理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">音频</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">物理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">对应用程序开发人员</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">对于引擎开发者</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">团队工作。使用 Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">存在的问题及解决方案</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">发布说明</a></li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Blend4Web. 用户手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div id="lang_cont">
+          <a href="#">RU</a>
+          <a href="#">EN</a>
+          <a href="#">ZH</a>
+        </div>
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>VR and AR</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="vr-and-ar">
+<span id="stereo"></span><span id="index-0"></span><h1><a class="toc-backref" href="#id2">VR and AR</a><a class="headerlink" href="#vr-and-ar" title="永久链接至标题">¶</a></h1>
+<div class="contents topic" id="table-of-contents">
+<p class="topic-title first">目录</p>
+<ul class="simple">
+<li><a class="reference internal" href="#vr-and-ar" id="id2">VR and AR</a><ul>
+<li><a class="reference internal" href="#virtual-reality" id="id3">Virtual Reality</a><ul>
+<li><a class="reference internal" href="#activation" id="id4">激活</a></li>
+<li><a class="reference internal" href="#hmd-settings" id="id5">HMD设置</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#augmented-reality" id="id6">Augmented Reality</a><ul>
+<li><a class="reference internal" href="#setting-up" id="id7">Setting Up</a></li>
+<li><a class="reference internal" href="#leap-motion" id="id8">Leap Motion</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<p>The following chapter describes Virtual Reality (VR) and Augmented Reality (AR) features of the Blend4Web engine and explains the basics of creating applications capable to work with these outstanding technologies.</p>
+<div class="section" id="virtual-reality">
+<h2><a class="toc-backref" href="#id3">Virtual Reality</a><a class="headerlink" href="#virtual-reality" title="永久链接至标题">¶</a></h2>
+<p>There are numerous VR devices, and Blend4Web engine supports many of them. Using VR in a Blend4Web application does not require any specific changes made to the application itself.</p>
+<p>立体渲染模式适用于使用特殊眼镜观看的内容。它是应用程序通过API来激活。</p>
+<p>Blend4Web支持立体图像渲染的两种技术 -  立体图像（红/蓝）和HMD（头戴式显示器）。</p>
+<p id="hmd">HMD：</p>
+<a class="reference internal image-reference" href="_images/postprocessing_effects_stereo.png"><img alt="_images/postprocessing_effects_stereo.png" class="align-center" src="_images/postprocessing_effects_stereo.png" style="width: 100%;" /></a>
+<p>HMD是一个实验性的功能，现在它只能用于 <code class="docutils literal"><span class="pre">Eye</span></code> 类型摄像机。</p>
+<p id="anaglyph">立体图（红/蓝）</p>
+<a class="reference internal image-reference" href="_images/postprocessing_effects_anaglyph.png"><img alt="_images/postprocessing_effects_anaglyph.png" class="align-center" src="_images/postprocessing_effects_anaglyph.png" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="section" id="activation">
+<h3><a class="toc-backref" href="#id4">激活</a><a class="headerlink" href="#activation" title="永久链接至标题">¶</a></h3>
+<p>要使用HMD立体渲染，您需要安装 Oculus 的 <a class="reference external" href="https://developer.oculus.com/downloads/">运行时工具</a> (支持两个版本：根目录下的 <cite>chromium_webvr_v1_win64.7z</cite> 和在 <cite>Deprecated API</cite> 文件夹下的). Windows和MacOS的二进制格式版本，可以在Oculus公司的网站上找到，而Linux版本应该从源代码进行编译。</p>
+<p>就目前而言，HMD的支持在 <a class="reference external" href="http://blog.tojicode.com/2014/07/bringing-vr-to-chrome.html">Chromium实验性版本</a> 和 <a class="reference external" href="https://nightly.mozilla.org/">Firefox 每日版</a>.</p>
+<p><a class="reference external" href="https://docs.google.com/document/d/1g02qHfX85vSRSOkWm9k33I0b7VuyN79md9U9t6MIa4E/edit">Chromium 设置.</a></p>
+<p><a class="reference external" href="https://developer.mozilla.org/en-US/docs/Web/API/WebVR_API">Firefox 设置.</a></p>
+<p>要打开立体渲染，你需要选择某些特定选项中的设置，从右边的起第三栏，如图所示。</p>
+<a class="reference internal image-reference" href="_images/postprocessing_effects_hmd.png"><img alt="_images/postprocessing_effects_hmd.png" class="align-center" src="_images/postprocessing_effects_hmd.png" style="width: 100%;" /></a>
+<p>要让立体渲染正常工作，建议切换到全屏模式。</p>
+</div>
+<div class="section" id="hmd-settings">
+<span id="id1"></span><h3><a class="toc-backref" href="#id5">HMD设置</a><a class="headerlink" href="#hmd-settings" title="永久链接至标题">¶</a></h3>
+<a class="reference internal image-reference" href="_images/hmd_settings.png"><img alt="_images/hmd_settings.png" class="align-center" src="_images/hmd_settings.png" style="width: 100%;" /></a>
+<p>这组设置允许用户改变各种参数，以调整任何虚拟现实设备，让他们更好地查看某个三维应用程序或场景。有两种方法可以访问这些设置：</p>
+<blockquote>
+<div><ul class="simple">
+<li><p class="first">首先，它可以在 <a class="reference internal" href="viewer.html#viewer"><span>Blend4Web 查看器</span></a> 应用的 <a class="reference internal" href="viewer.html#stereo-view"><span>立体视觉面板</span></a> 下找到。</p>
+</li>
+<li><p class="first">其次，它也可以在使用的应用程序中通过 <a class="reference external" href="https://www.blend4web.com/api_doc/module-hmd_conf.html">hmd_conf</a> 模块的 <a class="reference external" href="https://www.blend4web.com/api_doc/module-hmd_conf.html#.show">show</a> 方法显示，但这样做需要一些编程。该方法的实例可在 <code class="docutils literal"><span class="pre">viewer.js</span></code> 和 <code class="docutils literal"><span class="pre">webplayer.js</span></code> 应用程序（在 <code class="docutils literal"><span class="pre">m_hmd_conf</span></code> 对象）中发现。</p>
+</li>
+</ul>
+</div></blockquote>
+<div class="section" id="profile">
+<h4>配置<a class="headerlink" href="#profile" title="永久链接至标题">¶</a></h4>
+<p>这允许用户选择用于特定装置的配置文件。目前，以下模式可供选择：</p>
+<blockquote>
+<div><ul class="simple">
+<li><p class="first">自定义</p>
+</li>
+<li><p class="first">纸板（2014年）</p>
+</li>
+<li><p class="first">纸板（2015年）</p>
+</li>
+</ul>
+</div></blockquote>
+<p>默认情况下，<cite>Custom</cite> 属性文件被选中。</p>
+</div>
+<div class="section" id="rendering-settings">
+<h4>渲染设置<a class="headerlink" href="#rendering-settings" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>托盘镜片中心的距离</em></dt>
+<dd><p class="first">此参数指定手机屏幕和摄像机透镜的中心之间的距离。</p>
+<p class="last">这个值可以从0到50变化，默认值是32。</p>
+</dd>
+<dt><em>瞳距</em></dt>
+<dd><p class="first">此参数指定用户的眼睛的瞳孔之间的距离。测量单位为毫米。</p>
+<p class="last">这个值可以从0到100变化，默认值是64。</p>
+</dd>
+<dt><em>屏幕到镜片距离</em></dt>
+<dd><p class="first">这指定了电话的屏幕和照相机透镜之间的距离。</p>
+<p class="last">这个值可以从0到100变化，默认值是50。</p>
+</dd>
+<dt><em>屏幕高度</em></dt>
+<dd><p class="first">屏幕的高度。</p>
+<p class="last">这个值可以从0到150变化，默认值是63。</p>
+</dd>
+<dt><em>屏幕宽度</em></dt>
+<dd><p class="first">屏幕的宽度。</p>
+<p class="last">这个值可以从0到200变化。缺省值是107。</p>
+</dd>
+<dt><em>斜面宽</em></dt>
+<dd><p class="first">图像周围的边框的厚度。</p>
+<p class="last">这个值可以从0到20变化。缺省值是3。</p>
+</dd>
+<dt><em>失真系数</em></dt>
+<dd><p class="first">这样做是为了用于补偿由VR设备透镜产生的图像失真。</p>
+<p class="last">这两个值可以从0到1变化，默认值是0.34用于第一参数和0.55用于第二个。</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="other-control-tools">
+<h4>其他控制工具<a class="headerlink" href="#other-control-tools" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>保存</em></dt>
+<dd><p class="first last">保存的设置。</p>
+</dd>
+<dt><em>取消</em></dt>
+<dd><p class="first last">关闭设置界面，不保存设置。</p>
+</dd>
+<dt><em>恢复</em></dt>
+<dd><p class="first last">恢复默认设置。</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="section" id="augmented-reality">
+<h2><a class="toc-backref" href="#id6">Augmented Reality</a><a class="headerlink" href="#augmented-reality" title="永久链接至标题">¶</a></h2>
+<p>Augmented Reality feature in Blend4Web engine utilizes JavaScript port of the popular AR solution <a class="reference external" href="https://archive.artoolkit.org/">ARToolKit</a>.</p>
+<p>In comparison with VR apps, creating an Augmented Reality application is a little more complicated, as the application itself should be properly set up beforehand, and certain hardware requirements have to be met.</p>
+<p>System requirements are:</p>
+<blockquote>
+<div><ul>
+<li><p class="first">A device with a web camera to run the application.</p>
+<blockquote>
+<div><div class="admonition note">
+<p class="first admonition-title">注解</p>
+<p class="last">If your device does not have a web cam, the application will still run, but AR features will not be available.</p>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">A web browser with the AR support.</p>
+<blockquote>
+<div><div class="admonition warning">
+<p class="first admonition-title">警告</p>
+<p class="last">At the moment, AR application won&#8217;t work in Safari browser, desktop and iOS version alike. AR support is expected to arrive Fall 2017.</p>
+</div>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+<div class="section" id="setting-up">
+<h3><a class="toc-backref" href="#id7">Setting Up</a><a class="headerlink" href="#setting-up" title="永久链接至标题">¶</a></h3>
+<p>Blend4Web SDK features an example of an AR application available in the <a class="reference internal" href="project_manager.html#project-manager"><span>Project Manager</span></a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">注解</p>
+<p class="last">This example is not included in the Blend4Web CE Lite</p>
+</div>
+<p>For an AR application to work properly, you will need a <a class="reference external" href="https://archive.artoolkit.org/documentation/doku.php?id=3_Marker_Training:marker_about">marker</a>.</p>
+</div>
+<div class="section" id="leap-motion">
+<h3><a class="toc-backref" href="#id8">Leap Motion</a><a class="headerlink" href="#leap-motion" title="永久链接至标题">¶</a></h3>
+<p>Leap Motion is a controller that can be used for tracking hand movements and gesture recognition. It can be used in conjunction with any supported VR device, or on its own.</p>
+<p>Our <a class="reference internal" href="developers.html#code-snippets"><span>Code Snippets</span></a> application contains an example of using Leap Motion controller. If you are planning to develop applications that support the controller, you may want to examine this example thoroughly. You can also use it as a base for your own projects.</p>
+<p>Leap Motion API is provided as a standard JavaScript library that can be included in the HTML page of the project. This library can be either included in the project or accessed remotely from Leap Motion&#8217;s servers.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="textures.html" class="btn btn-neutral float-right" title="纹理" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="postprocessing_effects.html" class="btn btn-neutral" title="后期处理效果" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; 版权所有 2014-2017, Triumph.
+      最后更新于 2017-10-31.
+
+    </p>
+  </div>
+
+  <a href="https://www.blend4web.com">www.blend4web.com</a>
+
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+  (function() {
+    if (window.document.domain != "www.blend4web.com")
+      return;
+
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter24512171 = new Ya.Metrika({
+                    id:24512171,
+                    clickmap:false,
+                    trackLinks:true,
+                    accurateTrackBounce:true
+                });
+            } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+  })();
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/24512171" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'v17.10',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+
+          var lang_cont = $("#lang_cont");
+          var links = lang_cont.children();
+
+          var link_ru = links[0];
+          var link_en = links[1];
+          var link_zh = links[2];
+
+          var loc = document.location.href;
+
+          var href_ru = loc;
+          var href_en = loc;
+          var href_zh = loc; 
+
+          if (loc.search("/ru/") != -1) {
+              href_en = loc.replace("/ru/", "/en/");
+              href_zh = loc.replace("/ru/", "/zh/");
+          } else if (loc.search("/en/") != -1) {
+              href_ru = loc.replace("/en/", "/ru/");
+              href_zh = loc.replace("/en/", "/zh/");
+          } else {
+              href_ru = loc.replace("/zh/", "/ru/");
+              href_en = loc.replace("/zh/", "/en/");
+          }
+
+          link_ru.href = href_ru;
+          link_en.href = href_en;
+          link_zh.href = href_zh;
+
+          lang_cont.css("display", "inline-block")
+      });
+  </script>
+   
+
+</body>
+</html>

@@ -1613,6 +1613,12 @@ void du_set_character_vert_rotation(du_character_id character, float angle)
     du_character->setVertRotation(angle);
 }
 
+void du_set_character_vert_move_dir_angle(du_character_id character, float angle)
+{
+    duCharacter *du_character = reinterpret_cast <duCharacter*>(character);
+    du_character->setVertMoveDirAngle(angle);
+}
+
 void du_character_rotation_inc(du_character_id character, float h_angle,
                                                           float v_angle)
 {
@@ -1641,13 +1647,15 @@ void du_get_character_trans_quat(du_character_id character, du_body_id body,
     dest_trans[1] = origin.y();
     dest_trans[2] = origin.z();
 
-    btScalar rotation_angle = du_character->getHorRotationAngle();
+    btScalar hor_rot_angle = du_character->getHorRotationAngle();
+    btScalar vert_rot_angle = du_character->getVertRotationAngle();
 
-    float half = rotation_angle * 0.5;
-    dest_quat[0] = 0.0;
-    dest_quat[1] = 0.0;
-    dest_quat[2] = sinf(half);
-    dest_quat[3] = cosf(half);
+    float hor_half = hor_rot_angle * 0.5; // around Z-axis
+    float vert_half = vert_rot_angle * 0.5; // around X-axis
+    dest_quat[0] = sinf(vert_half) * cosf(hor_half);
+    dest_quat[1] = sinf(vert_half) * sinf(hor_half);
+    dest_quat[2] = cosf(vert_half) * sinf(hor_half);
+    dest_quat[3] = cosf(vert_half) * cosf(hor_half);
 
     btVector3 lin_vel = bt_obj->getInterpolationLinearVelocity();
     dest_linvel[0] = lin_vel.x();
@@ -1660,10 +1668,10 @@ void du_get_character_trans_quat(du_character_id character, du_body_id body,
     dest_angvel[2] = ang_vel.z();
 }
 
-void du_set_gravity(du_body_id body, float gravity)
+void du_set_gravity(du_body_id body, float grav_x, float grav_y, float grav_z)
 {
     btRigidBody *bt_body = reinterpret_cast <btRigidBody*>(body);
-    bt_body->setGravity(btVector3(0, 0, -gravity));
+    bt_body->setGravity(btVector3(grav_x, grav_y, grav_z));
 }
 
 void du_set_damping(du_body_id body, float damping, float rotation_damping)

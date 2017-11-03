@@ -433,34 +433,8 @@ function append_constraint(cons_id, pivot_type, limits, body_id_a, trans_in_a, q
                 du_quat_in_b, du_stiffness_arr, du_damping_arr);
         break;
     case "HINGE":
-        // TODO: hinge constraint is now fixed
-        limits["use_limit_x"] = true;
-        limits["use_limit_y"] = true;
-        limits["use_limit_z"] = true;
-
-        limits["use_angular_limit_y"] = true;
-        limits["use_angular_limit_z"] = true;
-
-        limits["limit_max_x"] = 0;
-        limits["limit_min_x"] = 0;
-        limits["limit_max_y"] = 0;
-        limits["limit_min_y"] = 0;
-        limits["limit_max_z"] = 0;
-        limits["limit_min_z"] = 0;
-
-        limits["limit_angle_max_y"] = 0;
-        limits["limit_angle_min_y"] = 0;
-        limits["limit_angle_max_z"] = 0;
-        limits["limit_angle_min_z"] = 0;
-
-        pivot_type = "GENERIC_6_DOF";
-
-        var du_cons = _du_create_generic_6dof_constraint(du_body_id_a, 
-                du_trans_in_a, du_quat_in_a, du_body_id_b, du_trans_in_b, 
-                du_quat_in_b);
-
-        //var du_cons = new Ammo.btHingeConstraint(body_a, body_b, 
-        //        bt_frame_in_a, bt_frame_in_b);
+        var du_cons = _du_create_hinge_constraint(du_body_id_a, du_trans_in_a, 
+                du_quat_in_a, du_body_id_b, du_trans_in_b, du_quat_in_b);
         break;
     case "BALL":
         var du_cons = _du_create_point2point_constraint(du_body_id_a, 
@@ -881,6 +855,14 @@ function set_character_vert_rotation(body_id, angle) {
     var du_body_id = get_du_body_id(body_id);
     _du_activate(du_body_id);
     _du_set_character_vert_rotation(character, angle);
+}
+
+function set_character_vert_move_dir_angle(body_id, angle) {
+    var world = active_world();
+    var character = world.characters[body_id].du_id;
+    var du_body_id = get_du_body_id(body_id);
+    _du_activate(du_body_id);
+    _du_set_character_vert_move_dir_angle(character, angle);
 }
 
 function character_rotation_increment(body_id, h_angle, v_angle) {
@@ -1393,9 +1375,9 @@ function update_boat_controls(hull_body_id, engine_force, brake_force,
             steering_value);
 }
 
-function set_gravity(body_id, gravity) {
+function set_gravity(body_id, grav_x, grav_y, grav_z) {
     var du_body_id = get_du_body_id(body_id);
-    _du_set_gravity(du_body_id, gravity);
+    _du_set_gravity(du_body_id, grav_x, grav_y, grav_z);
 }
 
 function set_damping(body_id, damping, rotation_damping) {
@@ -2223,6 +2205,9 @@ function process_message(worker, msg_id, msg) {
     case m_ipc.OUT_SET_CHARACTER_VERT_ROTATION:
         set_character_vert_rotation(msg[1], msg[2]);
         break;
+    case m_ipc.OUT_SET_CHARACTER_VERT_MOVE_DIR_ANGLE:
+        set_character_vert_move_dir_angle(msg[1], msg[2]);
+        break;
     case m_ipc.OUT_CHARACTER_ROTATION_INCREMENT:
         character_rotation_increment(msg[1], msg[2], msg[3]);
         break;
@@ -2233,7 +2218,7 @@ function process_message(worker, msg_id, msg) {
         update_boat_controls(msg[1], msg[2], msg[3], msg[4]);
         break;
     case m_ipc.OUT_SET_GRAVITY:
-        set_gravity(msg[1], msg[2]);
+        set_gravity(msg[1], msg[2], msg[3], msg[4]);
         break;
     case m_ipc.OUT_SET_DAMPING:
         set_damping(msg[1], msg[2], msg[3]);

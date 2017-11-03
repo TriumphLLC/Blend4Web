@@ -161,14 +161,13 @@ Blend4Web的特殊属性。
 
 
 
-Display Panel
-~~~~~~~~~~~~~
+显示面板
+~~~~~~~~
 
 [图片]
 
-This panel contains parameters that define how the selected object
-looks in the 3D View window. It does not feature any additional
-options in Blend4Web mode.
+此面板包含定义3D视图窗口中所选物体的参数。它在Blend4Web模式下没有任何
+其他选项。
 
 
 层次细节面板
@@ -210,11 +209,10 @@ options in Blend4Web mode.
    不要导出此物体。
 
 *导出选项 > 应用修改器*
-   Apply the object’s modifiers upon export.
+   导出时应用物体的修改器。
 
-   注解: If the "Skin" modifier is used we recommend to apply it
-     before the export because it resets vertex color and UV layers
-     which may result in errors.
+   注解: 如果使用 "Skin" 修改器，我们建议在导出之前应用它，因为它会
+     重置顶 点颜色和UV层，这可能导致错误。
 
 *导出选项 > 应用缩放和修改器*
    一旦导出，应用物体的缩放和修改器。
@@ -283,19 +281,17 @@ options in Blend4Web mode.
 
 [图片]
 
-*看板*
-   使用物体作为看板（即自动定向面对摄像机）。
+*广告牌*
+   使用物体作为广告牌（即自动定向面对摄像机）。
 
-*Billboard > Preserve Global Rotation*
-   Take into account rotation of the billboard object (in the world
-   space). The object will be directed toward the camera with its side
-   which is visible when viewing along the Y axis in Blender. Becomes
-   available after enabling the "Billboard" checkbox.
+*广告牌 > 保留全局旋转*
+   考虑到广告牌物体的旋转（在世界空间中）。物体将被指向相机，其侧面在
+   Blender中沿着Y轴观察时可见。启用  "Billboard" 复选框后可用。
 
-*看板 > 看板类型*
-   看板方向模式。 "Spherical" （默认） - 物体一面始终朝向相机，不管视
-   角，"Cylindrical"  - 类似于 "Spherical"，但旋转仅限于Blender的世界Z
-   轴。启用看板后变得可用。
+*广告牌 > 广告牌类型*
+   广告牌方向模式。 "Spherical" （默认） - 物体一面始终朝向相机，不管
+   视角，"Cylindrical"  - 类似于 "Spherical"，但旋转仅限于Blender的世
+   界Z轴。启用广告牌后变得可用。
 
 
 反射面板
@@ -358,13 +354,12 @@ options in Blend4Web mode.
       物体的类别。
 
    *元标签 > 描述*
-      物体描述。根据 "说明源"，此字段接受描述文本本身，或包含的文件的
-      名称。
+      物体描述。根据 "说明源"，此字段接受描述文本本身，或包含此描述的
+      文件名称。
 
-      注解: To use a text file as a description source you first
-        have to open an existing file in Blender Text Editor or to
-        create a new text file in the same editor.Then, you only have
-        to set the name of the file in the "Description" field.
+      注解: 要使用文本文件作为描述源，您首先必须在Blender的  文本编
+        辑器 中 打开一个现有文件，或者在同一个编辑器中创建一个新的文本
+        文件。然 后，您只需要在 "Description" 字段中设置文件的名称。
 
    *元标签 > 描述源*
       为说明来源类型：文本或文本文件。
@@ -387,15 +382,13 @@ options in Blend4Web mode.
    这些设置可被用于将物体对准的主控照相机。参考 相机章节 的描述。
 
 
-Duplication Panel
-~~~~~~~~~~~~~~~~~
+复制面板
+~~~~~~~~
 
 [图片]
 
-This panel contains settings that concern object duplication. It does
-not feature any additional parameters in the Blend4Web mode; however,
-it should be noted that at the moment Blend4Web engine only supports
-"Group" duplication method.
+此面板包含有关物体复制的设置。它在Blend4Web模式下不具有任何其他参数;然
+而，应该注意的是，目前Blend4Web引擎只支持 "组" 复制方法。
 
 
 风弯曲面板
@@ -472,61 +465,47 @@ API 方法  constraints 模块有一样的功能。这包括：
 其他约束并没有明显的类似功能在 API 中，虽然他们的行为可以在一定程度上
 通过 API 方法模仿使用。
 
-The constraints module also includes several additional methods:
+constraints 模块还包括几个附加的方法：
 
 * append_semi_soft()
 
-     This method can be used to attach one object to another one using
-     a semi-soft constraint. The object will smoothly follow the
-     object's rear. This can be used to create third-person cameras.
+     此方法可用于将一个物体附加到另一个使用半软约束。该物体将顺利跟在
+     其他物体的后面。这可以用于创建第三人称的相机。
 
 * append_semi_stiff()
 
-     This method can be used to attach the object to the other object
-     using a semi-stiff constraint, meaning that the child object will
-     move and rotate together with its parent, but it will also be
-     possible to rotate it independently in the parent's local space.
-     A behavior similar to that of a tank turret can be created this
-     way.
+     此方法可用于将物体附加到其他物体使用半刚性约束，意味着物体的子物
+     体将移动和旋转和其父，但它也可能独立地旋转它在父的局部空间。一种
+     行为类似于坦克炮塔可以这种方式创建。
 
 * append_stiff()
 
-     This method attaches the object to another object (or to an
-     armature bone) using a stiff constraint. The child object will
-     move, rotate and scale together with its parent.
+     此方法附加物体到另一个物体 （或骨架骨骼上） 使用硬约束。物体的子
+     物体将随着父物体移动、 旋转和缩放。
 
-     Examples: a sword parented to the character's hand; a character
-     sitting in a vehicle.
+     例子：一个附加在角色手中的剑;坐在车上的角色。
 
 * append_stiff_trans()
 
-     This method attaches the object to the other object using a stiff
-     translation constraint. The child object moves together with its
-     parent, but does not rotate along with it (it, however, can be
-     rotated independently from the parent).
+     此方法附加到使用硬性移动约束的其他物体的物体。物体的子物体和其父
+     物体一起移动，但不一起旋转  （然而，可以独立于父物体旋转）。
 
 * append_stiff_trans_rot()
 
-     Can be used to attach the object to another object using a stiff
-     translation/rotation constraint. In this case, the child object
-     moves and rotates along with its parent, but does not scale in
-     accord with it. However, the object still can be scaled
-     independently from the parent.
+     可以使用刚性平移/旋转约束将物体附加到另一个物体。在这种情况下，子
+     物体与其父物体一起移动并旋转，但不按照它进行缩放。物体仍然可以独
+     立于父物体进行缩放。
 
-     Example: a smoke emitter attached to the tractor pipe; exhaustion
-     effects are achieved by scaling the emitter.
+     示例： 烟发射器附加到拖拉机管;通过缩放发射器来达到耗尽的效果。
 
 * append_stiff_viewport()
 
-     Attaches the object to the camera using a stiff viewport
-     constraint (so the child object will preserve its orientation in
-     the camera viewport).
+     附加到相机使用硬性视口约束 （这样子物体将一直朝向摄影机视图方向）
+     的物体。
 
-     This constraint can be used to create onscreen 2D/3D interfaces
-     elements.
+     此约束可以用于创建屏幕上的 2D/3D 界面元素。
 
-* remove() - this method removes any constraints that were
-  previously applied to the object.
+* remove() - 此方法移除以前应用于该物体的任何约束。
 
 
 锚设置
@@ -723,7 +702,7 @@ get_object_name()
    var obj = m_scenes.pick_object(x, y);
    // ...
 
-或使用 逻辑编辑器.
+or using the Logic Editor.
 
 如果选择的物体已启用了 "Object > Selection" 和轮廓面板上的 "Enable
 Outlining" 和 "Outline on Select" 选框，那么 "pick_object" 函数调用将

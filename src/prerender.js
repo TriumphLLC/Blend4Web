@@ -31,6 +31,7 @@ var m_render   = require("__renderer");
 var m_subs     = require("__subscene");
 var m_tsr      = require("__tsr");
 var m_util     = require("__util");
+var m_vec3     = require("__vec3");
 
 var USE_FRUSTUM_CULLING = true;
 
@@ -95,6 +96,20 @@ exports.prerender_subs = function(subs) {
                 }
                 if (subs.need_perm_uniforms_update)
                     batch.shader.need_uniforms_update = true;
+
+                if (bundle.do_render) {
+                    var cam = subs.camera;
+                    var cam_pos = m_tsr.get_trans(cam.world_tsr, _vec3_tmp);
+                    var z_index = get_z_index(bundle, cam_pos);
+                    bundle.z_index = z_index;
+                } else {
+                    bundle.z_index = Infinity;
+                }
+            }
+
+            if (bundles.length > 0 && !bundles[0].batch.blend) {
+                sort_bundles(bundles);
+                draw_data.z_index = bundles[0].z_index;
             }
             ddata.do_render = draw_data_do_render;
         }
@@ -135,6 +150,26 @@ exports.prerender_subs = function(subs) {
 
     if (subs.need_draw_data_sort)
         m_subs.sort_draw_data(subs);
+}
+
+function sort_bundles(bundles) {
+    bundles.sort(sort_fun);
+}
+
+function sort_fun(a, b) {
+    return a.z_index - b.z_index;
+}
+
+function get_z_index(bundle, cam_pos) {
+    if (bundle.world_bounds) {
+        var bs = bundle.world_bounds.bs;
+
+        // Return z_index heuristically.
+        // CHECK: Why do we use exacly this expression?
+        return m_vec3.squaredDistance(bs.center, cam_pos) + bs.radius * bs.radius;
+    } else {
+        return Infinity;
+    }
 }
 
 /**

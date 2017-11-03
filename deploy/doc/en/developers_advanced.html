@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>For Engine Developers &mdash; Blend4Web 17.08 User Manual</title>
+  <title>For Engine Developers &mdash; Blend4Web 17.10 User Manual</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.08 User Manual" href="index.html"/>
+    <link rel="top" title="Blend4Web 17.10 User Manual" href="index.html"/>
         <link rel="next" title="Team Work. Using Git" href="git_short_manual.html"/>
         <link rel="prev" title="For Application Developers" href="developers.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v17.08
+              v17.10
             </div>
           
         
@@ -103,7 +103,7 @@
 <li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Editor</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
-<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">Stereo Rendering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vr_and_ar.html">VR and AR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
@@ -214,7 +214,7 @@
 <span id="id1"></span><h2><a class="toc-backref" href="#id5">Coding Style</a><a class="headerlink" href="#coding-style" title="Permalink to this headline">¶</a></h2>
 <p>This engine uses structural programming. The code is organized in modules. OOP methods are not used, classes are not defined, inheritance is not performed and so on.</p>
 <p>The <a class="reference external" href="http://en.wikipedia.org/wiki/1_true_brace_style#K.26R_style">K&amp;R style</a> is used except for the fact that the opening bracket for a compound operator is placed on the same line, for example:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">function</span> <span class="nx">foo_bar</span><span class="p">()</span> <span class="p">{</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">foo_bar</span><span class="p">()</span> <span class="p">{</span>
     <span class="c1">// ...</span>
 <span class="p">}</span>
 
@@ -227,20 +227,20 @@
 <div class="section" id="examples">
 <h3><a class="toc-backref" href="#id6">Examples</a><a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h3>
 <p>The underscore symbol is used in function and variable names:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">foo_bar</span> <span class="o">=</span> <span class="mi">123</span><span class="p">;</span>  <span class="c1">// correct</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">foo_bar</span> <span class="o">=</span> <span class="mi">123</span><span class="p">;</span>  <span class="c1">// correct</span>
 <span class="kd">var</span> <span class="nx">fooBar</span> <span class="o">=</span> <span class="mi">123</span><span class="p">;</span>   <span class="c1">// wrong</span>
 </pre></div>
 </div>
 <p>All global variables begin with an underscore:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">_foo_bar</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">_foo_bar</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
 </pre></div>
 </div>
 <p>The constants are written in capital letters and never begin with an underscore:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">FOO_BAR</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">FOO_BAR</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
 </pre></div>
 </div>
 <p>The names of external API methods and properties are written after a point. To avoid obfuscation of fields they must be listed with the <code class="docutils literal"><span class="pre">&#64;cc_externs</span></code> tag:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">exports</span><span class="p">.</span><span class="nx">FOO_BAR</span> <span class="o">=</span> <span class="mi">123</span><span class="p">;</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">exports</span><span class="p">.</span><span class="nx">FOO_BAR</span> <span class="o">=</span> <span class="mi">123</span><span class="p">;</span>
 
 <span class="nx">exports</span><span class="p">.</span><span class="nx">foo_bar</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
 
@@ -271,19 +271,19 @@
 <h2><a class="toc-backref" href="#id7">Building the Engine</a><a class="headerlink" href="#building-the-engine" title="Permalink to this headline">¶</a></h2>
 <p>Before building please make sure that your system has all required dependencies installed (see the <a class="reference internal" href="#dependencies"><span>table</span></a>).</p>
 <p>To compile the engine and the applications included into the SDK please execute the following command (in the SDK root):</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>make compile
+<div class="highlight-bash"><div class="highlight"><pre>make compile
 </pre></div>
 </div>
 <p>The full building that includes converting resources (textures, sounds and videos), compilation and converting the docs, can be performed with the following command:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>make build
+<div class="highlight-bash"><div class="highlight"><pre>make build
 </pre></div>
 </div>
 <p>Building the archives with the distributions:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>make dist
+<div class="highlight-bash"><div class="highlight"><pre>make dist
 </pre></div>
 </div>
 <p>All above mentioned operations can be performed with a single command:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>make all
+<div class="highlight-bash"><div class="highlight"><pre>make all
 </pre></div>
 </div>
 </div>
@@ -300,7 +300,7 @@
 </dd>
 </dl>
 <p>The building process is started in the following way:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 ./csrc/b4w_bin/build.py
+<div class="highlight-bash"><div class="highlight"><pre>python3 ./csrc/b4w_bin/build.py
 </pre></div>
 </div>
 <p>As a result of the building you&#8217;ll get a binary file called:</p>
@@ -440,7 +440,7 @@ preprocessor</td>
 <span id="id3"></span><h2><a class="toc-backref" href="#id11">Debugging</a><a class="headerlink" href="#debugging" title="Permalink to this headline">¶</a></h2>
 <p>Engine debugging is performed with the <code class="docutils literal"><span class="pre">debug.js</span></code> module methods.</p>
 <p>The structure of the current render graph can be saved in the DOT format using the <code class="docutils literal"><span class="pre">b4w.debug.scenegraph_to_dot()</span></code> call, for example, in the browser console. After calling this method, save the console output into the file with the .gv extension. To get the graph in a visual form the <a class="reference external" href="http://www.graphviz.org/">graphviz</a> utilities are required. Converting to the SVG format is performed using the command:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; dot -Tsvg graph.gv -o graph.svg
+<div class="highlight-bash"><div class="highlight"><pre>&gt; dot -Tsvg graph.gv -o graph.svg
 </pre></div>
 </div>
 <p>where <code class="docutils literal"><span class="pre">graph.gv</span></code> is the name of the file with the saved graph.</p>
@@ -454,7 +454,7 @@ preprocessor</td>
 <li>optimization.</li>
 </ul>
 <p>In order to run the compiler, execute one of the following commands in the SDK root:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; make compile_shaders
+<div class="highlight-bash"><div class="highlight"><pre>&gt; make compile_shaders
 &gt; make verify_shaders
 </pre></div>
 </div>
@@ -494,7 +494,7 @@ preprocessor</td>
 <li>optimization inside functions - creating shared local variables to replace ones originally created by the programmer.</li>
 </ul>
 <p>An example of removing unused curly brackets: replacing the following code</p>
-<div class="highlight-glsl"><div class="highlight"><pre><span></span><span class="k">void</span> <span class="n">function</span><span class="p">(){</span>
+<div class="highlight-glsl"><div class="highlight"><pre><span class="k">void</span> <span class="n">function</span><span class="p">(){</span>
     <span class="k">int</span> <span class="n">a</span><span class="p">;</span>
     <span class="p">{</span>
         <span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
@@ -503,14 +503,14 @@ preprocessor</td>
 </pre></div>
 </div>
 <p>with this code</p>
-<div class="highlight-glsl"><div class="highlight"><pre><span></span><span class="k">void</span> <span class="n">function</span><span class="p">(){</span>
+<div class="highlight-glsl"><div class="highlight"><pre><span class="k">void</span> <span class="n">function</span><span class="p">(){</span>
     <span class="k">int</span> <span class="n">a</span><span class="p">;</span>
     <span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
 </div>
 <p>Low number of temporary local variables is achieved by repetitively using them in different contexts. For example, the following code</p>
-<div class="highlight-glsl"><div class="highlight"><pre><span></span><span class="k">int</span> <span class="n">function</span><span class="p">(){</span>
+<div class="highlight-glsl"><div class="highlight"><pre><span class="k">int</span> <span class="n">function</span><span class="p">(){</span>
     <span class="k">int</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
     <span class="k">int</span> <span class="n">b</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="mi">3</span><span class="p">;</span>
     <span class="k">return</span> <span class="n">b</span><span class="p">;</span>
@@ -518,7 +518,7 @@ preprocessor</td>
 </pre></div>
 </div>
 <p>will be replaced with</p>
-<div class="highlight-glsl"><div class="highlight"><pre><span></span><span class="k">int</span> <span class="n">function</span><span class="p">(){</span>
+<div class="highlight-glsl"><div class="highlight"><pre><span class="k">int</span> <span class="n">function</span><span class="p">(){</span>
     <span class="k">int</span> <span class="n">_int_tmp0</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
     <span class="n">_int_tmp0</span> <span class="o">=</span> <span class="n">_int_tmp0</span> <span class="o">+</span> <span class="mi">3</span><span class="p">;</span>
     <span class="k">return</span> <span class="n">_int_tmp0</span><span class="p">;</span>
@@ -533,7 +533,7 @@ preprocessor</td>
 <div class="section" id="import-export-directives">
 <span id="index-4"></span><h3><a class="toc-backref" href="#id16">Import/Export Directives</a><a class="headerlink" href="#import-export-directives" title="Permalink to this headline">¶</a></h3>
 <p>import/export directives are used to organize, structure and increase the readability of the shader code in the include file. They are specified in the beginning of the file and should look approximately like this:</p>
-<div class="highlight-glsl"><div class="highlight"><pre><span></span><span class="cp">#import u_frame_factor u_quatsb u_quatsa u_transb u_transa a_influence</span>
+<div class="highlight-glsl"><div class="highlight"><pre><span class="cp">#import u_frame_factor u_quatsb u_quatsa u_transb u_transa a_influence</span>
 <span class="cp">#import qrot</span>
 
 <span class="cp">#export skin</span>
@@ -550,7 +550,7 @@ preprocessor</td>
 <ol class="arabic simple">
 <li>In order to describe constants which are defined by the engine at run, it&#8217;s necessary to use the <code class="docutils literal"><span class="pre">#var</span></code> special directive. For example:</li>
 </ol>
-<div class="highlight-glsl"><div class="highlight"><pre><span></span><span class="cp">#var AU_QUALIFIER uniform</span>
+<div class="highlight-glsl"><div class="highlight"><pre><span class="cp">#var AU_QUALIFIER uniform</span>
 <span class="n">AU_QUALIFIER</span> <span class="k">float</span> <span class="n">a</span><span class="p">;</span>
 </pre></div>
 </div>
@@ -566,7 +566,7 @@ preprocessor</td>
 <li>The #var and #define directives must not be used for replacing single symbols in such operators as: &#8220;++&#8221;, &#8220;&#8211;&#8221;, &#8220;*=&#8221;, &#8220;/=&#8221;, &#8220;+=&#8221;, &#8220;-=&#8221;, &#8220;==&#8221;, &#8220;&lt;=&#8221;, &#8220;&gt;=&#8221;, &#8221;!=&#8221;, &#8220;&amp;&amp;&#8221;, &#8220;||&#8221;, &#8220;^^&#8221;.</li>
 </ol>
 <p>For example:</p>
-<div class="highlight-glsl"><div class="highlight"><pre><span></span><span class="cp">#var EQUAL =</span>
+<div class="highlight-glsl"><div class="highlight"><pre><span class="cp">#var EQUAL =</span>
 <span class="p">...</span>
 <span class="n">a</span> <span class="o">*</span><span class="n">EQUAL</span> <span class="n">b</span><span class="p">;</span>
 <span class="p">...</span>
@@ -577,7 +577,7 @@ preprocessor</td>
 <li>Multi-level includes or multiple inclusion of the same include into the same shader is not supported.</li>
 <li>Shader malfunction can also be caused by nontrivial using of preprocessing, for example, creating an invalid GLSL code:</li>
 </ol>
-<div class="highlight-glsl"><div class="highlight"><pre><span></span><span class="cp">#if TYPE</span>
+<div class="highlight-glsl"><div class="highlight"><pre><span class="cp">#if TYPE</span>
 <span class="k">void</span> <span class="n">function1</span><span class="p">()</span> <span class="p">{</span>
 <span class="cp">#else</span>
 <span class="k">void</span> <span class="n">function1</span><span class="p">(</span><span class="k">int</span> <span class="n">i</span><span class="p">)</span> <span class="p">{</span>
@@ -741,15 +741,15 @@ the FILE_NAME file.</td>
 <div class="section" id="updating-add-on-translations">
 <h2><a class="toc-backref" href="#id20">Updating Add-on Translations</a><a class="headerlink" href="#updating-add-on-translations" title="Permalink to this headline">¶</a></h2>
 <p>If you need to update all existing .po files, run the script <em>translator.py</em> in the SDK/scripts directory without arguments:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; python3 translator.py
+<div class="highlight-bash"><div class="highlight"><pre>&gt; python3 translator.py
 </pre></div>
 </div>
 <p>In order to update an existing .po file, run the script with a supported language code as an argument:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; python3 translator.py ru_RU
+<div class="highlight-bash"><div class="highlight"><pre>&gt; python3 translator.py ru_RU
 </pre></div>
 </div>
 <p>In order to view the list of supported languages, run the script as follows:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; python3 translator.py <span class="nb">help</span>
+<div class="highlight-bash"><div class="highlight"><pre>&gt; python3 translator.py <span class="nb">help</span>
 </pre></div>
 </div>
 <p>In any case, the file <em>empty.po</em> will be updated upon running the script.</p>
@@ -777,7 +777,7 @@ the FILE_NAME file.</td>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Triumph.
-      Last updated on 2017-08-31.
+      Last updated on 2017-10-31.
 
     </p>
   </div>
@@ -833,7 +833,7 @@ the FILE_NAME file.</td>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.08',
+            VERSION:'v17.10',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

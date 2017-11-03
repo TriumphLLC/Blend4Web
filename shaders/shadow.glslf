@@ -272,6 +272,11 @@ GLSL_OUT vec4 GLSL_OUT_FRAG_COLOR;
 
 void main(void) {
 
+#if USE_LOD_SMOOTHING
+    if (!coverage_is_frag_visible(u_lod_coverage, u_lod_cmp_logic))
+        discard;
+#endif
+
 #if ALPHA
 # if NODES
     vec3 eye_dir = normalize(u_camera_eye_frag - v_pos_world);
@@ -306,10 +311,6 @@ void main(void) {
 #endif
 
 #if SHADOW_USAGE == NO_SHADOWS || SHADOW_USAGE == SHADOW_CASTING
-# if USE_LOD_SMOOTHING
-    if (!coverage_is_frag_visible(u_lod_coverage, u_lod_cmp_logic))
-        discard;
-# endif
 # if RGBA_SHADOWS
     float depth = depth_pack(-v_pos_view.z, u_camera_range);
     GLSL_OUT_FRAG_COLOR = pack(depth);

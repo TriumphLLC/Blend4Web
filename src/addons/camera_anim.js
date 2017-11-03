@@ -518,40 +518,40 @@ exports.rotate_camera = function(cam_obj, angle_phi, angle_theta, time, cb) {
 
     _is_camera_rotating = true;
 
-    var delta_phi   = 0;
-    var delta_theta = 0;
-
-    var angle = angle_phi != 0 ? angle_phi: angle_theta;
-
-    var cur_animator = m_time.animate(0, angle, time, function(e) {
-        if (_is_camera_stop_rotating) {
-            m_time.clear_animation(cur_animator);
-            _is_camera_stop_rotating = false;
-            _is_camera_rotating = false;
-
-            return;
-        }
-
-        delta_phi   -= e;
-        delta_theta -= e;
-
-        if (angle_theta && angle_phi)
-            m_cam.rotate_camera(cam_obj, delta_phi, delta_theta);
-        else if (angle_theta)
-            m_cam.rotate_camera(cam_obj, 0, delta_theta);
-        else if (angle_phi)
-            m_cam.rotate_camera(cam_obj, delta_phi, 0);
-
-        delta_phi   = e;
-        delta_theta = e;
-
-        if (e == angle) {
+    function fin_cb() {
+        if (_is_camera_rotating) {
             _is_camera_rotating = false;
 
             if (cb)
                 cb();
         }
-    })
+    }
+
+    var delta_phi   = 0;
+    var cur_animator_phi = m_time.animate(0, angle_phi, time, function(e) {
+        if (_is_camera_stop_rotating || e >= angle_phi) {
+            _is_camera_stop_rotating = false;
+            m_time.clear_animation(cur_animator_phi);
+            fin_cb();
+            return;
+        }
+
+        m_cam.rotate_camera(cam_obj, delta_phi - e, 0);
+        delta_phi = e;
+    });
+
+    var delta_theta = 0;
+    var cur_animator_theta = m_time.animate(0, angle_theta, time, function(e) {
+        if (_is_camera_stop_rotating || e >= angle_theta) {
+            _is_camera_stop_rotating = false;
+            m_time.clear_animation(cur_animator_theta);
+            fin_cb();
+            return;
+        }
+
+        m_cam.rotate_camera(cam_obj, 0, delta_theta - e);
+        delta_theta = e;
+    });
 }
 
 /**

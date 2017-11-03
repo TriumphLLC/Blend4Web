@@ -59,12 +59,18 @@ var _selected_object = null;
 var _object_selected_callback = function() {};
 var _controlled_object = null;
 var _dist_to_camera = null;
+var _sync_modifications = true;
+var _modifications = {};
+var _ws = null;
+var _instance_id = null;
+var _was_file_changed = false;
 
 exports.init = function() {
     m_storage.init("b4w_viewer");
     set_quality_config();
     set_stereo_view_config();
     set_outlining_overview_mode_config();
+    set_sync_modifications_config();
 
     m_app.init({
         canvas_container_id: "main_canvas_container",
@@ -120,7 +126,7 @@ function init_cb(canvas_elem, success) {
 
     var url_params = m_app.get_url_params();
 
-    init_ui();
+    init_ui(url_params);
     var url = url_params && url_params["load"] ? url_params["load"] : "";
     process_scene(url, false);
 }
@@ -256,7 +262,7 @@ function get_controlled_object() {
     return _controlled_object;
 }
 
-function init_ui() {
+function init_ui(url_params) {
     _object_info_elem = document.getElementById("info_left_down");
     _lights_elem = document.getElementById("lights_cont");
 
@@ -271,7 +277,6 @@ function init_ui() {
     m_app.set_onclick("auto_rotate_cam", auto_rotate_cam);
     m_app.set_onclick("pause", pause_clicked);
     m_app.set_onclick("resume", resume_clicked);
-    m_app.set_onclick("home", home_clicked);
 
     // animation
     bind_control(set_animation_params, "anim_active_object", "string");
@@ -466,6 +471,8 @@ function init_ui() {
     bind_control(set_enable_gl_debug_and_reload, "enable_gl_debug", "bool");
     bind_control(set_outlining_overview_mode, "outlining_overview_mode", "bool");
     refresh_outlining_overview_mode_ui();
+    bind_control(set_sync_modifications, "sync_modifications", "bool");
+    refresh_sync_modifications(url_params ? url_params["sync"]: null);
     m_app.set_onclick("make_screenshot", make_screenshot_clicked);
     refresh_debug_info_ui();
     bind_control(set_min_capabilities_and_reload, "min_capabilities", "bool");
@@ -507,10 +514,17 @@ function process_scene(url, call_reset_b4w) {
     if (url) {
         var url_elems = url.split("/");
         var name = url_elems[url_elems.length - 1].split(".")[0]
+        var app_path = window.location.pathname;
     } else {
         url = m_cfg.get_std_assets_path() + DEFAULT_SCENE;
         var name = "Logo";
+        var app_path = "";
     }
+
+    var url_list = url.split(window.location.host)
+    _instance_id = {"app_path": app_path, "file_path":url_list.length > 1 ? url_list[1]: url_list[0]};
+
+    start_websocket();
 
     if (call_reset_b4w)
         reset_b4w();
@@ -525,6 +539,66 @@ function process_scene(url, call_reset_b4w) {
 
     // load
     m_data.load(url, loaded_callback, preloader_callback, false);
+}
+
+function get_current_instance_id() {
+
+}
+
+function synchonize() {
+    try {
+        if (_ws && _ws.readyState == 1) {
+            var command = {
+                type: "sync",
+                id: _instance_id,
+                data: {
+                    "modif": _modifications
+                }
+            }
+            _ws.send(JSON.stringify(command));
+            _modifications = {};
+        }
+    } catch (e) {
+        // Do nothing. Will resend on the next attempt of connection creation
+    }
+}
+
+function start_websocket() {
+    var host = window.location.host;
+    try {
+        _ws = new WebSocket("ws://" + host + "/viewer");
+        _ws.onopen = function() {
+            _modifications["sync"] = _sync_modifications;
+            var command = {
+                type: "sync",
+                id: _instance_id,
+                data: {
+                    "modif": _modifications
+                }
+            }
+            _ws.send(JSON.stringify(command));
+            _modifications = {};
+        };
+        _ws.onmessage = function(e) {
+            var data = JSON.parse(e.data);
+            if (data.type === "sync") {
+                if (_sync_modifications)
+                    window.location.reload();
+                _was_file_changed = true;
+            }
+        };
+        _ws.onclose = function() {
+            console.warn("Connection to " + host + " lost");
+            setTimeout(function() {
+                start_websocket()
+            }, 1000);
+        }
+    } catch (exc) {
+        console.warn("Connection to " + host + " lost");
+        setTimeout(function() {
+            start_websocket()
+        }, 1000);
+    }
 }
 
 function mouse_cb() {
@@ -705,9 +779,11 @@ function prepare_scenes() {
 
         if (m_obj.is_dynamic(obj) && m_obj.is_mesh(obj)) {
             var mat_names = m_mat.get_materials_names(obj);
-            fill_select_options("material_name", mat_names);
-            get_material_params(obj, mat_names[0]);
-            get_water_material_params(obj, mat_names[0]);
+            if (mat_names.length) {
+                fill_select_options("material_name", mat_names);
+                get_material_params(obj, mat_names[0]);
+                get_water_material_params(obj, mat_names[0]);
+            }
         }
         get_wind_bending_params(obj);
     };
@@ -921,10 +997,6 @@ function reset_clicked() {
     window.location.href = new_href;
 }
 
-function home_clicked() {
-    process_scene(null, true);
-}
-
 function pause_clicked() {
     m_main.pause();
 }
@@ -956,6 +1028,15 @@ function get_enable_gl_debug_config() {
 
 function set_stereo_view_config() {
     m_cfg.set("stereo", m_storage.get("stereo") || "NONE");
+}
+
+function set_sync_modifications_config() {
+    if (m_storage.get("sync_modifications") == "")
+        _sync_modifications = true
+    else
+        _sync_modifications = m_storage.get("sync_modifications") === "true";
+    _modifications["sync"] = _sync_modifications;
+    synchonize();
 }
 
 function set_outlining_overview_mode_config() {
@@ -1028,6 +1109,27 @@ function refresh_outlining_overview_mode_ui() {
     $("#outlining_overview_mode").slider("refresh");
 }
 
+function refresh_sync_modifications(sync_url_param) {
+    if (m_storage.get("sync_modifications") == "")
+        var opt_index = 1;
+    else
+        var opt_index = Number(m_storage.get("sync_modifications") === "true");
+
+    // override storage settings if 'sync' presents in args
+    if (sync_url_param) {
+        if (sync_url_param == "" || sync_url_param == "true")
+            var opt_index = 1;
+        else if (sync_url_param == "false")
+            var opt_index = 0;
+    }
+    _sync_modifications = opt_index == 1;
+    m_storage.set("sync_modifications", _sync_modifications);
+
+    document.getElementById("sync_modifications").options[opt_index].selected = true;
+
+    $("#sync_modifications").selectmenu("refresh");
+}
+
 function refresh_gyro_use_ui() {
     var opt_index = Number(m_storage.get("gyro_use") === "true");
     document.getElementById("gyro_use").options[opt_index].selected = true;
@@ -1077,6 +1179,15 @@ function hide_show_gmpd_config(value) {
 function set_outlining_overview_mode(value) {
     m_storage.set("outlining_overview_mode", value.outlining_overview_mode);
     window.location.reload();
+}
+
+function set_sync_modifications(value) {
+    m_storage.set("sync_modifications", value.sync_modifications);
+    _sync_modifications = value.sync_modifications;
+
+    if (_sync_modifications && _was_file_changed) {
+        window.location.reload();
+    }
 }
 
 function on_resize(e) {

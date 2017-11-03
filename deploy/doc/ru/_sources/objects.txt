@@ -824,7 +824,7 @@ canvas’е выделяет объект,
    var obj = m_scenes.pick_object(x, y);
    // ...
 
-или с использованием редактора логики.
+or using the Logic Editor.
 
 Если для выделяемого объекта в панели "Object > Selection and
 Outlining" установлены флаги "Enable Outlining" и "Outline on Select",

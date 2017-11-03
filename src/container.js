@@ -307,8 +307,8 @@ function resize(width, height, update_canvas_css) {
         m_hud.update_dim();
     }
 
-    var cw = width * cfg_def.canvas_resolution_factor;
-    var ch = height * cfg_def.canvas_resolution_factor;
+    var cw = Math.floor(width * cfg_def.canvas_resolution_factor);
+    var ch = Math.floor(height * cfg_def.canvas_resolution_factor);
 
     canvas_webgl.width  = cw;
     canvas_webgl.height = ch;

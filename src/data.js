@@ -2587,6 +2587,12 @@ function video_play(scene, data_id) {
     }
 }
 
+function prepare_nla(bpy_data, thread, stage, cb_param, cb_finish, cb_set_rate) {
+    // apply nla animations before playback to prevent freezing on nla start
+    m_nla.prepare();
+    cb_finish(thread, stage);
+}
+
 function start_nla(bpy_data, thread, stage, cb_param, cb_finish, cb_set_rate) {
     m_nla.start();
     m_print.log("%cSTART NLA", "color: #0a0");
@@ -3447,7 +3453,7 @@ function add_objects(bpy_data, thread, stage, cb_param, cb_finish,
         var sc_data = m_obj_util.get_scene_data(obj, scene);
 
         m_scenes.append_object(scene, obj);
-        if (obj.anchor && !scene._render.anaglyph_use)
+        if (obj.anchor && !scene._render.anaglyph_use && !scene._render.sidebyside_use)
             m_anchors.append(obj);
         var rate = ++cb_param.obj_counter / obj_data.length;
 
@@ -3883,14 +3889,25 @@ exports.load = function(path, loaded_cb, stageload_cb, wait_complete_loading,
             primary_only: false,
             cb_before: synchronize_media
         },
-        "start_nla": {
+        "prepare_nla": {
             priority: m_loader.SYNC_PRIORITY,
-            background_loading: true,
+            background_loading: false, // should be processed before loaded_cb
+                                       // to prevent undetermined lag introduced
+                                       // by itself
             inputs: ["mobile_media_start"],
             is_resource: false,
             relative_size: 5,
             primary_only: true,
-            cb_before: start_nla
+            cb_before: prepare_nla,
+        },
+        "start_nla": {
+            priority: m_loader.SYNC_PRIORITY,
+            background_loading: true,
+            inputs: ["prepare_nla"],
+            is_resource: false,
+            relative_size: 5,
+            primary_only: true,
+            cb_before: start_nla,
         }
     };
 

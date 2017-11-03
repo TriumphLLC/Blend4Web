@@ -52,7 +52,6 @@ function load() {
 }
 
 function load_cb(data_id) {
-    m_app.enable_camera_controls();
     init_logic();
 }
 

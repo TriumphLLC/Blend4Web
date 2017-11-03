@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2017-08-29 10:32+0300\n"
-"PO-Revision-Date: 2017-07-02 14:52+0800\n"
+"POT-Creation-Date: 2017-10-26 11:36+0300\n"
+"PO-Revision-Date: 2017-09-03 21:19+0800\n"
 "Last-Translator: kidux <yuzukyo@gmail.com>\n"
 "Language-Team: Chinese <info [at] blend4web.com>\n"
 "MIME-Version: 1.0\n"
@@ -184,13 +184,13 @@ msgid "Objects’ groups to which this object belongs."
 msgstr "物体所属的物体组"
 
 msgid "Display Panel"
-msgstr ""
+msgstr "显示面板"
 
 msgid ""
 "This panel contains parameters that define how the selected object looks "
 "in the 3D View window. It does not feature any additional options in "
 "Blend4Web mode."
-msgstr ""
+msgstr "此面板包含定义3D视图窗口中所选物体的参数。它在Blend4Web模式下没有任何其他选项。"
 
 msgid "Levels of Detail Panel"
 msgstr "层次细节面板"
@@ -251,14 +251,13 @@ msgid "*Export Options > Apply Modifiers*"
 msgstr "*导出选项 > 应用修改器*"
 
 msgid "Apply the object’s modifiers upon export."
-msgstr ""
+msgstr "导出时应用物体的修改器。"
 
-#, fuzzy
 msgid ""
 "If the ``Skin`` modifier is used we recommend to apply it before the "
 "export because it resets vertex color and UV layers which may result in "
 "errors."
-msgstr "应用导出物体的修改器。如果使用 ``SKIN`` 修改器，我们建议导出前应用掉它，因为它会重置顶点颜色和UV层可能会导致错误。"
+msgstr "如果使用 ``Skin`` 修改器，我们建议在导出之前应用它，因为它会重置顶点颜色和UV层，这可能导致错误。"
 
 msgid "*Export Options > Apply Scale and Modifiers*"
 msgstr "*导出选项 > 应用缩放和修改器*"
@@ -371,27 +370,27 @@ msgid "Billboard Panel"
 msgstr "广告牌面板"
 
 msgid "*Billboard*"
-msgstr "*看板*"
+msgstr "*广告牌*"
 
 msgid ""
 "Use the object as a billboard (i.e. automatically orient relative to the "
 "camera)."
-msgstr "使用物体作为看板（即自动定向面对摄像机）。"
+msgstr "使用物体作为广告牌（即自动定向面对摄像机）。"
 
-#, fuzzy
 msgid "*Billboard > Preserve Global Rotation*"
-msgstr "*看板 > 保留全局方向和缩放*"
+msgstr "*广告牌 > 保留全局旋转*"
 
-#, fuzzy
 msgid ""
 "Take into account rotation of the billboard object (in the world space). "
 "The object will be directed toward the camera with its side which is "
 "visible when viewing along the Y axis in Blender. Becomes available after"
 " enabling the ``Billboard`` checkbox."
-msgstr "考虑到（世界空间）看板的物体的旋转和缩放。该物体沿Blender的Y轴查看时将朝明显的被引导到相机。启用 ``看板`` 复选框后可用。"
+msgstr ""
+"考虑到广告牌物体的旋转（在世界空间中）。物体将被指向相机，其侧面在Blender中沿着Y轴观察时可见。启用  ``Billboard`` "
+"复选框后可用。"
 
 msgid "*Billboard > Billboard Type*"
-msgstr "*看板 > 看板类型*"
+msgstr "*广告牌 > 广告牌类型*"
 
 msgid ""
 "Billboard orientation mode. ``Spherical`` (by default) - the object is "
@@ -400,8 +399,8 @@ msgid ""
 "limited to Blender’s world Z axis. Becomes available after enabling "
 "Billboard"
 msgstr ""
-"看板方向模式。 ``Spherical`` （默认） - 物体一面始终朝向相机，不管视角，``Cylindrical``  - 类似于 "
-"``Spherical``，但旋转仅限于Blender的世界Z轴。启用看板后变得可用。"
+"广告牌方向模式。 ``Spherical`` （默认） - 物体一面始终朝向相机，不管视角，``Cylindrical``  - 类似于 "
+"``Spherical``，但旋转仅限于Blender的世界Z轴。启用广告牌后变得可用。"
 
 msgid "Reflections Panel"
 msgstr "反射面板"
@@ -502,18 +501,20 @@ msgid ""
 "Description for the object. Depending on ``Description Source``, this "
 "field accepts either description text itself, or the name of a file where"
 " this description is contained."
-msgstr "物体描述。根据 ``说明源``，此字段接受描述文本本身，或包含的文件的名称。"
+msgstr "物体描述。根据 ``说明源``，此字段接受描述文本本身，或包含此描述的文件名称。"
 
 msgid ""
 "To use a text file as a description source you first have to open an "
 "existing file in Blender :ref:`Text Editor <ui_text_editor>` or to create"
 " a new text file in the same editor."
 msgstr ""
+"要使用文本文件作为描述源，您首先必须在Blender的  :ref:`文本编辑器 <ui_text_editor>` "
+"中打开一个现有文件，或者在同一个编辑器中创建一个新的文本文件。"
 
 msgid ""
 "Then, you only have to set the name of the file in the ``Description`` "
 "field."
-msgstr ""
+msgstr "然后，您只需要在 ``Description`` 字段中设置文件的名称。"
 
 msgid "*Meta Tags > Description Source*"
 msgstr "*元标签 > 描述源*"
@@ -540,9 +541,8 @@ msgid ""
 "are described in the :ref:`Camera chapter <camera_viewport_alignment>`."
 msgstr "这些设置可被用于将物体对准的主控照相机。参考 :ref:`相机章节 <camera_viewport_alignment>` 的描述。"
 
-#, fuzzy
 msgid "Duplication Panel"
-msgstr "关系面板。"
+msgstr "复制面板"
 
 msgid ""
 "This panel contains settings that concern object duplication. It does not"
@@ -550,6 +550,8 @@ msgid ""
 "should be noted that at the moment Blend4Web engine only supports "
 "``Group`` duplication method."
 msgstr ""
+"此面板包含有关物体复制的设置。它在Blend4Web模式下不具有任何其他参数;然而，应该注意的是，目前Blend4Web引擎只支持 ``组`` "
+"复制方法。"
 
 msgid "Wind Bending Panel"
 msgstr "风弯曲面板"
@@ -677,21 +679,19 @@ msgid ""
 msgstr "其他约束并没有明显的类似功能在 API 中，虽然他们的行为可以在一定程度上通过 API 方法模仿使用。"
 
 msgid "The :b4wmod:`constraints` module also includes several additional methods:"
-msgstr ""
+msgstr ":b4wmod:`constraints` 模块还包括几个附加的方法："
 
-#, fuzzy
 msgid ":b4wref:`constraints.append_semi_soft()`"
-msgstr ":b4wref:`transform.set_scale()`"
+msgstr ""
 
 msgid ""
 "This method can be used to attach one object to another one using a semi-"
 "soft constraint. The object will smoothly follow the object's rear. This "
 "can be used to create third-person cameras."
-msgstr ""
+msgstr "此方法可用于将一个物体附加到另一个使用半软约束。该物体将顺利跟在其他物体的后面。这可以用于创建第三人称的相机。"
 
-#, fuzzy
 msgid ":b4wref:`constraints.append_semi_stiff()`"
-msgstr ":b4wref:`transform.set_scale()`"
+msgstr ""
 
 msgid ""
 "This method can be used to attach the object to the other object using a "
@@ -699,49 +699,46 @@ msgid ""
 " together with its parent, but it will also be possible to rotate it "
 "independently in the parent's local space. A behavior similar to that of "
 "a tank turret can be created this way."
-msgstr ""
+msgstr "此方法可用于将物体附加到其他物体使用半刚性约束，意味着物体的子物体将移动和旋转和其父，但它也可能独立地旋转它在父的局部空间。一种行为类似于坦克炮塔可以这种方式创建。"
 
-#, fuzzy
 msgid ":b4wref:`constraints.append_stiff()`"
-msgstr ":b4wref:`transform.get_translation()`"
+msgstr ""
 
 msgid ""
 "This method attaches the object to another object (or to an armature "
 "bone) using a stiff constraint. The child object will move, rotate and "
 "scale together with its parent."
-msgstr ""
+msgstr "此方法附加物体到另一个物体 （或骨架骨骼上） 使用硬约束。物体的子物体将随着父物体移动、 旋转和缩放。"
 
 msgid ""
 "Examples: a sword parented to the character's hand; a character sitting "
 "in a vehicle."
-msgstr ""
+msgstr "例子：一个附加在角色手中的剑;坐在车上的角色。"
 
-#, fuzzy
 msgid ":b4wref:`constraints.append_stiff_trans()`"
-msgstr ":b4wref:`transform.get_translation()`"
+msgstr ""
 
 msgid ""
 "This method attaches the object to the other object using a stiff "
 "translation constraint. The child object moves together with its parent, "
 "but does not rotate along with it (it, however, can be rotated "
 "independently from the parent)."
-msgstr ""
+msgstr "此方法附加到使用硬性移动约束的其他物体的物体。物体的子物体和其父物体一起移动，但不一起旋转  （然而，可以独立于父物体旋转）。"
 
-#, fuzzy
 msgid ":b4wref:`constraints.append_stiff_trans_rot()`"
-msgstr ":b4wref:`transform.get_translation()`"
+msgstr ""
 
 msgid ""
 "Can be used to attach the object to another object using a stiff "
 "translation/rotation constraint. In this case, the child object moves and"
 " rotates along with its parent, but does not scale in accord with it. "
 "However, the object still can be scaled independently from the parent."
-msgstr ""
+msgstr "可以使用刚性平移/旋转约束将物体附加到另一个物体。在这种情况下，子物体与其父物体一起移动并旋转，但不按照它进行缩放。物体仍然可以独立于父物体进行缩放。"
 
 msgid ""
 "Example: a smoke emitter attached to the tractor pipe; exhaustion effects"
 " are achieved by scaling the emitter."
-msgstr ""
+msgstr "示例： 烟发射器附加到拖拉机管;通过缩放发射器来达到耗尽的效果。"
 
 msgid ":b4wref:`constraints.append_stiff_viewport()`"
 msgstr ""
@@ -749,15 +746,15 @@ msgstr ""
 msgid ""
 "Attaches the object to the camera using a stiff viewport constraint (so "
 "the child object will preserve its orientation in the camera viewport)."
-msgstr ""
+msgstr "附加到相机使用硬性视口约束 （这样子物体将一直朝向摄影机视图方向） 的物体。"
 
 msgid "This constraint can be used to create onscreen 2D/3D interfaces elements."
-msgstr ""
+msgstr "此约束可以用于创建屏幕上的 2D/3D 界面元素。"
 
 msgid ""
 ":b4wref:`constraints.remove()` - this method removes any constraints that"
 " were previously applied to the object."
-msgstr ""
+msgstr ":b4wref:`constraints.remove()` - 此方法移除以前应用于该物体的任何约束。"
 
 msgid "Anchor Settings"
 msgstr "锚设置"
@@ -853,7 +850,7 @@ msgid ""
 msgstr "使用 :b4wmod:`transform` 模块的下列方法在引擎中移动物体："
 
 msgid ":b4wref:`transform.get_translation()`"
-msgstr ":b4wref:`transform.get_translation()`"
+msgstr ""
 
 msgid ""
 "Get the coordinates of the object’s center in world space. The method "
@@ -863,7 +860,7 @@ msgid ""
 msgstr "获得在世界空间的物体中心坐标。带一个参数的方法返回一个新向量（一个非优化选项），同时用两个参数的方法需要一个额外的矢量记录结果。"
 
 msgid ":b4wref:`transform.get_translation_rel()`"
-msgstr ":b4wref:`transform.get_translation_rel()`"
+msgstr ""
 
 msgid ""
 "Similar to the ``get_translation()`` method, but if this object has a "
@@ -874,8 +871,6 @@ msgid ""
 ":b4wref:`transform.set_translation()`, "
 ":b4wref:`transform.set_translation_v()`"
 msgstr ""
-":b4wref:`transform.set_translation()`, "
-":b4wref:`transform.set_translation_v()`"
 
 msgid ""
 "Move the object’s center into the specified location. The first method "
@@ -887,8 +882,6 @@ msgid ""
 ":b4wref:`transform.set_translation_rel()`, "
 ":b4wref:`transform.set_translation_rel_v()`"
 msgstr ""
-":b4wref:`transform.set_translation_rel()`, "
-":b4wref:`transform.set_translation_rel_v()`"
 
 msgid ""
 "Similar to ``set_translation()`` and ``set_translation_v()``, but if this"
@@ -899,7 +892,7 @@ msgstr ""
 "``set_translation_v()``，但如果这个物体有父级，设定坐标为测量父级的空间。"
 
 msgid ":b4wref:`transform.get_rotation()`"
-msgstr ":b4wref:`transform.get_rotation()`"
+msgstr ""
 
 msgid ""
 "Get the object’s rotation quaternion in world space. Similar to "
@@ -907,7 +900,7 @@ msgid ""
 msgstr "获取在世界空间的物体的旋转四元数。类似 ``get_translation()``，调用此函数也有两种选择。"
 
 msgid ":b4wref:`transform.get_rotation_rel()`"
-msgstr ":b4wref:`transform.get_rotation_rel()`"
+msgstr ""
 
 msgid ""
 "Get the object’s rotation quaternion measured in its parent’s space. "
@@ -916,7 +909,7 @@ msgid ""
 msgstr "获取物体的在其父级空间的旋转四元。类似  ``get_translation_rel()``，调用此函数也有两种选择。"
 
 msgid ":b4wref:`transform.set_rotation()`, :b4wref:`transform.set_rotation_v()`"
-msgstr ":b4wref:`transform.set_rotation()`, :b4wref:`transform.set_rotation_v()`"
+msgstr ""
 
 msgid ""
 "Set the object’s rotation quaternion in world space. The first function "
@@ -930,8 +923,6 @@ msgid ""
 ":b4wref:`transform.set_rotation_rel()`, "
 ":b4wref:`transform.set_rotation_rel_v()`"
 msgstr ""
-":b4wref:`transform.set_rotation_rel()`, "
-":b4wref:`transform.set_rotation_rel_v()`"
 
 msgid ""
 "Set the object’s rotation quaternion measured in its parent’s space. The "
@@ -942,19 +933,19 @@ msgstr ""
 "``Float32Array``）。"
 
 msgid ":b4wref:`transform.get_scale()`"
-msgstr ":b4wref:`transform.get_scale()`"
+msgstr ""
 
 msgid "Get the object’s scale in world space."
 msgstr "获取物体在世界空间的缩放。"
 
 msgid ":b4wref:`transform.get_scale_rel()`"
-msgstr ":b4wref:`transform.get_scale_rel()`"
+msgstr ""
 
 msgid "Get the object’s scale in its parent’s space."
 msgstr "获取物体在其父的空间的缩放。"
 
 msgid ":b4wref:`transform.set_scale()`"
-msgstr ":b4wref:`transform.set_scale()`"
+msgstr ""
 
 msgid ""
 "Set the object’s scale in world space. Unity corresponds to the original "
@@ -966,7 +957,7 @@ msgstr ""
 "扩大。注意，不是所有的物体可以被缩放。特别是不允许物理物体缩放。"
 
 msgid ":b4wref:`transform.set_scale_rel()`"
-msgstr ":b4wref:`transform.set_scale_rel()`"
+msgstr ""
 
 msgid "Set the object’s scale in its parent’s space."
 msgstr "设置物体在其父的空间的缩放。"
@@ -975,8 +966,6 @@ msgid ""
 ":b4wref:`transform.set_rotation_euler()`, "
 ":b4wref:`transform.set_rotation_euler_v()`"
 msgstr ""
-":b4wref:`transform.set_rotation_euler()`, "
-":b4wref:`transform.set_rotation_euler_v()`"
 
 msgid ""
 "Set the object’s rotation using Euler angles. An **intrinsic** YZX "
@@ -991,8 +980,6 @@ msgid ""
 ":b4wref:`transform.set_rotation_euler_rel()`, "
 ":b4wref:`transform.set_rotation_euler_rel_v()`"
 msgstr ""
-":b4wref:`transform.set_rotation_euler_rel()`, "
-":b4wref:`transform.set_rotation_euler_rel_v()`"
 
 msgid ""
 "Set the object’s rotation using Euler angles measured in its parent’s "
@@ -1000,7 +987,7 @@ msgid ""
 msgstr "使用欧拉角在其父的空间中设置物体的旋转。"
 
 msgid ":b4wref:`transform.move_local()`"
-msgstr ":b4wref:`transform.move_local()`"
+msgstr ""
 
 msgid "Move the object relative to its original position (in local space)."
 msgstr "相对移动到原来的位置的物体（在局部空间）。"
@@ -1010,9 +997,6 @@ msgid ""
 ":b4wref:`transform.rotate_y_local()`, "
 ":b4wref:`transform.rotate_z_local()`"
 msgstr ""
-":b4wref:`transform.rotate_x_local()`, "
-":b4wref:`transform.rotate_y_local()`, "
-":b4wref:`transform.rotate_z_local()`"
 
 msgid "Rotate the object relative to its original position (in local space)."
 msgstr "相对于物体原来位置的（在本地空间）旋转。"
@@ -1027,19 +1011,19 @@ msgid ""
 msgstr "对物体执行任何操作，您首先需要得到它（找到到它的链接）。有几个API函数是做这个的。有链接的物体具有 ``Object3D`` 类型。"
 
 msgid ":b4wref:`scenes.get_object_by_name()`"
-msgstr ":b4wref:`scenes.get_object_by_name()`"
+msgstr ""
 
 msgid "Get object by name."
 msgstr "按名称获取物体。"
 
 msgid ":b4wref:`scenes.get_object_by_dupli_name()`"
-msgstr ":b4wref:`scenes.get_object_by_dupli_name()`"
+msgstr ""
 
 msgid "Get the duplicated object by empty name and dupli name."
 msgstr "通过空名称和DUPLI名称找复制物体。"
 
 msgid ":b4wref:`scenes.get_object_by_dupli_name_list()`"
-msgstr ":b4wref:`scenes.get_object_by_dupli_name_list()`"
+msgstr ""
 
 msgid ""
 "Get the duplicated object by empty name and dupli name list (an array of "
@@ -1047,7 +1031,7 @@ msgid ""
 msgstr "通过空名称和DUPLI名单（``String`` 类型元素的数组）获得复制物体。"
 
 msgid ":b4wref:`scenes.get_object_name_hierarchy()`"
-msgstr ":b4wref:`scenes.get_object_name_hierarchy()`"
+msgstr ""
 
 msgid ""
 "Returns the object names hierarchy array (from the highest parent to the "
@@ -1055,13 +1039,13 @@ msgid ""
 msgstr "用一个给定的物体，返回物体名层次队列（从最高层的父物体到物体本身）。"
 
 msgid ":b4wref:`scenes.check_object_by_name()`"
-msgstr ":b4wref:`scenes.check_object_by_name()`"
+msgstr ""
 
 msgid "Check if object with given name is present on scene."
 msgstr "检查是否具有给定名称的物体在场景存在。"
 
 msgid ":b4wref:`scenes.check_object_by_dupli_name()`"
-msgstr ":b4wref:`scenes.check_object_by_dupli_name()`"
+msgstr ""
 
 msgid ""
 "Check if duplicated object is present on scene by empty name and dupli "
@@ -1069,7 +1053,7 @@ msgid ""
 msgstr "检查复制物体是空的名字和DUPLI名字出现在场景。"
 
 msgid ":b4wref:`scenes.check_object_by_dupli_name_list()`"
-msgstr ":b4wref:`scenes.check_object_by_dupli_name_list()`"
+msgstr ""
 
 msgid ""
 "Check if duplicated object is present on scene by empty name and dupli "
@@ -1077,7 +1061,7 @@ msgid ""
 msgstr "检查复制物体是空的名字和DUPLI名单（``String`` 类型元素的数组）出现在场景。"
 
 msgid ":b4wref:`scenes.get_object_name()`"
-msgstr ":b4wref:`scenes.get_object_name()`"
+msgstr ""
 
 msgid "Get the object’s name."
 msgstr "获取物体的名称。"
@@ -1102,7 +1086,8 @@ msgid ""
 "selects an object based on canvas 2D coordinates,"
 msgstr "物体选择也可以通过API编程方式，例如，在 ``scenes.js`` 模块有基于二维的画布坐标选择物体的 ``pick_object`` 函数。"
 
-msgid "or using the :ref:`Logic Editor <logic_switch_select>`."
+#, fuzzy
+msgid "or using the :ref:`Logic Editor <logic_select>`."
 msgstr "或使用 :ref:`逻辑编辑器 <logic_switch_select>`."
 
 msgid ""
@@ -1580,7 +1565,4 @@ msgstr "获取物体"
 
 msgid "quaternion"
 msgstr "四元数"
-
-#~ msgid ""
-#~ msgstr ""
 

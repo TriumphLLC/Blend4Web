@@ -251,15 +251,16 @@ div.ui-controlgroup-controls .ui-mini {
 
 div.ui-controlgroup-controls .ui-mini:nth-child(1) {
     padding-right: 8px;
+    width: 33%;
 }
 
 div.ui-controlgroup-controls .ui-mini:nth-child(2) {
-    width: 38%;
+    width: 37%;
 }
 
 div.ui-controlgroup-controls .ui-mini:nth-child(3) {
     padding-right: 8px;
-    width: 32%;
+    width: 30%;
 }
 
 .hmd_container {

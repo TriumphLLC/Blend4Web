@@ -24,13 +24,13 @@
 
   * 网络
 
-  * 调试
-
-  * Time
+  * 时间
 
   * 布局
 
-  * 调试中
+  * 调试
+
+  * Other Features
 
 
 基础
@@ -105,8 +105,8 @@
    如果启用此参数，切入点可以通过API使用  run_entrypoint 方法触发。
 
 
-切换选择
---------
+Select
+------
 
 可用于跟踪物体列表中的任何物体的选择。
 
@@ -124,15 +124,16 @@
 ~~~~~~~~
 
 *<object name> 命中*
-   如果用户选择（用鼠标或触摸）一个物体的参数名称被设置关注，这个参数
-   将传递到下一个节点的控制。该 "Switch Select"  节点在默认情况下有一
-   个这样的参数，但可以添加新的和删除现有（节点甚至可以没有这样的参数
-   ）。
+   This parameter will pass the control to the next node if the user
+   selects (with a mouse or by touch) an object mentioned in the
+   parameter’s name. The "Select" node has one such parameter by
+   default, but you can add new ones and remove existing ones (the
+   node can even have no such parameters).
 
 *未击中*
-   当用户选择任何具有 "Selectable" 属性的物体（或使用另一个  "Switch
-   Select" 节点）时，该参数将控制传递给下一个节点，但在 "Switch
-   Select"  节点中未指定。
+   This parameter will pass the control to the next node when the user
+   selects any object with the "Selectable" property enabled (or used
+   by another "Select" node), but not specified in the "Select" node.
 
 
 内部参数
@@ -142,9 +143,17 @@
    用户可以选择的物体之一。当您创建或删除命中参数时，这些参数会自动创
    建和删除 "Hit" 参数。这样的参数的数量总是等于  "Hit" 参数的数目。
 
+*Variable*
+   If this parameter is enabled, you can specify an object variable in
+   the corresponding "Object" field.
 
-条件跳转
---------
+*目标*
+   Sets a variable that will be used to store a selected object after
+   an event of selection.
+
+
+Branch
+------
 
 如果满足一定的条件转到指定的节点。参数（操作数）也可以是使用相应的开关
 激活的变量。
@@ -195,9 +204,49 @@
 *Operand2*
    逻辑条件的第二个操作数。和第一个以同样的方式工作。
 
-*字符串操作数*
-   如果启用此参数，则第一个和第二个操作数可以使用字符串（手动设置或由
-   变量设置）作为它们的值。
+*Operand's Type*
+   The type of the operands. Available values are "Number" (the
+   default option), "String" and "Object".
+
+
+Switch
+------
+
+This node compares several variables with a given value and executes a
+conditional jump depending on the outcome.
+
+[图片]
+
+
+输入参数
+~~~~~~~~
+
+*上一个*
+   前一个节点。
+
+
+输出参数
+~~~~~~~~
+
+*<variable name>*
+   One of the variables used for comparison. If the value of the
+   variable specified by this parameter is equal to the value of the
+   "Variable" parameter, control is passed to the node connected to
+   this output. The "Switch" node has one such parameter by default,
+   but you can add new ones and remove existing ones (the node can
+   even have no such parameters).
+
+*Default*
+   This output will pass control to the next node in case none of the
+   values are equal to that of the variable set by the "Variable"
+   parameter.
+
+
+内部参数
+~~~~~~~~
+
+*Variable*
+   Specifies a variable used for comparison.
 
 
 JS 回调
@@ -228,6 +277,9 @@ JS 回调
 *回调 ID*
    一个 JavaScript 函数将被节点调用的 ID。
 
+   This value can be set directly or via a variable (if the "Variable"
+   parameter is enabled).
+
 *输入参数*
    输入函数的参数的列表。每个参数可以是变量或到场景物体的链接。可以调
    整输入参数的数目。默认情况下，此列表是空的。
@@ -252,16 +304,98 @@ JS 回调
    指定变量之一作为输出参数。默认情况下，使用 "R1" 变量。
 
 
+Define Function
+---------------
+
+This node can be used to combine several logic nodes into a function -
+a subroutine that can be accessed from the main logic setup. This node
+always serves as a starting point of a separate node tree and thus
+feature no input parameters.
+
+[图片]
+
+
+输入参数
+~~~~~~~~
+
+空
+
+
+输出参数
+~~~~~~~~
+
+*下一个*
+   下一个节点。
+
+
+内部参数
+~~~~~~~~
+
+*Function*
+   The name of the function.
+
+*输入参数*
+   The list of the function's input parameters. This list is empty by
+   default, but you can add and remove variables using "+" and "-"
+   buttons. Each variable can also be named.
+
+*输出参数*
+   The list of the function's output parameters. Works in the same way
+   as the "In Params" list.
+
+
+Call Function
+-------------
+
+This node can be used to call a function defined by a "Define
+Function" node.
+
+[图片]
+
+
+输入参数
+~~~~~~~~
+
+*上一个*
+   前一个节点。
+
+
+输出参数
+~~~~~~~~
+
+*下一个*
+   下一个节点。
+
+
+内部参数
+~~~~~~~~
+
+*NodeTree*
+   The name of the node tree from which the function is called.
+
+*Function*
+   The name of the function.
+
+*输入参数*
+   The list of the variables to set the input parameters of the
+   function specified by the "Function" parameter.
+
+*输出参数*
+   The list of the variables to store the output parameters of the
+   function specified by the "Function" parameter.
+
+
 动画
 ====
 
 
-播放时间轴和停止时间线
-----------------------
+Play Timeline
+-------------
 
-可以用来控制 NLA 动画。'玩的时间线' 节点扮演 NLA 片段从指定的标记的帧
-开始。动画播放直至遇到下一个标记，或到场景的时间线的末尾。在那之后，控
-制传递到下一个节点。'停止时间线' 节点停止播放。
+This node can be used to control NLA animations. The "Play Timeline"
+node plays NLA fragment starting with a frame specified by the marker.
+Animation plays until next marker is encountered, or to the end of the
+scene’s timeline. After that, control passes on to the next node.
 
 [图片]
 
@@ -284,18 +418,69 @@ JS 回调
 ~~~~~~~~
 
 *起始标记*
-   动画的第一帧。如果没有指定，动画从时间轴开始播放，并可能无法正常工
-   作。
+   First frame of the animation.
+
+   注解: If this parameter is not specified, the animation plays
+     from the current frame, i.e. if animation hasn't been played yet,
+     playback will start from the first frame of the timeline. If
+     playback has been stopped with the "Stop Timeline" node and then
+     started again, it will continue from the last played frame.
 
 *结束标记*
-   动画的最后一帧。如果没有指定，动画播放到时间轴的结束，可能无法正常
-   工作。
+   Last frame of the animation.
+
+   注解: If this parameter is not specified, an animation plays to
+     the next marker (or to the end of the timeline, if there isn't
+     any).
+
+*不要等*
+   If this parameter is enabled, the "Play Timeline" node will pass
+   the control to the next node on starting the animation playback. If
+   it isn’t, the control will be passed to the next node only after
+   playback is finished.
+
+
+Stop Timeline
+-------------
+
+Stops the playback of the NLA animation started by the "Play
+Animation" node.
+
+[图片]
+
+
+输入参数
+~~~~~~~~
+
+*上一个*
+   前一个节点。
+
+
+输出参数
+~~~~~~~~
+
+*下一个*
+   下一个节点。
+
+
+内部参数
+~~~~~~~~
+
+*设置第一帧*
+   If this parameter is enabled, the timeline will be reset to the
+   first frame after the animation playback stops. Otherwise, the
+   timeline will be set to the frame specified by the "End Marker"
+   parameter of the "Play Timeline" node.
 
 
 播放动画
 --------
 
-可用于播放物体的动画。动画可以是以下类型之一：
+This node can be used to play object animation.
+
+[图片]
+
+An animation can be one of the following types:
 
 常规动作：
 
@@ -327,8 +512,21 @@ JS 回调
 内部参数
 ~~~~~~~~
 
+*Environment Anim.*
+   If this parameter is enabled, animation of the scene environment (a
+   "World" object) will be played.
+
+*World*
+   Specifies the "World" object, animation of which will be played.
+   This parameter is only available if the "Environment Anim."
+   parameter is enabled.
+
 *物体*
    物体，动画，其中将播放的名称。
+
+*Variable*
+   If this parameter is enabled, an Object-type variable can be set in
+   the "Object" field.
 
 *动画名称*
    要播放动画的名字。如果未指定，则整个时间轴将播放。
@@ -353,6 +551,8 @@ JS 回调
 
 可以用来停止物体的动画。
 
+[图片]
+
 
 输入参数
 ~~~~~~~~
@@ -370,6 +570,22 @@ JS 回调
 
 内部参数
 ~~~~~~~~
+
+*Environmental Anim.*
+   If this parameter is turned on, animation of the scene environment
+   (a "World" object) will be stopped.
+
+*World*
+   Specifies the "World" object, animation of which will be stopped.
+   This parameter is only available if the "Environment Anim."
+   parameter is enabled.
+
+*物体*
+   Name of the object, animation of which will be stopped.
+
+*Variable*
+   If this parameter is enabled, an Object-type variable can be set in
+   the "Object" field.
 
 *设置第一帧*
    返回到第一帧的动画已经停止之后。
@@ -407,11 +623,20 @@ JS 回调
 *相机*
    将摄像机移动。
 
+   This parameter can be set directly or using an Object-type variable
+   (if the "Variable" option is enabled).
+
 *位置*
    相机将移动的物体。相机的坐标跟运动结束后的物体是相同的。
 
+   This parameter can be set directly or using an Object-type variable
+   (if the "Variable" option is enabled).
+
 *目标*
    相机将在指向该物体的方向移动。
+
+   This parameter can be set directly or using an Object-type variable
+   (if the "Variable" option is enabled).
 
 *持续*
    相机被转移到一个新的位置将花费的时间（秒）。默认设置为零（在这种情
@@ -446,6 +671,9 @@ JS 回调
 
 *相机*
    此参数指定的摄像机到的变化将被应用。
+
+   This parameter can be set directly or using an Object-type variable
+   (if the "Variable" option is enabled).
 
 *新相机移动方式*
    此参数指定相机将使用新的方式。四个选项可用： "Hover", "Eye",
@@ -512,6 +740,9 @@ JS 回调
 *相机*
    此参数指定将应用限制的摄像机。
 
+   This parameter can be set directly or using an Object-type variable
+   (if the "Variable" option is enabled).
+
 *Distance Limits*
    设置 "距离限制" 参数用于   目标 和 悬停 照相机类型。
 
@@ -563,6 +794,10 @@ JS 回调
 *物体*
    显示一个物体。
 
+*Variable*
+   If this parameter is enabled, an Object-type variable can be set in
+   the "Object" field.
+
 *处理子物体*
    如果启用此参数，则将显示子物体。
 
@@ -595,6 +830,10 @@ JS 回调
 *物体*
    一个物体隐藏。
 
+*Variable*
+   If this parameter is enabled, an Object-type variable can be set in
+   the "Object" field.
+
 *处理子物体*
    如果启用此参数，则将隐藏子物体。
 
@@ -626,6 +865,10 @@ JS 回调
 
 *物体*
    需要进行变换的物体。
+
+*Variable*
+   If this parameter is enabled, an Object-type variable can be set in
+   the "Object" field.
 
 *空间*
    此参数定义将用于转换的物体的坐标空间。它可以具有下列值之一 ︰
@@ -683,11 +926,15 @@ JS 回调
 ~~~~~~~~
 
 *物体*
-   你需要移动的物体。
+   An object that you need to move. It can be set directly or using an
+   Object-type variable (if the "Variable" option is enabled)
 
 *目标*
    一个目标（另一个物体或光源，摄像机或其他东西）选择的物体会移动。物
    体的坐标和目标的运动完成后的将是相同的。
+
+   This parameter can be set directly or using an Object-type variable
+   (if the "Variable" option is enabled).
 
 *持续*
    该物体将移到新位置花的时间 （以秒为单位）。默认情况下，此参数设置为
@@ -727,8 +974,9 @@ JS 回调
    形状将被应用到物体的密钥。
 
 *值*
-   多少的形状关键将影响物体。此值可以直接在节点中设置或使用的变量。值
-   应该是 0 和 1 之间。
+   How much the shape key will influence the object. This value can be
+   set directly in the node or using a variable (if the "Variable"
+   parameter is set). The value should be between 0 and 1.
 
 
 轮廓
@@ -758,6 +1006,10 @@ JS 回调
 
 *物体*
    的轮廓效果的任何更改将只适用于由该参数指定的物体。
+
+*Variable*
+   If this parameter is enabled, an Object-type variable can be set in
+   the "Object" field.
 
 *操作*
    指定将完成到该物体的轮廓的操作。这个参数可以具有以下值之一：
@@ -883,9 +1135,15 @@ RGB节点
    变量的名称。可以从变量列表中选定或手动指定 (如果 "New variable" 参
    数已启用)。
 
-*变量类型*
-   变量的类型。此参数可以有以下两个值之一： "Number" （数值变量）和
-   "String" （字符串变量）。
+*类型*
+   Variable’s type. This parameter can have one of the three values:
+   "Number" (for numerical variables), "String" (for string variables)
+   or "Object" (for object variables).
+
+*物体*
+   This parameter is used to specify the object that will be used as a
+   variable. It is only available if the "Type" parameter is set to
+   "Object".
 
 *新变量*
    如果启用此参数，则可以手动输入变量名称并不只是选择其中一个变量。这
@@ -895,9 +1153,6 @@ RGB节点
    启用此参数可使变量成全局变量。仅当启用了 "New Variable" 参数可用。
 
    [图片]
-
-*数/STR*
-   数值或字符串（取决于 "Var. type" 参数值）的变量的值。
 
 
 数学运算
@@ -1076,6 +1331,10 @@ RGB节点
 *扬声器*
    将启用的扬声器。
 
+*Variable*
+   If this parameter is enabled, an Object-type variable can be set in
+   the "Speaker" field.
+
 *不要等*
    如果启用此参数，控制将声音开始播放后立即传递到下一个节点。如果未启
    用它，当播放完成控制只会通过。
@@ -1108,6 +1367,10 @@ RGB节点
 
 *扬声器*
    将被关闭的扬声器。
+
+*Variable*
+   If this parameter is enabled, an Object-type variable can be set in
+   the "Speaker" field.
 
 
 网络
@@ -1149,7 +1412,9 @@ RGB节点
    默认设置为 "GET" 。
 
 *Url*
-   将请求发送到的 web 地址。默认设置为 “https://www.blend4web.com” 。
+   A web address to send request to. It can be defined directly or
+   using a variable (if the "Variable URL" option is enabled). Set to
+   “https://www.blend4web.com” by default.
 
 *响应参数*
    指定要保存接收到来自服务器的数据的变量。
@@ -1295,6 +1560,15 @@ JSON物体的以下片段：
 *目标*
    将用来保存参数的变量。
 
+*Param type*
+   The type of the web page parameter. Available values are "Number",
+   "String" and "Object".
+
+*Hash param*
+   If this option is enabled, the "Page Param" node will process hash
+   parameters; if it isn't, the node will process regular URL
+   parameters.
+
 
 页转到
 ------
@@ -1322,17 +1596,19 @@ JSON物体的以下片段：
 ~~~~~~~~
 
 *Url*
-   将打开的网页的 web 地址。默认设置为 "https://www.blend4web.com" 。
+   Web address of a page that will be opened. It can be defined
+   manually or using a variable (if the "Variable URL" parameter is
+   enabled). Set to “https://www.blend4web.com” by default.
 
 
-调试
+时间
 ====
 
 
-控制台打印
+日期及时间
 ----------
 
-此节点打印变量的值和附加的文本到Web浏览器的控制台。它可用于调试目的。
+此节点返回当前时间和日期。
 
 [图片]
 
@@ -1354,79 +1630,37 @@ JSON物体的以下片段：
 内部参数
 ~~~~~~~~
 
-*信息*
-   将与值一起打印到控制台的消息。
+*时间格式*
+   此参数定义测量时间的格式。它可以设置为以下值之一：
 
-<variable name>
-   将打印到控制台的变量。默认情况下，"Console Print" 节点都有一个这样
-   的参数，但您可以添加新成员和删除现有的 （节点甚至可能没有这种参数）
-   。
+   *世界标准时间*
+      协调世界时
 
+      注解: 该节点返回的协调世界时间是基于本地系统时间和时区。
 
-Time
-====
+   *本地*
+      如果选择此值，则从本地系统时间检索时间。默认情况下选择此值。
 
+时间和日期作为一组数字（当前年，月，日等）返回，其中每一个可以存储到特
+定变量中。这些数字包括：
 
-Date & Time
------------
+*年*
+   本年度
 
-This node returns the current time and date.
+*月*
+   本月
 
-[图片]
+*天*
+   本日
 
+*小时*
+   当前小时
 
-输入参数
-~~~~~~~~
+*分钟*
+   当前分钟。
 
-*上一个*
-   前一个节点。
-
-
-输出参数
-~~~~~~~~
-
-*下一个*
-   下一个节点。
-
-
-内部参数
-~~~~~~~~
-
-*Time Format*
-   This parameter defines the format in which time is measured. It can
-   be set to one of the following values:
-
-   *UTC*
-      Coordinated Universal Time.
-
-      注解: The Coordinated Universal Time this node returns is
-        based on local system time and a time zone.
-
-   *Local*
-      If this value is selected, time is retrieved from local system
-      time. This value is selected by default.
-
-The time and date are returned as a set of numbers (current year,
-month, day etc.), each one of which can be stored into a specific
-variable. These numbers include:
-
-*Year*
-   The current year.
-
-*Month*
-   The current month.
-
-*Day*
-   The current day.
-
-*Hours*
-   The current hour.
-
-*Minutes*
-   The current minutes.
-
-*Seconds*
-   The current seconds.
+*秒*
+   当前的秒数。
 
 
 获取时间线
@@ -1454,7 +1688,7 @@ variable. These numbers include:
 内部参数
 ~~~~~~~~
 
-*NLA Timeline*
+*NLA 时间线*
    如果启用此参数，则该节点将返回当前动画的帧的 NLA。如果禁用了它，则
    该节点将返回当前帧的时间线。默认情况下启用。
 
@@ -1462,11 +1696,10 @@ variable. These numbers include:
    指定一个变量来存储当前帧的数量。默认设置为  "R1" 。
 
 
-Elapsed
--------
+用去
+----
 
-This node returns the amount of time elapsed since the previous frame
-has been rendered.
+该节点返回自上一帧渲染以来经过的时间量。
 
 [图片]
 
@@ -1488,9 +1721,8 @@ has been rendered.
 内部参数
 ~~~~~~~~
 
-The "Elapsed" logic node has one internal parameter that allows user
-to specify the variable to save the number of seconds passed since the
-previous frame. By default, it uses the "R1" variable.
+"Elapsed" 逻辑节点具有一个内部参数，允许用户指定变量以保存自上一帧以来
+通过的秒数。默认情况下，它使用  "R1" 变量。
 
 
 延迟
@@ -1525,6 +1757,25 @@ previous frame. By default, it uses the "R1" variable.
 
 布局
 ====
+
+
+Frame
+-----
+
+An auxillary element used to separate nodes into groups.
+
+小技巧: This is not required, but we recommend to use frames in
+  complex node setups so it would be easier to read and understand
+  them.
+
+[图片]
+
+"Frame" elements feature several parameters that can be accessed from
+the Properties side panel. These parameters include "Label" (can be
+used to set a title for the frame) and "Color" (defines the color of
+the frame).
+
+This element is also available in regular Blender node editors.
 
 
 空物体
@@ -1571,8 +1822,46 @@ previous frame. By default, it uses the "R1" variable.
   （例如 做一个循环），你应该使用 "Reroute" 元素。
 
 
-调试中
-======
+调试
+====
+
+
+控制台打印
+----------
+
+此节点打印变量的值和附加的文本到Web浏览器的控制台。它可用于调试目的。
+
+[图片]
+
+
+输入参数
+~~~~~~~~
+
+*上一个*
+   前一个节点。
+
+
+输出参数
+~~~~~~~~
+
+*下一个*
+   下一个节点。
+
+
+内部参数
+~~~~~~~~
+
+*信息*
+   将与值一起打印到控制台的消息。
+
+<variable name>
+   将打印到控制台的变量。默认情况下，"Console Print" 节点都有一个这样
+   的参数，但您可以添加新成员和删除现有的 （节点甚至可能没有这种参数）
+   。
+
+
+Other Features
+==============
 
 为了调试的目的，逻辑树中的一些节点可以被静音。要做到这一点，选择所需的
 节点，并按“M”键。静音节点不执行，并简单地传递控制到后面节点。如果静音

@@ -4,6 +4,7 @@
                                     VARS
 ==============================================================================*/
 #var ANAGLYPH 0
+#var SIDEBYSIDE 0
 #var EPSILON 0.000001
 #var DISTOR_SCALE 0.8
 
@@ -28,7 +29,7 @@ GLSL_OUT vec4 GLSL_OUT_FRAG_COLOR;
 
 /*============================================================================*/
 
-#if !ANAGLYPH
+#if !ANAGLYPH && !SIDEBYSIDE
 uniform int u_enable_hmd_stereo;
 
 // u_distortion_params = [distortion_coef_1, distortion_coef_2, base_line_factor, inter_lens_factor]
@@ -68,7 +69,7 @@ void hmd_distorsion(vec2 texcoord, vec2 center, float size, sampler2D sampler) {
         }
     }
 }
-#endif // !ANAGLYPH
+#endif // !ANAGLYPH &&!SIDEBYSIDE
 
 /*==============================================================================
                                     MAIN
@@ -102,6 +103,14 @@ void main(void) {
     lin_to_srgb(color);
 
     GLSL_OUT_FRAG_COLOR = vec4(color, lc[3] + rc[3]);
+#elif SIDEBYSIDE
+    if (v_texcoord[0] < 0.5) {
+        vec2 texcoord = vec2(2.0 * v_texcoord[0], v_texcoord[1]);
+        GLSL_OUT_FRAG_COLOR = GLSL_TEXTURE(u_sampler_left, texcoord);
+    } else {
+        vec2 texcoord = vec2(2.0 * (v_texcoord[0] - 0.5), v_texcoord[1]);
+        GLSL_OUT_FRAG_COLOR = GLSL_TEXTURE(u_sampler_right, texcoord);
+    }
 #else // ANAGLYPH
     if (u_enable_hmd_stereo != 0) {
         if (abs(u_distortion_params[0]) > EPSILON || abs(u_distortion_params[1]) > EPSILON)

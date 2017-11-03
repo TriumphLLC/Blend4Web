@@ -174,6 +174,12 @@ uniform sampler2D u_plane_reflection;
 uniform samplerCube u_cube_reflection;
 #elif REFLECTION_TYPE == REFL_MIRRORMAP
 uniform samplerCube u_mirrormap;
+#elif  REFLECTION_TYPE == REFL_PBR_SIMPLE
+uniform samplerCube u_sky_reflection;
+#elif REFLECTION_TYPE == REFL_PBR_STANDARD
+uniform samplerCube u_cube_irradiance;
+uniform samplerCube u_cube_r_convolution;
+uniform sampler2D   u_brdf;
 #endif
 
 #if SHADOW_USAGE == SHADOW_MAPPING_OPAQUE
@@ -303,6 +309,11 @@ GLSL_OUT vec4 GLSL_OUT_FRAG_COLOR;
 
 void main(void) {
 
+#if USE_LOD_SMOOTHING
+    if (!coverage_is_frag_visible(u_lod_coverage, u_lod_cmp_logic))
+        discard;
+#endif
+
 #if NODES || !DISABLE_FOG || (TEXTURE_NORM_CO != TEXTURE_COORDS_NONE && PARALLAX) \
         || (!SHADELESS && CAUSTICS && WATER_EFFECTS)
     float view_dist = length(v_pos_view);
@@ -354,11 +365,6 @@ void main(void) {
 #else  // ALPHA
     alpha = 1.0;
 #endif  // ALPHA
-
-#if USE_LOD_SMOOTHING
-    if (!coverage_is_frag_visible(u_lod_coverage, u_lod_cmp_logic))
-        discard;
-#endif
 
 #if !DISABLE_FOG
 # if WATER_EFFECTS

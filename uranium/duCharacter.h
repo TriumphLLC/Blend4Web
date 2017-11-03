@@ -28,6 +28,12 @@ protected:
 	btVector3 m_moveDirection;
 	btScalar m_turnAngle;
 	btScalar m_verticalAngle;
+    
+    // Special value for controlling the character move direction from the 
+    // camera, doesn't affect the character orientation like m_verticalAngle.
+    // Also, m_verticalAngle doesn't affect move direction as m_turnAngle.
+    btScalar m_verticalMoveDirAngle;
+
 	btScalar m_distToWater;
     duWater *m_water;
     int m_waterInd;
@@ -65,9 +71,11 @@ public:
     void rotate(const btScalar h_angle, const btScalar v_angle);
     void setHorRotation (const btScalar angle);
     void setVertRotation(const btScalar angle);
+    void setVertMoveDirAngle(const btScalar angle);
 
     btScalar getHorRotationAngle () const;
     btScalar getVertRotationAngle () const;
+    btScalar getVertMoveDirAngle () const;
 
     void setMoveType(CharMovingType move_type);
     void setMoveDirection(btVector3 direction);

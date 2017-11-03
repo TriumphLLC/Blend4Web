@@ -147,8 +147,8 @@ var _limits_tmp = {};
  * @param {Object}   [options={}] Initialization options.
  * @param {string}   [options.canvas_container_id=null] Canvas container ID.
  * @param {AppInitCallback} [options.callback=function(){}] Initialization callback.
- * @param {boolean}  [options.error_purge_elements=null] Remove interface
- * elements after error.
+ * @param {string[]}  [options.error_purge_elements=null] Array of IDs of HTML 
+ * elements to be removed in case of initialization error.
  * @param {boolean}  [options.show_hud_debug_info=false] Show HUD with
  * developer info.
  * @param {boolean}  [options.show_fps=false] Show FPS counter.
@@ -596,9 +596,10 @@ function get_dest_zoom(obj, value, velocity_zoom, dest_value, dev_fact,
  * @param {boolean} [disable_default_pivot=false] Do not use the possible
  * camera-defined pivot point
  * @param {boolean} [disable_letter_controls=false] Disable keyboard letter controls
- * (only arrow keys will be used to control the camera)
+ * (only arrow keys will be used to control the camera).
  * @param {boolean} [disable_zoom=false] Disable zoom
- * @param {HTMLElement} [element] HTML element to add event listeners to. The canvas container will be use by default.
+ * @param {HTMLElement} [element] HTML element to add event listeners to. 
+ * The canvas container will be use by default.
  * @param {boolean} [allow_element_exit=false] Continue receiving mouse events
  * even when the mouse is leaving the HTML element
  * @param {boolean} [disable_gamepad_controls=false] Disable gamepad controls
@@ -807,12 +808,13 @@ function enable_camera_controls(disable_default_pivot, disable_letter_controls,
         if (character) {
             m_phy.set_character_move_dir(character, char_dir[0], char_dir[1]);
             var angles = m_cam.get_camera_angles_char(obj, _vec2_tmp);
-            m_phy.set_character_rotation(character, angles[0], angles[1]);
+            m_phy.set_character_rotation_h(character, angles[0]);
+            m_phy.set_character_vert_move_dir_angle(character, angles[1]);
         }
     }
 
     var key_w, key_s, key_a, key_d, key_r, key_f, gmpd_btn_6, gmpd_btn_7;
-    var key_up, key_down, key_left, key_right, lh_axis, lv_axis, rh_axis, rv_axis;
+    var lh_axis, lv_axis, rh_axis, rv_axis;
 
     if (!disable_gamepad_controls) {
         var gmpd_indices = m_input.check_enable_gamepad_indices();
@@ -841,15 +843,13 @@ function enable_camera_controls(disable_default_pivot, disable_letter_controls,
         key_d = m_ctl.create_keyboard_sensor(m_ctl.KEY_D);
         key_r = m_ctl.create_keyboard_sensor(m_ctl.KEY_R);
         key_f = m_ctl.create_keyboard_sensor(m_ctl.KEY_F);
-
-        key_up = m_ctl.create_keyboard_sensor(m_ctl.KEY_UP);
-        key_down = m_ctl.create_keyboard_sensor(m_ctl.KEY_DOWN);
-        key_left = m_ctl.create_keyboard_sensor(m_ctl.KEY_LEFT);
-        key_right = m_ctl.create_keyboard_sensor(m_ctl.KEY_RIGHT);
     } else
-        key_w = key_s = key_a = key_d = key_r = key_f =
-                key_up = key_down = key_left = key_right =
-                m_ctl.create_custom_sensor(0);
+        key_w = key_s = key_a = key_d = key_r = key_f = m_ctl.create_custom_sensor(0);
+
+    var key_up = m_ctl.create_keyboard_sensor(m_ctl.KEY_UP);
+    var key_down = m_ctl.create_keyboard_sensor(m_ctl.KEY_DOWN);
+    var key_left = m_ctl.create_keyboard_sensor(m_ctl.KEY_LEFT);
+    var key_right = m_ctl.create_keyboard_sensor(m_ctl.KEY_RIGHT);
 
     // var key_single_logic = null;
     // var key_double_logic = function(s) {
@@ -1225,7 +1225,8 @@ function enable_camera_controls(disable_default_pivot, disable_letter_controls,
 
                 if (character) {
                     var angles = m_cam.get_camera_angles_char(obj, _vec2_tmp);
-                    m_phy.set_character_rotation(character, angles[0], angles[1]);
+                    m_phy.set_character_rotation_h(character, angles[0]);
+                    m_phy.set_character_vert_move_dir_angle(character, angles[1]);
                 }
             }
         }
@@ -1456,7 +1457,7 @@ exports.report_app_error = report_app_error;
  * @param {string} text_message Message to place on upper element.
  * @param {string} link_message Message to place on bottom element.
  * @param {string} link Link to place on bottom element.
- * @param {HTMLElement[]} purge_elements Array of elements to destroy just before the error
+ * @param {string[]} purge_elements Array of element IDs to destroy just before the error
  * elements are inserted.
  */
 function report_app_error(text_message, link_message, link, purge_elements) {
@@ -1695,7 +1696,7 @@ function smooth_coeff_rot_trans_touch() {
 }
 
 /**
- * Set smooth factor for camera rotation.
+ * Set smooth factor for camera rotation and zoom.
  * @method module:app.set_camera_smooth_factor
  * @param {number} value New smooth factor
  */
@@ -1704,7 +1705,7 @@ exports.set_camera_smooth_factor = function(value) {
 }
 
 /**
- * Get smooth factor for camera rotation.
+ * Get smooth factor for camera rotation and zoom.
  * @method module:app.get_camera_smooth_factor
  * @returns {number} Smooth factor
  */
@@ -1729,7 +1730,7 @@ exports.get_camera_smooth_factor = function() {
 <br class="clear">
 
 <footer>
-    Blend4Web API Reference (generated by JSDoc 3.4.0 on Thu Aug 31 2017 18:52:56 GMT+0300 (MSK))
+    Blend4Web API Reference (generated by JSDoc 3.4.0 on Tue Oct 31 2017 17:49:05 GMT+0300 (MSK))
     <a href="https://www.blend4web.com">www.blend4web.com</a>
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">

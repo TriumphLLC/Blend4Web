@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Содержание &mdash; Руководство пользователя Blend4Web 17.08</title>
+  <title>Содержание &mdash; Руководство пользователя Blend4Web 17.10</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 17.08" href="#"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 17.10" href="#"/>
         <link rel="next" title="Общие сведения" href="about.html"/> 
 
   
@@ -60,7 +60,7 @@
           
           
             <div class="version">
-              v17.08
+              v17.10
             </div>
           
         
@@ -102,7 +102,7 @@
 <li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Редактор логики</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Освещение, тени и фон</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Спецэффекты</a></li>
-<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">Стереоизображение</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vr_and_ar.html">VR и AR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles.html">Система частиц. Флюиды</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Система частиц. Инстансинг</a></li>
@@ -329,10 +329,10 @@
 <li class="toctree-l2"><a class="reference internal" href="logic_editor.html#operations">Operations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="logic_editor.html#sound">Sound</a></li>
 <li class="toctree-l2"><a class="reference internal" href="logic_editor.html#network">Network</a></li>
-<li class="toctree-l2"><a class="reference internal" href="logic_editor.html#debug">Debug</a></li>
 <li class="toctree-l2"><a class="reference internal" href="logic_editor.html#time">Time</a></li>
 <li class="toctree-l2"><a class="reference internal" href="logic_editor.html#layout">Layout</a></li>
-<li class="toctree-l2"><a class="reference internal" href="logic_editor.html#debugging">Отладка</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logic_editor.html#debug">Debug</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logic_editor.html#other-features">Other Features</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Освещение, тени и фон</a><ul>
@@ -354,10 +354,9 @@
 <li class="toctree-l2"><a class="reference internal" href="postprocessing_effects.html#anti-aliasing">Сглаживание</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">Стереоизображение</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="stereo_rendering.html#activation">Активация</a></li>
-<li class="toctree-l2"><a class="reference internal" href="stereo_rendering.html#additional-settings">Дополнительные настройки</a></li>
-<li class="toctree-l2"><a class="reference internal" href="stereo_rendering.html#hmd-settings">Настройки HMD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vr_and_ar.html">VR и AR</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="vr_and_ar.html#virtual-reality">Виртуальная реальность</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vr_and_ar.html#augmented-reality">Дополненная реальность</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a><ul>
@@ -482,6 +481,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Замечания к релизам</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#v17-10">v17.10</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v17-08">v17.08</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v17-06">v17.06</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v17-04">v17.04</a></li>
@@ -542,7 +542,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Триумф.
-      Обновлено: 2017-08-31.
+      Обновлено: 2017-10-31.
 
     </p>
   </div>
@@ -598,7 +598,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.08',
+            VERSION:'v17.10',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
