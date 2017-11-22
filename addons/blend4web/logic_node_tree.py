@@ -610,7 +610,7 @@ def check_node(node):
 
             for n in node.id_data.nodes:
                 if n.type == "DEF_FUNC" and n != node:
-                    if n.logic_functions["id0"].function == node.logic_functions["id0"].function:
+                    if "id0" in n.logic_functions and n.logic_functions["id0"].function == node.logic_functions["id0"].function:
                         node.add_error_message(err_msgs, _("The function with the same name is already exits"))
 
             all_args_names = []
@@ -999,10 +999,9 @@ class B4W_LogicNodeTree(NodeTree):
                 if (is_in_stack(node_tree, tree, funcname)):
                     node.add_error_message(node.error_messages.link_err, _("Recursion is not allowed!"))
                 else:
-                    stack.append({"ntree": node_tree, "tree": tree, "funcname": funcname, "callnode": node})
-                    check_tree_step1(node_tree, funcname, stack)
-
-        gen = ((t["ntree"].name, t["funcname"]) for t in stack)
+                    stack_copy = copy.copy(stack)
+                    stack_copy.append({"ntree": node_tree, "tree": tree, "funcname": funcname, "callnode": node})
+                    check_tree_step1(node_tree, funcname, stack_copy)
 
     def update_connectivity(self):
         check_tree_step1(self, None, [])

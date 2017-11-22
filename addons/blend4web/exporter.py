@@ -5447,18 +5447,19 @@ class B4W_ExportProcessor(bpy.types.Operator):
 
                     path_to_sdk = bpy.context.user_preferences.addons[__package__].preferences.b4w_src_path
                     path_to_viewer = os.path.join(path_to_sdk, os.path.dirname(PATH_TO_VIEWER))
-                    relpath_to_viewer = os.path.relpath(export_filepath, path_to_viewer)
-                    relpath_to_viewer = guard_slashes(os.path.normpath(relpath_to_viewer))
+                    if self.run_in_viewer:
+                        relpath_to_viewer = os.path.relpath(export_filepath, path_to_viewer)
+                        relpath_to_viewer = guard_slashes(os.path.normpath(relpath_to_viewer))
+                        sync_option = bpy.context.user_preferences.addons[__package__].preferences.b4w_sync_with_browser
+                        is_sync_instance = False
+                        if not bpy.app.background:
+                            is_sync_instance = server.is_synchronized(relpath_to_viewer)
+                        if ((sync_option and not is_sync_instance) or not sync_option):
+                            sync = "&sync=true" if sync_option else "&sync=false"
+                            port = bpy.context.user_preferences.addons[__package__].preferences.b4w_port_number
+                            url = "http://localhost:" + str(port) + "/" + PATH_TO_VIEWER + "?load=" + relpath_to_viewer + sync
+                            server.open_browser(url)
 
-                    sync_option = bpy.context.user_preferences.addons[__package__].preferences.b4w_sync_with_browser
-                    is_sync_instance = False
-                    if not bpy.app.background:
-                        is_sync_instance = server.is_synchronized(relpath_to_viewer)
-                    if self.run_in_viewer and ((sync_option and not is_sync_instance) or not sync_option):
-                        sync = "&sync=true" if sync_option else "&sync=false"
-                        port = bpy.context.user_preferences.addons[__package__].preferences.b4w_port_number
-                        url = "http://localhost:" + str(port) + "/" + PATH_TO_VIEWER + "?load=" + relpath_to_viewer + sync
-                        server.open_browser(url)
                     print("EXPORT OK")
         else:
             bpy.ops.b4w.export_messages_dialog('INVOKE_DEFAULT')

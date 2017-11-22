@@ -1548,8 +1548,8 @@ function init_cube_sky_dim(scene, world_obj) {
 
                 var subs_irradinace = m_scgraph.find_subs(scene._render.graph, m_subs.IRRADIANCE);
                 if (subs_irradinace) {
-                    subs_irradinace.camera.width  = tex_size;
-                    subs_irradinace.camera.height = tex_size;
+                    subs_irradinace.camera.width  = 32;
+                    subs_irradinace.camera.height = 32;
 
                     var irradiance_cube_texture = null;
 
@@ -1561,7 +1561,7 @@ function init_cube_sky_dim(scene, world_obj) {
                     });
 
                     if (irradiance_cube_texture)
-                        m_tex.set_cubemap_tex_size(irradiance_cube_texture, tex_size);
+                        m_tex.set_cubemap_tex_size(irradiance_cube_texture, 32);
                 }
 
                 var subs_r_convolution = m_scgraph.find_subs(scene._render.graph, m_subs.ROUGHNESS_CONVOLUTION);

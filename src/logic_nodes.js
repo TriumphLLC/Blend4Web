@@ -1567,11 +1567,11 @@ function transform_object_handler(node, logic, thread_state, timeline, elapsed, 
             interp_tsr: new Float32Array(8)
         };
     }
-    var inst = get_node_instance(node, thread_state, init);
     switch (logic.state) {
     case INITIALIZATION:
         break;
     case RUNNING:
+        var inst = get_node_instance(node, thread_state, init);
         var obj = is_var ? get_var(node.vars["id0"], logic.variables, thread_state.variables) : inst.obj;
 
         switch (inst.state) {
@@ -2366,7 +2366,7 @@ function call_func_handler(node, logic, thread_state, timeline, elapsed, start_t
         for (var v in node.vars) {
             var varval = node.vars[v][1];
             var varname = node.strings[v];
-            local_variables[varname] = thread_state.variables[varval];
+            local_variables[varname] = node.vars[v][0] ? logic.variables[varval] : thread_state.variables[varval];
             if (v.startsWith("out")) {
                 thread_state.variables_references[varval] = varname;
             }
@@ -2419,7 +2419,10 @@ function process_logic_thread(thread, logic, timeline, elapsed, start_time) {
             thread.thread_state.variables = upper_stack_frame.variables;
             for (var v in thread.thread_state.variables_references) {
                 var vname = thread.thread_state.variables_references[v];
-                thread.thread_state.variables[v] = vars[vname];
+                if (thread.thread_state.variables[v] === undefined)
+                    logic.variables[v] = vars[vname];
+                else    
+                    thread.thread_state.variables[v] = vars[vname];
             }
             // exit to update script variable
             return;

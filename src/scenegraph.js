@@ -2019,7 +2019,7 @@ exports.create_rendering_graph = function(sc_render, cam_scene_data,
         }
 
         if (refl_params.has_pbr_reflexible) {
-            if (cfg_def.webgl2) {
+            if (cfg_def.webgl2 && !cfg_def.is_mobile_device) {
                 var subs_irradiance = m_subs.create_subs_irradiance(num_lights, tex_size);
                 m_graph.append_node_attr(graph, subs_irradiance);
 
@@ -2031,7 +2031,7 @@ exports.create_rendering_graph = function(sc_render, cam_scene_data,
 
                 m_graph.append_edge_attr(graph, subs_sky, subs_irradiance, slink_refl_sky);
                 var slink_irradiance = create_slink("CUBEMAP", "u_irradiance",
-                                                sc_render.cubemap_refl_size, 1, 1, false);
+                                                32, 1, 1, false);
                 slink_irradiance.use_mipmap = false;
                 slink_irradiance.min_filter = m_tex.TF_LINEAR;
                 slink_irradiance.mag_filter = m_tex.TF_LINEAR;
