@@ -3,10 +3,12 @@
 EMMAKE=emmake
 EMCC=emcc
 
+SCRIPTPATH=$(dirname "$0")
+
 # 64 Mb
 MEMORY=67108864
 
-BUILDDIR=build
+BUILDDIR=$SCRIPTPATH/build
 
 PROJECT_ASM=uranium
 PROJECT_WASM=uranium_wasm
@@ -16,8 +18,8 @@ DU_MODULES=(duCharacter duBoat duFloatingBody duWater duWorld bindings)
 CMAKE_TOOLCHAIN=../emcmake/Emscripten.cmake 
 
 # before any cd
-EXT_MODS=$(realpath ../tools/closure-compiler/extern_modules.js)
-EXT_GLOBS=$(realpath ../tools/closure-compiler/extern_globals.js)
+EXT_MODS=$(realpath $SCRIPTPATH/../tools/closure-compiler/extern_modules.js)
+EXT_GLOBS=$(realpath $SCRIPTPATH/../tools/closure-compiler/extern_globals.js)
 
 #COPTS="-O1 -DDEBUG"
 #COPTS="-Oz -DNDEBUG"
@@ -33,7 +35,7 @@ LOPTS="-O2 --llvm-lto 1 -s DOUBLE_MODE=0 -s CORRECT_OVERFLOWS=0 -s CORRECT_ROUND
 LOPTS_ASM=" --closure 1"
 LOPTS_WASM=" --closure 0"
 
-LOPTS2="-s TOTAL_MEMORY=$MEMORY -s WARN_ON_UNDEFINED_SYMBOLS=1 -s NO_EXIT_RUNTIME=1 -s NO_FILESYSTEM=1 -s NO_BROWSER=0 --pre-js ../../src/b4w.js  --pre-js ../../src/ipc.js --pre-js ../bindings.js --post-js ../bindings_post.js "
+LOPTS2="-s TOTAL_MEMORY=$MEMORY -s WARN_ON_UNDEFINED_SYMBOLS=1 -s NO_EXIT_RUNTIME=1 -s NO_FILESYSTEM=1 -s NO_BROWSER=0 --pre-js ../ipc.js --pre-js ../bindings.js --post-js ../bindings_post.js "
 
 LOPTS2_ASM="--pre-js ../locatefile.js --memory-init-file 1 -s ASM_JS=1 "
 LOPTS2_WASM="--pre-js ../wasmbinaryfile.js --memory-init-file 0 -s WASM=1 "
@@ -163,7 +165,7 @@ _du_get_shape_name \
 
 # CHECKS
 
-[ ! -d "bullet" ] && echo "Bullet directory not found, seems you are trying to build uranium from light SDK" && exit 1;
+[ ! -d "$SCRIPTPATH/bullet" ] && echo "Bullet directory not found, seems you are trying to build uranium from light SDK" && exit 1;
 
 # EXEC
 

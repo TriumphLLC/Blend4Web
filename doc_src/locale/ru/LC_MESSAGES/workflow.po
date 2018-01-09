@@ -114,7 +114,7 @@ msgid "Creating Scenes"
 msgstr "Создание сцен"
 
 msgid "Preparing a Scene to Use in Blend4Web"
-msgstr "Подготовка трёхмерных сцен в программе Blender."
+msgstr "Подготовка трёхмерных сцен в программе Blender"
 
 msgid "Exporting scenes."
 msgstr "Экспорт сцен."

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>安装和更新 &mdash; Blend4Web 17.10.1 用户手册</title>
+  <title>安装和更新 &mdash; Blend4Web 17.12.0 用户手册</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.10.1 用户手册" href="index.html"/>
+        <link rel="index" title="索引"
+              href="genindex.html"/>
+        <link rel="search" title="搜索" href="search.html"/>
+    <link rel="top" title="Blend4Web 17.12.0 用户手册" href="index.html"/>
         <link rel="next" title="工作流程" href="workflow.html"/>
         <link rel="prev" title="Blender的用户界面" href="interface.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -86,7 +89,7 @@
 <li class="toctree-l1"><a class="reference internal" href="about.html">概述</a></li>
 <li class="toctree-l1"><a class="reference internal" href="engine_features.html">引擎功能</a></li>
 <li class="toctree-l1"><a class="reference internal" href="interface.html">Blender的用户界面</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">安装和更新</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">安装和更新</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#installation">安装顺序</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#installing-blender">安装Blender</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#installing-blend4web-sdk">安装Blend4Web SDK</a></li>
@@ -176,7 +179,7 @@
   <div class="section" id="installing-and-updating">
 <span id="setup"></span><h1><a class="toc-backref" href="#id1">安装和更新</a><a class="headerlink" href="#installing-and-updating" title="永久链接至标题">¶</a></h1>
 <div class="contents topic" id="table-of-contents">
-<p class="topic-title first">目录</p>
+<p class="topic-title first">Table of Contents</p>
 <ul class="simple">
 <li><a class="reference internal" href="#installing-and-updating" id="id1">安装和更新</a><ul>
 <li><a class="reference internal" href="#installation" id="id2">安装顺序</a><ul>
@@ -200,8 +203,8 @@
 <h2><a class="toc-backref" href="#id2">安装顺序</a><a class="headerlink" href="#installation" title="永久链接至标题">¶</a></h2>
 <p>这里有的两个版本的Blend4Web框架：Blend4Web SDK和Blend4Web插件。为了确定哪一种最适合你的需求，你需要决定哪种你正在计划开发应用程序。</p>
 <p>如果你打算使用Blend4Web引擎所提供的所有功能，您应该安装Blend4Web SDK。</p>
-<p>如果你的目的是要开发小规模的项目，或者如果您打算只使用的Blend4Web引擎的功能的数量有限（例如法线编辑器），你可能会考虑安装  <a class="reference internal" href="addon.html#addon"><span>Blend4Web 插件</span></a> 来代替。</p>
-<p>注意：插件只能导出场景到  <a class="reference internal" href="workflow.html#export-scene"><span>HTML格式</span></a> 和有限功能 (例如，它没有  <a class="reference internal" href="project_manager.html#project-management"><span>项目管理</span></a>，示例场景，用户手册，其他额外资源等等)，但它仍然拥有一切让你可以创建一个简单的应用程序。</p>
+<p>如果你的目的是要开发小规模的项目，或者如果您打算只使用的Blend4Web引擎的功能的数量有限（例如法线编辑器），你可能会考虑安装  <a class="reference internal" href="addon.html#addon"><span class="std std-ref">Blend4Web 插件</span></a> 来代替。</p>
+<p>注意：插件只能导出场景到  <a class="reference internal" href="workflow.html#export-scene"><span class="std std-ref">HTML格式</span></a> 和有限功能 (例如，它没有  <a class="reference internal" href="project_manager.html#project-management"><span class="std std-ref">项目管理</span></a>，示例场景，用户手册，其他额外资源等等)，但它仍然拥有一切让你可以创建一个简单的应用程序。</p>
 <div class="section" id="installing-blender">
 <span id="getting-started-install-blender"></span><h3><a class="toc-backref" href="#id3">安装Blender</a><a class="headerlink" href="#installing-blender" title="永久链接至标题">¶</a></h3>
 <p>直接在 <a class="reference external" href="http://en.wikipedia.org/wiki/Blender_(software)">Blender</a> 中创作 3D 场景，这是开放源码软件和免费分发软件。</p>
@@ -211,7 +214,7 @@
 </div>
 <div class="section" id="installing-blend4web-sdk">
 <span id="sdk-install"></span><h3><a class="toc-backref" href="#id4">安装Blend4Web SDK</a><a class="headerlink" href="#installing-blend4web-sdk" title="永久链接至标题">¶</a></h3>
-<p>稳定版作为压缩包发布 (<code class="docutils literal"><span class="pre">blend4web_sdk_free_YY_MM.zip</span></code> &#8211; 免费 SDK, <code class="docutils literal"><span class="pre">blend4web_sdk_pro_YY_MM.zip</span></code> &#8211; 商业 SDK). 只要在某处解开这个压缩包。</p>
+<p>稳定版作为压缩包发布 (<code class="docutils literal"><span class="pre">blend4web_sdk_free_YY_MM.zip</span></code> – 免费 SDK, <code class="docutils literal"><span class="pre">blend4web_sdk_pro_YY_MM.zip</span></code> – 商业 SDK). 只要在某处解开这个压缩包。</p>
 <ol class="arabic">
 <li><p class="first">打开Blender。</p>
 </li>
@@ -248,30 +251,18 @@
 <a class="reference internal image-reference" href="_images/user_preferences_install_from_file.png"><img alt="_images/user_preferences_install_from_file.png" class="align-center" src="_images/user_preferences_install_from_file.png" style="width: 100%;" /></a>
 <p>它可以和其他  <a class="reference external" href="https://www.blender.org/manual/advanced/scripting/python/add_ons.html?highlight=addon#installation-of-a-3rd-party-add-on">Blender插件</a>  的安装方式相同。</p>
 <ol class="arabic simple">
-<li><p class="first">打开Blender。</p>
-</li>
-<li><p class="first">打开用户首选项面板  <code class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">User</span> <span class="pre">Preferences...</span></code>.</p>
-</li>
-<li><p class="first">打开 <code class="file docutils literal"><span class="pre">File</span></code> 选项卡。</p>
-</li>
-<li><p class="first">按 <code class="docutils literal"><span class="pre">从文件安装...</span></code> 按钮。</p>
-</li>
-<li><p class="first">选择包含Blend4Web插件的文件，然后按 <code class="docutils literal"><span class="pre">从文件安装...</span></code> 按钮。</p>
-</li>
-<li><p class="first">单击  <code class="docutils literal"><span class="pre">Save</span> <span class="pre">User</span> <span class="pre">Settings</span></code> 按钮。</p>
-</li>
-<li><p class="first">重新启动Blender。</p>
-</li>
-<li><p class="first">打开用户首选项面板  <code class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">User</span> <span class="pre">Preferences...</span></code>.</p>
-</li>
-<li><p class="first">打开 <code class="file docutils literal"><span class="pre">File</span></code> 选项卡。</p>
-</li>
-<li><p class="first">在列表中找到 Blend4Web 插件。</p>
-</li>
-<li><p class="first">勾选标题左侧的框以启用它.。</p>
-</li>
-<li><p class="first">再按一次点击 <code class="docutils literal"><span class="pre">Save</span> <span class="pre">User</span> <span class="pre">Settings</span></code> 按钮。</p>
-</li>
+<li>打开Blender。</li>
+<li>打开用户首选项面板  <code class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">User</span> <span class="pre">Preferences...</span></code>.</li>
+<li>打开 <code class="file docutils literal"><span class="pre">File</span></code> 选项卡。</li>
+<li>按 <code class="docutils literal"><span class="pre">从文件安装...</span></code> 按钮。</li>
+<li>选择包含Blend4Web插件的文件，然后按 <code class="docutils literal"><span class="pre">从文件安装...</span></code> 按钮。</li>
+<li>单击  <code class="docutils literal"><span class="pre">Save</span> <span class="pre">User</span> <span class="pre">Settings</span></code> 按钮。</li>
+<li>重新启动Blender。</li>
+<li>打开用户首选项面板  <code class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">User</span> <span class="pre">Preferences...</span></code>.</li>
+<li>打开 <code class="file docutils literal"><span class="pre">File</span></code> 选项卡。</li>
+<li>在列表中找到 Blend4Web 插件。</li>
+<li>勾选标题左侧的框以启用它.。</li>
+<li>再按一次点击 <code class="docutils literal"><span class="pre">Save</span> <span class="pre">User</span> <span class="pre">Settings</span></code> 按钮。</li>
 </ol>
 <p>现在，一切都应该能正常工作了。</p>
 <div class="line-block">
@@ -288,7 +279,7 @@
 <h2><a class="toc-backref" href="#id7">更新</a><a class="headerlink" href="#updating" title="永久链接至标题">¶</a></h2>
 <div class="section" id="updating-the-sdk">
 <span id="sdk-update"></span><h3><a class="toc-backref" href="#id8">更新 SDK</a><a class="headerlink" href="#updating-the-sdk" title="永久链接至标题">¶</a></h3>
-<p>在更新之前，我们建议您使用 <a class="reference internal" href="project_manager.html#export-projects"><span>project export</span></a> 工具备份的所有开发中的项目.</p>
+<p>在更新之前，我们建议您使用 <a class="reference internal" href="project_manager.html#export-projects"><span class="std std-ref">project export</span></a> 工具备份的所有开发中的项目.</p>
 <p>要更新SDK，请按照下列步骤操作：</p>
 <ol class="arabic">
 <li><p class="first">下载SDK的新版本。</p>
@@ -313,7 +304,7 @@
 <p class="first admonition-title">注解</p>
 <p>有两种方法来更新 SDK。</p>
 <p>首先，可以完全删除 SDK 文件夹中，在那之后，提取新版本文件夹并将路径设置为它在Blender设置，就像你第一次安装 SDK一样。</p>
-<p class="last">第二，你可以简单地使用新的覆盖过时的 SDK 文件。此方法被认为是不太 &#8220;纯净&#8221;，但在大多数情况下，它不应导致任何问题。</p>
+<p class="last">第二，你可以简单地使用新的覆盖过时的 SDK 文件。此方法被认为是不太 &quot;纯净&quot;，但在大多数情况下，它不应导致任何问题。</p>
 </div>
 </div></blockquote>
 </li>
@@ -336,7 +327,7 @@
 <li><p class="first">检查一切正常。</p>
 </li>
 </ol>
-<p>完成更新后，您可以使用 <a class="reference internal" href="project_manager.html#import-projects"><span>项目导入</span></a> 工具导入所有已保存的项目。</p>
+<p>完成更新后，您可以使用 <a class="reference internal" href="project_manager.html#import-projects"><span class="std std-ref">项目导入</span></a> 工具导入所有已保存的项目。</p>
 </div>
 <div class="section" id="updating-the-addon">
 <span id="addon-update"></span><h3><a class="toc-backref" href="#id9">更新插件</a><a class="headerlink" href="#updating-the-addon" title="永久链接至标题">¶</a></h3>
@@ -344,20 +335,13 @@
 <p>安装新版本的插件之前，您可以先删除现有之一。要做到这一点，展开Blend4Web插件的信息选项卡，然后按 <code class="docutils literal"><span class="pre">Remove</span></code> 按钮。删除旧版本安装新的不是必需的，但这样做可以确保不会有任何版本冲突。</p>
 <a class="reference internal image-reference" href="_images/user_preferences_remove_addon.png"><img alt="_images/user_preferences_remove_addon.png" class="align-center" src="_images/user_preferences_remove_addon.png" style="width: 100%;" /></a>
 <ol class="arabic simple">
-<li><p class="first">下载包含新版本插件的文件，并将其保存到硬盘上的任何地方。</p>
-</li>
-<li><p class="first">打开Blender。</p>
-</li>
-<li><p class="first">打开 <code class="docutils literal"><span class="pre">用户设置</span></code> 窗口。</p>
-</li>
-<li><p class="first">切换到 <code class="docutils literal"><span class="pre">Add-ons</span></code> 面板。</p>
-</li>
-<li><p class="first">从你下载的存档安装新版本的插件。</p>
-</li>
-<li><p class="first">单击  <code class="docutils literal"><span class="pre">Save</span> <span class="pre">User</span> <span class="pre">Settings</span></code> 按钮。</p>
-</li>
-<li><p class="first">重新启动Blender。</p>
-</li>
+<li>下载包含新版本插件的文件，并将其保存到硬盘上的任何地方。</li>
+<li>打开Blender。</li>
+<li>打开 <code class="docutils literal"><span class="pre">用户设置</span></code> 窗口。</li>
+<li>切换到 <code class="docutils literal"><span class="pre">Add-ons</span></code> 面板。</li>
+<li>从你下载的存档安装新版本的插件。</li>
+<li>单击  <code class="docutils literal"><span class="pre">Save</span> <span class="pre">User</span> <span class="pre">Settings</span></code> 按钮。</li>
+<li>重新启动Blender。</li>
 </ol>
 <p>一切都应该能正常工作了。</p>
 </div>
@@ -365,18 +349,12 @@
 <span id="projects-update"></span><h3><a class="toc-backref" href="#id10">更新保存的项目</a><a class="headerlink" href="#updating-saved-projects" title="永久链接至标题">¶</a></h3>
 <p>你更新你的 SDK （或插件） 后，您可以导入之前导出的项目更新回项目管理器。要执行此操作，请按照以下说明︰</p>
 <ol class="arabic simple">
-<li><p class="first">打开项目管理器</p>
-</li>
-<li><p class="first">导入您的项目使用 <code class="docutils literal"><span class="pre">Import</span> <span class="pre">Project(s)</span></code> 按钮。</p>
-</li>
-<li><p class="first">使用  <code class="docutils literal"><span class="pre">re-export</span> <span class="pre">scenes</span></code> 链接重新导出项目的  <code class="docutils literal"><span class="pre">.blend</span></code> 文件。</p>
-</li>
-<li><p class="first">对每个导入的项目使用 <code class="docutils literal"><span class="pre">check</span> <span class="pre">modules</span></code> 链接来确保在程序代码中有没有缺少或未使用的模块。如果有，你可以试着使用 <code class="docutils literal"><span class="pre">Update</span> <span class="pre">Modules</span></code> 按钮来修复。</p>
-</li>
-<li><p class="first">然后使用 <code class="docutils literal"><span class="pre">build</span></code> 命令， 生成版本使导入的项目再次工作。</p>
-</li>
-<li><p class="first">开发者版本的项目使用 <code class="docutils literal"><span class="pre">Copy</span></code> 或 <code class="docutils literal"><span class="pre">Compile</span></code> 引擎绑定类型也可以构建出与新版本的 SDK一起正常工作 （与其他绑定类型的项目的开发版本没有它也可以工作）。</p>
-</li>
+<li>打开项目管理器</li>
+<li>导入您的项目使用 <code class="docutils literal"><span class="pre">Import</span> <span class="pre">Project(s)</span></code> 按钮。</li>
+<li>使用  <code class="docutils literal"><span class="pre">re-export</span> <span class="pre">scenes</span></code> 链接重新导出项目的  <code class="docutils literal"><span class="pre">.blend</span></code> 文件。</li>
+<li>对每个导入的项目使用 <code class="docutils literal"><span class="pre">check</span> <span class="pre">modules</span></code> 链接来确保在程序代码中有没有缺少或未使用的模块。如果有，你可以试着使用 <code class="docutils literal"><span class="pre">Update</span> <span class="pre">Modules</span></code> 按钮来修复。</li>
+<li>然后使用 <code class="docutils literal"><span class="pre">build</span></code> 命令， 生成版本使导入的项目再次工作。</li>
+<li>开发者版本的项目使用 <code class="docutils literal"><span class="pre">Copy</span></code> 或 <code class="docutils literal"><span class="pre">Compile</span></code> 引擎绑定类型也可以构建出与新版本的 SDK一起正常工作 （与其他绑定类型的项目的开发版本没有它也可以工作）。</li>
 </ol>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -404,8 +382,8 @@
 
   <div role="contentinfo">
     <p>
-        &copy; 版权所有 2014-2017, Triumph.
-      最后更新于 2017-11-21.
+        &copy; Copyright 2014-2017, Triumph.
+      最后更新于 2017-12-29.
 
     </p>
   </div>
@@ -461,11 +439,11 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

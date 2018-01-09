@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Physics &mdash; Blend4Web 17.10.1 User Manual</title>
+  <title>Physics &mdash; Blend4Web 17.12.0 User Manual</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.10.1 User Manual" href="index.html"/>
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Blend4Web 17.12.0 User Manual" href="index.html"/>
         <link rel="next" title="For Application Developers" href="developers.html"/>
         <link rel="prev" title="Audio" href="audio.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -111,7 +114,7 @@
 <li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Effects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="colors.html">Color Management</a></li>
 <li class="toctree-l1"><a class="reference internal" href="audio.html">Audio</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Physics</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Physics</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#preparing-for-use">Preparing for Use</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#static-physics-type">Static Physics Type</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#dynamic-physics-type">Dynamic Physics Type</a></li>
@@ -267,7 +270,7 @@
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p>The <code class="docutils literal"><span class="pre">Object</span> <span class="pre">Physics</span></code> checkbox must be enabled under the object&#8217;s <code class="docutils literal"><span class="pre">Physics</span></code> panel. The <code class="docutils literal"><span class="pre">Collision</span> <span class="pre">ID</span></code> field is intended for detecting collisions with a specific object (for example, for detecting proximity of a FPS character to different items) and can be left empty.</p>
+<p>The <code class="docutils literal"><span class="pre">Object</span> <span class="pre">Physics</span></code> checkbox must be enabled under the object’s <code class="docutils literal"><span class="pre">Physics</span></code> panel. The <code class="docutils literal"><span class="pre">Collision</span> <span class="pre">ID</span></code> field is intended for detecting collisions with a specific object (for example, for detecting proximity of a FPS character to different items) and can be left empty.</p>
 <p>In the physics settings of such an object the <code class="docutils literal"><span class="pre">Rigid</span> <span class="pre">Body</span></code> (with rotations) or <code class="docutils literal"><span class="pre">Dynamic</span></code> (without rotations) values can be selected for the <code class="docutils literal"><span class="pre">Physics</span> <span class="pre">Type</span></code> option. In the <code class="docutils literal"><span class="pre">Collision</span> <span class="pre">Bounds</span></code> settings the collider type can be selected - the supported types are: <code class="docutils literal"><span class="pre">Box</span></code>, <code class="docutils literal"><span class="pre">Capsule</span></code>, <code class="docutils literal"><span class="pre">Sphere</span></code>, <code class="docutils literal"><span class="pre">Cylinder</span></code>, <code class="docutils literal"><span class="pre">Cone</span></code>. Also, the following physics parameters can be set: <code class="docutils literal"><span class="pre">Mass</span></code>, <code class="docutils literal"><span class="pre">Damping</span></code> - for <code class="docutils literal"><span class="pre">Translation</span></code> and <code class="docutils literal"><span class="pre">Rotation</span></code>.</p>
 <p>The <code class="docutils literal"><span class="pre">Collision</span> <span class="pre">Group</span></code> field corresponds to the physics group which the object belongs to.</p>
 <p>The <code class="docutils literal"><span class="pre">Collision</span> <span class="pre">Mask</span></code> field defines all physics groups with which this object will interact.</p>
@@ -280,7 +283,7 @@
 </div>
 <div class="section" id="constraints">
 <span id="physics-constraints"></span><h2><a class="toc-backref" href="#id9">Constraints</a><a class="headerlink" href="#constraints" title="Permalink to this headline">¶</a></h2>
-<p>Physical constraints are used for limiting the objects&#8217; degrees of freedom.</p>
+<p>Physical constraints are used for limiting the objects’ degrees of freedom.</p>
 <a class="reference internal image-reference" href="_images/physics_constraints.png"><img alt="_images/physics_constraints.png" class="align-center" src="_images/physics_constraints.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -293,7 +296,7 @@
 </div>
 <div class="section" id="wheeled-vehicles">
 <span id="id2"></span><h2><a class="toc-backref" href="#id10">Wheeled Vehicles</a><a class="headerlink" href="#wheeled-vehicles" title="Permalink to this headline">¶</a></h2>
-<p>The model of a vehicle must consist of 6 separate objects - a chassis, 4 wheels and a steering wheel. The chassis&#8217; mesh center should correspond to the mass center. The centers of the wheels&#8217; and the steering wheel&#8217;s meshes should be located on the rotation axes. The steering wheel should be oriented in the local space of coordinates - X - the rotation axis, Y - to the right and Z - upwards. The object can have any names.</p>
+<p>The model of a vehicle must consist of 6 separate objects - a chassis, 4 wheels and a steering wheel. The chassis’ mesh center should correspond to the mass center. The centers of the wheels’ and the steering wheel’s meshes should be located on the rotation axes. The steering wheel should be oriented in the local space of coordinates - X - the rotation axis, Y - to the right and Z - upwards. The object can have any names.</p>
 <a class="reference internal image-reference" href="_images/physics_vehicle_wheeled.png"><img alt="_images/physics_vehicle_wheeled.png" class="align-center" src="_images/physics_vehicle_wheeled.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -316,14 +319,14 @@
 <dt><em>Wheel Friction</em></dt>
 <dd>Friction constant between the wheels and the surface. It should be around 0.8 for realistic vehicles. But it can be increased significantly to achieve a better control (1000 and more).</dd>
 <dt><em>Roll Influence</em></dt>
-<dd>Decreases the wheels&#8217; torque decreasing the probability of the vehicle overturning (0 - no torque, 1 - real physics behavior).</dd>
+<dd>Decreases the wheels’ torque decreasing the probability of the vehicle overturning (0 - no torque, 1 - real physics behavior).</dd>
 <dt><em>Max Suspension Travel Cm</em></dt>
 <dd>Maximum suspension travel in centimeters.</dd>
 </dl>
 <p>For the <code class="docutils literal"><span class="pre">Steering</span> <span class="pre">Wheel</span></code> it is necessary to specify the maximum steering angle (<code class="docutils literal"><span class="pre">Steering</span> <span class="pre">Max</span></code>) and the ratio between the turn of the steering wheel and the turn of the wheels  (<code class="docutils literal"><span class="pre">Steering</span> <span class="pre">Ratio</span></code>). The maximum steering angle value is specified in revolutions. A single revolution equals to 360 degrees. Therefore, if <code class="docutils literal"><span class="pre">Steering</span> <span class="pre">Max</span></code> is equal to one and <code class="docutils literal"><span class="pre">Steering</span> <span class="pre">Ratio</span></code> is equal to 10, the maximum turn of the steering wheel will be 360 degrees and the maximum turn of the front wheels will be 36 degrees.</p>
 <p>On this stage you can export and load the scene into the engine. We recommend to create a road surface with a physics material. To choose the controlled object press the <code class="docutils literal"><span class="pre">Q</span></code> key in the Viewer and select the chassis. Use the <code class="docutils literal"><span class="pre">W</span></code>, <code class="docutils literal"><span class="pre">A</span></code>, <code class="docutils literal"><span class="pre">S</span></code>, <code class="docutils literal"><span class="pre">D</span></code> keys as controls.</p>
 <p>We can additionally tweak the <code class="docutils literal"><span class="pre">Damping</span></code> of <code class="docutils literal"><span class="pre">Translation</span></code> and <code class="docutils literal"><span class="pre">Rotation</span></code>. This will influence the speed and inertia of the vehicle.</p>
-<p>The friction and elasticity of the road surface material do not influence the vehicle&#8217;s behavior.</p>
+<p>The friction and elasticity of the road surface material do not influence the vehicle’s behavior.</p>
 </div>
 </div>
 <div class="section" id="floating-objects">
@@ -397,7 +400,7 @@
 <p class="last">Set to 5 by default.</p>
 </dd>
 <dt><em>Waterline</em></dt>
-<dd><p class="first">This parameter sets up the waterline for the character object. The waterline is measured from the center of the physical shape of the object (not the object&#8217;s mesh). If an object is submerged into the water below this line, it will float. Its value can vary from -2 to 2.</p>
+<dd><p class="first">This parameter sets up the waterline for the character object. The waterline is measured from the center of the physical shape of the object (not the object’s mesh). If an object is submerged into the water below this line, it will float. Its value can vary from -2 to 2.</p>
 <p class="last">It is set to zero by default.</p>
 </dd>
 </dl>
@@ -428,7 +431,7 @@
 <h3><a class="toc-backref" href="#id19">Controlling Characters with API</a><a class="headerlink" href="#controlling-characters-with-api" title="Permalink to this headline">¶</a></h3>
 <p>Basic character described above can only provide generic functionality. If you need more control over character behavior, you should use methods from the <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html">fps</a> module.</p>
 <p>The most important of them is the <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.enable_fps_controls">enable_fps_controls()</a> method which, as its name suggests, is used to initialize characters in the scene. It can be used as follows:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_fps</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;fps&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_fps</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;fps&quot;</span><span class="p">);</span>
 
 <span class="nx">m_fps</span><span class="p">.</span><span class="nx">enable_fps_controls</span><span class="p">();</span>
 </pre></div>
@@ -461,7 +464,7 @@
 <p><a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.CS_WALK">CS_WALK</a> - a character is walking.</p>
 </div></blockquote>
 <p>Current state of a specific character can be retrieved using the <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.get_character_state">get_character_state()</a> method, while a specific state can be assigned to a character with the <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.switch_state">switch_state()</a> method. The following example shows how these two methods can be used:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_fps</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;fps&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_fps</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;fps&quot;</span><span class="p">);</span>
 
 <span class="kd">var</span> <span class="nx">current_state</span> <span class="o">=</span> <span class="nx">m_fps</span><span class="p">.</span><span class="nx">get_character_state</span><span class="p">();</span>
 
@@ -473,7 +476,7 @@
 <div class="section" id="action-binding">
 <h4>Action Binding<a class="headerlink" href="#action-binding" title="Permalink to this headline">¶</a></h4>
 <p>The <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html">fps</a> module also provides means for binding various actions to character events. The <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.bind_action">bind_action()</a> method is used for this:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_fps</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;fps&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_fps</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;fps&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_ctl</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;controls&quot;</span><span class="p">);</span>
 
 <span class="kd">var</span> <span class="nx">action_cb</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
@@ -569,27 +572,27 @@
 <div class="section" id="using-navigation-meshes">
 <h3><a class="toc-backref" href="#id22">Using Navigation Meshes</a><a class="headerlink" href="#using-navigation-meshes" title="Permalink to this headline">¶</a></h3>
 <p>After a navmesh is created, it then can be used in the application for calculating trajectories between two points. This can be done using two methods from the <a class="reference external" href="https://www.blend4web.com/api_doc/module-physics.html">physics</a> module, <a class="reference external" href="https://www.blend4web.com/api_doc/module-physics.html#.navmesh_get_island">navmesh_get_island()</a> and <a class="reference external" href="https://www.blend4web.com/api_doc/module-physics.html#.navmesh_find_path">navmesh_find_path()</a>. The former is used to retrieve a link to the current island (closest independent segment of the navmesh), while the latter returns the actual path in the form of an array of coordinates.</p>
-<p>An example of using navigation meshes for pathfinding can be viewed in the <a class="reference internal" href="developers.html#code-snippets"><span>Code Snippets</span></a> (the corresponding snippet is named <code class="docutils literal"><span class="pre">Pathfinding</span></code>).</p>
+<p>An example of using navigation meshes for pathfinding can be viewed in the <a class="reference internal" href="developers.html#code-snippets"><span class="std std-ref">Code Snippets</span></a> (the corresponding snippet is named <code class="docutils literal"><span class="pre">Pathfinding</span></code>).</p>
 </div>
 </div>
 <div class="section" id="use-in-applications">
 <span id="using-physics"></span><h2><a class="toc-backref" href="#id23">Use in Applications</a><a class="headerlink" href="#use-in-applications" title="Permalink to this headline">¶</a></h2>
-<p>The physics system is implemented in the <strong>uranium.js</strong> module and loaded separately from the engine&#8217;s main code. The <strong>uranium.js</strong> module itself is a modification of the <a class="reference external" href="http://bulletphysics.org/">Bullet</a> physics engine, which is ported to work in browsers. In order to activate the physics system, it is enough to put the <strong>uranium.js</strong> and <strong>uranium.js.mem</strong> files in the same directory as the source code of the application.</p>
+<p>The physics system is implemented in the <strong>uranium.js</strong> module and loaded separately from the engine’s main code. The <strong>uranium.js</strong> module itself is a modification of the <a class="reference external" href="http://bulletphysics.org/">Bullet</a> physics engine, which is ported to work in browsers. In order to activate the physics system, it is enough to put the <strong>uranium.js</strong> and <strong>uranium.js.mem</strong> files in the same directory as the source code of the application.</p>
 <p>Another way is to explicitly specify the loading path of the <strong>uranium.js</strong> module by using the following API method:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">m_config</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;physics_uranium_path&quot;</span><span class="p">,</span> <span class="s2">&quot;.../uranium.js&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">m_config</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;physics_uranium_path&quot;</span><span class="p">,</span> <span class="s2">&quot;.../uranium.js&quot;</span><span class="p">);</span>
 </pre></div>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">When applications are developed <a class="reference internal" href="project_manager.html#project-management"><span>within the SDK</span></a>, the path to the physics engine is detected automatically.</p>
+<p class="last">When applications are developed <a class="reference internal" href="project_manager.html#project-management"><span class="std std-ref">within the SDK</span></a>, the path to the physics engine is detected automatically.</p>
 </div>
 <p>If your application does not use physics, we recommend you to turn off the <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">Physics</span></code> flag in the <code class="docutils literal"><span class="pre">Physics</span></code> panel under the scene tab in Blender. It is also possible to forcibly disable loading of the <strong>uranium.js</strong> module by calling the following method before initialization of the engine:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">m_config</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;physics_enabled&quot;</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">m_config</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;physics_enabled&quot;</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
 </pre></div>
 </div>
 <p>Physics subsystem is implemented in the “uranium” module and is loaded independently from the main engine code. The “uranium” module is a modification of the <a class="reference external" href="https://en.wikipedia.org/wiki/Bullet_(software)">Bullet physics engine</a> ported to work in web browsers.</p>
 <p>Blend4Web physics engine comes in two variations: the one compiled using WebAssembly (<code class="docutils literal"><span class="pre">uranium_wasm.js</span></code> and  <code class="docutils literal"><span class="pre">uranium_wasm.wasm</span></code> files) is used by default, while the other version, compiled with <code class="docutils literal"><span class="pre">asm.js</span></code> (<code class="docutils literal"><span class="pre">uranium.js</span></code> and  <code class="docutils literal"><span class="pre">uranium.js.mem</span></code>) can be used as a fallback. The WebAssembly version is smaller in size, can be initialized quicker and using it might improve the stability and performance of the application. However, at the moment not every browser supports WebAssembly, so, if this technology is not available, the asm.js version of the physics engine is used instead.</p>
-<p>By default, physics engine is plugged in if the scene contains objects with physics enabled. You can manually disable physics by setting the <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">Physics</span></code> option on the <code class="docutils literal"><span class="pre">Scene</span> <span class="pre">-&gt;</span> <span class="pre">Physics</span></code> panel to <code class="docutils literal"><span class="pre">OFF</span></code>. You can also uncheck the <code class="docutils literal"><span class="pre">Use</span> <span class="pre">Physics</span></code> flag on the <a class="reference internal" href="project_manager.html#project-config"><span>project configuration page</span></a> in the <a class="reference internal" href="project_manager.html#project-manager"><span>Project Manager</span></a> to exclude physics engine files from the build version of your project.</p>
+<p>By default, physics engine is plugged in if the scene contains objects with physics enabled. You can manually disable physics by setting the <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">Physics</span></code> option on the <code class="docutils literal"><span class="pre">Scene</span> <span class="pre">-&gt;</span> <span class="pre">Physics</span></code> panel to <code class="docutils literal"><span class="pre">OFF</span></code>. You can also uncheck the <code class="docutils literal"><span class="pre">Use</span> <span class="pre">Physics</span></code> flag on the <a class="reference internal" href="project_manager.html#project-config"><span class="std std-ref">project configuration page</span></a> in the <a class="reference internal" href="project_manager.html#project-manager"><span class="std std-ref">Project Manager</span></a> to exclude physics engine files from the build version of your project.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">Physics is not supported in <code class="docutils literal"><span class="pre">WebPlayer</span> <span class="pre">HTML</span></code> type projects and in the scenes exported into HTML.</p>
@@ -624,7 +627,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Triumph.
-      Last updated on 2017-11-21.
+      Last updated on 2017-12-29.
 
     </p>
   </div>
@@ -680,11 +683,11 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

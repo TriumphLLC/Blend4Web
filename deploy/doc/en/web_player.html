@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Web Player &mdash; Blend4Web 17.10.1 User Manual</title>
+  <title>Web Player &mdash; Blend4Web 17.12.0 User Manual</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.10.1 User Manual" href="index.html"/>
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Blend4Web 17.12.0 User Manual" href="index.html"/>
         <link rel="next" title="Add-on" href="addon.html"/>
         <link rel="prev" title="Scene Viewer" href="viewer.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -90,7 +93,7 @@
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">Project Management</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Web Player</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Web Player</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#navigation">Navigation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#control-panel">Control Panel</a></li>
@@ -213,7 +216,7 @@ also supported.</p>
 </div>
 <div class="section" id="control-panel">
 <h2><a class="toc-backref" href="#id5">Control Panel</a><a class="headerlink" href="#control-panel" title="Permalink to this headline">¶</a></h2>
-<p>The web player&#8217;s control panel is shown below.</p>
+<p>The web player’s control panel is shown below.</p>
 <a class="reference internal image-reference" href="_images/web_player_interface.png"><img alt="_images/web_player_interface.png" class="align-center" src="_images/web_player_interface.png" style="width: 100%;" /></a>
 <ol class="arabic simple">
 <li>show / hide control panel;</li>
@@ -243,11 +246,11 @@ also supported.</p>
 <li>in case of a WebGL error the optional <code class="docutils literal"><span class="pre">fallback_image</span></code> attribute is used to setup the background image instead of 3D content.</li>
 <li>in case of a WebGL error the optional <code class="docutils literal"><span class="pre">fallback_video</span></code> attribute is used to setup the background video instead of 3D content.
 Can be used many times to add more video formats.</li>
-<li>the optional <code class="docutils literal"><span class="pre">show_fps</span></code> attribute is used to display the FPS counter in the player&#8217;s top right corner.</li>
+<li>the optional <code class="docutils literal"><span class="pre">show_fps</span></code> attribute is used to display the FPS counter in the player’s top right corner.</li>
 <li>optional parameter <code class="docutils literal"><span class="pre">autorotate</span></code> is used to enable automatic camera rotation just after the scene loads.</li>
 <li>the <code class="docutils literal"><span class="pre">compressed_textures</span></code> optional parameter is used to enable loading of minified and compressed textures (in DDS format).</li>
 <li>the <code class="docutils literal"><span class="pre">compressed_textures_pvr</span></code> optional parameter is used to enable loading of textures compressed in PVRTC format. This parameter is used with the <code class="docutils literal"><span class="pre">compressed_textures</span></code> parameter.</li>
-<li>the <code class="docutils literal"><span class="pre">compressed_gzip</span></code> optional parameter is used to enable loading of GZIP compressed resources such as &#8221;.json.gz&#8221;, &#8221;.bin.gz&#8221;, &#8221;.dds.gz&#8221; and &#8221;.pvr.gz&#8221;.</li>
+<li>the <code class="docutils literal"><span class="pre">compressed_gzip</span></code> optional parameter is used to enable loading of GZIP compressed resources such as “.json.gz”, “.bin.gz”, “.dds.gz” and “.pvr.gz”.</li>
 <li>optional <code class="docutils literal"><span class="pre">alpha</span></code> parameter is used to enable transparency for the rendering area.</li>
 <li>the optional <code class="docutils literal"><span class="pre">no_social</span></code> attribute is used to disable social networks buttons on the control panel.</li>
 <li>the optional <code class="docutils literal"><span class="pre">socials</span></code> attribute is used to selectively enable and disable social network buttons on the control panel. This attribute should look like <code class="docutils literal"><span class="pre">socials=&lt;...&gt;</span></code>, where <code class="docutils literal"><span class="pre">&lt;...&gt;</span></code> is a set of letters corresponding to the social network buttons you want to enable (<code class="docutils literal"><span class="pre">f</span></code> for Facebook, <code class="docutils literal"><span class="pre">v</span></code> for VK, <code class="docutils literal"><span class="pre">t</span></code> for Twitter, <code class="docutils literal"><span class="pre">w</span></code> for Weibo and <code class="docutils literal"><span class="pre">g</span></code> for Google+). The order of letters sets the order in which the buttons will appear on the screen.</li>
@@ -266,21 +269,21 @@ Can be used many times to add more video formats.</li>
 <h2><a class="toc-backref" href="#id8">Scene Errors</a><a class="headerlink" href="#scene-errors" title="Permalink to this headline">¶</a></h2>
 <p>If the player is used incorrectly it displays the corresponding errors.</p>
 <ol class="arabic simple">
-<li>The <code class="docutils literal"><span class="pre">load</span></code> <a class="reference internal" href="#webplayer-attributes"><span>attribute</span></a> specifies a wrong path to the JSON file or the file is corrupt.</li>
+<li>The <code class="docutils literal"><span class="pre">load</span></code> <a class="reference internal" href="#webplayer-attributes"><span class="std std-ref">attribute</span></a> specifies a wrong path to the JSON file or the file is corrupt.</li>
 </ol>
 <a class="reference internal image-reference" href="_images/error_wrong_json_path.png"><img alt="_images/error_wrong_json_path.png" class="align-center" src="_images/error_wrong_json_path.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <ol class="arabic simple" start="2">
-<li>The <code class="docutils literal"><span class="pre">load</span></code> <a class="reference internal" href="#webplayer-attributes"><span>attribute</span></a> is not found or is void.</li>
+<li>The <code class="docutils literal"><span class="pre">load</span></code> <a class="reference internal" href="#webplayer-attributes"><span class="std std-ref">attribute</span></a> is not found or is void.</li>
 </ol>
 <a class="reference internal image-reference" href="_images/error_not_load_attr.png"><img alt="_images/error_not_load_attr.png" class="align-center" src="_images/error_not_load_attr.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <ol class="arabic simple" start="3">
-<li>WebGL initialization error. Please, look at <a class="reference internal" href="problems_and_solutions.html#renderer-not-working"><span>this page</span></a> for the solution.</li>
+<li>WebGL initialization error. Please, look at <a class="reference internal" href="problems_and_solutions.html#renderer-not-working"><span class="std std-ref">this page</span></a> for the solution.</li>
 </ol>
 <a class="reference internal image-reference" href="_images/error_webgl.png"><img alt="_images/error_webgl.png" class="align-center" src="_images/error_webgl.png" style="width: 100%;" /></a>
 <div class="line-block">
@@ -309,7 +312,7 @@ Can be used many times to add more video formats.</li>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Triumph.
-      Last updated on 2017-11-21.
+      Last updated on 2017-12-29.
 
     </p>
   </div>
@@ -365,11 +368,11 @@ Can be used many times to add more video formats.</li>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

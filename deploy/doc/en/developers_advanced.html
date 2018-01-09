@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>For Engine Developers &mdash; Blend4Web 17.10.1 User Manual</title>
+  <title>For Engine Developers &mdash; Blend4Web 17.12.0 User Manual</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.10.1 User Manual" href="index.html"/>
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Blend4Web 17.12.0 User Manual" href="index.html"/>
         <link rel="next" title="Team Work. Using Git" href="git_short_manual.html"/>
         <link rel="prev" title="For Application Developers" href="developers.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -113,7 +116,7 @@
 <li class="toctree-l1"><a class="reference internal" href="audio.html">Audio</a></li>
 <li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">For Engine Developers</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">For Engine Developers</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#coding-style">Coding Style</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#examples">Examples</a></li>
 </ul>
@@ -214,7 +217,7 @@
 <span id="id1"></span><h2><a class="toc-backref" href="#id5">Coding Style</a><a class="headerlink" href="#coding-style" title="Permalink to this headline">¶</a></h2>
 <p>This engine uses structural programming. The code is organized in modules. OOP methods are not used, classes are not defined, inheritance is not performed and so on.</p>
 <p>The <a class="reference external" href="http://en.wikipedia.org/wiki/1_true_brace_style#K.26R_style">K&amp;R style</a> is used except for the fact that the opening bracket for a compound operator is placed on the same line, for example:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">foo_bar</span><span class="p">()</span> <span class="p">{</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">function</span> <span class="nx">foo_bar</span><span class="p">()</span> <span class="p">{</span>
     <span class="c1">// ...</span>
 <span class="p">}</span>
 
@@ -227,20 +230,20 @@
 <div class="section" id="examples">
 <h3><a class="toc-backref" href="#id6">Examples</a><a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h3>
 <p>The underscore symbol is used in function and variable names:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">foo_bar</span> <span class="o">=</span> <span class="mi">123</span><span class="p">;</span>  <span class="c1">// correct</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">foo_bar</span> <span class="o">=</span> <span class="mi">123</span><span class="p">;</span>  <span class="c1">// correct</span>
 <span class="kd">var</span> <span class="nx">fooBar</span> <span class="o">=</span> <span class="mi">123</span><span class="p">;</span>   <span class="c1">// wrong</span>
 </pre></div>
 </div>
 <p>All global variables begin with an underscore:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">_foo_bar</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">_foo_bar</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
 </pre></div>
 </div>
 <p>The constants are written in capital letters and never begin with an underscore:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">FOO_BAR</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">FOO_BAR</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
 </pre></div>
 </div>
 <p>The names of external API methods and properties are written after a point. To avoid obfuscation of fields they must be listed with the <code class="docutils literal"><span class="pre">&#64;cc_externs</span></code> tag:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">exports</span><span class="p">.</span><span class="nx">FOO_BAR</span> <span class="o">=</span> <span class="mi">123</span><span class="p">;</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">exports</span><span class="p">.</span><span class="nx">FOO_BAR</span> <span class="o">=</span> <span class="mi">123</span><span class="p">;</span>
 
 <span class="nx">exports</span><span class="p">.</span><span class="nx">foo_bar</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
 
@@ -269,28 +272,28 @@
 </div>
 <div class="section" id="building-the-engine">
 <h2><a class="toc-backref" href="#id7">Building the Engine</a><a class="headerlink" href="#building-the-engine" title="Permalink to this headline">¶</a></h2>
-<p>Before building please make sure that your system has all required dependencies installed (see the <a class="reference internal" href="#dependencies"><span>table</span></a>).</p>
+<p>Before building please make sure that your system has all required dependencies installed (see the <a class="reference internal" href="#dependencies"><span class="std std-ref">table</span></a>).</p>
 <p>To compile the engine and the applications included into the SDK please execute the following command (in the SDK root):</p>
-<div class="highlight-bash"><div class="highlight"><pre>make compile
+<div class="highlight-bash"><div class="highlight"><pre><span></span>make compile
 </pre></div>
 </div>
 <p>The full building that includes converting resources (textures, sounds and videos), compilation and converting the docs, can be performed with the following command:</p>
-<div class="highlight-bash"><div class="highlight"><pre>make build
+<div class="highlight-bash"><div class="highlight"><pre><span></span>make build
 </pre></div>
 </div>
 <p>Building the archives with the distributions:</p>
-<div class="highlight-bash"><div class="highlight"><pre>make dist
+<div class="highlight-bash"><div class="highlight"><pre><span></span>make dist
 </pre></div>
 </div>
 <p>All above mentioned operations can be performed with a single command:</p>
-<div class="highlight-bash"><div class="highlight"><pre>make all
+<div class="highlight-bash"><div class="highlight"><pre><span></span>make all
 </pre></div>
 </div>
 </div>
 <div class="section" id="building-the-add-on">
 <h2><a class="toc-backref" href="#id8">Building the Add-on</a><a class="headerlink" href="#building-the-add-on" title="Permalink to this headline">¶</a></h2>
 <p>Binary Blend4Web addon builds are available for the following platforms: Linux x32/64, macOS x64, Windows x32/64. At the same time users can compile the addon by themselves.</p>
-<p>To do this Python 3.x (it&#8217;s better if it&#8217;s the same version as in Blender) and a C compiler are required. Under Linux it&#8217;s enough to install the python3-dev and build-essential packages.</p>
+<p>To do this Python 3.x (it’s better if it’s the same version as in Blender) and a C compiler are required. Under Linux it’s enough to install the python3-dev and build-essential packages.</p>
 <dl class="docutils">
 <dt>Paths relative to the repository root:</dt>
 <dd><ul class="first last simple">
@@ -300,10 +303,10 @@
 </dd>
 </dl>
 <p>The building process is started in the following way:</p>
-<div class="highlight-bash"><div class="highlight"><pre>python3 ./csrc/b4w_bin/build.py
+<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 ./csrc/b4w_bin/build.py
 </pre></div>
 </div>
-<p>As a result of the building you&#8217;ll get a binary file called:</p>
+<p>As a result of the building you’ll get a binary file called:</p>
 <p><code class="docutils literal"><span class="pre">b4w_bin_[PLATFORM]_[ARCHITECTURE].[STANDARD_EXTENSION]</span></code>,</p>
 <p>located in the same directory as the addon. Example: <code class="docutils literal"><span class="pre">b4w_bin_Linux_64.so</span></code>. After this the addon is ready to use under this platform.</p>
 </div>
@@ -425,7 +428,7 @@ preprocessor</td>
 <dt><em>insert_/pop_</em></dt>
 <dd>add/remove an array element (accessed by index)</dd>
 <dt><em>switch_</em></dt>
-<dd>switch flag&#8217;s binary value</dd>
+<dd>switch flag’s binary value</dd>
 <dt><em>apply_/clear_</em></dt>
 <dd>operation with flags, binary values or arbitrary parameters</dd>
 <dt><em>set_/get_</em></dt>
@@ -440,7 +443,7 @@ preprocessor</td>
 <span id="id3"></span><h2><a class="toc-backref" href="#id11">Debugging</a><a class="headerlink" href="#debugging" title="Permalink to this headline">¶</a></h2>
 <p>Engine debugging is performed with the <code class="docutils literal"><span class="pre">debug.js</span></code> module methods.</p>
 <p>The structure of the current render graph can be saved in the DOT format using the <code class="docutils literal"><span class="pre">b4w.debug.scenegraph_to_dot()</span></code> call, for example, in the browser console. After calling this method, save the console output into the file with the .gv extension. To get the graph in a visual form the <a class="reference external" href="http://www.graphviz.org/">graphviz</a> utilities are required. Converting to the SVG format is performed using the command:</p>
-<div class="highlight-bash"><div class="highlight"><pre>&gt; dot -Tsvg graph.gv -o graph.svg
+<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; dot -Tsvg graph.gv -o graph.svg
 </pre></div>
 </div>
 <p>where <code class="docutils literal"><span class="pre">graph.gv</span></code> is the name of the file with the saved graph.</p>
@@ -454,7 +457,7 @@ preprocessor</td>
 <li>optimization.</li>
 </ul>
 <p>In order to run the compiler, execute one of the following commands in the SDK root:</p>
-<div class="highlight-bash"><div class="highlight"><pre>&gt; make compile_shaders
+<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; make compile_shaders
 &gt; make verify_shaders
 </pre></div>
 </div>
@@ -494,7 +497,7 @@ preprocessor</td>
 <li>optimization inside functions - creating shared local variables to replace ones originally created by the programmer.</li>
 </ul>
 <p>An example of removing unused curly brackets: replacing the following code</p>
-<div class="highlight-glsl"><div class="highlight"><pre><span class="k">void</span> <span class="n">function</span><span class="p">(){</span>
+<div class="highlight-glsl"><div class="highlight"><pre><span></span><span class="k">void</span> <span class="n">function</span><span class="p">(){</span>
     <span class="k">int</span> <span class="n">a</span><span class="p">;</span>
     <span class="p">{</span>
         <span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
@@ -503,14 +506,14 @@ preprocessor</td>
 </pre></div>
 </div>
 <p>with this code</p>
-<div class="highlight-glsl"><div class="highlight"><pre><span class="k">void</span> <span class="n">function</span><span class="p">(){</span>
+<div class="highlight-glsl"><div class="highlight"><pre><span></span><span class="k">void</span> <span class="n">function</span><span class="p">(){</span>
     <span class="k">int</span> <span class="n">a</span><span class="p">;</span>
     <span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
 </div>
 <p>Low number of temporary local variables is achieved by repetitively using them in different contexts. For example, the following code</p>
-<div class="highlight-glsl"><div class="highlight"><pre><span class="k">int</span> <span class="n">function</span><span class="p">(){</span>
+<div class="highlight-glsl"><div class="highlight"><pre><span></span><span class="k">int</span> <span class="n">function</span><span class="p">(){</span>
     <span class="k">int</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
     <span class="k">int</span> <span class="n">b</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="mi">3</span><span class="p">;</span>
     <span class="k">return</span> <span class="n">b</span><span class="p">;</span>
@@ -518,7 +521,7 @@ preprocessor</td>
 </pre></div>
 </div>
 <p>will be replaced with</p>
-<div class="highlight-glsl"><div class="highlight"><pre><span class="k">int</span> <span class="n">function</span><span class="p">(){</span>
+<div class="highlight-glsl"><div class="highlight"><pre><span></span><span class="k">int</span> <span class="n">function</span><span class="p">(){</span>
     <span class="k">int</span> <span class="n">_int_tmp0</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
     <span class="n">_int_tmp0</span> <span class="o">=</span> <span class="n">_int_tmp0</span> <span class="o">+</span> <span class="mi">3</span><span class="p">;</span>
     <span class="k">return</span> <span class="n">_int_tmp0</span><span class="p">;</span>
@@ -533,7 +536,7 @@ preprocessor</td>
 <div class="section" id="import-export-directives">
 <span id="index-4"></span><h3><a class="toc-backref" href="#id16">Import/Export Directives</a><a class="headerlink" href="#import-export-directives" title="Permalink to this headline">¶</a></h3>
 <p>import/export directives are used to organize, structure and increase the readability of the shader code in the include file. They are specified in the beginning of the file and should look approximately like this:</p>
-<div class="highlight-glsl"><div class="highlight"><pre><span class="cp">#import u_frame_factor u_quatsb u_quatsa u_transb u_transa a_influence</span>
+<div class="highlight-glsl"><div class="highlight"><pre><span></span><span class="cp">#import u_frame_factor u_quatsb u_quatsa u_transb u_transa a_influence</span>
 <span class="cp">#import qrot</span>
 
 <span class="cp">#export skin</span>
@@ -542,19 +545,19 @@ preprocessor</td>
 <p>The <code class="docutils literal"><span class="pre">#import</span></code> directive defines a set of ids which are declared outside the include file but can be accessed from inside it. There is a limitation though: such ids must necessarily be declared somewhere above the place where the include file is linked.</p>
 <p>The <code class="docutils literal"><span class="pre">#export</span></code> directive defines a set of ids which can be accessed from outside this file. Such ids must necessarily be declared in this file.</p>
 <p>Therefore, the shader which uses the include file must have all the declarations necessary for import before the place of linking, and can use the exported ids after it.</p>
-<p>Ids can be both variable names and function names. If there are no import/export directives it&#8217;s considered by default that the include file does not use external declarations and does not allow the using of internal ones.</p>
+<p>Ids can be both variable names and function names. If there are no import/export directives it’s considered by default that the include file does not use external declarations and does not allow the using of internal ones.</p>
 </div>
 <div class="section" id="recommendations-and-limitations">
 <span id="index-5"></span><h3><a class="toc-backref" href="#id17">Recommendations and Limitations</a><a class="headerlink" href="#recommendations-and-limitations" title="Permalink to this headline">¶</a></h3>
-<p>Because of the following reasons: preprocessing, the need to process multiple shaders and include files and due to the compiler&#8217;s features - its possible to guarantee the work of the output code only if a number of rules and limitations are respected with regard to the shader source code:</p>
+<p>Because of the following reasons: preprocessing, the need to process multiple shaders and include files and due to the compiler’s features - its possible to guarantee the work of the output code only if a number of rules and limitations are respected with regard to the shader source code:</p>
 <ol class="arabic simple">
-<li>In order to describe constants which are defined by the engine at run, it&#8217;s necessary to use the <code class="docutils literal"><span class="pre">#var</span></code> special directive. For example:</li>
+<li>In order to describe constants which are defined by the engine at run, it’s necessary to use the <code class="docutils literal"><span class="pre">#var</span></code> special directive. For example:</li>
 </ol>
-<div class="highlight-glsl"><div class="highlight"><pre><span class="cp">#var AU_QUALIFIER uniform</span>
+<div class="highlight-glsl"><div class="highlight"><pre><span></span><span class="cp">#var AU_QUALIFIER uniform</span>
 <span class="n">AU_QUALIFIER</span> <span class="k">float</span> <span class="n">a</span><span class="p">;</span>
 </pre></div>
 </div>
-<p>The syntax here is similar to the #define directive. The point of the #var directive is that the value which it defines allows to parse the initial shader. It&#8217;s irrelevant what exactly it will be (e.g. &#8216;uniform&#8217; or &#8216;attribute&#8217; in the above example), because at this level it&#8217;s unknown anyway. Nevertheless, it&#8217;s better to specify a more or less suitable description and not something arbitrary.</p>
+<p>The syntax here is similar to the #define directive. The point of the #var directive is that the value which it defines allows to parse the initial shader. It’s irrelevant what exactly it will be (e.g. ‘uniform’ or ‘attribute’ in the above example), because at this level it’s unknown anyway. Nevertheless, it’s better to specify a more or less suitable description and not something arbitrary.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">The #var directive is not necessary for constants used not in the shader code but in the preprocessor expressions.</p>
@@ -562,22 +565,22 @@ preprocessor</td>
 <ol class="arabic simple" start="2">
 <li>Using the import/export directives when needed.</li>
 <li>The built-in functions must not be overloaded - only the user ones.</li>
-<li>Variables should not be declared with names of the built-in functions, or main (even if it doesn&#8217;t lead to errors).</li>
-<li>The #var and #define directives must not be used for replacing single symbols in such operators as: &#8220;++&#8221;, &#8220;&#8211;&#8221;, &#8220;*=&#8221;, &#8220;/=&#8221;, &#8220;+=&#8221;, &#8220;-=&#8221;, &#8220;==&#8221;, &#8220;&lt;=&#8221;, &#8220;&gt;=&#8221;, &#8221;!=&#8221;, &#8220;&amp;&amp;&#8221;, &#8220;||&#8221;, &#8220;^^&#8221;.</li>
+<li>Variables should not be declared with names of the built-in functions, or main (even if it doesn’t lead to errors).</li>
+<li>The #var and #define directives must not be used for replacing single symbols in such operators as: “++”, “–”, “*=”, “/=”, “+=”, “-=”, “==”, “&lt;=”, “&gt;=”, “!=”, “&amp;&amp;”, “||”, “^^”.</li>
 </ol>
 <p>For example:</p>
-<div class="highlight-glsl"><div class="highlight"><pre><span class="cp">#var EQUAL =</span>
+<div class="highlight-glsl"><div class="highlight"><pre><span></span><span class="cp">#var EQUAL =</span>
 <span class="p">...</span>
 <span class="n">a</span> <span class="o">*</span><span class="n">EQUAL</span> <span class="n">b</span><span class="p">;</span>
 <span class="p">...</span>
 </pre></div>
 </div>
 <ol class="arabic simple" start="6">
-<li>The usage of the #include directive should not lead to ambiguity during the obfuscation of the include file. This can happen when multiple shaders are included into the same file and the above defined directives (like #var or #define) can have influence on any of them. Also, it&#8217;s better not to use undeclared functions and variables in the include file.</li>
+<li>The usage of the #include directive should not lead to ambiguity during the obfuscation of the include file. This can happen when multiple shaders are included into the same file and the above defined directives (like #var or #define) can have influence on any of them. Also, it’s better not to use undeclared functions and variables in the include file.</li>
 <li>Multi-level includes or multiple inclusion of the same include into the same shader is not supported.</li>
 <li>Shader malfunction can also be caused by nontrivial using of preprocessing, for example, creating an invalid GLSL code:</li>
 </ol>
-<div class="highlight-glsl"><div class="highlight"><pre><span class="cp">#if TYPE</span>
+<div class="highlight-glsl"><div class="highlight"><pre><span></span><span class="cp">#if TYPE</span>
 <span class="k">void</span> <span class="n">function1</span><span class="p">()</span> <span class="p">{</span>
 <span class="cp">#else</span>
 <span class="k">void</span> <span class="n">function1</span><span class="p">(</span><span class="k">int</span> <span class="n">i</span><span class="p">)</span> <span class="p">{</span>
@@ -587,7 +590,7 @@ preprocessor</td>
 </pre></div>
 </div>
 <ol class="arabic simple" start="9">
-<li>Do not declare variables with such names as <code class="docutils literal"><span class="pre">node_[NODE_NAME]_var_[IN_OUT_NODE]</span></code>, where <code class="docutils literal"><span class="pre">NODE_NAME</span></code> &#8212; name of some node, <code class="docutils literal"><span class="pre">IN_OUT_NODE</span></code> &#8212; name of an input or an output of the node.</li>
+<li>Do not declare variables with such names as <code class="docutils literal"><span class="pre">node_[NODE_NAME]_var_[IN_OUT_NODE]</span></code>, where <code class="docutils literal"><span class="pre">NODE_NAME</span></code> — name of some node, <code class="docutils literal"><span class="pre">IN_OUT_NODE</span></code> — name of an input or an output of the node.</li>
 <li>Repetitive use of <code class="docutils literal"><span class="pre">#nodes_main</span></code>, <code class="docutils literal"><span class="pre">#nodes_global</span></code> or <code class="docutils literal"><span class="pre">#lamps_main</span></code> directives is not permitted inside a single shader.</li>
 <li>The <code class="docutils literal"><span class="pre">#nodes_main</span></code>, <code class="docutils literal"><span class="pre">#nodes_global</span></code> and <code class="docutils literal"><span class="pre">#lamps_main</span></code> directives are recommended to use in the file, containing these shader nodes description, for example, in the same include-file. This is necessary for the correct shader validation.</li>
 </ol>
@@ -617,57 +620,57 @@ preprocessor</td>
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td>Error! Ambiguous obfuscation in
-include file &#8216;FILE_NAME&#8217;.</td>
-<td>Ambiguous obfuscation in the &#8216;FILE_NAME&#8217;
+include file ‘FILE_NAME’.</td>
+<td>Ambiguous obfuscation in the ‘FILE_NAME’
 include file.</td>
 </tr>
 <tr class="row-odd"><td>Error! Extension NAME is
 unsupported in obfuscator. File:
-&#8216;FILE_NAME&#8217;.</td>
+‘FILE_NAME’.</td>
 <td>The NAME WebGL extension used in the
 FILE_NAME file is not supported by the
 obfuscator.</td>
 </tr>
-<tr class="row-even"><td>Error! Include &#8216;FILE_NAME&#8217; not
+<tr class="row-even"><td>Error! Include ‘FILE_NAME’ not
 found.</td>
 <td>The FILE_NAME include file could not be
 found.</td>
 </tr>
-<tr class="row-odd"><td>Error! Undeclared TYPE: &#8216;NAME&#8217;.
-File: &#8216;FILE_NAME&#8217;.</td>
+<tr class="row-odd"><td>Error! Undeclared TYPE: ‘NAME’.
+File: ‘FILE_NAME’.</td>
 <td>Error in FILE_NAME file. Undeclared
 identifier NAME of type TYPE (variable,
 function, structure etc).</td>
 </tr>
-<tr class="row-even"><td>Error! Undeclared TYPE: &#8216;NAME&#8217;.
+<tr class="row-even"><td>Error! Undeclared TYPE: ‘NAME’.
 Importing data missed. File:
-&#8216;FILE_NAME&#8217;.</td>
+‘FILE_NAME’.</td>
 <td>Undeclared identifier NAME of type TYPE
 (variable, function, structure etc).
 Declaration missing for the identifier
 required in the FILE_NAME include file
 according to the <code class="docutils literal"><span class="pre">#import</span></code> directive.</td>
 </tr>
-<tr class="row-odd"><td>Error! Undeclared TYPE: &#8216;NAME&#8217;.
+<tr class="row-odd"><td>Error! Undeclared TYPE: ‘NAME’.
 Possibly exporting needed in
-include file &#8216;INCLUDE_NAME&#8217;. File:
-&#8216;FILE_NAME&#8217;.</td>
+include file ‘INCLUDE_NAME’. File:
+‘FILE_NAME’.</td>
 <td>Error in FILE_NAME file. Undeclared
 identifier NAME of type TYPE (variable,
 function, structure etc). Possibly its
 export into the INCLUDE_NAME include
 file should be allowed.</td>
 </tr>
-<tr class="row-even"><td>Error! Undeclared TYPE: &#8216;NAME&#8217;.
+<tr class="row-even"><td>Error! Undeclared TYPE: ‘NAME’.
 Possibly importing needed. File:
-&#8216;FILE_NAME&#8217;.</td>
+‘FILE_NAME’.</td>
 <td>Undeclared identifier NAME of type TYPE
 (variable, function, structure etc).
 Possibly it should be specified as
 imported in the FILE_NAME include file.</td>
 </tr>
-<tr class="row-odd"><td>Error! Unused export token &#8216;NAME&#8217;
-in include file &#8216;FILE_NAME&#8217;.</td>
+<tr class="row-odd"><td>Error! Unused export token ‘NAME’
+in include file ‘FILE_NAME’.</td>
 <td>Undeclared identifier NAME is allowed
 for export in the FILE_NAME include file.</td>
 </tr>
@@ -683,15 +686,15 @@ for export in the FILE_NAME include file.</td>
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td>Error! Using reserved word in TYPE
-&#8216;NAME&#8217;. File: &#8216;FILE_NAME&#8217;.</td>
+‘NAME’. File: ‘FILE_NAME’.</td>
 <td>Error in FILE_NAME file. A reserved id
 is used for declaring the identifier
 NAME of type TYPE (variable, function,
 structure etc).</td>
 </tr>
-<tr class="row-even"><td>Error! &#8216;all&#8217; extension cannot have
+<tr class="row-even"><td>Error! ‘all’ extension cannot have
 BEHAVIOR_TYPE behavior. File:
-&#8216;FILE_NAME&#8217;.</td>
+‘FILE_NAME’.</td>
 <td>The <code class="docutils literal"><span class="pre">#extension</span></code> directive specified
 for <code class="docutils literal"><span class="pre">all</span></code> WebGL extensions in the
 FILE_NAME file does not support the
@@ -710,25 +713,25 @@ message (note the peculiarity of pegjs
 parser which specify the line which is
 a little bit after the actual error.</td>
 </tr>
-<tr class="row-even"><td>Warning! Function &#8216;NAME&#8217; is
+<tr class="row-even"><td>Warning! Function ‘NAME’ is
 declared in [include ]file
 FILE_NAME, but never used.</td>
 <td>An unused function NAME is declared in
 the FILE_NAME file.</td>
 </tr>
-<tr class="row-odd"><td>Warning! Include file &#8216;FILE_NAME&#8217;
+<tr class="row-odd"><td>Warning! Include file ‘FILE_NAME’
 not used in any shader, would be
 omitted!</td>
 <td>The FILE_NAME include file is not used
 in any of the shaders and so it will be
 excluded from the obfuscated version.</td>
 </tr>
-<tr class="row-even"><td>Warning! Unused import token &#8216;NAME&#8217;
-in include file &#8216;FILE_NAME&#8217;.</td>
+<tr class="row-even"><td>Warning! Unused import token ‘NAME’
+in include file ‘FILE_NAME’.</td>
 <td>An unused id NAME is imported in the
 FILE_NAME include file.</td>
 </tr>
-<tr class="row-odd"><td>Warning! Variable &#8216;NAME&#8217; is
+<tr class="row-odd"><td>Warning! Variable ‘NAME’ is
 declared in include file
 FILE_NAME, but never used.</td>
 <td>An unused variable NAME is declared in
@@ -741,15 +744,15 @@ the FILE_NAME file.</td>
 <div class="section" id="updating-add-on-translations">
 <h2><a class="toc-backref" href="#id20">Updating Add-on Translations</a><a class="headerlink" href="#updating-add-on-translations" title="Permalink to this headline">¶</a></h2>
 <p>If you need to update all existing .po files, run the script <em>translator.py</em> in the SDK/scripts directory without arguments:</p>
-<div class="highlight-bash"><div class="highlight"><pre>&gt; python3 translator.py
+<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; python3 translator.py
 </pre></div>
 </div>
 <p>In order to update an existing .po file, run the script with a supported language code as an argument:</p>
-<div class="highlight-bash"><div class="highlight"><pre>&gt; python3 translator.py ru_RU
+<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; python3 translator.py ru_RU
 </pre></div>
 </div>
 <p>In order to view the list of supported languages, run the script as follows:</p>
-<div class="highlight-bash"><div class="highlight"><pre>&gt; python3 translator.py <span class="nb">help</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; python3 translator.py <span class="nb">help</span>
 </pre></div>
 </div>
 <p>In any case, the file <em>empty.po</em> will be updated upon running the script.</p>
@@ -777,7 +780,7 @@ the FILE_NAME file.</td>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Triumph.
-      Last updated on 2017-11-21.
+      Last updated on 2017-12-29.
 
     </p>
   </div>
@@ -833,11 +836,11 @@ the FILE_NAME file.</td>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

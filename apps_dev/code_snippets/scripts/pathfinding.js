@@ -1,23 +1,23 @@
 "use strict"
 
-b4w.register("pathfinding", function(exports, require) {
+import b4w from "blend4web";
 
-var m_app       = require("app");
-var m_cfg       = require("config");
-var m_data      = require("data");
-var m_preloader = require("preloader");
-var m_ver       = require("version");
-var m_scenes    = require("scenes");
-var m_ctl       = require("controls");
-var m_cam       = require("camera");
-var m_math      = require("math");
-var m_vec3      = require("vec3");
-var m_geom      = require("geometry");
-var m_mat       = require("material");
-var m_main      = require("main");
-var m_trans     = require("transform");
-var m_phys      = require("physics");
-var m_tsr       = require("tsr");
+var m_app       = b4w.app;
+var m_cfg       = b4w.config;
+var m_data      = b4w.data;
+var m_preloader = b4w.preloader;
+var m_ver       = b4w.version;
+var m_scenes    = b4w.scenes;
+var m_ctl       = b4w.controls;
+var m_cam       = b4w.camera;
+var m_math      = b4w.math;
+var m_vec3      = b4w.vec3;
+var m_geom      = b4w.geometry;
+var m_mat       = b4w.material;
+var m_main      = b4w.main;
+var m_trans     = b4w.transform;
+var m_phys      = b4w.physics;
+var m_tsr       = b4w.tsr;
 
 var NONE = 0;
 var CLICKED = 1;
@@ -42,7 +42,7 @@ var _vec3_tmp1 = new Float32Array(3);
 var _vec3_tmp2 = new Float32Array(3);
 var _vec3_tmp3 = new Float32Array(3);
 
-exports.init = function() {
+export function init() {
     m_app.init({
         canvas_container_id: "main_canvas_container",
         callback: init_cb,
@@ -226,4 +226,3 @@ function load_cb(data_id, success) {
     m_app.enable_camera_controls(false, false, false, null, true);
     init_logic();
 }
-});

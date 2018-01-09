@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>场景预览器 &mdash; Blend4Web 17.10.1 用户手册</title>
+  <title>场景预览器 &mdash; Blend4Web 17.12.0 用户手册</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.10.1 用户手册" href="index.html"/>
+        <link rel="index" title="索引"
+              href="genindex.html"/>
+        <link rel="search" title="搜索" href="search.html"/>
+    <link rel="top" title="Blend4Web 17.12.0 用户手册" href="index.html"/>
         <link rel="next" title="网络播放器" href="web_player.html"/>
         <link rel="prev" title="项目管理" href="project_manager.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -89,7 +92,7 @@
 <li class="toctree-l1"><a class="reference internal" href="setup.html">安装和更新</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">工作流程</a></li>
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">场景预览器</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">场景预览器</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#navigation">导航</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#the-side-panel">侧面板</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#information-panel">信息面板</a></li>
@@ -196,7 +199,7 @@
   <div class="section" id="scene-viewer">
 <span id="viewer"></span><span id="index-0"></span><h1><a class="toc-backref" href="#id2">场景预览器</a><a class="headerlink" href="#scene-viewer" title="永久链接至标题">¶</a></h1>
 <div class="contents topic" id="table-of-contents">
-<p class="topic-title first">目录</p>
+<p class="topic-title first">Table of Contents</p>
 <ul class="simple">
 <li><a class="reference internal" href="#scene-viewer" id="id2">场景预览器</a><ul>
 <li><a class="reference internal" href="#navigation" id="id3">导航</a></li>
@@ -236,7 +239,7 @@
 </li>
 </ul>
 </div>
-<p><a class="reference internal" href="addon.html#getting-started-launching-viewer"><span>运行场景预览器</span></a>.</p>
+<p><a class="reference internal" href="addon.html#getting-started-launching-viewer"><span class="std std-ref">运行场景预览器</span></a>.</p>
 <div class="section" id="navigation">
 <h2><a class="toc-backref" href="#id3">导航</a><a class="headerlink" href="#navigation" title="永久链接至标题">¶</a></h2>
 <p>为了控制摄像机按住鼠标按钮并移动鼠标。也可以控制使用进行 <code class="docutils literal"><span class="pre">W</span></code>, <code class="docutils literal"><span class="pre">A</span></code>, <code class="docutils literal"><span class="pre">S</span></code>, <code class="docutils literal"><span class="pre">D</span></code>, <code class="docutils literal"><span class="pre">R</span></code>, <code class="docutils literal"><span class="pre">F</span></code> 键：前进，左，后，右，上，下。 箭头和 <code class="docutils literal"><span class="pre">numpad</span></code> 键也可以使用。在 <code class="docutils literal"><span class="pre">Target</span></code> 相机模式有可能集中使用所选物体 <code class="docutils literal"><span class="pre">Z</span></code> 或 <code class="docutils literal"><span class="pre">.(dot)</span></code> 键.</p>
@@ -253,41 +256,33 @@
 <h3><a class="toc-backref" href="#id5">信息面板</a><a class="headerlink" href="#information-panel" title="永久链接至标题">¶</a></h3>
 <dl class="docutils">
 <dt><strong>建立</strong></dt>
-<dd><p class="first last">引擎建立日期和时间。在开发者版本显示的页面加载时间。</p>
-</dd>
+<dd>引擎建立日期和时间。在开发者版本显示的页面加载时间。</dd>
 <dt><strong>场景</strong></dt>
-<dd><p class="first last">加载的场景的名称。鼠标悬停时文件路径弹出。</p>
-</dd>
+<dd>加载的场景的名称。鼠标悬停时文件路径弹出。</dd>
 <dt><strong>加载</strong></dt>
-<dd><p class="first last">加载进度和时间。</p>
-</dd>
+<dd>加载进度和时间。</dd>
 </dl>
 </div>
 <div class="section" id="basic-control-buttons">
 <h3><a class="toc-backref" href="#id6">基本控制按钮</a><a class="headerlink" href="#basic-control-buttons" title="永久链接至标题">¶</a></h3>
 <dl class="docutils">
 <dt><strong>首页</strong></dt>
-<dd><p class="first last">用 <code class="docutils literal"><span class="pre">Fast</span> <span class="pre">Preview</span></code> 按钮重载Blender导出的最新场景，或者，如果场景浏览器尚未从Blender运行，默认场景被加载。</p>
-</dd>
+<dd>用 <code class="docutils literal"><span class="pre">Fast</span> <span class="pre">Preview</span></code> 按钮重载Blender导出的最新场景，或者，如果场景浏览器尚未从Blender运行，默认场景被加载。</dd>
 <dt><strong>重置</strong></dt>
-<dd><p class="first last">此按钮删除上次查看场景的保存名称和重新加载页面回显示默认场景。</p>
-</dd>
+<dd>此按钮删除上次查看场景的保存名称和重新加载页面回显示默认场景。</dd>
 <dt><strong>LOW Q - HIGH Q - ULTRA Q</strong></dt>
 <dd><p class="first">下拉菜单中选择了引擎的显示质量配置方式。</p>
 <div class="last admonition seealso">
 <p class="first admonition-title">参见</p>
-<p class="last"><a class="reference internal" href="developers.html#quality-settings"><span>品质配置</span></a></p>
+<p class="last"><a class="reference internal" href="developers.html#quality-settings"><span class="std std-ref">品质配置</span></a></p>
 </div>
 </dd>
 <dt><strong>暂停</strong></dt>
-<dd><p class="first last">暂停渲染。</p>
-</dd>
+<dd>暂停渲染。</dd>
 <dt><strong>恢复</strong></dt>
-<dd><p class="first last">恢复渲染。</p>
-</dd>
+<dd>恢复渲染。</dd>
 <dt><strong>旋转</strong></dt>
-<dd><p class="first last">启用和禁用相机围绕加载的场景。默认情况下禁用。</p>
-</dd>
+<dd>启用和禁用相机围绕加载的场景。默认情况下禁用。</dd>
 </dl>
 </div>
 <div class="section" id="additional-panels">
@@ -297,11 +292,9 @@
 <p>此面板包含了一系列调试工具，其中包括：</p>
 <dl class="docutils">
 <dt><em>概观外轮廓模式</em></dt>
-<dd><p class="first last">打开此选项使所有场景中的物体 <a class="reference internal" href="objects.html#mesh-selection"><span>可选择</span></a> 并支持要在选择他们时候出现  <a class="reference internal" href="postprocessing_effects.html#outline"><span>轮廓动画</span></a> 。此功能默认情况下启用。</p>
-</dd>
+<dd>打开此选项使所有场景中的物体 <a class="reference internal" href="objects.html#mesh-selection"><span class="std std-ref">可选择</span></a> 并支持要在选择他们时候出现  <a class="reference internal" href="postprocessing_effects.html#outline"><span class="std std-ref">轮廓动画</span></a> 。此功能默认情况下启用。</dd>
 <dt><em>自动浏览模式</em></dt>
-<dd><p class="first last">按下这个按钮会导致场景查看器将 <code class="docutils literal"><span class="pre">Scenes</span></code> 列表的每一个场景在一秒钟内加载。此功能可用于检查控制台错误所有可用的内容。</p>
-</dd>
+<dd>按下这个按钮会导致场景查看器将 <code class="docutils literal"><span class="pre">Scenes</span></code> 列表的每一个场景在一秒钟内加载。此功能可用于检查控制台错误所有可用的内容。</dd>
 <dt><em>画布分辨率因子</em></dt>
 <dd><p class="first">该参数可用于增加画布的分辨率。该值可以从1到10改变，默认值是1.0（画布分辨率等于场景查看器窗口的物理分辨率）。</p>
 <div class="last admonition note">
@@ -310,8 +303,7 @@
 </div>
 </dd>
 <dt><em>截屏</em></dt>
-<dd><p class="first last">这个按钮可以用来把场景浏览器的窗口的屏幕截图。截图保存在Web浏览器用来存放下载的文件相同的文件夹。</p>
-</dd>
+<dd>这个按钮可以用来把场景浏览器的窗口的屏幕截图。截图保存在Web浏览器用来存放下载的文件相同的文件夹。</dd>
 </dl>
 <dl class="docutils" id="index-2">
 <dt><em>调试视图模式</em></dt>
@@ -321,60 +313,47 @@
 <p><code class="docutils literal"><span class="pre">不透明WIREFRAME</span></code>  - 将场景渲染成平白色带较深线框。用于渲染线框的颜色可以通过使用 <code class="docutils literal"><span class="pre">Wireframe</span> <span class="pre">Edge</span> <span class="pre">Color</span></code> 参数进行调整。</p>
 <p><code class="docutils literal"><span class="pre">透明WIREFRAME</span></code>  - 场景渲染为正常模式，但线框都在它的上面添加。像在前面的模式中，用于渲染线框的颜色可以通过使用 <code class="docutils literal"><span class="pre">Wireframe</span> <span class="pre">Edge</span> <span class="pre">Color</span></code> 参数进行调整。</p>
 <p><code class="docutils literal"><span class="pre">正面背面VIEW</span></code>  - 多边形的正面和背面渲染成不同颜色。</p>
-<p><code class="docutils literal"><span class="pre">BOUNDINGS</span></code>  - 这种模式增加了线框球来罩着 <a class="reference internal" href="objects.html#objects"><span>物体</span></a> 和 <a class="reference internal" href="meshes.html#meshes"><span>网格</span></a> 。球体可以是蓝色的（静态物体/目）或红色（动态物体）。</p>
-<p><code class="docutils literal"><span class="pre">CLUSTER</span> <span class="pre">VIEW</span></code>  - 在这个视图模式，每个物体在特定的集群中（用在 <a class="reference internal" href="scene_settings.html#scene-batching"><span>batching</span></a>) 用特定的颜色渲染。</p>
+<p><code class="docutils literal"><span class="pre">BOUNDINGS</span></code>  - 这种模式增加了线框球来罩着 <a class="reference internal" href="objects.html#objects"><span class="std std-ref">物体</span></a> 和 <a class="reference internal" href="meshes.html#meshes"><span class="std std-ref">网格</span></a> 。球体可以是蓝色的（静态物体/目）或红色（动态物体）。</p>
+<p><code class="docutils literal"><span class="pre">CLUSTER</span> <span class="pre">VIEW</span></code>  - 在这个视图模式，每个物体在特定的集群中（用在 <a class="reference internal" href="scene_settings.html#scene-batching"><span class="std std-ref">batching</span></a>) 用特定的颜色渲染。</p>
 <p><code class="docutils literal"><span class="pre">BATCH</span> <span class="pre">VIEW</span></code> - 在这种视图模式，每一批呈现视图使用一种特定的 （平） 颜色。在呈现时使用的颜色可以更改为随机生成的颜色，通过单击更改颜色按钮。</p>
 <p><code class="docutils literal"><span class="pre">RENDER</span> <span class="pre">TIME</span></code>  - 场景是场景的不同部分的复杂性用不同颜色来渲染。最轻的部分使用绿色，较重 - 橙色色调，场景中非常消耗资源的部分用红色。</p>
 </div></blockquote>
 </dd>
 <dt><em>修改颜色</em></dt>
-<dd><p class="first last">此按钮随机更改在  <code class="docutils literal"><span class="pre">CLUSTER</span> <span class="pre">VIEW</span></code> 和 <code class="docutils literal"><span class="pre">BATCH</span> <span class="pre">VIEW</span></code> 模式中使用的颜色。在下列情况下此功能非常有用，当由引擎随机挑选的颜色太相似了，使它难以区分图像的部分。</p>
-</dd>
+<dd>此按钮随机更改在  <code class="docutils literal"><span class="pre">CLUSTER</span> <span class="pre">VIEW</span></code> 和 <code class="docutils literal"><span class="pre">BATCH</span> <span class="pre">VIEW</span></code> 模式中使用的颜色。在下列情况下此功能非常有用，当由引擎随机挑选的颜色太相似了，使它难以区分图像的部分。</dd>
 <dt><em>渲染时间阈值（毫秒）</em></dt>
-<dd><p class="first last">此参数为 <code class="docutils literal"><span class="pre">渲染TIME</span></code> 视图模式设定一个 &#8220;threshold&#8221; 。如果引擎在一定的物体比设置的这个值花费更多的时间渲染的时候，这个物体会被染成红色。默认值是1.5毫秒。</p>
-</dd>
+<dd>此参数为 <code class="docutils literal"><span class="pre">渲染TIME</span></code> 视图模式设定一个 &quot;threshold&quot; 。如果引擎在一定的物体比设置的这个值花费更多的时间渲染的时候，这个物体会被染成红色。默认值是1.5毫秒。</dd>
 <dt><em>线框边颜色</em></dt>
-<dd><p class="first last">此参数允许你改变在 <code class="docutils literal"><span class="pre">OPAQUE</span> <span class="pre">WIREFRAME</span></code> 和 <code class="docutils literal"><span class="pre">TRANSPARENT</span> <span class="pre">WIREFRAME</span></code> 视图模式下使用线框边的颜色。</p>
-</dd>
+<dd>此参数允许你改变在 <code class="docutils literal"><span class="pre">OPAQUE</span> <span class="pre">WIREFRAME</span></code> 和 <code class="docutils literal"><span class="pre">TRANSPARENT</span> <span class="pre">WIREFRAME</span></code> 视图模式下使用线框边的颜色。</dd>
 <dt><em>HUD信息</em></dt>
 <dd><a class="first reference internal image-reference" href="_images/viewer_hud_info.png"><img alt="_images/viewer_hud_info.png" class="align-center" src="_images/viewer_hud_info.png" style="width: 100%;" /></a>
 <p>此按钮显示渲染子场景及其参数的的列表，包含：</p>
 <blockquote>
 <div><dl class="docutils">
 <dt><em>SCENE</em></dt>
-<dd><p class="first last">当前场景的名称。</p>
-</dd>
+<dd>当前场景的名称。</dd>
 <dt><em>Active</em></dt>
-<dd><p class="first last">显示子场景是否处于活动状态。</p>
-</dd>
+<dd>显示子场景是否处于活动状态。</dd>
 <dt><em>Subscene</em></dt>
-<dd><p class="first last">子场景的名称。</p>
-</dd>
+<dd>子场景的名称。</dd>
 <dt><em>Lamps</em></dt>
-<dd><p class="first last">在子场景光源的数量。</p>
-</dd>
+<dd>在子场景光源的数量。</dd>
 <dt><em>Size</em></dt>
-<dd><p class="first last">渲染的子场景的大小。</p>
-</dd>
+<dd>渲染的子场景的大小。</dd>
 <dt><em>RenderCalls</em></dt>
-<dd><p class="first last">在子场景中绘制的调用次数。</p>
-</dd>
+<dd>在子场景中绘制的调用次数。</dd>
 <dt><em>Time</em></dt>
-<dd><p class="first last">引擎花费在渲染子场景的时间量。</p>
-</dd>
+<dd>引擎花费在渲染子场景的时间量。</dd>
 <dt><em>TOTAL ACTIVE</em></dt>
-<dd><p class="first last">所有子场景的绘制调用数和引擎花费在渲染它们的时间。</p>
-</dd>
+<dd>所有子场景的绘制调用数和引擎花费在渲染它们的时间。</dd>
 </dl>
 </div></blockquote>
 <p class="last">启用此参数可能会降低场景的性能。此选项默认为禁用。</p>
 </dd>
 <dt><em>GL Debug</em></dt>
-<dd><p class="first last">该参数，当被激活时，使引擎处理低级错误。这可以显著降低性能。当你打开场景浏览器的第一次时它被禁用，设置后，应用程序将保存此选项的状态供下一次使用。</p>
-</dd>
+<dd>该参数，当被激活时，使引擎处理低级错误。这可以显著降低性能。当你打开场景浏览器的第一次时它被禁用，设置后，应用程序将保存此选项的状态供下一次使用。</dd>
 <dt><em>最小功能模式</em></dt>
-<dd><p class="first last">此参数使场景查看器运行加载场景就好像是在一个低端系统上运行（在移动设备上，例如）。这使得艺术家，可以找出哪些材质场景是在低端配置可能无法正常工作。默认情况下禁用。</p>
-</dd>
+<dd>此参数使场景查看器运行加载场景就好像是在一个低端系统上运行（在移动设备上，例如）。这使得艺术家，可以找出哪些材质场景是在低端配置可能无法正常工作。默认情况下禁用。</dd>
 </dl>
 </div>
 <div class="section" id="animation">
@@ -383,41 +362,29 @@
 <p>可用参数：</p>
 <dl class="docutils">
 <dt><em>Play All</em></dt>
-<dd><p class="first last">按下此按钮将播放所有可用的动画。</p>
-</dd>
+<dd>按下此按钮将播放所有可用的动画。</dd>
 <dt><em>Stop All</em></dt>
-<dd><p class="first last">按下此按钮将停止当前正在播放的所有动画。</p>
-</dd>
+<dd>按下此按钮将停止当前正在播放的所有动画。</dd>
 <dt><em>Object</em></dt>
-<dd><p class="first last">场景中有动画的物体的列表。</p>
-</dd>
+<dd>场景中有动画的物体的列表。</dd>
 <dt><em>动画槽</em></dt>
-<dd><p class="first last">可用应用到物体上的动画的所有动画槽的列表。</p>
-</dd>
+<dd>可用应用到物体上的动画的所有动画槽的列表。</dd>
 <dt><em>动画</em></dt>
-<dd><p class="first last">可供选择的物体使用的所有动画的列表。</p>
-</dd>
+<dd>可供选择的物体使用的所有动画的列表。</dd>
 <dt><em>循环</em></dt>
-<dd><p class="first last">如果启用此参数，动画将重复播放。如果不是，动画将被播放一次后停止。默认情况下启用。</p>
-</dd>
+<dd>如果启用此参数，动画将重复播放。如果不是，动画将被播放一次后停止。默认情况下启用。</dd>
 <dt><em>Range</em></dt>
-<dd><p class="first last">这个值示出了所选择的动画的长度。</p>
-</dd>
+<dd>这个值示出了所选择的动画的长度。</dd>
 <dt><em>Status</em></dt>
-<dd><p class="first last">这个值示出了动画的状态，即，是它正在播放或停止。</p>
-</dd>
+<dd>这个值示出了动画的状态，即，是它正在播放或停止。</dd>
 <dt><em>Playing Animation &gt; Play</em></dt>
-<dd><p class="first last">播放选定的动画。</p>
-</dd>
+<dd>播放选定的动画。</dd>
 <dt><em>Playing Animation &gt; Stop</em></dt>
-<dd><p class="first last">停止选定的动画。</p>
-</dd>
+<dd>停止选定的动画。</dd>
 <dt><em>Set Frame</em></dt>
-<dd><p class="first last">显示出了动画的当前帧和可用于设置当前帧。</p>
-</dd>
+<dd>显示出了动画的当前帧和可用于设置当前帧。</dd>
 <dt><em>Skeletal Mix Factor</em></dt>
-<dd><p class="first last">不同的骨骼动画混合在一起的因子。默认值是1.0。</p>
-</dd>
+<dd>不同的骨骼动画混合在一起的因子。默认值是1.0。</dd>
 </dl>
 </div>
 <div class="section" id="nla">
@@ -426,20 +393,15 @@
 <p>可用参数：</p>
 <dl class="docutils">
 <dt><em>Range</em></dt>
-<dd><p class="first last">显示的NLA带的开始和结束帧。</p>
-</dd>
+<dd>显示的NLA带的开始和结束帧。</dd>
 <dt><em>Status</em></dt>
-<dd><p class="first last">显示NLA动画的状态，即它正在播放或停止。</p>
-</dd>
+<dd>显示NLA动画的状态，即它正在播放或停止。</dd>
 <dt><em>Playing NLA &gt; Play</em></dt>
-<dd><p class="first last">此按钮可用于播放NLA动画。</p>
-</dd>
+<dd>此按钮可用于播放NLA动画。</dd>
 <dt><em>Playing NLA &gt; Stop</em></dt>
-<dd><p class="first last">这个按钮可以用来停止当前正在播放的NLA动画。</p>
-</dd>
+<dd>这个按钮可以用来停止当前正在播放的NLA动画。</dd>
 <dt><em>Set Frame</em></dt>
-<dd><p class="first last">如果动画在此刻被停止，该参数可用于设置NLA动画的特定帧。</p>
-</dd>
+<dd>如果动画在此刻被停止，该参数可用于设置NLA动画的特定帧。</dd>
 </dl>
 </div>
 <div class="section" id="shape-keys">
@@ -448,14 +410,11 @@
 <p>可用参数：</p>
 <dl class="docutils">
 <dt><em>Object</em></dt>
-<dd><p class="first last">这个列表中包含场景中具有形变键的所有的物体。</p>
-</dd>
+<dd>这个列表中包含场景中具有形变键的所有的物体。</dd>
 <dt><em>形变关键帧</em></dt>
-<dd><p class="first last">这个清单包含连接到一个选定的物体的所有形变键。</p>
-</dd>
+<dd>这个清单包含连接到一个选定的物体的所有形变键。</dd>
 <dt><em>设置值</em></dt>
-<dd><p class="first last">此参数设置的一个物体选定的形变键的影响程度。该值可以从零到1变化。</p>
-</dd>
+<dd>此参数设置的一个物体选定的形变键的影响程度。该值可以从零到1变化。</dd>
 </dl>
 </div>
 <div class="section" id="materials">
@@ -464,26 +423,19 @@
 <p>可用参数：</p>
 <dl class="docutils">
 <dt><em>材质</em></dt>
-<dd><p class="first last">目前在一个场景中的所有堆材质的清单。</p>
-</dd>
+<dd>目前在一个场景中的所有堆材质的清单。</dd>
 <dt><em>Color</em></dt>
-<dd><p class="first last">该参数定义一个选定的材质的基础的颜色。</p>
-</dd>
+<dd>该参数定义一个选定的材质的基础的颜色。</dd>
 <dt><em>反射率</em></dt>
-<dd><p class="first last">该参数设定所选择的材质的反射率因子。它的值默认等于零。</p>
-</dd>
+<dd>该参数设定所选择的材质的反射率因子。它的值默认等于零。</dd>
 <dt><em>菲涅尔</em></dt>
-<dd><p class="first last">为反射菲涅耳效应的幕值。默认设置为零。</p>
-</dd>
+<dd>为反射菲涅耳效应的幕值。默认设置为零。</dd>
 <dt><em>菲涅尔因子</em></dt>
-<dd><p class="first last">菲尼尔l效果的一个因子。默认设置为零。</p>
-</dd>
+<dd>菲尼尔l效果的一个因子。默认设置为零。</dd>
 <dt><em>视差缩放</em></dt>
-<dd><p class="first last">视差效果的缩放参数。这个值可以从零到0.1变化。默认值为0。</p>
-</dd>
+<dd>视差效果的缩放参数。这个值可以从零到0.1变化。默认值为0。</dd>
 <dt><em>视差步幅</em></dt>
-<dd><p class="first last">用于构建视差表面的步数。值可以从1至30变化，默认值是5。</p>
-</dd>
+<dd>用于构建视差表面的步数。值可以从1至30变化，默认值是5。</dd>
 </dl>
 </div>
 <div class="section" id="lighting">
@@ -495,138 +447,121 @@
 <p>可用参数：</p>
 <dl class="docutils">
 <dt><em>光源</em></dt>
-<dd><p class="first last">这个列表包含当前场景中的所有光源。</p>
-</dd>
+<dd>这个列表包含当前场景中的所有光源。</dd>
 <dt><em>类型</em></dt>
-<dd><p class="first last">选择到的光源的类型。此参数不能在场景查看器来改变。</p>
-</dd>
+<dd>选择到的光源的类型。此参数不能在场景查看器来改变。</dd>
 <dt><em>Color</em></dt>
-<dd><p class="first last">所选光源基准颜色。默认情况下，使用了白色 （1; 1; 1）。</p>
-</dd>
+<dd>所选光源基准颜色。默认情况下，使用了白色 （1; 1; 1）。</dd>
 <dt><em>粗能量</em></dt>
-<dd><p class="first last">此参数设置为光源的能量值的整数部分。这个参数的值可以从零到100变化，默认值是1。</p>
-</dd>
+<dd>此参数设置为光源的能量值的整数部分。这个参数的值可以从零到100变化，默认值是1。</dd>
 <dt><em>精确能量</em></dt>
-<dd><p class="first last">此参数设置为光源的能量值的小数部分。该参数的值可从零到1变化。默认设置为零。</p>
-</dd>
+<dd>此参数设置为光源的能量值的小数部分。该参数的值可从零到1变化。默认设置为零。</dd>
 <dt><em>光能</em></dt>
-<dd><p class="first last">此值的计算作为粗能量和精确能量参数的总和。如果他们都有默认值，它将会是等于 1。</p>
-</dd>
+<dd>此值的计算作为粗能量和精确能量参数的总和。如果他们都有默认值，它将会是等于 1。</dd>
 <dt><em>聚光尺寸</em></dt>
-<dd><p class="first last">由光源发射的光束的角度。默认值是75.此参数仅适用于 <code class="docutils literal"><span class="pre">Spot</span></code> 型光源。</p>
-</dd>
+<dd>由光源发射的光束的角度。默认值是75.此参数仅适用于 <code class="docutils literal"><span class="pre">Spot</span></code> 型光源。</dd>
 <dt><em>聚光混合</em></dt>
-<dd><p class="first last">这定义了聚光灯边缘的柔和度。默认值为 0.15。此参数也是只可供``Spot`` 类型的光源。</p>
-</dd>
+<dd>这定义了聚光灯边缘的柔和度。默认值为 0.15。此参数也是只可供``Spot`` 类型的光源。</dd>
 <dt><em>距离</em></dt>
-<dd><p class="first last">此参数设置从其中由光源发出的光到只有由 <code class="docutils literal"><span class="pre">Light</span> <span class="pre">Energy</span></code> 定义的一半明亮的值的距离（米）。默认设置为30。</p>
-</dd>
+<dd>此参数设置从其中由光源发出的光到只有由 <code class="docutils literal"><span class="pre">Light</span> <span class="pre">Energy</span></code> 定义的一半明亮的值的距离（米）。默认设置为30。</dd>
 </dl>
 <p>以下参数仅适用于 <code class="docutils literal"><span class="pre">Sun</span></code> 式光源：</p>
 <a class="reference internal image-reference" href="_images/viewer_lighting_settings_sun.png"><img alt="_images/viewer_lighting_settings_sun.png" class="align-center" src="_images/viewer_lighting_settings_sun.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>实时太阳运动&gt;播放</em></dt>
-<dd><p class="first last">按下此按钮激活实时太阳运动。</p>
-</dd>
+<dd>按下此按钮激活实时太阳运动。</dd>
 <dt><em>实时太阳运动&gt;停止</em></dt>
-<dd><p class="first last">按下此按钮停止实时太阳运动。</p>
-</dd>
+<dd>按下此按钮停止实时太阳运动。</dd>
 <dt><em>日期</em></dt>
-<dd><p class="first last">此参数设置为当前日期。</p>
-</dd>
+<dd>此参数设置为当前日期。</dd>
 <dt><em>Time</em></dt>
-<dd><p class="first last">此参数设置一天的当前时间。默认值为 12.0。</p>
-</dd>
+<dd>此参数设置一天的当前时间。默认值为 12.0。</dd>
 <dt><em>最大太阳垂直转角</em></dt>
-<dd><p class="first last">此参数设置 <code class="docutils literal"><span class="pre">Sun</span></code> 型光源的最大可能的垂直角度。默认值是60。</p>
-</dd>
+<dd>此参数设置 <code class="docutils literal"><span class="pre">Sun</span></code> 型光源的最大可能的垂直角度。默认值是60。</dd>
 <dt><em>时间倍数</em></dt>
-<dd><p class="first last">此参数的值定义的时间流动的速度。默认值是 1.0 （时间以相同的速度，跟在现实生活中的流动相同）。</p>
-</dd>
+<dd>此参数的值定义的时间流动的速度。默认值是 1.0 （时间以相同的速度，跟在现实生活中的流动相同）。</dd>
 <dt><em>水平位置</em></dt>
-<dd><p class="first last">在天穹中太阳的水平位置。默认值是29.82。</p>
-</dd>
+<dd>在天穹中太阳的水平位置。默认值是29.82。</dd>
 <dt><em>垂直位置</em></dt>
-<dd><p class="first last">在天穹中太阳的垂直位置。默认值是34.82。</p>
-</dd>
+<dd>在天穹中太阳的垂直位置。默认值是34.82。</dd>
 </dl>
 </div>
 <div class="section" id="ambient">
 <span id="viewer-ambient"></span><h4><a class="toc-backref" href="#id14">环境</a><a class="headerlink" href="#ambient" title="永久链接至标题">¶</a></h4>
 <p>环境照明参数的设置。支持一个半球的环境模型的颜色和强度的更改。</p>
-<p>可用于环境照明设置跟在Blender中设置一样，在 <a class="reference internal" href="lighting.html#environment-lighting"><span>专门章节</span></a> 描述。</p>
+<p>可用于环境照明设置跟在Blender中设置一样，在 <a class="reference internal" href="lighting.html#environment-lighting"><span class="std std-ref">专门章节</span></a> 描述。</p>
 </div>
 <div class="section" id="shadows">
 <span id="viewer-shadows"></span><h4><a class="toc-backref" href="#id15">阴影</a><a class="headerlink" href="#shadows" title="永久链接至标题">¶</a></h4>
 <p>设置阴影参数，包括阴影级联和阴影边缘柔化参数。</p>
-<p>在手册的 <a class="reference internal" href="lighting.html#shadows"><span>相应章节</span></a> 描述了设置阴影选项</p>
+<p>在手册的 <a class="reference internal" href="lighting.html#shadows"><span class="std std-ref">相应章节</span></a> 描述了设置阴影选项</p>
 </div>
 <div class="section" id="sky">
 <span id="viewer-sky"></span><h4><a class="toc-backref" href="#id16">天空</a><a class="headerlink" href="#sky" title="永久链接至标题">¶</a></h4>
 <p>为动态天空设置参数，如颜色、 太阳光散射参数等。</p>
-<p>场景浏览器能够访问用于设置所有Blender的程序天空参数。参数在 <a class="reference internal" href="outdoor_rendering.html#atmosphere"><span>相应章节</span></a> 描述。</p>
+<p>场景浏览器能够访问用于设置所有Blender的程序天空参数。参数在 <a class="reference internal" href="outdoor_rendering.html#atmosphere"><span class="std std-ref">相应章节</span></a> 描述。</p>
 </div>
 <div class="section" id="sea">
 <span id="viewer-sea"></span><h4><a class="toc-backref" href="#id17">海洋</a><a class="headerlink" href="#sea" title="永久链接至标题">¶</a></h4>
 <p>设置水渲染参数，包括通过深度和距离岸边的颜色过渡，泡沫和次表面散射参数设置、 波动力学等。</p>
-<p><a class="reference internal" href="outdoor_rendering.html#water"><span>室外渲染</span></a> 章节描述了用于水渲染的设置。场景查看器使用跟 Blend4Web 引擎本身相同的设置。</p>
+<p><a class="reference internal" href="outdoor_rendering.html#water"><span class="std std-ref">室外渲染</span></a> 章节描述了用于水渲染的设置。场景查看器使用跟 Blend4Web 引擎本身相同的设置。</p>
 </div>
 <div class="section" id="mist">
 <span id="viewer-mist"></span><h4><a class="toc-backref" href="#id18">雾场</a><a class="headerlink" href="#mist" title="永久链接至标题">¶</a></h4>
 <p>设置雾参数。</p>
-<p>场景查看器使用标准的雾场渲染设定，描述在 <a class="reference internal" href="outdoor_rendering.html#fog"><span>相应章节</span></a>.</p>
+<p>场景查看器使用标准的雾场渲染设定，描述在 <a class="reference internal" href="outdoor_rendering.html#fog"><span class="std std-ref">相应章节</span></a>.</p>
 </div>
 <div class="section" id="wind">
 <span id="viewer-wind"></span><h4><a class="toc-backref" href="#id19">风</a><a class="headerlink" href="#wind" title="永久链接至标题">¶</a></h4>
 <p>设置风参数，包括方向和强度。</p>
-<p>场景浏览器所使用的的和在Blender中使用的是相同的参数。参数在 <a class="reference internal" href="outdoor_rendering.html#wind"><span>相应章节</span></a> 描述。</p>
+<p>场景浏览器所使用的的和在Blender中使用的是相同的参数。参数在 <a class="reference internal" href="outdoor_rendering.html#wind"><span class="std std-ref">相应章节</span></a> 描述。</p>
 </div>
 <div class="section" id="wind-bending">
 <span id="viewer-wind-bending"></span><h4><a class="toc-backref" href="#id20">风弯曲</a><a class="headerlink" href="#wind-bending" title="永久链接至标题">¶</a></h4>
 <p>设置风弯曲效果参数。</p>
-<p>同一套风弯曲参数在Blender中也可用。参考 <a class="reference internal" href="outdoor_rendering.html#wind-bending"><span>室外渲染</span></a> 一章。</p>
+<p>同一套风弯曲参数在Blender中也可用。参考 <a class="reference internal" href="outdoor_rendering.html#wind-bending"><span class="std std-ref">室外渲染</span></a> 一章。</p>
 </div>
 <div class="section" id="screen-space-amb-occlus">
 <span id="viewer-ssao"></span><h4><a class="toc-backref" href="#id21">屏幕空间环境光遮蔽</a><a class="headerlink" href="#screen-space-amb-occlus" title="永久链接至标题">¶</a></h4>
 <p>环境光遮蔽参数的设置。</p>
-<p>所有参数设置在 <a class="reference internal" href="postprocessing_effects.html#ssao"><span>后期效果</span></a> 章节.</p>
+<p>所有参数设置在 <a class="reference internal" href="postprocessing_effects.html#ssao"><span class="std std-ref">后期效果</span></a> 章节.</p>
 </div>
 <div class="section" id="god-rays">
 <span id="viewer-god-rays"></span><h4><a class="toc-backref" href="#id22">上帝光芒</a><a class="headerlink" href="#god-rays" title="永久链接至标题">¶</a></h4>
 <p>黄昏的光线效果参数设置。</p>
-<p>所有参数设置在 <a class="reference internal" href="postprocessing_effects.html#god-rays"><span>相应</span></a> 章节.</p>
+<p>所有参数设置在 <a class="reference internal" href="postprocessing_effects.html#god-rays"><span class="std std-ref">相应</span></a> 章节.</p>
 </div>
 <div class="section" id="bloom">
 <span id="viewer-bloom"></span><h4><a class="toc-backref" href="#id23">泛光效果</a><a class="headerlink" href="#bloom" title="永久链接至标题">¶</a></h4>
 <p>泛光效果参数设置。</p>
-<p>场景浏览器所使用的的和在Blender中使用的是相同的参数。参数在 <a class="reference internal" href="postprocessing_effects.html#bloom"><span>相应章节</span></a> 描述。</p>
+<p>场景浏览器所使用的的和在Blender中使用的是相同的参数。参数在 <a class="reference internal" href="postprocessing_effects.html#bloom"><span class="std std-ref">相应章节</span></a> 描述。</p>
 </div>
 <div class="section" id="motion-blur">
 <span id="viewer-motion-blur"></span><h4><a class="toc-backref" href="#id24">运动模糊</a><a class="headerlink" href="#motion-blur" title="永久链接至标题">¶</a></h4>
 <p>运动模糊效果设置。</p>
-<p>场景浏览器所使用的的和在Blender中使用的是相同的参数。参数在 <a class="reference internal" href="postprocessing_effects.html#motion-blur"><span>后期效果</span></a>  描述。</p>
+<p>场景浏览器所使用的的和在Blender中使用的是相同的参数。参数在 <a class="reference internal" href="postprocessing_effects.html#motion-blur"><span class="std std-ref">后期效果</span></a>  描述。</p>
 </div>
 <div class="section" id="glow-materials">
 <span id="viewer-glow-materials"></span><h4><a class="toc-backref" href="#id25">发光材质</a><a class="headerlink" href="#glow-materials" title="永久链接至标题">¶</a></h4>
 <p>发光材质的效果设置。</p>
-<p>所有参数设置在 <a class="reference internal" href="postprocessing_effects.html#glow"><span>相应</span></a> 章节.</p>
+<p>所有参数设置在 <a class="reference internal" href="postprocessing_effects.html#glow"><span class="std std-ref">相应</span></a> 章节.</p>
 </div>
 <div class="section" id="depth-of-field">
 <span id="viewer-dof"></span><h4><a class="toc-backref" href="#id26">景深</a><a class="headerlink" href="#depth-of-field" title="永久链接至标题">¶</a></h4>
 <p>设置景深效果的参数</p>
-<p>所有参数设置在 <a class="reference internal" href="postprocessing_effects.html#dof"><span>相应</span></a> 章节.</p>
+<p>所有参数设置在 <a class="reference internal" href="postprocessing_effects.html#dof"><span class="std std-ref">相应</span></a> 章节.</p>
 </div>
 <div class="section" id="color-correction">
 <span id="viewer-color"></span><h4><a class="toc-backref" href="#id27">颜色校正</a><a class="headerlink" href="#color-correction" title="永久链接至标题">¶</a></h4>
 <p>颜色校正参数，包括亮度、 对比度、 曝光和饱和度的设置。</p>
-<p>场景浏览器所使用的的和在Blender中使用的是相同的参数。参数在 <a class="reference internal" href="colors.html#color-correction"><span>颜色管理</span></a> 描述。</p>
+<p>场景浏览器所使用的的和在Blender中使用的是相同的参数。参数在 <a class="reference internal" href="colors.html#color-correction"><span class="std std-ref">颜色管理</span></a> 描述。</p>
 </div>
 <div class="section" id="audio">
 <span id="viewer-audio"></span><h4><a class="toc-backref" href="#id28">音频</a><a class="headerlink" href="#audio" title="永久链接至标题">¶</a></h4>
 <p>在面板上的混合模式的切换。启用该功能后，混频器的界面变得可见（仅适用于具有声源的场景）。</p>
 <dl class="docutils">
 <dt><em>混合器</em></dt>
-<dd><p class="first">使显示各种（包括音量、 频率、 距离、 衰减等） 场景中的参数 ，发言者的均衡器，并允许用户通过使用数字键盘调整这些参数。更详细地介绍了可用的参数和可能性在  <a class="reference internal" href="audio.html#audio"><span>声音篇</span></a> 的  <a class="reference internal" href="audio.html#mixer"><span>相应章节</span></a></p>
+<dd><p class="first">使显示各种（包括音量、 频率、 距离、 衰减等） 场景中的参数 ，发言者的均衡器，并允许用户通过使用数字键盘调整这些参数。更详细地介绍了可用的参数和可能性在  <a class="reference internal" href="audio.html#audio"><span class="std std-ref">声音篇</span></a> 的  <a class="reference internal" href="audio.html#mixer"><span class="std std-ref">相应章节</span></a></p>
 <a class="reference internal image-reference" href="_images/viewer_mixer.png"><img alt="_images/viewer_mixer.png" class="align-center" src="_images/viewer_mixer.png" style="width: 100%;" /></a>
 <p class="last">此功能默认是关闭的。</p>
 </dd>
@@ -641,14 +576,13 @@
 <dd><p class="first">列表中的所有可用的立体渲染模式。现在来说，支持三种类型︰</p>
 <blockquote>
 <div><p><code class="docutils literal"><span class="pre">NONE</span></code> - 不使用立体渲染。</p>
-<p><code class="docutils literal"><span class="pre">ANAGLYPH</span></code>  - <a class="reference internal" href="vr_and_ar.html#anaglyph"><span>立体图</span></a> 渲染被使用。</p>
-<p><code class="docutils literal"><span class="pre">HMD</span></code> -  用于 <a class="reference internal" href="vr_and_ar.html#hmd"><span>头戴式显示设备</span></a> 渲染 。如果系统具有访问的 HMD 设备此选项才是可用的。</p>
+<p><code class="docutils literal"><span class="pre">ANAGLYPH</span></code>  - <a class="reference internal" href="vr_and_ar.html#anaglyph"><span class="std std-ref">立体图</span></a> 渲染被使用。</p>
+<p><code class="docutils literal"><span class="pre">HMD</span></code> -  用于 <a class="reference internal" href="vr_and_ar.html#hmd"><span class="std std-ref">头戴式显示设备</span></a> 渲染 。如果系统具有访问的 HMD 设备此选项才是可用的。</p>
 </div></blockquote>
 <p class="last">默认设置为 <code class="docutils literal"><span class="pre">NONE</span></code> 。</p>
 </dd>
 <dt><em>HMD设置</em></dt>
-<dd><p class="first last">显示在 <a class="reference internal" href="vr_and_ar.html#hmd-settings"><span>HMD 设置窗口</span></a>.</p>
-</dd>
+<dd>显示在 <a class="reference internal" href="vr_and_ar.html#hmd-settings"><span class="std std-ref">HMD 设置窗口</span></a>.</dd>
 </dl>
 </div>
 <div class="section" id="input-devices">
@@ -656,8 +590,7 @@
 <p>此面板包含用于设置输入设备的工具。</p>
 <dl class="docutils">
 <dt><em>使用陀螺</em></dt>
-<dd><p class="first last">使在应用程序中使用陀螺仪。默认情况下禁用。</p>
-</dd>
+<dd>使在应用程序中使用陀螺仪。默认情况下禁用。</dd>
 <dt><em>游戏手柄设置</em></dt>
 <dd><p class="first">单击此按钮显示了游戏手柄的设置窗口。</p>
 <a class="last reference internal image-reference" href="_images/viewer_gamepad_settings.png"><img alt="_images/viewer_gamepad_settings.png" class="align-center" src="_images/viewer_gamepad_settings.png" style="width: 100%;" /></a>
@@ -737,8 +670,8 @@
 
   <div role="contentinfo">
     <p>
-        &copy; 版权所有 2014-2017, Triumph.
-      最后更新于 2017-11-21.
+        &copy; Copyright 2014-2017, Triumph.
+      最后更新于 2017-12-29.
 
     </p>
   </div>
@@ -794,11 +727,11 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

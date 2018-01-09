@@ -1,21 +1,15 @@
-"use strict"
+import b4w from "blend4web";
 
-// check if module exists
-if (b4w.module_check("game_example_main"))
-    throw "Failed to register module: game_example_main";
-
-b4w.register("game_example_main", function(exports, require) {
-
-var m_anim  = require("animation");
-var m_app   = require("app");
-var m_cfg   = require("config");
-var m_data  = require("data");
-var m_ctl   = require("controls");
-var m_phy   = require("physics");
-var m_cons  = require("constraints");
-var m_scs   = require("scenes");
-var m_trans = require("transform");
-var m_vec3  = require("vec3");
+var m_anim  = b4w.animation;
+var m_app   = b4w.app;
+var m_cfg   = b4w.config;
+var m_data  = b4w.data;
+var m_ctl   = b4w.controls;
+var m_phy   = b4w.physics;
+var m_cons  = b4w.constraints;
+var m_scs   = b4w.scenes;
+var m_trans = b4w.transform;
+var m_vec3  = b4w.vec3;
 
 var ROT_SPEED = 1.5;
 var CAM_SOFTNESS = 0.2;
@@ -37,7 +31,7 @@ var _character_hp;
 
 var _vec3_tmp = new Float32Array(3);
 
-exports.init = function() {
+export function init() {
 
     if(detect_mobile())
         var quality = m_cfg.P_LOW;
@@ -517,6 +511,4 @@ function setup_camera() {
     m_cons.append_semi_soft(camera, _character, CAM_OFFSET, CAM_SOFTNESS);
 }
 
-});
-
-b4w.require("game_example_main").init();
+init();

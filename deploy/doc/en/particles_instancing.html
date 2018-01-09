@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Particle System. Instancing &mdash; Blend4Web 17.10.1 User Manual</title>
+  <title>Particle System. Instancing &mdash; Blend4Web 17.12.0 User Manual</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.10.1 User Manual" href="index.html"/>
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Blend4Web 17.12.0 User Manual" href="index.html"/>
         <link rel="next" title="Animation" href="animation.html"/>
         <link rel="prev" title="Particle System. Fluids" href="particles.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -106,7 +109,7 @@
 <li class="toctree-l1"><a class="reference internal" href="vr_and_ar.html">VR and AR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Particle System. Instancing</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Particle System. Instancing</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#particle-system-setup">Particle System Setup</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#activation">Activation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#display-settings">Display settings</a></li>
@@ -334,8 +337,8 @@
 <div><p>Inheriting the vertex color from the emitter. Contains two fields:</p>
 <blockquote>
 <div><ul class="simple">
-<li><code class="docutils literal"><span class="pre">From</span></code> - the emitter&#8217;s existing vertex color name</li>
-<li><code class="docutils literal"><span class="pre">To</span></code> - the particle&#8217;s existing vertex color name</li>
+<li><code class="docutils literal"><span class="pre">From</span></code> - the emitter’s existing vertex color name</li>
+<li><code class="docutils literal"><span class="pre">To</span></code> - the particle’s existing vertex color name</li>
 </ul>
 </div></blockquote>
 <p>There is no inheritance by default.</p>
@@ -356,12 +359,12 @@
 </ol>
 <p><strong>Setup</strong></p>
 <p>It is recommended to create a few planes (for example 3) with sizes corresponding to the desired grass cascades (e.g. 100, 150 and 250 meters).</p>
-<p>For the landscape&#8217;s <strong>material</strong>, the following text fields become active when the <code class="docutils literal"><span class="pre">Terrain</span> <span class="pre">Dynamic</span> <span class="pre">Grass</span></code> option is enabled:</p>
+<p>For the landscape’s <strong>material</strong>, the following text fields become active when the <code class="docutils literal"><span class="pre">Terrain</span> <span class="pre">Dynamic</span> <span class="pre">Grass</span></code> option is enabled:</p>
 <dl class="docutils">
 <dt><em>Dynamic Grass Size (R)</em></dt>
 <dd>Vertex color layer name of the landscape mesh which is intended for modifying the grass size. The size (i.e. height) of the grass is defined by gray tints - the brighter color the is the higher is the grass.</dd>
 <dt><em>Dynamic Grass Color (RGB)</em></dt>
-<dd>Name of the landscape mesh&#8217;s vertex color layer which is intended for grass tinting. The vertex color is multiplied by the grass material color. The <code class="docutils literal"><span class="pre">Influence</span> <span class="pre">&gt;</span> <span class="pre">Blend</span></code> parameter for the grass material&#8217;s diffuse texture should have the <code class="docutils literal"><span class="pre">Multiply</span></code> value.</dd>
+<dd>Name of the landscape mesh’s vertex color layer which is intended for grass tinting. The vertex color is multiplied by the grass material color. The <code class="docutils literal"><span class="pre">Influence</span> <span class="pre">&gt;</span> <span class="pre">Blend</span></code> parameter for the grass material’s diffuse texture should have the <code class="docutils literal"><span class="pre">Multiply</span></code> value.</dd>
 </dl>
 <p>Vertex color layers with such names should exist in the landscape mesh.</p>
 <p>It is also recommended to disable rendering of the emitter (the <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Emitter</span></code> option).</p>
@@ -396,7 +399,7 @@
 <ol class="arabic simple" start="3">
 <li><em>Particle position settings</em></li>
 </ol>
-<p>It is recommended to select the <code class="docutils literal"><span class="pre">Verts</span></code> value from the <code class="docutils literal"><span class="pre">Emission</span> <span class="pre">&gt;</span> <span class="pre">Emit</span> <span class="pre">From</span></code> menu, and to select the emitter&#8217;s vertex group (in the <code class="docutils literal"><span class="pre">Vertex</span> <span class="pre">Group</span> <span class="pre">&gt;</span> <span class="pre">Density</span></code> field) which defines the positions of particles. Note, that the <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Randomize</span> <span class="pre">Location</span> <span class="pre">and</span> <span class="pre">Size</span></code> checkbox should be disabled.</p>
+<p>It is recommended to select the <code class="docutils literal"><span class="pre">Verts</span></code> value from the <code class="docutils literal"><span class="pre">Emission</span> <span class="pre">&gt;</span> <span class="pre">Emit</span> <span class="pre">From</span></code> menu, and to select the emitter’s vertex group (in the <code class="docutils literal"><span class="pre">Vertex</span> <span class="pre">Group</span> <span class="pre">&gt;</span> <span class="pre">Density</span></code> field) which defines the positions of particles. Note, that the <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Randomize</span> <span class="pre">Location</span> <span class="pre">and</span> <span class="pre">Size</span></code> checkbox should be disabled.</p>
 <ol class="arabic simple" start="4">
 <li><em>Wind effect settings</em></li>
 </ol>
@@ -404,8 +407,8 @@
 <ol class="arabic simple" id="particles-inheritance" start="5">
 <li><em>Vertex color inheritance settings</em></li>
 </ol>
-<p>For the emitter&#8217;s vertex color to be inherited by the particles, it is required to specify both the emitter&#8217;s vertex color name and the particle&#8217;s vertex color name in the <code class="docutils literal"><span class="pre">Properties</span> <span class="pre">Inheritance</span> <span class="pre">&gt;</span> <span class="pre">Vertex</span> <span class="pre">Color</span> <span class="pre">&gt;</span> <span class="pre">From</span></code> and <code class="docutils literal"><span class="pre">Properties</span> <span class="pre">Inheritance</span> <span class="pre">&gt;</span> <span class="pre">Vertex</span> <span class="pre">Color</span> <span class="pre">&gt;</span> <span class="pre">To</span></code> fields respectively. As a result, the color of the emitter&#8217;s vertex that is closest to the particle (specified in the <code class="docutils literal"><span class="pre">From</span></code> field) will be copied and propagated into the particle&#8217;s <code class="docutils literal"><span class="pre">To</span></code> vertex color layer.</p>
-<p>The resulting vertex color layer with the name specified in the <code class="docutils literal"><span class="pre">Properties</span> <span class="pre">Inheritance</span> <span class="pre">&gt;</span> <span class="pre">Vertex</span> <span class="pre">Color</span> <span class="pre">&gt;</span> <span class="pre">To</span></code> field can be used in the particle&#8217;s node material for its tinting and for any other effects.</p>
+<p>For the emitter’s vertex color to be inherited by the particles, it is required to specify both the emitter’s vertex color name and the particle’s vertex color name in the <code class="docutils literal"><span class="pre">Properties</span> <span class="pre">Inheritance</span> <span class="pre">&gt;</span> <span class="pre">Vertex</span> <span class="pre">Color</span> <span class="pre">&gt;</span> <span class="pre">From</span></code> and <code class="docutils literal"><span class="pre">Properties</span> <span class="pre">Inheritance</span> <span class="pre">&gt;</span> <span class="pre">Vertex</span> <span class="pre">Color</span> <span class="pre">&gt;</span> <span class="pre">To</span></code> fields respectively. As a result, the color of the emitter’s vertex that is closest to the particle (specified in the <code class="docutils literal"><span class="pre">From</span></code> field) will be copied and propagated into the particle’s <code class="docutils literal"><span class="pre">To</span></code> vertex color layer.</p>
+<p>The resulting vertex color layer with the name specified in the <code class="docutils literal"><span class="pre">Properties</span> <span class="pre">Inheritance</span> <span class="pre">&gt;</span> <span class="pre">Vertex</span> <span class="pre">Color</span> <span class="pre">&gt;</span> <span class="pre">To</span></code> field can be used in the particle’s node material for its tinting and for any other effects.</p>
 <ol class="arabic simple" start="6">
 <li><em>Setting up the size of particles via vertex group weights</em></li>
 </ol>
@@ -435,7 +438,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Triumph.
-      Last updated on 2017-11-21.
+      Last updated on 2017-12-29.
 
     </p>
   </div>
@@ -491,11 +494,11 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

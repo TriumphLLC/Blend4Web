@@ -1892,7 +1892,10 @@ class B4W_LogicNode(Node, B4W_LogicEditorNode):
         if oldname in l:
             l[oldname].name = newname
 
-    def debug_repetitions(self):
+    # Some hard to reproduce bugs in previous versions of b4w can cause
+    # re-creation of properties
+    # This function removes repetitions
+    def fix_repetitions(self):
         lists_names = ["bools", "variables_names", "variables", "strings",
                        "floats", "objects_paths", "materials_names", "nodes_paths",
                        "durations", "angles", "common_usage_names", "velocities",
@@ -1902,7 +1905,21 @@ class B4W_LogicNode(Node, B4W_LogicEditorNode):
             l = getattr(self, list_name)
             keys = l.keys()
             if (len(keys) != len(set(keys))):
-                print("!!! Found repetitions in %s in %s: %s" % (self.name, list_name, l))
+                print("!!! Found repetitions in %s in %s: %s. Fixing..." % (self.name, list_name, l))
+                print("Fixing...")
+                for k in set(keys):
+                    i = 0
+                    found = False
+                    while True:
+                        if len(l) < i + 1:
+                            break
+                        if l[i].name == k and found:
+                            l.remove(i)
+                            continue
+
+                        if l[i].name == k and not found:
+                            found = True
+                        i += 1
 
     def debug_print_prop_list(self, list_name):
         if list_name in self:

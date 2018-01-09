@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>网络播放器 &mdash; Blend4Web 17.10.1 用户手册</title>
+  <title>网络播放器 &mdash; Blend4Web 17.12.0 用户手册</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.10.1 用户手册" href="index.html"/>
+        <link rel="index" title="索引"
+              href="genindex.html"/>
+        <link rel="search" title="搜索" href="search.html"/>
+    <link rel="top" title="Blend4Web 17.12.0 用户手册" href="index.html"/>
         <link rel="next" title="插件" href="addon.html"/>
         <link rel="prev" title="场景预览器" href="viewer.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -90,7 +93,7 @@
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">工作流程</a></li>
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">场景预览器</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">网络播放器</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">网络播放器</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#usage">用法</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#navigation">导航</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#control-panel">控制面板</a></li>
@@ -169,7 +172,7 @@
   <div class="section" id="web-player">
 <span id="index-0"></span><span id="id1"></span><h1><a class="toc-backref" href="#id2">网络播放器</a><a class="headerlink" href="#web-player" title="永久链接至标题">¶</a></h1>
 <div class="contents topic" id="table-of-contents">
-<p class="topic-title first">目录</p>
+<p class="topic-title first">Table of Contents</p>
 <ul class="simple">
 <li><a class="reference internal" href="#web-player" id="id2">网络播放器</a><ul>
 <li><a class="reference internal" href="#usage" id="id3">用法</a></li>
@@ -207,32 +210,19 @@
 <p>网络播放器的控制面板如下图所示。</p>
 <a class="reference internal image-reference" href="_images/web_player_interface.png"><img alt="_images/web_player_interface.png" class="align-center" src="_images/web_player_interface.png" style="width: 100%;" /></a>
 <ol class="arabic simple">
-<li><p class="first">显示/隐藏控制面板;</p>
-</li>
-<li><p class="first">开/关全屏模式;</p>
-</li>
-<li><p class="first">立体渲染开/关;</p>
-</li>
-<li><p class="first">设置场景的质量;</p>
-</li>
-<li><p class="first">声音开/关;</p>
-</li>
-<li><p class="first">开启/关闭相机自动旋转模式;</p>
-</li>
-<li><p class="first">运行/停止引擎;</p>
-</li>
-<li><p class="first">打开帮助窗口;</p>
-</li>
-<li><p class="first">通过推特分享;</p>
-</li>
-<li><p class="first">通过Facebook分享;</p>
-</li>
-<li><p class="first">通过Google+分享;</p>
-</li>
-<li><p class="first">通过VK分享。</p>
-</li>
-<li><p class="first">通过Weibo分享。</p>
-</li>
+<li>显示/隐藏控制面板;</li>
+<li>开/关全屏模式;</li>
+<li>立体渲染开/关;</li>
+<li>设置场景的质量;</li>
+<li>声音开/关;</li>
+<li>开启/关闭相机自动旋转模式;</li>
+<li>运行/停止引擎;</li>
+<li>打开帮助窗口;</li>
+<li>通过推特分享;</li>
+<li>通过Facebook分享;</li>
+<li>通过Google+分享;</li>
+<li>通过VK分享。</li>
+<li>通过Weibo分享。</li>
 </ol>
 </div>
 <div class="section" id="attributes">
@@ -243,28 +233,17 @@
 <div class="line"><br /></div>
 </div>
 <ol class="arabic simple">
-<li><p class="first">特殊的属性 <code class="docutils literal"><span class="pre">load</span></code> 用于加载场景，这个属性包含相对路径JSON文件。</p>
-</li>
-<li><p class="first">在发生错误的WebGL的可选 <code class="docutils literal"><span class="pre">fallback_image</span></code> 属性用于设置的背景图像，而不是3D内容。</p>
-</li>
-<li><p class="first">在发生错误的WebGL的可选 <code class="docutils literal"><span class="pre">fallback_video</span></code> 属性用于设置背景视频，而不是3D内容。可用于多次添加更多的视频格式。</p>
-</li>
-<li><p class="first">可选 <code class="docutils literal"><span class="pre">show_fps</span></code> 属性是用来显示在玩家的右上角的FPS计数器。</p>
-</li>
-<li><p class="first">可选参数 <code class="docutils literal"><span class="pre">autorotate</span></code> 时，使用了场景加载后使自动相机旋转。</p>
-</li>
-<li><p class="first">该 <code class="docutils literal"><span class="pre">compressed_textures</span></code> 可选参数用于启用加载精缩和压缩纹理（在DDS格式）。</p>
-</li>
-<li><p class="first">该 <code class="docutils literal"><span class="pre">compressed_textures_pvr</span></code> 可选参数用于启用加载压缩为PVRTC格式的材质，该参数用在 <code class="docutils literal"><span class="pre">compressed_textures</span></code> 参数中。</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">compressed_gzip</span></code> 可选参数用于启用加载GZIP压缩资源，如&#8221;.json.gz&#8221;, &#8221;.bin.gz&#8221;, &#8221;.dds.gz&#8221; 和 &#8221;.pvr.gz&#8221;.</p>
-</li>
-<li><p class="first">可选 <code class="docutils literal"><span class="pre">alpha</span></code> 参数用于启用对描画区域的透明度。</p>
-</li>
-<li><p class="first">可选的 <code class="docutils literal"><span class="pre">no_social</span></code> 属性用于在控制面板上禁用社交网络按钮。</p>
-</li>
-<li><p class="first">可选的 <code class="docutils literal"><span class="pre">socials</span></code> 属性用于选择性地启用和禁用控制面板上的社交网络按钮。此属性应该像 <code class="docutils literal"><span class="pre">socials=&lt;...&gt;</span></code>,  其中  <code class="docutils literal"><span class="pre">&lt;...&gt;</span></code> 是一组与您要启用的社交网络按钮字母（ <code class="docutils literal"><span class="pre">f</span></code> 为Facebook <code class="docutils literal"><span class="pre">v</span></code> 为VK，<code class="docutils literal"><span class="pre">t</span></code> 是Twitter的，<code class="docutils literal"><span class="pre">w</span></code> 是微博和 <code class="docutils literal"><span class="pre">g</span></code> 是Google ）。字母顺序设置定义了按钮将出现在屏幕上的顺序。</p>
-</li>
+<li>特殊的属性 <code class="docutils literal"><span class="pre">load</span></code> 用于加载场景，这个属性包含相对路径JSON文件。</li>
+<li>在发生错误的WebGL的可选 <code class="docutils literal"><span class="pre">fallback_image</span></code> 属性用于设置的背景图像，而不是3D内容。</li>
+<li>在发生错误的WebGL的可选 <code class="docutils literal"><span class="pre">fallback_video</span></code> 属性用于设置背景视频，而不是3D内容。可用于多次添加更多的视频格式。</li>
+<li>可选 <code class="docutils literal"><span class="pre">show_fps</span></code> 属性是用来显示在玩家的右上角的FPS计数器。</li>
+<li>可选参数 <code class="docutils literal"><span class="pre">autorotate</span></code> 时，使用了场景加载后使自动相机旋转。</li>
+<li>该 <code class="docutils literal"><span class="pre">compressed_textures</span></code> 可选参数用于启用加载精缩和压缩纹理（在DDS格式）。</li>
+<li>该 <code class="docutils literal"><span class="pre">compressed_textures_pvr</span></code> 可选参数用于启用加载压缩为PVRTC格式的材质，该参数用在 <code class="docutils literal"><span class="pre">compressed_textures</span></code> 参数中。</li>
+<li><code class="docutils literal"><span class="pre">compressed_gzip</span></code> 可选参数用于启用加载GZIP压缩资源，如&quot;.json.gz&quot;, &quot;.bin.gz&quot;, &quot;.dds.gz&quot; 和 &quot;.pvr.gz&quot;.</li>
+<li>可选 <code class="docutils literal"><span class="pre">alpha</span></code> 参数用于启用对描画区域的透明度。</li>
+<li>可选的 <code class="docutils literal"><span class="pre">no_social</span></code> 属性用于在控制面板上禁用社交网络按钮。</li>
+<li>可选的 <code class="docutils literal"><span class="pre">socials</span></code> 属性用于选择性地启用和禁用控制面板上的社交网络按钮。此属性应该像 <code class="docutils literal"><span class="pre">socials=&lt;...&gt;</span></code>,  其中  <code class="docutils literal"><span class="pre">&lt;...&gt;</span></code> 是一组与您要启用的社交网络按钮字母（ <code class="docutils literal"><span class="pre">f</span></code> 为Facebook <code class="docutils literal"><span class="pre">v</span></code> 为VK，<code class="docutils literal"><span class="pre">t</span></code> 是Twitter的，<code class="docutils literal"><span class="pre">w</span></code> 是微博和 <code class="docutils literal"><span class="pre">g</span></code> 是Google ）。字母顺序设置定义了按钮将出现在屏幕上的顺序。</li>
 </ol>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
@@ -280,24 +259,21 @@
 <h2><a class="toc-backref" href="#id8">场景错误</a><a class="headerlink" href="#scene-errors" title="永久链接至标题">¶</a></h2>
 <p>如果播放器使用不当，它会显示相应的错误。</p>
 <ol class="arabic simple">
-<li><p class="first"><code class="docutils literal"><span class="pre">load</span></code> <a class="reference internal" href="#webplayer-attributes"><span>属性</span></a> 指定了一个错误的路径指向JSON文件或文件已损坏;</p>
-</li>
+<li><code class="docutils literal"><span class="pre">load</span></code> <a class="reference internal" href="#webplayer-attributes"><span class="std std-ref">属性</span></a> 指定了一个错误的路径指向JSON文件或文件已损坏;</li>
 </ol>
 <a class="reference internal image-reference" href="_images/error_wrong_json_path.png"><img alt="_images/error_wrong_json_path.png" class="align-center" src="_images/error_wrong_json_path.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <ol class="arabic simple" start="2">
-<li><p class="first"><code class="docutils literal"><span class="pre">load</span></code> <a class="reference internal" href="#webplayer-attributes"><span>属性</span></a> 未找到或无效的;</p>
-</li>
+<li><code class="docutils literal"><span class="pre">load</span></code> <a class="reference internal" href="#webplayer-attributes"><span class="std std-ref">属性</span></a> 未找到或无效的;</li>
 </ol>
 <a class="reference internal image-reference" href="_images/error_not_load_attr.png"><img alt="_images/error_not_load_attr.png" class="align-center" src="_images/error_not_load_attr.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <ol class="arabic simple" start="3">
-<li><p class="first">WebGL的初始化错误。请查看 <a class="reference internal" href="problems_and_solutions.html#renderer-not-working"><span>这一页</span></a> 找到解决方法。</p>
-</li>
+<li>WebGL的初始化错误。请查看 <a class="reference internal" href="problems_and_solutions.html#renderer-not-working"><span class="std std-ref">这一页</span></a> 找到解决方法。</li>
 </ol>
 <a class="reference internal image-reference" href="_images/error_webgl.png"><img alt="_images/error_webgl.png" class="align-center" src="_images/error_webgl.png" style="width: 100%;" /></a>
 <div class="line-block">
@@ -325,8 +301,8 @@
 
   <div role="contentinfo">
     <p>
-        &copy; 版权所有 2014-2017, Triumph.
-      最后更新于 2017-11-21.
+        &copy; Copyright 2014-2017, Triumph.
+      最后更新于 2017-12-29.
 
     </p>
   </div>
@@ -382,11 +358,11 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

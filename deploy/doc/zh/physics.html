@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>物理 &mdash; Blend4Web 17.10.1 用户手册</title>
+  <title>物理 &mdash; Blend4Web 17.12.0 用户手册</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.10.1 用户手册" href="index.html"/>
+        <link rel="index" title="索引"
+              href="genindex.html"/>
+        <link rel="search" title="搜索" href="search.html"/>
+    <link rel="top" title="Blend4Web 17.12.0 用户手册" href="index.html"/>
         <link rel="next" title="对应用程序开发人员" href="developers.html"/>
         <link rel="prev" title="音频" href="audio.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -111,7 +114,7 @@
 <li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">室外效果</a></li>
 <li class="toctree-l1"><a class="reference internal" href="colors.html">色彩管理</a></li>
 <li class="toctree-l1"><a class="reference internal" href="audio.html">音频</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">物理</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">物理</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#preparing-for-use">使用准备</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#static-physics-type">静态物理类型</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#dynamic-physics-type">动态物理类型</a></li>
@@ -195,7 +198,7 @@
   <div class="section" id="physics">
 <span id="id1"></span><h1><a class="toc-backref" href="#id5">物理</a><a class="headerlink" href="#physics" title="永久链接至标题">¶</a></h1>
 <div class="contents topic" id="table-of-contents">
-<p class="topic-title first">目录</p>
+<p class="topic-title first">Table of Contents</p>
 <ul class="simple">
 <li><a class="reference internal" href="#physics" id="id5">物理</a><ul>
 <li><a class="reference internal" href="#preparing-for-use" id="id6">使用准备</a></li>
@@ -304,29 +307,21 @@
 <h3><a class="toc-backref" href="#id11">底盘设置</a><a class="headerlink" href="#chassis-settings" title="永久链接至标题">¶</a></h3>
 <dl class="docutils">
 <dt><em>Force Max</em></dt>
-<dd><p class="first last">车辆最大驱动力。</p>
-</dd>
+<dd>车辆最大驱动力。</dd>
 <dt><em>Brake Max</em></dt>
-<dd><p class="first last">最大制动系数。</p>
-</dd>
+<dd>最大制动系数。</dd>
 <dt><em>Suspension Compression</em></dt>
-<dd><p class="first last">阻尼系数为悬浮舒展。</p>
-</dd>
+<dd>阻尼系数为悬浮舒展。</dd>
 <dt><em>Suspension Stiffness</em></dt>
-<dd><p class="first last">悬架刚度系数。</p>
-</dd>
+<dd>悬架刚度系数。</dd>
 <dt><em>Suspension Damping</em></dt>
-<dd><p class="first last">悬架阻尼系数。</p>
-</dd>
+<dd>悬架阻尼系数。</dd>
 <dt><em>Wheel Friction</em></dt>
-<dd><p class="first last">车轮和表面之间的摩擦系数。现实车辆它应该是 0.8 左右。但是，显著提高它能够实现更好的控制 （1000 和更多）。</p>
-</dd>
+<dd>车轮和表面之间的摩擦系数。现实车辆它应该是 0.8 左右。但是，显著提高它能够实现更好的控制 （1000 和更多）。</dd>
 <dt><em>Roll Influence</em></dt>
-<dd><p class="first last">减少车轮的扭矩降低车辆倾覆概率 (0-无力矩、 1-真正的物理行为)。</p>
-</dd>
+<dd>减少车轮的扭矩降低车辆倾覆概率 (0-无力矩、 1-真正的物理行为)。</dd>
 <dt><em>Max Suspension Travel Cm</em></dt>
-<dd><p class="first last">以厘米为单位的最大悬挂行程。</p>
-</dd>
+<dd>以厘米为单位的最大悬挂行程。</dd>
 </dl>
 <p>对 <code class="docutils literal"><span class="pre">Steering</span> <span class="pre">Wheel</span></code> 必须指定的是方向盘的最大角度 (<code class="docutils literal"><span class="pre">Steering</span> <span class="pre">Max</span></code>) 以及方向盘和轮胎转动之间的比值 (<code class="docutils literal"><span class="pre">Steering</span> <span class="pre">Ratio</span></code>). 最大方向盘转角设置值为圈。一圈等于360度。因此，如果 <code class="docutils literal"><span class="pre">Steering</span> <span class="pre">Max</span></code> 等于一以及 <code class="docutils literal"><span class="pre">Steering</span> <span class="pre">Ratio</span></code> 等于10的话，方向盘转360度前轮转36度。</p>
 <p>在这个时候你可以导出并加载场景到引擎。我们建议您创建一个物理材质的路面。要在查看器中选择控制的物体按 <code class="docutils literal"><span class="pre">Q</span></code>  并选择机箱。使用 <code class="docutils literal"><span class="pre">W</span></code>, <code class="docutils literal"><span class="pre">A</span></code>, <code class="docutils literal"><span class="pre">S</span></code>, <code class="docutils literal"><span class="pre">D</span></code> 用作控件。</p>
@@ -346,14 +341,11 @@
 <h3><a class="toc-backref" href="#id13">浮动物体设置</a><a class="headerlink" href="#floating-object-settings" title="永久链接至标题">¶</a></h3>
 <dl class="docutils">
 <dt><em>Floating Factor</em></dt>
-<dd><p class="first last">浮力系数。</p>
-</dd>
+<dd>浮力系数。</dd>
 <dt><em>Water Linear Damping</em></dt>
-<dd><p class="first last">物体在水面上时线速度阻尼 （或水下）。当物体不是在水中时，则使用物理设置。</p>
-</dd>
+<dd>物体在水面上时线速度阻尼 （或水下）。当物体不是在水中时，则使用物理设置。</dd>
 <dt><em>Water Rotation Damping</em></dt>
-<dd><p class="first last">物体在水面上时的旋转阻尼 （或水下）。当物体不是在水中时，则使用物理设置。</p>
-</dd>
+<dd>物体在水面上时的旋转阻尼 （或水下）。当物体不是在水中时，则使用物理设置。</dd>
 </dl>
 </div>
 </div>
@@ -368,20 +360,15 @@
 <h3><a class="toc-backref" href="#id15">船舶设置</a><a class="headerlink" href="#watercraft-settings" title="永久链接至标题">¶</a></h3>
 <dl class="docutils">
 <dt><em>Force Max</em></dt>
-<dd><p class="first last">车辆最大驱动力。</p>
-</dd>
+<dd>车辆最大驱动力。</dd>
 <dt><em>Brake Max</em></dt>
-<dd><p class="first last">最大制动系数。</p>
-</dd>
+<dd>最大制动系数。</dd>
 <dt><em>Floating Factor</em></dt>
-<dd><p class="first last">浮力系数。</p>
-</dd>
+<dd>浮力系数。</dd>
 <dt><em>Water Linear Damping</em></dt>
-<dd><p class="first last">物体在水面上时线速度阻尼 （或水下）。当物体不是在水中时，则使用物理设置。</p>
-</dd>
+<dd>物体在水面上时线速度阻尼 （或水下）。当物体不是在水中时，则使用物理设置。</dd>
 <dt><em>Water Rotation Damping</em></dt>
-<dd><p class="first last">物体在水面上时的旋转阻尼 （或水下）。当物体不是在水中时，则使用物理设置。</p>
-</dd>
+<dd>物体在水面上时的旋转阻尼 （或水下）。当物体不是在水中时，则使用物理设置。</dd>
 </dl>
 </div>
 </div>
@@ -423,24 +410,17 @@
 <p>Blend4Web引擎有快速建立用户控制的第一人称角色的选项。这样的角色将只有非常基本的功能，但也可以没有任何编程的情况下设置。</p>
 <p>要建立一个基本角色，请按照下列步骤操作：</p>
 <ol class="arabic simple">
-<li><p class="first">选择您想要作为一个角色使用一个物体。</p>
-</li>
-<li><p class="first">启用选定物体的物理和物理设置类型到 <code class="docutils literal"><span class="pre">Dynamic</span></code> 或 <code class="docutils literal"><span class="pre">Rigid</span> <span class="pre">Body</span></code>.</p>
-</li>
-<li><p class="first">启用该物体的角色选项。</p>
-</li>
-<li><p class="first">创建一个新的相机或选择一个现有的和其类型设置为 <code class="docutils literal"><span class="pre">Eye</span></code> 。</p>
-</li>
+<li>选择您想要作为一个角色使用一个物体。</li>
+<li>启用选定物体的物理和物理设置类型到 <code class="docutils literal"><span class="pre">Dynamic</span></code> 或 <code class="docutils literal"><span class="pre">Rigid</span> <span class="pre">Body</span></code>.</li>
+<li>启用该物体的角色选项。</li>
+<li>创建一个新的相机或选择一个现有的和其类型设置为 <code class="docutils literal"><span class="pre">Eye</span></code> 。</li>
 </ol>
 <p>现在，带有摄像头的基本角色将出现在您的场景。</p>
 <p>该角色可大致和常规 <code class="docutils literal"><span class="pre">Eye</span></code> 式照相机相同的方式作为进行控制：</p>
 <ul class="simple">
-<li><p class="first">WASD键移动角色。</p>
-</li>
-<li><p class="first">摄像头角度由方向键控制或移动鼠标按住左按钮。</p>
-</li>
-<li><p class="first">按C键切换飞行模式（默认启用）。</p>
-</li>
+<li>WASD键移动角色。</li>
+<li>摄像头角度由方向键控制或移动鼠标按住左按钮。</li>
+<li>按C键切换飞行模式（默认启用）。</li>
 </ul>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
@@ -451,7 +431,7 @@
 <h3><a class="toc-backref" href="#id19">使用API​​控制角色</a><a class="headerlink" href="#controlling-characters-with-api" title="永久链接至标题">¶</a></h3>
 <p>上述基本角色只能提供通用功能。如果您需要更多的角色行为控制，您应该使用 <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html">fps</a>  模块的以下方法。</p>
 <p>其中最重要的是 <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.enable_fps_controls">enable_fps_controls()</a> 方法，就像它名称一样，方法用于初始化场景中的角色。它可以如下使用：</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_fps</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;fps&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_fps</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;fps&quot;</span><span class="p">);</span>
 
 <span class="nx">m_fps</span><span class="p">.</span><span class="nx">enable_fps_controls</span><span class="p">();</span>
 </pre></div>
@@ -484,7 +464,7 @@
 <p><a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.CS_WALK">CS_WALK</a> - 一个角色在走路。</p>
 </div></blockquote>
 <p>可以使用  <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.get_character_state">get_character_state()</a> 方法检索特定角色的当前状态，而特定状态可以通过  <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.switch_state">switch_state()</a> 方法分配给角色。以下示例显示了如何使用这两种方法：</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_fps</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;fps&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_fps</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;fps&quot;</span><span class="p">);</span>
 
 <span class="kd">var</span> <span class="nx">current_state</span> <span class="o">=</span> <span class="nx">m_fps</span><span class="p">.</span><span class="nx">get_character_state</span><span class="p">();</span>
 
@@ -496,7 +476,7 @@
 <div class="section" id="action-binding">
 <h4>动作绑定<a class="headerlink" href="#action-binding" title="永久链接至标题">¶</a></h4>
 <p><a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html">fps</a> 模块还提供了将各种动作绑定到角色事件的手段。以下是  <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.bind_action">bind_action()</a> 方法的使用：</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_fps</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;fps&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_fps</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;fps&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_ctl</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;controls&quot;</span><span class="p">);</span>
 
 <span class="kd">var</span> <span class="nx">action_cb</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
@@ -544,35 +524,27 @@
 <p><code class="docutils literal"><span class="pre">Rasterization</span></code> （栅格化）组的参数︰</p>
 <dl class="docutils">
 <dt><em>Cell Size</em></dt>
-<dd><p class="first last">栅格化单元格大小。更大的值会导致更大的 navmesh 多边形。最高的可能值是 1.0。默认值为 0.3。</p>
-</dd>
+<dd>栅格化单元格大小。更大的值会导致更大的 navmesh 多边形。最高的可能值是 1.0。默认值为 0.3。</dd>
 <dt><em>Cell Height</em></dt>
-<dd><p class="first last">栅格单元格高度 （navmesh 和生成它的对象之间的距离）。默认值为 0.2。</p>
-</dd>
+<dd>栅格单元格高度 （navmesh 和生成它的对象之间的距离）。默认值为 0.2。</dd>
 </dl>
 <p><code class="docutils literal"><span class="pre">Agent</span></code> 组的参数︰</p>
 <dl class="docutils">
 <dt><em>Height</em></dt>
-<dd><p class="first last">最小高度，代理还能走路。默认值为 2.0。</p>
-</dd>
+<dd>最小高度，代理还能走路。默认值为 2.0。</dd>
 <dt><em>Radius</em></dt>
-<dd><p class="first last">代理的半径。默认值为 0.6。</p>
-</dd>
+<dd>代理的半径。默认值为 0.6。</dd>
 <dt><em>Max Slope</em></dt>
-<dd><p class="first last">代理能够行走的坡度的最大角度。以度为单位。默认值为 45。</p>
-</dd>
+<dd>代理能够行走的坡度的最大角度。以度为单位。默认值为 45。</dd>
 <dt><em>Max Climb</em></dt>
-<dd><p class="first last">网格单元格之间的最大高度，代理可以爬上。默认值为 0.9。</p>
-</dd>
+<dd>网格单元格之间的最大高度，代理可以爬上。默认值为 0.9。</dd>
 </dl>
 <p><code class="docutils literal"><span class="pre">Region</span></code> 组的参数︰</p>
 <dl class="docutils">
 <dt><em>Min Region Size</em></dt>
-<dd><p class="first last">一个区域的最小大小 （较小的区域将被删除）。默认值为 8.0 级。</p>
-</dd>
+<dd>一个区域的最小大小 （较小的区域将被删除）。默认值为 8.0 级。</dd>
 <dt><em>Merged Region Size</em></dt>
-<dd><p class="first last">一个区域的最小大小 （较小的地区，将合并）。默认值为 20.0。</p>
-</dd>
+<dd>一个区域的最小大小 （较小的地区，将合并）。默认值为 20.0。</dd>
 <dt><em>Partitioning</em></dt>
 <dd><p class="first">用于分区导航网格的方法。受支持的方法是︰</p>
 <p><code class="docutils literal"><span class="pre">Monotone</span></code> 是最快的方法。使用它可以生成细细长长的多边形。</p>
@@ -583,49 +555,44 @@
 <p><code class="docutils literal"><span class="pre">Polygonization</span></code> 组的参数︰</p>
 <dl class="docutils">
 <dt><em>Max Edge Length</em></dt>
-<dd><p class="first last">边缘轮廓最大长度。默认值为 12.0。</p>
-</dd>
+<dd>边缘轮廓最大长度。默认值为 12.0。</dd>
 <dt><em>Max Edge Error</em></dt>
-<dd><p class="first last">从轮廓到单元格的距离最大误差。默认值为 1.3。</p>
-</dd>
+<dd>从轮廓到单元格的距离最大误差。默认值为 1.3。</dd>
 <dt><em>Verts Per Poly</em></dt>
-<dd><p class="first last">每个多边形顶点的最大数目。默认值为 6。</p>
-</dd>
+<dd>每个多边形顶点的最大数目。默认值为 6。</dd>
 </dl>
 <p><code class="docutils literal"><span class="pre">Detail</span> <span class="pre">Mesh</span></code> 组的参数︰</p>
 <dl class="docutils">
 <dt><em>Sample Distance</em></dt>
-<dd><p class="first last">详细信息网格采样间距。默认值是 6.0。</p>
-</dd>
+<dd>详细信息网格采样间距。默认值是 6.0。</dd>
 <dt><em>Max Sample Error</em></dt>
-<dd><p class="first last">最大误差的网格简化算法。默认值为 1.00。</p>
-</dd>
+<dd>最大误差的网格简化算法。默认值为 1.00。</dd>
 </dl>
 </div>
 <div class="section" id="using-navigation-meshes">
 <h3><a class="toc-backref" href="#id22">使用导航网格</a><a class="headerlink" href="#using-navigation-meshes" title="永久链接至标题">¶</a></h3>
 <p>Navmesh 创建后，它然后可用于在应用程序中计算两个点之间的运动轨迹。这可以从  <a class="reference external" href="https://www.blend4web.com/api_doc/module-physics.html">physics</a>  模块的两种方法得到 <a class="reference external" href="https://www.blend4web.com/api_doc/module-physics.html#.navmesh_get_island">navmesh_get_island()</a> 和 <a class="reference external" href="https://www.blend4web.com/api_doc/module-physics.html#.navmesh_find_path">navmesh_find_path()</a>. 前者用来检索链接到当前的岛 （最接近独立网段的 navmesh），而后者返回以数组形式的实际路径中的坐标。</p>
-<p>使用导航网格的寻路的例子可以在 <a class="reference internal" href="developers.html#code-snippets"><span>代码摘要</span></a> (相对应的摘要名字叫 <code class="docutils literal"><span class="pre">Pathfinding</span></code>).</p>
+<p>使用导航网格的寻路的例子可以在 <a class="reference internal" href="developers.html#code-snippets"><span class="std std-ref">代码摘要</span></a> (相对应的摘要名字叫 <code class="docutils literal"><span class="pre">Pathfinding</span></code>).</p>
 </div>
 </div>
 <div class="section" id="use-in-applications">
 <span id="using-physics"></span><h2><a class="toc-backref" href="#id23">在应用程序中的使用</a><a class="headerlink" href="#use-in-applications" title="永久链接至标题">¶</a></h2>
 <p>物理系统是在 <strong>uranium.js</strong> 模块中实现，并分别从引擎的主要代码加载。<strong>Uranium.js</strong> 模块本身是 <a class="reference external" href="http://bulletphysics.org/">Bullet</a> 物理引擎的修改版，移植在浏览器中工作。为了激活物理系统，这就需要将 <strong>uranium.js</strong> 和 <strong>uranium.js.mem</strong> 文件跟应用程序的源代码放在同一个目录。</p>
 <p>另一个方法是通过使用下面的 API 方法显式指定 <strong>uranium.js</strong> 模块的加载路径 ︰</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">m_config</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;physics_uranium_path&quot;</span><span class="p">,</span> <span class="s2">&quot;.../uranium.js&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">m_config</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;physics_uranium_path&quot;</span><span class="p">,</span> <span class="s2">&quot;.../uranium.js&quot;</span><span class="p">);</span>
 </pre></div>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
-<p class="last">当开发应用程序 <a class="reference internal" href="project_manager.html#project-management"><span>使用了SDK</span></a>, 自动检测到物理引擎的路径。</p>
+<p class="last">当开发应用程序 <a class="reference internal" href="project_manager.html#project-management"><span class="std std-ref">使用了SDK</span></a>, 自动检测到物理引擎的路径。</p>
 </div>
 <p>如果您的应用程序不使用物理，我们建议您在Blender场景选项卡中 <code class="docutils literal"><span class="pre">Physics</span></code> 面板下关闭 <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">Physics</span></code> 的标志。它也是可以通过调用下面的方法初始化引擎前强行禁用加载 <strong>uranium.js</strong> 模块 ︰</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">m_config</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;physics_enabled&quot;</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">m_config</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;physics_enabled&quot;</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
 </pre></div>
 </div>
 <p>Physics subsystem is implemented in the “uranium” module and is loaded independently from the main engine code. The “uranium” module is a modification of the <a class="reference external" href="https://en.wikipedia.org/wiki/Bullet_(software)">Bullet physics engine</a> ported to work in web browsers.</p>
 <p>Blend4Web physics engine comes in two variations: the one compiled using WebAssembly (<code class="docutils literal"><span class="pre">uranium_wasm.js</span></code> and  <code class="docutils literal"><span class="pre">uranium_wasm.wasm</span></code> files) is used by default, while the other version, compiled with <code class="docutils literal"><span class="pre">asm.js</span></code> (<code class="docutils literal"><span class="pre">uranium.js</span></code> and  <code class="docutils literal"><span class="pre">uranium.js.mem</span></code>) can be used as a fallback. The WebAssembly version is smaller in size, can be initialized quicker and using it might improve the stability and performance of the application. However, at the moment not every browser supports WebAssembly, so, if this technology is not available, the asm.js version of the physics engine is used instead.</p>
-<p>By default, physics engine is plugged in if the scene contains objects with physics enabled. You can manually disable physics by setting the <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">Physics</span></code> option on the <code class="docutils literal"><span class="pre">Scene</span> <span class="pre">-&gt;</span> <span class="pre">Physics</span></code> panel to <code class="docutils literal"><span class="pre">OFF</span></code>. You can also uncheck the <code class="docutils literal"><span class="pre">Use</span> <span class="pre">Physics</span></code> flag on the <a class="reference internal" href="project_manager.html#project-config"><span>project configuration page</span></a> in the <a class="reference internal" href="project_manager.html#project-manager"><span>Project Manager</span></a> to exclude physics engine files from the build version of your project.</p>
+<p>By default, physics engine is plugged in if the scene contains objects with physics enabled. You can manually disable physics by setting the <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">Physics</span></code> option on the <code class="docutils literal"><span class="pre">Scene</span> <span class="pre">-&gt;</span> <span class="pre">Physics</span></code> panel to <code class="docutils literal"><span class="pre">OFF</span></code>. You can also uncheck the <code class="docutils literal"><span class="pre">Use</span> <span class="pre">Physics</span></code> flag on the <a class="reference internal" href="project_manager.html#project-config"><span class="std std-ref">project configuration page</span></a> in the <a class="reference internal" href="project_manager.html#project-manager"><span class="std std-ref">Project Manager</span></a> to exclude physics engine files from the build version of your project.</p>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
 <p class="last">Physics is not supported in <code class="docutils literal"><span class="pre">WebPlayer</span> <span class="pre">HTML</span></code> type projects and in the scenes exported into HTML.</p>
@@ -659,8 +626,8 @@
 
   <div role="contentinfo">
     <p>
-        &copy; 版权所有 2014-2017, Triumph.
-      最后更新于 2017-11-21.
+        &copy; Copyright 2014-2017, Triumph.
+      最后更新于 2017-12-29.
 
     </p>
   </div>
@@ -716,11 +683,11 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

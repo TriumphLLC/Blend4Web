@@ -17,7 +17,7 @@
 bl_info = {
     "name": "Blend4Web",
     "author": "Blend4Web Development Team",
-    "version": (17, 10, 1),
+    "version": (17, 12, 0),
     "blender": (2, 79, 0),
     "b4w_format_version": "6.03",
     "location": "File > Import-Export",
@@ -351,7 +351,7 @@ def logic_nodetree_reform(arg):
 
                     if node.type == "OUTLINE":
                         node.ensure_bool("id0")
-                    #node.debug_repetitions()
+                    node.fix_repetitions()
 
 def init_runtime_addon_data():
     p = bpy.context.user_preferences.addons[__package__].preferences

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2017-10-30 11:47+0300\n"
+"POT-Creation-Date: 2017-12-20 10:48+0300\n"
 "PO-Revision-Date: 2016-10-29 13:56+0800\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Chinese <info [at] blend4web.com>\n"
@@ -43,18 +43,20 @@ msgid ""
 " special glasses. It is activated by an application via API."
 msgstr "立体渲染模式适用于使用特殊眼镜观看的内容。它是应用程序通过API来激活。"
 
-msgid ""
-"Blend4Web supports two techniques of the stereo image rendering - "
-"anaglyph image and the HMD (head-mounted display)."
+#, fuzzy
+msgid "Blend4Web supports several techniques of stereo image rendering:"
 msgstr "Blend4Web支持立体图像渲染的两种技术 -  立体图像（红/蓝）和HMD（头戴式显示器）。"
 
-msgid "HMD:"
-msgstr "HMD："
+msgid "HMD (head-mounted display):"
+msgstr ""
 
 msgid ""
 "HMD is an experimental feature, for now it works only with the ``Eye`` "
 "type cameras."
 msgstr "HMD是一个实验性的功能，现在它只能用于 ``Eye`` 类型摄像机。"
+
+msgid "Side-to-side rendering:"
+msgstr ""
 
 msgid "Anaglyph:"
 msgstr "立体图（红/蓝）"
@@ -277,11 +279,6 @@ msgstr ""
 msgid "A web browser with the AR support."
 msgstr ""
 
-msgid ""
-"At the moment, AR application won't work in Safari browser, desktop and "
-"iOS version alike. AR support is expected to arrive Fall 2017."
-msgstr ""
-
 msgid "Setting Up"
 msgstr ""
 
@@ -363,5 +360,15 @@ msgstr "立体影片"
 #~ msgstr ""
 
 #~ msgid "A Simple Project"
+#~ msgstr ""
+
+#~ msgid "HMD:"
+#~ msgstr "HMD："
+
+#~ msgid ""
+#~ "At the moment, AR application won't "
+#~ "work in Safari browser, desktop and "
+#~ "iOS version alike. AR support is "
+#~ "expected to arrive Fall 2017."
 #~ msgstr ""
 

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Материалы &mdash; Руководство пользователя Blend4Web 17.10.1</title>
+  <title>Материалы &mdash; Руководство пользователя Blend4Web 17.12.0</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 17.10.1" href="index.html"/>
+        <link rel="index" title="Алфавитный указатель"
+              href="genindex.html"/>
+        <link rel="search" title="Поиск" href="search.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 17.12.0" href="index.html"/>
         <link rel="next" title="Библиотека материалов" href="material_library.html"/>
         <link rel="prev" title="Камера" href="camera.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -97,7 +100,7 @@
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">Меши</a></li>
 <li class="toctree-l1"><a class="reference internal" href="normal_editor.html">Редактор нормалей</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Камера</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Материалы</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Материалы</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#lighting-parameters">Параметры освещения</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#transparency">Прозрачность</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#types">Типы</a></li>
@@ -200,7 +203,7 @@
   <span class="target" id="materials"></span><div class="section" id="index-0">
 <span id="id1"></span><h1><a class="toc-backref" href="#id10">Материалы</a><a class="headerlink" href="#index-0" title="Ссылка на этот заголовок">¶</a></h1>
 <div class="contents topic" id="table-of-content">
-<p class="topic-title first">Содержание</p>
+<p class="topic-title first">Table of Content</p>
 <ul class="simple">
 <li><a class="reference internal" href="#index-0" id="id10">Материалы</a><ul>
 <li><a class="reference internal" href="#lighting-parameters" id="id11">Параметры освещения</a></li>
@@ -245,35 +248,25 @@
 <a class="reference internal image-reference" href="_images/panel_shading.png"><img alt="_images/panel_shading.png" class="align-center" src="_images/panel_shading.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>Diffuse &gt; Color</em></dt>
-<dd><p class="first last">Цвет диффузного (рассеянного) света. Значение по умолчанию (0.8, 0.8, 0.8). Может взаимодействовать с цветом диффузной текстуры.</p>
-</dd>
+<dd>Цвет диффузного (рассеянного) света. Значение по умолчанию (0.8, 0.8, 0.8). Может взаимодействовать с цветом диффузной текстуры.</dd>
 <dt><em>Diffuse &gt; Intensity</em></dt>
-<dd><p class="first last">Интенсивность диффузного (рассеянного) света. Значение по умолчанию 0.8.</p>
-</dd>
+<dd>Интенсивность диффузного (рассеянного) света. Значение по умолчанию 0.8.</dd>
 <dt><em>Diffuse &gt; Shader</em></dt>
-<dd><p class="first last">Алгоритм расчета диффузного (рассеянного) освещения. Значение по умолчанию <code class="docutils literal"><span class="pre">Lambert</span></code>.</p>
-</dd>
+<dd>Алгоритм расчета диффузного (рассеянного) освещения. Значение по умолчанию <code class="docutils literal"><span class="pre">Lambert</span></code>.</dd>
 <dt><em>Specular &gt; Color</em></dt>
-<dd><p class="first last">Цвет отраженного света. Значение по умолчанию (1.0, 1.0, 1.0). Может взаимодействовать с цветом карты бликов.</p>
-</dd>
+<dd>Цвет отраженного света. Значение по умолчанию (1.0, 1.0, 1.0). Может взаимодействовать с цветом карты бликов.</dd>
 <dt><em>Specular &gt; Intensity</em></dt>
-<dd><p class="first last">Интенсивность отраженного света. Значение по умолчанию 0.5.</p>
-</dd>
+<dd>Интенсивность отраженного света. Значение по умолчанию 0.5.</dd>
 <dt><em>Specular &gt; Hardness</em></dt>
-<dd><p class="first last">Степенной показатель в формуле расчета отраженного света (&#8220;жесткость&#8221; блика). Значение по умолчанию 50. Алгоритм применения в движке отличается от алгоритма применения в Blender&#8217;e.</p>
-</dd>
+<dd>Степенной показатель в формуле расчета отраженного света («жесткость» блика). Значение по умолчанию 50. Алгоритм применения в движке отличается от алгоритма применения в Blender’e.</dd>
 <dt><em>Specular &gt; Shader</em></dt>
-<dd><p class="first last">Алгоритм расчета отраженного освещения. Значение по умолчанию <code class="docutils literal"><span class="pre">CookTorr</span></code>.</p>
-</dd>
+<dd>Алгоритм расчета отраженного освещения. Значение по умолчанию <code class="docutils literal"><span class="pre">CookTorr</span></code>.</dd>
 <dt><em>Shading &gt; Emit</em></dt>
-<dd><p class="first last">Интенсивность эмиссии (излучения). Значение по умолчанию 0.0.</p>
-</dd>
+<dd>Интенсивность эмиссии (излучения). Значение по умолчанию 0.0.</dd>
 <dt><em>Shading &gt; Ambient</em></dt>
-<dd><p class="first last">Фактор влияния освещения от окружающей среды на материал. Значение по умолчанию 1.0.</p>
-</dd>
+<dd>Фактор влияния освещения от окружающей среды на материал. Значение по умолчанию 1.0.</dd>
 <dt><em>Shading &gt; Shadeless</em></dt>
-<dd><p class="first last">При включении материал не реагирует на освещение. По умолчанию выключено.</p>
-</dd>
+<dd>При включении материал не реагирует на освещение. По умолчанию выключено.</dd>
 </dl>
 <dl class="docutils" id="tangent-shading">
 <dt><em>Shading &gt; Tangent Shading</em></dt>
@@ -284,8 +277,7 @@
 </div>
 </dd>
 <dt><em>Shading &gt; Double-Sided Lighting</em></dt>
-<dd><p class="first last">Включить двухстороннее освещение. Опция полезна для однослойных непросвечивающих объектов.</p>
-</dd>
+<dd>Включить двухстороннее освещение. Опция полезна для однослойных непросвечивающих объектов.</dd>
 </dl>
 </div>
 <div class="section" id="transparency">
@@ -301,37 +293,28 @@
 <p>Движком поддерживаются все типы реализации прозрачности (перечислены в порядке увеличения производительности):</p>
 <dl class="docutils">
 <dt><em>Alpha Sort</em></dt>
-<dd><p class="first last">Прозрачный с градиентом. Для корректного отображения перекрывания одних прозрачных поверхностей другими движком производится сортировка треугольников по дальности от камеры. Операция требует дополнительных затрат вычислительных ресурсов. Рекомендуется применять для замкнутых прозрачных объектов (бутылка, стекла автомобиля и т.д.).</p>
-</dd>
+<dd>Прозрачный с градиентом. Для корректного отображения перекрывания одних прозрачных поверхностей другими движком производится сортировка треугольников по дальности от камеры. Операция требует дополнительных затрат вычислительных ресурсов. Рекомендуется применять для замкнутых прозрачных объектов (бутылка, стекла автомобиля и т.д.).</dd>
 <dt><em>Alpha Anti-Aliasing</em></dt>
-<dd><p class="first last">Прозрачный с градиентом. Этот тип реализован при помощи технологии Alpha to coverage и доступен только при включённом MSAA (только на устройствах с поддержкой WebGL2). Сортировка треугольников не производится. Эту технику рекомендуется использовать совместно с текстурой-маской для изображения мелких деталей, таких, как трава или листья.</p>
-</dd>
+<dd>Прозрачный с градиентом. Этот тип реализован при помощи технологии Alpha to coverage и доступен только при включённом MSAA (только на устройствах с поддержкой WebGL2). Сортировка треугольников не производится. Эту технику рекомендуется использовать совместно с текстурой-маской для изображения мелких деталей, таких, как трава или листья.</dd>
 <dt><em>Alpha Blend</em></dt>
-<dd><p class="first last">Прозрачный с градиентом. Сортировка треугольников не производится. Рекомендуется применять для незамкнутых прозрачных объектов (поверхность воды, декали).</p>
-</dd>
+<dd>Прозрачный с градиентом. Сортировка треугольников не производится. Рекомендуется применять для незамкнутых прозрачных объектов (поверхность воды, декали).</dd>
 <dt><em>Add</em></dt>
-<dd><p class="first last">Прозрачный c градиентом. Сортировка треугольников не производится. Движок отключает запись в буфер глубины, что приводит к произвольному порядку отображения прозрачных поверхностей. Рекомендуется применять для создания эффектов (системы частиц, светящиеся лучи).</p>
-</dd>
+<dd>Прозрачный c градиентом. Сортировка треугольников не производится. Движок отключает запись в буфер глубины, что приводит к произвольному порядку отображения прозрачных поверхностей. Рекомендуется применять для создания эффектов (системы частиц, светящиеся лучи).</dd>
 <dt><em>Alpha Clip</em></dt>
-<dd><p class="first last">Прозрачный без градиента. Движок отбрасывает пикселы (discard) с прозрачностью менее 0.5. Сортировка треугольников не производится. Рекомендуется применять с текстурой в качестве маски для визуализации множества мелких деталей (листва деревьев, трава).</p>
-</dd>
+<dd>Прозрачный без градиента. Движок отбрасывает пикселы (discard) с прозрачностью менее 0.5. Сортировка треугольников не производится. Рекомендуется применять с текстурой в качестве маски для визуализации множества мелких деталей (листва деревьев, трава).</dd>
 <dt><em>Opaque</em></dt>
-<dd><p class="first last">Непрозрачный. Альфа-канал игнорируется. Значение по умолчанию.</p>
-</dd>
+<dd>Непрозрачный. Альфа-канал игнорируется. Значение по умолчанию.</dd>
 </dl>
 </div>
 <div class="section" id="additional-settings">
 <span id="index-4"></span><h3><a class="toc-backref" href="#id14">Дополнительные настройки</a><a class="headerlink" href="#additional-settings" title="Ссылка на этот заголовок">¶</a></h3>
 <dl class="docutils">
 <dt><em>Transparency &gt; Show Transparency</em></dt>
-<dd><p class="first last">Опция включения прозрачности требуется для отображения прозрачных объектов в Blender&#8217;e. Движок игнорирует эту опцию, используя вместо нее <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Blend</span></code>.</p>
-</dd>
+<dd>Опция включения прозрачности требуется для отображения прозрачных объектов в Blender’e. Движок игнорирует эту опцию, используя вместо нее <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Blend</span></code>.</dd>
 <dt><em>Transparency &gt; Alpha</em></dt>
-<dd><p class="first last">Уровень прозрачности материала. При наличии диффузной текстуры движок (в отличие от Blender&#8217;a) игнорирует этот параметр, используя вместо него значение прозрачности текстуры.</p>
-</dd>
+<dd>Уровень прозрачности материала. При наличии диффузной текстуры движок (в отличие от Blender’a) игнорирует этот параметр, используя вместо него значение прозрачности текстуры.</dd>
 <dt><em>Transparency &gt; Z Offset</em></dt>
-<dd><p class="first last">Используется для явного указания расположения прозрачных объектов с <strong>разными</strong> материалами относительно друг друга с целью сортировки по глубине. Может принимать отрицательные и положительные значения. Для корректного отображения дальние объекты должны иметь меньшее значение параметра, чем ближние. Значение по умолчанию 0.0.</p>
-</dd>
+<dd>Используется для явного указания расположения прозрачных объектов с <strong>разными</strong> материалами относительно друг друга с целью сортировки по глубине. Может принимать отрицательные и положительные значения. Для корректного отображения дальние объекты должны иметь меньшее значение параметра, чем ближние. Значение по умолчанию 0.0.</dd>
 </dl>
 </div>
 </div>
@@ -343,10 +326,10 @@
 </div>
 <div class="section" id="static-reflection">
 <span id="reflection-static"></span><span id="index-6"></span><h3><a class="toc-backref" href="#id16">Статическое отражение</a><a class="headerlink" href="#static-reflection" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Поверхность отражает одно и то же изображение вне зависимости от изменения окружающей среды. Для активации достаточно использовать <a class="reference internal" href="textures.html#mirror-map"><span>карту зеркального отражения</span></a>.</p>
+<p>Поверхность отражает одно и то же изображение вне зависимости от изменения окружающей среды. Для активации достаточно использовать <a class="reference internal" href="textures.html#mirror-map"><span class="std std-ref">карту зеркального отражения</span></a>.</p>
 <div class="admonition seealso">
 <p class="first admonition-title">См.также</p>
-<p class="last"><a class="reference internal" href="#fresnel"><span>Эффект Френеля для отражения</span></a></p>
+<p class="last"><a class="reference internal" href="#fresnel"><span class="std std-ref">Эффект Френеля для отражения</span></a></p>
 </div>
 </div>
 <div class="section" id="dynamic-reflection">
@@ -354,29 +337,22 @@
 <p>Поверхность отражает текущее расположение определенных объектов. Поддерживаются отражения от плоскости и сферические отражения.</p>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
-<p class="last">При использовании <a class="reference internal" href="node_materials.html#node-materials"><span>нодовых материалов</span></a> динамические отражения будут работать только в том случае, если в нодовом дереве присутствует нода <code class="docutils literal"><span class="pre">Material</span></code> или <code class="docutils literal"><span class="pre">Extended</span> <span class="pre">Material</span></code>.</p>
+<p class="last">При использовании <a class="reference internal" href="node_materials.html#node-materials"><span class="std std-ref">нодовых материалов</span></a> динамические отражения будут работать только в том случае, если в нодовом дереве присутствует нода <code class="docutils literal"><span class="pre">Material</span></code> или <code class="docutils literal"><span class="pre">Extended</span> <span class="pre">Material</span></code>.</p>
 </div>
 <div class="section" id="activation">
 <h4>Активация<a class="headerlink" href="#activation" title="Ссылка на этот заголовок">¶</a></h4>
 <ol class="arabic simple">
-<li><p class="first">Проверить опцию <code class="docutils literal"><span class="pre">Reflections</span></code> на панели <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Reflections</span> <span class="pre">and</span> <span class="pre">Refractions</span></code>.</p>
-</li>
-<li><p class="first">Для <em>отражающих</em> объектов на панели <code class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Reflections</span></code> выставить опцию <code class="docutils literal"><span class="pre">Reflective</span></code>.</p>
-<ul>
-<li><p class="first">Для плоских отражений выставить значение <code class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Reflections</span> <span class="pre">&gt;</span> <span class="pre">Type</span></code> в <code class="docutils literal"><span class="pre">Plane</span></code>. Добавить пустой объект для задания плоскости отражения <code class="docutils literal"><span class="pre">Add</span> <span class="pre">&gt;</span> <span class="pre">Empty</span> <span class="pre">&gt;</span> <span class="pre">Single</span> <span class="pre">Arrow</span></code>. Переименовать для удобства и указать его имя в поле <code class="docutils literal"><span class="pre">Reflection</span> <span class="pre">plane</span></code> отражающего объекта.</p>
-</li>
-<li><p class="first">Для кубических отражений выставить значение <code class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Reflections</span> <span class="pre">&gt;</span> <span class="pre">Type</span></code> в <code class="docutils literal"><span class="pre">Cube</span></code>.</p>
-</li>
+<li>Проверить опцию <code class="docutils literal"><span class="pre">Reflections</span></code> на панели <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Reflections</span> <span class="pre">and</span> <span class="pre">Refractions</span></code>.</li>
+<li>Для <em>отражающих</em> объектов на панели <code class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Reflections</span></code> выставить опцию <code class="docutils literal"><span class="pre">Reflective</span></code>.<ul>
+<li>Для плоских отражений выставить значение <code class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Reflections</span> <span class="pre">&gt;</span> <span class="pre">Type</span></code> в <code class="docutils literal"><span class="pre">Plane</span></code>. Добавить пустой объект для задания плоскости отражения <code class="docutils literal"><span class="pre">Add</span> <span class="pre">&gt;</span> <span class="pre">Empty</span> <span class="pre">&gt;</span> <span class="pre">Single</span> <span class="pre">Arrow</span></code>. Переименовать для удобства и указать его имя в поле <code class="docutils literal"><span class="pre">Reflection</span> <span class="pre">plane</span></code> отражающего объекта.</li>
+<li>Для кубических отражений выставить значение <code class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Reflections</span> <span class="pre">&gt;</span> <span class="pre">Type</span></code> в <code class="docutils literal"><span class="pre">Cube</span></code>.</li>
 </ul>
 </li>
-<li><p class="first">Для нужных материалов <em>отражающих</em> объектов выставить значение отражающей способности <code class="docutils literal"><span class="pre">Material</span> <span class="pre">&gt;</span> <span class="pre">Mirror</span> <span class="pre">&gt;</span> <span class="pre">Reflectivity</span></code>.</p>
-<ul>
-<li><p class="first"><code class="docutils literal"><span class="pre">Mirror</span> <span class="pre">&gt;</span> <span class="pre">Reflectivity</span> <span class="pre">&gt;</span> <span class="pre">Show</span> <span class="pre">Reflectivity</span></code> требуется для отображения отражений на объектах в Blender&#8217;e. Движок игнорирует эту опцию.</p>
-</li>
+<li>Для нужных материалов <em>отражающих</em> объектов выставить значение отражающей способности <code class="docutils literal"><span class="pre">Material</span> <span class="pre">&gt;</span> <span class="pre">Mirror</span> <span class="pre">&gt;</span> <span class="pre">Reflectivity</span></code>.<ul>
+<li><code class="docutils literal"><span class="pre">Mirror</span> <span class="pre">&gt;</span> <span class="pre">Reflectivity</span> <span class="pre">&gt;</span> <span class="pre">Show</span> <span class="pre">Reflectivity</span></code> требуется для отображения отражений на объектах в Blender’e. Движок игнорирует эту опцию.</li>
 </ul>
 </li>
-<li><p class="first">Для <em>отражаемых</em> объектов на панели <code class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Reflections</span></code> выставить опцию <code class="docutils literal"><span class="pre">Reflexible</span></code>.</p>
-</li>
+<li>Для <em>отражаемых</em> объектов на панели <code class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Reflections</span></code> выставить опцию <code class="docutils literal"><span class="pre">Reflexible</span></code>.</li>
 </ol>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
@@ -388,7 +364,7 @@
 <p>В отраженном изображении игнорируется карта нормалей, тени.</p>
 <div class="admonition seealso">
 <p class="first admonition-title">См.также</p>
-<p class="last"><a class="reference internal" href="#fresnel"><span>Эффект Френеля для отражения</span></a></p>
+<p class="last"><a class="reference internal" href="#fresnel"><span class="std std-ref">Эффект Френеля для отражения</span></a></p>
 </div>
 </div>
 </div>
@@ -408,11 +384,9 @@
 <p>Эффект Френеля применяется как для статического, так и для динамического отражения.</p>
 <dl class="docutils">
 <dt><em>Material &gt; Mirror &gt; Fresnel</em></dt>
-<dd><p class="first last">Степень Френеля для отражения. Показатель степени N в формуле Шлика. В пакете Blender ограничен значениями от 0 до 5. Если этот параметр равен нулю, эффект Френеля не проявляется, происходит <em>полное</em> отражение на всех углах. Если этот параметр больше нуля, при обзоре поверхности под углами, близкими к прямому (почти перпендикулярно поверхности), материал становится менее отражающим. Чем больше этот параметр, тем больше отклонение угла от прямого, для которого наблюдается такой эффект.</p>
-</dd>
+<dd>Степень Френеля для отражения. Показатель степени N в формуле Шлика. В пакете Blender ограничен значениями от 0 до 5. Если этот параметр равен нулю, эффект Френеля не проявляется, происходит <em>полное</em> отражение на всех углах. Если этот параметр больше нуля, при обзоре поверхности под углами, близкими к прямому (почти перпендикулярно поверхности), материал становится менее отражающим. Чем больше этот параметр, тем больше отклонение угла от прямого, для которого наблюдается такой эффект.</dd>
 <dt><em>Material &gt; Mirror &gt; Blend</em></dt>
-<dd><p class="first last">Фактор Френеля для отражения. Приводится к R<sub>0</sub> в формуле Шлика: R<sub>0</sub> = 1 - <code class="docutils literal"><span class="pre">Blend</span></code> / 5. В пакете Blender ограничен значениями от 0 до 5. Этот параметр показывает интенсивность проявления эффекта Френеля: чем больше фактор <code class="docutils literal"><span class="pre">Blend</span></code>, тем сильнее влияние эффекта Френеля. Если он равен нулю, эффект Френеля не проявляется.</p>
-</dd>
+<dd>Фактор Френеля для отражения. Приводится к R<sub>0</sub> в формуле Шлика: R<sub>0</sub> = 1 - <code class="docutils literal"><span class="pre">Blend</span></code> / 5. В пакете Blender ограничен значениями от 0 до 5. Этот параметр показывает интенсивность проявления эффекта Френеля: чем больше фактор <code class="docutils literal"><span class="pre">Blend</span></code>, тем сильнее влияние эффекта Френеля. Если он равен нулю, эффект Френеля не проявляется.</dd>
 </dl>
 <a class="reference internal image-reference" href="_images/reflection_dynamic_and_fresnel.png"><img alt="_images/reflection_dynamic_and_fresnel.png" class="align-center" src="_images/reflection_dynamic_and_fresnel.png" style="width: 100%;" /></a>
 <div class="line-block">
@@ -426,27 +400,22 @@
 <a class="reference internal image-reference" href="_images/panel_render_options.png"><img alt="_images/panel_render_options.png" class="align-center" src="_images/panel_render_options.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>Material &gt; Rendering Options &gt; Do not Render</em></dt>
-<dd><p class="first last">Отключить рендеринг объекта.</p>
-</dd>
+<dd>Отключить рендеринг объекта.</dd>
 <dt><em>Material &gt; Rendering Options &gt; Backface Culling</em></dt>
-<dd><p class="first last">При включении обратная сторона полигона не отображается движком. По умолчанию включено.</p>
-</dd>
+<dd>При включении обратная сторона полигона не отображается движком. По умолчанию включено.</dd>
 <dt><em>Material &gt; Rendering Options &gt; Wettable</em></dt>
 <dd><p class="first">Для материала активируется эффект смачивания водой.</p>
 <div class="last admonition seealso">
 <p class="first admonition-title">См.также</p>
-<p class="last"><a class="reference internal" href="outdoor_rendering.html#water"><span>Вода</span></a></p>
+<p class="last"><a class="reference internal" href="outdoor_rendering.html#water"><span class="std std-ref">Вода</span></a></p>
 </div>
 </dd>
 <dt><em>Material &gt; Rendering Options &gt; Lens Flare</em></dt>
-<dd><p class="first last">Включает эффект Lens Flare для материала.</p>
-</dd>
+<dd>Включает эффект Lens Flare для материала.</dd>
 <dt><em>Material &gt; Rendering Options &gt; Render Above All</em></dt>
-<dd><p class="first last">Материал отрисовывается поверх всех объектов на сцене. Требует тип прозрачности c градиентом (<code class="docutils literal"><span class="pre">Add</span></code>, <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Blend</span></code> или <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Sort</span></code>)</p>
-</dd>
+<dd>Материал отрисовывается поверх всех объектов на сцене. Требует тип прозрачности c градиентом (<code class="docutils literal"><span class="pre">Add</span></code>, <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Blend</span></code> или <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Sort</span></code>)</dd>
 <dt><em>Material &gt; Rendering Options &gt; Vertex Color Paint</em></dt>
-<dd><p class="first last">Опция включает использование вертексного цвета меша вместо диффузного цвета.</p>
-</dd>
+<dd>Опция включает использование вертексного цвета меша вместо диффузного цвета.</dd>
 <dt><em>Material &gt; Rendering Options &gt; Refractive</em></dt>
 <dd><p class="first">Включить рефракцию. Коэффициент возмущения задаётся опцией <code class="docutils literal"><span class="pre">Refraction</span> <span class="pre">Bump</span></code> на панели <code class="docutils literal"><span class="pre">Refraction</span> <span class="pre">Settings</span></code>. Значение по умолчанию 0.001.</p>
 <div class="admonition note">
@@ -455,7 +424,7 @@
 </div>
 <div class="last admonition seealso">
 <p class="first admonition-title">См.также</p>
-<p class="last"><a class="reference internal" href="#alpha-blend"><span>Прозрачность</span></a></p>
+<p class="last"><a class="reference internal" href="#alpha-blend"><span class="std std-ref">Прозрачность</span></a></p>
 </div>
 </dd>
 </dl>
@@ -469,8 +438,7 @@
 <a class="reference internal image-reference" href="_images/update_material_anim.png"><img alt="_images/update_material_anim.png" class="align-center" src="_images/update_material_anim.png" style="width: 100%;" /></a>
 <p><em>Update Material Animation</em></p>
 <blockquote>
-<div><p>Обновлять анимированный шейдер во вьюпорте Blender.</p>
-</div></blockquote>
+<div>Обновлять анимированный шейдер во вьюпорте Blender.</div></blockquote>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -483,21 +451,18 @@
 </div>
 <dl class="docutils">
 <dt><em>Material &gt; Water</em></dt>
-<dd><p class="first last">Специальный материал для <a class="reference internal" href="outdoor_rendering.html#water"><span>рендеринга воды</span></a>.</p>
-</dd>
+<dd>Специальный материал для <a class="reference internal" href="outdoor_rendering.html#water"><span class="std std-ref">рендеринга воды</span></a>.</dd>
 <dt><em>Material &gt; Terrain Dynamic Grass</em></dt>
-<dd><p class="first last">Материал используется для <a class="reference internal" href="particles_instancing.html#particles-grass"><span>рендеринга травяного покрова</span></a>.</p>
-</dd>
+<dd>Материал используется для <a class="reference internal" href="particles_instancing.html#particles-grass"><span class="std std-ref">рендеринга травяного покрова</span></a>.</dd>
 <dt><em>Material &gt; Collision</em></dt>
 <dd><p class="first">Специальный материал для физического объекта.</p>
 <div class="last admonition seealso">
 <p class="first admonition-title">См.также</p>
-<p class="last"><a class="reference internal" href="physics.html#physics"><span>Физика</span></a></p>
+<p class="last"><a class="reference internal" href="physics.html#physics"><span class="std std-ref">Физика</span></a></p>
 </div>
 </dd>
 <dt><em>Material &gt; Export Options &gt; Do Not Export</em></dt>
-<dd><p class="first last">Не экспортировать.</p>
-</dd>
+<dd>Не экспортировать.</dd>
 </dl>
 </div>
 <div class="section" id="halo-materials">
@@ -512,35 +477,25 @@
 <h3><a class="toc-backref" href="#id24">Дополнительные настройки</a><a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h3>
 <dl class="docutils">
 <dt><em>Halo &gt; Alpha</em></dt>
-<dd><p class="first last">Параметр прозрачности материала. Значение по умолчанию 1.0 (непрозрачный).</p>
-</dd>
+<dd>Параметр прозрачности материала. Значение по умолчанию 1.0 (непрозрачный).</dd>
 <dt><em>Halo &gt; Color</em></dt>
-<dd><p class="first last">Цвет материала. Значение по умолчанию (0.8, 0.8, 0.8) (почти белый).</p>
-</dd>
+<dd>Цвет материала. Значение по умолчанию (0.8, 0.8, 0.8) (почти белый).</dd>
 <dt><em>Halo &gt; Size</em></dt>
-<dd><p class="first last">Размер частиц. Значение по умолчанию 0.5.</p>
-</dd>
+<dd>Размер частиц. Значение по умолчанию 0.5.</dd>
 <dt><em>Halo &gt; Hardness</em></dt>
-<dd><p class="first last">Показатель степени при расчете градиента. Влияет на видимый размер частиц. Значение по умолчанию 50.</p>
-</dd>
+<dd>Показатель степени при расчете градиента. Влияет на видимый размер частиц. Значение по умолчанию 50.</dd>
 <dt><em>Halo &gt; Rings</em></dt>
-<dd><p class="first last">Использовать кольца. Настраивается относительное количество и цвет.</p>
-</dd>
+<dd>Использовать кольца. Настраивается относительное количество и цвет.</dd>
 <dt><em>Halo &gt; Lines</em></dt>
-<dd><p class="first last">Использовать линии. Настраивается относительное количество и цвет.</p>
-</dd>
+<dd>Использовать линии. Настраивается относительное количество и цвет.</dd>
 <dt><em>Halo &gt; Star Tips</em></dt>
-<dd><p class="first last">Использовать звезды. Настраивается количество концов.</p>
-</dd>
+<dd>Использовать звезды. Настраивается количество концов.</dd>
 <dt><em>Halo &gt; Special: Stars</em></dt>
-<dd><p class="first last">Включает режим рендеринга звездного неба, при этом меш неподвижен относительно камеры. Для лампы типа <code class="docutils literal"><span class="pre">Sun</span></code> необходимо также выставить опцию <code class="docutils literal"><span class="pre">Lamp</span> <span class="pre">&gt;</span> <span class="pre">Dynamic</span> <span class="pre">Intensity</span></code>. Приложения должны установить ночное время суток, используя API.</p>
-</dd>
+<dd>Включает режим рендеринга звездного неба, при этом меш неподвижен относительно камеры. Для лампы типа <code class="docutils literal"><span class="pre">Sun</span></code> необходимо также выставить опцию <code class="docutils literal"><span class="pre">Lamp</span> <span class="pre">&gt;</span> <span class="pre">Dynamic</span> <span class="pre">Intensity</span></code>. Приложения должны установить ночное время суток, используя API.</dd>
 <dt><em>Halo &gt; Blending Height</em></dt>
-<dd><p class="first last">Диапазон высот, на котором происходит затухание яркости звезд.</p>
-</dd>
+<dd>Диапазон высот, на котором происходит затухание яркости звезд.</dd>
 <dt><em>Halo &gt; Minimum Height</em></dt>
-<dd><p class="first last">Минимальная высота в локальном пространстве объекта, на которой видны звезды.</p>
-</dd>
+<dd>Минимальная высота в локальном пространстве объекта, на которой видны звезды.</dd>
 </dl>
 </div>
 </div>
@@ -556,7 +511,7 @@
 <p>Модуль API <a class="reference external" href="https://www.blend4web.com/api_doc/module-material.html">material</a> включает методы для управления практически любым параметром стандартного материала.</p>
 <p>Ниже приводится ряд примеров, демонстрирующих, как модуль API material может использоваться для различных операций с материалом объекта:</p>
 <p>Получение диффузного цвета объекта:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_scenes</span>    <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_scenes</span>    <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_material</span>  <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;material&quot;</span><span class="p">);</span>
 
 <span class="p">...</span>
@@ -569,7 +524,7 @@
 </pre></div>
 </div>
 <p>Получение цвета блика материала:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_scenes</span>    <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_scenes</span>    <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_material</span>  <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;material&quot;</span><span class="p">);</span>
 
 <span class="p">...</span>
@@ -583,7 +538,7 @@
 </pre></div>
 </div>
 <p>Получение других параметров:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_scenes</span>    <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_scenes</span>    <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_material</span>  <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;material&quot;</span><span class="p">);</span>
 
 <span class="p">...</span>
@@ -598,7 +553,7 @@
 </pre></div>
 </div>
 <p>Установка параметров материала:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_scenes</span>    <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_scenes</span>    <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_material</span>  <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;material&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_rgba</span>      <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;rgba&quot;</span><span class="p">);</span>
 
@@ -621,14 +576,10 @@
 <p>На данный момент поддерживаются только ноды типа RGB и Value. Все прочие типы не поддерживаются.</p>
 <p>Для того, чтобы изменить значение той или иной ноды материала, требуется:</p>
 <ul class="simple">
-<li><p class="first">объект, использующий данный материал,</p>
-</li>
-<li><p class="first">имя материала,</p>
-</li>
-<li><p class="first">имя самой ноды,</p>
-</li>
-<li><p class="first">а также имя группы нод, в которую входит данная нода (если есть).</p>
-</li>
+<li>объект, использующий данный материал,</li>
+<li>имя материала,</li>
+<li>имя самой ноды,</li>
+<li>а также имя группы нод, в которую входит данная нода (если есть).</li>
 </ul>
 <p>Имя ноды можно узнать (и изменить) в верхней части боковой панели справа от главного окна редактора нод.</p>
 <div class="admonition note">
@@ -638,7 +589,7 @@
 <a class="reference internal image-reference" href="_images/material_node_name.png"><img alt="_images/material_node_name.png" class="align-center" src="_images/material_node_name.png" style="width: 100%;" /></a>
 <p>Два следующих примера демонстрируют, как параметры нодового материала могут быть настроены с использованием методов API:</p>
 <p>Получение параметров нодового материала:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_scenes</span>    <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_scenes</span>    <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_material</span>  <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;material&quot;</span><span class="p">);</span>
 
 <span class="p">...</span>
@@ -651,7 +602,7 @@
 </pre></div>
 </div>
 <p>Установка параметров нодового материала:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_scenes</span>    <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_scenes</span>    <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_material</span>  <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;material&quot;</span><span class="p">);</span>
 
 <span class="p">...</span>
@@ -663,7 +614,7 @@
 </pre></div>
 </div>
 <p>Те же методы могут применяться для настройки окружения сцены, если объект <code class="docutils literal"><span class="pre">World</span></code> использует ноды <code class="docutils literal"><span class="pre">RGB</span></code> или <code class="docutils literal"><span class="pre">Value</span></code>. В этом случае не требуется использовать имя материала. Другое отличие в том, что ссылку на объект сцены следует заменить ссылкой на объект <code class="docutils literal"><span class="pre">World</span></code>; эту ссылку можно получить при помощи метода <a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.get_world_by_name">get_world_by_name()</a>:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_scenes</span>    <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_scenes</span>    <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_material</span>  <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;material&quot;</span><span class="p">);</span>
 
 <span class="p">...</span>
@@ -677,7 +628,7 @@
 <div class="section" id="replacing-textures">
 <h3><a class="toc-backref" href="#id28">Замена текстур</a><a class="headerlink" href="#replacing-textures" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Использование методов API также позволяет заменять текстуры. Это делается при помощи метода <a class="reference external" href="https://www.blend4web.com/api_doc/module-textures.html#.change_image">change_image()</a> из модуля <a class="reference external" href="https://www.blend4web.com/api_doc/module-textures.html">textures</a>:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_scenes</span>  <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_scenes</span>  <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_tex</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;textures&quot;</span><span class="p">);</span>
 
 <span class="p">...</span>
@@ -728,7 +679,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Триумф.
-      Обновлено: 2017-11-21.
+      Обновлено: 2017-12-29.
 
     </p>
   </div>
@@ -784,11 +735,11 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

@@ -14,18 +14,23 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-"use strict";
+import register from "../util/register.js";
+
+import m_cont_fact from "../extern/container.js";
+import m_ctrl_fact from "../extern/controls.js";
+import m_input_fact from "../extern/input.js";
+import m_storage_fact from "./storage.js";
 
 /**
  * Gamepads configurator add-on.
  * @module gp_conf
  */
-b4w.module["gp_conf"] = function(exports, require) {
+function GP_config(ns, exports) {
 
-var m_cont      = require("container");
-var m_ctrl      = require("controls");
-var m_input     = require("input");
-var m_storage   = require("storage");
+var m_cont      = m_cont_fact(ns);
+var m_ctrl      = m_ctrl_fact(ns);
+var m_input     = m_input_fact(ns);
+var m_storage   = m_storage_fact(ns);
 
 var SVG_BASE64 = "url('data:image/svg+xml;base64,";
 var BLUE_COLOR = "#5276cf";
@@ -1225,3 +1230,7 @@ function zoom_main_div() {
 }
 
 };
+
+var gp_config_factory = register("gp_conf", GP_config);
+
+export default gp_config_factory;

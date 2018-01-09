@@ -1,20 +1,16 @@
-"use strict"
+import b4w from "blend4web";
 
-if (b4w.module_check("interface"))
-    throw "Failed to register module: interface";
+var m_ctl = b4w.controls;
+var m_time = b4w.time;
 
-b4w.register("interface", function(exports, require) {
+import * as m_char from "./character.js";
+import * as m_conf from "./game_config.js";
 
-var m_char = require("character");
-var m_conf = require("game_config");
-var m_ctl   = require("controls");
-var m_time  = require("time");
-
-exports.init_interface = function() {
+export function init_interface() {
     m_ctl.create_timer_sensor(1)
 }
 
-exports.update_hp_bar = function(hp) {
+export function update_hp_bar(hp) {
 
     hp = m_char.get_wrapper().hp
 
@@ -31,7 +27,7 @@ exports.update_hp_bar = function(hp) {
     mid_elem.style.left = green_width + 19 + "px";
 }
 
-exports.setup_touch_controls = function (right_arrow, up_arrow, left_arrow,
+export function setup_touch_controls(right_arrow, up_arrow, left_arrow,
                                          down_arrow, jump, attack) {
 
     var touch_start_pos = new Float32Array(2);
@@ -183,27 +179,27 @@ exports.setup_touch_controls = function (right_arrow, up_arrow, left_arrow,
     document.getElementById("control_attack").style.visibility = "visible";
 }
 
-exports.register_replay_cb = function(replay_cb) {
+export function register_replay_cb(replay_cb) {
     document.getElementById("replay").addEventListener("touchstart", replay_cb, false);
     document.getElementById("replay").addEventListener("click", replay_cb, false);
 }
 
-exports.show_replay_button = function(period) {
+export function show_replay_button(period) {
     var replay_button = document.getElementById("replay");
     show_elem(replay_button, period);
 }
 
-exports.hide_replay_button = function(period) {
+export function hide_replay_button(period) {
     var replay_button = document.getElementById("replay");
     hide_elem(replay_button, period);
 }
 
-exports.show_victory_element = function(period) {
+export function show_victory_element(period) {
     var victory_elem = document.getElementById("victory");
     show_elem(victory_elem, period);
 }
 
-exports.hide_victory_element = function(period) {
+export function hide_victory_element(period) {
     var victory_elem = document.getElementById("victory");
     hide_elem(victory_elem, period);
 }
@@ -258,5 +254,3 @@ function hide_elem(elem, period) {
             m_ctl.CT_CONTINUOUS, [elapsed_sens], null, show_elem_cb);
     }
 }
-
-})

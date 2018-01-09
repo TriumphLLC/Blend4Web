@@ -1,19 +1,17 @@
-"use strict";
+import b4w from "blend4web";
 
-b4w.register("example_main", function(exports, require) {
-
-var m_anim     = require("animation");
-var m_app      = require("app");
-var m_cfg      = require("config");
-var m_cont     = require("container");
-var m_data     = require("data");
-var m_scs      = require("scenes");
-var m_sfx      = require("sfx");
-var m_version  = require("version");
+var m_anim     = b4w.animation;
+var m_app      = b4w.app;
+var m_cfg      = b4w.config;
+var m_cont     = b4w.container;
+var m_data     = b4w.data;
+var m_scs      = b4w.scenes;
+var m_sfx      = b4w.sfx;
+var m_version  = b4w.version;
 
 var DEBUG = (m_version.type() === "DEBUG");
 
-exports.init = function() {
+export function init() {
     m_app.init({
         canvas_container_id: "canvas_cont",
         callback: init_cb,
@@ -32,12 +30,13 @@ function init_cb(canvas_elem, success) {
         return;
     }
 
-    // TODO: need refactoring
+    console.log(m_cfg.get_std_assets_path())
+    // TODO: check wheather this works!!!
     if (window["web_page_integration_dry_run"])
         var load_path = m_cfg.get_std_assets_path() +
                 "tutorials/web_page_integration/flying_letters.json";
     else
-        var load_path = "/assets/tutorials/web_page_integration/flying_letters.json";
+        var load_path = "web_page_integration/flying_letters.json";
 
     m_data.load(load_path, load_cb);
 
@@ -75,6 +74,4 @@ function letters_obj_cb(obj) {
     m_anim.play(obj);
 }
 
-});
-
-b4w.require("example_main").init();
+init();

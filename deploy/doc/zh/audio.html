@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>音频 &mdash; Blend4Web 17.10.1 用户手册</title>
+  <title>音频 &mdash; Blend4Web 17.12.0 用户手册</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.10.1 用户手册" href="index.html"/>
+        <link rel="index" title="索引"
+              href="genindex.html"/>
+        <link rel="search" title="搜索" href="search.html"/>
+    <link rel="top" title="Blend4Web 17.12.0 用户手册" href="index.html"/>
         <link rel="next" title="物理" href="physics.html"/>
         <link rel="prev" title="色彩管理" href="colors.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -110,7 +113,7 @@
 <li class="toctree-l1"><a class="reference internal" href="animation.html">动画</a></li>
 <li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">室外效果</a></li>
 <li class="toctree-l1"><a class="reference internal" href="colors.html">色彩管理</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">音频</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">音频</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#audio-source-settings">音源设置</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#sound-tab">声音选项卡</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#distance-tab">距离标签</a></li>
@@ -174,7 +177,7 @@
   <div class="section" id="audio">
 <span id="id1"></span><h1><a class="toc-backref" href="#id2">音频</a><a class="headerlink" href="#audio" title="永久链接至标题">¶</a></h1>
 <div class="contents topic" id="table-of-contents">
-<p class="topic-title first">目录</p>
+<p class="topic-title first">Table of Contents</p>
 <ul class="simple">
 <li><a class="reference internal" href="#audio" id="id2">音频</a><ul>
 <li><a class="reference internal" href="#audio-source-settings" id="id3">音源设置</a><ul>
@@ -206,87 +209,69 @@
 <h3><a class="toc-backref" href="#id4">声音选项卡</a><a class="headerlink" href="#sound-tab" title="永久链接至标题">¶</a></h3>
 <p><em>静音</em></p>
 <blockquote>
-<div><p>启用此参数静音扬声器。</p>
-</div></blockquote>
+<div>启用此参数静音扬声器。</div></blockquote>
 <p><em>扬声器行为</em>:</p>
 <blockquote>
 <div><p>音频源的行为。</p>
-<p><code class="docutils literal"><span class="pre">Positional</span></code> &#8212;高品质的声音空间定位和方向性（锥度）。通过Web Audio API用于声音渲染。这种声音的播放性能是最少，因此只将其用于短采样。这是默认值。</p>
-<p><code class="docutils literal"><span class="pre">Background</span> <span class="pre">Sound</span></code> &#8212; 高质量全方位声音没有空间定位。用Web 音频 API 进行声音渲染。它是更好的性能，但对音乐不是有效。</p>
-<p><code class="docutils literal"><span class="pre">Background</span> <span class="pre">Music</span></code> &#8212; 用来播放音乐。最大的性能，因为使用的音频 HTML 标记，但具有最低限度的灵活性。</p>
+<p><code class="docutils literal"><span class="pre">Positional</span></code> —高品质的声音空间定位和方向性（锥度）。通过Web Audio API用于声音渲染。这种声音的播放性能是最少，因此只将其用于短采样。这是默认值。</p>
+<p><code class="docutils literal"><span class="pre">Background</span> <span class="pre">Sound</span></code> — 高质量全方位声音没有空间定位。用Web 音频 API 进行声音渲染。它是更好的性能，但对音乐不是有效。</p>
+<p><code class="docutils literal"><span class="pre">Background</span> <span class="pre">Music</span></code> — 用来播放音乐。最大的性能，因为使用的音频 HTML 标记，但具有最低限度的灵活性。</p>
 </div></blockquote>
 <p>下列可用选项在  <code class="docutils literal"><span class="pre">Sound</span></code>  面板上 ︰</p>
 <p><em>音量</em></p>
 <blockquote>
-<div><p>扬声器音量</p>
-</div></blockquote>
+<div>扬声器音量</div></blockquote>
 <p><em>随机音量</em></p>
 <blockquote>
-<div><p>添加随机音量。所得到的值延迟播放。</p>
-</div></blockquote>
+<div>添加随机音量。所得到的值延迟播放。</div></blockquote>
 <p><em>音速</em></p>
 <blockquote>
-<div><p>声音播放速度。</p>
-</div></blockquote>
+<div>声音播放速度。</div></blockquote>
 <p><em>随机音速</em></p>
 <blockquote>
-<div><p>声音播放速度的附加随机化。所得到的值被延迟计算。</p>
-</div></blockquote>
+<div>声音播放速度的附加随机化。所得到的值被延迟计算。</div></blockquote>
 <p><em>淡入</em></p>
 <blockquote>
-<div><p>淡入的时间间隔。</p>
-</div></blockquote>
+<div>淡入的时间间隔。</div></blockquote>
 <p><em>淡出</em></p>
 <blockquote>
-<div><p>淡出的时间间隔。</p>
-</div></blockquote>
+<div>淡出的时间间隔。</div></blockquote>
 <p><em>启用多普勒</em></p>
 <blockquote>
-<div><p>打开后，源移动会产生频移现象。</p>
-</div></blockquote>
+<div>打开后，源移动会产生频移现象。</div></blockquote>
 <p><em>自动-播放</em></p>
 <blockquote>
-<div><p>该选项启用默认播放。</p>
-</div></blockquote>
+<div>该选项启用默认播放。</div></blockquote>
 <p><em>循环播放</em></p>
 <blockquote>
-<div><p>循环的声音播放功能。</p>
-</div></blockquote>
+<div>循环的声音播放功能。</div></blockquote>
 <p><em>循环</em></p>
 <blockquote>
-<div><p>循环的声音播放功能。与 <code class="docutils literal"><span class="pre">Cyclic</span> <span class="pre">play</span></code> 选项相反，它保证零延迟后重复。选项仅可用于声源的 <code class="docutils literal"><span class="pre">Positional</span></code> 或 <code class="docutils literal"><span class="pre">Background</span> <span class="pre">Sound</span></code> 的行为。</p>
-</div></blockquote>
+<div>循环的声音播放功能。与 <code class="docutils literal"><span class="pre">Cyclic</span> <span class="pre">play</span></code> 选项相反，它保证零延迟后重复。选项仅可用于声源的 <code class="docutils literal"><span class="pre">Positional</span></code> 或 <code class="docutils literal"><span class="pre">Background</span> <span class="pre">Sound</span></code> 的行为。</div></blockquote>
 <p><em>循环启动</em></p>
 <blockquote>
-<div><p>标记将循环源片段的起点。这个值是在从源文件的开始以秒计数测定。</p>
-</div></blockquote>
+<div>标记将循环源片段的起点。这个值是在从源文件的开始以秒计数测定。</div></blockquote>
 <p><em>循环结束</em></p>
 <blockquote>
-<div><p>标志着源片段的结束点。该值也是以秒为单位。</p>
-</div></blockquote>
+<div>标志着源片段的结束点。该值也是以秒为单位。</div></blockquote>
 <p><em>延迟</em></p>
 <blockquote>
-<div><p>声音播放开始前的延迟。</p>
-</div></blockquote>
+<div>声音播放开始前的延迟。</div></blockquote>
 <p><em>随机延迟</em></p>
 <blockquote>
-<div><p>额外的延迟随机化。根据公式计算所得的值 <span class="math">\(Delay_{result} = Delay + Delay_{random} * Random_{[0-1]}\)</span>.</p>
-</div></blockquote>
+<div>额外的延迟随机化。根据公式计算所得的值 <span class="math">\(Delay_{result} = Delay + Delay_{random} * Random_{[0-1]}\)</span>.</div></blockquote>
 </div>
 <div class="section" id="distance-tab">
 <h3><a class="toc-backref" href="#id5">距离标签</a><a class="headerlink" href="#distance-tab" title="永久链接至标题">¶</a></h3>
 <p><em>衰减</em></p>
 <blockquote>
-<div><p>此参数定义的距离有多强影响音量。默认值是1.0。</p>
-</div></blockquote>
+<div>此参数定义的距离有多强影响音量。默认值是1.0。</div></blockquote>
 <p><em>最大值</em></p>
 <blockquote>
-<div><p>对于音量计算的最大距离。</p>
-</div></blockquote>
+<div>对于音量计算的最大距离。</div></blockquote>
 <p><em>参考</em></p>
 <blockquote>
-<div><p>此设置基准距离在该音量为100％。</p>
-</div></blockquote>
+<div>此设置基准距离在该音量为100％。</div></blockquote>
 </div>
 <div class="section" id="cone-tab">
 <h3><a class="toc-backref" href="#id6">圆锥标签</a><a class="headerlink" href="#cone-tab" title="永久链接至标题">¶</a></h3>
@@ -294,19 +279,16 @@
 <blockquote>
 <div><p><em>Outer</em></p>
 <blockquote>
-<div><p>在度外锥角。超出这个锥体体积是外锥体积。内和外锥体之间的体积内插。</p>
-</div></blockquote>
+<div>在度外锥角。超出这个锥体体积是外锥体积。内和外锥体之间的体积内插。</div></blockquote>
 <p><em>Inner</em></p>
 <blockquote>
-<div><p>度内锥角。锥体内的体积为100％。</p>
-</div></blockquote>
+<div>度内锥角。锥体内的体积为100％。</div></blockquote>
 </div></blockquote>
 <p>卷组的参数：</p>
 <blockquote>
 <div><p><em>Outer</em></p>
 <blockquote>
-<div><p>这台外锥外卷。</p>
-</div></blockquote>
+<div>这台外锥外卷。</div></blockquote>
 </div></blockquote>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -315,46 +297,35 @@
 </div>
 <div class="section" id="audio-mixer">
 <span id="mixer"></span><h2><a class="toc-backref" href="#id7">调音台</a><a class="headerlink" href="#audio-mixer" title="永久链接至标题">¶</a></h2>
-<p>参考 <a class="reference internal" href="viewer.html#viewer"><span>现场查看器此功能可以在发现</span></a>。</p>
+<p>参考 <a class="reference internal" href="viewer.html#viewer"><span class="std std-ref">现场查看器此功能可以在发现</span></a>。</p>
 <a class="reference internal image-reference" href="_images/audio_mixer.png"><img alt="_images/audio_mixer.png" class="align-center" src="_images/audio_mixer.png" style="width: 100%;" /></a>
 <p>使它显示包含当前场景中的扬声器的各种参数均衡器接口。</p>
 <a class="reference internal image-reference" href="_images/audio_mixer_parameters.png"><img alt="_images/audio_mixer_parameters.png" class="align-center" src="_images/audio_mixer_parameters.png" style="width: 100%;" /></a>
 <p>可用于混音的参数包括：</p>
 <dl class="docutils">
 <dt><em>DIST_REF</em></dt>
-<dd><p class="first last">这个值设置一个特定扬声器的基准距离。仅适用于``阵地Sound``型扬声器。</p>
-</dd>
+<dd>这个值设置一个特定扬声器的基准距离。仅适用于``阵地Sound``型扬声器。</dd>
 <dt><em>ATTENUATION</em></dt>
-<dd><p class="first last">此值设置为所选的扬声器发出的声音的衰减因子。可只为 &#8216;位置声音&#8217; 键入扬声器。</p>
-</dd>
+<dd>此值设置为所选的扬声器发出的声音的衰减因子。可只为 '位置声音' 键入扬声器。</dd>
 <dt><em>DIST_MAX</em></dt>
-<dd><p class="first last">这个值示出了用于一个特定扬声器的最大距离。如果从相机到扬声器的距离比这个数目大的扬声器不会发出任何声音。仅适用于 <code class="docutils literal"><span class="pre">Positional</span> <span class="pre">Sound</span></code> 型扬声器。</p>
-</dd>
+<dd>这个值示出了用于一个特定扬声器的最大距离。如果从相机到扬声器的距离比这个数目大的扬声器不会发出任何声音。仅适用于 <code class="docutils literal"><span class="pre">Positional</span> <span class="pre">Sound</span></code> 型扬声器。</dd>
 <dt><em>EQ_FREQ</em></dt>
-<dd><p class="first last">当施加升压的中心频率。</p>
-</dd>
+<dd>当施加升压的中心频率。</dd>
 <dt><em>EQ_Q</em></dt>
-<dd><p class="first last">品质因数 Q。此值控制的频带宽度，下午两点会提振。增加此参数的值，减少宽度。</p>
-</dd>
+<dd>品质因数 Q。此值控制的频带宽度，下午两点会提振。增加此参数的值，减少宽度。</dd>
 <dt><em>EQ_GAIN</em></dt>
-<dd><p class="first last">此值控制，将被应用到由扬声器发出的声音的提升（以dB为单位测量）。</p>
-</dd>
+<dd>此值控制，将被应用到由扬声器发出的声音的提升（以dB为单位测量）。</dd>
 <dt><em>VOLUME</em></dt>
-<dd><p class="first last">由扬声器发出的声音的音量。</p>
-</dd>
+<dd>由扬声器发出的声音的音量。</dd>
 </dl>
 <p>下面这个列表，一个参数均衡器的频率特性被示出。</p>
 <p>可以使用数字键盘控制混音器。</p>
 <blockquote>
 <div><ul class="simple">
-<li><p class="first">键 <code class="docutils literal"><span class="pre">8</span></code>，<code class="docutils literal"><span class="pre">4</span></code>，<code class="docutils literal"><span class="pre">6</span></code> 和 <code class="docutils literal"><span class="pre">2</span></code> 行为像箭头键和用于不同的扬声器和它们的参数之间的切换。</p>
-</li>
-<li><p class="first">键  <code class="docutils literal"><span class="pre">+</span></code> 和 <code class="docutils literal"><span class="pre">-</span></code> 增减一个所选参数的值。</p>
-</li>
-<li><p class="first">该 <code class="docutils literal"><span class="pre">7</span></code> 键可用于静音选定的扬声器。</p>
-</li>
-<li><p class="first">该 <code class="docutils literal"><span class="pre">9</span></code> 键可以用来制作选定的扬声器梭罗（仅此扬声器会发出声音）。</p>
-</li>
+<li>键 <code class="docutils literal"><span class="pre">8</span></code>，<code class="docutils literal"><span class="pre">4</span></code>，<code class="docutils literal"><span class="pre">6</span></code> 和 <code class="docutils literal"><span class="pre">2</span></code> 行为像箭头键和用于不同的扬声器和它们的参数之间的切换。</li>
+<li>键  <code class="docutils literal"><span class="pre">+</span></code> 和 <code class="docutils literal"><span class="pre">-</span></code> 增减一个所选参数的值。</li>
+<li>该 <code class="docutils literal"><span class="pre">7</span></code> 键可用于静音选定的扬声器。</li>
+<li>该 <code class="docutils literal"><span class="pre">9</span></code> 键可以用来制作选定的扬声器梭罗（仅此扬声器会发出声音）。</li>
 </ul>
 </div></blockquote>
 </div>
@@ -363,15 +334,12 @@
 <div class="section" id="supported-formats-containers">
 <h3><a class="toc-backref" href="#id9">支持的格式 （容器） ︰</a><a class="headerlink" href="#supported-formats-containers" title="永久链接至标题">¶</a></h3>
 <ul class="simple">
-<li><p class="first">ogg Vorbis 编码解码器 （Chrome、 火狐浏览器）</p>
-</li>
-<li><p class="first">mp3 （Chrome，Safari）</p>
-</li>
-<li><p class="first">mp4、 AAC 编码解码器 （Chrome，Safari）</p>
-</li>
+<li>ogg Vorbis 编码解码器 （Chrome、 火狐浏览器）</li>
+<li>mp3 （Chrome，Safari）</li>
+<li>mp4、 AAC 编码解码器 （Chrome，Safari）</li>
 </ul>
 <p>这推荐使用 <strong>Ogg</strong> ，它是一个开放式标准，在浏览器常见并提供好音质。在质量和兼容性方面的最佳格式是 48 kHz/16 位。单声道声音 （单声道） 用于存储拍摄的样本，而双声道音响（立体声）用于音乐播放。</p>
-<p>不同格式之间的资源转换的描述在 <a class="reference internal" href="developers.html#converter"><span>相应章节</span></a>.</p>
+<p>不同格式之间的资源转换的描述在 <a class="reference internal" href="developers.html#converter"><span class="std std-ref">相应章节</span></a>.</p>
 </div>
 </div>
 </div>
@@ -395,8 +363,8 @@
 
   <div role="contentinfo">
     <p>
-        &copy; 版权所有 2014-2017, Triumph.
-      最后更新于 2017-11-21.
+        &copy; Copyright 2014-2017, Triumph.
+      最后更新于 2017-12-29.
 
     </p>
   </div>
@@ -452,11 +420,11 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

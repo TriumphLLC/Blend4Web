@@ -1,15 +1,12 @@
-if (b4w.module_check("bonuses"))
-    throw "Failed to register module: bonuses";
+import b4w from "blend4web";
 
-b4w.register("bonuses", function(exports, require) {
+var m_trans = b4w.transform;
+var m_ctl = b4w.controls;
+var m_scs = b4w.scenes;
+var m_sfx = b4w.sfx;
 
-var m_conf = require("game_config");
-var m_trans = require("transform");
-var m_ctl = require("controls");
-var m_scs = require("scenes");
-var m_sfx = require("sfx");
-
-var m_char = require("character");
+import * as m_conf from "./game_config.js";
+import * as m_char from "./character.js";
 
 var _bonus_wrappers = [];
 
@@ -22,7 +19,7 @@ var _lava_protect_time_left = 0;
 
 var _vec3_tmp = new Float32Array(3);
 
-exports.init = function(elapsed_sensor) {
+export function init(elapsed_sensor) {
 
     _char_heal_spk = m_scs.get_object_by_dupli_name("character",
                                                     m_conf.CHAR_HEAL_SPEAKER);
@@ -140,7 +137,7 @@ function init_bonus_wrapper(empty_name, type, bonus_name) {
     return bonus_wrapper;
 }
 
-exports.spawn = function(position) {
+export function spawn(position) {
 
     var bonus_type = Math.floor(3 * Math.random());
 
@@ -159,7 +156,7 @@ exports.spawn = function(position) {
     }
 }
 
-exports.reset = function() {
+export function reset() {
     function reset_pos(bonus_array) {
         for (var i = 0; i < bonus_array.length; i++) {
             var empty_name = bonus_array[i];
@@ -172,17 +169,15 @@ exports.reset = function() {
     reset_pos(m_conf.LAVA_BONUSES_EMPTIES);
 }
 
-exports.set_shield_time = function(val) {
+export function set_shield_time(val) {
     _shield_time_left = val;
 }
-exports.set_lava_protect_time = function(val) {
+export function set_lava_protect_time(val) {
     _lava_protect_time_left = val;
 }
-exports.lava_protect_time_left = function() {
+export function lava_protect_time_left() {
     return _lava_protect_time_left;
 }
-exports.shield_time_left = function() {
+export function shield_time_left() {
     return _shield_time_left;
 }
-
-})

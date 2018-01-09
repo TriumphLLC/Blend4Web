@@ -1,23 +1,21 @@
-"use strict";
+import b4w from "blend4web";
 
-b4w.register("gamepad", function(exports, require) {
-
-var m_app     = require("app");
-var m_anim    = require("animation");
-var m_data    = require("data");
-var m_cfg     = require("config");
-var m_cnst    = require("constraints");
-var m_ctl     = require("controls");
-var m_cont    = require("container");
-var m_gp_cf   = require("gp_conf");
-var m_input   = require("input");
-var m_obj     = require("objects");
-var m_scenes  = require("scenes");
-var m_trans   = require("transform");
-var m_vec3    = require("vec3");
-var m_quat    = require("quat");
-var m_util    = require("util");
-var m_version = require("version");
+var m_app     = b4w.app;
+var m_anim    = b4w.animation;
+var m_data    = b4w.data;
+var m_cfg     = b4w.config;
+var m_cnst    = b4w.constraints;
+var m_ctl     = b4w.controls;
+var m_cont    = b4w.container;
+var m_gp_cf   = b4w.gp_conf;
+var m_input   = b4w.input;
+var m_obj     = b4w.objects;
+var m_scenes  = b4w.scenes;
+var m_trans   = b4w.transform;
+var m_vec3    = b4w.vec3;
+var m_quat    = b4w.quat;
+var m_util    = b4w.util;
+var m_version = b4w.version;
 
 var DEBUG = (m_version.type() === "DEBUG");
 
@@ -34,7 +32,7 @@ var AXIS_THRESHOLD = 0.1;
 var ANIM_SPEED = 3.5;
 var COLLISION_RAD = 6 * 6;
 
-exports.init = function() {
+export function init() {
     m_app.init({
         canvas_container_id: "main_canvas_container",
         callback: init_cb,
@@ -243,6 +241,4 @@ function create_interface() {
         is_hiden = !is_hiden;
     }
 }
-
-});
 

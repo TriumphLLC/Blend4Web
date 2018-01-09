@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Разработчикам движка &mdash; Руководство пользователя Blend4Web 17.10.1</title>
+  <title>Разработчикам движка &mdash; Руководство пользователя Blend4Web 17.12.0</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 17.10.1" href="index.html"/>
+        <link rel="index" title="Алфавитный указатель"
+              href="genindex.html"/>
+        <link rel="search" title="Поиск" href="search.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 17.12.0" href="index.html"/>
         <link rel="next" title="Работа в команде с использованием Git" href="git_short_manual.html"/>
         <link rel="prev" title="Разработчикам приложений" href="developers.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -113,7 +116,7 @@
 <li class="toctree-l1"><a class="reference internal" href="audio.html">Звук</a></li>
 <li class="toctree-l1"><a class="reference internal" href="physics.html">Физика</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers.html">Разработчикам приложений</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Разработчикам движка</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Разработчикам движка</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#coding-style">Стиль оформления кода</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#examples">Примеры</a></li>
 </ul>
@@ -183,7 +186,7 @@
   <div class="section" id="for-engine-developers">
 <span id="developers-advanced"></span><h1><a class="toc-backref" href="#id4">Разработчикам движка</a><a class="headerlink" href="#for-engine-developers" title="Ссылка на этот заголовок">¶</a></h1>
 <div class="contents topic" id="table-of-contents">
-<p class="topic-title first">Содержание</p>
+<p class="topic-title first">Table of Contents</p>
 <ul class="simple">
 <li><a class="reference internal" href="#for-engine-developers" id="id4">Разработчикам движка</a><ul>
 <li><a class="reference internal" href="#coding-style" id="id5">Стиль оформления кода</a><ul>
@@ -214,7 +217,7 @@
 <span id="id1"></span><h2><a class="toc-backref" href="#id5">Стиль оформления кода</a><a class="headerlink" href="#coding-style" title="Ссылка на этот заголовок">¶</a></h2>
 <p>В движке применяется структурное программирование. Код организуется в модули. Подходы ООП не используются, классы не определяются, наследование не осуществляется и т.п.</p>
 <p>Используется <a class="reference external" href="http://en.wikipedia.org/wiki/1_true_brace_style#K.26R_style">K&amp;R стиль</a>, за исключением того, что открывающая скобка для составного оператора ставится на той же строке, например:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">foo_bar</span><span class="p">()</span> <span class="p">{</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">function</span> <span class="nx">foo_bar</span><span class="p">()</span> <span class="p">{</span>
     <span class="c1">// ...</span>
 <span class="p">}</span>
 
@@ -227,20 +230,20 @@
 <div class="section" id="examples">
 <h3><a class="toc-backref" href="#id6">Примеры</a><a class="headerlink" href="#examples" title="Ссылка на этот заголовок">¶</a></h3>
 <p>В именах переменных и функций используется знак подчеркивания:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">foo_bar</span> <span class="o">=</span> <span class="mi">123</span><span class="p">;</span>  <span class="c1">// correct</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">foo_bar</span> <span class="o">=</span> <span class="mi">123</span><span class="p">;</span>  <span class="c1">// correct</span>
 <span class="kd">var</span> <span class="nx">fooBar</span> <span class="o">=</span> <span class="mi">123</span><span class="p">;</span>   <span class="c1">// wrong</span>
 </pre></div>
 </div>
 <p>Все глобальные переменные начинаются со знака подчеркивания:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">_foo_bar</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">_foo_bar</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
 </pre></div>
 </div>
 <p>Константы пишутся прописными буквами и никогда не начинаются со знака подчеркивания:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">FOO_BAR</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">FOO_BAR</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
 </pre></div>
 </div>
 <p>Для внешних API названия методов и свойств задаются через точку. Поля, требующие защиту от обфускации, помещаются в специальный тэг <code class="docutils literal"><span class="pre">&#64;cc_externs</span></code>:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">exports</span><span class="p">.</span><span class="nx">FOO_BAR</span> <span class="o">=</span> <span class="mi">123</span><span class="p">;</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">exports</span><span class="p">.</span><span class="nx">FOO_BAR</span> <span class="o">=</span> <span class="mi">123</span><span class="p">;</span>
 
 <span class="nx">exports</span><span class="p">.</span><span class="nx">foo_bar</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
 
@@ -269,21 +272,21 @@
 </div>
 <div class="section" id="building-the-engine">
 <h2><a class="toc-backref" href="#id7">Сборка движка</a><a class="headerlink" href="#building-the-engine" title="Ссылка на этот заголовок">¶</a></h2>
-<p>Перед сборкой необходимо убедиться, что в системе присутствуют все необходимые зависимости, для чего следует свериться с <a class="reference internal" href="#dependencies"><span>таблицей</span></a>.</p>
+<p>Перед сборкой необходимо убедиться, что в системе присутствуют все необходимые зависимости, для чего следует свериться с <a class="reference internal" href="#dependencies"><span class="std std-ref">таблицей</span></a>.</p>
 <p>Для компиляции движка и входящих в SDK приложений достаточно выполнить команду из корневой директории SDK:</p>
-<div class="highlight-bash"><div class="highlight"><pre>make compile
+<div class="highlight-bash"><div class="highlight"><pre><span></span>make compile
 </pre></div>
 </div>
 <p>Полная сборка, включающая конвертацию ресурсов (текстур, звуков и видео), компиляцию и подготовку документации вызывается командой:</p>
-<div class="highlight-bash"><div class="highlight"><pre>make build
+<div class="highlight-bash"><div class="highlight"><pre><span></span>make build
 </pre></div>
 </div>
 <p>Сборка архивов с дистрибутивами:</p>
-<div class="highlight-bash"><div class="highlight"><pre>make dist
+<div class="highlight-bash"><div class="highlight"><pre><span></span>make dist
 </pre></div>
 </div>
 <p>Все вышеперечисленные операции могут быть выполнены одной командой:</p>
-<div class="highlight-bash"><div class="highlight"><pre>make all
+<div class="highlight-bash"><div class="highlight"><pre><span></span>make all
 </pre></div>
 </div>
 </div>
@@ -294,15 +297,13 @@
 <dl class="docutils">
 <dt>Пути относительно корневой директории SDK:</dt>
 <dd><ul class="first last simple">
-<li><p class="first">скрипт сборки: <code class="docutils literal"><span class="pre">csrc/b4w_bin/build.py</span></code></p>
-</li>
-<li><p class="first">аддон Blend4Web: <code class="docutils literal"><span class="pre">blender_scripts/addons/blend4web/</span></code></p>
-</li>
+<li>скрипт сборки: <code class="docutils literal"><span class="pre">csrc/b4w_bin/build.py</span></code></li>
+<li>аддон Blend4Web: <code class="docutils literal"><span class="pre">blender_scripts/addons/blend4web/</span></code></li>
 </ul>
 </dd>
 </dl>
 <p>Запуск сборки осуществляется следующим образом:</p>
-<div class="highlight-bash"><div class="highlight"><pre>python3 ./csrc/b4w_bin/build.py
+<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 ./csrc/b4w_bin/build.py
 </pre></div>
 </div>
 <p>Результатом сборки будет бинарный файл с именем:</p>
@@ -319,112 +320,86 @@
 <col width="31%" />
 </colgroup>
 <thead valign="bottom">
-<tr class="row-odd"><th class="head"><p class="first last">Название</p>
-</th>
+<tr class="row-odd"><th class="head">Название</th>
 <th class="head">Ubuntu 16.04 package</th>
-<th class="head"><p class="first last">Назначение</p>
-</th>
+<th class="head">Назначение</th>
 </tr>
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td>Bash</td>
-<td><p class="first last">в составе по умолчанию</p>
-</td>
-<td><p class="first last">интерпретатор скриптов</p>
-</td>
+<td>в составе по умолчанию</td>
+<td>интерпретатор скриптов</td>
 </tr>
 <tr class="row-odd"><td>Python 3</td>
-<td><p class="first last">в составе по умолчанию</p>
-</td>
-<td><p class="first last">интерпретатор скриптов</p>
-</td>
+<td>в составе по умолчанию</td>
+<td>интерпретатор скриптов</td>
 </tr>
 <tr class="row-even"><td>NodeJS</td>
 <td>nodejs</td>
-<td><p class="first last">компиляция шейдеров</p>
-</td>
+<td>компиляция шейдеров</td>
 </tr>
 <tr class="row-odd"><td>Java</td>
 <td>default-jre</td>
-<td><p class="first last">компиляция и обфускация модулей движка</p>
-</td>
+<td>компиляция и обфускация модулей движка</td>
 </tr>
 <tr class="row-even"><td>ImageMagick</td>
 <td>imagemagick</td>
-<td><p class="first last">конвертация текстур</p>
-</td>
+<td>конвертация текстур</td>
 </tr>
 <tr class="row-odd"><td>NVIDIA Texture Tools</td>
 <td>libnvtt-bin</td>
-<td><p class="first last">конвертация текстур</p>
-</td>
+<td>конвертация текстур</td>
 </tr>
 <tr class="row-even"><td>Libav</td>
 <td>libav-tools</td>
-<td><p class="first last">конвертация медиаресурсов</p>
-</td>
+<td>конвертация медиаресурсов</td>
 </tr>
 <tr class="row-odd"><td>NVIDIA Cg Toolkit</td>
 <td>nvidia-cg-toolkit</td>
-<td><p class="first last">отладка шейдеров</p>
-</td>
+<td>отладка шейдеров</td>
 </tr>
 <tr class="row-even"><td>OptiPNG</td>
 <td>optipng</td>
-<td><p class="first last">оптимизация PNG-файлов</p>
-</td>
+<td>оптимизация PNG-файлов</td>
 </tr>
 <tr class="row-odd"><td>Emscripten</td>
-<td><p class="first last"><a class="reference external" href="http://kripken.github.io/emscripten-site/docs/building_from_source/index.html">из исходных текстов EMSDK</a></p>
-</td>
-<td><p class="first last">сборка Uranium</p>
-</td>
+<td><a class="reference external" href="http://kripken.github.io/emscripten-site/docs/building_from_source/index.html">из исходных текстов EMSDK</a></td>
+<td>сборка Uranium</td>
 </tr>
 <tr class="row-even"><td>Gnuplot</td>
 <td>gnuplot</td>
-<td><p class="first last">отладка</p>
-</td>
+<td>отладка</td>
 </tr>
 <tr class="row-odd"><td>Graphviz</td>
 <td>graphviz</td>
-<td><p class="first last">отладка</p>
-</td>
+<td>отладка</td>
 </tr>
 <tr class="row-even"><td>xsel</td>
 <td>xsel</td>
-<td><p class="first last">отладка</p>
-</td>
+<td>отладка</td>
 </tr>
 <tr class="row-odd"><td>Sphinx</td>
 <td>python3-sphinx</td>
-<td><p class="first last">сборка документации</p>
-</td>
+<td>сборка документации</td>
 </tr>
 <tr class="row-even"><td>sphinx-intl</td>
-<td><p class="first last">устанавливается через PIP v3 (pip3 install sphinx-intl)</p>
-</td>
-<td><p class="first last">сборка документации (перевод)</p>
-</td>
+<td>устанавливается через PIP v3 (pip3 install sphinx-intl)</td>
+<td>сборка документации (перевод)</td>
 </tr>
 <tr class="row-odd"><td>TeX Live</td>
 <td>texlive texlive-latex-extra
 texlive-lang-cyrillic
 texlive-lang-chinese
 texlive-xetex</td>
-<td><p class="first last">сборка документации (PDF-версия)</p>
-</td>
+<td>сборка документации (PDF-версия)</td>
 </tr>
 <tr class="row-even"><td>JSDoc 3</td>
-<td><p class="first last">устанавливается через NPM (npm install -g jsdoc)</p>
-</td>
-<td><p class="first last">сборка документации (документация на API)</p>
-</td>
+<td>устанавливается через NPM (npm install -g jsdoc)</td>
+<td>сборка документации (документация на API)</td>
 </tr>
 <tr class="row-odd"><td>PEG.js</td>
-<td><p class="first last"><a class="reference external" href="http://pegjs.majda.cz/">из исходных текстов PEG.js</a></p>
-</td>
-<td><p class="first last">сборка препроцессора шейдеров</p>
-</td>
+<td><a class="reference external" href="http://pegjs.majda.cz/">из исходных текстов PEG.js</a></td>
+<td>сборка препроцессора шейдеров</td>
 </tr>
 </tbody>
 </table>
@@ -434,45 +409,34 @@ texlive-xetex</td>
 <p>Рекомендуется при создании новых функций и переменных использовать следующие префиксы и суффиксы.</p>
 <dl class="docutils">
 <dt><em>init_</em></dt>
-<dd><p class="first last">создание абстрактного объекта</p>
-</dd>
+<dd>создание абстрактного объекта</dd>
 <dt><em>create_</em></dt>
-<dd><p class="first last">создание конкретного объекта</p>
-</dd>
+<dd>создание конкретного объекта</dd>
 <dt><em>update_</em></dt>
-<dd><p class="first last">обновить состояние имеющегося объекта</p>
-</dd>
+<dd>обновить состояние имеющегося объекта</dd>
 <dt><em>attach_/detach_</em></dt>
-<dd><p class="first last">добавить/удалить временное свойство к объекту</p>
-</dd>
+<dd>добавить/удалить временное свойство к объекту</dd>
 <dt><em>append_/remove_</em></dt>
-<dd><p class="first last">добавить/удалить временное свойство к уже существующим подобного рода</p>
-</dd>
+<dd>добавить/удалить временное свойство к уже существующим подобного рода</dd>
 <dt><em>insert_/pop_</em></dt>
-<dd><p class="first last">добавить/удалить элемент массива (доступ по индексу места)</p>
-</dd>
+<dd>добавить/удалить элемент массива (доступ по индексу места)</dd>
 <dt><em>switch_</em></dt>
-<dd><p class="first last">изменить значение бинарной величины/флага</p>
-</dd>
+<dd>изменить значение бинарной величины/флага</dd>
 <dt><em>apply_/clear_</em></dt>
-<dd><p class="first last">операция с флагом, бинарной величиной или произвольным параметром</p>
-</dd>
+<dd>операция с флагом, бинарной величиной или произвольным параметром</dd>
 <dt><em>set_/get_</em></dt>
-<dd><p class="first last">установить/получить значение свойства/переменной</p>
-</dd>
+<dd>установить/получить значение свойства/переменной</dd>
 <dt><em>_tmp</em></dt>
-<dd><p class="first last">глобальная переменная - кеш в виде простого объекта (массив, вектор)</p>
-</dd>
+<dd>глобальная переменная - кеш в виде простого объекта (массив, вектор)</dd>
 <dt><em>_cache</em></dt>
-<dd><p class="first last">глобальная переменная - кеш в виде сложного объекта</p>
-</dd>
+<dd>глобальная переменная - кеш в виде сложного объекта</dd>
 </dl>
 </div>
 <div class="section" id="debugging">
 <span id="id3"></span><h2><a class="toc-backref" href="#id11">Отладка</a><a class="headerlink" href="#debugging" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Отладка движка производится с помощью методов модуля <code class="docutils literal"><span class="pre">debug.js</span></code>.</p>
 <p>Структура текущего рендер-графа может быть сохранена в формате DOT с помощью вызова <code class="docutils literal"><span class="pre">b4w.debug.scenegraph_to_dot()</span></code>, например, в консоли браузера. После вызова данного метода содержимое консоли сохранить в файл с расширением .gv. Чтобы получить граф в графическом виде, необходим набор утилит <a class="reference external" href="http://www.graphviz.org/">graphviz</a>. Преобразование в формат SVG выполняется с помощью вызова:</p>
-<div class="highlight-bash"><div class="highlight"><pre>&gt; dot -Tsvg graph.gv -o graph.svg
+<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; dot -Tsvg graph.gv -o graph.svg
 </pre></div>
 </div>
 <p>где <code class="docutils literal"><span class="pre">graph.gv</span></code> имя файла с сохранённым графом.</p>
@@ -481,67 +445,52 @@ texlive-xetex</td>
 <span id="index-0"></span><h2><a class="toc-backref" href="#id12">Компиляция шейдеров</a><a class="headerlink" href="#shader-compilation" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Используемые в движке шейдеры подвергаются обработке компилятором. Kомпилятор выполняет 3 основных процедуры:</p>
 <ul class="simple">
-<li><p class="first">валидацию кода шейдеров,</p>
-</li>
-<li><p class="first">обфускацию кода шейдеров,</p>
-</li>
-<li><p class="first">оптимизацию кода шейдеров.</p>
-</li>
+<li>валидацию кода шейдеров,</li>
+<li>обфускацию кода шейдеров,</li>
+<li>оптимизацию кода шейдеров.</li>
 </ul>
 <p>Для запуска компиляции требуется выполнить одну из команд в корневой директории SDK:</p>
-<div class="highlight-bash"><div class="highlight"><pre>&gt; make compile_shaders
+<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; make compile_shaders
 &gt; make verify_shaders
 </pre></div>
 </div>
 <ul class="simple">
-<li><p class="first"><strong>make</strong> <em>compile_shaders</em> - проверка, обфускация, оптимизация и экспорт скомпилированных шейдеров,</p>
-</li>
-<li><p class="first"><strong>make</strong> <em>verify_shaders</em> - проверка, обфускация и оптимизация.</p>
-</li>
+<li><strong>make</strong> <em>compile_shaders</em> - проверка, обфускация, оптимизация и экспорт скомпилированных шейдеров,</li>
+<li><strong>make</strong> <em>verify_shaders</em> - проверка, обфускация и оптимизация.</li>
 </ul>
 <p>В процессе компиляции сначала осуществляется синтаксический анализ (парсинг) текста шейдера. Соответствующий парсер создается автоматически на основе грамматики с помощью генератора <a class="reference external" href="http://pegjs.majda.cz/">PEG.js</a>. Далее по данным парсинга производится валидация, обфускация и оптимизация шейдеров, после чего шейдеры экспортируются в виде абстрактного синтаксического дерева (Abstract Syntax Tree, AST) для непосредственной загрузки движком.</p>
 <p>Расположение основных файлов в репозитории:</p>
 <ul class="simple">
-<li><p class="first">исходная грамматика - glsl_utils/pegjs/glsl_parser.pegjs</p>
-</li>
-<li><p class="first">скрипт генерации парсера - glsl_utils/pegjs/gen_nodejs.sh</p>
-</li>
-<li><p class="first">парсер - glsl_utils/compiler/glsl_parser.js</p>
-</li>
+<li>исходная грамматика - glsl_utils/pegjs/glsl_parser.pegjs</li>
+<li>скрипт генерации парсера - glsl_utils/pegjs/gen_nodejs.sh</li>
+<li>парсер - glsl_utils/compiler/glsl_parser.js</li>
 </ul>
 <div class="section" id="validation">
 <span id="index-1"></span><h3><a class="toc-backref" href="#id13">Валидация</a><a class="headerlink" href="#validation" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Компилятор шейдеров выполняет следующие процедуры, связанные с проверкой кода:</p>
 <ul class="simple">
-<li><p class="first">вывод сообщений о неиспользуемых переменных и функциях (dead code),</p>
-</li>
-<li><p class="first">проверка синтаксиса шейдеров,</p>
-</li>
-<li><p class="first">проверка шейдеров на соответствие import/export-механизма,</p>
-</li>
-<li><p class="first">удаление лишних пробелов, переводов строк и повторяющихся символов &#8221;;&#8221;.</p>
-</li>
+<li>вывод сообщений о неиспользуемых переменных и функциях (dead code),</li>
+<li>проверка синтаксиса шейдеров,</li>
+<li>проверка шейдеров на соответствие import/export-механизма,</li>
+<li>удаление лишних пробелов, переводов строк и повторяющихся символов «;».</li>
 </ul>
 </div>
 <div class="section" id="obfuscation">
 <span id="index-2"></span><h3><a class="toc-backref" href="#id14">Обфускация</a><a class="headerlink" href="#obfuscation" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Обфускация служит для сокращения объема и затруднения понимания GLSL-кода. На данный момент в нем реализована следующая процедура:</p>
 <ul class="simple">
-<li><p class="first">замена пользовательских идентификаторов более короткими односимвольными, двухсимвольными и т.д. именами (с поддержкой import/export-механизма).</p>
-</li>
+<li>замена пользовательских идентификаторов более короткими односимвольными, двухсимвольными и т.д. именами (с поддержкой import/export-механизма).</li>
 </ul>
 </div>
 <div class="section" id="optimization">
 <span id="index-3"></span><h3><a class="toc-backref" href="#id15">Оптимизация</a><a class="headerlink" href="#optimization" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Оптимизация заключается в выполнении следующих процедур:</p>
 <ul class="simple">
-<li><p class="first">удаление фигурных скобок, которые не несут функциональной нагрузки, но порождают новые области видимости (данный функционал полезен при обработке директив node/lamp),</p>
-</li>
-<li><p class="first">внутрифункциональная оптимизация, связанная с использованием малого числа буферных локальных переменных взамен локальных переменных, заданных программистом.</p>
-</li>
+<li>удаление фигурных скобок, которые не несут функциональной нагрузки, но порождают новые области видимости (данный функционал полезен при обработке директив node/lamp),</li>
+<li>внутрифункциональная оптимизация, связанная с использованием малого числа буферных локальных переменных взамен локальных переменных, заданных программистом.</li>
 </ul>
 <p>Примером удаления бесполезных фигурных скобок может служить замена кода</p>
-<div class="highlight-glsl"><div class="highlight"><pre><span class="k">void</span> <span class="n">function</span><span class="p">(){</span>
+<div class="highlight-glsl"><div class="highlight"><pre><span></span><span class="k">void</span> <span class="n">function</span><span class="p">(){</span>
     <span class="k">int</span> <span class="n">a</span><span class="p">;</span>
     <span class="p">{</span>
         <span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
@@ -550,14 +499,14 @@ texlive-xetex</td>
 </pre></div>
 </div>
 <p>следующим кодом</p>
-<div class="highlight-glsl"><div class="highlight"><pre><span class="k">void</span> <span class="n">function</span><span class="p">(){</span>
+<div class="highlight-glsl"><div class="highlight"><pre><span></span><span class="k">void</span> <span class="n">function</span><span class="p">(){</span>
     <span class="k">int</span> <span class="n">a</span><span class="p">;</span>
     <span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
 </div>
 <p>Использование малого числа буферных локальных переменных заключается в том, что они повторно используются в разных контекстах. Например, следующий код</p>
-<div class="highlight-glsl"><div class="highlight"><pre><span class="k">int</span> <span class="n">function</span><span class="p">(){</span>
+<div class="highlight-glsl"><div class="highlight"><pre><span></span><span class="k">int</span> <span class="n">function</span><span class="p">(){</span>
     <span class="k">int</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
     <span class="k">int</span> <span class="n">b</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="mi">3</span><span class="p">;</span>
     <span class="k">return</span> <span class="n">b</span><span class="p">;</span>
@@ -565,7 +514,7 @@ texlive-xetex</td>
 </pre></div>
 </div>
 <p>будет заменен на</p>
-<div class="highlight-glsl"><div class="highlight"><pre><span class="k">int</span> <span class="n">function</span><span class="p">(){</span>
+<div class="highlight-glsl"><div class="highlight"><pre><span></span><span class="k">int</span> <span class="n">function</span><span class="p">(){</span>
     <span class="k">int</span> <span class="n">_int_tmp0</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
     <span class="n">_int_tmp0</span> <span class="o">=</span> <span class="n">_int_tmp0</span> <span class="o">+</span> <span class="mi">3</span><span class="p">;</span>
     <span class="k">return</span> <span class="n">_int_tmp0</span><span class="p">;</span>
@@ -580,7 +529,7 @@ texlive-xetex</td>
 <div class="section" id="import-export-directives">
 <span id="index-4"></span><h3><a class="toc-backref" href="#id16">Директивы import/export</a><a class="headerlink" href="#import-export-directives" title="Ссылка на этот заголовок">¶</a></h3>
 <p>В целях упорядочивания, структурирования и повышения удобочитаемости кода шейдеров в include-файлах используются директивы import и export. Они указываются в начале файла и должны выглядеть примерно следующим образом:</p>
-<div class="highlight-glsl"><div class="highlight"><pre><span class="cp">#import u_frame_factor u_quatsb u_quatsa u_transb u_transa a_influence</span>
+<div class="highlight-glsl"><div class="highlight"><pre><span></span><span class="cp">#import u_frame_factor u_quatsb u_quatsa u_transb u_transa a_influence</span>
 <span class="cp">#import qrot</span>
 
 <span class="cp">#export skin</span>
@@ -595,44 +544,36 @@ texlive-xetex</td>
 <span id="index-5"></span><h3><a class="toc-backref" href="#id17">Рекомендации и ограничения</a><a class="headerlink" href="#recommendations-and-limitations" title="Ссылка на этот заголовок">¶</a></h3>
 <p>В связи с наличием препроцессинга, необходимостью совместной обработки нескольких шейдеров и include-файлов, а также особенностями реализации компилятора гарантировать работоспособность полученного на выходе кода можно только при соблюдении ряда правил или ограничений на текст исходных шейдеров:</p>
 <ol class="arabic simple">
-<li><p class="first">Обязательное использование специальной директивы <code class="docutils literal"><span class="pre">#var</span></code> для описания констант, определяемых движком в момент запуска. Например:</p>
-</li>
+<li>Обязательное использование специальной директивы <code class="docutils literal"><span class="pre">#var</span></code> для описания констант, определяемых движком в момент запуска. Например:</li>
 </ol>
-<div class="highlight-glsl"><div class="highlight"><pre><span class="cp">#var AU_QUALIFIER uniform</span>
+<div class="highlight-glsl"><div class="highlight"><pre><span></span><span class="cp">#var AU_QUALIFIER uniform</span>
 <span class="n">AU_QUALIFIER</span> <span class="k">float</span> <span class="n">a</span><span class="p">;</span>
 </pre></div>
 </div>
-<p>Синтаксис здесь схож с директивой #define. Смысл директивы #var в том, чтобы определяемое ею значение позволило распарсить исходный шейдер. Что это будет конкретно (например, &#8216;uniform&#8217; или &#8216;attribute&#8217; в примере выше), не важно, т.к. на этом этапе оно все равно неизвестно. Однако, желательно указывать более-менее подходящее описание, а не что-то совершенно произвольное.</p>
+<p>Синтаксис здесь схож с директивой #define. Смысл директивы #var в том, чтобы определяемое ею значение позволило распарсить исходный шейдер. Что это будет конкретно (например, „uniform“ или „attribute“ в примере выше), не важно, т.к. на этом этапе оно все равно неизвестно. Однако, желательно указывать более-менее подходящее описание, а не что-то совершенно произвольное.</p>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
 <p class="last">Для констант, используемых не в коде шейдера, а в выражениях препроцессинга, директива <code class="docutils literal"><span class="pre">#var</span></code> не обязательна.</p>
 </div>
 <ol class="arabic simple" start="2">
-<li><p class="first">Использование при необходимости директив import/export.</p>
-</li>
-<li><p class="first">Не следует перегружать встроенные функции, только пользовательские.</p>
-</li>
-<li><p class="first">Не следует объявлять переменные с именем одной из встроенных функций, либо main (даже если это не приводит к ошибке).</p>
-</li>
-<li><p class="first">Нельзя использовать директивы #var и #define для замены отдельных символов в таких операторах, как: &#8220;++&#8221;, &#8220;&#8211;&#8221;, &#8220;*=&#8221;, &#8220;/=&#8221;, &#8220;+=&#8221;, &#8220;-=&#8221;, &#8220;==&#8221;, &#8220;&lt;=&#8221;, &#8220;&gt;=&#8221;, &#8221;!=&#8221;, &#8220;&amp;&amp;&#8221;, &#8220;||&#8221;, &#8220;^^&#8221;.</p>
-</li>
+<li>Использование при необходимости директив import/export.</li>
+<li>Не следует перегружать встроенные функции, только пользовательские.</li>
+<li>Не следует объявлять переменные с именем одной из встроенных функций, либо main (даже если это не приводит к ошибке).</li>
+<li>Нельзя использовать директивы #var и #define для замены отдельных символов в таких операторах, как: «++», «–», «*=», «/=», «+=», «-=», «==», «&lt;=», «&gt;=», «!=», «&amp;&amp;», «||», «^^».</li>
 </ol>
 <p>Например:</p>
-<div class="highlight-glsl"><div class="highlight"><pre><span class="cp">#var EQUAL =</span>
+<div class="highlight-glsl"><div class="highlight"><pre><span></span><span class="cp">#var EQUAL =</span>
 <span class="p">...</span>
 <span class="n">a</span> <span class="o">*</span><span class="n">EQUAL</span> <span class="n">b</span><span class="p">;</span>
 <span class="p">...</span>
 </pre></div>
 </div>
 <ol class="arabic simple" start="6">
-<li><p class="first">Использование директивы #include, не должно приводить к неоднозначности при обфускации содержимого include-файла. Это может произойти в том случае, когда один и тот же файл включается в несколько разных шейдеров, и в каком-то из них могут повлиять определенные выше директивы, вроде #var или #define. Также не стоит использовать в include-файле необъявленные функции и переменные.</p>
-</li>
-<li><p class="first">Использование вложенных include&#8217;ов или множественного включения одного и того же include&#8217;a в один и тот же шейдер не поддерживается.</p>
-</li>
-<li><p class="first">К неработоспособности шейдера может привести нетривиальное использование препроцессинга, например, создающее невалидный GLSL-код:</p>
-</li>
+<li>Использование директивы #include, не должно приводить к неоднозначности при обфускации содержимого include-файла. Это может произойти в том случае, когда один и тот же файл включается в несколько разных шейдеров, и в каком-то из них могут повлиять определенные выше директивы, вроде #var или #define. Также не стоит использовать в include-файле необъявленные функции и переменные.</li>
+<li>Использование вложенных include’ов или множественного включения одного и того же include’a в один и тот же шейдер не поддерживается.</li>
+<li>К неработоспособности шейдера может привести нетривиальное использование препроцессинга, например, создающее невалидный GLSL-код:</li>
 </ol>
-<div class="highlight-glsl"><div class="highlight"><pre><span class="cp">#if TYPE</span>
+<div class="highlight-glsl"><div class="highlight"><pre><span></span><span class="cp">#if TYPE</span>
 <span class="k">void</span> <span class="n">function1</span><span class="p">()</span> <span class="p">{</span>
 <span class="cp">#else</span>
 <span class="k">void</span> <span class="n">function1</span><span class="p">(</span><span class="k">int</span> <span class="n">i</span><span class="p">)</span> <span class="p">{</span>
@@ -642,12 +583,9 @@ texlive-xetex</td>
 </pre></div>
 </div>
 <ol class="arabic simple" start="9">
-<li><p class="first">Не следует объявлять переменные с именами вида <code class="docutils literal"><span class="pre">node_[NODE_NAME]_var_[IN_OUT_NODE]</span></code>, где <code class="docutils literal"><span class="pre">NODE_NAME</span></code> &#8212; название некоторой ноды, <code class="docutils literal"><span class="pre">IN_OUT_NODE</span></code> &#8212; название одного из входов или выходов ноды.</p>
-</li>
-<li><p class="first">Не разрешается множественное использование одной и той же директивы <code class="docutils literal"><span class="pre">#nodes_main</span></code>, <code class="docutils literal"><span class="pre">#nodes_global</span></code> или <code class="docutils literal"><span class="pre">#lamps_main</span></code> в одном шейдере.</p>
-</li>
-<li><p class="first">Директивы <code class="docutils literal"><span class="pre">#nodes_main</span></code>, <code class="docutils literal"><span class="pre">#nodes_global</span></code> и <code class="docutils literal"><span class="pre">#lamps_main</span></code> рекомендуется использовать в том же файле, в котором содержится описание шейдерных нод, например, в одном и том же include-файле - это необходимо для корректной валидации шейдеров.</p>
-</li>
+<li>Не следует объявлять переменные с именами вида <code class="docutils literal"><span class="pre">node_[NODE_NAME]_var_[IN_OUT_NODE]</span></code>, где <code class="docutils literal"><span class="pre">NODE_NAME</span></code> — название некоторой ноды, <code class="docutils literal"><span class="pre">IN_OUT_NODE</span></code> — название одного из входов или выходов ноды.</li>
+<li>Не разрешается множественное использование одной и той же директивы <code class="docutils literal"><span class="pre">#nodes_main</span></code>, <code class="docutils literal"><span class="pre">#nodes_global</span></code> или <code class="docutils literal"><span class="pre">#lamps_main</span></code> в одном шейдере.</li>
+<li>Директивы <code class="docutils literal"><span class="pre">#nodes_main</span></code>, <code class="docutils literal"><span class="pre">#nodes_global</span></code> и <code class="docutils literal"><span class="pre">#lamps_main</span></code> рекомендуется использовать в том же файле, в котором содержится описание шейдерных нод, например, в одном и том же include-файле - это необходимо для корректной валидации шейдеров.</li>
 </ol>
 </div>
 <div class="section" id="webgl-extensions">
@@ -669,57 +607,47 @@ texlive-xetex</td>
 <col width="54%" />
 </colgroup>
 <thead valign="bottom">
-<tr class="row-odd"><th class="head"><p class="first last">Сообщение об ошибке</p>
-</th>
-<th class="head"><p class="first last">Причина</p>
-</th>
+<tr class="row-odd"><th class="head">Сообщение об ошибке</th>
+<th class="head">Причина</th>
 </tr>
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td>Error! Ambiguous obfuscation in
-include file &#8216;FILE_NAME&#8217;.</td>
-<td><p class="first last">Ошибка! Неоднозначная обфускация include-файла FILE_NAME.</p>
-</td>
+include file „FILE_NAME“.</td>
+<td>Ошибка! Неоднозначная обфускация include-файла FILE_NAME.</td>
 </tr>
 <tr class="row-odd"><td>Error! Extension NAME is
 unsupported in obfuscator. File:
-&#8216;FILE_NAME&#8217;.</td>
-<td><p class="first last">Ошибка! WebGL-расширение с именем NAME, использованное в файле FILE_NAME, не поддерживается обфускатором.</p>
-</td>
+„FILE_NAME“.</td>
+<td>Ошибка! WebGL-расширение с именем NAME, использованное в файле FILE_NAME, не поддерживается обфускатором.</td>
 </tr>
-<tr class="row-even"><td>Error! Include &#8216;FILE_NAME&#8217; not
+<tr class="row-even"><td>Error! Include „FILE_NAME“ not
 found.</td>
-<td><p class="first last">Ошибка! При подключении не найден include-файл FILE_NAME.</p>
-</td>
+<td>Ошибка! При подключении не найден include-файл FILE_NAME.</td>
 </tr>
-<tr class="row-odd"><td>Error! Undeclared TYPE: &#8216;NAME&#8217;.
-File: &#8216;FILE_NAME&#8217;.</td>
-<td><p class="first last">Ошибка в файле FILE_NAME. Необъявленный идентификатор типа TYPE (переменная, функция, структура, ...) с именем NAME.</p>
-</td>
+<tr class="row-odd"><td>Error! Undeclared TYPE: „NAME“.
+File: „FILE_NAME“.</td>
+<td>Ошибка в файле FILE_NAME. Необъявленный идентификатор типа TYPE (переменная, функция, структура, …) с именем NAME.</td>
 </tr>
-<tr class="row-even"><td>Error! Undeclared TYPE: &#8216;NAME&#8217;.
+<tr class="row-even"><td>Error! Undeclared TYPE: „NAME“.
 Importing data missed. File:
-&#8216;FILE_NAME&#8217;.</td>
-<td><p class="first last">Ошибка! Необъявленный идентификатор типа TYPE (переменная, функция, структура, ... ) с именем NAME. Отсутствует объявление идентификатора, требуемого в include-файле FILE_NAME согласно директиве <code class="docutils literal"><span class="pre">#import</span></code>.</p>
-</td>
+„FILE_NAME“.</td>
+<td>Ошибка! Необъявленный идентификатор типа TYPE (переменная, функция, структура, … ) с именем NAME. Отсутствует объявление идентификатора, требуемого в include-файле FILE_NAME согласно директиве <code class="docutils literal"><span class="pre">#import</span></code>.</td>
 </tr>
-<tr class="row-odd"><td>Error! Undeclared TYPE: &#8216;NAME&#8217;.
+<tr class="row-odd"><td>Error! Undeclared TYPE: „NAME“.
 Possibly exporting needed in
-include file &#8216;INCLUDE_NAME&#8217;. File:
-&#8216;FILE_NAME&#8217;.</td>
-<td><p class="first last">Ошибка в файле FILE_NAME. Необъявленный идентификатор типа TYPE (переменная, функция, структура, ...) с именем NAME. Возможно требуется разрешить его экспорт в include-файле INCLUDE_NAME.</p>
-</td>
+include file „INCLUDE_NAME“. File:
+„FILE_NAME“.</td>
+<td>Ошибка в файле FILE_NAME. Необъявленный идентификатор типа TYPE (переменная, функция, структура, …) с именем NAME. Возможно требуется разрешить его экспорт в include-файле INCLUDE_NAME.</td>
 </tr>
-<tr class="row-even"><td>Error! Undeclared TYPE: &#8216;NAME&#8217;.
+<tr class="row-even"><td>Error! Undeclared TYPE: „NAME“.
 Possibly importing needed. File:
-&#8216;FILE_NAME&#8217;.</td>
-<td><p class="first last">Ошибка! Необъявленный идентификатор типа TYPE (переменная, функция, структура, ... ) с именем NAME. Возможно требуется указать его как импортируемый в include-файле FILE_NAME.</p>
-</td>
+„FILE_NAME“.</td>
+<td>Ошибка! Необъявленный идентификатор типа TYPE (переменная, функция, структура, … ) с именем NAME. Возможно требуется указать его как импортируемый в include-файле FILE_NAME.</td>
 </tr>
-<tr class="row-odd"><td>Error! Unused export token &#8216;NAME&#8217;
-in include file &#8216;FILE_NAME&#8217;.</td>
-<td><p class="first last">Ошибка! В include-файле FILE_NAME разрешен для экспорта необъявленный идентификатор с именем NAME.</p>
-</td>
+<tr class="row-odd"><td>Error! Unused export token „NAME“
+in include file „FILE_NAME“.</td>
+<td>Ошибка! В include-файле FILE_NAME разрешен для экспорта необъявленный идентификатор с именем NAME.</td>
 </tr>
 </tbody>
 </table>
@@ -733,44 +661,37 @@ in include file &#8216;FILE_NAME&#8217;.</td>
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td>Error! Using reserved word in TYPE
-&#8216;NAME&#8217;. File: &#8216;FILE_NAME&#8217;.</td>
-<td><p class="first last">Ошибка в файле FILE_NAME. Использование зарезервированного слова при объявлении идентификатора типа TYPE (переменная, функция, структура, ...) с именем NAME.</p>
-</td>
+„NAME“. File: „FILE_NAME“.</td>
+<td>Ошибка в файле FILE_NAME. Использование зарезервированного слова при объявлении идентификатора типа TYPE (переменная, функция, структура, …) с именем NAME.</td>
 </tr>
-<tr class="row-even"><td>Error! &#8216;all&#8217; extension cannot have
+<tr class="row-even"><td>Error! „all“ extension cannot have
 BEHAVIOR_TYPE behavior. File:
-&#8216;FILE_NAME&#8217;.</td>
-<td><p class="first last">Ошибка! Директива <code class="docutils literal"><span class="pre">#extension</span></code>, указанная для всех (<code class="docutils literal"><span class="pre">all</span></code>) WebGL-расширений в файле FILE_NAME, не поддерживает поведение BEHAVIOR_TYPE.</p>
-</td>
+„FILE_NAME“.</td>
+<td>Ошибка! Директива <code class="docutils literal"><span class="pre">#extension</span></code>, указанная для всех (<code class="docutils literal"><span class="pre">all</span></code>) WebGL-расширений в файле FILE_NAME, не поддерживает поведение BEHAVIOR_TYPE.</td>
 </tr>
 <tr class="row-odd"><td>Syntax Error. ERROR_MESSAGE. File:
 FILE_NAME, line: LINE_NUMBER,
 column: COL_NUMBER.</td>
-<td><p class="first last">Ошибка синтаксиса в строке LINE_NUMBER, столбце COL_NUMBER при парсинге шейдера FILE_NAME. Исходное описание ошибки приведено в ERROR_MESSAGE. В сообщении прилагается листинг кода в окрестности соответствующей строки (следует учитывать особенность pegjs-парсеров, указывающих чуть далее места, вызвавшего ошибку).</p>
-</td>
+<td>Ошибка синтаксиса в строке LINE_NUMBER, столбце COL_NUMBER при парсинге шейдера FILE_NAME. Исходное описание ошибки приведено в ERROR_MESSAGE. В сообщении прилагается листинг кода в окрестности соответствующей строки (следует учитывать особенность pegjs-парсеров, указывающих чуть далее места, вызвавшего ошибку).</td>
 </tr>
-<tr class="row-even"><td>Warning! Function &#8216;NAME&#8217; is
+<tr class="row-even"><td>Warning! Function „NAME“ is
 declared in [include ]file
 FILE_NAME, but never used.</td>
-<td><p class="first last">В файле FILE_NAME объявлена функция NAME, которая нигде не используется.</p>
-</td>
+<td>В файле FILE_NAME объявлена функция NAME, которая нигде не используется.</td>
 </tr>
-<tr class="row-odd"><td>Warning! Include file &#8216;FILE_NAME&#8217;
+<tr class="row-odd"><td>Warning! Include file „FILE_NAME“
 not used in any shader, would be
 omitted!</td>
-<td><p class="first last">Include-файл FILE_NAME не используется ни в одном из шейдеров, поэтому будет исключен из закомпиленной версии.</p>
-</td>
+<td>Include-файл FILE_NAME не используется ни в одном из шейдеров, поэтому будет исключен из закомпиленной версии.</td>
 </tr>
-<tr class="row-even"><td>Warning! Unused import token &#8216;NAME&#8217;
-in include file &#8216;FILE_NAME&#8217;.</td>
-<td><p class="first last">Идентификатор с именем NAME импортируется в include-файле FILE_NAME, но нигде не используется.</p>
-</td>
+<tr class="row-even"><td>Warning! Unused import token „NAME“
+in include file „FILE_NAME“.</td>
+<td>Идентификатор с именем NAME импортируется в include-файле FILE_NAME, но нигде не используется.</td>
 </tr>
-<tr class="row-odd"><td>Warning! Variable &#8216;NAME&#8217; is
+<tr class="row-odd"><td>Warning! Variable „NAME“ is
 declared in include file
 FILE_NAME, but never used.</td>
-<td><p class="first last">В файле FILE_NAME объявлена переменная NAME, которая нигде не используется.</p>
-</td>
+<td>В файле FILE_NAME объявлена переменная NAME, которая нигде не используется.</td>
 </tr>
 </tbody>
 </table>
@@ -779,15 +700,15 @@ FILE_NAME, but never used.</td>
 <div class="section" id="updating-add-on-translations">
 <h2><a class="toc-backref" href="#id20">Обновление переводов аддона</a><a class="headerlink" href="#updating-add-on-translations" title="Ссылка на этот заголовок">¶</a></h2>
 <p>При необходимости обновить все существующие .po файлы, запустите скрипт <em>translator.py</em> из директории SDK/scripts без параметра:</p>
-<div class="highlight-bash"><div class="highlight"><pre>&gt; python3 translator.py
+<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; python3 translator.py
 </pre></div>
 </div>
 <p>Для обновления существующего .po файла необходимо вызвать скрипт с передачей ему одного из поддерживаемых языков:</p>
-<div class="highlight-bash"><div class="highlight"><pre>&gt; python3 translator.py ru_RU
+<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; python3 translator.py ru_RU
 </pre></div>
 </div>
 <p>Для просмотра списка поддерживаемых языков вызовите скрипт следующим образом:</p>
-<div class="highlight-bash"><div class="highlight"><pre>&gt; python3 translator.py <span class="nb">help</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; python3 translator.py <span class="nb">help</span>
 </pre></div>
 </div>
 <p>При вызове скрипта в любом случае будет обновлен файл <em>empty.po</em>.</p>
@@ -815,7 +736,7 @@ FILE_NAME, but never used.</td>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Триумф.
-      Обновлено: 2017-11-21.
+      Обновлено: 2017-12-29.
 
     </p>
   </div>
@@ -871,11 +792,11 @@ FILE_NAME, but never used.</td>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

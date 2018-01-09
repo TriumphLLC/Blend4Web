@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Просмотрщик сцен &mdash; Руководство пользователя Blend4Web 17.10.1</title>
+  <title>Просмотрщик сцен &mdash; Руководство пользователя Blend4Web 17.12.0</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 17.10.1" href="index.html"/>
+        <link rel="index" title="Алфавитный указатель"
+              href="genindex.html"/>
+        <link rel="search" title="Поиск" href="search.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 17.12.0" href="index.html"/>
         <link rel="next" title="Веб-плеер" href="web_player.html"/>
         <link rel="prev" title="Управление проектами" href="project_manager.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -89,7 +92,7 @@
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Установка и обновление</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Рабочий процесс</a></li>
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">Управление проектами</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Просмотрщик сцен</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Просмотрщик сцен</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#navigation">Навигация</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#the-side-panel">Боковая панель</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#information-panel">Информационное табло</a></li>
@@ -196,7 +199,7 @@
   <div class="section" id="scene-viewer">
 <span id="viewer"></span><span id="index-0"></span><h1><a class="toc-backref" href="#id2">Просмотрщик сцен</a><a class="headerlink" href="#scene-viewer" title="Ссылка на этот заголовок">¶</a></h1>
 <div class="contents topic" id="table-of-contents">
-<p class="topic-title first">Содержание</p>
+<p class="topic-title first">Table of Contents</p>
 <ul class="simple">
 <li><a class="reference internal" href="#scene-viewer" id="id2">Просмотрщик сцен</a><ul>
 <li><a class="reference internal" href="#navigation" id="id3">Навигация</a></li>
@@ -236,7 +239,7 @@
 </li>
 </ul>
 </div>
-<p><a class="reference internal" href="addon.html#getting-started-launching-viewer"><span>Запуск просмотрщика сцен</span></a>.</p>
+<p><a class="reference internal" href="addon.html#getting-started-launching-viewer"><span class="std std-ref">Запуск просмотрщика сцен</span></a>.</p>
 <div class="section" id="navigation">
 <h2><a class="toc-backref" href="#id3">Навигация</a><a class="headerlink" href="#navigation" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Управление камерой осуществляется мышью с нажатой кнопкой, а также клавишами <code class="docutils literal"><span class="pre">W</span></code>, <code class="docutils literal"><span class="pre">A</span></code>, <code class="docutils literal"><span class="pre">S</span></code>, <code class="docutils literal"><span class="pre">D</span></code>, <code class="docutils literal"><span class="pre">R</span></code>, <code class="docutils literal"><span class="pre">F</span></code>: вперед, влево, назад, вправо, вверх, вниз. Также поддерживаются стрелки и клавиши <code class="docutils literal"><span class="pre">numpad</span></code>. В режиме камеры <code class="docutils literal"><span class="pre">Target</span></code> возможно фокусирование на выделенный объект посредством нажатия клавишей <code class="docutils literal"><span class="pre">Z</span></code> или <code class="docutils literal"><span class="pre">.(точка)</span></code>.</p>
@@ -253,41 +256,33 @@
 <h3><a class="toc-backref" href="#id5">Информационное табло</a><a class="headerlink" href="#information-panel" title="Ссылка на этот заголовок">¶</a></h3>
 <dl class="docutils">
 <dt><strong>Build</strong></dt>
-<dd><p class="first last">Дата и время сборки движка. В версии для разработки показывает время загрузки страницы.</p>
-</dd>
+<dd>Дата и время сборки движка. В версии для разработки показывает время загрузки страницы.</dd>
 <dt><strong>Scene</strong></dt>
-<dd><p class="first last">Название загруженной сцены. При наведении курсора мыши всплывает путь к файлу.</p>
-</dd>
+<dd>Название загруженной сцены. При наведении курсора мыши всплывает путь к файлу.</dd>
 <dt><strong>Loaded</strong></dt>
-<dd><p class="first last">Процент и время загрузки.</p>
-</dd>
+<dd>Процент и время загрузки.</dd>
 </dl>
 </div>
 <div class="section" id="basic-control-buttons">
 <h3><a class="toc-backref" href="#id6">Базовые кнопки управления</a><a class="headerlink" href="#basic-control-buttons" title="Ссылка на этот заголовок">¶</a></h3>
 <dl class="docutils">
 <dt><strong>Home</strong></dt>
-<dd><p class="first last">Загружает последнюю сцену, экспортированную из Blender с помощью кнопки <code class="docutils literal"><span class="pre">Fast</span> <span class="pre">Preview</span></code>, или сцену по умолчанию, если Просмотрщик запущен не из Blender.</p>
-</dd>
+<dd>Загружает последнюю сцену, экспортированную из Blender с помощью кнопки <code class="docutils literal"><span class="pre">Fast</span> <span class="pre">Preview</span></code>, или сцену по умолчанию, если Просмотрщик запущен не из Blender.</dd>
 <dt><strong>Reset</strong></dt>
-<dd><p class="first last">Кнопка удаляет сохраненное название последней просмотренной сцены и перезагружает страницу, возвращая к сцене по умолчанию.</p>
-</dd>
+<dd>Кнопка удаляет сохраненное название последней просмотренной сцены и перезагружает страницу, возвращая к сцене по умолчанию.</dd>
 <dt><strong>LOW Q - HIGH Q - ULTRA Q</strong></dt>
 <dd><p class="first">Выпадающее меню выбора профиля работы движка.</p>
 <div class="last admonition seealso">
 <p class="first admonition-title">См.также</p>
-<p class="last"><a class="reference internal" href="developers.html#quality-settings"><span>Профили качества изображения</span></a></p>
+<p class="last"><a class="reference internal" href="developers.html#quality-settings"><span class="std std-ref">Профили качества изображения</span></a></p>
 </div>
 </dd>
 <dt><strong>Pause</strong></dt>
-<dd><p class="first last">Приостановка рендеринга.</p>
-</dd>
+<dd>Приостановка рендеринга.</dd>
 <dt><strong>Resume</strong></dt>
-<dd><p class="first last">Возобновление рендеринга.</p>
-</dd>
+<dd>Возобновление рендеринга.</dd>
 <dt><strong>Rotate</strong></dt>
-<dd><p class="first last">Включает и выключает автоматический поворот камеры вокруг сцены. По умолчанию отключён.</p>
-</dd>
+<dd>Включает и выключает автоматический поворот камеры вокруг сцены. По умолчанию отключён.</dd>
 </dl>
 </div>
 <div class="section" id="additional-panels">
@@ -297,21 +292,18 @@
 <p>На панели находится ряд инструментов отладки сцен, в том числе:</p>
 <dl class="docutils">
 <dt><em>Overview Outlining Mode</em></dt>
-<dd><p class="first last">Активация этого параметра делает все объекты сцены <a class="reference internal" href="objects.html#mesh-selection"><span>доступными для выбора</span></a> и включает проигрывание <a class="reference internal" href="postprocessing_effects.html#outline"><span>анимации подсветки</span></a> при выборе объекта. Этот параметр включён по умолчанию.</p>
-</dd>
+<dd>Активация этого параметра делает все объекты сцены <a class="reference internal" href="objects.html#mesh-selection"><span class="std std-ref">доступными для выбора</span></a> и включает проигрывание <a class="reference internal" href="postprocessing_effects.html#outline"><span class="std std-ref">анимации подсветки</span></a> при выборе объекта. Этот параметр включён по умолчанию.</dd>
 <dt><em>Auto View Mode</em></dt>
-<dd><p class="first last">При нажатии на эту кнопку Просмотрщик загружает все сцены из списка <code class="docutils literal"><span class="pre">Scenes</span></code> с интервалом в одну секунду. Может применяться для проверки всего доступного контента на наличие консольных ошибок.</p>
-</dd>
+<dd>При нажатии на эту кнопку Просмотрщик загружает все сцены из списка <code class="docutils literal"><span class="pre">Scenes</span></code> с интервалом в одну секунду. Может применяться для проверки всего доступного контента на наличие консольных ошибок.</dd>
 <dt><em>Canvas Resolution Factor</em></dt>
-<dd><p class="first">Применяется для увеличения разрешения canvas&#8217;а. Значение этого параметра может меняться от 1 до 10. Значение по умолчанию равно 1.0 (разрешение canvas&#8217;а совпадает с физическим разрешением окна Просмотрщика).</p>
+<dd><p class="first">Применяется для увеличения разрешения canvas’а. Значение этого параметра может меняться от 1 до 10. Значение по умолчанию равно 1.0 (разрешение canvas’а совпадает с физическим разрешением окна Просмотрщика).</p>
 <div class="last admonition note">
 <p class="first admonition-title">Примечание</p>
 <p class="last">Максимальное доступное разрешение может быть ограничено веб-браузером.</p>
 </div>
 </dd>
 <dt><em>Make Screenshot</em></dt>
-<dd><p class="first last">Применяется для снятия скриншотов окна Просмотрщика. Скриншоты сохраняются в той же директории, которую веб-браузер использует для сохранения загруженных файлов.</p>
-</dd>
+<dd>Применяется для снятия скриншотов окна Просмотрщика. Скриншоты сохраняются в той же директории, которую веб-браузер использует для сохранения загруженных файлов.</dd>
 </dl>
 <dl class="docutils" id="index-2">
 <dt><em>Debug View Modes</em></dt>
@@ -321,60 +313,47 @@
 <p><code class="docutils literal"><span class="pre">OPAQUE</span> <span class="pre">WIREFRAME</span></code> - сцена окрашена плоским белым цветом с тёмной каркасной сеткой. Цвет сетки может быть настроен с помощью параметра <code class="docutils literal"><span class="pre">Wireframe</span> <span class="pre">Edge</span> <span class="pre">Color</span></code>.</p>
 <p><code class="docutils literal"><span class="pre">TRANSPARENT</span> <span class="pre">WIREFRAME</span></code> - сцена визуализируется так же, как в нормальном режиме, но с добавлением каркасной сетки. Как и в предыдущем режиме, цвет сетки может быть настроен с помощью параметра <code class="docutils literal"><span class="pre">Wireframe</span> <span class="pre">Edge</span> <span class="pre">Color</span></code>.</p>
 <p><code class="docutils literal"><span class="pre">FRONT</span> <span class="pre">BACK</span> <span class="pre">VIEW</span></code> - в этом режиме внешние и внутренние стороны полигонов окрашиваются разными цветами.</p>
-<p><code class="docutils literal"><span class="pre">BOUNDINGS</span></code> - в этом режиме к изображению добавляются каркасные сферы, окружающие <a class="reference internal" href="objects.html#objects"><span>объекты</span></a> и <a class="reference internal" href="meshes.html#meshes"><span>меши</span></a>. Сферы могут иметь синий (для статических объектов и мешей) или красный (для динамических объектов) цвет.</p>
-<p><code class="docutils literal"><span class="pre">CLUSTER</span> <span class="pre">VIEW</span></code> - в этом режиме каждый объект, принадлежащий к определённому кластеру (используемому для <a class="reference internal" href="scene_settings.html#scene-batching"><span>батчинга</span></a>) окрашивается особым цветом.</p>
+<p><code class="docutils literal"><span class="pre">BOUNDINGS</span></code> - в этом режиме к изображению добавляются каркасные сферы, окружающие <a class="reference internal" href="objects.html#objects"><span class="std std-ref">объекты</span></a> и <a class="reference internal" href="meshes.html#meshes"><span class="std std-ref">меши</span></a>. Сферы могут иметь синий (для статических объектов и мешей) или красный (для динамических объектов) цвет.</p>
+<p><code class="docutils literal"><span class="pre">CLUSTER</span> <span class="pre">VIEW</span></code> - в этом режиме каждый объект, принадлежащий к определённому кластеру (используемому для <a class="reference internal" href="scene_settings.html#scene-batching"><span class="std std-ref">батчинга</span></a>) окрашивается особым цветом.</p>
 <p><code class="docutils literal"><span class="pre">BATCH</span> <span class="pre">VIEW</span></code> - в этом режиме каждый батч окрашен особым (плоским) цветом. Цвета, используемые для визуализации, могут быть заменены на другие, случайно выбранные, цвета с помощью кнопки <code class="docutils literal"><span class="pre">Change</span> <span class="pre">Colors</span></code>.</p>
 <p><code class="docutils literal"><span class="pre">RENDER</span> <span class="pre">TIME</span></code> - в этом режиме сцена визуализируется при помощи разных цветов, отображающих сложность различных участков сцены. Наиболее простые для рендеринга части окрашиваются зелёным цветом, более сложные - жёлтым, а потребляющие наибольшее количество вычислительных ресурсов - красным.</p>
 </div></blockquote>
 </dd>
 <dt><em>Change Colors</em></dt>
-<dd><p class="first last">Случайным образом меняет цвета, используемые в режимах <code class="docutils literal"><span class="pre">CLUSTER</span> <span class="pre">VIEW</span></code> и <code class="docutils literal"><span class="pre">BATCH</span> <span class="pre">VIEW</span></code>. Применяется в случаях, когда части изображения трудно отличить друг от друга из-за того, что цвета, выбранные движком, слишком похожи.</p>
-</dd>
+<dd>Случайным образом меняет цвета, используемые в режимах <code class="docutils literal"><span class="pre">CLUSTER</span> <span class="pre">VIEW</span></code> и <code class="docutils literal"><span class="pre">BATCH</span> <span class="pre">VIEW</span></code>. Применяется в случаях, когда части изображения трудно отличить друг от друга из-за того, что цвета, выбранные движком, слишком похожи.</dd>
 <dt><em>Render Time Threshold (ms)</em></dt>
-<dd><p class="first last">Задаёт &#8220;пороговое&#8221; время для режима визуализации <code class="docutils literal"><span class="pre">RENDER</span> <span class="pre">TIME</span></code>. Если рендеринг какого-либо объекта занимает больше времени, чем указано этим параметром, этот объект будет окрашен красным цветом. Значение по умолчанию - 1.5 мс.</p>
-</dd>
+<dd>Задаёт «пороговое» время для режима визуализации <code class="docutils literal"><span class="pre">RENDER</span> <span class="pre">TIME</span></code>. Если рендеринг какого-либо объекта занимает больше времени, чем указано этим параметром, этот объект будет окрашен красным цветом. Значение по умолчанию - 1.5 мс.</dd>
 <dt><em>Wireframe Edge Color</em></dt>
-<dd><p class="first last">Используется для изменения цвета каркасной сетки в режимах <code class="docutils literal"><span class="pre">OPAQUE</span> <span class="pre">WIREFRAME</span></code> и <code class="docutils literal"><span class="pre">TRANSPARENT</span> <span class="pre">WIREFRAME</span></code>.</p>
-</dd>
+<dd>Используется для изменения цвета каркасной сетки в режимах <code class="docutils literal"><span class="pre">OPAQUE</span> <span class="pre">WIREFRAME</span></code> и <code class="docutils literal"><span class="pre">TRANSPARENT</span> <span class="pre">WIREFRAME</span></code>.</dd>
 <dt><em>HUD Info</em></dt>
 <dd><a class="first reference internal image-reference" href="_images/viewer_hud_info.png"><img alt="_images/viewer_hud_info.png" class="align-center" src="_images/viewer_hud_info.png" style="width: 100%;" /></a>
 <p>Показывает список визуализируемых подсцен и их параметров, таких, как:</p>
 <blockquote>
 <div><dl class="docutils">
 <dt><em>SCENE</em></dt>
-<dd><p class="first last">Имя текущей сцены.</p>
-</dd>
+<dd>Имя текущей сцены.</dd>
 <dt><em>Active</em></dt>
-<dd><p class="first last">Показывает, активна ли подсцена.</p>
-</dd>
+<dd>Показывает, активна ли подсцена.</dd>
 <dt><em>Subscene</em></dt>
-<dd><p class="first last">Имя подсцены.</p>
-</dd>
+<dd>Имя подсцены.</dd>
 <dt><em>Lamps</em></dt>
-<dd><p class="first last">Количество источников света в подсцене.</p>
-</dd>
+<dd>Количество источников света в подсцене.</dd>
 <dt><em>Size</em></dt>
-<dd><p class="first last">Разрешение, используемое для рендеринга подсцены.</p>
-</dd>
+<dd>Разрешение, используемое для рендеринга подсцены.</dd>
 <dt><em>RenderCalls</em></dt>
-<dd><p class="first last">Количество вызовов отрисовки в подсцене.</p>
-</dd>
+<dd>Количество вызовов отрисовки в подсцене.</dd>
 <dt><em>Time</em></dt>
-<dd><p class="first last">Время, которое движок тратит на рендеринг подсцены.</p>
-</dd>
+<dd>Время, которое движок тратит на рендеринг подсцены.</dd>
 <dt><em>TOTAL ACTIVE</em></dt>
-<dd><p class="first last">Количество вызовов отрисовки во всех доступных подсценах и время, затрачиваемое движком на их рендеринг.</p>
-</dd>
+<dd>Количество вызовов отрисовки во всех доступных подсценах и время, затрачиваемое движком на их рендеринг.</dd>
 </dl>
 </div></blockquote>
 <p class="last">Включение этого параметра может снизить скорость рендеринга сцены. По умолчанию он выключен.</p>
 </dd>
 <dt><em>GL Debug</em></dt>
-<dd><p class="first last">Активация этого параметра заставляет движок обрабатывать низкоуровневые ошибки. Это может существенно снизить производительность. При первом запуске Просмотрщика этот параметр деактивирован, а при последующих запусках приложение запоминает его состояние.</p>
-</dd>
+<dd>Активация этого параметра заставляет движок обрабатывать низкоуровневые ошибки. Это может существенно снизить производительность. При первом запуске Просмотрщика этот параметр деактивирован, а при последующих запусках приложение запоминает его состояние.</dd>
 <dt><em>Min Capabilities Mode</em></dt>
-<dd><p class="first last">При активации этого параметра Просмотрщик запускает сцену так, как если бы она работала на системе с низкой производительностью (например, на мобильном устройстве). Это позволяет проверить, какие материалы могут не работать так, как задумано, на низкопроизводительной системе. По умолчанию выключено.</p>
-</dd>
+<dd>При активации этого параметра Просмотрщик запускает сцену так, как если бы она работала на системе с низкой производительностью (например, на мобильном устройстве). Это позволяет проверить, какие материалы могут не работать так, как задумано, на низкопроизводительной системе. По умолчанию выключено.</dd>
 </dl>
 </div>
 <div class="section" id="animation">
@@ -383,41 +362,29 @@
 <p>Доступные параметры:</p>
 <dl class="docutils">
 <dt><em>Play All</em></dt>
-<dd><p class="first last">Проигрывает все доступные анимации.</p>
-</dd>
+<dd>Проигрывает все доступные анимации.</dd>
 <dt><em>Stop All</em></dt>
-<dd><p class="first last">Останавливает все анимации, которые воспроизводятся в настоящий момент.</p>
-</dd>
+<dd>Останавливает все анимации, которые воспроизводятся в настоящий момент.</dd>
 <dt><em>Object</em></dt>
-<dd><p class="first last">Список присутствующих в сцене объектов, имеющих анимации.</p>
-</dd>
+<dd>Список присутствующих в сцене объектов, имеющих анимации.</dd>
 <dt><em>Animation Slot</em></dt>
-<dd><p class="first last">Список всех доступных слотов, которые могут использоваться для применения какой-либо анимации к объекту.</p>
-</dd>
+<dd>Список всех доступных слотов, которые могут использоваться для применения какой-либо анимации к объекту.</dd>
 <dt><em>Animation</em></dt>
-<dd><p class="first last">Список всех анимаций, доступных для выбранного объекта.</p>
-</dd>
+<dd>Список всех анимаций, доступных для выбранного объекта.</dd>
 <dt><em>Cyclic</em></dt>
-<dd><p class="first last">При активации этого параметра анимация будет воспроизводиться циклически. В противном случае анимация остановится после одного проигрывания. По умолчанию включён.</p>
-</dd>
+<dd>При активации этого параметра анимация будет воспроизводиться циклически. В противном случае анимация остановится после одного проигрывания. По умолчанию включён.</dd>
 <dt><em>Range</em></dt>
-<dd><p class="first last">Длинна выбранной анимации.</p>
-</dd>
+<dd>Длинна выбранной анимации.</dd>
 <dt><em>Status</em></dt>
-<dd><p class="first last">Состояние выбранное анимации, т.е. проигрывается ли она или остановлена.</p>
-</dd>
+<dd>Состояние выбранное анимации, т.е. проигрывается ли она или остановлена.</dd>
 <dt><em>Playing Animation &gt; Play</em></dt>
-<dd><p class="first last">Воспроизводит выбранную анимацию.</p>
-</dd>
+<dd>Воспроизводит выбранную анимацию.</dd>
 <dt><em>Playing Animation &gt; Stop</em></dt>
-<dd><p class="first last">Останавливает выбранную анимацию.</p>
-</dd>
+<dd>Останавливает выбранную анимацию.</dd>
 <dt><em>Set Frame</em></dt>
-<dd><p class="first last">Показывает текущий кадр анимации. Может применяться для задания текущего кадра.</p>
-</dd>
+<dd>Показывает текущий кадр анимации. Может применяться для задания текущего кадра.</dd>
 <dt><em>Skeletal Mix Factor</em></dt>
-<dd><p class="first last">Задаёт степень сvешивания скелетных анимаций. Значение по умолчанию - 1.0.</p>
-</dd>
+<dd>Задаёт степень сvешивания скелетных анимаций. Значение по умолчанию - 1.0.</dd>
 </dl>
 </div>
 <div class="section" id="nla">
@@ -426,20 +393,15 @@
 <p>Доступные параметры:</p>
 <dl class="docutils">
 <dt><em>Range</em></dt>
-<dd><p class="first last">Начальный и конечный кадры NLA-анимации.</p>
-</dd>
+<dd>Начальный и конечный кадры NLA-анимации.</dd>
 <dt><em>Status</em></dt>
-<dd><p class="first last">Состояние NLA-анимации, т.е. проигрывается ли она или остановлена.</p>
-</dd>
+<dd>Состояние NLA-анимации, т.е. проигрывается ли она или остановлена.</dd>
 <dt><em>Playing NLA &gt; Play</em></dt>
-<dd><p class="first last">Воспроизводит NLA-анимацию.</p>
-</dd>
+<dd>Воспроизводит NLA-анимацию.</dd>
 <dt><em>Playing NLA &gt; Stop</em></dt>
-<dd><p class="first last">Останавливает проигрываемую NLA-анимацию.</p>
-</dd>
+<dd>Останавливает проигрываемую NLA-анимацию.</dd>
 <dt><em>Set Frame</em></dt>
-<dd><p class="first last">Если анимация остановлена, этот параметр может применяться для задания текущего кадра.</p>
-</dd>
+<dd>Если анимация остановлена, этот параметр может применяться для задания текущего кадра.</dd>
 </dl>
 </div>
 <div class="section" id="shape-keys">
@@ -448,14 +410,11 @@
 <p>Доступные параметры:</p>
 <dl class="docutils">
 <dt><em>Object</em></dt>
-<dd><p class="first last">Список всех присутствующих в сцене объектов, имеющих ключи формы.</p>
-</dd>
+<dd>Список всех присутствующих в сцене объектов, имеющих ключи формы.</dd>
 <dt><em>Shape Key</em></dt>
-<dd><p class="first last">Список всех ключей формы, доступных для выбранного объекта.</p>
-</dd>
+<dd>Список всех ключей формы, доступных для выбранного объекта.</dd>
 <dt><em>Set Value</em></dt>
-<dd><p class="first last">Этот параметр задаёт степень влияния выбранного ключа формы на форму выбранного объекта. Значение может изменяться от 0 до 1.</p>
-</dd>
+<dd>Этот параметр задаёт степень влияния выбранного ключа формы на форму выбранного объекта. Значение может изменяться от 0 до 1.</dd>
 </dl>
 </div>
 <div class="section" id="materials">
@@ -464,26 +423,19 @@
 <p>Доступные параметры:</p>
 <dl class="docutils">
 <dt><em>Material</em></dt>
-<dd><p class="first last">Список всех стековых материалов, присутствующих в сцене.</p>
-</dd>
+<dd>Список всех стековых материалов, присутствующих в сцене.</dd>
 <dt><em>Color</em></dt>
-<dd><p class="first last">Задаёт базовый цвет выбранного материала.</p>
-</dd>
+<dd>Задаёт базовый цвет выбранного материала.</dd>
 <dt><em>Reflectivity</em></dt>
-<dd><p class="first last">Задаёт силу зеркального отражения для выбранного материала. Значение по умолчанию - 0.</p>
-</dd>
+<dd>Задаёт силу зеркального отражения для выбранного материала. Значение по умолчанию - 0.</dd>
 <dt><em>Fresnel</em></dt>
-<dd><p class="first last">Сила эффекта Френеля для отражения. По умолчанию равна нулю.</p>
-</dd>
+<dd>Сила эффекта Френеля для отражения. По умолчанию равна нулю.</dd>
 <dt><em>Fresnel Factor</em></dt>
-<dd><p class="first last">Фактор эффект Френеля. По умолчанию равен нулю.</p>
-</dd>
+<dd>Фактор эффект Френеля. По умолчанию равен нулю.</dd>
 <dt><em>Parallax Scale</em></dt>
-<dd><p class="first last">Фактор влияния эффекта рельефа. Значение этого параметра может изменяться от 0 до 0.1, значение по умолчанию - 0.</p>
-</dd>
+<dd>Фактор влияния эффекта рельефа. Значение этого параметра может изменяться от 0 до 0.1, значение по умолчанию - 0.</dd>
 <dt><em>Parallax Steps</em></dt>
-<dd><p class="first last">Количество итераций для расчёта эффекта рельефа. Значение этого параметра может изменяться от 1 до 30, по умолчанию он равен 5.</p>
-</dd>
+<dd>Количество итераций для расчёта эффекта рельефа. Значение этого параметра может изменяться от 1 до 30, по умолчанию он равен 5.</dd>
 </dl>
 </div>
 <div class="section" id="lighting">
@@ -495,138 +447,121 @@
 <p>Доступные параметры:</p>
 <dl class="docutils">
 <dt><em>Light</em></dt>
-<dd><p class="first last">Список всех источников света, присутствующих в сцене.</p>
-</dd>
+<dd>Список всех источников света, присутствующих в сцене.</dd>
 <dt><em>Type</em></dt>
-<dd><p class="first last">Тип выбранного источника света. Этот параметр не может быть изменён в Просмотрщике.</p>
-</dd>
+<dd>Тип выбранного источника света. Этот параметр не может быть изменён в Просмотрщике.</dd>
 <dt><em>Color</em></dt>
-<dd><p class="first last">Базовый цвет выбранного источника света. По умолчанию используется белый цвет (1; 1; 1).</p>
-</dd>
+<dd>Базовый цвет выбранного источника света. По умолчанию используется белый цвет (1; 1; 1).</dd>
 <dt><em>Energy Coarse</em></dt>
-<dd><p class="first last">Этот параметр задаёт целую часть значения энергии источника света. Значение может изменяться от 0 до 100. Значение по умолчанию - 1.</p>
-</dd>
+<dd>Этот параметр задаёт целую часть значения энергии источника света. Значение может изменяться от 0 до 100. Значение по умолчанию - 1.</dd>
 <dt><em>Energy Precise</em></dt>
-<dd><p class="first last">Этот параметр задаёт дробную часть значения энергии источника света. Значение может изменяться от 0 до 1, по умолчанию равно 0.</p>
-</dd>
+<dd>Этот параметр задаёт дробную часть значения энергии источника света. Значение может изменяться от 0 до 1, по умолчанию равно 0.</dd>
 <dt><em>Light Energy</em></dt>
-<dd><p class="first last">Энергия источника света. Это значение вычисляется как сумма параметров Energy Coarse и Energy Precise. Если значения этих параметров совпадают с их значениями по умолчанию, энергия будет равна 1.</p>
-</dd>
+<dd>Энергия источника света. Это значение вычисляется как сумма параметров Energy Coarse и Energy Precise. Если значения этих параметров совпадают с их значениями по умолчанию, энергия будет равна 1.</dd>
 <dt><em>Spot Size</em></dt>
-<dd><p class="first last">Угол светового потока, излучаемого источником света. Значение по умолчанию - 75. Этот параметр доступен только для источников сета типа <code class="docutils literal"><span class="pre">Spot</span></code>.</p>
-</dd>
+<dd>Угол светового потока, излучаемого источником света. Значение по умолчанию - 75. Этот параметр доступен только для источников сета типа <code class="docutils literal"><span class="pre">Spot</span></code>.</dd>
 <dt><em>Spot Blend</em></dt>
-<dd><p class="first last">Степень размытия границы пятна прожектора. Значение по умолчанию - 0.15. Этот параметр также доступен только для источников света типа <code class="docutils literal"><span class="pre">Spot</span></code>.</p>
-</dd>
+<dd>Степень размытия границы пятна прожектора. Значение по умолчанию - 0.15. Этот параметр также доступен только для источников света типа <code class="docutils literal"><span class="pre">Spot</span></code>.</dd>
 <dt><em>Distance</em></dt>
-<dd><p class="first last">Этот параметр задаёт расстояние (в метрах), на котором свет, излучаемый источником, будет иметь яркость, равную половине значения параметра <code class="docutils literal"><span class="pre">Light</span> <span class="pre">Energy</span></code>. По умолчанию равен 30.</p>
-</dd>
+<dd>Этот параметр задаёт расстояние (в метрах), на котором свет, излучаемый источником, будет иметь яркость, равную половине значения параметра <code class="docutils literal"><span class="pre">Light</span> <span class="pre">Energy</span></code>. По умолчанию равен 30.</dd>
 </dl>
 <p>Следующие настройки доступны только для источников света типа <code class="docutils literal"><span class="pre">Sun</span></code>:</p>
 <a class="reference internal image-reference" href="_images/viewer_lighting_settings_sun.png"><img alt="_images/viewer_lighting_settings_sun.png" class="align-center" src="_images/viewer_lighting_settings_sun.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>Real Time Sun Movement &gt; Play</em></dt>
-<dd><p class="first last">Включает движение солнца в реальном времени.</p>
-</dd>
+<dd>Включает движение солнца в реальном времени.</dd>
 <dt><em>Real Time Sun Movement &gt; Stop</em></dt>
-<dd><p class="first last">Останавливает движение солнца в реальном времени.</p>
-</dd>
+<dd>Останавливает движение солнца в реальном времени.</dd>
 <dt><em>Date</em></dt>
-<dd><p class="first last">Задаёт текущую дату.</p>
-</dd>
+<dd>Задаёт текущую дату.</dd>
 <dt><em>Time</em></dt>
-<dd><p class="first last">Этот параметр задаёт текущее время дня или ночи. По умолчанию равен 12.0.</p>
-</dd>
+<dd>Этот параметр задаёт текущее время дня или ночи. По умолчанию равен 12.0.</dd>
 <dt><em>Maximum Sun Vertical Angle</em></dt>
-<dd><p class="first last">Этот параметр задаёт максимальный вертикальный угол для источника света типа <code class="docutils literal"><span class="pre">Sun</span></code>. Значение по умолчанию - 60.</p>
-</dd>
+<dd>Этот параметр задаёт максимальный вертикальный угол для источника света типа <code class="docutils literal"><span class="pre">Sun</span></code>. Значение по умолчанию - 60.</dd>
 <dt><em>Time Multiplier</em></dt>
-<dd><p class="first last">Значение этого параметра задаёт скорость течения времени. Значение по умолчанию - 1.0 (время в сцене течёт с той же скоростью, что и в действительности.</p>
-</dd>
+<dd>Значение этого параметра задаёт скорость течения времени. Значение по умолчанию - 1.0 (время в сцене течёт с той же скоростью, что и в действительности.</dd>
 <dt><em>Horizontal Position</em></dt>
-<dd><p class="first last">Горизонтальная позиция солнца на небесной сфере. Значение по умолчанию - 29.82.</p>
-</dd>
+<dd>Горизонтальная позиция солнца на небесной сфере. Значение по умолчанию - 29.82.</dd>
 <dt><em>Vertical Position</em></dt>
-<dd><p class="first last">Вертикальная позиция солнца на небесной сфере. Значение по умолчанию - 34.82.</p>
-</dd>
+<dd>Вертикальная позиция солнца на небесной сфере. Значение по умолчанию - 34.82.</dd>
 </dl>
 </div>
 <div class="section" id="ambient">
 <span id="viewer-ambient"></span><h4><a class="toc-backref" href="#id14">Ambient</a><a class="headerlink" href="#ambient" title="Ссылка на этот заголовок">¶</a></h4>
 <p>Настройка параметров освещения от окружающей среды. Поддерживается изменение цветов в полусферической модели освещения и интенсивности.</p>
-<p>Настройки, доступные для освещения от окружающей среды, совпадают с соответствующими настройками в Blender. Более подробно они описаны в <a class="reference internal" href="lighting.html#environment-lighting"><span>отдельном разделе</span></a>.</p>
+<p>Настройки, доступные для освещения от окружающей среды, совпадают с соответствующими настройками в Blender. Более подробно они описаны в <a class="reference internal" href="lighting.html#environment-lighting"><span class="std std-ref">отдельном разделе</span></a>.</p>
 </div>
 <div class="section" id="shadows">
 <span id="viewer-shadows"></span><h4><a class="toc-backref" href="#id15">Shadows</a><a class="headerlink" href="#shadows" title="Ссылка на этот заголовок">¶</a></h4>
 <p>Настройка параметров падающих теней, включая параметры каскадов теней и параметры смягчения краев теней.</p>
-<p>Настройки теней описаны в <a class="reference internal" href="lighting.html#shadows"><span>соответствующем разделе</span></a> данного руководства.</p>
+<p>Настройки теней описаны в <a class="reference internal" href="lighting.html#shadows"><span class="std std-ref">соответствующем разделе</span></a> данного руководства.</p>
 </div>
 <div class="section" id="sky">
 <span id="viewer-sky"></span><h4><a class="toc-backref" href="#id16">Sky</a><a class="headerlink" href="#sky" title="Ссылка на этот заголовок">¶</a></h4>
 <p>Настройка параметров динамического неба, таких как цвет, параметры рассеивания солнечного света и т.д.</p>
-<p>Просмотрщик сцен предоставляет пользователю доступ ко всем параметрам Blender, используемым для настройки процедурного неба. Эти параметры описаны в <a class="reference internal" href="outdoor_rendering.html#atmosphere"><span>соответствующем разделе</span></a>.</p>
+<p>Просмотрщик сцен предоставляет пользователю доступ ко всем параметрам Blender, используемым для настройки процедурного неба. Эти параметры описаны в <a class="reference internal" href="outdoor_rendering.html#atmosphere"><span class="std std-ref">соответствующем разделе</span></a>.</p>
 </div>
 <div class="section" id="sea">
 <span id="viewer-sea"></span><h4><a class="toc-backref" href="#id17">Sea</a><a class="headerlink" href="#sea" title="Ссылка на этот заголовок">¶</a></h4>
 <p>Настройка параметров рендеринга воды, включая переходы цвета по глубине и удаленности от берега, параметры пены, подповерхностного рассеивания, динамики волн и т.д.</p>
-<p>Настройки рендеринга воды описаны в главе <a class="reference internal" href="outdoor_rendering.html#water"><span>&#8220;Природные эффекты&#8221;</span></a>. Просмотрщик использует те же настройки, что и сам движок Blend4Web.</p>
+<p>Настройки рендеринга воды описаны в главе <a class="reference internal" href="outdoor_rendering.html#water"><span class="std std-ref">«Природные эффекты»</span></a>. Просмотрщик использует те же настройки, что и сам движок Blend4Web.</p>
 </div>
 <div class="section" id="mist">
 <span id="viewer-mist"></span><h4><a class="toc-backref" href="#id18">Mist</a><a class="headerlink" href="#mist" title="Ссылка на этот заголовок">¶</a></h4>
 <p>Настройка параметров тумана.</p>
-<p>Просмотрщик сцен использует стандартные настройки рендеринга тумана, описанные в <a class="reference internal" href="outdoor_rendering.html#fog"><span>отдельной главе</span></a>.</p>
+<p>Просмотрщик сцен использует стандартные настройки рендеринга тумана, описанные в <a class="reference internal" href="outdoor_rendering.html#fog"><span class="std std-ref">отдельной главе</span></a>.</p>
 </div>
 <div class="section" id="wind">
 <span id="viewer-wind"></span><h4><a class="toc-backref" href="#id19">Wind</a><a class="headerlink" href="#wind" title="Ссылка на этот заголовок">¶</a></h4>
 <p>Настройка параметров ветра, включая направление и силу.</p>
-<p>В Просмотрщике используется тот же набор параметров, что и в Blender. Эти параметры описаны в <a class="reference internal" href="outdoor_rendering.html#wind"><span>соответствующей главе</span></a>.</p>
+<p>В Просмотрщике используется тот же набор параметров, что и в Blender. Эти параметры описаны в <a class="reference internal" href="outdoor_rendering.html#wind"><span class="std std-ref">соответствующей главе</span></a>.</p>
 </div>
 <div class="section" id="wind-bending">
 <span id="viewer-wind-bending"></span><h4><a class="toc-backref" href="#id20">Wind Bending</a><a class="headerlink" href="#wind-bending" title="Ссылка на этот заголовок">¶</a></h4>
 <p>Настройка параметров эффекта Wind Bending.</p>
-<p>Аналогичный набор параметров Wind Bending доступен в Blender и описан в главе <a class="reference internal" href="outdoor_rendering.html#wind-bending"><span>Природные эффекты</span></a>&#8220;</p>
+<p>Аналогичный набор параметров Wind Bending доступен в Blender и описан в главе <a class="reference internal" href="outdoor_rendering.html#wind-bending"><span class="std std-ref">Природные эффекты</span></a>»</p>
 </div>
 <div class="section" id="screen-space-amb-occlus">
 <span id="viewer-ssao"></span><h4><a class="toc-backref" href="#id21">Screen Space Amb Occlus</a><a class="headerlink" href="#screen-space-amb-occlus" title="Ссылка на этот заголовок">¶</a></h4>
 <p>Настройка параметров взаимного затенения.</p>
-<p>Все доступные настройки описаны в главе <a class="reference internal" href="postprocessing_effects.html#ssao"><span>&#8220;Спецэффекты&#8221;</span></a>.</p>
+<p>Все доступные настройки описаны в главе <a class="reference internal" href="postprocessing_effects.html#ssao"><span class="std std-ref">«Спецэффекты»</span></a>.</p>
 </div>
 <div class="section" id="god-rays">
 <span id="viewer-god-rays"></span><h4><a class="toc-backref" href="#id22">God Rays</a><a class="headerlink" href="#god-rays" title="Ссылка на этот заголовок">¶</a></h4>
 <p>Настройка параметров эффекта сумеречных лучей.</p>
-<p>Все параметры этого эффекта описаны в <a class="reference internal" href="postprocessing_effects.html#god-rays"><span>соответствующем разделе</span></a>.</p>
+<p>Все параметры этого эффекта описаны в <a class="reference internal" href="postprocessing_effects.html#god-rays"><span class="std std-ref">соответствующем разделе</span></a>.</p>
 </div>
 <div class="section" id="bloom">
 <span id="viewer-bloom"></span><h4><a class="toc-backref" href="#id23">Bloom</a><a class="headerlink" href="#bloom" title="Ссылка на этот заголовок">¶</a></h4>
 <p>Настройка параметров эффекта глубины резкости камеры.</p>
-<p>Этот эффект использует те же параметры, что и в Blender. Более подробно они описаны в <a class="reference internal" href="postprocessing_effects.html#bloom"><span>соответствующем разделе</span></a>.</p>
+<p>Этот эффект использует те же параметры, что и в Blender. Более подробно они описаны в <a class="reference internal" href="postprocessing_effects.html#bloom"><span class="std std-ref">соответствующем разделе</span></a>.</p>
 </div>
 <div class="section" id="motion-blur">
 <span id="viewer-motion-blur"></span><h4><a class="toc-backref" href="#id24">Motion Blur</a><a class="headerlink" href="#motion-blur" title="Ссылка на этот заголовок">¶</a></h4>
 <p>Настройка эффекта размытия изображения при движении.</p>
-<p>Параметры, используемые для настройки эффекта размытия, совпадают с таковыми в Blender. Они описаны в главе <a class="reference internal" href="postprocessing_effects.html#motion-blur"><span>&#8220;Спецэффекты&#8221;</span></a>.</p>
+<p>Параметры, используемые для настройки эффекта размытия, совпадают с таковыми в Blender. Они описаны в главе <a class="reference internal" href="postprocessing_effects.html#motion-blur"><span class="std std-ref">«Спецэффекты»</span></a>.</p>
 </div>
 <div class="section" id="glow-materials">
 <span id="viewer-glow-materials"></span><h4><a class="toc-backref" href="#id25">Glow Materials</a><a class="headerlink" href="#glow-materials" title="Ссылка на этот заголовок">¶</a></h4>
 <p>Настройка эффекта свечения материалов.</p>
-<p>Настройки этого эффекта описаны в <a class="reference internal" href="postprocessing_effects.html#glow"><span>соответствующем разделе</span></a>.</p>
+<p>Настройки этого эффекта описаны в <a class="reference internal" href="postprocessing_effects.html#glow"><span class="std std-ref">соответствующем разделе</span></a>.</p>
 </div>
 <div class="section" id="depth-of-field">
 <span id="viewer-dof"></span><h4><a class="toc-backref" href="#id26">Depth of Field</a><a class="headerlink" href="#depth-of-field" title="Ссылка на этот заголовок">¶</a></h4>
 <p>Настройка параметров эффекта глубины резкости камеры.</p>
-<p>Настройки описаны в <a class="reference internal" href="postprocessing_effects.html#dof"><span>соответствующем разделе</span></a>.</p>
+<p>Настройки описаны в <a class="reference internal" href="postprocessing_effects.html#dof"><span class="std std-ref">соответствующем разделе</span></a>.</p>
 </div>
 <div class="section" id="color-correction">
 <span id="viewer-color"></span><h4><a class="toc-backref" href="#id27">Color correction</a><a class="headerlink" href="#color-correction" title="Ссылка на этот заголовок">¶</a></h4>
 <p>Настройка параметров цветовой коррекции, включая яркость, контрастность, экспозицию и насыщенность.</p>
-<p>В самом Blender для цветокоррекции используется такой же набор параметров. Описание этих параметров находится в главе <a class="reference internal" href="colors.html#color-correction"><span>&#8220;Работа с цветом&#8221;</span></a>.</p>
+<p>В самом Blender для цветокоррекции используется такой же набор параметров. Описание этих параметров находится в главе <a class="reference internal" href="colors.html#color-correction"><span class="std std-ref">«Работа с цветом»</span></a>.</p>
 </div>
 <div class="section" id="audio">
 <span id="viewer-audio"></span><h4><a class="toc-backref" href="#id28">Audio</a><a class="headerlink" href="#audio" title="Ссылка на этот заголовок">¶</a></h4>
 <p>На панели находится переключатель режима микширования. После включения на сценах со звуковыми источниками появляется интерфейс микшера.</p>
 <dl class="docutils">
 <dt><em>Mixer</em></dt>
-<dd><p class="first">Включает эквалайзер, демонстрирующий различные параметры (в т.ч. громкость, частоту, расстояние, затухание) источников звука, присутствующих в сцене, и позволяет пользователю настраивать эти параметры с помощью дополнительной цифровой клавиатуры. Подробнее доступные параметры описаны в <a class="reference internal" href="audio.html#mixer"><span>соответствующем разделе</span></a> главы <a class="reference internal" href="audio.html#audio"><span>&#8220;Звук&#8221;</span></a>.</p>
+<dd><p class="first">Включает эквалайзер, демонстрирующий различные параметры (в т.ч. громкость, частоту, расстояние, затухание) источников звука, присутствующих в сцене, и позволяет пользователю настраивать эти параметры с помощью дополнительной цифровой клавиатуры. Подробнее доступные параметры описаны в <a class="reference internal" href="audio.html#mixer"><span class="std std-ref">соответствующем разделе</span></a> главы <a class="reference internal" href="audio.html#audio"><span class="std std-ref">«Звук»</span></a>.</p>
 <a class="reference internal image-reference" href="_images/viewer_mixer.png"><img alt="_images/viewer_mixer.png" class="align-center" src="_images/viewer_mixer.png" style="width: 100%;" /></a>
 <p class="last">По умолчанию этот параметр деактивирован.</p>
 </dd>
@@ -641,14 +576,13 @@
 <dd><p class="first">Список доступных режимов рендеринга стереоизображения. На сегодняшний день доступно три режима:</p>
 <blockquote>
 <div><p><code class="docutils literal"><span class="pre">NONE</span></code> - стереорендеринг не используется.</p>
-<p><code class="docutils literal"><span class="pre">ANAGLYPH</span></code> - используется <a class="reference internal" href="vr_and_ar.html#anaglyph"><span>анаглифное изображение</span></a>.</p>
-<p><code class="docutils literal"><span class="pre">HMD</span></code> - используется рендеринг для <a class="reference internal" href="vr_and_ar.html#hmd"><span>шлемов виртуальной реальности</span></a>. Этот режим доступен только в том случае, если соответствующее устройство подключено к системе.</p>
+<p><code class="docutils literal"><span class="pre">ANAGLYPH</span></code> - используется <a class="reference internal" href="vr_and_ar.html#anaglyph"><span class="std std-ref">анаглифное изображение</span></a>.</p>
+<p><code class="docutils literal"><span class="pre">HMD</span></code> - используется рендеринг для <a class="reference internal" href="vr_and_ar.html#hmd"><span class="std std-ref">шлемов виртуальной реальности</span></a>. Этот режим доступен только в том случае, если соответствующее устройство подключено к системе.</p>
 </div></blockquote>
 <p class="last">По умолчанию используется вариант <code class="docutils literal"><span class="pre">NONE</span></code>.</p>
 </dd>
 <dt><em>HMD Settings</em></dt>
-<dd><p class="first last">Показывает <a class="reference internal" href="vr_and_ar.html#hmd-settings"><span>окно настроек HMD</span></a>.</p>
-</dd>
+<dd>Показывает <a class="reference internal" href="vr_and_ar.html#hmd-settings"><span class="std std-ref">окно настроек HMD</span></a>.</dd>
 </dl>
 </div>
 <div class="section" id="input-devices">
@@ -656,8 +590,7 @@
 <p>На этой панели находятся средства настройки устройств ввода.</p>
 <dl class="docutils">
 <dt><em>Gyroscope use</em></dt>
-<dd><p class="first last">Включает использование гироскопов в приложении. По умолчанию отключено.</p>
-</dd>
+<dd>Включает использование гироскопов в приложении. По умолчанию отключено.</dd>
 <dt><em>Gamepad Settings</em></dt>
 <dd><p class="first">Вызывает окно настроек геймпадов.</p>
 <a class="last reference internal image-reference" href="_images/viewer_gamepad_settings.png"><img alt="_images/viewer_gamepad_settings.png" class="align-center" src="_images/viewer_gamepad_settings.png" style="width: 100%;" /></a>
@@ -684,7 +617,7 @@
 </li>
 <li><dl class="first docutils">
 <dt><strong>Выбранный объект и контролируемый объект</strong></dt>
-<dd><p class="first last">Находится в левом нижнем углу. Выводит название выбранного объекта и контролируемого объекта. Выбор объекта осуществляется мышью. Для получения прямого контроля над объектом (обычно в целях проверки физики) нужно нажать <code class="docutils literal"><span class="pre">Q</span></code> и выбрать объект. Движение объекта осуществляется клавишами <code class="docutils literal"><span class="pre">W</span></code>, <code class="docutils literal"><span class="pre">A</span></code>, <code class="docutils literal"><span class="pre">S</span></code>, <code class="docutils literal"><span class="pre">D</span></code>. Для выхода из режима контроля нужно нажать <code class="docutils literal"><span class="pre">Q</span></code> и &#8220;кликнуть&#8221; на пустом пространстве. Индикатор также показывает расстояние до выбранного объекта в единицах Blender&#8217;a (эквивалент метра).</p>
+<dd><p class="first last">Находится в левом нижнем углу. Выводит название выбранного объекта и контролируемого объекта. Выбор объекта осуществляется мышью. Для получения прямого контроля над объектом (обычно в целях проверки физики) нужно нажать <code class="docutils literal"><span class="pre">Q</span></code> и выбрать объект. Движение объекта осуществляется клавишами <code class="docutils literal"><span class="pre">W</span></code>, <code class="docutils literal"><span class="pre">A</span></code>, <code class="docutils literal"><span class="pre">S</span></code>, <code class="docutils literal"><span class="pre">D</span></code>. Для выхода из режима контроля нужно нажать <code class="docutils literal"><span class="pre">Q</span></code> и «кликнуть» на пустом пространстве. Индикатор также показывает расстояние до выбранного объекта в единицах Blender’a (эквивалент метра).</p>
 </dd>
 </dl>
 </li>
@@ -709,7 +642,7 @@
 </li>
 <li><dl class="first docutils">
 <dt><strong>Индикатор прозрачности фона</strong></dt>
-<dd><p class="first">Находится в правом верхнем углу экрана, ниже индикатора сложности сцены. Этот инструмент может применяться для отладки, т.к. позволяет проверить, прозрачен ли фон сцены. Имеет вид небольшого квадрата с чёрно-белым &#8220;шахматным&#8221; узором.</p>
+<dd><p class="first">Находится в правом верхнем углу экрана, ниже индикатора сложности сцены. Этот инструмент может применяться для отладки, т.к. позволяет проверить, прозрачен ли фон сцены. Имеет вид небольшого квадрата с чёрно-белым «шахматным» узором.</p>
 <p class="last">Этот индикатор заметен только в том случае, если фон приложения - прозрачный. На скриншоте выше он изображён для того, чтобы дать читателю представление о том, как этот индикатор мог бы выглядеть в реальном приложении.</p>
 </dd>
 </dl>
@@ -738,7 +671,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Триумф.
-      Обновлено: 2017-11-21.
+      Обновлено: 2017-12-29.
 
     </p>
   </div>
@@ -794,11 +727,11 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

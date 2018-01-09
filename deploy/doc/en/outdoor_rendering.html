@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Outdoor Effects &mdash; Blend4Web 17.10.1 User Manual</title>
+  <title>Outdoor Effects &mdash; Blend4Web 17.12.0 User Manual</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.10.1 User Manual" href="index.html"/>
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Blend4Web 17.12.0 User Manual" href="index.html"/>
         <link rel="next" title="Color Management" href="colors.html"/>
         <link rel="prev" title="Animation" href="animation.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -108,7 +111,7 @@
 <li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Outdoor Effects</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Outdoor Effects</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#water">Water</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#activation">Activation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#basic-settings">Basic Settings</a></li>
@@ -275,7 +278,7 @@
 <dt><em>Transparency</em></dt>
 <dd>It is recommended to enable the gradient transparency (set the <code class="docutils literal"><span class="pre">Transparency</span> <span class="pre">&gt;</span> <span class="pre">Type</span></code> parameter to the <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Blend</span></code> value) and to tweak the <code class="docutils literal"><span class="pre">Alpha</span></code> value.</dd>
 <dt><em>Lighting parameters</em></dt>
-<dd>Lighting parameters for the water material can be set up as described in the <a class="reference internal" href="materials.html#material-lighting-params"><span>Lighting Parameters</span></a> section.</dd>
+<dd>Lighting parameters for the water material can be set up as described in the <a class="reference internal" href="materials.html#material-lighting-params"><span class="std std-ref">Lighting Parameters</span></a> section.</dd>
 </dl>
 </div>
 <div class="section" id="waves-dynamics">
@@ -288,7 +291,7 @@
 </div>
 <div class="section" id="reflection-and-fresnel-effect">
 <h3><a class="toc-backref" href="#id19">Reflection and Fresnel Effect</a><a class="headerlink" href="#reflection-and-fresnel-effect" title="Permalink to this headline">¶</a></h3>
-<p>For the water material both static and dynamic reflection is supported as well as the Fresnel effect. See the <a class="reference internal" href="materials.html#material-mirror"><span>Reflection</span></a> section.</p>
+<p>For the water material both static and dynamic reflection is supported as well as the Fresnel effect. See the <a class="reference internal" href="materials.html#material-mirror"><span class="std std-ref">Reflection</span></a> section.</p>
 <a class="reference internal image-reference" href="_images/water_reflection_dynamic.png"><img alt="_images/water_reflection_dynamic.png" class="align-center" src="_images/water_reflection_dynamic.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="shoreline-smoothing">
@@ -303,7 +306,7 @@
 </div>
 <div class="section" id="color-gradient">
 <h3><a class="toc-backref" href="#id21">Color Gradient</a><a class="headerlink" href="#color-gradient" title="Permalink to this headline">¶</a></h3>
-<p>For color gradient the water material must have a texture with the <code class="docutils literal"><span class="pre">Export</span> <span class="pre">Options</span> <span class="pre">&gt;</span> <span class="pre">Shore</span> <span class="pre">Distance</span> <span class="pre">Map</span></code> option enabled. This texture can be generated using the script for <a class="reference internal" href="#shore-distance-bake"><span>baking shoreline parameters</span></a>.</p>
+<p>For color gradient the water material must have a texture with the <code class="docutils literal"><span class="pre">Export</span> <span class="pre">Options</span> <span class="pre">&gt;</span> <span class="pre">Shore</span> <span class="pre">Distance</span> <span class="pre">Map</span></code> option enabled. This texture can be generated using the script for <a class="reference internal" href="#shore-distance-bake"><span class="std std-ref">baking shoreline parameters</span></a>.</p>
 <dl class="docutils">
 <dt><em>Shallow Water &gt; Color</em></dt>
 <dd>This sets the color of shallow water. By default, blue (0.008, 0.222, 0.8) is used.</dd>
@@ -366,7 +369,7 @@
 <dt><em>Underwater Fog &gt; Density</em></dt>
 <dd>Exponential factor which affects the density and visibility distance. The default value is 0.06.</dd>
 </dl>
-<p>The <a class="reference internal" href="postprocessing_effects.html#god-rays"><span>god rays</span></a> effect settings are also applied.</p>
+<p>The <a class="reference internal" href="postprocessing_effects.html#god-rays"><span class="std std-ref">god rays</span></a> effect settings are also applied.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">The <code class="docutils literal"><span class="pre">Rendering</span> <span class="pre">Options</span> <span class="pre">&gt;</span> <span class="pre">Backface</span> <span class="pre">Culling</span></code> option must be turned off for the correct water surface rendering.</p>
@@ -424,7 +427,7 @@
 <dt><em>Generate Mesh</em></dt>
 <dd>This enables a generated surface.</dd>
 <dt><em>Cascades Number</em></dt>
-<dd>This describes the number of cascades on the generated surface. This parameter&#8217;s value can vary from 1 to 20. Default value is 5.</dd>
+<dd>This describes the number of cascades on the generated surface. This parameter’s value can vary from 1 to 20. Default value is 5.</dd>
 <dt><em>Subdivisions</em></dt>
 <dd>This is the number of subdivisions in generated mesh. Default value is 64. The lowest possible value for this parameter is 2, while the highest possible value is 512.</dd>
 <dt><em>Detailed Distance</em></dt>
@@ -442,10 +445,10 @@
 <span id="id4"></span><h2><a class="toc-backref" href="#id28">Atmosphere</a><a class="headerlink" href="#atmosphere" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="scattering">
 <h3><a class="toc-backref" href="#id29">Scattering</a><a class="headerlink" href="#scattering" title="Permalink to this headline">¶</a></h3>
-<p>Enable <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">Sky</span></code>, then activate <code class="docutils literal"><span class="pre">Procedural</span> <span class="pre">Sky</span></code> panel under the World tab. Please note, that if a <a class="reference internal" href="textures.html#skydome-texture"><span>static skydome texture</span></a> is being used at the same time, it will be replaced.</p>
+<p>Enable <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">Sky</span></code>, then activate <code class="docutils literal"><span class="pre">Procedural</span> <span class="pre">Sky</span></code> panel under the World tab. Please note, that if a <a class="reference internal" href="textures.html#skydome-texture"><span class="std std-ref">static skydome texture</span></a> is being used at the same time, it will be replaced.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">Also, a procedural sky texture can be used to imitate scattered <a class="reference internal" href="lighting.html#environment-lighting"><span>environment lighting</span></a> similar to the <a class="reference internal" href="textures.html#skydome-texture"><span>static skydome texture</span></a>. To do this, enable the <code class="docutils literal"><span class="pre">Procedural</span> <span class="pre">Sky</span> <span class="pre">&gt;</span> <span class="pre">Use</span> <span class="pre">as</span> <span class="pre">Environment</span> <span class="pre">Lighting</span></code> and <code class="docutils literal"><span class="pre">Environment</span> <span class="pre">Lighting</span> <span class="pre">&gt;</span> <span class="pre">Sky</span> <span class="pre">Texture</span></code> options. If the world texture for environment lighting already exists, it will be replaced.</p>
+<p class="last">Also, a procedural sky texture can be used to imitate scattered <a class="reference internal" href="lighting.html#environment-lighting"><span class="std std-ref">environment lighting</span></a> similar to the <a class="reference internal" href="textures.html#skydome-texture"><span class="std std-ref">static skydome texture</span></a>. To do this, enable the <code class="docutils literal"><span class="pre">Procedural</span> <span class="pre">Sky</span> <span class="pre">&gt;</span> <span class="pre">Use</span> <span class="pre">as</span> <span class="pre">Environment</span> <span class="pre">Lighting</span></code> and <code class="docutils literal"><span class="pre">Environment</span> <span class="pre">Lighting</span> <span class="pre">&gt;</span> <span class="pre">Sky</span> <span class="pre">Texture</span></code> options. If the world texture for environment lighting already exists, it will be replaced.</p>
 </div>
 <a class="reference internal image-reference" href="_images/skydome_procedural.png"><img alt="_images/skydome_procedural.png" class="align-center" src="_images/skydome_procedural.png" style="width: 100%;" /></a>
 <div class="line-block">
@@ -478,18 +481,18 @@
 <div class="section" id="fog">
 <span id="id5"></span><h3><a class="toc-backref" href="#id30">Fog</a><a class="headerlink" href="#fog" title="Permalink to this headline">¶</a></h3>
 <p>The engine supports standard parameters located on the <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Mist</span></code> panel. Besides this, overriding fog color is possible.</p>
-<p>Fog settings are described in the <a class="reference internal" href="scene_settings.html#world-mist"><span>Scene Settings</span></a> chapter.</p>
+<p>Fog settings are described in the <a class="reference internal" href="scene_settings.html#world-mist"><span class="std std-ref">Scene Settings</span></a> chapter.</p>
 <p>When a dynamic skydome is used, the fog color is defined by the sky color.</p>
 </div>
 <div class="section" id="time-of-day">
 <h3><a class="toc-backref" href="#id31">Time of Day</a><a class="headerlink" href="#time-of-day" title="Permalink to this headline">¶</a></h3>
 <p>Enable the <code class="docutils literal"><span class="pre">Dynamic</span> <span class="pre">Intensity</span></code> options for the lamp.</p>
-<p>Time of day can be set by applications via API. Particularly time of day can be set using the <code class="docutils literal"><span class="pre">Lighting</span></code> interface of the <a class="reference internal" href="viewer.html#viewer"><span>Scene viewer</span></a>.</p>
+<p>Time of day can be set by applications via API. Particularly time of day can be set using the <code class="docutils literal"><span class="pre">Lighting</span></code> interface of the <a class="reference internal" href="viewer.html#viewer"><span class="std std-ref">Scene viewer</span></a>.</p>
 <a class="reference internal image-reference" href="_images/sunset.png"><img alt="_images/sunset.png" class="align-center" src="_images/sunset.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="stars">
 <h3><a class="toc-backref" href="#id32">Stars</a><a class="headerlink" href="#stars" title="Permalink to this headline">¶</a></h3>
-<p>Stars setup is described in the <a class="reference internal" href="materials.html#material-halo"><span>Halo Materials</span></a> section.</p>
+<p>Stars setup is described in the <a class="reference internal" href="materials.html#material-halo"><span class="std std-ref">Halo Materials</span></a> section.</p>
 <a class="reference internal image-reference" href="_images/stars.png"><img alt="_images/stars.png" class="align-center" src="_images/stars.png" style="width: 100%;" /></a>
 </div>
 </div>
@@ -508,14 +511,14 @@
 <div class="section" id="lens-flare-object">
 <h3><a class="toc-backref" href="#id35">Lens Flare Object</a><a class="headerlink" href="#lens-flare-object" title="Permalink to this headline">¶</a></h3>
 <a class="reference internal image-reference" href="_images/outdoor_rendering_lens_flare_object.png"><img alt="_images/outdoor_rendering_lens_flare_object.png" class="align-center" src="_images/outdoor_rendering_lens_flare_object.png" style="width: 100%;" /></a>
-<p>Lens Flare object is used for the actual rendering of the effect. In essence, such an object consists of several planes with each plane containing one element of the flare. The normal vector of each plane should be pointed in the <code class="docutils literal"><span class="pre">-Y</span></code> direction. Every element can slide across the screen in relation to camera rotation with the sole exception being the central plane (bright white &#8220;star&#8221; on the picture above). This plane serves as a center of the lens flare object and should have a <em>local</em> <code class="docutils literal"><span class="pre">Y</span></code> coordinate set to 1.</p>
+<p>Lens Flare object is used for the actual rendering of the effect. In essence, such an object consists of several planes with each plane containing one element of the flare. The normal vector of each plane should be pointed in the <code class="docutils literal"><span class="pre">-Y</span></code> direction. Every element can slide across the screen in relation to camera rotation with the sole exception being the central plane (bright white “star” on the picture above). This plane serves as a center of the lens flare object and should have a <em>local</em> <code class="docutils literal"><span class="pre">Y</span></code> coordinate set to 1.</p>
 <p>The placement and spatial orientation of the object itself are not taken into account during rendering.</p>
 <p>For lens flare object to work correctly, the <code class="docutils literal"><span class="pre">Disable</span> <span class="pre">Frustum</span> <span class="pre">Culling</span></code> option should be activated.</p>
 <p>An example of such object can be seen, for example, in our <strong>Island</strong> demo.</p>
 <div class="section" id="material-settings">
 <h4>Material Settings<a class="headerlink" href="#material-settings" title="Permalink to this headline">¶</a></h4>
 <p>The material used for the lens flare object should have the <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Blend</span></code> transparency type. <code class="docutils literal"><span class="pre">Alpha</span></code> parameter should be set to zero.</p>
-<p><a class="reference internal" href="node_materials.html#node-materials"><span>Node materials</span></a> are not supported.</p>
+<p><a class="reference internal" href="node_materials.html#node-materials"><span class="std std-ref">Node materials</span></a> are not supported.</p>
 </div>
 <div class="section" id="texture-settings">
 <h4>Texture Settings<a class="headerlink" href="#texture-settings" title="Permalink to this headline">¶</a></h4>
@@ -532,9 +535,9 @@
 <dl class="docutils">
 <dt>Wind strength and direction affect:</dt>
 <dd><ul class="first last simple">
-<li><a class="reference internal" href="#wind-bending"><span>grass and tree leaves animation</span></a></li>
-<li><a class="reference internal" href="particles.html#particles-force-fields"><span>particle system dynamics</span></a></li>
-<li><a class="reference internal" href="#water-volumetric-waves"><span>water waves rolling frequency</span></a> (at the moment only strength is taken into account)</li>
+<li><a class="reference internal" href="#wind-bending"><span class="std std-ref">grass and tree leaves animation</span></a></li>
+<li><a class="reference internal" href="particles.html#particles-force-fields"><span class="std std-ref">particle system dynamics</span></a></li>
+<li><a class="reference internal" href="#water-volumetric-waves"><span class="std std-ref">water waves rolling frequency</span></a> (at the moment only strength is taken into account)</li>
 </ul>
 </dd>
 </dl>
@@ -553,7 +556,7 @@
 </div>
 <div class="section" id="animation-of-grass-and-tree-leaves">
 <span id="wind-bending"></span><h3><a class="toc-backref" href="#id39">Animation of Grass and Tree Leaves</a><a class="headerlink" href="#animation-of-grass-and-tree-leaves" title="Permalink to this headline">¶</a></h3>
-<p>Authoring resources for grass rendering is described in the <a class="reference internal" href="particles_instancing.html#particles-grass"><span>Grass</span></a> section.</p>
+<p>Authoring resources for grass rendering is described in the <a class="reference internal" href="particles_instancing.html#particles-grass"><span class="std std-ref">Grass</span></a> section.</p>
 <div class="section" id="id10">
 <h4>Activation<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h4>
 <p>Enable the <code class="docutils literal"><span class="pre">Wind</span> <span class="pre">Bending</span></code> panel for the grass or tree object.</p>
@@ -612,7 +615,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Triumph.
-      Last updated on 2017-11-21.
+      Last updated on 2017-12-29.
 
     </p>
   </div>
@@ -668,11 +671,11 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

@@ -103,7 +103,7 @@ With some exceptions specified below, make sure that the objects are dynamic.</d
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line3">line 3</a>
+        <a href="extern_transform.js.html">extern/transform.js</a>, <a href="extern_transform.js.html#line12">line 12</a>
     </li></ul></dd>
     
 
@@ -474,7 +474,7 @@ With some exceptions specified below, make sure that the objects are dynamic.</d
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line665">line 665</a>
+        <a href="extern_transform.js.html">extern/transform.js</a>, <a href="extern_transform.js.html#line670">line 670</a>
     </li></ul></dd>
     
 
@@ -609,7 +609,7 @@ With some exceptions specified below, make sure that the objects are dynamic.</d
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line462">line 462</a>
+        <a href="extern_transform.js.html">extern/transform.js</a>, <a href="extern_transform.js.html#line467">line 467</a>
     </li></ul></dd>
     
 
@@ -810,7 +810,7 @@ It's better to use TSR form.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line711">line 711</a>
+        <a href="extern_transform.js.html">extern/transform.js</a>, <a href="extern_transform.js.html#line716">line 716</a>
     </li></ul></dd>
     
 
@@ -1012,7 +1012,7 @@ It's better to use TSR form.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line729">line 729</a>
+        <a href="extern_transform.js.html">extern/transform.js</a>, <a href="extern_transform.js.html#line734">line 734</a>
     </li></ul></dd>
     
 
@@ -1169,7 +1169,7 @@ It's better to use TSR form.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line590">line 590</a>
+        <a href="extern_transform.js.html">extern/transform.js</a>, <a href="extern_transform.js.html#line595">line 595</a>
     </li></ul></dd>
     
 
@@ -1402,7 +1402,7 @@ calculate center, otherwise use the bounding box.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line502">line 502</a>
+        <a href="extern_transform.js.html">extern/transform.js</a>, <a href="extern_transform.js.html#line507">line 507</a>
     </li></ul></dd>
     
 
@@ -1559,7 +1559,7 @@ calculate center, otherwise use the bounding box.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line487">line 487</a>
+        <a href="extern_transform.js.html">extern/transform.js</a>, <a href="extern_transform.js.html#line492">line 492</a>
     </li></ul></dd>
     
 
@@ -1759,7 +1759,7 @@ calculate center, otherwise use the bounding box.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line261">line 261</a>
+        <a href="extern_transform.js.html">extern/transform.js</a>, <a href="extern_transform.js.html#line266">line 266</a>
     </li></ul></dd>
     
 
@@ -1782,219 +1782,6 @@ var _quat_tmp = m_quat.create();
 // ...
 var cube = m_scenes.get_object_by_name("Cube");
 var rot_quat = m_trans.get_rotation(cube, _quat_tmp);</code></pre>
-
-
-</div>
-</div>
-        
-            
-<div class="item_container">
-<div class="item_name">
-
-    
-
-    <h4 class="name" id=".get_rotation_euler">get_rotation_euler<span class="signature">(obj, dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="global.html#Euler">Euler</a>}</span></h4>
-
-    
-
-</div>
-<div class="item_description">
-
-<div class="description">
-    Get Euler rotation of object in the ZYX intrinsic system.
-Using euler angles is discouraged, use quaternion instead.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>obj</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">Object 3D</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>dest</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Euler">Euler</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    new Float32Array(3)
-                
-                </td>
-            
-
-            <td class="description last">Destination vector</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Vector with Euler angles
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type"><a href="global.html#Euler">Euler</a></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line323">line 323</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
 
 
 </div>
@@ -2198,7 +1985,220 @@ Using euler angles is discouraged, use quaternion instead.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line339">line 339</a>
+        <a href="extern_transform.js.html">extern/transform.js</a>, <a href="extern_transform.js.html#line344">line 344</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".get_rotation_euler">get_rotation_euler<span class="signature">(obj, dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="global.html#Euler">Euler</a>}</span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Get Euler rotation of object in the ZYX intrinsic system.
+Using euler angles is discouraged, use quaternion instead.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Object 3D</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>dest</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Euler">Euler</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    new Float32Array(3)
+                
+                </td>
+            
+
+            <td class="description last">Destination vector</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Vector with Euler angles
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="global.html#Euler">Euler</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="extern_transform.js.html">extern/transform.js</a>, <a href="extern_transform.js.html#line328">line 328</a>
     </li></ul></dd>
     
 
@@ -2399,7 +2399,7 @@ Using euler angles is discouraged, use quaternion instead.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line285">line 285</a>
+        <a href="extern_transform.js.html">extern/transform.js</a>, <a href="extern_transform.js.html#line290">line 290</a>
     </li></ul></dd>
     
 
@@ -2556,7 +2556,7 @@ Using euler angles is discouraged, use quaternion instead.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line441">line 441</a>
+        <a href="extern_transform.js.html">extern/transform.js</a>, <a href="extern_transform.js.html#line446">line 446</a>
     </li></ul></dd>
     
 
@@ -2714,7 +2714,7 @@ Using euler angles is discouraged, use quaternion instead.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line451">line 451</a>
+        <a href="extern_transform.js.html">extern/transform.js</a>, <a href="extern_transform.js.html#line456">line 456</a>
     </li></ul></dd>
     
 
@@ -2914,7 +2914,7 @@ Using euler angles is discouraged, use quaternion instead.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line122">line 122</a>
+        <a href="extern_transform.js.html">extern/transform.js</a>, <a href="extern_transform.js.html#line127">line 127</a>
     </li></ul></dd>
     
 
@@ -3126,7 +3126,7 @@ var translation = m_trans.get_translation(cube, _vec3_tmp);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line146">line 146</a>
+        <a href="extern_transform.js.html">extern/transform.js</a>, <a href="extern_transform.js.html#line151">line 151</a>
     </li></ul></dd>
     
 
@@ -3326,7 +3326,7 @@ var translation = m_trans.get_translation(cube, _vec3_tmp);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line632">line 632</a>
+        <a href="extern_transform.js.html">extern/transform.js</a>, <a href="extern_transform.js.html#line637">line 637</a>
     </li></ul></dd>
     
 
@@ -3527,7 +3527,7 @@ var translation = m_trans.get_translation(cube, _vec3_tmp);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line648">line 648</a>
+        <a href="extern_transform.js.html">extern/transform.js</a>, <a href="extern_transform.js.html#line653">line 653</a>
     </li></ul></dd>
     
 
@@ -3731,7 +3731,7 @@ var translation = m_trans.get_translation(cube, _vec3_tmp);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line525">line 525</a>
+        <a href="extern_transform.js.html">extern/transform.js</a>, <a href="extern_transform.js.html#line530">line 530</a>
     </li></ul></dd>
     
 
@@ -3889,7 +3889,7 @@ var translation = m_trans.get_translation(cube, _vec3_tmp);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line542">line 542</a>
+        <a href="extern_transform.js.html">extern/transform.js</a>, <a href="extern_transform.js.html#line547">line 547</a>
     </li></ul></dd>
     
 
@@ -4047,7 +4047,7 @@ var translation = m_trans.get_translation(cube, _vec3_tmp);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line558">line 558</a>
+        <a href="extern_transform.js.html">extern/transform.js</a>, <a href="extern_transform.js.html#line563">line 563</a>
     </li></ul></dd>
     
 
@@ -4205,7 +4205,7 @@ var translation = m_trans.get_translation(cube, _vec3_tmp);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line574">line 574</a>
+        <a href="extern_transform.js.html">extern/transform.js</a>, <a href="extern_transform.js.html#line579">line 579</a>
     </li></ul></dd>
     
 
@@ -4364,7 +4364,7 @@ It's better to use TSR form.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line676">line 676</a>
+        <a href="extern_transform.js.html">extern/transform.js</a>, <a href="extern_transform.js.html#line681">line 681</a>
     </li></ul></dd>
     
 
@@ -4524,7 +4524,7 @@ It's better to use TSR form.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line693">line 693</a>
+        <a href="extern_transform.js.html">extern/transform.js</a>, <a href="extern_transform.js.html#line698">line 698</a>
     </li></ul></dd>
     
 
@@ -4751,7 +4751,7 @@ It's better to use TSR form.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line161">line 161</a>
+        <a href="extern_transform.js.html">extern/transform.js</a>, <a href="extern_transform.js.html#line166">line 166</a>
     </li></ul></dd>
     
 
@@ -4956,7 +4956,7 @@ Using euler angles is discouraged, use quaternion instead.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line301">line 301</a>
+        <a href="extern_transform.js.html">extern/transform.js</a>, <a href="extern_transform.js.html#line306">line 306</a>
     </li></ul></dd>
     
 
@@ -5162,7 +5162,7 @@ Using euler angles is discouraged, use quaternion instead.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line356">line 356</a>
+        <a href="extern_transform.js.html">extern/transform.js</a>, <a href="extern_transform.js.html#line361">line 361</a>
     </li></ul></dd>
     
 
@@ -5322,7 +5322,7 @@ Using euler angles is discouraged, use quaternion instead.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line395">line 395</a>
+        <a href="extern_transform.js.html">extern/transform.js</a>, <a href="extern_transform.js.html#line400">line 400</a>
     </li></ul></dd>
     
 
@@ -5481,7 +5481,7 @@ Using euler angles is discouraged, use quaternion instead.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line379">line 379</a>
+        <a href="extern_transform.js.html">extern/transform.js</a>, <a href="extern_transform.js.html#line384">line 384</a>
     </li></ul></dd>
     
 
@@ -5708,7 +5708,7 @@ Using euler angles is discouraged, use quaternion instead.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line184">line 184</a>
+        <a href="extern_transform.js.html">extern/transform.js</a>, <a href="extern_transform.js.html#line189">line 189</a>
     </li></ul></dd>
     
 
@@ -5867,7 +5867,7 @@ Using euler angles is discouraged, use quaternion instead.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line221">line 221</a>
+        <a href="extern_transform.js.html">extern/transform.js</a>, <a href="extern_transform.js.html#line226">line 226</a>
     </li></ul></dd>
     
 
@@ -6048,7 +6048,7 @@ Using euler angles is discouraged, use quaternion instead.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line236">line 236</a>
+        <a href="extern_transform.js.html">extern/transform.js</a>, <a href="extern_transform.js.html#line241">line 241</a>
     </li></ul></dd>
     
 
@@ -6218,7 +6218,7 @@ var rot_quat = m_trans.get_rotation_rel_v(cube, _quat_tmp);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line207">line 207</a>
+        <a href="extern_transform.js.html">extern/transform.js</a>, <a href="extern_transform.js.html#line212">line 212</a>
     </li></ul></dd>
     
 
@@ -6376,7 +6376,7 @@ var rot_quat = m_trans.get_rotation_rel_v(cube, _quat_tmp);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line412">line 412</a>
+        <a href="extern_transform.js.html">extern/transform.js</a>, <a href="extern_transform.js.html#line417">line 417</a>
     </li></ul></dd>
     
 
@@ -6535,7 +6535,7 @@ var rot_quat = m_trans.get_rotation_rel_v(cube, _quat_tmp);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line426">line 426</a>
+        <a href="extern_transform.js.html">extern/transform.js</a>, <a href="extern_transform.js.html#line431">line 431</a>
     </li></ul></dd>
     
 
@@ -6739,7 +6739,7 @@ var rot_quat = m_trans.get_rotation_rel_v(cube, _quat_tmp);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line23">line 23</a>
+        <a href="extern_transform.js.html">extern/transform.js</a>, <a href="extern_transform.js.html#line28">line 28</a>
     </li></ul></dd>
     
 
@@ -6966,7 +6966,7 @@ var rot_quat = m_trans.get_rotation_rel_v(cube, _quat_tmp);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line95">line 95</a>
+        <a href="extern_transform.js.html">extern/transform.js</a>, <a href="extern_transform.js.html#line100">line 100</a>
     </li></ul></dd>
     
 
@@ -7170,7 +7170,7 @@ var rot_quat = m_trans.get_rotation_rel_v(cube, _quat_tmp);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line43">line 43</a>
+        <a href="extern_transform.js.html">extern/transform.js</a>, <a href="extern_transform.js.html#line48">line 48</a>
     </li></ul></dd>
     
 
@@ -7329,7 +7329,7 @@ var rot_quat = m_trans.get_rotation_rel_v(cube, _quat_tmp);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line79">line 79</a>
+        <a href="extern_transform.js.html">extern/transform.js</a>, <a href="extern_transform.js.html#line84">line 84</a>
     </li></ul></dd>
     
 
@@ -7487,7 +7487,7 @@ var rot_quat = m_trans.get_rotation_rel_v(cube, _quat_tmp);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line64">line 64</a>
+        <a href="extern_transform.js.html">extern/transform.js</a>, <a href="extern_transform.js.html#line69">line 69</a>
     </li></ul></dd>
     
 
@@ -7645,7 +7645,7 @@ var rot_quat = m_trans.get_rotation_rel_v(cube, _quat_tmp);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line601">line 601</a>
+        <a href="extern_transform.js.html">extern/transform.js</a>, <a href="extern_transform.js.html#line606">line 606</a>
     </li></ul></dd>
     
 
@@ -7804,7 +7804,7 @@ var rot_quat = m_trans.get_rotation_rel_v(cube, _quat_tmp);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line616">line 616</a>
+        <a href="extern_transform.js.html">extern/transform.js</a>, <a href="extern_transform.js.html#line621">line 621</a>
     </li></ul></dd>
     
 
@@ -7835,13 +7835,13 @@ var rot_quat = m_trans.get_rotation_rel_v(cube, _quat_tmp);</code></pre>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-armature.html">armature</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-fps.html">fps</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gp_conf.html">gp_conf</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hmd.html">hmd</a></li><li><a href="module-hmd_conf.html">hmd_conf</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-input.html">input</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-logic_nodes.html">logic_nodes</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-math.html">math</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screen.html">screen</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-armature.html">armature</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-fps.html">fps</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gp_conf.html">gp_conf</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hmd.html">hmd</a></li><li><a href="module-hmd_conf.html">hmd_conf</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-input.html">input</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-logic_nodes.html">logic_nodes</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-math.html">math</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screen.html">screen</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Blend4Web API Reference (generated by JSDoc 3.4.0 on Tue Nov 21 2017 11:16:45 GMT+0300 (MSK))
+    Blend4Web API Reference (generated by JSDoc 3.5.5 on Fri Dec 29 2017 16:28:38 GMT+0300 (MSK))
     <a href="https://www.blend4web.com">www.blend4web.com</a>
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">

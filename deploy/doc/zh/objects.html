@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>物体 &mdash; Blend4Web 17.10.1 用户手册</title>
+  <title>物体 &mdash; Blend4Web 17.12.0 用户手册</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.10.1 用户手册" href="index.html"/>
+        <link rel="index" title="索引"
+              href="genindex.html"/>
+        <link rel="search" title="搜索" href="search.html"/>
+    <link rel="top" title="Blend4Web 17.12.0 用户手册" href="index.html"/>
         <link rel="next" title="网格" href="meshes.html"/>
         <link rel="prev" title="场景设置" href="scene_settings.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -93,7 +96,7 @@
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">网络播放器</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">插件</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">场景设置</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">物体</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">物体</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#types">类型</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#static-and-dynamic-objects">静态和动态物体</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#settings">设置</a><ul>
@@ -213,7 +216,7 @@
   <div class="section" id="objects">
 <span id="id1"></span><h1><a class="toc-backref" href="#id6">物体</a><a class="headerlink" href="#objects" title="永久链接至标题">¶</a></h1>
 <div class="contents topic" id="table-of-contents">
-<p class="topic-title first">目录</p>
+<p class="topic-title first">Table of Contents</p>
 <ul class="simple">
 <li><a class="reference internal" href="#objects" id="id6">物体</a><ul>
 <li><a class="reference internal" href="#types" id="id7">类型</a></li>
@@ -257,26 +260,16 @@
 <p>该引擎支持以下类型的物体：</p>
 <blockquote>
 <div><ul class="simple">
-<li><p class="first"><a class="reference internal" href="meshes.html#meshes"><span>网格(mesh)</span></a></p>
-</li>
-<li><p class="first"><a class="reference internal" href="camera.html#camera"><span>相机</span></a></p>
-</li>
-<li><p class="first"><a class="reference internal" href="lighting.html#lighting"><span>灯光</span></a></p>
-</li>
-<li><p class="first">空物体</p>
-</li>
-<li><p class="first"><a class="reference internal" href="animation.html#skeletal-animation"><span>骨架</span></a></p>
-</li>
-<li><p class="first"><a class="reference internal" href="audio.html#audio"><span>声音</span></a></p>
-</li>
-<li><p class="first">曲线</p>
-</li>
-<li><p class="first">文本</p>
-</li>
-<li><p class="first">融球</p>
-</li>
-<li><p class="first">曲面</p>
-</li>
+<li><a class="reference internal" href="meshes.html#meshes"><span class="std std-ref">网格(mesh)</span></a></li>
+<li><a class="reference internal" href="camera.html#camera"><span class="std std-ref">相机</span></a></li>
+<li><a class="reference internal" href="lighting.html#lighting"><span class="std std-ref">灯光</span></a></li>
+<li>空物体</li>
+<li><a class="reference internal" href="animation.html#skeletal-animation"><span class="std std-ref">骨架</span></a></li>
+<li><a class="reference internal" href="audio.html#audio"><span class="std std-ref">声音</span></a></li>
+<li>曲线</li>
+<li>文本</li>
+<li>融球</li>
+<li>曲面</li>
 </ul>
 </div></blockquote>
 <p>在场景导出时，<code class="docutils literal"><span class="pre">CURVE</span></code>，<code class="docutils literal"><span class="pre">TEXT</span></code>，<code class="docutils literal"><span class="pre">METABALL</span></code> 和 <code class="docutils literal"><span class="pre">SURFACE</span></code> 类型的物体转换为 <code class="docutils literal"><span class="pre">MESH</span></code> 类型的物体。</p>
@@ -291,14 +284,10 @@
 <p>具有动画，物理或父关系的是一个动态物体，被认为是动态，以及由下面的逻辑节点控制的物体：</p>
 <blockquote>
 <div><ul class="simple">
-<li><p class="first"><code class="docutils literal"><span class="pre">播放动画</span></code></p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">变换物体</span></code></p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">移动到</span></code></p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">继承材质</span></code></p>
-</li>
+<li><code class="docutils literal"><span class="pre">播放动画</span></code></li>
+<li><code class="docutils literal"><span class="pre">变换物体</span></code></li>
+<li><code class="docutils literal"><span class="pre">移动到</span></code></li>
+<li><code class="docutils literal"><span class="pre">继承材质</span></code></li>
 </ul>
 </div></blockquote>
 <p>API方法是关注物体的运动，复制和动画（包括物体和节点材质）只能应用于动态物体。为了使物体的不动态设置的运动可能，有必要激活设置 <code class="docutils literal"><span class="pre">Force</span> <span class="pre">Dynamic</span> <span class="pre">Object</span></code> 选项。</p>
@@ -317,22 +306,18 @@
 <img alt="_images/object_settings_transform.png" class="align-center" src="_images/object_settings_transform.png" />
 <dl class="docutils">
 <dt><em>变换 &gt; 位置</em></dt>
-<dd><p class="first last">位置坐标。</p>
-</dd>
+<dd>位置坐标。</dd>
 <dt><em>变换 &gt; 旋转</em></dt>
-<dd><p class="first last">旋转角度。对于物体的旋转所有可用的模式可以使用（<code class="docutils literal"><span class="pre">旋转Mode</span></code>）。但是，只有 <code class="docutils literal"><span class="pre">四元（WXYZ）</span></code> 和 <code class="docutils literal"><span class="pre">XYZ</span> <span class="pre">Euler</span></code> 都支持 <a class="reference internal" href="animation.html#whole-object-anim"><span>物体动画</span></a>.</p>
-</dd>
+<dd>旋转角度。对于物体的旋转所有可用的模式可以使用（<code class="docutils literal"><span class="pre">旋转Mode</span></code>）。但是，只有 <code class="docutils literal"><span class="pre">四元（WXYZ）</span></code> 和 <code class="docutils literal"><span class="pre">XYZ</span> <span class="pre">Euler</span></code> 都支持 <a class="reference internal" href="animation.html#whole-object-anim"><span class="std std-ref">物体动画</span></a>.</dd>
 <dt><em>变换 &gt; 缩放</em></dt>
-<dd><p class="first last">缩放。所有3分量（X，Y，Z）应该是相同的。缩放不支持物理物体。</p>
-</dd>
+<dd>缩放。所有3分量（X，Y，Z）应该是相同的。缩放不支持物理物体。</dd>
 </dl>
 </div>
 <div class="section" id="groups-panel">
 <span id="object-settings-groups"></span><h4>组面板<a class="headerlink" href="#groups-panel" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>组</em></dt>
-<dd><p class="first last">物体所属的物体组</p>
-</dd>
+<dd>物体所属的物体组</dd>
 </dl>
 <img alt="_images/object_settings_groups.png" class="align-center" src="_images/object_settings_groups.png" />
 <div class="line-block">
@@ -349,27 +334,22 @@
 <img alt="_images/object_settings_lod.png" class="align-center" src="_images/object_settings_lod.png" />
 <dl class="docutils">
 <dt><em>层次细节&gt; 物体</em></dt>
-<dd><p class="first last">用于此层次的细节的物体。</p>
-</dd>
+<dd>用于此层次的细节的物体。</dd>
 <dt><em>层次细节&gt; 距离</em></dt>
-<dd><p class="first last">开始使用这个层次细节的距离。</p>
-</dd>
+<dd>开始使用这个层次细节的距离。</dd>
 </dl>
-<p>层次细节的详细描述如下 <a class="reference internal" href="#lods"><span>专门章节</span></a>.</p>
+<p>层次细节的详细描述如下 <a class="reference internal" href="#lods"><span class="std std-ref">专门章节</span></a>.</p>
 </div>
 <div class="section" id="animation-panel">
 <span id="object-settings-animation"></span><h4>动画面板<a class="headerlink" href="#animation-panel" title="永久链接至标题">¶</a></h4>
 <img alt="_images/object_settings_animation.png" class="align-center" src="_images/object_settings_animation.png" />
 <dl class="docutils">
 <dt><em>动画 &gt; 应用默认动画</em></dt>
-<dd><p class="first last">传到引擎开始后播放物体的动画。</p>
-</dd>
+<dd>传到引擎开始后播放物体的动画。</dd>
 <dt><em>动画 &gt; 动画混合</em></dt>
-<dd><p class="first last">只对骨骼物体。允许骨骼动画之间进行混合。</p>
-</dd>
+<dd>只对骨骼物体。允许骨骼动画之间进行混合。</dd>
 <dt><em>动画 &gt; 行为</em></dt>
-<dd><p class="first last">到达最后一帧时动画的行为：<code class="docutils literal"><span class="pre">完成停止</span></code>  - 停止  <code class="docutils literal"><span class="pre">完成重置</span></code>  - 停止并跳到零帧，<code class="docutils literal"><span class="pre">Loop</span></code>  - 永远重复。</p>
-</dd>
+<dd>到达最后一帧时动画的行为：<code class="docutils literal"><span class="pre">完成停止</span></code>  - 停止  <code class="docutils literal"><span class="pre">完成重置</span></code>  - 停止并跳到零帧，<code class="docutils literal"><span class="pre">Loop</span></code>  - 永远重复。</dd>
 </dl>
 </div>
 <div class="section" id="export-options-panel">
@@ -377,8 +357,7 @@
 <img alt="_images/object_settings_export.png" class="align-center" src="_images/object_settings_export.png" />
 <dl class="docutils">
 <dt><em>导出选项 &gt; 不导出</em></dt>
-<dd><p class="first last">不要导出此物体。</p>
-</dd>
+<dd>不要导出此物体。</dd>
 </dl>
 <dl class="docutils" id="apply-modifiers">
 <dt><em>导出选项 &gt; 应用修改器</em></dt>
@@ -389,14 +368,11 @@
 </div>
 </dd>
 <dt><em>导出选项 &gt; 应用缩放和修改器</em></dt>
-<dd><p class="first last">一旦导出，应用物体的缩放和修改器。</p>
-</dd>
+<dd>一旦导出，应用物体的缩放和修改器。</dd>
 <dt><em>导出选项 &gt; 导出顶点动画</em></dt>
-<dd><p class="first last">导出以前创建并保存的顶点动画。只适用于 <code class="docutils literal"><span class="pre">MESH</span></code> 类型物体。</p>
-</dd>
+<dd>导出以前创建并保存的顶点动画。只适用于 <code class="docutils literal"><span class="pre">MESH</span></code> 类型物体。</dd>
 <dt><em>导出选项 &gt; 导出形变键</em></dt>
-<dd><p class="first last">导出形变键。只适用于 <code class="docutils literal"><span class="pre">MESH</span></code> 类型物体。</p>
-</dd>
+<dd>导出形变键。只适用于 <code class="docutils literal"><span class="pre">MESH</span></code> 类型物体。</dd>
 </dl>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
@@ -408,11 +384,9 @@
 <img alt="_images/object_settings_rendering.png" class="align-center" src="_images/object_settings_rendering.png" />
 <dl class="docutils">
 <dt><em>渲染属性&gt;隐藏</em></dt>
-<dd><p class="first last">与此属性启用的物体将在加载时被隐藏。</p>
-</dd>
+<dd>与此属性启用的物体将在加载时被隐藏。</dd>
 <dt><em>渲染属性&gt;隐藏子物体</em></dt>
-<dd><p class="first last">所有的物体的子级和子级的子级等等都将被隐藏起来。仅可用于，启用了 <code class="docutils literal"><span class="pre">Rendering</span> <span class="pre">Properties</span> <span class="pre">&gt;</span> <span class="pre">Hidden</span></code> 属性，并且物体具有任何子项。</p>
-</dd>
+<dd>所有的物体的子级和子级的子级等等都将被隐藏起来。仅可用于，启用了 <code class="docutils literal"><span class="pre">Rendering</span> <span class="pre">Properties</span> <span class="pre">&gt;</span> <span class="pre">Hidden</span></code> 属性，并且物体具有任何子项。</dd>
 <dt><em>渲染属性 &gt; 不要渲染</em></dt>
 <dd><p class="first">禁止物体的渲染（例如用于有用的物理物体）。</p>
 <p class="last">此参数不可用于 <code class="docutils literal"><span class="pre">Empty</span></code> 类型的物体。</p>
@@ -422,15 +396,13 @@
 <p class="last">此参数不可用于 <code class="docutils literal"><span class="pre">Empty</span></code> 类型的物体。</p>
 </dd>
 <dt><em>渲染属性 &gt; 强制动态物体</em></dt>
-<dd><p class="first last">强制物体变成了 <a class="reference internal" href="#static-dynamic-objects"><span>动态物体</span></a>.</p>
-</dd>
+<dd>强制物体变成了 <a class="reference internal" href="#static-dynamic-objects"><span class="std std-ref">动态物体</span></a>.</dd>
 </dl>
 <dl class="docutils" id="dynamic-geom">
 <dt><em>渲染属性 &gt; 动态几何体与材质</em></dt>
-<dd><p class="first last">允许使用几何更新 API 和为物体继承材质。</p>
-</dd>
+<dd>允许使用几何更新 API 和为物体继承材质。</dd>
 <dt><em>渲染属性 &gt; 线呈渲染</em></dt>
-<dd><p class="first">允许使用该物体到渲染中 <a class="reference internal" href="#line-rendering"><span>参数线条</span></a>.</p>
+<dd><p class="first">允许使用该物体到渲染中 <a class="reference internal" href="#line-rendering"><span class="std std-ref">参数线条</span></a>.</p>
 <p class="last">此参数仅供 <code class="docutils literal"><span class="pre">Empty</span></code> 类型物体。</p>
 </dd>
 </dl>
@@ -440,14 +412,11 @@
 <img alt="_images/object_settings_shadows.png" class="align-center" src="_images/object_settings_shadows.png" />
 <dl class="docutils">
 <dt><em>阴影 &gt; 投射</em></dt>
-<dd><p class="first last">该物体将投射阴影。</p>
-</dd>
+<dd>该物体将投射阴影。</dd>
 <dt><em>阴影&gt; 仅投射</em></dt>
-<dd><p class="first last">该物体将投射阴影，但仍然看不到自己。成启用 <code class="docutils literal"><span class="pre">阴影&gt;</span> <span class="pre">投射</span></code> 后可用。</p>
-</dd>
+<dd>该物体将投射阴影，但仍然看不到自己。成启用 <code class="docutils literal"><span class="pre">阴影&gt;</span> <span class="pre">投射</span></code> 后可用。</dd>
 <dt><em>阴影 &gt; 接受</em></dt>
-<dd><p class="first last">该物体将接收来自其他相邻物体的阴影。</p>
-</dd>
+<dd>该物体将接收来自其他相邻物体的阴影。</dd>
 </dl>
 </div>
 <div class="section" id="billboard-panel">
@@ -455,16 +424,13 @@
 <img alt="_images/object_settings_billboard.png" class="align-center" src="_images/object_settings_billboard.png" />
 <dl class="docutils">
 <dt><em>广告牌</em></dt>
-<dd><p class="first last">使用物体作为广告牌（即自动定向面对摄像机）。</p>
-</dd>
+<dd>使用物体作为广告牌（即自动定向面对摄像机）。</dd>
 </dl>
 <dl class="docutils" id="billboarding-preserve">
 <dt><em>广告牌 &gt; 保留全局旋转</em></dt>
-<dd><p class="first last">考虑到广告牌物体的旋转（在世界空间中）。物体将被指向相机，其侧面在Blender中沿着Y轴观察时可见。启用  <code class="docutils literal"><span class="pre">Billboard</span></code> 复选框后可用。</p>
-</dd>
+<dd>考虑到广告牌物体的旋转（在世界空间中）。物体将被指向相机，其侧面在Blender中沿着Y轴观察时可见。启用  <code class="docutils literal"><span class="pre">Billboard</span></code> 复选框后可用。</dd>
 <dt><em>广告牌 &gt; 广告牌类型</em></dt>
-<dd><p class="first last">广告牌方向模式。 <code class="docutils literal"><span class="pre">Spherical</span></code> （默认） - 物体一面始终朝向相机，不管视角，<code class="docutils literal"><span class="pre">Cylindrical</span></code>  - 类似于 <code class="docutils literal"><span class="pre">Spherical</span></code>，但旋转仅限于Blender的世界Z轴。启用广告牌后变得可用。</p>
-</dd>
+<dd>广告牌方向模式。 <code class="docutils literal"><span class="pre">Spherical</span></code> （默认） - 物体一面始终朝向相机，不管视角，<code class="docutils literal"><span class="pre">Cylindrical</span></code>  - 类似于 <code class="docutils literal"><span class="pre">Spherical</span></code>，但旋转仅限于Blender的世界Z轴。启用广告牌后变得可用。</dd>
 </dl>
 </div>
 <div class="section" id="reflections-panel">
@@ -472,8 +438,7 @@
 <img alt="_images/object_settings_reflections.png" class="align-center" src="_images/object_settings_reflections.png" />
 <dl class="docutils">
 <dt><em>反射 &gt; 被反射</em></dt>
-<dd><p class="first last">启用后物体被会在动态镜面中被反射。</p>
-</dd>
+<dd>启用后物体被会在动态镜面中被反射。</dd>
 <dt><em>反射 &gt; 仅被反射</em></dt>
 <dd><p class="first">物体被反射但仍将看不见自身。开启 <code class="docutils literal"><span class="pre">反射</span> <span class="pre">&gt;</span> <span class="pre">反射性</span></code> 后可用。</p>
 <div class="last admonition note">
@@ -483,11 +448,9 @@
 </div>
 </dd>
 <dt><em>反射 &gt; 反射</em></dt>
-<dd><p class="first last">当启用时该物体表面反射的其他物体。</p>
-</dd>
+<dd>当启用时该物体表面反射的其他物体。</dd>
 <dt><em>反射 &gt; 反射面</em></dt>
-<dd><p class="first last">对于一个空物体定义了反射面的Name文本字段。启用 <code class="docutils literal"><span class="pre">反射</span> <span class="pre">&gt;</span> <span class="pre">反射</span></code> 后可用。</p>
-</dd>
+<dd>对于一个空物体定义了反射面的Name文本字段。启用 <code class="docutils literal"><span class="pre">反射</span> <span class="pre">&gt;</span> <span class="pre">反射</span></code> 后可用。</dd>
 </dl>
 </div>
 <div class="section" id="selection-and-outlining-panel">
@@ -495,18 +458,16 @@
 <img alt="_images/object_settings_selection.png" class="align-center" src="_images/object_settings_selection.png" />
 <dl class="docutils">
 <dt><em>选择和外轮廓 &gt; 可选择</em></dt>
-<dd><p class="first last">启用 <a class="reference internal" href="#mesh-selection"><span>物体选择</span></a> ，用鼠标或其他输入设备。</p>
-</dd>
+<dd>启用 <a class="reference internal" href="#mesh-selection"><span class="std std-ref">物体选择</span></a> ，用鼠标或其他输入设备。</dd>
 <dt><em>选择和外轮廓 &gt; 启用外轮廓</em></dt>
-<dd><p class="first last">启用物体的 <a class="reference internal" href="postprocessing_effects.html#outline"><span>外轮廓发光</span></a>  。</p>
-</dd>
+<dd>启用物体的 <a class="reference internal" href="postprocessing_effects.html#outline"><span class="std std-ref">外轮廓发光</span></a>  。</dd>
 </dl>
 </div>
 <div class="section" id="anchors-panel">
 <span id="object-settings-anchors"></span><h4>锚面板<a class="headerlink" href="#anchors-panel" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>锚 &gt; 启用锚</em></dt>
-<dd><p class="first">该参数将启用添加锚（2D标签）到物体的界面。只可用于  <code class="docutils literal"><span class="pre">EMPTY</span></code> 物体。在 <a class="reference internal" href="#objects-anchors"><span>相应章节</span></a> 描述。</p>
+<dd><p class="first">该参数将启用添加锚（2D标签）到物体的界面。只可用于  <code class="docutils literal"><span class="pre">EMPTY</span></code> 物体。在 <a class="reference internal" href="#objects-anchors"><span class="std std-ref">相应章节</span></a> 描述。</p>
 <a class="last reference internal image-reference" href="_images/objects_enable_anchors.png"><img alt="_images/objects_enable_anchors.png" class="align-center" src="_images/objects_enable_anchors.png" style="width: 100%;" /></a>
 </dd>
 </dl>
@@ -519,22 +480,19 @@
 <dd><p class="first">添加物体的元标签的接口：</p>
 <dl class="last docutils">
 <dt><em>元标签 &gt; 标题</em></dt>
-<dd><p class="first last">物体的标题。</p>
-</dd>
+<dd>物体的标题。</dd>
 <dt><em>元标签 &gt; 类别</em></dt>
-<dd><p class="first last">物体的类别。</p>
-</dd>
+<dd>物体的类别。</dd>
 <dt><em>元标签 &gt; 描述</em></dt>
 <dd><p class="first">物体描述。根据 <code class="docutils literal"><span class="pre">说明源</span></code>，此字段接受描述文本本身，或包含此描述的文件名称。</p>
 <div class="last admonition note">
 <p class="first admonition-title">注解</p>
-<p>要使用文本文件作为描述源，您首先必须在Blender的  <a class="reference internal" href="interface.html#ui-text-editor"><span>文本编辑器</span></a> 中打开一个现有文件，或者在同一个编辑器中创建一个新的文本文件。</p>
+<p>要使用文本文件作为描述源，您首先必须在Blender的  <a class="reference internal" href="interface.html#ui-text-editor"><span class="std std-ref">文本编辑器</span></a> 中打开一个现有文件，或者在同一个编辑器中创建一个新的文本文件。</p>
 <p class="last">然后，您只需要在 <code class="docutils literal"><span class="pre">Description</span></code> 字段中设置文件的名称。</p>
 </div>
 </dd>
 <dt><em>元标签 &gt; 描述源</em></dt>
-<dd><p class="first last">为说明来源类型：文本或文本文件。</p>
-</dd>
+<dd>为说明来源类型：文本或文本文件。</dd>
 </dl>
 </dd>
 </dl>
@@ -550,7 +508,7 @@
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p class="last">这些设置可被用于将物体对准的主控照相机。参考 <a class="reference internal" href="camera.html#camera-viewport-alignment"><span>相机章节</span></a> 的描述。</p>
+<p class="last">这些设置可被用于将物体对准的主控照相机。参考 <a class="reference internal" href="camera.html#camera-viewport-alignment"><span class="std std-ref">相机章节</span></a> 的描述。</p>
 </dd>
 </dl>
 </div>
@@ -564,8 +522,7 @@
 <img alt="_images/object_settings_wind.png" class="align-center" src="_images/object_settings_wind.png" />
 <dl class="docutils">
 <dt><em>风弯曲</em></dt>
-<dd><p class="first last">启用风弯曲程序动画。在  <a class="reference internal" href="outdoor_rendering.html#wind-bending"><span>室外渲染</span></a> 页有完整的描述.。</p>
-</dd>
+<dd>启用风弯曲程序动画。在  <a class="reference internal" href="outdoor_rendering.html#wind-bending"><span class="std std-ref">室外渲染</span></a> 页有完整的描述.。</dd>
 </dl>
 </div>
 <div class="section" id="special-effects-panel">
@@ -573,11 +530,9 @@
 <img alt="_images/object_settings_fx.png" class="align-center" src="_images/object_settings_fx.png" />
 <dl class="docutils">
 <dt><em>特殊效果 &gt; 关闭雾效</em></dt>
-<dd><p class="first last">禁用物体的雾。</p>
-</dd>
+<dd>禁用物体的雾。</dd>
 <dt><em>特殊效果 &gt; 焦散</em></dt>
-<dd><p class="first last">该物体将渲染自附近水的焦散效果。</p>
-</dd>
+<dd>该物体将渲染自附近水的焦散效果。</dd>
 </dl>
 </div>
 </div>
@@ -589,17 +544,13 @@
 </div>
 <dl class="docutils">
 <dt><em>检测碰撞</em></dt>
-<dd><p class="first last">激活物体的物理。</p>
-</dd>
+<dd>激活物体的物理。</dd>
 <dt><em>飘浮</em></dt>
-<dd><p class="first last">使物体漂浮。在 <a class="reference internal" href="physics.html#physics"><span>physics</span></a> 一节对飘浮物体的设置进行了详细描述。</p>
-</dd>
+<dd>使物体漂浮。在 <a class="reference internal" href="physics.html#physics"><span class="std std-ref">physics</span></a> 一节对飘浮物体的设置进行了详细描述。</dd>
 <dt><em>载具</em></dt>
-<dd><p class="first last">使用物体作为车辆的一部分。该车辆设置中详细的描述在 <a class="reference internal" href="physics.html#physics"><span>物理</span></a> 一节。</p>
-</dd>
+<dd>使用物体作为车辆的一部分。该车辆设置中详细的描述在 <a class="reference internal" href="physics.html#physics"><span class="std std-ref">物理</span></a> 一节。</dd>
 <dt><em>角色</em></dt>
-<dd><p class="first last">启用物体的角色物理特性。角色设置详细描述在  <a class="reference internal" href="physics.html#physics"><span>物理</span></a> 一节.。</p>
-</dd>
+<dd>启用物体的角色物理特性。角色设置详细描述在  <a class="reference internal" href="physics.html#physics"><span class="std std-ref">物理</span></a> 一节.。</dd>
 </dl>
 </div>
 </div>
@@ -607,14 +558,10 @@
 <span id="objects-constraints"></span><h2><a class="toc-backref" href="#id12">物体约束</a><a class="headerlink" href="#object-constraints" title="永久链接至标题">¶</a></h2>
 <p>Blend4Web引擎支持以下类型的物体约束：</p>
 <ul class="simple">
-<li><p class="first"><code class="docutils literal"><span class="pre">复制位置</span></code>,</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">复制旋转</span></code>,</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">复制变换</span></code> 和</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">跟踪到</span></code>.</p>
-</li>
+<li><code class="docutils literal"><span class="pre">复制位置</span></code>,</li>
+<li><code class="docutils literal"><span class="pre">复制旋转</span></code>,</li>
+<li><code class="docutils literal"><span class="pre">复制变换</span></code> 和</li>
+<li><code class="docutils literal"><span class="pre">跟踪到</span></code>.</li>
 </ul>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
@@ -622,16 +569,11 @@
 </div>
 <p>这些约束可以在Blender中直接设置。其他类型的约束目前不支持，但从一些 API 方法  <a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html">constraints</a> 模块有一样的功能。这包括：</p>
 <ul class="simple">
-<li><p class="first"><code class="docutils literal"><span class="pre">复制位置</span></code> 约束可以用  <a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html#.append_copy_loc">append_copy_loc()</a> 来模拟</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">复制旋转</span></code> 约束与 <a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html#.append_copy_rot">append_copy_rot()</a>   方法类似。</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">复制变换</span></code> 约束与 <a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html#.append_copy_trans">append_copy_trans()</a> 方法类似。</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">限制距离</span></code> 约束可以用  <a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html#.append_follow">append_follow()</a> 方法来模拟，但应注意此方法不会设置物体之间的精确距离 （相反，设置最小和最大可能的距离）。</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">追踪到</span></code> 约束可以替换成  <a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html#.append_track">append_track()</a> 方法。</p>
-</li>
+<li><code class="docutils literal"><span class="pre">复制位置</span></code> 约束可以用  <a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html#.append_copy_loc">append_copy_loc()</a> 来模拟</li>
+<li><code class="docutils literal"><span class="pre">复制旋转</span></code> 约束与 <a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html#.append_copy_rot">append_copy_rot()</a>   方法类似。</li>
+<li><code class="docutils literal"><span class="pre">复制变换</span></code> 约束与 <a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html#.append_copy_trans">append_copy_trans()</a> 方法类似。</li>
+<li><code class="docutils literal"><span class="pre">限制距离</span></code> 约束可以用  <a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html#.append_follow">append_follow()</a> 方法来模拟，但应注意此方法不会设置物体之间的精确距离 （相反，设置最小和最大可能的距离）。</li>
+<li><code class="docutils literal"><span class="pre">追踪到</span></code> 约束可以替换成  <a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html#.append_track">append_track()</a> 方法。</li>
 </ul>
 <p>其他约束并没有明显的类似功能在 API 中，虽然他们的行为可以在一定程度上通过 API 方法模仿使用。</p>
 <p><a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html">constraints</a> 模块还包括几个附加的方法：</p>
@@ -681,87 +623,64 @@
 <a class="reference internal image-reference" href="_images/objects_anchors_settings.png"><img alt="_images/objects_anchors_settings.png" class="align-center" src="_images/objects_anchors_settings.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>启用锚</em></dt>
-<dd><p class="first last">使用此参数可添加锚（2D标签）物体的界面。唯一适用于 <code class="docutils literal"><span class="pre">EMPTY</span></code> 物体。</p>
-</dd>
+<dd>使用此参数可添加锚（2D标签）物体的界面。唯一适用于 <code class="docutils literal"><span class="pre">EMPTY</span></code> 物体。</dd>
 <dt><em>类型</em></dt>
 <dd><p class="first">锚类型</p>
 <ul class="simple">
-<li><p class="first"><code class="docutils literal"><span class="pre">Annotation</span></code> - 内容从 <a class="reference internal" href="#objects-meta-tags"><span>元标签</span></a> 所获得再分配给物体，显示出标准的部分。</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">Custom</span> <span class="pre">Element</span></code> - 从当前网页的任意HTML元素用作锚。</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">Generic</span></code> - 一个锚点的位置，可以使用 <code class="docutils literal"><span class="pre">anchors</span></code>  API模块进行检测。</p>
-</li>
+<li><code class="docutils literal"><span class="pre">Annotation</span></code> - 内容从 <a class="reference internal" href="#objects-meta-tags"><span class="std std-ref">元标签</span></a> 所获得再分配给物体，显示出标准的部分。</li>
+<li><code class="docutils literal"><span class="pre">Custom</span> <span class="pre">Element</span></code> - 从当前网页的任意HTML元素用作锚。</li>
+<li><code class="docutils literal"><span class="pre">Generic</span></code> - 一个锚点的位置，可以使用 <code class="docutils literal"><span class="pre">anchors</span></code>  API模块进行检测。</li>
 </ul>
 <p class="last">默认值是 <code class="docutils literal"><span class="pre">Annotation</span></code>。</p>
 </dd>
 <dt><em>HTML元素ID</em></dt>
-<dd><p class="first last">这指定了将被用作锚的HTML元素的ID。这是仅当 <code class="docutils literal"><span class="pre">Type</span></code> 参数设置为 <code class="docutils literal"><span class="pre">Custom</span> <span class="pre">Element</span></code>.</p>
-</dd>
+<dd>这指定了将被用作锚的HTML元素的ID。这是仅当 <code class="docutils literal"><span class="pre">Type</span></code> 参数设置为 <code class="docutils literal"><span class="pre">Custom</span> <span class="pre">Element</span></code>.</dd>
 <dt><em>可见检测</em></dt>
-<dd><p class="first last">检测锚物体是否被其他物体重叠。打开此选项会降低性能，应该只在必要时使用。</p>
-</dd>
+<dd>检测锚物体是否被其他物体重叠。打开此选项会降低性能，应该只在必要时使用。</dd>
 <dt><em>最大宽度</em></dt>
-<dd><p class="first last">此参数通过一个预定义的值来限制扩展信息窗口（测量用 CSS像素）。只有当 <code class="docutils literal"><span class="pre">Type</span></code> 参数设置为 <code class="docutils literal"><span class="pre">Annotation</span></code> 时才可用，它被设置为默认值为250。</p>
-</dd>
+<dd>此参数通过一个预定义的值来限制扩展信息窗口（测量用 CSS像素）。只有当 <code class="docutils literal"><span class="pre">Type</span></code> 参数设置为 <code class="docutils literal"><span class="pre">Annotation</span></code> 时才可用，它被设置为默认值为250。</dd>
 </dl>
 </div>
 <div class="section" id="object-transform-api">
 <span id="index-0"></span><h2><a class="toc-backref" href="#id14">物体变换API</a><a class="headerlink" href="#object-transform-api" title="永久链接至标题">¶</a></h2>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
-<p class="last">请确保您要变换的物体是 <a class="reference internal" href="#static-dynamic-objects"><span>动态物体</span></a>.</p>
+<p class="last">请确保您要变换的物体是 <a class="reference internal" href="#static-dynamic-objects"><span class="std std-ref">动态物体</span></a>.</p>
 </div>
 <p>使用 <a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html">transform</a> 模块的下列方法在引擎中移动物体：</p>
 <dl class="docutils">
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html#.get_translation">get_translation()</a></dt>
-<dd><p class="first last">获得在世界空间的物体中心坐标。带一个参数的方法返回一个新向量（一个非优化选项），同时用两个参数的方法需要一个额外的矢量记录结果。</p>
-</dd>
+<dd>获得在世界空间的物体中心坐标。带一个参数的方法返回一个新向量（一个非优化选项），同时用两个参数的方法需要一个额外的矢量记录结果。</dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html#.get_translation_rel">get_translation_rel()</a></dt>
-<dd><p class="first last">类似于 <code class="docutils literal"><span class="pre">get_translation（）</span></code> 方法，但如果此物体有父级，得到的坐标在父级的空间测量。</p>
-</dd>
+<dd>类似于 <code class="docutils literal"><span class="pre">get_translation（）</span></code> 方法，但如果此物体有父级，得到的坐标在父级的空间测量。</dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html#.set_translation">set_translation()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html#.set_translation_v">set_translation_v()</a></dt>
-<dd><p class="first last">移动物体的中心到指定的位置。第一种方法需要单独的坐标作为参数，而第二个需要三元矢量（<code class="docutils literal"><span class="pre">Array</span></code> 或 <code class="docutils literal"><span class="pre">Float32Array</span></code>）。</p>
-</dd>
+<dd>移动物体的中心到指定的位置。第一种方法需要单独的坐标作为参数，而第二个需要三元矢量（<code class="docutils literal"><span class="pre">Array</span></code> 或 <code class="docutils literal"><span class="pre">Float32Array</span></code>）。</dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html#.set_translation_rel">set_translation_rel()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html#.set_translation_rel_v">set_translation_rel_v()</a></dt>
-<dd><p class="first last">类似 <code class="docutils literal"><span class="pre">set_translation()</span></code> 和 <code class="docutils literal"><span class="pre">set_translation_v()</span></code>，但如果这个物体有父级，设定坐标为测量父级的空间。</p>
-</dd>
+<dd>类似 <code class="docutils literal"><span class="pre">set_translation()</span></code> 和 <code class="docutils literal"><span class="pre">set_translation_v()</span></code>，但如果这个物体有父级，设定坐标为测量父级的空间。</dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html#.get_rotation">get_rotation()</a></dt>
-<dd><p class="first last">获取在世界空间的物体的旋转四元数。类似 <code class="docutils literal"><span class="pre">get_translation()</span></code>，调用此函数也有两种选择。</p>
-</dd>
+<dd>获取在世界空间的物体的旋转四元数。类似 <code class="docutils literal"><span class="pre">get_translation()</span></code>，调用此函数也有两种选择。</dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html#.get_rotation_rel">get_rotation_rel()</a></dt>
-<dd><p class="first last">获取物体的在其父级空间的旋转四元。类似  <code class="docutils literal"><span class="pre">get_translation_rel()</span></code>，调用此函数也有两种选择。</p>
-</dd>
+<dd>获取物体的在其父级空间的旋转四元。类似  <code class="docutils literal"><span class="pre">get_translation_rel()</span></code>，调用此函数也有两种选择。</dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html#.set_rotation">set_rotation()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html#.set_rotation_v">set_rotation_v()</a></dt>
-<dd><p class="first last">设置在世界空间物体的旋转四元数。第一个功能需要单独的坐标参数，而第二个需要一个四元矢量（<code class="docutils literal"><span class="pre">Array</span></code> 或 <code class="docutils literal"><span class="pre">Float32Array</span></code> ）。</p>
-</dd>
+<dd>设置在世界空间物体的旋转四元数。第一个功能需要单独的坐标参数，而第二个需要一个四元矢量（<code class="docutils literal"><span class="pre">Array</span></code> 或 <code class="docutils literal"><span class="pre">Float32Array</span></code> ）。</dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html#.set_rotation_rel">set_rotation_rel()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html#.set_rotation_rel_v">set_rotation_rel_v()</a></dt>
-<dd><p class="first last">设置物体在其父的空间中的旋转四元数。第一个功能需要单独的坐标参数，而第二个需要一个四元矢量（<code class="docutils literal"><span class="pre">Array</span></code> 或 <code class="docutils literal"><span class="pre">Float32Array</span></code>）。</p>
-</dd>
+<dd>设置物体在其父的空间中的旋转四元数。第一个功能需要单独的坐标参数，而第二个需要一个四元矢量（<code class="docutils literal"><span class="pre">Array</span></code> 或 <code class="docutils literal"><span class="pre">Float32Array</span></code>）。</dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html#.get_scale">get_scale()</a></dt>
-<dd><p class="first last">获取物体在世界空间的缩放。</p>
-</dd>
+<dd>获取物体在世界空间的缩放。</dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html#.get_scale_rel">get_scale_rel()</a></dt>
-<dd><p class="first last">获取物体在其父的空间的缩放。</p>
-</dd>
+<dd>获取物体在其父的空间的缩放。</dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html#.set_scale">set_scale()</a></dt>
-<dd><p class="first last">设置物体在世界空间的缩放。统一对应于物体的原始缩放。值小于统一值是平均缩小，比统一值大 - 扩大。注意，不是所有的物体可以被缩放。特别是不允许物理物体缩放。</p>
-</dd>
+<dd>设置物体在世界空间的缩放。统一对应于物体的原始缩放。值小于统一值是平均缩小，比统一值大 - 扩大。注意，不是所有的物体可以被缩放。特别是不允许物理物体缩放。</dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html#.set_scale_rel">set_scale_rel()</a></dt>
-<dd><p class="first last">设置物体在其父的空间的缩放。</p>
-</dd>
+<dd>设置物体在其父的空间的缩放。</dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html#.set_rotation_euler">set_rotation_euler()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html#.set_rotation_euler_v">set_rotation_euler_v()</a></dt>
-<dd><p class="first last">使用欧拉角设置物体的旋转。一个 <strong>intrinsic</strong> YZX 系统被使用（这意味着角遵循YZX顺序和坐标原点旋转，并且每角采取了一个新的位置）。</p>
-</dd>
+<dd>使用欧拉角设置物体的旋转。一个 <strong>intrinsic</strong> YZX 系统被使用（这意味着角遵循YZX顺序和坐标原点旋转，并且每角采取了一个新的位置）。</dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html#.set_rotation_euler_rel">set_rotation_euler_rel()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html#.set_rotation_euler_rel_v">set_rotation_euler_rel_v()</a></dt>
-<dd><p class="first last">使用欧拉角在其父的空间中设置物体的旋转。</p>
-</dd>
+<dd>使用欧拉角在其父的空间中设置物体的旋转。</dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html#.move_local">move_local()</a></dt>
-<dd><p class="first last">相对移动到原来的位置的物体（在局部空间）。</p>
-</dd>
+<dd>相对移动到原来的位置的物体（在局部空间）。</dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html#.rotate_x_local">rotate_x_local()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html#.rotate_y_local">rotate_y_local()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html#.rotate_z_local">rotate_z_local()</a></dt>
-<dd><p class="first last">相对于物体原来位置的（在本地空间）旋转。</p>
-</dd>
+<dd>相对于物体原来位置的（在本地空间）旋转。</dd>
 </dl>
 </div>
 <div class="section" id="get-object-api">
@@ -770,7 +689,7 @@
 <dl class="docutils">
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.get_object_by_name">get_object_by_name()</a></dt>
 <dd><p class="first">按名称获取物体。</p>
-<div class="last highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
+<div class="last highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
 <span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_object_by_name</span><span class="p">(</span><span class="s2">&quot;Object&quot;</span><span class="p">);</span>
 <span class="c1">// ...</span>
 </pre></div>
@@ -778,7 +697,7 @@
 </dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.get_object_by_dupli_name">get_object_by_dupli_name()</a></dt>
 <dd><p class="first">通过空名称和DUPLI名称找复制物体。</p>
-<div class="last highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
+<div class="last highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
 <span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_object_by_dupli_name</span><span class="p">(</span><span class="s2">&quot;Empty&quot;</span><span class="p">,</span> <span class="s2">&quot;Object&quot;</span><span class="p">);</span>
 <span class="c1">// ...</span>
 </pre></div>
@@ -786,7 +705,7 @@
 </dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.get_object_by_dupli_name_list">get_object_by_dupli_name_list()</a></dt>
 <dd><p class="first">通过空名称和DUPLI名单（<code class="docutils literal"><span class="pre">String</span></code> 类型元素的数组）获得复制物体。</p>
-<div class="last highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
+<div class="last highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
 <span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_object_by_dupli_name_list</span><span class="p">([</span><span class="s2">&quot;Empty1&quot;</span><span class="p">,</span> <span class="s2">&quot;Empty2&quot;</span><span class="p">,</span> <span class="s2">&quot;Object&quot;</span><span class="p">]);</span>
 <span class="c1">// ...</span>
 </pre></div>
@@ -794,7 +713,7 @@
 </dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.get_object_name_hierarchy">get_object_name_hierarchy()</a></dt>
 <dd><p class="first">用一个给定的物体，返回物体名层次队列（从最高层的父物体到物体本身）。</p>
-<div class="last highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
+<div class="last highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
 <span class="kd">var</span> <span class="nx">names</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_object_name_hierarchy</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span>
 <span class="c1">// ...</span>
 </pre></div>
@@ -802,7 +721,7 @@
 </dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.check_object_by_name">check_object_by_name()</a></dt>
 <dd><p class="first">检查是否具有给定名称的物体在场景存在。</p>
-<div class="last highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
+<div class="last highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
 <span class="kd">var</span> <span class="nx">object_exists</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">check_object_by_name</span><span class="p">(</span><span class="s2">&quot;Cube&quot;</span><span class="p">);</span>
 <span class="c1">// ...</span>
 </pre></div>
@@ -810,7 +729,7 @@
 </dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.check_object_by_dupli_name">check_object_by_dupli_name()</a></dt>
 <dd><p class="first">检查复制物体是空的名字和DUPLI名字出现在场景。</p>
-<div class="last highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
+<div class="last highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
 <span class="kd">var</span> <span class="nx">object_exists</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">check_object_by_dupli_name</span><span class="p">(</span><span class="s2">&quot;Empty&quot;</span><span class="p">,</span> <span class="s2">&quot;Cube&quot;</span><span class="p">);</span>
 <span class="c1">// ...</span>
 </pre></div>
@@ -818,7 +737,7 @@
 </dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.check_object_by_dupli_name_list">check_object_by_dupli_name_list()</a></dt>
 <dd><p class="first">检查复制物体是空的名字和DUPLI名单（<code class="docutils literal"><span class="pre">String</span></code> 类型元素的数组）出现在场景。</p>
-<div class="last highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
+<div class="last highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
 <span class="kd">var</span> <span class="nx">object_exists</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">check_object_by_dupli_name_list</span><span class="p">([</span><span class="s2">&quot;Empty1&quot;</span><span class="p">,</span> <span class="s2">&quot;Empty2&quot;</span><span class="p">,</span> <span class="s2">&quot;Object&quot;</span><span class="p">]);</span>
 <span class="c1">// ...</span>
 </pre></div>
@@ -826,7 +745,7 @@
 </dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.get_object_name">get_object_name()</a></dt>
 <dd><p class="first">获取物体的名称。</p>
-<div class="last highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
+<div class="last highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
 <span class="kd">var</span> <span class="nx">object_name</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_object_name</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span>
 <span class="c1">// ...</span>
 </pre></div>
@@ -842,7 +761,7 @@
 <p class="last">确保在 <code class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Object</span> <span class="pre">Outlining</span></code> 面板被设置为 <code class="docutils literal"><span class="pre">ON</span></code> 或 <code class="docutils literal"><span class="pre">AUTO</span></code>。</p>
 </div>
 <p>物体选择也可以通过API编程方式，例如，在 <code class="docutils literal"><span class="pre">scenes.js</span></code> 模块有基于二维的画布坐标选择物体的 <code class="docutils literal"><span class="pre">pick_object</span></code> 函数。</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
 <span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">clientX</span><span class="p">;</span>
 <span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">clientY</span><span class="p">;</span>
 
@@ -850,8 +769,8 @@
 <span class="c1">// ...</span>
 </pre></div>
 </div>
-<p>or using the <a class="reference internal" href="logic_editor.html#logic-select"><span>Logic Editor</span></a>.</p>
-<p>如果选择的物体已启用了 <code class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Selection</span></code> 和轮廓面板上的 <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">Outlining</span></code> 和 <code class="docutils literal"><span class="pre">Outline</span> <span class="pre">on</span> <span class="pre">Select</span></code> 选框，那么 <code class="docutils literal"><span class="pre">pick_object</span></code> 函数调用将激活 <a class="reference internal" href="postprocessing_effects.html#outline"><span>外轮廓辉光动画</span></a> 。</p>
+<p>or using the <a class="reference internal" href="logic_editor.html#logic-select"><span class="std std-ref">Logic Editor</span></a>.</p>
+<p>如果选择的物体已启用了 <code class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Selection</span></code> 和轮廓面板上的 <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">Outlining</span></code> 和 <code class="docutils literal"><span class="pre">Outline</span> <span class="pre">on</span> <span class="pre">Select</span></code> 选框，那么 <code class="docutils literal"><span class="pre">pick_object</span></code> 函数调用将激活 <a class="reference internal" href="postprocessing_effects.html#outline"><span class="std std-ref">外轮廓辉光动画</span></a> 。</p>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
 <p class="last">如果选定的物体是透明的（<code class="docutils literal"><span class="pre">Blend</span></code>，<code class="docutils literal"><span class="pre">Add</span></code> 和 <code class="docutils literal"><span class="pre">Sort</span></code> 透明度类型），外轮廓发光只能在具有 <code class="docutils literal"><span class="pre">Alpha</span></code> 高于0.5的部分可见。</p>
@@ -863,12 +782,9 @@
 <dl class="docutils">
 <dt>复制物体也有其局限性：</dt>
 <dd><ul class="first last simple">
-<li><p class="first">只有 <code class="docutils literal"><span class="pre">MESH</span></code> 物体可以被复制</p>
-</li>
-<li><p class="first">物体应该是 <a class="reference internal" href="#static-dynamic-objects"><span>动态</span></a> （启用 <code class="docutils literal"><span class="pre">渲染属性&gt;强制动态</span> <span class="pre">Object</span></code>）</p>
-</li>
-<li><p class="first">源物体应该属于活动场景</p>
-</li>
+<li>只有 <code class="docutils literal"><span class="pre">MESH</span></code> 物体可以被复制</li>
+<li>物体应该是 <a class="reference internal" href="#static-dynamic-objects"><span class="std std-ref">动态</span></a> （启用 <code class="docutils literal"><span class="pre">渲染属性&gt;强制动态</span> <span class="pre">Object</span></code>）</li>
+<li>源物体应该属于活动场景</li>
 </ul>
 </dd>
 </dl>
@@ -878,10 +794,10 @@
 </div>
 <div class="section" id="making-a-deep-copy">
 <h3><a class="toc-backref" href="#id19">制作深复制</a><a class="headerlink" href="#making-a-deep-copy" title="永久链接至标题">¶</a></h3>
-<p>在深度复制的情况下，新物体将具有独特的性质，即它会有自己的网格。因此，如果原始物体的网格被改变，则复制的物体的网格将不被改变。另外，在复制的物体在画布纹理不同的纹理和不同一个像它与简单复制的情况。为了使深度复制可能，要求源物体启用 <a class="reference internal" href="#dynamic-geom"><span>渲染属性&gt;动态几何</span></a> 复选框. |</p>
+<p>在深度复制的情况下，新物体将具有独特的性质，即它会有自己的网格。因此，如果原始物体的网格被改变，则复制的物体的网格将不被改变。另外，在复制的物体在画布纹理不同的纹理和不同一个像它与简单复制的情况。为了使深度复制可能，要求源物体启用 <a class="reference internal" href="#dynamic-geom"><span class="std std-ref">渲染属性&gt;动态几何</span></a> 复选框. |</p>
 <p>在运行时复制物体可以使用 <code class="docutils literal"><span class="pre">objects.js</span></code> 模块的 <code class="docutils literal"><span class="pre">copy</span></code> 方法进行。此方法需要三个参数：源物体的id，新物体一个唯一的名称和布尔值，以指定复制模式（即简单或深度）。默认情况下，简单复制将被执行。</p>
 <p>新创建的物体，应添加到场景。这可以用 <code class="docutils literal"><span class="pre">scenes.js</span></code> 模块的 <code class="docutils literal"><span class="pre">append_object</span></code> 方法进行。新物体应该被传递给它作为参数。</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
 <span class="kd">var</span> <span class="nx">new_obj</span> <span class="o">=</span> <span class="nx">m_objects</span><span class="p">.</span><span class="nx">copy</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="s2">&quot;New_name&quot;</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
 <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">append_object</span><span class="p">(</span><span class="nx">new_obj</span><span class="p">);</span>
 <span class="nx">m_transform</span><span class="p">.</span><span class="nx">set_translation</span><span class="p">(</span><span class="nx">new_obj</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
@@ -892,7 +808,7 @@
 <div class="section" id="removing-objects">
 <h3><a class="toc-backref" href="#id20">删除物体</a><a class="headerlink" href="#removing-objects" title="永久链接至标题">¶</a></h3>
 <p>要删除物体，请使用 <code class="docutils literal"><span class="pre">scenes.js</span></code> 模块的 <code class="docutils literal"><span class="pre">remove_object</span></code> 方法。传递物体作为参数。动态网格-空类型的物体可以用这种方式删除。</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
 <span class="nx">m_objects</span><span class="p">.</span><span class="nx">remove_object</span><span class="p">(</span><span class="nx">new_obj</span><span class="p">);</span>
 <span class="c1">// ...</span>
 </pre></div>
@@ -904,42 +820,31 @@
 <p>四元数是用于执行旋转的四分量矢量。四元数优于其它旋转方法，例如：</p>
 <blockquote>
 <div><ul class="simple">
-<li><p class="first">四元数没有多解，并且不像欧拉角依赖于的旋转顺序。</p>
-</li>
-<li><p class="first">四元数的内存使用是更有效的（少2-4倍，取决于所使用的矩阵）。</p>
-</li>
-<li><p class="first">在一系列旋转的情况下，比矩阵有更好的计算效率。</p>
-</li>
-<li><p class="first">数值稳定 - 从浮点数不准确而产生乘法错误的补偿。</p>
-</li>
-<li><p class="first">便捷的插值方法。</p>
-</li>
+<li>四元数没有多解，并且不像欧拉角依赖于的旋转顺序。</li>
+<li>四元数的内存使用是更有效的（少2-4倍，取决于所使用的矩阵）。</li>
+<li>在一系列旋转的情况下，比矩阵有更好的计算效率。</li>
+<li>数值稳定 - 从浮点数不准确而产生乘法错误的补偿。</li>
+<li>便捷的插值方法。</li>
 </ul>
 </div></blockquote>
 <dl class="docutils">
 <dt>四元有一些缺点：</dt>
 <dd><ul class="first last simple">
-<li><p class="first">用四元数来旋转向量比用矩阵来旋转向量要浪费计算成本。</p>
-</li>
-<li><p class="first">很难将四元数用到非旋转变换上（例如透视或正交投影）。</p>
-</li>
+<li>用四元数来旋转向量比用矩阵来旋转向量要浪费计算成本。</li>
+<li>很难将四元数用到非旋转变换上（例如透视或正交投影）。</li>
 </ul>
 </dd>
 </dl>
 <p>该引擎具有许多功能，能更方便地跟四元数工作：</p>
 <dl class="docutils">
 <dt><em>quat.multiply</em></dt>
-<dd><p class="first last">四元数乘法。需要注意的是用B四元数左乘A四元数A * B  是用A旋转物体。比如，物体已经具有一定的旋转B上，我们加了新的A旋转。</p>
-</dd>
+<dd>四元数乘法。需要注意的是用B四元数左乘A四元数A * B  是用A旋转物体。比如，物体已经具有一定的旋转B上，我们加了新的A旋转。</dd>
 <dt><em>quat.setAxisAngle</em></dt>
-<dd><p class="first last">四元数是任意相对于任意轴（矢量）的任意角度旋转的另一种表现。从向量的末端来观看时旋转的正方向定义为逆时针。例如 <code class="code docutils literal"><span class="pre">quat.setAxisAngle([1,</span> <span class="pre">0,</span> <span class="pre">0],</span> <span class="pre">Math.PI/2,</span> <span class="pre">quat)</span></code>  用四元数对物体相对于X轴旋转了90度（如果从X轴末端查看是逆时针）。</p>
-</dd>
+<dd>四元数是任意相对于任意轴（矢量）的任意角度旋转的另一种表现。从向量的末端来观看时旋转的正方向定义为逆时针。例如 <code class="code docutils literal"><span class="pre">quat.setAxisAngle([1,</span> <span class="pre">0,</span> <span class="pre">0],</span> <span class="pre">Math.PI/2,</span> <span class="pre">quat)</span></code>  用四元数对物体相对于X轴旋转了90度（如果从X轴末端查看是逆时针）。</dd>
 <dt><em>quat.slerp</em></dt>
-<dd><p class="first last">四元数球面插值。用于平滑物体的旋转和动画。</p>
-</dd>
+<dd>四元数球面插值。用于平滑物体的旋转和动画。</dd>
 <dt><em>util.euler_to_quat, util.quat_to_euler</em>.</dt>
-<dd><p class="first last">从欧拉角转换到和转换回欧拉角。</p>
-</dd>
+<dd>从欧拉角转换到和转换回欧拉角。</dd>
 </dl>
 <div class="section" id="quaternion-example">
 <h3><a class="toc-backref" href="#id22">四元数例子</a><a class="headerlink" href="#quaternion-example" title="永久链接至标题">¶</a></h3>
@@ -949,20 +854,18 @@
 <div class="line"><br /></div>
 </div>
 <p>让我们在 <strong>aircraft</strong> 变量保存引用：</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">aircraft</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_object_by_name</span><span class="p">(</span><span class="s2">&quot;Cessna&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">aircraft</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_object_by_name</span><span class="p">(</span><span class="s2">&quot;Cessna&quot;</span><span class="p">);</span>
 </pre></div>
 </div>
 <p>旋转：</p>
 <blockquote>
 <div><ul class="simple">
-<li><p class="first">顺时针转动对应于旋转到右侧（即在负方向）。</p>
-</li>
-<li><p class="first">60 度 = <span class="math">\(\pi/3\)</span> 弧度.</p>
-</li>
+<li>顺时针转动对应于旋转到右侧（即在负方向）。</li>
+<li>60 度 = <span class="math">\(\pi/3\)</span> 弧度.</li>
 </ul>
 </div></blockquote>
 <p>因此，我们得到：</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// compose quaternion</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// compose quaternion</span>
 <span class="kd">var</span> <span class="nx">quat_60_Z_neg</span> <span class="o">=</span> <span class="nx">m_quat</span><span class="p">.</span><span class="nx">setAxisAngle</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="o">-</span><span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="nx">m_quat</span><span class="p">.</span><span class="nx">create</span><span class="p">());</span>
 
 <span class="c1">// get old rotation</span>
@@ -976,7 +879,7 @@
 </pre></div>
 </div>
 <p>优化的版本不创建新的物体：</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// cache arrays as global vars</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// cache arrays as global vars</span>
 <span class="kd">var</span> <span class="nx">AXIS_Z</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 <span class="kd">var</span> <span class="nx">quat_tmp</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">quat_tmp2</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
@@ -1004,11 +907,11 @@
 <a class="reference internal image-reference" href="_images/objects_line_rendering.png"><img alt="_images/objects_line_rendering.png" class="align-center" src="_images/objects_line_rendering.png" style="width: 100%;" /></a>
 <p>用于渲染线的API 方法位于 <a class="reference external" href="https://www.blend4web.com/api_doc/module-geometry.html">geometry</a>  模块，可以设置渲染线的样式（即其颜色和厚度）需要用 <a class="reference external" href="https://www.blend4web.com/api_doc/module-material.html#.set_line_params">set_line_params()</a> 的方法，位于 <a class="reference external" href="https://www.blend4web.com/api_doc/module-material.html">material</a> 模块。</p>
 <p>若要使用线条的渲染效果，至少需要在场景中存在一个 <code class="docutils literal"><span class="pre">Empty</span></code> 类型物体启用了 <code class="docutils literal"><span class="pre">线渲染</span></code> 选项。</p>
-<p>要渲染一条线，你首先必须 <a class="reference internal" href="#get-object-api"><span>获取链接</span></a> 到 <code class="docutils literal"><span class="pre">Empty</span></code> 物体。此物体的起始点将用作线在渲染时的中心坐标。</p>
+<p>要渲染一条线，你首先必须 <a class="reference internal" href="#get-object-api"><span class="std std-ref">获取链接</span></a> 到 <code class="docutils literal"><span class="pre">Empty</span></code> 物体。此物体的起始点将用作线在渲染时的中心坐标。</p>
 <p>可以通过调用 <a class="reference external" href="https://www.blend4web.com/api_doc/module-geometry.html#.draw_line">draw_line()</a> API 方法渲染线条。其第一个参数是指向  <code class="docutils literal"><span class="pre">Empty</span></code> 物体 （见上面），而第二个是用于建立一条线的一列顶点数组。该方法也拥有第三个可选的参数，定义渲染模式︰ 方法由成对的顶点定义生成一条或一组线 （后一种情况下的顶点总数应该是偶数）。</p>
 <p>如果一个 <code class="docutils literal"><span class="pre">Empty</span></code> 物体在一条线渲染中不止一次使用，只有最后一个将可见。要渲染多条线，您将需要使用多个 <code class="docutils literal"><span class="pre">Empty</span></code> 物体。</p>
 <p>下面的示例演示了使用线渲染上面的图片中的坐标轴物体的一部分︰</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_scenes</span>    <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_scenes</span>    <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_material</span>  <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;material&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_geometry</span>  <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;geometry&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_rgba</span>      <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;rgba&quot;</span><span class="p">);</span>
@@ -1037,10 +940,10 @@
 <h3><a class="toc-backref" href="#id26">概述</a><a class="headerlink" href="#overview" title="永久链接至标题">¶</a></h3>
 <p>LOD或层次细节是具有不同数量细节的单个物体的版本。层次细节用于优化，这里的想法是，如果一个物体远离相机，您可以渲染更简单的版本 - 例如，具有较少多边形和更简单材质的物体。这可以减少GPU上的负担，而不会降低渲染的质量，因为原始物体的大部分细节从远处将不可见。</p>
 <p>LOD通常用于具有高物体数的大型场景。使用此功能时，更紧凑的场景可能无法获得主要的性能提升。视频游戏场景如岛屿，乡村或城镇街道最适合使用LOD。</p>
-<p>LOD可以直接在Blender中的 <code class="docutils literal"><span class="pre">Levels</span> <span class="pre">of</span> <span class="pre">Detail</span></code>  <a class="reference internal" href="#object-settings-lod"><span>面板</span></a> 中设置。</p>
+<p>LOD可以直接在Blender中的 <code class="docutils literal"><span class="pre">Levels</span> <span class="pre">of</span> <span class="pre">Detail</span></code>  <a class="reference internal" href="#object-settings-lod"><span class="std std-ref">面板</span></a> 中设置。</p>
 <a class="reference internal image-reference" href="_images/objects_lod_list.png"><img alt="_images/objects_lod_list.png" class="align-center" src="_images/objects_lod_list.png" style="width: 100%;" /></a>
 <p>在那里，您可以设置用于单个物体的层次细节和距离。每个层次细节都是一个单独的物体。主要规则是显而易见的：层次细节位于列表中越低，对应的物体应该越简单。</p>
-<p>您可以通过不同的方式使您的物体更简单：通过减少其多边形数，通过使用不那么复杂的材质（对于节点材质尤其如此）或通过关闭各种效果，如 <a class="reference internal" href="lighting.html#shadows"><span>阴影</span></a>, <a class="reference internal" href="animation.html#animation"><span>动画</span></a> 或者 <a class="reference internal" href="outdoor_rendering.html#wind"><span>风弯曲</span></a>.</p>
+<p>您可以通过不同的方式使您的物体更简单：通过减少其多边形数，通过使用不那么复杂的材质（对于节点材质尤其如此）或通过关闭各种效果，如 <a class="reference internal" href="lighting.html#shadows"><span class="std std-ref">阴影</span></a>, <a class="reference internal" href="animation.html#animation"><span class="std std-ref">动画</span></a> 或者 <a class="reference internal" href="outdoor_rendering.html#wind"><span class="std std-ref">风弯曲</span></a>.</p>
 <p>您可以根据场景的整体尺度设置层次数量。</p>
 <div class="figure align-center" id="id4">
 <a class="reference internal image-reference" href="_images/objects_levels_compare.png"><img alt="_images/objects_levels_compare.png" src="_images/objects_levels_compare.png" style="width: 100%;" /></a>
@@ -1051,12 +954,9 @@
 <h3><a class="toc-backref" href="#id27">与BGE的细节和差异</a><a class="headerlink" href="#specifics-and-differences-from-bge" title="永久链接至标题">¶</a></h3>
 <p>在引擎中设置LOD并使用它们有一些特点。尽管Blender中的BGE模式具有自己的LOD系统，与Blend4Web中使用的LOD系统大致相同，但仍具有以下提及的一些差异。</p>
 <ol class="arabic simple">
-<li><p class="first">当您将LOD物体应用于其他物体时，LOD物体的位置不会改变。因此，如果您希望物体在运行时占据相同的位置，则应将其手动放置在Blender中的相同位置。这与BGE不同，BGE中所选LOD物体自动移动到主物体的中心。</p>
-</li>
-<li><p class="first">如果你需要为多个不同的物体设置相同的LOD物体（例如，同一类型的树木，建筑，汽车，或灌木），你应该为每一个物体复制一个副本（即，使每个物体都有复制项，然后将这些物体作为一个LOD）和设置这些副本为LOD。跟BGE不同的是，当你为多个基本物体选择相同的LOD物体时，副本不会自动生成。为了简化创建相同类型的物体，我们建议将基础物体和它的所有LOD物体建到同一个组，然后使用空物体重复复制这一组。</p>
-</li>
-<li><p class="first">如果物体应该在运行时更改其位置，则应该在Blender中使用父子链接将其LOD附加到它之上，因此LOD物体将复制其变换信息。</p>
-</li>
+<li>当您将LOD物体应用于其他物体时，LOD物体的位置不会改变。因此，如果您希望物体在运行时占据相同的位置，则应将其手动放置在Blender中的相同位置。这与BGE不同，BGE中所选LOD物体自动移动到主物体的中心。</li>
+<li>如果你需要为多个不同的物体设置相同的LOD物体（例如，同一类型的树木，建筑，汽车，或灌木），你应该为每一个物体复制一个副本（即，使每个物体都有复制项，然后将这些物体作为一个LOD）和设置这些副本为LOD。跟BGE不同的是，当你为多个基本物体选择相同的LOD物体时，副本不会自动生成。为了简化创建相同类型的物体，我们建议将基础物体和它的所有LOD物体建到同一个组，然后使用空物体重复复制这一组。</li>
+<li>如果物体应该在运行时更改其位置，则应该在Blender中使用父子链接将其LOD附加到它之上，因此LOD物体将复制其变换信息。</li>
 </ol>
 </div>
 <div class="section" id="smooth-lod-switching">
@@ -1067,13 +967,13 @@
 <a class="reference internal image-reference" href="_images/objects_lod_smoothing.png"><img alt="_images/objects_lod_smoothing.png" src="_images/objects_lod_smoothing.png" style="width: 100%;" /></a>
 <p class="caption"><span class="caption-text"><em>原始物体与其LOD之间平滑过渡.</em></span></p>
 </div>
-<p>用于此的选项称为 <code class="docutils literal"><span class="pre">LOD</span> <span class="pre">平滑切换</span></code> ，可以在 <code class="docutils literal"><span class="pre">Scene-&gt;Object</span> <span class="pre">Clustering</span> <span class="pre">&amp;</span> <span class="pre">LOD</span></code> <a class="reference internal" href="scene_settings.html#scene-batching"><span>面板</span></a> 中找到.</p>
+<p>用于此的选项称为 <code class="docutils literal"><span class="pre">LOD</span> <span class="pre">平滑切换</span></code> ，可以在 <code class="docutils literal"><span class="pre">Scene-&gt;Object</span> <span class="pre">Clustering</span> <span class="pre">&amp;</span> <span class="pre">LOD</span></code> <a class="reference internal" href="scene_settings.html#scene-batching"><span class="std std-ref">面板</span></a> 中找到.</p>
 <p>它旨在实现平滑的LOD转换和设置将应用于此转换的物体类型。应该注意，启用此选项可能会显着降低性能（取决于LOD物体及其材质的数量）。</p>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
 <p>平滑LOD转换并不总是必需的。例如，如果您立即将相机变换到一些遥远的物体，您可能不希望LOD切换发生在它的前面。在这样的情况下，应使用 <code class="docutils literal"><span class="pre">lod_leap_smooth_threshold</span></code> 参数。它定义的阈值距离（米），相机在一帧中的距离。如果超过这个值，LODs瞬时切换。参数可以用来在摄像机LOD传送到一个新的位置，或者移动很快时禁用平滑过渡。</p>
 <blockquote class="last">
-<div><div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
+<div><div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
 
 <span class="nx">m_cfg</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;lod_leap_smooth_threshold&quot;</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span> <span class="c1">// 5 meters</span>
 </pre></div>
@@ -1084,7 +984,7 @@
 <div class="section" id="hysteresis">
 <h3><a class="toc-backref" href="#id29">迟滞現象</a><a class="headerlink" href="#hysteresis" title="永久链接至标题">¶</a></h3>
 <p>LOD在物体的某一距离处被切换。这些层次边界设置在 <code class="docutils literal"><span class="pre">Levels</span> <span class="pre">of</span> <span class="pre">Detail</span></code> 面板上。如果相机在这样的边框附近移动，它可能是经常穿越，这导致频繁的LOD切换。在这种情况下，LOD切换变得非常明显，因此是不需要的。</p>
-<p>这个问题可以通过  <code class="docutils literal"><span class="pre">Scene-&gt;Object</span> <span class="pre">Clustering</span> <span class="pre">&amp;</span> <span class="pre">LOD</span></code> <a class="reference internal" href="scene_settings.html#scene-batching"><span>面板</span></a> 中的 <code class="docutils literal"><span class="pre">Max</span> <span class="pre">LOD</span> <span class="pre">Hysteresis</span> <span class="pre">Interval</span></code> 参数设置。它设置用作两个LOD层次之间的间隔（以米为单位）。</p>
+<p>这个问题可以通过  <code class="docutils literal"><span class="pre">Scene-&gt;Object</span> <span class="pre">Clustering</span> <span class="pre">&amp;</span> <span class="pre">LOD</span></code> <a class="reference internal" href="scene_settings.html#scene-batching"><span class="std std-ref">面板</span></a> 中的 <code class="docutils literal"><span class="pre">Max</span> <span class="pre">LOD</span> <span class="pre">Hysteresis</span> <span class="pre">Interval</span></code> 参数设置。它设置用作两个LOD层次之间的间隔（以米为单位）。</p>
 <p>例如，如果 <code class="docutils literal"><span class="pre">Max</span> <span class="pre">LOD</span> <span class="pre">Hysteresis</span> <span class="pre">Interval</span></code> 设置为4米，而层次细节之间的距离等于20米，则将在18米的距离处打开一个层次级别，另一个层次将在距离22米处。使用此选项消除了频繁的LOD切换，因为层次细节不再具有确定的边界。该设置是自适应的，可以调整到不同的LOD距离，如果需要，可以减少设置间隔。</p>
 </div>
 </div>
@@ -1109,8 +1009,8 @@
 
   <div role="contentinfo">
     <p>
-        &copy; 版权所有 2014-2017, Triumph.
-      最后更新于 2017-11-21.
+        &copy; Copyright 2014-2017, Triumph.
+      最后更新于 2017-12-29.
 
     </p>
   </div>
@@ -1166,11 +1066,11 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

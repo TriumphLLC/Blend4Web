@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>VR and AR &mdash; Blend4Web 17.10.1 用户手册</title>
+  <title>VR and AR &mdash; Blend4Web 17.12.0 用户手册</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.10.1 用户手册" href="index.html"/>
+        <link rel="index" title="索引"
+              href="genindex.html"/>
+        <link rel="search" title="搜索" href="search.html"/>
+    <link rel="top" title="Blend4Web 17.12.0 用户手册" href="index.html"/>
         <link rel="next" title="纹理" href="textures.html"/>
         <link rel="prev" title="后期处理效果" href="postprocessing_effects.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -103,7 +106,7 @@
 <li class="toctree-l1"><a class="reference internal" href="logic_editor.html">逻辑编辑器</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">照明、 阴影和背景</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">后期处理效果</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">VR and AR</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">VR and AR</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#virtual-reality">Virtual Reality</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#activation">激活</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#hmd-settings">HMD设置</a><ul>
@@ -178,7 +181,7 @@
   <div class="section" id="vr-and-ar">
 <span id="stereo"></span><span id="index-0"></span><h1><a class="toc-backref" href="#id2">VR and AR</a><a class="headerlink" href="#vr-and-ar" title="永久链接至标题">¶</a></h1>
 <div class="contents topic" id="table-of-contents">
-<p class="topic-title first">目录</p>
+<p class="topic-title first">Table of Contents</p>
 <ul class="simple">
 <li><a class="reference internal" href="#vr-and-ar" id="id2">VR and AR</a><ul>
 <li><a class="reference internal" href="#virtual-reality" id="id3">Virtual Reality</a><ul>
@@ -200,10 +203,12 @@
 <h2><a class="toc-backref" href="#id3">Virtual Reality</a><a class="headerlink" href="#virtual-reality" title="永久链接至标题">¶</a></h2>
 <p>There are numerous VR devices, and Blend4Web engine supports many of them. Using VR in a Blend4Web application does not require any specific changes made to the application itself.</p>
 <p>立体渲染模式适用于使用特殊眼镜观看的内容。它是应用程序通过API来激活。</p>
-<p>Blend4Web支持立体图像渲染的两种技术 -  立体图像（红/蓝）和HMD（头戴式显示器）。</p>
-<p id="hmd">HMD：</p>
+<p>Blend4Web supports several techniques of stereo image rendering:</p>
+<p id="hmd">HMD (head-mounted display):</p>
 <a class="reference internal image-reference" href="_images/postprocessing_effects_stereo.png"><img alt="_images/postprocessing_effects_stereo.png" class="align-center" src="_images/postprocessing_effects_stereo.png" style="width: 100%;" /></a>
 <p>HMD是一个实验性的功能，现在它只能用于 <code class="docutils literal"><span class="pre">Eye</span></code> 类型摄像机。</p>
+<p id="side-to-side">Side-to-side rendering:</p>
+<a class="reference internal image-reference" href="_images/side_to_side.png"><img alt="_images/side_to_side.png" class="align-center" src="_images/side_to_side.png" style="width: 100%;" /></a>
 <p id="anaglyph">立体图（红/蓝）</p>
 <a class="reference internal image-reference" href="_images/postprocessing_effects_anaglyph.png"><img alt="_images/postprocessing_effects_anaglyph.png" class="align-center" src="_images/postprocessing_effects_anaglyph.png" style="width: 100%;" /></a>
 <div class="line-block">
@@ -225,10 +230,8 @@
 <p>这组设置允许用户改变各种参数，以调整任何虚拟现实设备，让他们更好地查看某个三维应用程序或场景。有两种方法可以访问这些设置：</p>
 <blockquote>
 <div><ul class="simple">
-<li><p class="first">首先，它可以在 <a class="reference internal" href="viewer.html#viewer"><span>Blend4Web 查看器</span></a> 应用的 <a class="reference internal" href="viewer.html#stereo-view"><span>立体视觉面板</span></a> 下找到。</p>
-</li>
-<li><p class="first">其次，它也可以在使用的应用程序中通过 <a class="reference external" href="https://www.blend4web.com/api_doc/module-hmd_conf.html">hmd_conf</a> 模块的 <a class="reference external" href="https://www.blend4web.com/api_doc/module-hmd_conf.html#.show">show</a> 方法显示，但这样做需要一些编程。该方法的实例可在 <code class="docutils literal"><span class="pre">viewer.js</span></code> 和 <code class="docutils literal"><span class="pre">webplayer.js</span></code> 应用程序（在 <code class="docutils literal"><span class="pre">m_hmd_conf</span></code> 对象）中发现。</p>
-</li>
+<li>首先，它可以在 <a class="reference internal" href="viewer.html#viewer"><span class="std std-ref">Blend4Web 查看器</span></a> 应用的 <a class="reference internal" href="viewer.html#stereo-view"><span class="std std-ref">立体视觉面板</span></a> 下找到。</li>
+<li>其次，它也可以在使用的应用程序中通过 <a class="reference external" href="https://www.blend4web.com/api_doc/module-hmd_conf.html">hmd_conf</a> 模块的 <a class="reference external" href="https://www.blend4web.com/api_doc/module-hmd_conf.html#.show">show</a> 方法显示，但这样做需要一些编程。该方法的实例可在 <code class="docutils literal"><span class="pre">viewer.js</span></code> 和 <code class="docutils literal"><span class="pre">webplayer.js</span></code> 应用程序（在 <code class="docutils literal"><span class="pre">m_hmd_conf</span></code> 对象）中发现。</li>
 </ul>
 </div></blockquote>
 <div class="section" id="profile">
@@ -236,12 +239,9 @@
 <p>这允许用户选择用于特定装置的配置文件。目前，以下模式可供选择：</p>
 <blockquote>
 <div><ul class="simple">
-<li><p class="first">自定义</p>
-</li>
-<li><p class="first">纸板（2014年）</p>
-</li>
-<li><p class="first">纸板（2015年）</p>
-</li>
+<li>自定义</li>
+<li>纸板（2014年）</li>
+<li>纸板（2015年）</li>
 </ul>
 </div></blockquote>
 <p>默认情况下，<cite>Custom</cite> 属性文件被选中。</p>
@@ -283,14 +283,11 @@
 <h4>其他控制工具<a class="headerlink" href="#other-control-tools" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>保存</em></dt>
-<dd><p class="first last">保存的设置。</p>
-</dd>
+<dd>保存的设置。</dd>
 <dt><em>取消</em></dt>
-<dd><p class="first last">关闭设置界面，不保存设置。</p>
-</dd>
+<dd>关闭设置界面，不保存设置。</dd>
 <dt><em>恢复</em></dt>
-<dd><p class="first last">恢复默认设置。</p>
-</dd>
+<dd>恢复默认设置。</dd>
 </dl>
 </div>
 </div>
@@ -311,18 +308,12 @@
 </div></blockquote>
 </li>
 <li><p class="first">A web browser with the AR support.</p>
-<blockquote>
-<div><div class="admonition warning">
-<p class="first admonition-title">警告</p>
-<p class="last">At the moment, AR application won&#8217;t work in Safari browser, desktop and iOS version alike. AR support is expected to arrive Fall 2017.</p>
-</div>
-</div></blockquote>
 </li>
 </ul>
 </div></blockquote>
 <div class="section" id="setting-up">
 <h3><a class="toc-backref" href="#id7">Setting Up</a><a class="headerlink" href="#setting-up" title="永久链接至标题">¶</a></h3>
-<p>Blend4Web SDK features an example of an AR application available in the <a class="reference internal" href="project_manager.html#project-manager"><span>Project Manager</span></a>.</p>
+<p>Blend4Web SDK features an example of an AR application available in the <a class="reference internal" href="project_manager.html#project-manager"><span class="std std-ref">Project Manager</span></a>.</p>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
 <p class="last">This example is not included in the Blend4Web CE Lite</p>
@@ -332,8 +323,8 @@
 <div class="section" id="leap-motion">
 <h3><a class="toc-backref" href="#id8">Leap Motion</a><a class="headerlink" href="#leap-motion" title="永久链接至标题">¶</a></h3>
 <p>Leap Motion is a controller that can be used for tracking hand movements and gesture recognition. It can be used in conjunction with any supported VR device, or on its own.</p>
-<p>Our <a class="reference internal" href="developers.html#code-snippets"><span>Code Snippets</span></a> application contains an example of using Leap Motion controller. If you are planning to develop applications that support the controller, you may want to examine this example thoroughly. You can also use it as a base for your own projects.</p>
-<p>Leap Motion API is provided as a standard JavaScript library that can be included in the HTML page of the project. This library can be either included in the project or accessed remotely from Leap Motion&#8217;s servers.</p>
+<p>Our <a class="reference internal" href="developers.html#code-snippets"><span class="std std-ref">Code Snippets</span></a> application contains an example of using Leap Motion controller. If you are planning to develop applications that support the controller, you may want to examine this example thoroughly. You can also use it as a base for your own projects.</p>
+<p>Leap Motion API is provided as a standard JavaScript library that can be included in the HTML page of the project. This library can be either included in the project or accessed remotely from Leap Motion’s servers.</p>
 </div>
 </div>
 </div>
@@ -357,8 +348,8 @@
 
   <div role="contentinfo">
     <p>
-        &copy; 版权所有 2014-2017, Triumph.
-      最后更新于 2017-11-21.
+        &copy; Copyright 2014-2017, Triumph.
+      最后更新于 2017-12-29.
 
     </p>
   </div>
@@ -414,11 +405,11 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

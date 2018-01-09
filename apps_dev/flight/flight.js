@@ -1,21 +1,19 @@
-"use strict";
+import b4w from "blend4web";
 
-b4w.register("flight_main", function(exports, require) {
+var m_anim      = b4w.animation;
+var m_arm       = b4w.armature;
+var m_app       = b4w.app;
+var m_cam       = b4w.camera;
+var m_cfg       = b4w.config;
+var m_cont      = b4w.container;
+var m_data      = b4w.data;
+var m_main      = b4w.main;
+var m_scs       = b4w.scenes;
+var m_sfx       = b4w.sfx;
+var m_tsr       = b4w.tsr;
+var m_version   = b4w.version;
 
-var m_anim      = require("animation");
-var m_arm       = require("armature");
-var m_app       = require("app");
-var m_cam       = require("camera");
-var m_cfg       = require("config");
-var m_cont      = require("container");
-var m_data      = require("data");
-var m_main      = require("main");
-var m_scs       = require("scenes");
-var m_sfx       = require("sfx");
-var m_tsr       = require("tsr");
-var m_version   = require("version");
-
-var m_vec3 = require("vec3");
+var m_vec3 = b4w.vec3;
 
 var DEBUG = (m_version.type() === "DEBUG");
 var PRELOADING = true;
@@ -45,7 +43,7 @@ var _pl_fill = null;
 var _pl_caption = null;
 
 
-exports.init = function() {
+var init = function() {
     var show_fps = DEBUG;
 
     var url_params = m_app.get_url_params();
@@ -379,6 +377,4 @@ function move_camera() {
     m_cam.eye_set_look_at(_camera, eye, target);
 }
 
-});
-
-b4w.require("flight_main").init();
+init();

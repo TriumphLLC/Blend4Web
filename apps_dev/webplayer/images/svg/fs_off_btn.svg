@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" height="45" width="45" version="1.1" viewBox="0 0 11.90625 11.90621">
+ <defs>
+  <filter id="a" style="color-interpolation-filters:sRGB" height="1.24" width="1.24" y="-.12" x="-.12">
+   <feGaussianBlur stdDeviation="1.925"/>
+  </filter>
+ </defs>
+ <g transform="translate(-89.297 -106.59)">
+  <g transform="matrix(.26458 0 0 .26458 -393.3 -11.494)">
+   <g transform="translate(.00000449 -107.04)">
+    <circle cx="1005.5" transform="matrix(.94261 0 0 .94260 898.71 -200.61)" filter="url(#a)" cy="823.75" r="19.25" fill="#fff"/>
+    <circle cx="1005.5" transform="matrix(.96104 0 0 .96104 880.17 -215.79)" cy="823.75" r="19.25"/>
+   </g>
+   <g transform="translate(110 -318.54)">
+    <rect opacity="0" ry="0" rx="0" transform="rotate(-90)" height="25" width="25" y="1724" x="-799.86"/>
+    <path d="m1742 781.86-5 5" stroke="#fff" stroke-width="1px" fill="none"/>
+    <path d="m1741 787.36h-4.5v-4.5" stroke="#fff" stroke-width="1px" fill="none"/>
+    <g fill="#fff">
+     <rect height="15" width="2" y="776.86" x="1732"/>
+     <rect transform="rotate(90)" height="15" width="2" y="-1747" x="776.86"/>
+     <rect transform="scale(-1)" height="15" width="2" y="-791.86" x="-1747"/>
+     <rect height="2" width="15" y="789.86" x="1732"/>
+     <rect height="8" width="1" y="788.86" x="1727"/>
+     <rect height="1" width="8" y="795.86" x="1727"/>
+     <rect transform="rotate(90)" height="3" width="1" y="-1730" x="788.86"/>
+     <rect transform="rotate(90)" height="1" width="3" y="-1735" x="793.86"/>
+    </g>
+   </g>
+  </g>
+ </g>
+</svg>

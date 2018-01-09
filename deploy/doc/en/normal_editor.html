@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Normal Editor &mdash; Blend4Web 17.10.1 User Manual</title>
+  <title>Normal Editor &mdash; Blend4Web 17.12.0 User Manual</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.10.1 User Manual" href="index.html"/>
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Blend4Web 17.12.0 User Manual" href="index.html"/>
         <link rel="next" title="Camera" href="camera.html"/>
         <link rel="prev" title="Meshes" href="meshes.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -95,7 +98,7 @@
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Scene Settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">Meshes</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Normal Editor</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Normal Editor</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#main-features-of-the-normal-editor">Main Features of the Normal Editor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#interface">Interface</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#activate">Activate</a></li>
@@ -201,7 +204,7 @@
 </ul>
 </div>
 <p>Editing the selected normals is a pretty easy and effective way to customize 3d model shading without complicating its geometry.</p>
-<p>In some cases, using the normal editor you may achieve the effect which is similar to the result of using <a class="reference internal" href="textures.html#normal-map"><span>normal maps</span></a>. At the same  time, editing normals is preferred because it is more computationally effective and consumes less video memory.</p>
+<p>In some cases, using the normal editor you may achieve the effect which is similar to the result of using <a class="reference internal" href="textures.html#normal-map"><span class="std std-ref">normal maps</span></a>. At the same  time, editing normals is preferred because it is more computationally effective and consumes less video memory.</p>
 <p>Normal editor workflow example:</p>
 <blockquote>
 <div><a class="reference internal image-reference" href="_images/normal_editor_example.png"><img alt="_images/normal_editor_example.png" class="align-center" src="_images/normal_editor_example.png" style="width: 100%;" /></a>
@@ -241,8 +244,8 @@
 </div>
 <div class="section" id="show-normals">
 <h2><a class="toc-backref" href="#id5">Show Normals</a><a class="headerlink" href="#show-normals" title="Permalink to this headline">¶</a></h2>
-<p>This button actually duplicates the original Blender&#8217;s button. It turns on displaying the normals in the viewport, while the Size field allows you to set their length.</p>
-<p>You just need to push the Show Normals button either on the normal editor panel or on the Blender&#8217;s right panel in the Mesh Display section. You can also set the convenient length of normals by tweaking the Size.</p>
+<p>This button actually duplicates the original Blender’s button. It turns on displaying the normals in the viewport, while the Size field allows you to set their length.</p>
+<p>You just need to push the Show Normals button either on the normal editor panel or on the Blender’s right panel in the Mesh Display section. You can also set the convenient length of normals by tweaking the Size.</p>
 <a class="reference internal image-reference" href="_images/show_normals.gif"><img alt="_images/show_normals.gif" class="align-center" src="_images/show_normals.gif" style="width: 100%;" /></a>
 </div>
 <div class="section" id="rotate">
@@ -291,7 +294,7 @@
 <h2><a class="toc-backref" href="#id11">Restore</a><a class="headerlink" href="#restore" title="Permalink to this headline">¶</a></h2>
 <p>The <code class="docutils literal"><span class="pre">Restore</span></code> button restores the original direction of normals for the selected vertices.</p>
 <a class="reference internal image-reference" href="_images/restore.gif"><img alt="_images/restore.gif" class="align-center" src="_images/restore.gif" style="width: 100%;" /></a>
-<p>In order to restore the normal&#8217;s direction to its original (which is calculated on the basis of face normals), you need to select the desired vertices and click the Restore button.</p>
+<p>In order to restore the normal’s direction to its original (which is calculated on the basis of face normals), you need to select the desired vertices and click the Restore button.</p>
 </div>
 <div class="section" id="d-cursor-axis-and-face">
 <h2><a class="toc-backref" href="#id12">3D Cursor, Axis and Face</a><a class="headerlink" href="#d-cursor-axis-and-face" title="Permalink to this headline">¶</a></h2>
@@ -311,9 +314,9 @@
 <div class="section" id="copy-from-mesh">
 <h2><a class="toc-backref" href="#id14">Copy From Mesh</a><a class="headerlink" href="#copy-from-mesh" title="Permalink to this headline">¶</a></h2>
 <p>This function allows you to copy the normals from one object to another. There are two modes: <code class="docutils literal"><span class="pre">Matched</span> <span class="pre">Vertices</span></code> and <code class="docutils literal"><span class="pre">Nearest</span> <span class="pre">Vertices</span></code>.</p>
-<p>The <code class="docutils literal"><span class="pre">Matched</span> <span class="pre">Vertices</span></code> mode copies the normals from the vertices of one object to another object&#8217;s vertices only if they have the same coordinates; the other vertices are ignored. The <code class="docutils literal"><span class="pre">Nearest</span> <span class="pre">Vertices</span></code> mode copies the normals of the nearest vertices of the source object.</p>
+<p>The <code class="docutils literal"><span class="pre">Matched</span> <span class="pre">Vertices</span></code> mode copies the normals from the vertices of one object to another object’s vertices only if they have the same coordinates; the other vertices are ignored. The <code class="docutils literal"><span class="pre">Nearest</span> <span class="pre">Vertices</span></code> mode copies the normals of the nearest vertices of the source object.</p>
 <a class="reference internal image-reference" href="_images/copy_from_mesh.gif"><img alt="_images/copy_from_mesh.gif" class="align-center" src="_images/copy_from_mesh.gif" style="width: 100%;" /></a>
-<p>This function works in Blender&#8217;s object mode. At first, you need to select the object you need to copy from, then the object you need to copy to. It is also necessary to select the target object&#8217;s vertices to which normals are copied.</p>
+<p>This function works in Blender’s object mode. At first, you need to select the object you need to copy from, then the object you need to copy to. It is also necessary to select the target object’s vertices to which normals are copied.</p>
 </div>
 </div>
 
@@ -337,7 +340,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Triumph.
-      Last updated on 2017-11-21.
+      Last updated on 2017-12-29.
 
     </p>
   </div>
@@ -393,11 +396,11 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

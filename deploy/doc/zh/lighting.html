@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>照明、 阴影和背景 &mdash; Blend4Web 17.10.1 用户手册</title>
+  <title>照明、 阴影和背景 &mdash; Blend4Web 17.12.0 用户手册</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.10.1 用户手册" href="index.html"/>
+        <link rel="index" title="索引"
+              href="genindex.html"/>
+        <link rel="search" title="搜索" href="search.html"/>
+    <link rel="top" title="Blend4Web 17.12.0 用户手册" href="index.html"/>
         <link rel="next" title="后期处理效果" href="postprocessing_effects.html"/>
         <link rel="prev" title="逻辑编辑器" href="logic_editor.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -101,7 +104,7 @@
 <li class="toctree-l1"><a class="reference internal" href="material_library.html">材质库</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">节点材质</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logic_editor.html">逻辑编辑器</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">照明、 阴影和背景</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">照明、 阴影和背景</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#shading-types">着色类型</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#lighting-with-light-sources">用光源照明</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#light-source-types">光源类型</a></li>
@@ -185,7 +188,7 @@
   <span class="target" id="lighting"></span><div class="section" id="lighting-shadows-and-background">
 <span id="index-0"></span><h1><a class="toc-backref" href="#id4">照明、 阴影和背景</a><a class="headerlink" href="#lighting-shadows-and-background" title="永久链接至标题">¶</a></h1>
 <div class="contents topic" id="table-of-contents">
-<p class="topic-title first">目录</p>
+<p class="topic-title first">Table of Contents</p>
 <ul class="simple">
 <li><a class="reference internal" href="#lighting-shadows-and-background" id="id4">照明、 阴影和背景</a><ul>
 <li><a class="reference internal" href="#shading-types" id="id5">着色类型</a></li>
@@ -217,18 +220,14 @@
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p>如果使用标准工具没法达到所需的效果，您可以使用 <a class="reference internal" href="normal_editor.html#normals-editor"><span>normals editor</span></a>.</p>
+<p>如果使用标准工具没法达到所需的效果，您可以使用 <a class="reference internal" href="normal_editor.html#normals-editor"><span class="std std-ref">normals editor</span></a>.</p>
 <p>不同的阴影类型和使用法线编辑的结果：</p>
 <a class="reference internal image-reference" href="_images/different_shadings_comparison.png"><img alt="_images/different_shadings_comparison.png" class="align-center" src="_images/different_shadings_comparison.png" style="width: 100%;" /></a>
 <ol class="arabic simple">
-<li><p class="first">平面着色</p>
-</li>
-<li><p class="first">光滑着色</p>
-</li>
-<li><p class="first">平滑阴影 倒角</p>
-</li>
-<li><p class="first">平滑阴影 倒角 编辑法线</p>
-</li>
+<li>平面着色</li>
+<li>光滑着色</li>
+<li>平滑阴影 倒角</li>
+<li>平滑阴影 倒角 编辑法线</li>
 </ol>
 </div>
 <div class="section" id="lighting-with-light-sources">
@@ -239,17 +238,13 @@
 <p>支持下面的光源类型：</p>
 <dl class="docutils">
 <dt><em>Point</em></dt>
-<dd><p class="first last">光从一个点均匀传播与逐渐衰减四面八方。</p>
-</dd>
+<dd>光从一个点均匀传播与逐渐衰减四面八方。</dd>
 <dt><em>Sun</em></dt>
-<dd><p class="first last">光从一个无限平面在一个方向无衰减传播。</p>
-</dd>
+<dd>光从一个无限平面在一个方向无衰减传播。</dd>
 <dt><em>Spot</em></dt>
-<dd><p class="first last">光从角度限制内的一个点传播时，并逐渐衰减。</p>
-</dd>
+<dd>光从角度限制内的一个点传播时，并逐渐衰减。</dd>
 <dt><em>Hemi</em></dt>
-<dd><p class="first last">半球形。光线从无限半球传播无衰减。</p>
-</dd>
+<dd>半球形。光线从无限半球传播无衰减。</dd>
 </dl>
 </div>
 <div class="section" id="light-source-setup">
@@ -261,41 +256,29 @@
 </div>
 <dl class="docutils">
 <dt><em>Color</em></dt>
-<dd><p class="first last">灯光颜色。默认值是（1.0，1.0，1.0）（即白色）。</p>
-</dd>
+<dd>灯光颜色。默认值是（1.0，1.0，1.0）（即白色）。</dd>
 <dt><em>Energy</em></dt>
-<dd><p class="first last">辐射强度。缺省值为1.0。</p>
-</dd>
+<dd>辐射强度。缺省值为1.0。</dd>
 <dt><em>Falloff</em></dt>
-<dd><p class="first last">衰减型。该值导出，但引擎始终使用 <code class="docutils literal"><span class="pre">Inverse</span> <span class="pre">Square</span></code>. 它适用于 <code class="docutils literal"><span class="pre">Point</span></code> 和 <code class="docutils literal"><span class="pre">Spot</span></code> 光源类型。默认值是 <code class="docutils literal"><span class="pre">Inverse</span> <span class="pre">Square</span></code>.</p>
-</dd>
+<dd>衰减型。该值导出，但引擎始终使用 <code class="docutils literal"><span class="pre">Inverse</span> <span class="pre">Square</span></code>. 它适用于 <code class="docutils literal"><span class="pre">Point</span></code> 和 <code class="docutils literal"><span class="pre">Spot</span></code> 光源类型。默认值是 <code class="docutils literal"><span class="pre">Inverse</span> <span class="pre">Square</span></code>.</dd>
 <dt><em>Distance</em></dt>
-<dd><p class="first last">衰减参数。它适用于 <code class="docutils literal"><span class="pre">Point</span></code> 和 <code class="docutils literal"><span class="pre">Spot</span></code> 光源类型。默认值是25.0。</p>
-</dd>
+<dd>衰减参数。它适用于 <code class="docutils literal"><span class="pre">Point</span></code> 和 <code class="docutils literal"><span class="pre">Spot</span></code> 光源类型。默认值是25.0。</dd>
 <dt><em>Specular</em></dt>
-<dd><p class="first last">创建镜面高光。默认情况下启用。</p>
-</dd>
+<dd>创建镜面高光。默认情况下启用。</dd>
 <dt><em>Diffuse</em></dt>
-<dd><p class="first last">做漫反射着色。默认情况下启用。</p>
-</dd>
+<dd>做漫反射着色。默认情况下启用。</dd>
 <dt><em>Spot Shape &gt; Size</em></dt>
-<dd><p class="first last">锥角度。它适用于 <code class="docutils literal"><span class="pre">Spot</span></code> 光源类型。默认值是45度。</p>
-</dd>
+<dd>锥角度。它适用于 <code class="docutils literal"><span class="pre">Spot</span></code> 光源类型。默认值是45度。</dd>
 <dt><em>Spot Shape &gt; Blend</em></dt>
-<dd><p class="first last">模糊光斑边缘参数。它适用于 <code class="docutils literal"><span class="pre">Spot</span></code> 光源类型。默认值是0.15。</p>
-</dd>
+<dd>模糊光斑边缘参数。它适用于 <code class="docutils literal"><span class="pre">Spot</span></code> 光源类型。默认值是0.15。</dd>
 <dt><em>Dynamic Intensity</em></dt>
-<dd><p class="first last">使用该光源，用于计算每天的时间。仅适用于 <code class="docutils literal"><span class="pre">Sun</span></code> 光源类型。默认情况下禁用。</p>
-</dd>
+<dd>使用该光源，用于计算每天的时间。仅适用于 <code class="docutils literal"><span class="pre">Sun</span></code> 光源类型。默认情况下禁用。</dd>
 <dt><em>Shadow &gt; Shadow</em></dt>
-<dd><p class="first last">使用这个光源计算影子。当多个光源存在应该被使用。默认情况下禁用。</p>
-</dd>
+<dd>使用这个光源计算影子。当多个光源存在应该被使用。默认情况下禁用。</dd>
 <dt><em>Shadow &gt; Clip Start</em></dt>
-<dd><p class="first last">此参数指定离光源的距离，低于该值物体不产生阴影的距离。默认值为1.001。</p>
-</dd>
+<dd>此参数指定离光源的距离，低于该值物体不产生阴影的距离。默认值为1.001。</dd>
 <dt><em>Shadow &gt; Clip End</em></dt>
-<dd><p class="first last">此参数指定离光源的距离，超出后物体不产生阴影的距离。默认值是30.002。</p>
-</dd>
+<dd>此参数指定离光源的距离，超出后物体不产生阴影的距离。默认值是30.002。</dd>
 </dl>
 </div>
 </div>
@@ -303,12 +286,9 @@
 <span id="environment-lighting"></span><h2><a class="toc-backref" href="#id9">环境照明（环境）</a><a class="headerlink" href="#environment-lighting-ambient" title="永久链接至标题">¶</a></h2>
 <p>该引擎支持环境灯光模拟的3种方法。</p>
 <ol class="arabic simple">
-<li><p class="first">平白光照明。</p>
-</li>
-<li><p class="first">半球形的照明模式，即应当指定视野和天顶的颜色。物体会因为法线和方向填充这两种颜色组成的梯度色。</p>
-</li>
-<li><p class="first">灯光使用 <a class="reference internal" href="textures.html#environment-map"><span>环境贴图</span></a> - 所谓的基于图像的照明。</p>
-</li>
+<li>平白光照明。</li>
+<li>半球形的照明模式，即应当指定视野和天顶的颜色。物体会因为法线和方向填充这两种颜色组成的梯度色。</li>
+<li>灯光使用 <a class="reference internal" href="textures.html#environment-map"><span class="std std-ref">环境贴图</span></a> - 所谓的基于图像的照明。</li>
 </ol>
 <p>请注意，环境照明使用了简化的模型，不考虑对象的相互遮挡。</p>
 <div class="section" id="activation">
@@ -320,39 +300,28 @@
 <h3><a class="toc-backref" href="#id11">设置</a><a class="headerlink" href="#setup" title="永久链接至标题">¶</a></h3>
 <dl class="docutils">
 <dt><em>World &gt; Environment Lighting &gt; Energy</em></dt>
-<dd><p class="first last">环境照明亮度。缺省值为1.0。</p>
-</dd>
+<dd>环境照明亮度。缺省值为1.0。</dd>
 <dt><em>World &gt; Environment Lighting &gt; Environment Color</em></dt>
-<dd><p class="first last">选择环境照明模拟的方法: <code class="docutils literal"><span class="pre">White</span></code> - 平照明，<code class="docutils literal"><span class="pre">Sky</span> <span class="pre">Color</span></code> - 半球模型，<code class="docutils literal"><span class="pre">Sky</span> <span class="pre">Texture</span></code> - 照明使用的 <a class="reference internal" href="textures.html#environment-map"><span>环境贴图</span></a> 。默认值是白色。</p>
-</dd>
+<dd>选择环境照明模拟的方法: <code class="docutils literal"><span class="pre">White</span></code> - 平照明，<code class="docutils literal"><span class="pre">Sky</span> <span class="pre">Color</span></code> - 半球模型，<code class="docutils literal"><span class="pre">Sky</span> <span class="pre">Texture</span></code> - 照明使用的 <a class="reference internal" href="textures.html#environment-map"><span class="std std-ref">环境贴图</span></a> 。默认值是白色。</dd>
 <dt><em>World &gt; Horizon Color</em> 和 <em>World &gt; Zenith Color</em></dt>
-<dd><p class="first last">如果选择了半球模型 (<code class="docutils literal"><span class="pre">Sky</span> <span class="pre">Color</span></code>)  可以通过 <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Horizon</span> <span class="pre">Color</span></code> 和 <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Zenith</span> <span class="pre">Color</span></code>  颜色选取器指定的地平线和天顶角变化的颜色。建议以激活 <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Blend</span> <span class="pre">Sky</span></code> 选项为更好的颜色选择。</p>
-</dd>
+<dd>如果选择了半球模型 (<code class="docutils literal"><span class="pre">Sky</span> <span class="pre">Color</span></code>)  可以通过 <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Horizon</span> <span class="pre">Color</span></code> 和 <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Zenith</span> <span class="pre">Color</span></code>  颜色选取器指定的地平线和天顶角变化的颜色。建议以激活 <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Blend</span> <span class="pre">Sky</span></code> 选项为更好的颜色选择。</dd>
 <dt><em>世界 &gt; 使用节点 （Cycles）</em></dt>
-<dd><p class="first last">如果启用此选项， <code class="docutils literal"><span class="pre">Cycles</span></code> 节点可以用于设置环境。默认为禁用。</p>
-</dd>
+<dd>如果启用此选项， <code class="docutils literal"><span class="pre">Cycles</span></code> 节点可以用于设置环境。默认为禁用。</dd>
 <dt><em>世界 &gt; 反射世界</em></dt>
-<dd><p class="first last">如果启用此参数，则环境也会在反射中被渲染 （环境能由镜面反射）。默认为禁用。</p>
-</dd>
+<dd>如果启用此参数，则环境也会在反射中被渲染 （环境能由镜面反射）。默认为禁用。</dd>
 <dt><em>世界 &gt; 仅渲染反射</em></dt>
-<dd><p class="first last">如果启用此参数，则将渲染环境的反射，而不是场景本身。默认为禁用。</p>
-</dd>
+<dd>如果启用此参数，则将渲染环境的反射，而不是场景本身。默认为禁用。</dd>
 </dl>
 </div>
 <div class="section" id="environment-map-method">
 <h3><a class="toc-backref" href="#id12">环境贴图方法</a><a class="headerlink" href="#environment-map-method" title="永久链接至标题">¶</a></h3>
 <p>要使用环境贴图进行环境照明：</p>
 <ol class="arabic simple">
-<li><p class="first">启用 <code class="docutils literal"><span class="pre">World</span></code> 选项卡上的 <code class="docutils literal"><span class="pre">Environment</span> <span class="pre">Lighting</span></code>  复选框。</p>
-</li>
-<li><p class="first">选择 <code class="docutils literal"><span class="pre">环境照明&gt;天空Texture</span></code>。</p>
-</li>
-<li><p class="first">从 <code class="docutils literal"><span class="pre">World</span></code> 选项卡转至 <code class="docutils literal"><span class="pre">Texture</span></code> 标签。</p>
-</li>
-<li><p class="first">创建 <a class="reference internal" href="textures.html#environment-map"><span>环境贴图</span></a>，加载相应的图像。</p>
-</li>
-<li><p class="first">对于环境贴图选择 <code class="docutils literal"><span class="pre">ENVIRONMENT_LIGHTING</span></code> 或 <code class="docutils literal"><span class="pre">BOTH</span></code> 为 <code class="docutils literal"><span class="pre">Export</span> <span class="pre">Options</span></code> 面板上的 <code class="docutils literal"><span class="pre">Sky</span> <span class="pre">Texture</span> <span class="pre">Usage</span></code> 值（<code class="docutils literal"><span class="pre">BOTH</span></code> 选项，还可以使用该纹理作为 <a class="reference internal" href="textures.html#skydome-texture"><span>天穹材质</span></a>).</p>
-</li>
+<li>启用 <code class="docutils literal"><span class="pre">World</span></code> 选项卡上的 <code class="docutils literal"><span class="pre">Environment</span> <span class="pre">Lighting</span></code>  复选框。</li>
+<li>选择 <code class="docutils literal"><span class="pre">环境照明&gt;天空Texture</span></code>。</li>
+<li>从 <code class="docutils literal"><span class="pre">World</span></code> 选项卡转至 <code class="docutils literal"><span class="pre">Texture</span></code> 标签。</li>
+<li>创建 <a class="reference internal" href="textures.html#environment-map"><span class="std std-ref">环境贴图</span></a>，加载相应的图像。</li>
+<li>对于环境贴图选择 <code class="docutils literal"><span class="pre">ENVIRONMENT_LIGHTING</span></code> 或 <code class="docutils literal"><span class="pre">BOTH</span></code> 为 <code class="docutils literal"><span class="pre">Export</span> <span class="pre">Options</span></code> 面板上的 <code class="docutils literal"><span class="pre">Sky</span> <span class="pre">Texture</span> <span class="pre">Usage</span></code> 值（<code class="docutils literal"><span class="pre">BOTH</span></code> 选项，还可以使用该纹理作为 <a class="reference internal" href="textures.html#skydome-texture"><span class="std std-ref">天穹材质</span></a>).</li>
 </ol>
 <a class="reference internal image-reference" href="_images/lighting_environment_texture.png"><img alt="_images/lighting_environment_texture.png" class="align-center" src="_images/lighting_environment_texture.png" style="width: 100%;" /></a>
 <div class="line-block">
@@ -369,16 +338,13 @@
 <div class="section" id="id2">
 <h3><a class="toc-backref" href="#id14"><strong>激活</strong></a><a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h3>
 <ol class="arabic simple">
-<li><p class="first">在 <code class="docutils literal"><span class="pre">Object</span></code> 选项卡下启用 <code class="docutils literal"><span class="pre">Shadows:</span> <span class="pre">Cast</span></code>  复选框为物体 <strong>投射</strong> 阴影 。</p>
-</li>
-<li><p class="first">在 <code class="docutils literal"><span class="pre">Object</span></code> 选项卡下启用 <code class="docutils literal"><span class="pre">Shadows:</span> <span class="pre">Receive</span></code> 复选框为物体 <strong>接收</strong> 阴影 。</p>
-</li>
-<li><p class="first">确保在 <code class="docutils literal"><span class="pre">Render</span></code> 选项卡中的 <code class="docutils literal"><span class="pre">Shadows</span></code> 选项的值为 <code class="docutils literal"><span class="pre">AUTO</span></code> 或 <code class="docutils literal"><span class="pre">ON</span></code>。</p>
-</li>
+<li>在 <code class="docutils literal"><span class="pre">Object</span></code> 选项卡下启用 <code class="docutils literal"><span class="pre">Shadows:</span> <span class="pre">Cast</span></code>  复选框为物体 <strong>投射</strong> 阴影 。</li>
+<li>在 <code class="docutils literal"><span class="pre">Object</span></code> 选项卡下启用 <code class="docutils literal"><span class="pre">Shadows:</span> <span class="pre">Receive</span></code> 复选框为物体 <strong>接收</strong> 阴影 。</li>
+<li>确保在 <code class="docutils literal"><span class="pre">Render</span></code> 选项卡中的 <code class="docutils literal"><span class="pre">Shadows</span></code> 选项的值为 <code class="docutils literal"><span class="pre">AUTO</span></code> 或 <code class="docutils literal"><span class="pre">ON</span></code>。</li>
 </ol>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
-<p>物体，其中带有 <a class="reference internal" href="materials.html#alpha-blend"><span>渐变的透明材质</span></a>, 不投射阴影。</p>
+<p>物体，其中带有 <a class="reference internal" href="materials.html#alpha-blend"><span class="std std-ref">渐变的透明材质</span></a>, 不投射阴影。</p>
 <a class="last reference internal image-reference" href="_images/alpha_shadows.png"><img alt="_images/alpha_shadows.png" class="align-center" src="_images/alpha_shadows.png" style="width: 100%;" /></a>
 </div>
 <div class="line-block">
@@ -389,35 +355,27 @@
 <h3><a class="toc-backref" href="#id15">设置</a><a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h3>
 <dl class="docutils">
 <dt><em>Direction</em></dt>
-<dd><p class="first last">如果有多个光源，建议指定用于阴影计算确切的光源，选择灯光物体通过在 <code class="docutils literal"><span class="pre">Object</span> <span class="pre">Data</span></code> 面板的 <code class="docutils literal"><span class="pre">Shadow</span> <span class="pre">&gt;</span> <span class="pre">Shadow</span></code> 复选框来启用。</p>
-</dd>
+<dd>如果有多个光源，建议指定用于阴影计算确切的光源，选择灯光物体通过在 <code class="docutils literal"><span class="pre">Object</span> <span class="pre">Data</span></code> 面板的 <code class="docutils literal"><span class="pre">Shadow</span> <span class="pre">&gt;</span> <span class="pre">Shadow</span></code> 复选框来启用。</dd>
 <dt><em>Color</em></dt>
-<dd><p class="first last">环境照明阴影颜色是由 <a class="reference internal" href="#environment-lighting"><span>环境光照</span></a> 设置确定 。</p>
-</dd>
+<dd>环境照明阴影颜色是由 <a class="reference internal" href="#environment-lighting"><span class="std std-ref">环境光照</span></a> 设置确定 。</dd>
 </dl>
 <p>下列附加设置位于 <code class="docutils literal"><span class="pre">Render</span></code> 标签的 <code class="docutils literal"><span class="pre">Shadows</span></code> 面板上：</p>
 <a class="reference internal image-reference" href="_images/lighting_shadow_settings.png"><img alt="_images/lighting_shadow_settings.png" class="align-center" src="_images/lighting_shadow_settings.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>渲染阴影</em></dt>
-<dd><p class="first last">启用和禁用阴影渲染。可设置 <code class="docutils literal"><span class="pre">ON</span></code>，<code class="docutils literal"><span class="pre">OFF</span></code> 和 <code class="docutils literal"><span class="pre">AUTO</span></code>。默认设置为 <code class="docutils literal"><span class="pre">AUTO</span></code>。</p>
-</dd>
+<dd>启用和禁用阴影渲染。可设置 <code class="docutils literal"><span class="pre">ON</span></code>，<code class="docutils literal"><span class="pre">OFF</span></code> 和 <code class="docutils literal"><span class="pre">AUTO</span></code>。默认设置为 <code class="docutils literal"><span class="pre">AUTO</span></code>。</dd>
 <dt><em>软阴影</em></dt>
-<dd><p class="first last">此选项使平滑的阴影贴图。默认情况下启用。</p>
-</dd>
+<dd>此选项使平滑的阴影贴图。默认情况下启用。</dd>
 <dt><em>分辨率</em></dt>
-<dd><p class="first last">阴影贴图分辨率。默认值为 2048 x 2048px。</p>
-</dd>
+<dd>阴影贴图分辨率。默认值为 2048 x 2048px。</dd>
 <dt><em>采样</em></dt>
-<dd><p class="first last">用于平滑阴影贴图的样品数目。可用值为 4x, 8x 和 16x, 后者是默认值。</p>
-</dd>
+<dd>用于平滑阴影贴图的样品数目。可用值为 4x, 8x 和 16x, 后者是默认值。</dd>
 <dt><em>Self-Shadow Polygon Offset</em></dt>
-<dd><p class="first last">相对于光源定向多边形移位系数。默认值是1。</p>
-</dd>
+<dd>相对于光源定向多边形移位系数。默认值是1。</dd>
 <dt><em>Self-Shadow Normal Offset</em></dt>
-<dd><p class="first last">沿法线移动多边形系数。默认值是0.010。</p>
-</dd>
+<dd>沿法线移动多边形系数。默认值是0.010。</dd>
 </dl>
-<p>最后两个参数可以用于减少自阴影的瑕疵。这些瑕疵显示在同一时间投射和接收阴影的物体。<code class="docutils literal"><span class="pre">Self-Shadow</span> <span class="pre">Polygon</span> <span class="pre">Offset</span></code> 参数是更有效的对抗的多边形的内部区域瑕疵，虽然&#8217; Self-Shadow 法线抵消 &#8216; 是更好地为边界地区。上述两个参数导致阴影扭曲，因此，我们建议让他们尽可能低的水平。</p>
+<p>最后两个参数可以用于减少自阴影的瑕疵。这些瑕疵显示在同一时间投射和接收阴影的物体。<code class="docutils literal"><span class="pre">Self-Shadow</span> <span class="pre">Polygon</span> <span class="pre">Offset</span></code> 参数是更有效的对抗的多边形的内部区域瑕疵，虽然' Self-Shadow 法线抵消 ' 是更好地为边界地区。上述两个参数导致阴影扭曲，因此，我们建议让他们尽可能低的水平。</p>
 <a class="reference internal image-reference" href="_images/self_shadow_artifacts.png"><img alt="_images/self_shadow_artifacts.png" class="align-center" src="_images/self_shadow_artifacts.png" style="width: 100%;" /></a>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
@@ -428,20 +386,16 @@
 </div>
 <dl class="docutils">
 <dt><em>Enable CSM</em></dt>
-<dd><p class="first last">激活的级联阴影模型的使用;显示附加选项。默认情况下禁用。如果 <code class="docutils literal"><span class="pre">Shadow</span></code> 设置一个以上的光源启用将无法工作。 <code class="docutils literal"><span class="pre">Point</span></code> 和 <code class="docutils literal"><span class="pre">Spot</span></code> 式光源只支持一个阴影级联。</p>
-</dd>
+<dd>激活的级联阴影模型的使用;显示附加选项。默认情况下禁用。如果 <code class="docutils literal"><span class="pre">Shadow</span></code> 设置一个以上的光源启用将无法工作。 <code class="docutils literal"><span class="pre">Point</span></code> 和 <code class="docutils literal"><span class="pre">Spot</span></code> 式光源只支持一个阴影级联。</dd>
 </dl>
 <p>此选项允许下面的阴影生成类型之间进行选择：</p>
 <ul class="simple">
-<li><p class="first">它使用一个单一的优化阴影贴图为整个场景通用模型 (<code class="docutils literal"><span class="pre">Enable</span> <span class="pre">CSM</span></code> 已关闭）。</p>
-</li>
-<li><p class="first">阴影级联 (<code class="docutils literal"><span class="pre">Enable</span> <span class="pre">CSM</span></code> 被接通）。</p>
-</li>
+<li>它使用一个单一的优化阴影贴图为整个场景通用模型 (<code class="docutils literal"><span class="pre">Enable</span> <span class="pre">CSM</span></code> 已关闭）。</li>
+<li>阴影级联 (<code class="docutils literal"><span class="pre">Enable</span> <span class="pre">CSM</span></code> 被接通）。</li>
 </ul>
 <dl class="docutils">
 <dt><em>Blur Radius</em></dt>
-<dd><p class="first last">设置软化阴影模糊比例。默认值是3。零值会产生硬阴影。</p>
-</dd>
+<dd>设置软化阴影模糊比例。默认值是3。零值会产生硬阴影。</dd>
 </dl>
 <a class="reference internal image-reference" href="_images/blur_radius.png"><img alt="_images/blur_radius.png" class="align-center" src="_images/blur_radius.png" style="width: 100%;" /></a>
 <div class="line-block">
@@ -466,14 +420,11 @@
 </div>
 <dl class="docutils">
 <dt><em>CSM Number</em></dt>
-<dd><p class="first last">阴影级联的数量。从1至4个级联的支持。默认值是1。</p>
-</dd>
+<dd>阴影级联的数量。从1至4个级联的支持。默认值是1。</dd>
 <dt><em>CSM First Cascade Border</em></dt>
-<dd><p class="first last">第一梯级的大小。默认值是10.0。</p>
-</dd>
+<dd>第一梯级的大小。默认值是10.0。</dd>
 <dt><em>CSM Last Cascade Border</em></dt>
-<dd><p class="first last">最后级联大小。默认值是100.0。</p>
-</dd>
+<dd>最后级联大小。默认值是100.0。</dd>
 </dl>
 <p>中间级联的尺寸在两个上述参数之间内插。</p>
 <div class="admonition note">
@@ -486,11 +437,9 @@
 </div>
 <dl class="docutils">
 <dt><em>CSM First Cascade Blur Radius</em></dt>
-<dd><p class="first last">模糊比用于第一级联。默认值是3。零值会产生硬阴影。</p>
-</dd>
+<dd>模糊比用于第一级联。默认值是3。零值会产生硬阴影。</dd>
 <dt><em>CSM Last Cascade Blur Radius</em></dt>
-<dd><p class="first last">模糊比用于最后级联。默认值是1.5。零值会产生硬阴影。</p>
-</dd>
+<dd>模糊比用于最后级联。默认值是1.5。零值会产生硬阴影。</dd>
 </dl>
 <p>中间级联的模糊半径两个上述参数之间内插。</p>
 <div class="admonition note">
@@ -499,11 +448,9 @@
 </div>
 <dl class="docutils">
 <dt><em>Fade-out Last Cascade</em></dt>
-<dd><p class="first last">平滑消失在最后一个级联。默认情况下启用。</p>
-</dd>
+<dd>平滑消失在最后一个级联。默认情况下启用。</dd>
 <dt><em>Blend Between Cascades</em></dt>
-<dd><p class="first last">平滑的级联之间的界限。默认情况下启用。</p>
-</dd>
+<dd>平滑的级联之间的界限。默认情况下启用。</dd>
 </dl>
 <a class="reference internal image-reference" href="_images/blend_between_cascades.png"><img alt="_images/blend_between_cascades.png" class="align-center" src="_images/blend_between_cascades.png" style="width: 100%;" /></a>
 <div class="line-block">
@@ -516,22 +463,19 @@
 <span id="index-3"></span><h2><a class="toc-backref" href="#id16">背景</a><a class="headerlink" href="#background" title="永久链接至标题">¶</a></h2>
 <p>您可以通过以下方式更改背景：</p>
 <ol class="arabic simple">
-<li><p class="first">启用  <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">Sky</span></code>, 然后在Blender的 <code class="docutils literal"><span class="pre">World</span></code> 选项卡下设置 <code class="docutils literal"><span class="pre">Horizon</span> <span class="pre">Color</span></code> 和 <code class="docutils literal"><span class="pre">Zenith</span> <span class="pre">Color</span></code>  。</p>
-</li>
-<li><p class="first">把整个场景放入一个（例如一个立方体或球体）法线指向内部模型的里面，带材料和一个可选的纹理。</p>
-</li>
-<li><p class="first">在相机前放置一个带一个可选的纹理的材质的面。设置父级为相机。如果需要，调整到这个表面的距离，相机开始和结束剪切平面。</p>
-</li>
+<li>启用  <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">Sky</span></code>, 然后在Blender的 <code class="docutils literal"><span class="pre">World</span></code> 选项卡下设置 <code class="docutils literal"><span class="pre">Horizon</span> <span class="pre">Color</span></code> 和 <code class="docutils literal"><span class="pre">Zenith</span> <span class="pre">Color</span></code>  。</li>
+<li>把整个场景放入一个（例如一个立方体或球体）法线指向内部模型的里面，带材料和一个可选的纹理。</li>
+<li>在相机前放置一个带一个可选的纹理的材质的面。设置父级为相机。如果需要，调整到这个表面的距离，相机开始和结束剪切平面。</li>
 </ol>
 <a class="reference internal image-reference" href="_images/parented_background.png"><img alt="_images/parented_background.png" class="align-center" src="_images/parented_background.png" style="width: 100%;" /></a>
 <ol class="arabic" start="4">
-<li><p class="first">使用 <a class="reference internal" href="textures.html#skydome-texture"><span>skydome</span></a>.</p>
+<li><p class="first">使用 <a class="reference internal" href="textures.html#skydome-texture"><span class="std std-ref">skydome</span></a>.</p>
 </li>
-<li><p class="first">建立程序产生 <a class="reference internal" href="outdoor_rendering.html#atmosphere"><span>大气</span></a>.</p>
+<li><p class="first">建立程序产生 <a class="reference internal" href="outdoor_rendering.html#atmosphere"><span class="std std-ref">大气</span></a>.</p>
 </li>
 <li><p class="first">用 <code class="docutils literal"><span class="pre">config.set()</span></code> 方法设置引擎的 <code class="docutils literal"><span class="pre">background_color</span></code> 参数。请注意，Blender的 <code class="docutils literal"><span class="pre">World</span></code> 选项卡下的  <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">Sky</span></code> 必须被禁止。这个值被用作WebGL的 <code class="docutils literal"><span class="pre">clearColor()</span></code> 方法的参数。对于正确的结果，建议将WebGL的背景透明度关闭（<code class="docutils literal"><span class="pre">alpha</span></code> 参数）。这样的配置在默认情况下引擎的标准网络播放器使用。</p>
 <blockquote>
-<div><div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
+<div><div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_main</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;main&quot;</span><span class="p">);</span>
 
 <span class="c1">// gray</span>
@@ -543,9 +487,9 @@
 </div>
 </div></blockquote>
 </li>
-<li><p class="first">您可以在 <em>canvas</em> 元素之后使用任何HTML内容，作为背景进行渲染。要做到这一点，激活WebGL的背景透明度（ <code class="docutils literal"><span class="pre">alpha</span></code> 参数）。请注意，Blender的 <code class="docutils literal"><span class="pre">World</span></code> 选项卡下的 <code class="docutils literal"><span class="pre">World</span>&nbsp; <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">Sky</span></code> 必须禁止。想要正确的结果，建议设置完全透明的黑色背景色。这样的配置在Blend4Web SDK的  <a class="reference internal" href="viewer.html#viewer"><span>场景查看器</span></a> 默认情况下使用。</p>
+<li><p class="first">您可以在 <em>canvas</em> 元素之后使用任何HTML内容，作为背景进行渲染。要做到这一点，激活WebGL的背景透明度（ <code class="docutils literal"><span class="pre">alpha</span></code> 参数）。请注意，Blender的 <code class="docutils literal"><span class="pre">World</span></code> 选项卡下的 <code class="docutils literal"><span class="pre">World</span>&#160; <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">Sky</span></code> 必须禁止。想要正确的结果，建议设置完全透明的黑色背景色。这样的配置在Blend4Web SDK的  <a class="reference internal" href="viewer.html#viewer"><span class="std std-ref">场景查看器</span></a> 默认情况下使用。</p>
 <blockquote>
-<div><div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
+<div><div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_main</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;main&quot;</span><span class="p">);</span>
 
 <span class="nx">m_cfg</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;background_color&quot;</span><span class="p">,</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]));</span>
@@ -556,7 +500,7 @@
 </div>
 <div class="admonition seealso">
 <p class="first admonition-title">参见</p>
-<p class="last"><a class="reference internal" href="colors.html#alpha-compositing"><span>alpha合成</span></a></p>
+<p class="last"><a class="reference internal" href="colors.html#alpha-compositing"><span class="std std-ref">alpha合成</span></a></p>
 </div>
 </div></blockquote>
 </li>
@@ -583,8 +527,8 @@
 
   <div role="contentinfo">
     <p>
-        &copy; 版权所有 2014-2017, Triumph.
-      最后更新于 2017-11-21.
+        &copy; Copyright 2014-2017, Triumph.
+      最后更新于 2017-12-29.
 
     </p>
   </div>
@@ -640,11 +584,11 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

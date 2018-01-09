@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>存在的问题及解决方案 &mdash; Blend4Web 17.10.1 用户手册</title>
+  <title>存在的问题及解决方案 &mdash; Blend4Web 17.12.0 用户手册</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.10.1 用户手册" href="index.html"/>
+        <link rel="index" title="索引"
+              href="genindex.html"/>
+        <link rel="search" title="搜索" href="search.html"/>
+    <link rel="top" title="Blend4Web 17.12.0 用户手册" href="index.html"/>
         <link rel="next" title="发布说明" href="release_notes.html"/>
         <link rel="prev" title="团队工作。使用 Git" href="git_short_manual.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -115,7 +118,7 @@
 <li class="toctree-l1"><a class="reference internal" href="developers.html">对应用程序开发人员</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">对于引擎开发者</a></li>
 <li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">团队工作。使用 Git</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">存在的问题及解决方案</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">存在的问题及解决方案</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#webgl-support">WebGL的支持</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#problems-upon-startup">启动时的问题</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#webgl-failed-to-initialize">WebGL的无法初始化</a></li>
@@ -168,7 +171,7 @@
   <div class="section" id="problems-and-solutions">
 <span id="id1"></span><h1><a class="toc-backref" href="#id3">存在的问题及解决方案</a><a class="headerlink" href="#problems-and-solutions" title="永久链接至标题">¶</a></h1>
 <div class="contents topic" id="table-of-contents">
-<p class="topic-title first">目录</p>
+<p class="topic-title first">Table of Contents</p>
 <ul class="simple">
 <li><a class="reference internal" href="#problems-and-solutions" id="id3">存在的问题及解决方案</a><ul>
 <li><a class="reference internal" href="#webgl-support" id="id4">WebGL的支持</a></li>
@@ -186,12 +189,9 @@
 <p>如果您使用的是台式机或笔记本电脑，您的系统必须有一个支持的DirectX 9.0c和OpenGL 2.1的GPU，如：</p>
 <blockquote>
 <div><ul class="simple">
-<li><p class="first">的Nvidia GeForce 6XXX系列或更高。</p>
-</li>
-<li><p class="first">AMD / ATI的Radeon R500（X1xxx）系列或更高。</p>
-</li>
-<li><p class="first">英特尔GMA 950或更高。</p>
-</li>
+<li>的Nvidia GeForce 6XXX系列或更高。</li>
+<li>AMD / ATI的Radeon R500（X1xxx）系列或更高。</li>
+<li>英特尔GMA 950或更高。</li>
 </ul>
 </div></blockquote>
 <p>如果您使用的是移动设备上的WebGL，请检查您的设备是否是 <a class="reference external" href="http://mobilehtml5.org/">兼容性列表</a>。</p>
@@ -199,32 +199,24 @@
 <p>下面的Web浏览器支持WebGL：</p>
 <blockquote>
 <div><ul class="simple">
-<li><p class="first">谷歌浏览器（诉9或更高版本）</p>
-</li>
-<li><p class="first">Mozilla Firefox浏览器（V 4.0或更高版本）</p>
-</li>
-<li><p class="first">Safari浏览器（8.0版或更高版本）</p>
-</li>
-<li><p class="first">Android版Chrome浏览（25节或更高版本）</p>
-</li>
-<li><p class="first">Internet Explorer（11或更高版本）</p>
-</li>
+<li>谷歌浏览器（诉9或更高版本）</li>
+<li>Mozilla Firefox浏览器（V 4.0或更高版本）</li>
+<li>Safari浏览器（8.0版或更高版本）</li>
+<li>Android版Chrome浏览（25节或更高版本）</li>
+<li>Internet Explorer（11或更高版本）</li>
 <li>Microsoft Edge</li>
-<li><p class="first">Opera (v. 12 或更高版本)</p>
-</li>
-<li><p class="first">UC Browser (实验性)</p>
-</li>
-<li><p class="first">Yandex 浏览器</p>
-</li>
+<li>Opera (v. 12 或更高版本)</li>
+<li>UC Browser (实验性)</li>
+<li>Yandex 浏览器</li>
 </ul>
 </div></blockquote>
 <p>我们也建议使用的最近的web浏览器的版本，以避免兼容性问题。</p>
 </div>
 <div class="section" id="problems-upon-startup">
 <span id="renderer-not-working"></span><h2><a class="toc-backref" href="#id5">启动时的问题</a><a class="headerlink" href="#problems-upon-startup" title="永久链接至标题">¶</a></h2>
-<p><em>1. &#8220;浏览器无法初始化 WebGL&#8221; 消息显示</em>.</p>
+<p><em>1. &quot;浏览器无法初始化 WebGL&quot; 消息显示</em>.</p>
 <a class="reference internal image-reference" href="_images/no_webgl.png"><img alt="_images/no_webgl.png" class="align-center" src="_images/no_webgl.png" style="width: 100%;" /></a>
-<p>请按照 <a class="reference internal" href="#webgl-not-working"><span>WebGL的无法初始化</span></a> 章节列出的说明.</p>
+<p>请按照 <a class="reference internal" href="#webgl-not-working"><span class="std std-ref">WebGL的无法初始化</span></a> 章节列出的说明.</p>
 <p><em>2. 用户界面和背景显示但是默认场景没有渲染出来。同时 * http://get.webgl.org/ * 网站和其他 WebGL 应用正常工作.</em></p>
 <blockquote>
 <div><p>可能的原因：</p>
@@ -240,7 +232,7 @@
 </li>
 <li><p class="first">您正在使用过时的操作系统，如Windows XP。</p>
 </li>
-<li><p class="first">浏览器没有设置加载本地资源。在这种情况下，这个问题可以通过使用本地网络服务器 是固定的。请参阅 <a class="reference internal" href="developers.html#browser-for-local-loading"><span>加载本地资源</span></a> 部分。</p>
+<li><p class="first">浏览器没有设置加载本地资源。在这种情况下，这个问题可以通过使用本地网络服务器 是固定的。请参阅 <a class="reference internal" href="developers.html#browser-for-local-loading"><span class="std std-ref">加载本地资源</span></a> 部分。</p>
 </li>
 </ul>
 </div></blockquote>
@@ -249,16 +241,14 @@
 <span id="webgl-not-working"></span><h2><a class="toc-backref" href="#id6">WebGL的无法初始化</a><a class="headerlink" href="#webgl-failed-to-initialize" title="永久链接至标题">¶</a></h2>
 <p>使用最近的Chrome或Firefox浏览 <a class="reference external" href="http://get.webgl.org/">http://get.webgl.org/</a> 页时出现的问题。我能做什么？</p>
 <ol class="arabic simple">
-<li><p class="first">安装最新的更新，为您的系统（用于MS Windows看 <a class="reference external" href="http://support.microsoft.com/kb/311047">指南</a>)。在微软Windows的情况下安装最新的DirectX <a class="reference external" href="https://www.microsoft.com/en-us/Download/confirmation.aspx?id=35">运行</a> 。重启。</p>
-</li>
-<li><p class="first">建议及时更新显卡驱动程序。要检测你的显卡和它的供应商，请输入 <strong>about:gpu</strong> (或 <strong>chrome://gpu</strong>) ，在Chrome浏览器的地址栏中...</p>
-</li>
+<li>安装最新的更新，为您的系统（用于MS Windows看 <a class="reference external" href="http://support.microsoft.com/kb/311047">指南</a>)。在微软Windows的情况下安装最新的DirectX <a class="reference external" href="https://www.microsoft.com/en-us/Download/confirmation.aspx?id=35">运行</a> 。重启。</li>
+<li>建议及时更新显卡驱动程序。要检测你的显卡和它的供应商，请输入 <strong>about:gpu</strong> (或 <strong>chrome://gpu</strong>) ，在Chrome浏览器的地址栏中…</li>
 </ol>
 <a class="reference internal image-reference" href="_images/chrome_gpu.png"><img alt="_images/chrome_gpu.png" class="align-center" src="_images/chrome_gpu.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p>或Firefox ...</p>
+<p>或Firefox …</p>
 <a class="reference internal image-reference" href="_images/firefox_gpu.png"><img alt="_images/firefox_gpu.png" class="align-center" src="_images/firefox_gpu.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -267,12 +257,9 @@
 <p>要做到这一点，请按照下列步骤操作：</p>
 <blockquote>
 <div><ol class="arabic simple">
-<li><p class="first">从开始菜单中选择 <code class="docutils literal"><span class="pre">Run</span></code> 命令</p>
-</li>
-<li><p class="first">类型输入 dxdiag 给 <code class="docutils literal"><span class="pre">Open</span></code> 字段，然后按 <code class="docutils literal"><span class="pre">Enter</span></code> 打开DirectX诊断工具</p>
-</li>
-<li><p class="first">打开 <code class="docutils literal"><span class="pre">Display</span></code> 面板。在那里，你可以找到制造商，型号以及关于你的显卡的其他信息。</p>
-</li>
+<li>从开始菜单中选择 <code class="docutils literal"><span class="pre">Run</span></code> 命令</li>
+<li>类型输入 dxdiag 给 <code class="docutils literal"><span class="pre">Open</span></code> 字段，然后按 <code class="docutils literal"><span class="pre">Enter</span></code> 打开DirectX诊断工具</li>
+<li>打开 <code class="docutils literal"><span class="pre">Display</span></code> 面板。在那里，你可以找到制造商，型号以及关于你的显卡的其他信息。</li>
 </ol>
 </div></blockquote>
 <a class="reference internal image-reference" href="_images/problems_dxdiag.png"><img alt="_images/problems_dxdiag.png" class="align-center" src="_images/problems_dxdiag.png" style="width: 100%;" /></a>
@@ -283,12 +270,9 @@
 <p>要做到这一点，请按照下列步骤操作：</p>
 <blockquote>
 <div><ol class="arabic simple">
-<li><p class="first">从 <code class="docutils literal"><span class="pre">Apple</span></code> 菜单中选择 <code class="docutils literal"><span class="pre">关于本Mac</span></code>。</p>
-</li>
-<li><p class="first">点击 <code class="docutils literal"><span class="pre">系统Report</span></code> 按钮。</p>
-</li>
-<li><p class="first">在 <code class="docutils literal"><span class="pre">Hardware</span></code> 部分中选择 <code class="docutils literal"><span class="pre">显卡/</span> <span class="pre">Displays</span></code>。</p>
-</li>
+<li>从 <code class="docutils literal"><span class="pre">Apple</span></code> 菜单中选择 <code class="docutils literal"><span class="pre">关于本Mac</span></code>。</li>
+<li>点击 <code class="docutils literal"><span class="pre">系统Report</span></code> 按钮。</li>
+<li>在 <code class="docutils literal"><span class="pre">Hardware</span></code> 部分中选择 <code class="docutils literal"><span class="pre">显卡/</span> <span class="pre">Displays</span></code>。</li>
 </ol>
 </div></blockquote>
 <a class="reference internal image-reference" href="_images/problems_osx.png"><img alt="_images/problems_osx.png" class="align-center" src="_images/problems_osx.png" style="width: 100%;" /></a>
@@ -297,8 +281,7 @@
 </div>
 <p>下载驱动程序从相应的支持中心（例如  <a class="reference external" href="http://downloadcenter.intel.com/Default.aspx">Intel</a>, <a class="reference external" href="http://www.nvidia.com/Download/index.aspx">Nvidia</a>, <a class="reference external" href="http://support.amd.com/en-us/download">AMD/ATI</a>）。安装驱动程序后，重新启动系统。</p>
 <ol class="arabic simple" start="3">
-<li><p class="first">如果上述措施没有帮助初始化渲染（或者没办法更新系统）尝试改变浏览器设置。</p>
-</li>
+<li>如果上述措施没有帮助初始化渲染（或者没办法更新系统）尝试改变浏览器设置。</li>
 </ol>
 <p><em>对于Chrome</em>：</p>
 <p>输入  <strong>about:flags</strong> （或者 <strong>chrome://flags</strong>）到浏览器的地址栏中，单击 <code class="file docutils literal"><span class="pre">Enable</span></code> 下 <code class="file docutils literal"><span class="pre">Override</span> <span class="pre">software</span> <span class="pre">rendering</span> <span class="pre">list</span></code> 选项，并重启浏览器。</p>
@@ -343,7 +326,7 @@
 </li>
 <li><p class="first">透明纹理可能不能够在IE11和微软Edge Web浏览器和iPad上正确显示。</p>
 <blockquote>
-<div><p>问题是关于 <a class="reference internal" href="materials.html#alpha-blend"><span>transparent materials</span></a>.  图像错误在alpha通道值接近或等于零的区域中可见。要解决这个问题，建议增加Alpha通道的值，直到错误不再可见（按价值0.01增加它0.05应足以在大多数情况下）。</p>
+<div><p>问题是关于 <a class="reference internal" href="materials.html#alpha-blend"><span class="std std-ref">transparent materials</span></a>.  图像错误在alpha通道值接近或等于零的区域中可见。要解决这个问题，建议增加Alpha通道的值，直到错误不再可见（按价值0.01增加它0.05应足以在大多数情况下）。</p>
 </div></blockquote>
 </li>
 <li><p class="first">WebGL的Linux上的Chromium 崩溃 NVIDIA GeForce 400/500系列GPU与驱动迟于355。</p>
@@ -399,8 +382,8 @@
 
   <div role="contentinfo">
     <p>
-        &copy; 版权所有 2014-2017, Triumph.
-      最后更新于 2017-11-21.
+        &copy; Copyright 2014-2017, Triumph.
+      最后更新于 2017-12-29.
 
     </p>
   </div>
@@ -456,11 +439,11 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

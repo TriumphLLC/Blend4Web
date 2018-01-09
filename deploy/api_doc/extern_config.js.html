@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Source: extern/config.js | Blend4Web API Reference</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: extern/config.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import register from "../util/register.js";
+
+import m_cfg_fact from "../intern/config.js";
+import m_context_fact from "../intern/context.js";
+import m_compat_fact from "../intern/compat.js";
+import m_data_fact from "../intern/data.js";
+import m_print_fact from "../intern/print.js";
+
+/**
+ * API for the engine's global configuration.
+ *
+ * &lt;p>Use the {@link module:config.set|set()}/{@link module:config.get|get()} 
+ * method to change/get the value of a property. Use the 
+ * {@link module:config.reset|reset()} method to reset all properties to their 
+ * default state. Any change in configuration must occur before engine 
+ * initialization. Keep in mind that some of the properties are affected by the 
+ * quality profile and the user's hardware/browser. In the former case use the 
+ * {@link module:config.P_CUSTOM|P_CUSTOM} profile in order to change such 
+ * properties.&lt;/p>
+ *
+ * &lt;p>Normally, the users should not alter these parameters.&lt;/p>
+ *
+ * &lt;h3>Configuration Parameters Available&lt;/h3>
+ * &lt;dl>
+ * &lt;dt>allow_cors
+ * &lt;dd>Boolean, allow cross-origin resource sharing.
+ * &lt;dt>allow_hidpi
+ * &lt;dd>Boolean, allow HIDPI mode on supported devices (use the 
+ * {@link module:config.P_CUSTOM|P_CUSTOM} profile in order to change this parameter).
+ * &lt;dt>alpha
+ * &lt;dd>Boolean, enable WebGL canvas transparency.
+ * &lt;dt>alpha_sort
+ * &lt;dd>Boolean, enable z-sorting for transparent materials.
+ * &lt;dt>alpha_sort_threshold
+ * &lt;dd>Number, camera distance threshold for transparency z-sorting.
+ * &lt;dt>anaglyph_use
+ * &lt;dd>&lt;span style="color: red;"> Deprecated, use "stereo" instead.&lt;/span> 
+ * Boolean, enable anaglyph stereo rendering.
+ * &lt;dt>animation_framerate
+ * &lt;dd>Number, animation framerate.
+ * &lt;dt>anisotropic_filtering
+ * &lt;dd>Boolean, enable anisotropic filtering.
+ * &lt;dt>antialiasing
+ * &lt;dd>Boolean, enable postprocess-based anti-aliasing (use the 
+ * {@link module:config.P_CUSTOM|P_CUSTOM} profile in order to change this parameter).
+ * &lt;dt>assets_dds_available
+ * &lt;dd>Boolean, allow the engine to use compressed DDS textures.
+ * &lt;dt>assets_gzip_available
+ * &lt;dd>Boolean, enable loading gzipped versions of json/bin/dds/pvr files. It's worth 
+ * doing it if gzip compression is not set up on a server. A gzipped file must be 
+ * placed near the original one and its name must be the same as the name of the 
+ * original file + the ".gz" extension. For example: 
+ * &lt;pre>
+ *  my_folder/
+ *      my_project.json
+ *      my_project.json.gz
+ *      my_project.bin
+ *      my_project.bin.gz
+ * &lt;/pre>
+ * &lt;dt>assets_min50_available
+ * &lt;dd>Boolean, allow the engine to use halved textures. The halved
+ * textures should be present near the source textures in order to be picked up.
+ * &lt;dt>assets_path
+ * &lt;dd>String, path to the assets directory (for 
+ * {@link module:config.get_assets_path|get_assets_path()} and 
+ * {@link module:config.get_std_assets_path|get_std_assets_path()}).
+ * &lt;dt>assets_pvr_available
+ * &lt;dd>Boolean, allow the engine to use compressed PVRTC textures.
+ * These textures should be present near the source textures in order to be picked up.
+ * &lt;dt>audio
+ * &lt;dd>Boolean, enable Web Audio.
+ * &lt;dt>background_color
+ * &lt;dd>Array, RGBA values to use as a background color for the WebGL
+ * canvas.
+ * &lt;dt>bloom
+ * &lt;dd>Boolean, enable bloom.
+ * &lt;dt>built_in_module_name
+ * &lt;dd>String, name of the module which stores exported data (HTML export only).
+ * &lt;dt>canvas_resolution_factor
+ * &lt;dd>Number, set the resolution factor for the canvas. Requires the following call
+ * to apply changes:
+ * {@link module:container.resize_to_container|container.resize_to_container(true)}.
+ * &lt;dt>compositing
+ * &lt;dd>Boolean, enable compositing.
+ * &lt;dt>console_verbose
+ * &lt;dd>Boolean, print more debug info in the browser console.
+ * &lt;dt>debug_view
+ * &lt;dd>Boolean, enable debug view mode.
+ * &lt;dt>dof
+ * &lt;dd>Boolean, enable the Depth of Field effect.
+ * &lt;dt>do_not_load_resources
+ * &lt;dd>Boolean, disable loading of assets (textures and sounds).
+ * &lt;dt>enable_outlining
+ * &lt;dd>Boolean, enable object outlining.
+ * &lt;dt>enable_selectable
+ * &lt;dd>Boolean, enable object selection.
+ * &lt;dt>enable_texture_cache
+ * &lt;dd>Boolean, cache all textures to prevent redundant resource requests and 
+ * speed up scene dynamic loading. Enabled by default. Note: this option affects 
+ * the dynamic loading functionality only, if it's your case and you have some 
+ * issues with GPU memory overloading consider disabling this option.
+ * &lt;dt>glow_materials
+ * &lt;dd>Boolean, enable glow materials.
+ * &lt;dt>gl_debug
+ * &lt;dd>Boolean, enable gl errors check. Very slow.
+ * &lt;dt>god_rays
+ * &lt;dd>Boolean, enable god rays.
+ * &lt;dt>is_mobile_device
+ * &lt;dd>Boolean, check mobile device. Read-only.
+ * &lt;dt>lod_leap_smooth_threshold
+ * &lt;dd>Number, the maximum amount of the camera movement (in meters) that 
+ * still can trigger a smooth transition during the LOD switching. Low values can
+ * be useful to prevent noticeable smooth transitions while teleporting. High 
+ * values can be useful to keep smooth transitions for fast moving cameras 
+ * (e.g. flight simulators).
+ * &lt;dt>lod_smooth_transitions
+ * &lt;dd>Boolean, enable smooth transitions between LOD levels.
+ * &lt;dt>max_fps
+ * &lt;dd>Number, maximum FPS limit.
+ * &lt;dt>max_fps_physics
+ * &lt;dd>Number, maximum physics FPS limit.
+ * &lt;dt>media_auto_activation
+ * &lt;dd>Boolean, activate media data context on mobile devices using a popup dialog.
+ * &lt;dt>motion_blur
+ * &lt;dd>Boolean, enable motion_blur.
+ * &lt;dt>outlining_overview_mode
+ * &lt;dd>Boolean, make all objects selectable, enable object outlining and
+ * outlining on selection.
+ * &lt;dt>physics_calc_fps
+ * &lt;dd>Boolean, return physics FPS in the {@link module:main~FPSCallback|FPSCallback}.
+ * &lt;dt>physics_enabled
+ * &lt;dd>Boolean, use the uranium.js physics engine.
+ * &lt;dt>physics_uranium_path
+ * &lt;dd>String, path to the directory of uranium.js file. If not specified, search in the
+ * directory with the engine's sources.
+ * &lt;dt>physics_use_wasm
+ * &lt;dd>Boolean, use WebAssembly for physics or not(default).
+ * &lt;dt>physics_use_workers
+ * &lt;dd>Boolean, simulate physics in workers (default) or not.
+ * &lt;dt>precision
+ * &lt;dd>String, preferred GLSL floating point precision (use the 
+ * {@link module:config.P_CUSTOM|P_CUSTOM} profile in order to change this parameter).
+ * &lt;dt>prevent_caching
+ * &lt;dd>Boolean, prevent assets caching by appending timestamp suffix to their
+ * URLs (default) or not.
+ * &lt;dt>quality
+ * &lt;dd>Number, preferred rendering quality profile (one of 
+ * {@link module:config.P_LOW|P_LOW}, {@link module:config.P_HIGH|P_HIGH},
+ * {@link module:config.P_ULTRA|P_ULTRA}, {@link module:config.P_CUSTOM|P_CUSTOM} enums).
+ * &lt;dt>reflections
+ * &lt;dd>Boolean, enable reflections.
+ * &lt;dt>reflection_quality
+ * &lt;dd>String, quality of reflections. It can be "LOW", "MEDIUM" or "HIGH".
+ * &lt;dt>refractions
+ * &lt;dd>Boolean, enable refractions.
+ * &lt;dt>sfx_mix_mode
+ * &lt;dd>Boolean, enable the mixer mode in the SFX subsystem.
+ * &lt;dt>shaders_path
+ * &lt;dd>String, path to the shaders directory (developer version only).
+ * &lt;dt>shadows
+ * &lt;dd>Boolean, enable shadows.
+ * &lt;dt>shadow_blur_samples
+ * &lt;dd>String, number of shadow border blur samples. It can be "16x", "8x" or "4x".
+ * &lt;dt>show_hud_debug_info
+ * &lt;dd>Boolean, show HUD with debug information.
+ * &lt;dt>smaa
+ * &lt;dd>&lt;span style="color: red;">Deprecated.&lt;/span> Boolean, enable SMAA 
+ * anti-aliasing (use the {@link module:config.P_CUSTOM|P_CUSTOM} 
+ * profile in order to change this parameter).
+ * &lt;dt>smaa_area_texture_path
+ * &lt;dd>&lt;span style="color: red;">Deprecated.&lt;/span> String, path to the SMAA 
+ * "area" texture. If not specified, search in the directory with the engine's 
+ * sources.
+ * &lt;dt>smaa_search_texture_path
+ * &lt;dd>&lt;span style="color: red;">Deprecated.&lt;/span> String, path to the SMAA 
+ * "search" texture. If not specified, search in the directory with the engine's 
+ * sources.
+ * &lt;dt>srgb_type
+ * &lt;dd>String, the quality of the "Linear &lt;-> sRGB" color conversions. Can be 
+ * one of the following: "SRGB_SIMPLE" - a bit faster, but less accurate, which 
+ * is especially noticeable for the dark tones; "SRGB_PROPER" - a bit slower, 
+ * but more precise.
+ * &lt;dt>ssao
+ * &lt;dd>Boolean, enable SSAO.
+ * &lt;dt>stereo
+ * &lt;dd>String, stereoscopic mode: "ANAGLYPH", "SIDEBYSIDE", "HMD" or "NONE".
+ * &lt;dt>use_min50
+ * &lt;dd>Boolean, enable min50 textures.
+ * &lt;/dl>
+ * @module config
+ * @local QualityProfile
+ * @cc_externs allow_cors allow_hidpi alpha alpha_sort
+ * @cc_externs alpha_sort_threshold anaglyph_use animation_framerate
+ * @cc_externs antialiasing assets_path assets_dds_available assets_min50_available 
+ * @cc_externs background_color built_in_module_name canvas_resolution_factor
+ * @cc_externs console_verbose compositing do_not_load_resources enable_selectable
+ * @cc_externs enable_outlining enable_texture_cache media_auto_activation outlining_overview_mode
+ * @cc_externs physics_enabled physics_uranium_path physics_calc_fps physics_use_workers
+ * @cc_externs precision prevent_caching quality physics_uranium_bin
+ * @cc_externs sfx_mix_mode shaders_path show_hud_debug_info
+ * @cc_externs smaa smaa_search_texture_path smaa_area_texture_path
+ * @cc_externs debug_view url_params stereo gl_debug max_fps max_fps_physics
+ * @cc_externs use_min50 anisotropic_filtering shadows reflections refractions
+ * @cc_externs ssao dof god_rays bloom motion_blur is_mobile_device shadow_blur_samples
+ * @cc_externs reflection_quality assets_pvr_available audio lod_leap_smooth_threshold
+ * @cc_externs lod_smooth_transitions glow_materials srgb_type physics_use_wasm assets_gzip_available
+ */
+function Config(ns, exports) {
+
+var m_cfg    = m_cfg_fact(ns);
+var m_compat = m_compat_fact(ns);
+var m_context = m_context_fact(ns);
+var m_data   = m_data_fact(ns);
+var m_print  = m_print_fact(ns);
+
+/**
+ * Quality profile enum. One of {@link module:config.P_LOW|P_LOW}, {@link module:config.P_HIGH|P_HIGH}, {@link module:config.P_ULTRA|P_ULTRA}, {@link module:config.P_CUSTOM|P_CUSTOM}.
+ * @typedef {number} QualityProfile
+ */
+
+/**
+ * Low quality profile: maximize engine performance, minimize memory consumption.
+ * @const {QualityProfile} module:config.P_LOW
+ */
+exports.P_LOW = m_cfg.P_LOW;
+
+/**
+ * High quality profile: use all requested features.
+ * @const {QualityProfile} module:config.P_HIGH
+ */
+exports.P_HIGH = m_cfg.P_HIGH;
+
+/**
+ * Ultra quality profile: use all requested features and maximize quality.
+ * @const {QualityProfile} module:config.P_ULTRA
+ */
+exports.P_ULTRA = m_cfg.P_ULTRA;
+
+/**
+ * Custom quality profile: use engine defaults, allow customization.
+ * @const {QualityProfile} module:config.P_CUSTOM
+ */
+exports.P_CUSTOM = m_cfg.P_CUSTOM;
+
+/**
+ * Auto quality profile: cannot be used directly, only for quality
+ * auto configurators.
+ * @const {QualityProfile} module:config.P_AUTO
+ */
+exports.P_AUTO = m_cfg.P_AUTO;
+
+/**
+ * Set the value of the config property of the engine.
+ * @method module:config.set
+ * @param {string} prop Property name
+ * @param {*} value New property value
+ */
+exports.set = m_cfg.set;
+
+/**
+ * Get the value of the config property of the engine.
+ * @method module:config.get
+ * @param {string} prop Property name
+ * @returns {*} Value of property
+ */
+exports.get = m_cfg.get;
+
+/**
+ * Reset all the engine's config properties to defaults.
+ * @method module:config.reset
+ */
+exports.reset = m_cfg.reset;
+
+/**
+ * Reset context limit properties to minimum.
+ * @method module:config.reset_limits
+ */
+exports.reset_limits = m_cfg.reset_limits;
+/**
+ * Get the path to the standard assets directory inside the SDK.
+ * @method module:config.get_std_assets_path
+ * @returns {string} Path to assets
+ */
+exports.get_std_assets_path = m_cfg.get_assets_path;
+/**
+ * Get the path to the project's assets directory.
+ * @see https://www.blend4web.com/doc/en/developers.html#loading-application-assets
+ * @method module:config.get_assets_path
+ * @param {string} name Name of the project
+ * @returns {string} Path to assets
+ */
+exports.get_assets_path = m_cfg.get_assets_path;
+
+/**
+ * Set the engine's quality profile.
+ * @method module:config.apply_quality
+ * @param {QualityProfile} quality Quality profile
+ */
+exports.apply_quality = function(quality) {
+    if (m_data.is_primary_loaded()) {
+        m_print.error("Cannot change quality profile after a scene is loaded.");
+        return;
+    }
+
+    m_cfg.set("quality", quality);
+    var gl = m_context.get_gl();
+    // initialized
+    if (gl) {
+        m_cfg.apply_quality();
+        m_compat.set_hardware_defaults(m_context.get_gl(), false);
+    }
+}
+
+}
+
+var config_factory = register("config", Config);
+
+export default config_factory;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-armature.html">armature</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-fps.html">fps</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gp_conf.html">gp_conf</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hmd.html">hmd</a></li><li><a href="module-hmd_conf.html">hmd_conf</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-input.html">input</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-logic_nodes.html">logic_nodes</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-math.html">math</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screen.html">screen</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Blend4Web API Reference (generated by JSDoc 3.5.5 on Fri Dec 29 2017 16:28:37 GMT+0300 (MSK))
+    <a href="https://www.blend4web.com">www.blend4web.com</a>
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+  (function() {
+    if (window.document.domain != "www.blend4web.com")
+      return;
+
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter24512171 = new Ya.Metrika({
+                    id:24512171,
+                    clickmap:false,
+                    trackLinks:true,
+                    accurateTrackBounce:true
+                });
+            } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+  })();
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/24512171" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

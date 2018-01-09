@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Анимация &mdash; Руководство пользователя Blend4Web 17.10.1</title>
+  <title>Анимация &mdash; Руководство пользователя Blend4Web 17.12.0</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 17.10.1" href="index.html"/>
+        <link rel="index" title="Алфавитный указатель"
+              href="genindex.html"/>
+        <link rel="search" title="Поиск" href="search.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 17.12.0" href="index.html"/>
         <link rel="next" title="Природные эффекты" href="outdoor_rendering.html"/>
         <link rel="prev" title="Система частиц. Инстансинг" href="particles_instancing.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -107,7 +110,7 @@
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles.html">Система частиц. Флюиды</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Система частиц. Инстансинг</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Анимация</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Анимация</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#animation-control">Управление анимацией</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#object-animation">Объектная анимация</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#skinning-and-skeletal-animation">Скиннинг и скелетная анимация</a><ul>
@@ -187,7 +190,7 @@
   <span class="target" id="animation"></span><div class="section" id="index-0">
 <span id="id1"></span><h1><a class="toc-backref" href="#id5">Анимация</a><a class="headerlink" href="#index-0" title="Ссылка на этот заголовок">¶</a></h1>
 <div class="contents topic" id="table-of-content">
-<p class="topic-title first">Содержание</p>
+<p class="topic-title first">Table of Content</p>
 <ul class="simple">
 <li><a class="reference internal" href="#index-0" id="id5">Анимация</a><ul>
 <li><a class="reference internal" href="#animation-control" id="id6">Управление анимацией</a></li>
@@ -215,31 +218,22 @@
 </div>
 <p>В общем случае, к анимации относятся изменения параметров объектов во времени. Движком поддерживаются следующие типы анимации:</p>
 <ul class="simple">
-<li><p class="first">Объектная анимация. Заключается в трансформации объекта в пространстве как единого целого.</p>
-</li>
-<li><p class="first">Скелетная анимация, то есть деформация геометрии объекта с помощью системы костей (скиннинг). Сюда же относится анимация костей в арматурном объекте с целью прикрепления объектов к костям.</p>
-</li>
-<li><p class="first">Вертексная анимация. Заключается в покадровой записи деформаций объекта с их последующим воспроизведением.</p>
-</li>
-<li><p class="first">Параметризация источников звука. Изменяемые параметры: громкость (<code class="docutils literal"><span class="pre">Volume</span></code>) и высота звука (<code class="docutils literal"><span class="pre">Pitch</span></code>).</p>
-</li>
-<li><p class="first">Анимация выходного значения ноды <code class="docutils literal"><span class="pre">Value</span></code> в нодовом материале.</p>
-</li>
-<li><p class="first">Процедурная анимация в виде колебаний объекта под действием ветра. Описано <a class="reference internal" href="outdoor_rendering.html#wind"><span>отдельно</span></a>.</p>
-</li>
-<li><p class="first">Эмиссия частиц из источника. Описано в <a class="reference internal" href="particles.html#particles"><span>соответствующем разделе</span></a>.</p>
-</li>
+<li>Объектная анимация. Заключается в трансформации объекта в пространстве как единого целого.</li>
+<li>Скелетная анимация, то есть деформация геометрии объекта с помощью системы костей (скиннинг). Сюда же относится анимация костей в арматурном объекте с целью прикрепления объектов к костям.</li>
+<li>Вертексная анимация. Заключается в покадровой записи деформаций объекта с их последующим воспроизведением.</li>
+<li>Параметризация источников звука. Изменяемые параметры: громкость (<code class="docutils literal"><span class="pre">Volume</span></code>) и высота звука (<code class="docutils literal"><span class="pre">Pitch</span></code>).</li>
+<li>Анимация выходного значения ноды <code class="docutils literal"><span class="pre">Value</span></code> в нодовом материале.</li>
+<li>Процедурная анимация в виде колебаний объекта под действием ветра. Описано <a class="reference internal" href="outdoor_rendering.html#wind"><span class="std std-ref">отдельно</span></a>.</li>
+<li>Эмиссия частиц из источника. Описано в <a class="reference internal" href="particles.html#particles"><span class="std std-ref">соответствующем разделе</span></a>.</li>
 </ul>
 <div class="section" id="animation-control">
 <h2><a class="toc-backref" href="#id6">Управление анимацией</a><a class="headerlink" href="#animation-control" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Управление анимацией в движке осуществляется одним из двух способов:</p>
 <ol class="arabic simple">
-<li><p class="first">Автоматически, с помощью активации панели <code class="docutils literal"><span class="pre">Animation</span></code> и указания поведения анимации <code class="docutils literal"><span class="pre">Behavior</span></code> в свойствах объекта. В данном случае будет осуществлён поиск доступного метода и в случае положительного результата, объект анимируется с момента загрузки сцены. В случае скелетной анимации, по умолчанию воспроизводится актор, назначенный на объекте в окне <code class="docutils literal"><span class="pre">Action</span> <span class="pre">Editor</span></code>.</p>
-</li>
-<li><p class="first">Программно, используя функции модуля движка <code class="docutils literal"><span class="pre">animation</span></code>.</p>
-</li>
+<li>Автоматически, с помощью активации панели <code class="docutils literal"><span class="pre">Animation</span></code> и указания поведения анимации <code class="docutils literal"><span class="pre">Behavior</span></code> в свойствах объекта. В данном случае будет осуществлён поиск доступного метода и в случае положительного результата, объект анимируется с момента загрузки сцены. В случае скелетной анимации, по умолчанию воспроизводится актор, назначенный на объекте в окне <code class="docutils literal"><span class="pre">Action</span> <span class="pre">Editor</span></code>.</li>
+<li>Программно, используя функции модуля движка <code class="docutils literal"><span class="pre">animation</span></code>.</li>
 </ol>
-<p>Для отладки анимации имеет смысл использовать интерфейс <code class="docutils literal"><span class="pre">Animation</span></code> программы-просмотрщика, рассмотренный в <a class="reference internal" href="viewer.html#viewer"><span>соответствующем разделе</span></a>.</p>
+<p>Для отладки анимации имеет смысл использовать интерфейс <code class="docutils literal"><span class="pre">Animation</span></code> программы-просмотрщика, рассмотренный в <a class="reference internal" href="viewer.html#viewer"><span class="std std-ref">соответствующем разделе</span></a>.</p>
 </div>
 <div class="section" id="object-animation">
 <span id="whole-object-anim"></span><h2><a class="toc-backref" href="#id7">Объектная анимация</a><a class="headerlink" href="#object-animation" title="Ссылка на этот заголовок">¶</a></h2>
@@ -252,18 +246,12 @@
 <p>Поддерживаются следующие типы ключей:</p>
 <ul class="simple">
 <li><em>Location</em></li>
-<li><p class="first"><em>Rotation</em> &#8211; необходимо осуществлять в режиме <code class="docutils literal"><span class="pre">Quaternion(WXYZ)</span></code> либо <code class="docutils literal"><span class="pre">XYZ</span> <span class="pre">Euler</span></code>.</p>
-</li>
-<li><p class="first"><em>Scale</em> &#8211; для получения корректных результатов, фактор масштабирования должен быть одинаковым вдоль любых из осей.</p>
-</li>
-<li><p class="first"><em>LocRot</em> &#8211; комбинация <em>Location</em> и <em>Rotation</em>.</p>
-</li>
-<li><p class="first"><em>LocScale</em> &#8211; комбинация <em>Location</em> и <em>Scale</em>.</p>
-</li>
-<li><p class="first"><em>LocRotScale</em> &#8211; комбинация <em>Location</em>, <em>Rotation</em> и <em>Scale</em>.</p>
-</li>
-<li><p class="first"><em>RotScale</em> &#8211; комбинация <em>Rotation</em> и <em>Scale</em>.</p>
-</li>
+<li><em>Rotation</em> – необходимо осуществлять в режиме <code class="docutils literal"><span class="pre">Quaternion(WXYZ)</span></code> либо <code class="docutils literal"><span class="pre">XYZ</span> <span class="pre">Euler</span></code>.</li>
+<li><em>Scale</em> – для получения корректных результатов, фактор масштабирования должен быть одинаковым вдоль любых из осей.</li>
+<li><em>LocRot</em> – комбинация <em>Location</em> и <em>Rotation</em>.</li>
+<li><em>LocScale</em> – комбинация <em>Location</em> и <em>Scale</em>.</li>
+<li><em>LocRotScale</em> – комбинация <em>Location</em>, <em>Rotation</em> и <em>Scale</em>.</li>
+<li><em>RotScale</em> – комбинация <em>Rotation</em> и <em>Scale</em>.</li>
 </ul>
 <p>В случае анимации объекта-меша, необходимо включение опции <code class="docutils literal"><span class="pre">Force</span> <span class="pre">Dynamic</span> <span class="pre">Object</span></code> панели <code class="docutils literal"><span class="pre">Rendering</span> <span class="pre">Properties</span></code> на вкладке свойств объекта.</p>
 </div>
@@ -275,14 +263,10 @@
 </div>
 <p>Для осуществления скелетной анимации, кроме деформируемого объекта-меша требуется объект-арматура. Осуществляется в четыре этапа:</p>
 <ol class="arabic simple">
-<li><p class="first">Создание скелета объекта в арматурном объекте.</p>
-</li>
-<li><p class="first">Назначение вертексных групп в объекте-меше и их привязка к костям. Может быть осуществлено, например, методом &#8220;раскраски&#8221; весов (weight painting).</p>
-</li>
-<li><p class="first">Анимация костей в арматурном объекте. Используются те же ключи, что и в случае объектной анимации.</p>
-</li>
-<li><p class="first">В случае нетривиальных видов скелетной анимации, включающих инверсную кинематику, требуется стадия запекания анимационных акторов (блок <code class="docutils literal"><span class="pre">Action</span></code> в Blender). Запекание производится с помощью интерфейса <code class="docutils literal"><span class="pre">Bake</span> <span class="pre">Skeletal</span> <span class="pre">Animation</span></code>, расположенного на панели инструментов <code class="docutils literal"><span class="pre">Blend4Web</span></code>:</p>
-</li>
+<li>Создание скелета объекта в арматурном объекте.</li>
+<li>Назначение вертексных групп в объекте-меше и их привязка к костям. Может быть осуществлено, например, методом «раскраски» весов (weight painting).</li>
+<li>Анимация костей в арматурном объекте. Используются те же ключи, что и в случае объектной анимации.</li>
+<li>В случае нетривиальных видов скелетной анимации, включающих инверсную кинематику, требуется стадия запекания анимационных акторов (блок <code class="docutils literal"><span class="pre">Action</span></code> в Blender). Запекание производится с помощью интерфейса <code class="docutils literal"><span class="pre">Bake</span> <span class="pre">Skeletal</span> <span class="pre">Animation</span></code>, расположенного на панели инструментов <code class="docutils literal"><span class="pre">Blend4Web</span></code>:</li>
 </ol>
 <a class="reference internal image-reference" href="_images/skeletal_anim_baker.png"><img alt="_images/skeletal_anim_baker.png" class="align-center" src="_images/skeletal_anim_baker.png" style="width: 100%;" /></a>
 <div class="line-block">
@@ -294,26 +278,22 @@
 <p>В окне со списком запекаемых акторов приводятся те акторы, которые следует запечь. Если список пуст, запекаются все возможные акторы.</p>
 <dl class="docutils">
 <dt><em>Name</em></dt>
-<dd><p class="first last">Имя текущего актора из списка запекаемых акторов.</p>
-</dd>
+<dd>Имя текущего актора из списка запекаемых акторов.</dd>
 <dt><em>Optimize Keyframes</em></dt>
-<dd><p class="first last">Произвести оптимизацию ключей анимации после запекания. В случае получения некорректных результатов, рекомендуется отключить опцию.</p>
-</dd>
-<dt><em>Use Blender&#8217;s Native Baker</em></dt>
-<dd><p class="first last">Использовать для запекания анимации средства самого Blender (возможность Bake Action), а не Blend4Web. Настройки средства запекания Blender отличаются от настроек Blend4Web.</p>
-</dd>
+<dd>Произвести оптимизацию ключей анимации после запекания. В случае получения некорректных результатов, рекомендуется отключить опцию.</dd>
+<dt><em>Use Blender’s Native Baker</em></dt>
+<dd>Использовать для запекания анимации средства самого Blender (возможность Bake Action), а не Blend4Web. Настройки средства запекания Blender отличаются от настроек Blend4Web.</dd>
 <dt><em>Bake</em></dt>
-<dd><p class="first last">Произвести запекание. После успешного окончания процесса на сцене появляются акторы с именами вида <em>B4W_BAKED_ИМЯ_АКТОРА</em>. Данные акторы будут автоматически назначены на арматурном объекте и воспроизведены в движке. Стоит отметить, что работа подобных акторов в Blender не гарантируется.</p>
-</dd>
+<dd>Произвести запекание. После успешного окончания процесса на сцене появляются акторы с именами вида <em>B4W_BAKED_ИМЯ_АКТОРА</em>. Данные акторы будут автоматически назначены на арматурном объекте и воспроизведены в движке. Стоит отметить, что работа подобных акторов в Blender не гарантируется.</dd>
 </dl>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
-<p>Движок поддерживает не более 4-х вертексных групп на каждом из вертексов, эти группы отбираются по величине влияния или &#8220;веса&#8221; вертекса. В процессе загрузки исходного файла со сценой &#8220;веса&#8221; вертексов проходят через процедуру нормализации, т.е. их сумма приводится в единице.</p>
+<p>Движок поддерживает не более 4-х вертексных групп на каждом из вертексов, эти группы отбираются по величине влияния или «веса» вертекса. В процессе загрузки исходного файла со сценой «веса» вертексов проходят через процедуру нормализации, т.е. их сумма приводится в единице.</p>
 <p>Для удаления вертексных групп, которые не используются арматурой, можно воспользоваться кнопкой <code class="docutils literal"><span class="pre">Clean</span> <span class="pre">Unused</span> <span class="pre">Vertex</span> <span class="pre">Groups</span></code> в одноименной панели.</p>
 <a class="last reference internal image-reference" href="_images/vgroups_cleaner.png"><img alt="_images/vgroups_cleaner.png" class="align-center" src="_images/vgroups_cleaner.png" style="width: 100%;" /></a>
 </div>
 <p>В Blend4Web присутствует начальная поддержка ограничителей для костей. На сегодняшний день поддерживается несколько типов ограничителей, в том числе <code class="docutils literal"><span class="pre">Copy</span> <span class="pre">Transforms</span></code>, который позволяет привязывать арматуру к различным объектам, в том числе физическим (эффект ragdoll). Поддержка других ограничителей ожидается в будущих версиях.</p>
-<p>Полный список поддерживаемых ограничителей и их описания доступны в <a class="reference internal" href="objects.html#objects-constraints"><span>соответствующем разделе</span></a>.</p>
+<p>Полный список поддерживаемых ограничителей и их описания доступны в <a class="reference internal" href="objects.html#objects-constraints"><span class="std std-ref">соответствующем разделе</span></a>.</p>
 </div>
 <div class="section" id="animation-blending">
 <span id="anim-blend"></span><h3><a class="toc-backref" href="#id10">Смешивание анимации</a><a class="headerlink" href="#animation-blending" title="Ссылка на этот заголовок">¶</a></h3>
@@ -323,7 +303,7 @@
 <p class="last">Одновременно могут быть смешаны не более <strong>двух</strong> анимаций.</p>
 </div>
 <p>Для того, чтобы смешать анимации, необходимо сперва разрешить смешивание двум анимационным слотам:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_animation</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;animation&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_animation</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;animation&quot;</span><span class="p">);</span>
 
 <span class="kd">var</span> <span class="nx">m_scenes</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
 
@@ -351,23 +331,17 @@
 <h3><a class="toc-backref" href="#id12">Параметры запекания</a><a class="headerlink" href="#id2" title="Ссылка на этот заголовок">¶</a></h3>
 <dl class="docutils">
 <dt><em>Name</em></dt>
-<dd><p class="first last">Имя, которое будет присвоено запеченной анимации.</p>
-</dd>
+<dd>Имя, которое будет присвоено запеченной анимации.</dd>
 <dt><em>Start</em></dt>
-<dd><p class="first last">Кадр, с которого начнётся запекание анимации.</p>
-</dd>
+<dd>Кадр, с которого начнётся запекание анимации.</dd>
 <dt><em>End</em></dt>
-<dd><p class="first last">Кадр, которым закончится запекание анимации.</p>
-</dd>
+<dd>Кадр, которым закончится запекание анимации.</dd>
 <dt><em>Allow NLA</em></dt>
-<dd><p class="first last">Позволяет управлять запечённой анимацией при помощи <a class="reference internal" href="#nla"><span>NLA</span></a>.</p>
-</dd>
+<dd>Позволяет управлять запечённой анимацией при помощи <a class="reference internal" href="#nla"><span class="std std-ref">NLA</span></a>.</dd>
 <dt><em>Status</em></dt>
-<dd><p class="first last">В этой строке приводится количество кадров, из которых состоит запечённая анимация. Если запекание ещё не было произведено, вместо количества кадров приводится слово <code class="docutils literal"><span class="pre">Empty</span></code>.</p>
-</dd>
+<dd>В этой строке приводится количество кадров, из которых состоит запечённая анимация. Если запекание ещё не было произведено, вместо количества кадров приводится слово <code class="docutils literal"><span class="pre">Empty</span></code>.</dd>
 <dt><em>Bake</em></dt>
-<dd><p class="first last">Запекание анимации производится при нажатии на эту кнопку.</p>
-</dd>
+<dd>Запекание анимации производится при нажатии на эту кнопку.</dd>
 </dl>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
@@ -379,11 +353,11 @@
 <span id="id3"></span><h2><a class="toc-backref" href="#id13">Анимация по умолчанию</a><a class="headerlink" href="#default-animation" title="Ссылка на этот заголовок">¶</a></h2>
 <p>В Blend4Web присутствует возможность автоматически проигрывать анимацию объекта. Для этого нужно активировать параметр <code class="docutils literal"><span class="pre">Apply</span> <span class="pre">Default</span> <span class="pre">Animation</span></code> на вкладке <code class="docutils literal"><span class="pre">Animation</span></code> панели <code class="docutils literal"><span class="pre">Object</span></code> того объекта, анимацию которого требуется включить. Поддерживается скелетная и объектная анимация.</p>
 <a class="reference internal image-reference" href="_images/animation_apply_default_animation.png"><img alt="_images/animation_apply_default_animation.png" class="align-center" src="_images/animation_apply_default_animation.png" style="width: 100%;" /></a>
-<p>Проигрывание анимации начинается сразу после запуска приложения и осуществляется аналогично ноде <a class="reference internal" href="logic_editor.html#logic-play-timeline"><span>Play Timeline</span></a>, но без возможности задать начальный и конечный кадр (в качестве таковых всегда выступают первый и последний кадры таймлайна). Также присутствует возможность задать поведение анимации, аналогично ноде <a class="reference internal" href="logic_editor.html#logic-select-play"><span>Play Animation</span></a>.</p>
+<p>Проигрывание анимации начинается сразу после запуска приложения и осуществляется аналогично ноде <a class="reference internal" href="logic_editor.html#logic-play-timeline"><span class="std std-ref">Play Timeline</span></a>, но без возможности задать начальный и конечный кадр (в качестве таковых всегда выступают первый и последний кадры таймлайна). Также присутствует возможность задать поведение анимации, аналогично ноде <a class="reference internal" href="logic_editor.html#logic-select-play"><span class="std std-ref">Play Animation</span></a>.</p>
 <dl class="docutils">
 <dt><em>Animation Blending</em></dt>
 <dd><p class="first">Этот параметр доступен только для объектов типа <code class="docutils literal"><span class="pre">Armature</span></code>. Он должен быть активирован для того, чтобы смешивание скелетных анимаций стало возможным.</p>
-<p class="last">Смешивание анимаций описывается в <a class="reference internal" href="#anim-blend"><span>соответстующем разделе</span></a>.</p>
+<p class="last">Смешивание анимаций описывается в <a class="reference internal" href="#anim-blend"><span class="std std-ref">соответстующем разделе</span></a>.</p>
 </dd>
 </dl>
 </div>
@@ -398,23 +372,17 @@
 </div>
 <p>Движком поддерживается управление следующими сущностями:</p>
 <ul class="simple">
-<li><p class="first">Любая анимация, параметры которой могут быть представлены с помощью <cite>действий</cite> (Action)</p>
-</li>
-<li><p class="first">Воспроизведение звуков</p>
-</li>
-<li><p class="first">Эмиссия частиц (в виде привязки к глобальной шкале времени)</p>
-</li>
+<li>Любая анимация, параметры которой могут быть представлены с помощью <cite>действий</cite> (Action)</li>
+<li>Воспроизведение звуков</li>
+<li>Эмиссия частиц (в виде привязки к глобальной шкале времени)</li>
 </ul>
 <a class="reference internal image-reference" href="_images/nla_editor.png"><img alt="_images/nla_editor.png" class="align-center" src="_images/nla_editor.png" style="width: 100%;" /></a>
 <div class="section" id="usage">
 <h4>Использование<a class="headerlink" href="#usage" title="Ссылка на этот заголовок">¶</a></h4>
 <ol class="arabic simple">
-<li><p class="first">Во вкладке <code class="docutils literal"><span class="pre">Scene</span></code> активировать панель <code class="docutils literal"><span class="pre">NLA</span></code>.</p>
-</li>
-<li><p class="first">В редакторе <code class="docutils literal"><span class="pre">NLA</span> <span class="pre">Editor</span></code> задать необходимую конфигурацию поведения сцены.</p>
-</li>
-<li><p class="first">На панели <code class="docutils literal"><span class="pre">Timeline</span></code> выбрать интервал времени анимации.</p>
-</li>
+<li>Во вкладке <code class="docutils literal"><span class="pre">Scene</span></code> активировать панель <code class="docutils literal"><span class="pre">NLA</span></code>.</li>
+<li>В редакторе <code class="docutils literal"><span class="pre">NLA</span> <span class="pre">Editor</span></code> задать необходимую конфигурацию поведения сцены.</li>
+<li>На панели <code class="docutils literal"><span class="pre">Timeline</span></code> выбрать интервал времени анимации.</li>
 </ol>
 </div>
 <div class="section" id="additional-settings">
@@ -422,21 +390,20 @@
 <p>Настройка сцены <em>NLA &gt; Cyclic NLA</em> позволяет активировать режим циклической NLA-анимации.</p>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
-<p class="last">Для использования вертексной анимации необходимо выставить опцию &#8220;Allow NLA&#8221; на <a class="reference internal" href="#ver-anim"><span>панели запекания вертексной анимации</span></a>.</p>
+<p class="last">Для использования вертексной анимации необходимо выставить опцию «Allow NLA» на <a class="reference internal" href="#ver-anim"><span class="std std-ref">панели запекания вертексной анимации</span></a>.</p>
 </div>
 </div>
 <div class="section" id="limitations">
 <h4>Ограничения<a class="headerlink" href="#limitations" title="Ссылка на этот заголовок">¶</a></h4>
 <ul class="simple">
-<li><p class="first">Одновременное проигрывание различных видов анимации для одного объекта не поддерживается.</p>
-</li>
+<li>Одновременное проигрывание различных видов анимации для одного объекта не поддерживается.</li>
 </ul>
 </div>
 </div>
 <div class="section" id="controlling-via-api">
 <h3><a class="toc-backref" href="#id16">Управление через API</a><a class="headerlink" href="#controlling-via-api" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Для управления нелинейной анимацией через API существует модуль <code class="docutils literal"><span class="pre">nla.js</span></code>.</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
 <span class="kd">var</span> <span class="nx">m_nla</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;nla&quot;</span><span class="p">);</span>
 <span class="c1">// ...</span>
 <span class="nx">m_nla</span><span class="p">.</span><span class="nx">set_frame</span><span class="p">(</span><span class="mi">150</span><span class="p">);</span>
@@ -449,17 +416,15 @@
 <span class="c1">// ...</span>
 </pre></div>
 </div>
-<p>При использовании <a class="reference internal" href="logic_editor.html#logic-editor"><span>Logic Editor</span></a> функции <code class="docutils literal"><span class="pre">set_frame</span></code>, <code class="docutils literal"><span class="pre">play</span></code>, <code class="docutils literal"><span class="pre">stop</span></code> недоступны.</p>
+<p>При использовании <a class="reference internal" href="logic_editor.html#logic-editor"><span class="std std-ref">Logic Editor</span></a> функции <code class="docutils literal"><span class="pre">set_frame</span></code>, <code class="docutils literal"><span class="pre">play</span></code>, <code class="docutils literal"><span class="pre">stop</span></code> недоступны.</p>
 </div>
 </div>
 <div class="section" id="audio-source-parametrization">
 <span id="speaker-animation"></span><h2><a class="toc-backref" href="#id17">Параметризация источников звука</a><a class="headerlink" href="#audio-source-parametrization" title="Ссылка на этот заголовок">¶</a></h2>
 <p>На объектах-спикерах дополнительно поддерживаются следующие типы анимационных ключей:</p>
 <ul class="simple">
-<li><p class="first"><em>Volume</em> &#8211; громкость звука источника.</p>
-</li>
-<li><p class="first"><em>Pitch</em> &#8211; высота звука источника.</p>
-</li>
+<li><em>Volume</em> – громкость звука источника.</li>
+<li><em>Pitch</em> – высота звука источника.</li>
 </ul>
 <p>Параметризация источников звука по своей сути повторяет объектную анимацию.</p>
 </div>
@@ -478,10 +443,10 @@
 <p class="first admonition-title">Примечание</p>
 <p class="last">Анимация числовых и цветовых значений в других нодах не поддерживается.</p>
 </div>
-<p>Может быть также использована для создания треков в <a class="reference internal" href="#nla-editor"><span>редакторе нелинейной анимации</span></a>. Поддерживается несколько анимированных нод <code class="docutils literal"><span class="pre">Value</span></code> и <code class="docutils literal"><span class="pre">RGB</span></code> в одном материале. Значения нод могут быть также установлены программно с помощью методов <code class="docutils literal"><span class="pre">set_nodemat_value</span></code> и <code class="docutils literal"><span class="pre">set_nodemat_rgb</span></code> модуля <code class="docutils literal"><span class="pre">objects</span></code>.</p>
+<p>Может быть также использована для создания треков в <a class="reference internal" href="#nla-editor"><span class="std std-ref">редакторе нелинейной анимации</span></a>. Поддерживается несколько анимированных нод <code class="docutils literal"><span class="pre">Value</span></code> и <code class="docutils literal"><span class="pre">RGB</span></code> в одном материале. Значения нод могут быть также установлены программно с помощью методов <code class="docutils literal"><span class="pre">set_nodemat_value</span></code> и <code class="docutils literal"><span class="pre">set_nodemat_rgb</span></code> модуля <code class="docutils literal"><span class="pre">objects</span></code>.</p>
 <div class="admonition seealso">
 <p class="first admonition-title">См.также</p>
-<p class="last"><a class="reference internal" href="node_materials.html#node-time"><span>Time (B4W_TIME)</span></a></p>
+<p class="last"><a class="reference internal" href="node_materials.html#node-time"><span class="std std-ref">Time (B4W_TIME)</span></a></p>
 </div>
 </div>
 </div>
@@ -506,7 +471,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Триумф.
-      Обновлено: 2017-11-21.
+      Обновлено: 2017-12-29.
 
     </p>
   </div>
@@ -562,11 +527,11 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

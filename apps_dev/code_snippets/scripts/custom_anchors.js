@@ -1,19 +1,19 @@
 "use strict"
 
-b4w.register("custom_anchors", function(exports, require) {
+import b4w from "blend4web";
 
-var m_anchors = require("anchors");
-var m_app     = require("app");
-var m_cfg     = require("config");
-var m_data    = require("data");
-var m_scs     = require("scenes");
-var m_version = require("version");
+var m_anchors = b4w.anchors;
+var m_app     = b4w.app;
+var m_cfg     = b4w.config;
+var m_data    = b4w.data;
+var m_scs     = b4w.scenes;
+var m_version = b4w.version;
 
 var DEBUG = (m_version.type() === "DEBUG");
 
 var APP_ASSETS_PATH = m_cfg.get_std_assets_path() + "code_snippets/custom_anchors/";
 
-exports.init = function() {
+export function init() {
     m_app.init({
         canvas_container_id: "main_canvas_container",
         callback: init_cb,
@@ -74,6 +74,4 @@ function load_cb(data_id) {
             anchor_elem.style.visibility = "hidden";
     });
 }
-
-});
 

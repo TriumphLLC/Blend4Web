@@ -1,23 +1,21 @@
-"use strict";
+import b4w from "blend4web";
 
-b4w.register("cartoon_interior", function(exports, require) {
+var m_app       = b4w.app;
+var m_cam       = b4w.camera;
+var m_cfg       = b4w.config;
+var m_cont      = b4w.container;
+var m_ctl       = b4w.controls;
+var m_data      = b4w.data;
+var m_mouse     = b4w.mouse;
+var m_math      = b4w.math;
+var m_obj       = b4w.objects;
+var m_phy       = b4w.physics;
+var m_preloader = b4w.preloader;
+var m_scenes    = b4w.scenes;
+var m_trans     = b4w.transform;
+var m_version   = b4w.version;
 
-var m_app       = require("app");
-var m_cam       = require("camera");
-var m_cfg       = require("config");
-var m_cont      = require("container");
-var m_ctl       = require("controls");
-var m_data      = require("data");
-var m_mouse     = require("mouse");
-var m_math      = require("math");
-var m_obj       = require("objects");
-var m_phy       = require("physics");
-var m_preloader = require("preloader");
-var m_scenes    = require("scenes");
-var m_trans     = require("transform");
-var m_version   = require("version");
-
-var m_quat = require("quat");
+var m_quat = b4w.quat;
 
 var DEBUG = (m_version.type() === "DEBUG");
 
@@ -47,7 +45,7 @@ var _enable_camera_controls = true;
 
 var _selected_obj = null;
 
-exports.init = function() {
+export function init() {
     var show_fps = DEBUG;
 
     var url_params = m_app.get_url_params();
@@ -356,6 +354,4 @@ function limit_object_position(obj) {
         m_trans.set_translation_v(obj, obj_pos);
 }
 
-});
-
-b4w.require("cartoon_interior").init();
+init();

@@ -1,31 +1,29 @@
-"use strict";
+import b4w from "blend4web";
 
-b4w.register("raytest", function(exports, require) {
-
-var m_anim    = require("animation");
-var m_app     = require("app");
-var m_cam     = require("camera");
-var m_cfg     = require("config");
-var m_cont    = require("container");
-var m_cons    = require("constraints");
-var m_ctl     = require("controls");
-var m_data    = require("data");
-var m_math    = require("math");
-var m_obj     = require("objects");
-var m_phy     = require("physics");
-var m_quat    = require("quat");
-var m_scenes  = require("scenes");
-var m_trans   = require("transform");
-var m_tsr     = require("tsr");
-var m_util    = require("util");
-var m_vec3    = require("vec3");
-var m_version = require("version");
+var m_anim    = b4w.animation;
+var m_app     = b4w.app;
+var m_cam     = b4w.camera;
+var m_cfg     = b4w.config;
+var m_cont    = b4w.container;
+var m_cons    = b4w.constraints;
+var m_ctl     = b4w.controls;
+var m_data    = b4w.data;
+var m_math    = b4w.math;
+var m_obj     = b4w.objects;
+var m_phy     = b4w.physics;
+var m_quat    = b4w.quat;
+var m_scenes  = b4w.scenes;
+var m_trans   = b4w.transform;
+var m_tsr     = b4w.tsr;
+var m_util    = b4w.util;
+var m_vec3    = b4w.vec3;
+var m_version = b4w.version;
 
 var DEBUG = (m_version.type() === "DEBUG");
 
 var APP_ASSETS_PATH = m_cfg.get_std_assets_path() + "code_snippets/raytest/";
 
-exports.init = function() {
+export function init() {
     m_app.init({
         autoresize: true,
         callback: init_cb,
@@ -108,5 +106,3 @@ function init_logic() {
     var cont = m_cont.get_container();
     cont.addEventListener("mousedown", mouse_cb, false);
 }
-
-});

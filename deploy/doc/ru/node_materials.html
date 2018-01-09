@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Нодовые материалы &mdash; Руководство пользователя Blend4Web 17.10.1</title>
+  <title>Нодовые материалы &mdash; Руководство пользователя Blend4Web 17.12.0</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 17.10.1" href="index.html"/>
+        <link rel="index" title="Алфавитный указатель"
+              href="genindex.html"/>
+        <link rel="search" title="Поиск" href="search.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 17.12.0" href="index.html"/>
         <link rel="next" title="Редактор логики" href="logic_editor.html"/>
         <link rel="prev" title="Библиотека материалов" href="material_library.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -99,7 +102,7 @@
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Камера</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
 <li class="toctree-l1"><a class="reference internal" href="material_library.html">Библиотека материалов</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Нодовые материалы</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Нодовые материалы</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#standard-nodes">Стандартные ноды</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#engine-specific-nodes">Дополнительные ноды</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#clamp-b4w-clamp">Clamp (B4W_CLAMP)</a><ul>
@@ -223,7 +226,7 @@
   <div class="section" id="node-materials">
 <span id="index-0"></span><span id="id1"></span><h1><a class="toc-backref" href="#id23">Нодовые материалы</a><a class="headerlink" href="#node-materials" title="Ссылка на этот заголовок">¶</a></h1>
 <div class="contents topic" id="table-of-content">
-<p class="topic-title first">Содержание</p>
+<p class="topic-title first">Table of Content</p>
 <ul class="simple">
 <li><a class="reference internal" href="#node-materials" id="id23">Нодовые материалы</a><ul>
 <li><a class="reference internal" href="#standard-nodes" id="id24">Стандартные ноды</a></li>
@@ -253,7 +256,7 @@
 <div class="section" id="standard-nodes">
 <span id="generic-node-materials"></span><h2><a class="toc-backref" href="#id24">Стандартные ноды</a><a class="headerlink" href="#standard-nodes" title="Ссылка на этот заголовок">¶</a></h2>
 <p id="index-1">Blend4Web поддерживает все стандартные ноды Blender, однако некоторые из них работают недостаточно быстро и не рекомендуются к использованию в приложениях реального времени. Не рекомендуется создавать сложные материалы, особенно использующие большое количество нод <code class="docutils literal"><span class="pre">Geometry</span></code> и <code class="docutils literal"><span class="pre">Texture</span></code>.</p>
-<p>Движок также частично поддерживает некоторые ноды Cycles. Более подробно этот вопрос рассмотрен в <a class="reference internal" href="#cycles-nodes"><span>соответствующей главе</span></a>.</p>
+<p>Движок также частично поддерживает некоторые ноды Cycles. Более подробно этот вопрос рассмотрен в <a class="reference internal" href="#cycles-nodes"><span class="std std-ref">соответствующей главе</span></a>.</p>
 <p id="node-performance">Производительность и степень поддержки движком стандартных нод описаны в таблице.</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -263,271 +266,178 @@
 <col width="23%" />
 </colgroup>
 <thead valign="bottom">
-<tr class="row-odd"><th class="head"><p class="first last">Название ноды</p>
-</th>
-<th class="head"><p class="first last">Функция</p>
-</th>
-<th class="head"><p class="first last">Поддержка</p>
-</th>
-<th class="head"><p class="first last">Производительность</p>
-</th>
+<tr class="row-odd"><th class="head">Название ноды</th>
+<th class="head">Функция</th>
+<th class="head">Поддержка</th>
+<th class="head">Производительность</th>
 </tr>
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td>Camera Data</td>
-<td><p class="first last">Используется для получения информации от активной камеры</p>
-</td>
-<td><p class="first last">Поддерживается</p>
-</td>
-<td><p class="first last">Средняя</p>
-</td>
+<td>Используется для получения информации от активной камеры</td>
+<td>Поддерживается</td>
+<td>Средняя</td>
 </tr>
 <tr class="row-odd"><td>ColorRamp</td>
-<td><p class="first last">Используется для генерации градиента</p>
-</td>
-<td><p class="first last">Типы интерполяции <code class="docutils literal"><span class="pre">B-Spline</span></code>, <code class="docutils literal"><span class="pre">Cardinal</span></code> и <code class="docutils literal"><span class="pre">Ease</span></code> не поддерживаются</p>
-</td>
-<td><p class="first last">Средняя</p>
-</td>
+<td>Используется для генерации градиента</td>
+<td>Типы интерполяции <code class="docutils literal"><span class="pre">B-Spline</span></code>, <code class="docutils literal"><span class="pre">Cardinal</span></code> и <code class="docutils literal"><span class="pre">Ease</span></code> не поддерживаются</td>
+<td>Средняя</td>
 </tr>
 <tr class="row-even"><td>Combine HSV</td>
-<td><p class="first last">Собирает цвет из заданных значений тона, насыщенности и яркости</p>
-</td>
-<td><p class="first last">Поддерживается</p>
-</td>
-<td><p class="first last">Средняя</p>
-</td>
+<td>Собирает цвет из заданных значений тона, насыщенности и яркости</td>
+<td>Поддерживается</td>
+<td>Средняя</td>
 </tr>
 <tr class="row-odd"><td>Combine RGB</td>
-<td><p class="first last">Собирает цвет из заданных значений красного, зелёного и синего каналов</p>
-</td>
-<td><p class="first last">Поддерживается</p>
-</td>
-<td><p class="first last">Высокая</p>
-</td>
+<td>Собирает цвет из заданных значений красного, зелёного и синего каналов</td>
+<td>Поддерживается</td>
+<td>Высокая</td>
 </tr>
 <tr class="row-even"><td>Extended Material</td>
-<td><p class="first last">Подключает стандартный материал. Обладает большим количеством настроек по сравнению с нодой <code class="docutils literal"><span class="pre">Material</span></code></p>
-</td>
-<td><p class="first last">Входы <code class="docutils literal"><span class="pre">Ambient</span></code> и <code class="docutils literal"><span class="pre">SpecTra</span></code> не поддерживаются. Выход <code class="docutils literal"><span class="pre">AO</span></code> не поддерживается.</p>
-</td>
-<td><p class="first last">Средняя</p>
-</td>
+<td>Подключает стандартный материал. Обладает большим количеством настроек по сравнению с нодой <code class="docutils literal"><span class="pre">Material</span></code></td>
+<td>Входы <code class="docutils literal"><span class="pre">Ambient</span></code> и <code class="docutils literal"><span class="pre">SpecTra</span></code> не поддерживаются. Выход <code class="docutils literal"><span class="pre">AO</span></code> не поддерживается.</td>
+<td>Средняя</td>
 </tr>
 <tr class="row-odd"><td>Gamma</td>
-<td><p class="first last">Регулирует гамму заданного цвета</p>
-</td>
-<td><p class="first last">Поддерживается</p>
-</td>
-<td><p class="first last">Высокая</p>
-</td>
+<td>Регулирует гамму заданного цвета</td>
+<td>Поддерживается</td>
+<td>Высокая</td>
 </tr>
 <tr class="row-even"><td>Geometry</td>
-<td><p class="first last">Используется для получения информации о геометрии объекта</p>
-</td>
-<td><p class="first last">Выход <code class="docutils literal"><span class="pre">Vertex</span> <span class="pre">Alpha</span></code> не поддерживается</p>
-</td>
-<td><p class="first last">Не рекомендуется использовать большое количество этих нод</p>
-</td>
+<td>Используется для получения информации о геометрии объекта</td>
+<td>Выход <code class="docutils literal"><span class="pre">Vertex</span> <span class="pre">Alpha</span></code> не поддерживается</td>
+<td>Не рекомендуется использовать большое количество этих нод</td>
 </tr>
 <tr class="row-odd"><td>Hue/Saturation</td>
-<td><p class="first last">Регулирует оттенок и насыщенность заданного цвета</p>
-</td>
-<td><p class="first last">Поддерживается</p>
-</td>
-<td><p class="first last">Низкая</p>
-</td>
+<td>Регулирует оттенок и насыщенность заданного цвета</td>
+<td>Поддерживается</td>
+<td>Низкая</td>
 </tr>
 <tr class="row-even"><td>Invert</td>
-<td><p class="first last">Инвертирует заданный цвет</p>
-</td>
-<td><p class="first last">Поддерживается</p>
-</td>
-<td><p class="first last">Высокая</p>
-</td>
+<td>Инвертирует заданный цвет</td>
+<td>Поддерживается</td>
+<td>Высокая</td>
 </tr>
 <tr class="row-odd"><td>Lamp Data</td>
-<td><p class="first last">Используется для получения информации о заданном источнике света</p>
-</td>
-<td><p class="first last">Выход <code class="docutils literal"><span class="pre">Shadow</span></code> не поддерживается</p>
-</td>
-<td><p class="first last">Средняя</p>
-</td>
+<td>Используется для получения информации о заданном источнике света</td>
+<td>Выход <code class="docutils literal"><span class="pre">Shadow</span></code> не поддерживается</td>
+<td>Средняя</td>
 </tr>
 <tr class="row-even"><td>Mapping</td>
-<td><p class="first last">Преобразует текстурные координаты</p>
-</td>
-<td><p class="first last">Поддерживается</p>
-</td>
-<td><p class="first last">Средняя</p>
-</td>
+<td>Преобразует текстурные координаты</td>
+<td>Поддерживается</td>
+<td>Средняя</td>
 </tr>
 <tr class="row-odd"><td>Material</td>
-<td><p class="first last">Используется для подключения стандартного материала</p>
-</td>
-<td><p class="first last">Поддерживается</p>
-</td>
-<td><p class="first last">Средняя</p>
-</td>
+<td>Используется для подключения стандартного материала</td>
+<td>Поддерживается</td>
+<td>Средняя</td>
 </tr>
 <tr class="row-even"><td>Math</td>
-<td><p class="first last">Производит математические операции с заданными значениями</p>
-</td>
-<td><p class="first last">Поддерживается</p>
-</td>
-<td><p class="first last">Высокая</p>
-</td>
+<td>Производит математические операции с заданными значениями</td>
+<td>Поддерживается</td>
+<td>Высокая</td>
 </tr>
 <tr class="row-odd"><td>MixRGB</td>
-<td><p class="first last">Микширует два заданных цвета</p>
-</td>
-<td><p class="first last">Поддерживается</p>
-</td>
-<td><p class="first last">Низкая в режимах <code class="docutils literal"><span class="pre">Burn</span></code>, <code class="docutils literal"><span class="pre">Dodge</span></code>, <code class="docutils literal"><span class="pre">Value</span></code>, <code class="docutils literal"><span class="pre">Saturation</span></code>, <code class="docutils literal"><span class="pre">Hue</span></code> и <code class="docutils literal"><span class="pre">Color</span></code>, высокая в остальных режимах</p>
-</td>
+<td>Микширует два заданных цвета</td>
+<td>Поддерживается</td>
+<td>Низкая в режимах <code class="docutils literal"><span class="pre">Burn</span></code>, <code class="docutils literal"><span class="pre">Dodge</span></code>, <code class="docutils literal"><span class="pre">Value</span></code>, <code class="docutils literal"><span class="pre">Saturation</span></code>, <code class="docutils literal"><span class="pre">Hue</span></code> и <code class="docutils literal"><span class="pre">Color</span></code>, высокая в остальных режимах</td>
 </tr>
 <tr class="row-even"><td>Normal</td>
-<td><p class="first last">Генерирует нормальный вектор</p>
-</td>
-<td><p class="first last">Поддерживается</p>
-</td>
-<td><p class="first last">Высокая</p>
-</td>
+<td>Генерирует нормальный вектор</td>
+<td>Поддерживается</td>
+<td>Высокая</td>
 </tr>
 <tr class="row-odd"><td>Normal
 Map <a class="footnote-reference" href="#f1" id="id2">[1]</a></td>
-<td><p class="first last">Используется для подключения карты нормалей</p>
-</td>
-<td><p class="first last">Поддерживается</p>
-</td>
-<td><p class="first last">Средняя</p>
-</td>
+<td>Используется для подключения карты нормалей</td>
+<td>Поддерживается</td>
+<td>Средняя</td>
 </tr>
 <tr class="row-even"><td>Output</td>
-<td><p class="first last">Выводит результат работы нодового материала</p>
-</td>
-<td><p class="first last">Поддерживается</p>
-</td>
-<td><p class="first last">Средняя</p>
-</td>
+<td>Выводит результат работы нодового материала</td>
+<td>Поддерживается</td>
+<td>Средняя</td>
 </tr>
 <tr class="row-odd"><td>Particle Info</td>
-<td><p class="first last">Используется для получения информации о системе частиц</p>
-</td>
-<td><p class="first last">В материалах систем частиц типа <code class="docutils literal"><span class="pre">Emitter</span></code></p>
-</td>
-<td><p class="first last">Средняя</p>
-</td>
+<td>Используется для получения информации о системе частиц</td>
+<td>В материалах систем частиц типа <code class="docutils literal"><span class="pre">Emitter</span></code></td>
+<td>Средняя</td>
 </tr>
 <tr class="row-even"><td>RGB</td>
-<td><p class="first last">Генерирует цвет в формате RGB</p>
-</td>
-<td><p class="first last">Поддерживается</p>
-</td>
-<td><p class="first last">Высокая</p>
-</td>
+<td>Генерирует цвет в формате RGB</td>
+<td>Поддерживается</td>
+<td>Высокая</td>
 </tr>
 <tr class="row-odd"><td>RGB Curves</td>
-<td><p class="first last">Определяет кривую, по которой изменяется заданный цвет</p>
-</td>
-<td><p class="first last">Поддерживается</p>
-</td>
-<td><p class="first last">Средняя</p>
-</td>
+<td>Определяет кривую, по которой изменяется заданный цвет</td>
+<td>Поддерживается</td>
+<td>Средняя</td>
 </tr>
 <tr class="row-even"><td>RGB to BW</td>
-<td><p class="first last">Преобразует заданный цвет в формате RGB из цветного в чёрно-белый</p>
-</td>
-<td><p class="first last">Поддерживается</p>
-</td>
-<td><p class="first last">Высокая</p>
-</td>
+<td>Преобразует заданный цвет в формате RGB из цветного в чёрно-белый</td>
+<td>Поддерживается</td>
+<td>Высокая</td>
 </tr>
 <tr class="row-odd"><td>Separate HSV</td>
-<td><p class="first last">Разделяет заданный цвет на тон, насыщенность и яркость</p>
-</td>
-<td><p class="first last">Поддерживается</p>
-</td>
-<td><p class="first last">Высокая</p>
-</td>
+<td>Разделяет заданный цвет на тон, насыщенность и яркость</td>
+<td>Поддерживается</td>
+<td>Высокая</td>
 </tr>
 <tr class="row-even"><td>Separate RGB</td>
-<td><p class="first last">Разделяет заданный цвет на красный, зелёный и синий каналы</p>
-</td>
-<td><p class="first last">Поддерживается</p>
-</td>
-<td><p class="first last">Высокая</p>
-</td>
+<td>Разделяет заданный цвет на красный, зелёный и синий каналы</td>
+<td>Поддерживается</td>
+<td>Высокая</td>
 </tr>
 <tr class="row-odd"><td>Squeeze Value</td>
-<td><p class="first last">Сжимает заданное значение</p>
-</td>
-<td><p class="first last">Поддерживается</p>
-</td>
-<td><p class="first last">Высокая</p>
-</td>
+<td>Сжимает заданное значение</td>
+<td>Поддерживается</td>
+<td>Высокая</td>
 </tr>
 <tr class="row-even"><td>Texture</td>
-<td><p class="first last">Задаёт текстуру</p>
-</td>
-<td><p class="first last">Поддерживается</p>
-</td>
-<td><p class="first last">Не рекомендуется использовать большое количество этих нод</p>
-</td>
+<td>Задаёт текстуру</td>
+<td>Поддерживается</td>
+<td>Не рекомендуется использовать большое количество этих нод</td>
 </tr>
 <tr class="row-odd"><td>Value</td>
-<td><p class="first last">Генерирует численное значение</p>
-</td>
-<td><p class="first last">Поддерживается</p>
-</td>
-<td><p class="first last">Высокая</p>
-</td>
+<td>Генерирует численное значение</td>
+<td>Поддерживается</td>
+<td>Высокая</td>
 </tr>
 <tr class="row-even"><td>Vector Curves</td>
-<td><p class="first last">Определяет кривую, по которой изменяется заданный вектор</p>
-</td>
-<td><p class="first last">Поддерживается</p>
-</td>
-<td><p class="first last">Средняя</p>
-</td>
+<td>Определяет кривую, по которой изменяется заданный вектор</td>
+<td>Поддерживается</td>
+<td>Средняя</td>
 </tr>
 <tr class="row-odd"><td>Vector Math</td>
-<td><p class="first last">Производит математические операции над двумя заданными векторами</p>
-</td>
-<td><p class="first last">Поддерживается</p>
-</td>
-<td><p class="first last">Высокая</p>
-</td>
+<td>Производит математические операции над двумя заданными векторами</td>
+<td>Поддерживается</td>
+<td>Высокая</td>
 </tr>
 <tr class="row-even"><td>Vector
 Transform <a class="footnote-reference" href="#f2" id="id3">[2]</a></td>
-<td><p class="first last">Преобразует векторы, точки и нормали между пространствами координат мира, камеры и объекта.</p>
-</td>
-<td><p class="first last">Поддерживается</p>
-</td>
-<td><p class="first last">Средняя</p>
-</td>
+<td>Преобразует векторы, точки и нормали между пространствами координат мира, камеры и объекта.</td>
+<td>Поддерживается</td>
+<td>Средняя</td>
 </tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="f1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id2">[1]</a></td><td><p class="first last">Параметр <code class="docutils literal"><span class="pre">Color</span> <span class="pre">Space</span></code> карты нормалей, используемой с этой нодой, должен иметь значение <code class="docutils literal"><span class="pre">Non-Color</span></code>. В противном случае результаты могут быть непредсказуемыми (хотя это не приведёт к крэшу движка).</p>
-</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id2">[1]</a></td><td>Параметр <code class="docutils literal"><span class="pre">Color</span> <span class="pre">Space</span></code> карты нормалей, используемой с этой нодой, должен иметь значение <code class="docutils literal"><span class="pre">Non-Color</span></code>. В противном случае результаты могут быть непредсказуемыми (хотя это не приведёт к крэшу движка).</td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="f2" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id3">[2]</a></td><td><p class="first last">Если хотя бы один из внутренних параметров (<code class="docutils literal"><span class="pre">Space</span> <span class="pre">to</span> <span class="pre">convert</span> <span class="pre">from...</span></code> или <code class="docutils literal"><span class="pre">Space</span> <span class="pre">to</span> <span class="pre">convert</span> <span class="pre">to...</span></code>) имеет значение <code class="docutils literal"><span class="pre">Object</span></code>, любой объект, использующий данный материал, будет считаться <a class="reference internal" href="objects.html#static-dynamic-objects"><span>динамическим</span></a>.</p>
-</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id3">[2]</a></td><td>Если хотя бы один из внутренних параметров (<code class="docutils literal"><span class="pre">Space</span> <span class="pre">to</span> <span class="pre">convert</span> <span class="pre">from...</span></code> или <code class="docutils literal"><span class="pre">Space</span> <span class="pre">to</span> <span class="pre">convert</span> <span class="pre">to...</span></code>) имеет значение <code class="docutils literal"><span class="pre">Object</span></code>, любой объект, использующий данный материал, будет считаться <a class="reference internal" href="objects.html#static-dynamic-objects"><span class="std std-ref">динамическим</span></a>.</td></tr>
 </tbody>
 </table>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p>Обратите внимание, что нодовые материалы имеют некоторые ограничения, касающиеся количества нод определённых типов. Эти ограничения описаны <a class="reference internal" href="#node-material-limits"><span>здесь</span></a>.</p>
+<p>Обратите внимание, что нодовые материалы имеют некоторые ограничения, касающиеся количества нод определённых типов. Эти ограничения описаны <a class="reference internal" href="#node-material-limits"><span class="std std-ref">здесь</span></a>.</p>
 </div>
 <div class="section" id="engine-specific-nodes">
 <span id="custom-node-materials"></span><h2><a class="toc-backref" href="#id25">Дополнительные ноды</a><a class="headerlink" href="#engine-specific-nodes" title="Ссылка на этот заголовок">¶</a></h2>
@@ -541,36 +451,31 @@ Transform <a class="footnote-reference" href="#f2" id="id3">[2]</a></td>
 <h4>Входные параметры<a class="headerlink" href="#input-parameters" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Image</em></dt>
-<dd><p class="first last">Заданный вектор.</p>
-</dd>
+<dd>Заданный вектор.</dd>
 </dl>
 </div>
 <div class="section" id="output-parameters">
 <h4>Выходные параметры<a class="headerlink" href="#output-parameters" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Image</em></dt>
-<dd><p class="first last">Вектор после ограничения.</p>
-</dd>
+<dd>Вектор после ограничения.</dd>
 </dl>
 </div>
 </div>
 <div class="section" id="glow-output-b4w-glow-output">
 <span id="glow-output"></span><h3><a class="toc-backref" href="#id27">Glow Output (B4W_GLOW_OUTPUT)</a><a class="headerlink" href="#glow-output-b4w-glow-output" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Применяет <a class="reference internal" href="postprocessing_effects.html#glow"><span>эффект свечения (Glow)</span></a> к нодовому материалу. Помимо ноды <em>B4W_GLOW_OUTPUT</em> в нодовом материале должна присутствовать нода <em>Output</em>.</p>
+<p>Применяет <a class="reference internal" href="postprocessing_effects.html#glow"><span class="std std-ref">эффект свечения (Glow)</span></a> к нодовому материалу. Помимо ноды <em>B4W_GLOW_OUTPUT</em> в нодовом материале должна присутствовать нода <em>Output</em>.</p>
 <a class="reference internal image-reference" href="_images/node_materials_glow_output.png"><img alt="_images/node_materials_glow_output.png" class="align-center" src="_images/node_materials_glow_output.png" style="width: 100%;" /></a>
 <div class="section" id="id4">
 <h4>Входные параметры<a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Glow Color</em></dt>
-<dd><p class="first last">Цвет свечения.</p>
-</dd>
+<dd>Цвет свечения.</dd>
 <dt><em>Factor</em></dt>
 <dd><p class="first">Степень свечения. <em>Factor</em> <span class="math">\(\in [0, 1]\)</span>.</p>
 <ul class="last simple">
-<li><p class="first"><em>Factor = 0</em> - свечение отсутствует.</p>
-</li>
-<li><p class="first"><em>Factor</em> <span class="math">\(\in (0, 1]\)</span> - свечение цветом <em>Glow Color</em>.</p>
-</li>
+<li><em>Factor = 0</em> - свечение отсутствует.</li>
+<li><em>Factor</em> <span class="math">\(\in (0, 1]\)</span> - свечение цветом <em>Glow Color</em>.</li>
 </ul>
 </dd>
 </dl>
@@ -582,20 +487,17 @@ Transform <a class="footnote-reference" href="#f2" id="id3">[2]</a></td>
 <a class="reference internal image-reference" href="_images/node_materials_levels_of_quality.png"><img alt="_images/node_materials_levels_of_quality.png" class="align-center" src="_images/node_materials_levels_of_quality.png" style="width: 100%;" /></a>
 <div class="admonition seealso">
 <p class="first admonition-title">См.также</p>
-<p class="last"><a class="reference internal" href="developers.html#quality-settings"><span>Профили качества изображения</span></a></p>
+<p class="last"><a class="reference internal" href="developers.html#quality-settings"><span class="std std-ref">Профили качества изображения</span></a></p>
 </div>
 <div class="section" id="id5">
 <h4>Входные параметры<a class="headerlink" href="#id5" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>HIGH</em></dt>
-<dd><p class="first last">Значение, которое будет подано в выходной параметр <code class="docutils literal"><span class="pre">Color</span></code> при высоком и максимальном качестве изображения.</p>
-</dd>
+<dd>Значение, которое будет подано в выходной параметр <code class="docutils literal"><span class="pre">Color</span></code> при высоком и максимальном качестве изображения.</dd>
 <dt><em>LOW</em></dt>
-<dd><p class="first last">Значение, которое будет подано в выходной параметр <code class="docutils literal"><span class="pre">Color</span></code> при низком качестве изображения.</p>
-</dd>
+<dd>Значение, которое будет подано в выходной параметр <code class="docutils literal"><span class="pre">Color</span></code> при низком качестве изображения.</dd>
 <dt><em>Fac</em></dt>
-<dd><p class="first last">Значение, определяющее, какое из значений (<code class="docutils literal"><span class="pre">HIGH</span></code> или <code class="docutils literal"><span class="pre">LOW</span></code>) будет отображаться в Blender. Может принимать значения от 0 до 1. При значении параметра менее 0.5 будет виден вариант <code class="docutils literal"><span class="pre">HIGH</span></code>, при значении 0.5 и выше будет виден вариант <code class="docutils literal"><span class="pre">LOW</span></code>.</p>
-</dd>
+<dd>Значение, определяющее, какое из значений (<code class="docutils literal"><span class="pre">HIGH</span></code> или <code class="docutils literal"><span class="pre">LOW</span></code>) будет отображаться в Blender. Может принимать значения от 0 до 1. При значении параметра менее 0.5 будет виден вариант <code class="docutils literal"><span class="pre">HIGH</span></code>, при значении 0.5 и выше будет виден вариант <code class="docutils literal"><span class="pre">LOW</span></code>.</dd>
 </dl>
 </div>
 </div>
@@ -607,28 +509,22 @@ Transform <a class="footnote-reference" href="#f2" id="id3">[2]</a></td>
 <h4>Входные параметры<a class="headerlink" href="#id6" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>UV</em></dt>
-<dd><p class="first last">Исходные текстурные координаты.</p>
-</dd>
+<dd>Исходные текстурные координаты.</dd>
 <dt><em>Height Map</em></dt>
-<dd><p class="first last">RGBA текстура с картой высот в альфа канале.</p>
-</dd>
+<dd>RGBA текстура с картой высот в альфа канале.</dd>
 <dt><em>Scale</em></dt>
-<dd><p class="first last">Коэффициент смещения текстурных координат.</p>
-</dd>
+<dd>Коэффициент смещения текстурных координат.</dd>
 <dt><em>Steps</em></dt>
-<dd><p class="first last">Количество шагов при генерации смещенных текстурных координат. Чем больше данное значение, тем выше качество получаемой текстуры.</p>
-</dd>
+<dd>Количество шагов при генерации смещенных текстурных координат. Чем больше данное значение, тем выше качество получаемой текстуры.</dd>
 <dt><em>Lod Distance</em></dt>
-<dd><p class="first last">Максимальное расстояние от камеры, на котором виден эффект.</p>
-</dd>
+<dd>Максимальное расстояние от камеры, на котором виден эффект.</dd>
 </dl>
 </div>
 <div class="section" id="id7">
 <h4>Выходные параметры<a class="headerlink" href="#id7" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>UV</em></dt>
-<dd><p class="first last">Измененные текстурные координаты, которые используются как вход для текстурных нод.</p>
-</dd>
+<dd>Измененные текстурные координаты, которые используются как вход для текстурных нод.</dd>
 </dl>
 </div>
 </div>
@@ -640,19 +536,16 @@ Transform <a class="footnote-reference" href="#f2" id="id3">[2]</a></td>
 <h4>Входные параметры<a class="headerlink" href="#id8" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Vector</em></dt>
-<dd><p class="first last">Заданный вектор. Должен быть подключён ко входу <code class="docutils literal"><span class="pre">View</span></code> ноды <code class="docutils literal"><span class="pre">Geometry</span></code>.</p>
-</dd>
+<dd>Заданный вектор. Должен быть подключён ко входу <code class="docutils literal"><span class="pre">View</span></code> ноды <code class="docutils literal"><span class="pre">Geometry</span></code>.</dd>
 <dt><em>Vector</em></dt>
-<dd><p class="first last">Заданная нормаль. Для получения желаемого результата, вектор должен быть нормирован. Должен быть подключён ко входу <code class="docutils literal"><span class="pre">Normal</span></code> ноды <code class="docutils literal"><span class="pre">Geometry</span></code>.</p>
-</dd>
+<dd>Заданная нормаль. Для получения желаемого результата, вектор должен быть нормирован. Должен быть подключён ко входу <code class="docutils literal"><span class="pre">Normal</span></code> ноды <code class="docutils literal"><span class="pre">Geometry</span></code>.</dd>
 </dl>
 </div>
 <div class="section" id="id9">
 <h4>Выходные параметры<a class="headerlink" href="#id9" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Vector</em></dt>
-<dd><p class="first last">Отражённый вектор. Следует подключать к входному параметру <code class="docutils literal"><span class="pre">Vector</span></code> ноды <code class="docutils literal"><span class="pre">Texture</span></code>, содержащего кубическую карту.</p>
-</dd>
+<dd>Отражённый вектор. Следует подключать к входному параметру <code class="docutils literal"><span class="pre">Vector</span></code> ноды <code class="docutils literal"><span class="pre">Texture</span></code>, содержащего кубическую карту.</dd>
 </dl>
 </div>
 </div>
@@ -664,8 +557,7 @@ Transform <a class="footnote-reference" href="#f2" id="id3">[2]</a></td>
 <h4>Входные параметры<a class="headerlink" href="#id10" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Normal</em></dt>
-<dd><p class="first last">Вектор нормали в пространстве камеры, по которому происходит возмущение (сдвиг).</p>
-</dd>
+<dd>Вектор нормали в пространстве камеры, по которому происходит возмущение (сдвиг).</dd>
 <dt><em>Refraction Bump</em></dt>
 <dd><p class="first">Коэффициент возмущения (сдвига) текстуры сцены позади объекта.</p>
 <p class="last">Значение по умолчанию: 0.001.</p>
@@ -676,8 +568,7 @@ Transform <a class="footnote-reference" href="#f2" id="id3">[2]</a></td>
 <h4>Выходные параметры<a class="headerlink" href="#id11" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Color</em></dt>
-<dd><p class="first last">Текстура сцены позади объекта с внесённым возмущением.</p>
-</dd>
+<dd>Текстура сцены позади объекта с внесённым возмущением.</dd>
 </dl>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
@@ -685,32 +576,29 @@ Transform <a class="footnote-reference" href="#f2" id="id3">[2]</a></td>
 </div>
 <div class="admonition seealso">
 <p class="first admonition-title">См.также</p>
-<p class="last"><a class="reference internal" href="materials.html#alpha-blend"><span>Прозрачность</span></a></p>
+<p class="last"><a class="reference internal" href="materials.html#alpha-blend"><span class="std std-ref">Прозрачность</span></a></p>
 </div>
 </div>
 </div>
 <div class="section" id="replace-b4w-replace">
 <span id="node-replace"></span><h3><a class="toc-backref" href="#id32">Replace (B4W_REPLACE)</a><a class="headerlink" href="#replace-b4w-replace" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Осуществляет замену входов в зависимости от того, в какой среде (viewport Blender&#8217;а или движок) в данный момент работает текущая сцена. При работе в Blender вход <code class="docutils literal"><span class="pre">Color1</span></code> подключается к выходу <code class="docutils literal"><span class="pre">Color</span></code>, вход <code class="docutils literal"><span class="pre">Color2</span></code> игнорируется. При работе в движке входы меняются местами (<code class="docutils literal"><span class="pre">Color1</span></code> игнорируется, <code class="docutils literal"><span class="pre">Color2</span></code> подключается к выходу). Нода предназначена для отображения во viewport&#8217;e одной конструкции нодов, а в движке - другой.</p>
+<p>Осуществляет замену входов в зависимости от того, в какой среде (viewport Blender’а или движок) в данный момент работает текущая сцена. При работе в Blender вход <code class="docutils literal"><span class="pre">Color1</span></code> подключается к выходу <code class="docutils literal"><span class="pre">Color</span></code>, вход <code class="docutils literal"><span class="pre">Color2</span></code> игнорируется. При работе в движке входы меняются местами (<code class="docutils literal"><span class="pre">Color1</span></code> игнорируется, <code class="docutils literal"><span class="pre">Color2</span></code> подключается к выходу). Нода предназначена для отображения во viewport’e одной конструкции нодов, а в движке - другой.</p>
 <a class="reference internal image-reference" href="_images/node_materials_replace.png"><img alt="_images/node_materials_replace.png" class="align-center" src="_images/node_materials_replace.png" style="width: 100%;" /></a>
-<p>Используется, как правило, для подключения карт нормалей. Нодовые материалы Blender&#8217;а не поддерживают тангентное пространство координат, в связи с чем единственный способ корректного отображения карт нормалей во viewport&#8217;e - их подключение внутри нод <code class="docutils literal"><span class="pre">Material</span></code>.</p>
+<p>Используется, как правило, для подключения карт нормалей. Нодовые материалы Blender’а не поддерживают тангентное пространство координат, в связи с чем единственный способ корректного отображения карт нормалей во viewport’e - их подключение внутри нод <code class="docutils literal"><span class="pre">Material</span></code>.</p>
 <div class="section" id="id12">
 <h4>Входные параметры<a class="headerlink" href="#id12" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Color1</em></dt>
-<dd><p class="first last">Конструкция нод, видимая во вьюпорте Blender&#8217;а</p>
-</dd>
+<dd>Конструкция нод, видимая во вьюпорте Blender’а</dd>
 <dt><em>Color2</em></dt>
-<dd><p class="first last">Конструкция нод, видимая объекта в движке Blend4Web.</p>
-</dd>
+<dd>Конструкция нод, видимая объекта в движке Blend4Web.</dd>
 </dl>
 </div>
 <div class="section" id="id13">
 <h4>Выходные параметры<a class="headerlink" href="#id13" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Color</em></dt>
-<dd><p class="first last">Следует подключать к выходу <code class="docutils literal"><span class="pre">Color</span></code> ноды <code class="docutils literal"><span class="pre">Material</span></code> или <code class="docutils literal"><span class="pre">Extended</span> <span class="pre">Material</span></code>.</p>
-</dd>
+<dd>Следует подключать к выходу <code class="docutils literal"><span class="pre">Color</span></code> ноды <code class="docutils literal"><span class="pre">Material</span></code> или <code class="docutils literal"><span class="pre">Extended</span> <span class="pre">Material</span></code>.</dd>
 </dl>
 </div>
 </div>
@@ -722,22 +610,18 @@ Transform <a class="footnote-reference" href="#f2" id="id3">[2]</a></td>
 <h4>Входные параметры<a class="headerlink" href="#id14" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Value</em></dt>
-<dd><p class="first last">Значение, на основе которого осуществляется интерполяция.</p>
-</dd>
+<dd>Значение, на основе которого осуществляется интерполяция.</dd>
 <dt><em>Edge0</em></dt>
-<dd><p class="first last">Первое значениe для интерполяции.</p>
-</dd>
+<dd>Первое значениe для интерполяции.</dd>
 <dt><em>Edge1</em></dt>
-<dd><p class="first last">Второе значениe для интерполяции.</p>
-</dd>
+<dd>Второе значениe для интерполяции.</dd>
 </dl>
 </div>
 <div class="section" id="id15">
 <h4>Выходные параметры<a class="headerlink" href="#id15" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Value</em></dt>
-<dd><p class="first last">Сглаженное значение.</p>
-</dd>
+<dd>Сглаженное значение.</dd>
 </dl>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
@@ -757,12 +641,11 @@ Transform <a class="footnote-reference" href="#f2" id="id3">[2]</a></td>
 <h4>Выходные параметры<a class="headerlink" href="#id17" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Value</em></dt>
-<dd><p class="first last">Время (в секундах), прошедшее с момента старта движка.</p>
-</dd>
+<dd>Время (в секундах), прошедшее с момента старта движка.</dd>
 </dl>
 <div class="admonition seealso">
 <p class="first admonition-title">См.также</p>
-<p class="last"><a class="reference internal" href="animation.html#node-anim"><span>Анимация нод Value и RGB</span></a></p>
+<p class="last"><a class="reference internal" href="animation.html#node-anim"><span class="std std-ref">Анимация нод Value и RGB</span></a></p>
 </div>
 </div>
 </div>
@@ -774,33 +657,25 @@ Transform <a class="footnote-reference" href="#f2" id="id3">[2]</a></td>
 <h4>Входные параметры<a class="headerlink" href="#id18" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Color</em></dt>
-<dd><p class="first last">Одноканальная текстура, определяющая неоднородность материала, белый - максимальный эффект просвечивания, черный - его отсутствие. По умолчанию используется белый.</p>
-</dd>
+<dd>Одноканальная текстура, определяющая неоднородность материала, белый - максимальный эффект просвечивания, черный - его отсутствие. По умолчанию используется белый.</dd>
 <dt><em>Backside Factor</em></dt>
 <dd><p class="first">Коэффициент коррекции цвета материала на обратной от источника света стороне. Основан на визуальном эффекте большей насыщенности цвета при просвечивании.</p>
 <ul class="simple">
-<li><p class="first"><em>Backside Factor &lt; 1</em> - коррекция в сторону осветления</p>
-</li>
-<li><p class="first"><em>Backside Factor = 1</em> - без коррекции</p>
-</li>
-<li><p class="first"><em>Backside Factor &gt; 1</em> - коррекция в сторону затемнения</p>
-</li>
+<li><em>Backside Factor &lt; 1</em> - коррекция в сторону осветления</li>
+<li><em>Backside Factor = 1</em> - без коррекции</li>
+<li><em>Backside Factor &gt; 1</em> - коррекция в сторону затемнения</li>
 </ul>
 <p class="last">Значение по умолчанию: 1.</p>
 </dd>
 <dt><em>Spot Hardness</em></dt>
-<dd><p class="first last">Коэффициент размытия светового пятна. При увеличении размеры пятна уменьшаются, края становятся более резкими. Значение по умолчанию: 1000.</p>
-</dd>
+<dd>Коэффициент размытия светового пятна. При увеличении размеры пятна уменьшаются, края становятся более резкими. Значение по умолчанию: 1000.</dd>
 <dt><em>Spot Intensity</em></dt>
-<dd><p class="first last">Интенсивность светового пятна. При увеличении становится более ярким. Значение по умолчанию: 1.</p>
-</dd>
+<dd>Интенсивность светового пятна. При увеличении становится более ярким. Значение по умолчанию: 1.</dd>
 <dt><em>Spot Diffuse Factor</em></dt>
 <dd><p class="first">Коэффициент влияния диффузного цвета материала на цвет светового пятна.</p>
 <ul class="simple">
-<li><p class="first"><em>Spot Diffuse Factor = 0</em> - световое пятно имеет диффузный цвет</p>
-</li>
-<li><p class="first"><em>Spot Diffuse Factor = 1</em> - световое пятно имеет белый цвет</p>
-</li>
+<li><em>Spot Diffuse Factor = 0</em> - световое пятно имеет диффузный цвет</li>
+<li><em>Spot Diffuse Factor = 1</em> - световое пятно имеет белый цвет</li>
 </ul>
 <p class="last">Значение по умолчанию: 1.</p>
 </dd>
@@ -810,12 +685,11 @@ Transform <a class="footnote-reference" href="#f2" id="id3">[2]</a></td>
 <h4>Выходные параметры<a class="headerlink" href="#id19" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Translucency</em></dt>
-<dd><p class="first last">Выход должен быть подключен ко входу <code class="docutils literal"><span class="pre">Translucency</span></code> ноды <code class="docutils literal"><span class="pre">Extended</span> <span class="pre">Material</span></code>.</p>
-</dd>
+<dd>Выход должен быть подключен ко входу <code class="docutils literal"><span class="pre">Translucency</span></code> ноды <code class="docutils literal"><span class="pre">Extended</span> <span class="pre">Material</span></code>.</dd>
 </dl>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
-<p class="last">Возможно некорректное поведение ноды, если используются <a class="reference internal" href="normal_editor.html#normals-editor"><span>отредактированные нормали</span></a>.</p>
+<p class="last">Возможно некорректное поведение ноды, если используются <a class="reference internal" href="normal_editor.html#normals-editor"><span class="std std-ref">отредактированные нормали</span></a>.</p>
 </div>
 </div>
 </div>
@@ -827,16 +701,14 @@ Transform <a class="footnote-reference" href="#f2" id="id3">[2]</a></td>
 <h4>Входные параметры<a class="headerlink" href="#id20" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Vector</em></dt>
-<dd><p class="first last">Вектор в мировой системе координат.</p>
-</dd>
+<dd>Вектор в мировой системе координат.</dd>
 </dl>
 </div>
 <div class="section" id="id21">
 <h4>Выходные параметры<a class="headerlink" href="#id21" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Vector</em></dt>
-<dd><p class="first last">Вектор в системе координат камеры.</p>
-</dd>
+<dd>Вектор в системе координат камеры.</dd>
 </dl>
 </div>
 </div>
@@ -846,7 +718,7 @@ Transform <a class="footnote-reference" href="#f2" id="id3">[2]</a></td>
 <img alt="_images/node_materials_gamma.png" class="align-center" src="_images/node_materials_gamma.png" />
 <div class="admonition seealso">
 <p class="first admonition-title">См.также</p>
-<p class="last"><a class="reference internal" href="colors.html#gamma-node-materials"><span>Коррекция в нодовых материалах</span></a></p>
+<p class="last"><a class="reference internal" href="colors.html#gamma-node-materials"><span class="std std-ref">Коррекция в нодовых материалах</span></a></p>
 </div>
 </div>
 </div>
@@ -859,11 +731,9 @@ Transform <a class="footnote-reference" href="#f2" id="id3">[2]</a></td>
 </div>
 <p>Движок поддерживает следующие ноды <code class="docutils literal"><span class="pre">Cycles</span></code>:</p>
 <ul class="simple">
-<li><p class="first"><code class="docutils literal"><span class="pre">Material</span> <span class="pre">Output</span></code> (поддерживаются только входы <code class="docutils literal"><span class="pre">Surface</span></code> и <code class="docutils literal"><span class="pre">Displacement</span></code>);</p>
-</li>
+<li><code class="docutils literal"><span class="pre">Material</span> <span class="pre">Output</span></code> (поддерживаются только входы <code class="docutils literal"><span class="pre">Surface</span></code> и <code class="docutils literal"><span class="pre">Displacement</span></code>);</li>
 <li><code class="docutils literal"><span class="pre">BSDF</span> <span class="pre">Diffuse</span></code>;</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">BSDF</span> <span class="pre">Glossy</span></code> (поддерживается только распределение <code class="docutils literal"><span class="pre">GGX</span></code>; параметр <code class="docutils literal"><span class="pre">Roughness</span></code> не влияет на отражения);</p>
-</li>
+<li><code class="docutils literal"><span class="pre">BSDF</span> <span class="pre">Glossy</span></code> (поддерживается только распределение <code class="docutils literal"><span class="pre">GGX</span></code>; параметр <code class="docutils literal"><span class="pre">Roughness</span></code> не влияет на отражения);</li>
 <li><code class="docutils literal"><span class="pre">Transparent</span> <span class="pre">BSDF</span></code>;</li>
 <li><code class="docutils literal"><span class="pre">Mix</span> <span class="pre">Shader</span></code>;</li>
 <li><code class="docutils literal"><span class="pre">Fresnel</span></code>;</li>
@@ -874,7 +744,14 @@ Transform <a class="footnote-reference" href="#f2" id="id3">[2]</a></td>
 <li><code class="docutils literal"><span class="pre">Bump</span></code>.</li>
 </ul>
 <p>Следующие ноды поддерживаются частично:</p>
-<ul class="simple">
+<ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">Principled</span> <span class="pre">BSDF</span></code></p>
+<blockquote>
+<div><ul class="simple">
+<li>Поддерживаются входы <code class="docutils literal"><span class="pre">Roughness</span></code>, <code class="docutils literal"><span class="pre">Metallic</span></code>, <code class="docutils literal"><span class="pre">Specular</span></code> и <code class="docutils literal"><span class="pre">Normal</span></code>;</li>
+</ul>
+</div></blockquote>
+</li>
 <li><p class="first"><code class="docutils literal"><span class="pre">Texture</span> <span class="pre">Coordinates</span></code> (параметр <code class="docutils literal"><span class="pre">From</span> <span class="pre">Dupli</span></code> не поддерживается);</p>
 </li>
 <li><p class="first"><code class="docutils literal"><span class="pre">UV</span> <span class="pre">Map</span></code> (параметр <code class="docutils literal"><span class="pre">From</span> <span class="pre">Dupli</span></code> не поддерживается);</p>
@@ -890,8 +767,8 @@ Transform <a class="footnote-reference" href="#f2" id="id3">[2]</a></td>
 <div class="section" id="limitations">
 <span id="node-material-limits"></span><h2><a class="toc-backref" href="#id39">Ограничения</a><a class="headerlink" href="#limitations" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Нодовые материалы могут быть устроены сложно, но их сложность ограничена возможностями системы, которую вы используете. Эти ограничения могут быть незаметны в большинстве случаев, однако если вы создаёте очень сложный материал, вы можете превысить количество текстур и переменных векторов (т.е., векторов, которые используются вершинным шейдером для передачи данных фрагментному шейдеру), которое ваша система позволяет использовать в одном шейдере. И даже если этого не произойдёт, некоторые пользователи могут запускать ваше приложение на менее мощных системах, чем ваша. В таких случаях чрезмерно сложные материалы могут вызывать проблемы.</p>
-<p>Если вы хотите узнать, как ваша сцена поведёт себя на низкопроизводительном устройстве, но не располагаете таковым, вы можете использовать очень полезную опцию <code class="docutils literal"><span class="pre">Min</span> <span class="pre">Capabilities</span> <span class="pre">Mode</span></code>. Она находится в <a class="reference internal" href="viewer.html#viewer"><span>Просмотрщике сцен</span></a> на панели <a class="reference internal" href="viewer.html#viewer-tools-and-debug"><span>Tools &amp; Debug</span></a>.</p>
-<p>Количество текстур и переменных векторов, поддерживаемое вашей системой, можно узнать на веб-странице WebGL Report, перейти на которую можно с <a class="reference internal" href="addon.html#getting-started-launching-viewer"><span>обзорной страницы SDK</span></a>.</p>
+<p>Если вы хотите узнать, как ваша сцена поведёт себя на низкопроизводительном устройстве, но не располагаете таковым, вы можете использовать очень полезную опцию <code class="docutils literal"><span class="pre">Min</span> <span class="pre">Capabilities</span> <span class="pre">Mode</span></code>. Она находится в <a class="reference internal" href="viewer.html#viewer"><span class="std std-ref">Просмотрщике сцен</span></a> на панели <a class="reference internal" href="viewer.html#viewer-tools-and-debug"><span class="std std-ref">Tools &amp; Debug</span></a>.</p>
+<p>Количество текстур и переменных векторов, поддерживаемое вашей системой, можно узнать на веб-странице WebGL Report, перейти на которую можно с <a class="reference internal" href="addon.html#getting-started-launching-viewer"><span class="std std-ref">обзорной страницы SDK</span></a>.</p>
 <p>Ниже приводятся две таблицы, содержащие количество текстур и переменных векторов, выделяемых движком для различных нод материалов.</p>
 <p><strong>Переменные векторы</strong></p>
 <table border="1" class="docutils">
@@ -900,49 +777,37 @@ Transform <a class="footnote-reference" href="#f2" id="id3">[2]</a></td>
 <col width="52%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><p class="first last"><strong>Нода/Эффект</strong></p>
-</td>
-<td><p class="first last"><strong>Выделенные переменные векторы</strong></p>
-</td>
+<tr class="row-odd"><td><strong>Нода/Эффект</strong></td>
+<td><strong>Выделенные переменные векторы</strong></td>
 </tr>
-<tr class="row-even"><td><p class="first last">Всегда зарезервировано</p>
-</td>
+<tr class="row-even"><td>Всегда зарезервировано</td>
 <td>3</td>
 </tr>
-<tr class="row-odd"><td><p class="first last">Нода <code class="docutils literal"><span class="pre">Input</span> <span class="pre">-&gt;</span> <span class="pre">Texture</span></code> (если используется выход <code class="docutils literal"><span class="pre">Normal</span></code>)</p>
-</td>
+<tr class="row-odd"><td>Нода <code class="docutils literal"><span class="pre">Input</span> <span class="pre">-&gt;</span> <span class="pre">Texture</span></code> (если используется выход <code class="docutils literal"><span class="pre">Normal</span></code>)</td>
 <td>1</td>
 </tr>
-<tr class="row-even"><td><p class="first last">Нода <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">-&gt;</span> <span class="pre">Parallax</span></code></p>
-</td>
+<tr class="row-even"><td>Нода <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">-&gt;</span> <span class="pre">Parallax</span></code></td>
 <td>1</td>
 </tr>
-<tr class="row-odd"><td><p class="first last">Нода <code class="docutils literal"><span class="pre">Vector</span> <span class="pre">-&gt;</span> <span class="pre">Normal</span> <span class="pre">Map</span></code></p>
-</td>
+<tr class="row-odd"><td>Нода <code class="docutils literal"><span class="pre">Vector</span> <span class="pre">-&gt;</span> <span class="pre">Normal</span> <span class="pre">Map</span></code></td>
 <td>1</td>
 </tr>
-<tr class="row-even"><td><p class="first last">Нода <code class="docutils literal"><span class="pre">Input</span> <span class="pre">-&gt;</span> <span class="pre">Material</span></code> (если для материала выставлена опция <code class="docutils literal"><span class="pre">Shading</span> <span class="pre">-&gt;</span> <span class="pre">Tangent</span> <span class="pre">Shading</span></code>)</p>
-</td>
+<tr class="row-even"><td>Нода <code class="docutils literal"><span class="pre">Input</span> <span class="pre">-&gt;</span> <span class="pre">Material</span></code> (если для материала выставлена опция <code class="docutils literal"><span class="pre">Shading</span> <span class="pre">-&gt;</span> <span class="pre">Tangent</span> <span class="pre">Shading</span></code>)</td>
 <td>1</td>
 </tr>
-<tr class="row-odd"><td><p class="first last">Нода <code class="docutils literal"><span class="pre">Input</span> <span class="pre">-&gt;</span> <span class="pre">Geometry</span></code> (если используется выход <code class="docutils literal"><span class="pre">UV</span></code>)</p>
-</td>
+<tr class="row-odd"><td>Нода <code class="docutils literal"><span class="pre">Input</span> <span class="pre">-&gt;</span> <span class="pre">Geometry</span></code> (если используется выход <code class="docutils literal"><span class="pre">UV</span></code>)</td>
 <td>1</td>
 </tr>
-<tr class="row-even"><td><p class="first last">Cycles-нода <code class="docutils literal"><span class="pre">Input</span> <span class="pre">-&gt;</span> <span class="pre">UV</span> <span class="pre">Map</span></code></p>
-</td>
+<tr class="row-even"><td>Cycles-нода <code class="docutils literal"><span class="pre">Input</span> <span class="pre">-&gt;</span> <span class="pre">UV</span> <span class="pre">Map</span></code></td>
 <td>1</td>
 </tr>
-<tr class="row-odd"><td><p class="first last">Cycles-нода <code class="docutils literal"><span class="pre">Input</span> <span class="pre">-&gt;</span> <span class="pre">Texture</span> <span class="pre">Coordinate</span></code> (если используется выход <code class="docutils literal"><span class="pre">UV</span></code>)</p>
-</td>
+<tr class="row-odd"><td>Cycles-нода <code class="docutils literal"><span class="pre">Input</span> <span class="pre">-&gt;</span> <span class="pre">Texture</span> <span class="pre">Coordinate</span></code> (если используется выход <code class="docutils literal"><span class="pre">UV</span></code>)</td>
 <td>1</td>
 </tr>
-<tr class="row-even"><td><p class="first last">Нода <code class="docutils literal"><span class="pre">Input</span> <span class="pre">-&gt;</span> <span class="pre">Geometry</span></code> (если используется выход <code class="docutils literal"><span class="pre">Vertex</span> <span class="pre">Color</span></code>)</p>
-</td>
+<tr class="row-even"><td>Нода <code class="docutils literal"><span class="pre">Input</span> <span class="pre">-&gt;</span> <span class="pre">Geometry</span></code> (если используется выход <code class="docutils literal"><span class="pre">Vertex</span> <span class="pre">Color</span></code>)</td>
 <td>1</td>
 </tr>
-<tr class="row-odd"><td><p class="first last">Тени на объекте с <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Blend</span></code>-материалом</p>
-</td>
+<tr class="row-odd"><td>Тени на объекте с <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Blend</span></code>-материалом</td>
 <td><p class="first">1 - 4</p>
 <p class="last">(в зависимости от количества каскадов теней и источников света, генерирующих тени)</p>
 </td>
@@ -953,8 +818,7 @@ Transform <a class="footnote-reference" href="#f2" id="id3">[2]</a></td>
 </td>
 <td>1</td>
 </tr>
-<tr class="row-odd"><td><p class="first last">Эффект рефракции на материале</p>
-</td>
+<tr class="row-odd"><td>Эффект рефракции на материале</td>
 <td>2</td>
 </tr>
 </tbody>
@@ -966,21 +830,16 @@ Transform <a class="footnote-reference" href="#f2" id="id3">[2]</a></td>
 <col width="52%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><p class="first last"><strong>Нода/Эффект</strong></p>
-</td>
-<td><p class="first last"><strong>Выделенные текстуры</strong></p>
-</td>
+<tr class="row-odd"><td><strong>Нода/Эффект</strong></td>
+<td><strong>Выделенные текстуры</strong></td>
 </tr>
-<tr class="row-even"><td><p class="first last">Нода <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">-&gt;</span> <span class="pre">Parallax</span></code></p>
-</td>
+<tr class="row-even"><td>Нода <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">-&gt;</span> <span class="pre">Parallax</span></code></td>
 <td>1</td>
 </tr>
-<tr class="row-odd"><td><p class="first last">Нода <code class="docutils literal"><span class="pre">Input</span> <span class="pre">-&gt;</span> <span class="pre">Texture</span></code></p>
-</td>
+<tr class="row-odd"><td>Нода <code class="docutils literal"><span class="pre">Input</span> <span class="pre">-&gt;</span> <span class="pre">Texture</span></code></td>
 <td>1</td>
 </tr>
-<tr class="row-even"><td><p class="first last">Cycles-нода <code class="docutils literal"><span class="pre">Texture</span> <span class="pre">-&gt;</span> <span class="pre">Environment</span> <span class="pre">Texture</span></code></p>
-</td>
+<tr class="row-even"><td>Cycles-нода <code class="docutils literal"><span class="pre">Texture</span> <span class="pre">-&gt;</span> <span class="pre">Environment</span> <span class="pre">Texture</span></code></td>
 <td>1</td>
 </tr>
 <tr class="row-odd"><td><p class="first">Нода <code class="docutils literal"><span class="pre">Vector</span> <span class="pre">-&gt;</span> <span class="pre">Vector</span> <span class="pre">Curves</span></code></p>
@@ -991,26 +850,21 @@ Transform <a class="footnote-reference" href="#f2" id="id3">[2]</a></td>
 <p class="last">(количество нод в материале не играет роли)</p>
 </td>
 </tr>
-<tr class="row-even"><td><p class="first last">Тени на объекте с <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Blend</span></code>-материалом</p>
-</td>
+<tr class="row-even"><td>Тени на объекте с <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Blend</span></code>-материалом</td>
 <td><p class="first">1 - 4</p>
 <p class="last">(в зависимости от кол-ва каскадов/источников света, генерирующих тени)</p>
 </td>
 </tr>
-<tr class="row-odd"><td><p class="first last">Тени на объекте с <code class="docutils literal"><span class="pre">Opaque</span></code>-материалом</p>
-</td>
+<tr class="row-odd"><td>Тени на объекте с <code class="docutils literal"><span class="pre">Opaque</span></code>-материалом</td>
 <td>1</td>
 </tr>
-<tr class="row-even"><td><p class="first last">Эффект рефракции на материале</p>
-</td>
+<tr class="row-even"><td>Эффект рефракции на материале</td>
 <td>2</td>
 </tr>
-<tr class="row-odd"><td><p class="first last"><code class="docutils literal"><span class="pre">World</span> <span class="pre">-&gt;</span> <span class="pre">Environment</span> <span class="pre">Lighting</span> <span class="pre">-&gt;</span> <span class="pre">SkyTexture</span></code> включена для World</p>
-</td>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">World</span> <span class="pre">-&gt;</span> <span class="pre">Environment</span> <span class="pre">Lighting</span> <span class="pre">-&gt;</span> <span class="pre">SkyTexture</span></code> включена для World</td>
 <td>1</td>
 </tr>
-<tr class="row-even"><td><p class="first last">Эффект отражения на объекте</p>
-</td>
+<tr class="row-even"><td>Эффект отражения на объекте</td>
 <td>1</td>
 </tr>
 </tbody>
@@ -1038,7 +892,7 @@ Transform <a class="footnote-reference" href="#f2" id="id3">[2]</a></td>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Триумф.
-      Обновлено: 2017-11-21.
+      Обновлено: 2017-12-29.
 
     </p>
   </div>
@@ -1094,11 +948,11 @@ Transform <a class="footnote-reference" href="#f2" id="id3">[2]</a></td>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

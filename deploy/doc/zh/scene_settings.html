@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>场景设置 &mdash; Blend4Web 17.10.1 用户手册</title>
+  <title>场景设置 &mdash; Blend4Web 17.12.0 用户手册</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.10.1 用户手册" href="index.html"/>
+        <link rel="index" title="索引"
+              href="genindex.html"/>
+        <link rel="search" title="搜索" href="search.html"/>
+    <link rel="top" title="Blend4Web 17.12.0 用户手册" href="index.html"/>
         <link rel="next" title="物体" href="objects.html"/>
         <link rel="prev" title="插件" href="addon.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -92,7 +95,7 @@
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">场景预览器</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">网络播放器</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">插件</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">场景设置</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">场景设置</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#render-panel">渲染面板</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#development-tools">开发工具</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#shading">著色</a></li>
@@ -205,7 +208,7 @@
   <div class="section" id="scene-settings">
 <span id="index-0"></span><span id="id1"></span><h1><a class="toc-backref" href="#id4">场景设置</a><a class="headerlink" href="#scene-settings" title="永久链接至标题">¶</a></h1>
 <div class="contents topic" id="table-of-content">
-<p class="topic-title first">目录</p>
+<p class="topic-title first">Table of Content</p>
 <ul class="simple">
 <li><a class="reference internal" href="#scene-settings" id="id4">场景设置</a><ul>
 <li><a class="reference internal" href="#render-panel" id="id5">渲染面板</a><ul>
@@ -261,7 +264,7 @@
 <p>场景中的所有图像渲染参数都在此面板上找到。</p>
 <div class="section" id="development-tools">
 <span id="render-development-server"></span><h3><a class="toc-backref" href="#id6">开发工具</a><a class="headerlink" href="#development-tools" title="永久链接至标题">¶</a></h3>
-<p>开发服务器设置。  详尽的描述在 <a class="reference internal" href="addon.html#local-development-server"><span>自己的章节</span></a>.</p>
+<p>开发服务器设置。  详尽的描述在 <a class="reference internal" href="addon.html#local-development-server"><span class="std std-ref">自己的章节</span></a>.</p>
 <a class="reference internal image-reference" href="_images/render_development_server.png"><img alt="_images/render_development_server.png" class="align-center" src="_images/render_development_server.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="shading">
@@ -272,24 +275,19 @@
 <dt><em>推荐设置选项</em></dt>
 <dd><p class="first">该按钮用于实现3D场景在Blender的视口和Web浏览器的外观之间的最大一致性。按下此按钮：</p>
 <ul class="last simple">
-<li><p class="first">启用 <strong>世界空间着色</strong>，</p>
-</li>
-<li><p class="first">切换材质模式到 <strong>GLSL</strong>,</p>
-</li>
-<li><p class="first">切换视口着色模式到 <strong>材质</strong> 和</p>
-</li>
-<li><p class="first">设置主摄像头适合 <strong>垂直</strong> 。</p>
-</li>
+<li>启用 <strong>世界空间着色</strong>，</li>
+<li>切换材质模式到 <strong>GLSL</strong>,</li>
+<li>切换视口着色模式到 <strong>材质</strong> 和</li>
+<li>设置主摄像头适合 <strong>垂直</strong> 。</li>
 </ul>
 </dd>
 <dt><em>世界空间着色</em></dt>
-<dd><p class="first last">此选项打开和关闭 <strong>世界空间着色</strong> （照明数据的世界空间演绎将用于物体阴影）。默认情况下禁用。</p>
-</dd>
+<dd>此选项打开和关闭 <strong>世界空间着色</strong> （照明数据的世界空间演绎将用于物体阴影）。默认情况下禁用。</dd>
 </dl>
 </div>
 <div class="section" id="shadows">
 <span id="render-shadows"></span><h3><a class="toc-backref" href="#id8">阴影</a><a class="headerlink" href="#shadows" title="永久链接至标题">¶</a></h3>
-<p>阴影设置。 详尽的描述在 <a class="reference internal" href="lighting.html#shadows"><span>自己的章节</span></a>.</p>
+<p>阴影设置。 详尽的描述在 <a class="reference internal" href="lighting.html#shadows"><span class="std std-ref">自己的章节</span></a>.</p>
 <a class="reference internal image-reference" href="_images/render_shadows.png"><img alt="_images/render_shadows.png" class="align-center" src="_images/render_shadows.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="reflections-and-refractions">
@@ -298,24 +296,21 @@
 <a class="reference internal image-reference" href="_images/render_reflections_and_refractions.png"><img alt="_images/render_reflections_and_refractions.png" class="align-center" src="_images/render_reflections_and_refractions.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>反射</em></dt>
-<dd><p class="first last">反射效果设置。可设置 <code class="docutils literal"><span class="pre">ON</span></code>，<code class="docutils literal"><span class="pre">OFF</span></code> 或 <code class="docutils literal"><span class="pre">AUTO</span></code>。默认设置为 <code class="docutils literal"><span class="pre">ON</span></code>。</p>
-</dd>
+<dd>反射效果设置。可设置 <code class="docutils literal"><span class="pre">ON</span></code>，<code class="docutils literal"><span class="pre">OFF</span></code> 或 <code class="docutils literal"><span class="pre">AUTO</span></code>。默认设置为 <code class="docutils literal"><span class="pre">ON</span></code>。</dd>
 <dt><em>折射</em></dt>
-<dd><p class="first last">折射效果设置。可设置 <code class="docutils literal"><span class="pre">ON</span></code>，<code class="docutils literal"><span class="pre">OFF</span></code> 或 <code class="docutils literal"><span class="pre">AUTO</span></code>。默认设置为 <code class="docutils literal"><span class="pre">AUTO</span></code> 。</p>
-</dd>
+<dd>折射效果设置。可设置 <code class="docutils literal"><span class="pre">ON</span></code>，<code class="docutils literal"><span class="pre">OFF</span></code> 或 <code class="docutils literal"><span class="pre">AUTO</span></code>。默认设置为 <code class="docutils literal"><span class="pre">AUTO</span></code> 。</dd>
 <dt><em>品质</em></dt>
-<dd><p class="first last">对于反射效果的画质设置。可设置 <code class="docutils literal"><span class="pre">HIGH</span></code> （最高反射品质），<code class="docutils literal"><span class="pre">MEDIUM</span></code> （中等品质），或 <code class="docutils literal"><span class="pre">LOW</span></code> （最低质量）。默认设置为 <code class="docutils literal"><span class="pre">MEDIUM</span></code> 。</p>
-</dd>
+<dd>对于反射效果的画质设置。可设置 <code class="docutils literal"><span class="pre">HIGH</span></code> （最高反射品质），<code class="docutils literal"><span class="pre">MEDIUM</span></code> （中等品质），或 <code class="docutils literal"><span class="pre">LOW</span></code> （最低质量）。默认设置为 <code class="docutils literal"><span class="pre">MEDIUM</span></code> 。</dd>
 </dl>
 </div>
 <div class="section" id="object-outlining">
 <span id="render-object-outlining"></span><h3><a class="toc-backref" href="#id10">物体勾边</a><a class="headerlink" href="#object-outlining" title="永久链接至标题">¶</a></h3>
-<p>物体勾边设置。 详尽的描述在 <a class="reference internal" href="postprocessing_effects.html#outline"><span>自己的章节</span></a>.</p>
+<p>物体勾边设置。 详尽的描述在 <a class="reference internal" href="postprocessing_effects.html#outline"><span class="std std-ref">自己的章节</span></a>.</p>
 <a class="reference internal image-reference" href="_images/render_object_outlining.png"><img alt="_images/render_object_outlining.png" class="align-center" src="_images/render_object_outlining.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="glow-materials">
 <span id="render-glow-materials"></span><h3><a class="toc-backref" href="#id11">晕光材质</a><a class="headerlink" href="#glow-materials" title="永久链接至标题">¶</a></h3>
-<p>晕光材质效果设置。  详尽的描述在 <a class="reference internal" href="colors.html#color-correction"><span>自己的章节</span></a>.</p>
+<p>晕光材质效果设置。  详尽的描述在 <a class="reference internal" href="colors.html#color-correction"><span class="std std-ref">自己的章节</span></a>.</p>
 <a class="reference internal image-reference" href="_images/render_glow_materials.png"><img alt="_images/render_glow_materials.png" class="align-center" src="_images/render_glow_materials.png" style="width: 100%;" /></a>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
@@ -324,7 +319,7 @@
 </div>
 <div class="section" id="anti-aliasing">
 <span id="render-anti-aliasing"></span><h3><a class="toc-backref" href="#id12">抗锯齿</a><a class="headerlink" href="#anti-aliasing" title="永久链接至标题">¶</a></h3>
-<p>抗锯齿的设置。  详尽的描述在 <a class="reference internal" href="postprocessing_effects.html#antialiasing"><span>自己的章节</span></a>.</p>
+<p>抗锯齿的设置。  详尽的描述在 <a class="reference internal" href="postprocessing_effects.html#antialiasing"><span class="std std-ref">自己的章节</span></a>.</p>
 <a class="reference internal image-reference" href="_images/render_anti_aliasing.png"><img alt="_images/render_anti_aliasing.png" class="align-center" src="_images/render_anti_aliasing.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="anisotropic-filtering">
@@ -335,27 +330,27 @@
 </div>
 <div class="section" id="bloom">
 <span id="render-bloom"></span><h3><a class="toc-backref" href="#id14">布隆光晕</a><a class="headerlink" href="#bloom" title="永久链接至标题">¶</a></h3>
-<p>布隆光晕效果设置。详细描述在  <a class="reference internal" href="postprocessing_effects.html#bloom"><span>自己的章节</span></a>.</p>
+<p>布隆光晕效果设置。详细描述在  <a class="reference internal" href="postprocessing_effects.html#bloom"><span class="std std-ref">自己的章节</span></a>.</p>
 <a class="reference internal image-reference" href="_images/render_bloom.png"><img alt="_images/render_bloom.png" class="align-center" src="_images/render_bloom.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="motion-blur">
 <span id="render-motion-blur"></span><h3><a class="toc-backref" href="#id15">运动模糊</a><a class="headerlink" href="#motion-blur" title="永久链接至标题">¶</a></h3>
-<p>运动模糊设置。详尽的描述在 <a class="reference internal" href="postprocessing_effects.html#motion-blur"><span>自己的章节</span></a>.</p>
+<p>运动模糊设置。详尽的描述在 <a class="reference internal" href="postprocessing_effects.html#motion-blur"><span class="std std-ref">自己的章节</span></a>.</p>
 <a class="reference internal image-reference" href="_images/render_motion_blur.png"><img alt="_images/render_motion_blur.png" class="align-center" src="_images/render_motion_blur.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="ambient-occlusion-ssao">
 <span id="render-ssao"></span><h3><a class="toc-backref" href="#id16">环境光遮蔽（SSAO方法）</a><a class="headerlink" href="#ambient-occlusion-ssao" title="永久链接至标题">¶</a></h3>
-<p>屏幕空间环境光遮蔽（SSAO）的设置。 详尽的描述在 <a class="reference internal" href="postprocessing_effects.html#ssao"><span>自己的章节</span></a>.</p>
+<p>屏幕空间环境光遮蔽（SSAO）的设置。 详尽的描述在 <a class="reference internal" href="postprocessing_effects.html#ssao"><span class="std std-ref">自己的章节</span></a>.</p>
 <a class="reference internal image-reference" href="_images/render_ambient_occlusion.png"><img alt="_images/render_ambient_occlusion.png" class="align-center" src="_images/render_ambient_occlusion.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="god-rays">
 <span id="render-god-rays"></span><h3><a class="toc-backref" href="#id17">上帝光芒</a><a class="headerlink" href="#god-rays" title="永久链接至标题">¶</a></h3>
-<p>上帝光芒效果设置。 详尽的描述在 <a class="reference internal" href="postprocessing_effects.html#god-rays"><span>自己的章节</span></a>.</p>
+<p>上帝光芒效果设置。 详尽的描述在 <a class="reference internal" href="postprocessing_effects.html#god-rays"><span class="std std-ref">自己的章节</span></a>.</p>
 <a class="reference internal image-reference" href="_images/render_god_rays.png"><img alt="_images/render_god_rays.png" class="align-center" src="_images/render_god_rays.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="color-correction">
 <span id="render-color-correction"></span><h3><a class="toc-backref" href="#id18">色彩校正</a><a class="headerlink" href="#color-correction" title="永久链接至标题">¶</a></h3>
-<p>色彩校正设置。 详尽的描述在 <a class="reference internal" href="colors.html#color-correction"><span>自己的章节</span></a>.</p>
+<p>色彩校正设置。 详尽的描述在 <a class="reference internal" href="colors.html#color-correction"><span class="std std-ref">自己的章节</span></a>.</p>
 <a class="reference internal image-reference" href="_images/render_color_correction.png"><img alt="_images/render_color_correction.png" class="align-center" src="_images/render_color_correction.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="timeline">
@@ -364,19 +359,16 @@
 <a class="reference internal image-reference" href="_images/render_timeline.png"><img alt="_images/render_timeline.png" class="align-center" src="_images/render_timeline.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>起始帧</em></dt>
-<dd><p class="first last">时间轴的第一帧。默认设置为1。</p>
-</dd>
+<dd>时间轴的第一帧。默认设置为1。</dd>
 <dt><em>结束帧</em></dt>
-<dd><p class="first last">时间轴的最后一帧。默认设置为250。</p>
-</dd>
+<dd>时间轴的最后一帧。默认设置为250。</dd>
 <dt><em>帧率</em></dt>
-<dd><p class="first last">每秒的帧的数目。默认设置为24。此参数只影响动画播放的速度（而不是场景本身）。</p>
-</dd>
+<dd>每秒的帧的数目。默认设置为24。此参数只影响动画播放的速度（而不是场景本身）。</dd>
 </dl>
 </div>
 <div class="section" id="dynamic-grass">
 <span id="render-dynamic-grass"></span><h3><a class="toc-backref" href="#id20">动态草</a><a class="headerlink" href="#dynamic-grass" title="永久链接至标题">¶</a></h3>
-<p>启用和禁用 <a class="reference internal" href="particles_instancing.html#particles-grass"><span>动态草</span></a> 效果。</p>
+<p>启用和禁用 <a class="reference internal" href="particles_instancing.html#particles-grass"><span class="std std-ref">动态草</span></a> 效果。</p>
 <a class="reference internal image-reference" href="_images/render_dynamic_grass.png"><img alt="_images/render_dynamic_grass.png" class="align-center" src="_images/render_dynamic_grass.png" style="width: 100%;" /></a>
 <p>可能的值：<code class="docutils literal"><span class="pre">ON</span></code>，<code class="docutils literal"><span class="pre">OFF</span></code> 和 <code class="docutils literal"><span class="pre">AUTO</span></code>。默认设置为 <code class="docutils literal"><span class="pre">AUTO</span></code> 。</p>
 </div>
@@ -391,8 +383,7 @@
 <a class="reference internal image-reference" href="_images/scene_scene.png"><img alt="_images/scene_scene.png" class="align-center" src="_images/scene_scene.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt>相机</dt>
-<dd><p class="first last">用于渲染场景的相机。</p>
-</dd>
+<dd>用于渲染场景的相机。</dd>
 </dl>
 </div>
 <div class="section" id="units">
@@ -406,8 +397,7 @@
 <a class="reference internal image-reference" href="_images/scene_audio.png"><img alt="_images/scene_audio.png" class="align-center" src="_images/scene_audio.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>音量</em></dt>
-<dd><p class="first last">应用中的声音的主音量。此值介于0到100之间，并默认值是1.0。</p>
-</dd>
+<dd>应用中的声音的主音量。此值介于0到100之间，并默认值是1.0。</dd>
 <dt><em>距离模型</em></dt>
 <dd><p class="first">用于计算距离衰减的距离的模型。以下型号的引擎支持：</p>
 <p><code class="docutils literal"><span class="pre">None</span></code>  - 不使用距离模型，声音具有体积不变无论距离远近。</p>
@@ -421,39 +411,30 @@
 <p class="last">此参数默认设置为 <code class="docutils literal"><span class="pre">逆钳制</span></code> 。</p>
 </dd>
 <dt><em>速度</em></dt>
-<dd><p class="first last">此参数设置用于多普勒效应计算音速。它的值以米每秒为单位，默认设置为343.3。</p>
-</dd>
+<dd>此参数设置用于多普勒效应计算音速。它的值以米每秒为单位，默认设置为343.3。</dd>
 <dt><em>多普勒效应</em></dt>
-<dd><p class="first last">这为多普勒效应计算距离因素。它的默认值，如果1.0。</p>
-</dd>
+<dd>这为多普勒效应计算距离因素。它的默认值，如果1.0。</dd>
 <dt><em>动态压缩</em></dt>
-<dd><p class="first last">压缩音频信号的动态范围。该功能可用于使声音更加丰富。默认情况下禁用。</p>
-</dd>
+<dd>压缩音频信号的动态范围。该功能可用于使声音更加丰富。默认情况下禁用。</dd>
 <dt><em>阈值</em></dt>
-<dd><p class="first last">如果音频信号的幅度超过由该参数指定的值，压缩器将降低其等级。默认设置为-24分贝。</p>
-</dd>
+<dd>如果音频信号的幅度超过由该参数指定的值，压缩器将降低其等级。默认设置为-24分贝。</dd>
 <dt><em>拐点</em></dt>
-<dd><p class="first last">反响曲线切换到递减模式时低于阈值的间隔。默认设置为30。</p>
-</dd>
+<dd>反响曲线切换到递减模式时低于阈值的间隔。默认设置为30。</dd>
 <dt><em>比率</em></dt>
-<dd><p class="first last">增益衰减量。默认设置为12。</p>
-</dd>
+<dd>增益衰减量。默认设置为12。</dd>
 <dt><em>起音</em></dt>
-<dd><p class="first last">让压缩器减少增益10 dB的时间（以秒为单位）。默认设置为0.003。</p>
-</dd>
+<dd>让压缩器减少增益10 dB的时间（以秒为单位）。默认设置为0.003。</dd>
 <dt><em>释放音</em></dt>
-<dd><p class="first last">让压缩器提高增益10 dB的时间（以秒为单位）。默认设置为0.25。</p>
-</dd>
+<dd>让压缩器提高增益10 dB的时间（以秒为单位）。默认设置为0.25。</dd>
 </dl>
 </div>
 <div class="section" id="logic-editor">
 <span id="scene-logic-editor"></span><h3><a class="toc-backref" href="#id25">逻辑编辑器</a><a class="headerlink" href="#logic-editor" title="永久链接至标题">¶</a></h3>
-<p>设置为使用逻辑节点树（在 <a class="reference internal" href="logic_editor.html#logic-editor"><span>逻辑编辑器</span></a> 中创建的）。默认情况下禁用。</p>
+<p>设置为使用逻辑节点树（在 <a class="reference internal" href="logic_editor.html#logic-editor"><span class="std std-ref">逻辑编辑器</span></a> 中创建的）。默认情况下禁用。</p>
 <a class="reference internal image-reference" href="_images/scene_logic_editor.png"><img alt="_images/scene_logic_editor.png" class="align-center" src="_images/scene_logic_editor.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>主控节点树</em></dt>
-<dd><p class="first last">即在场景的播放使用节点树。</p>
-</dd>
+<dd>即在场景的播放使用节点树。</dd>
 </dl>
 </div>
 <div class="section" id="nla">
@@ -462,28 +443,25 @@
 <a class="reference internal image-reference" href="_images/scene_nla.png"><img alt="_images/scene_nla.png" class="align-center" src="_images/scene_nla.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>循环NLA</em></dt>
-<dd><p class="first last">如果该参数被启用， NLA动画播放完后将被重复。</p>
-</dd>
+<dd>如果该参数被启用， NLA动画播放完后将被重复。</dd>
 </dl>
 </div>
 <div class="section" id="meta-tags">
 <span id="scene-meta-tags"></span><h3><a class="toc-backref" href="#id27">Meta标签</a><a class="headerlink" href="#meta-tags" title="永久链接至标题">¶</a></h3>
-<p>应用程序的元标记。可以跟  <a class="reference internal" href="objects.html#objects-meta-tags"><span>物体元标记</span></a> 以相同的方式设置。</p>
+<p>应用程序的元标记。可以跟  <a class="reference internal" href="objects.html#objects-meta-tags"><span class="std std-ref">物体元标记</span></a> 以相同的方式设置。</p>
 <a class="reference internal image-reference" href="_images/scene_meta_tags.png"><img alt="_images/scene_meta_tags.png" class="align-center" src="_images/scene_meta_tags.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>名称</em></dt>
-<dd><p class="first last">应用程序的标题。</p>
-</dd>
+<dd>应用程序的标题。</dd>
 <dt><em>描述</em></dt>
 <dd><p class="first">应用程序的说明。可以是一个简单的文本或文本文件的链接（如果 <code class="docutils literal"><span class="pre">Description</span> <span class="pre">Source</span></code> 参数设置为 <code class="docutils literal"><span class="pre">File</span></code> 值）。</p>
 <div class="last admonition note">
 <p class="first admonition-title">注解</p>
-<p class="last">如果你使用一个文本文件作为描述源，文件可以使用内置  <a class="reference internal" href="interface.html#ui-text-editor"><span>文本编辑器</span></a>  导入到Blender。</p>
+<p class="last">如果你使用一个文本文件作为描述源，文件可以使用内置  <a class="reference internal" href="interface.html#ui-text-editor"><span class="std std-ref">文本编辑器</span></a>  导入到Blender。</p>
 </div>
 </dd>
 <dt><em>说明源</em></dt>
-<dd><p class="first last">应用程序的说明的来源。说明可以从一个文件中加载，或直接在 <code class="docutils literal"><span class="pre">Description</span></code> 字段中写出。此参数可以有两个值，<code class="docutils literal"><span class="pre">Text</span></code> 和 <code class="docutils literal"><span class="pre">File</span></code>，它是默认设置为 <code class="docutils literal"><span class="pre">Text</span></code>。</p>
-</dd>
+<dd>应用程序的说明的来源。说明可以从一个文件中加载，或直接在 <code class="docutils literal"><span class="pre">Description</span></code> 字段中写出。此参数可以有两个值，<code class="docutils literal"><span class="pre">Text</span></code> 和 <code class="docutils literal"><span class="pre">File</span></code>，它是默认设置为 <code class="docutils literal"><span class="pre">Text</span></code>。</dd>
 </dl>
 </div>
 <div class="section" id="physics">
@@ -492,8 +470,7 @@
 <a class="reference internal image-reference" href="_images/scene_physics.png"><img alt="_images/scene_physics.png" class="align-center" src="_images/scene_physics.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>启用物理</em></dt>
-<dd><p class="first last">允许在应用程序中使用物理。默认情况下启用。</p>
-</dd>
+<dd>允许在应用程序中使用物理。默认情况下启用。</dd>
 </dl>
 </div>
 <div class="section" id="object-clustering-lod">
@@ -502,51 +479,43 @@
 <a class="reference internal image-reference" href="_images/scene_object_clustering.png"><img alt="_images/scene_object_clustering.png" class="align-center" src="_images/scene_object_clustering.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>簇大小</em></dt>
-<dd><p class="first last">簇的大小用于批量（尺寸：米）的处理。如果该参数被设置为零，引擎将场景中所有物体合并。默认设置为零。</p>
-</dd>
+<dd>簇的大小用于批量（尺寸：米）的处理。如果该参数被设置为零，引擎将场景中所有物体合并。默认设置为零。</dd>
 <dt><em>LOD簇大小乘数</em></dt>
-<dd><p class="first last">该参数用于细分簇（基于每个物体指定的LOD距离）到较小的部分使得不同情况的层次细节切换不被引起注意。小簇的大小是由物体的LOD距离乘以这个参数的值定义。较高的值导致更大的簇，提高性能但使得过渡比较明显，而较低的值让变换不被引起注意但是以性能降低为代价。可以用来作为优化的手段。默认设置为0.5。</p>
-</dd>
+<dd>该参数用于细分簇（基于每个物体指定的LOD距离）到较小的部分使得不同情况的层次细节切换不被引起注意。小簇的大小是由物体的LOD距离乘以这个参数的值定义。较高的值导致更大的簇，提高性能但使得过渡比较明显，而较低的值让变换不被引起注意但是以性能降低为代价。可以用来作为优化的手段。默认设置为0.5。</dd>
 <dt><em>LOD平滑过渡</em></dt>
 <dd><p class="first">定义物体将使用切换其 LOD 层次时使用平滑过渡。有以下选项︰</p>
 <ul class="simple">
-<li><p class="first">OFF - 滑过渡被禁用 （最快）。</p>
-</li>
-<li><p class="first">NON-OPAQUE -  使用平滑过渡在 <code class="docutils literal"><span class="pre">Add</span></code>, <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Clip</span></code>, <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Blend</span></code>, <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Sort</span></code> 和 <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Anti-Aliasing</span></code> <a class="reference internal" href="materials.html#alpha-blend"><span>材质</span></a>.</p>
-</li>
-<li><p class="first">ALL - 平滑过渡将用于所有物体 （慢）。</p>
-</li>
+<li>OFF - 滑过渡被禁用 （最快）。</li>
+<li>NON-OPAQUE -  使用平滑过渡在 <code class="docutils literal"><span class="pre">Add</span></code>, <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Clip</span></code>, <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Blend</span></code>, <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Sort</span></code> 和 <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Anti-Aliasing</span></code> <a class="reference internal" href="materials.html#alpha-blend"><span class="std std-ref">材质</span></a>.</li>
+<li>ALL - 平滑过渡将用于所有物体 （慢）。</li>
 </ul>
-<p class="last">选择 &#8220;ALL&#8221; 值可以明显降低应用程序的性能，所以小心使用。默认值是 &#8220;NON-OPAQUE&#8221;.</p>
+<p class="last">选择 &quot;ALL&quot; 值可以明显降低应用程序的性能，所以小心使用。默认值是 &quot;NON-OPAQUE&quot;.</p>
 </dd>
 </dl>
 <p><em>最大 LOD 滞后区间</em></p>
 <blockquote>
-<div><p>用于切换LOD级别的间隔（米）的长度。这个值的一半从距离阈值添加/减去，产生两个不同的阈值切换到较低的和更高的LOD级。这应该减少LOD &#8220;popping&#8221; 的效果。默认设置为4。</p>
-</div></blockquote>
+<div>用于切换LOD级别的间隔（米）的长度。这个值的一半从距离阈值添加/减去，产生两个不同的阈值切换到较低的和更高的LOD级。这应该减少LOD &quot;popping&quot; 的效果。默认设置为4。</div></blockquote>
 </div>
 <div class="section" id="object-selection">
 <span id="scene-objects-selection"></span><h3><a class="toc-backref" href="#id30">选择物体</a><a class="headerlink" href="#object-selection" title="永久链接至标题">¶</a></h3>
-<p>物体选择设置。物体可以使用API​​函数来选择两种 <a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.pick_object">pick_object()</a> 并用 <a class="reference internal" href="logic_editor.html#logic-editor"><span>逻辑节点</span></a>。</p>
+<p>物体选择设置。物体可以使用API​​函数来选择两种 <a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.pick_object">pick_object()</a> 并用 <a class="reference internal" href="logic_editor.html#logic-editor"><span class="std std-ref">逻辑节点</span></a>。</p>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
-<p class="last">在 <a class="reference internal" href="viewer.html#viewer"><span>场景查看器</span></a>, 选择默认情况下启用。您可以在 <code class="docutils literal"><span class="pre">工具和除错</span></code> 面板将其关闭。</p>
+<p class="last">在 <a class="reference internal" href="viewer.html#viewer"><span class="std std-ref">场景查看器</span></a>, 选择默认情况下启用。您可以在 <code class="docutils literal"><span class="pre">工具和除错</span></code> 面板将其关闭。</p>
 </div>
 <a class="reference internal image-reference" href="_images/scene_objects_selection.png"><img alt="_images/scene_objects_selection.png" class="align-center" src="_images/scene_objects_selection.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>启用</em></dt>
-<dd><p class="first last">定义物体可以或不能被选择的参数。它可以有 <code class="docutils literal"><span class="pre">ON</span></code>，<code class="docutils literal"><span class="pre">OFF</span></code> 或 <code class="docutils literal"><span class="pre">AUTO</span></code> 值。默认设置为 <code class="docutils literal"><span class="pre">AUTO</span></code>。</p>
-</dd>
+<dd>定义物体可以或不能被选择的参数。它可以有 <code class="docutils literal"><span class="pre">ON</span></code>，<code class="docutils literal"><span class="pre">OFF</span></code> 或 <code class="docutils literal"><span class="pre">AUTO</span></code> 值。默认设置为 <code class="docutils literal"><span class="pre">AUTO</span></code>。</dd>
 </dl>
 </div>
 <div class="section" id="anchors">
 <span id="scene-anchors"></span><h3><a class="toc-backref" href="#id31">锚</a><a class="headerlink" href="#anchors" title="永久链接至标题">¶</a></h3>
-<p><a class="reference internal" href="objects.html#objects-anchors"><span>Anchor</span></a> 可见性检测设置。</p>
+<p><a class="reference internal" href="objects.html#objects-anchors"><span class="std std-ref">Anchor</span></a> 可见性检测设置。</p>
 <a class="reference internal image-reference" href="_images/scene_anchors.png"><img alt="_images/scene_anchors.png" class="align-center" src="_images/scene_anchors.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>检测锚能见度</em></dt>
-<dd><p class="first last">锚能见度检测参数。有 <code class="docutils literal"><span class="pre">ON</span></code>，<code class="docutils literal"><span class="pre">OFF</span></code> 或 <code class="docutils literal"><span class="pre">AUTO</span></code> 值。默认设置为 <code class="docutils literal"><span class="pre">AUTO</span></code> 。</p>
-</dd>
+<dd>锚能见度检测参数。有 <code class="docutils literal"><span class="pre">ON</span></code>，<code class="docutils literal"><span class="pre">OFF</span></code> 或 <code class="docutils literal"><span class="pre">AUTO</span></code> 值。默认设置为 <code class="docutils literal"><span class="pre">AUTO</span></code> 。</dd>
 </dl>
 </div>
 <div class="section" id="export-options">
@@ -555,8 +524,7 @@
 <a class="reference internal image-reference" href="_images/scene_export_options.png"><img alt="_images/scene_export_options.png" class="align-center" src="_images/scene_export_options.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>不要导出</em></dt>
-<dd><p class="first last">如果启用此参数，场景设置将在导出过程中被忽略。</p>
-</dd>
+<dd>如果启用此参数，场景设置将在导出过程中被忽略。</dd>
 </dl>
 </div>
 </div>
@@ -575,37 +543,28 @@
 <a class="reference internal image-reference" href="_images/world_world.png"><img alt="_images/world_world.png" class="align-center" src="_images/world_world.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>渲染天空</em></dt>
-<dd><p class="first last">如果启用此参数，引擎会在场景渲染天空。</p>
-</dd>
+<dd>如果启用此参数，引擎会在场景渲染天空。</dd>
 <dt><em>墙纸天空</em></dt>
-<dd><p class="first last">如果该参数被启用，天空梯度将总是从屏幕的顶部到底部，不管摄像机的位置和角度。</p>
-</dd>
+<dd>如果该参数被启用，天空梯度将总是从屏幕的顶部到底部，不管摄像机的位置和角度。</dd>
 <dt><em>混色天空</em></dt>
-<dd><p class="first last">地平线和天顶色之间的平滑过渡。</p>
-</dd>
+<dd>地平线和天顶色之间的平滑过渡。</dd>
 <dt><em>真实天空</em></dt>
-<dd><p class="first last">天空渲染与地平线受相机角度影响。</p>
-</dd>
+<dd>天空渲染与地平线受相机角度影响。</dd>
 <dt><em>水平颜色</em></dt>
-<dd><p class="first last">水平线的颜色</p>
-</dd>
+<dd>水平线的颜色</dd>
 <dt><em>天顶色</em></dt>
-<dd><p class="first last">天空顶的颜色。</p>
-</dd>
+<dd>天空顶的颜色。</dd>
 <dt><em>反射世界</em></dt>
-<dd><p class="first last">渲染反射时渲染天空。</p>
-</dd>
+<dd>渲染反射时渲染天空。</dd>
 <dt><em>只渲染反射</em></dt>
-<dd><p class="first last">在渲染的反射时 <em>只</em> 渲染天空。</p>
-</dd>
+<dd>在渲染的反射时 <em>只</em> 渲染天空。</dd>
 <dt><em>世界背景</em></dt>
-<dd><p class="first last">启用和禁用  <code class="docutils literal"><span class="pre">世界背景</span></code> （位于   <code class="docutils literal"><span class="pre">3D</span> <span class="pre">View</span></code> 面板下的 <code class="docutils literal"><span class="pre">Display</span></code> 选项卡）。当激活此选项，则背景颜色在视区窗口中渲染的方式跟在引擎里面渲染是一样的。</p>
-</dd>
+<dd>启用和禁用  <code class="docutils literal"><span class="pre">世界背景</span></code> （位于   <code class="docutils literal"><span class="pre">3D</span> <span class="pre">View</span></code> 面板下的 <code class="docutils literal"><span class="pre">Display</span></code> 选项卡）。当激活此选项，则背景颜色在视区窗口中渲染的方式跟在引擎里面渲染是一样的。</dd>
 </dl>
 </div>
 <div class="section" id="environment-lighting">
 <span id="world-environment-lighting"></span><h3><a class="toc-backref" href="#id36">天光照明</a><a class="headerlink" href="#environment-lighting" title="永久链接至标题">¶</a></h3>
-<p>环境照明设置。  详尽的描述在 <a class="reference internal" href="colors.html#color-correction"><span>自己的章节</span></a>.</p>
+<p>环境照明设置。  详尽的描述在 <a class="reference internal" href="colors.html#color-correction"><span class="std std-ref">自己的章节</span></a>.</p>
 <a class="reference internal image-reference" href="_images/world_environment_lighting.png"><img alt="_images/world_environment_lighting.png" class="align-center" src="_images/world_environment_lighting.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="mist">
@@ -614,33 +573,25 @@
 <a class="reference internal image-reference" href="_images/world_mist.png"><img alt="_images/world_mist.png" class="align-center" src="_images/world_mist.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>最小值</em></dt>
-<dd><p class="first last">雾的最小强度。默认设置为零。</p>
-</dd>
+<dd>雾的最小强度。默认设置为零。</dd>
 <dt><em>深度</em></dt>
-<dd><p class="first last">在从相机这个距离的雾效果达到最大强度。默认设置为25。</p>
-</dd>
+<dd>在从相机这个距离的雾效果达到最大强度。默认设置为25。</dd>
 <dt><em>起始</em></dt>
-<dd><p class="first last">雾效果开始出现在从相机这个距离。默认设置为5。</p>
-</dd>
+<dd>雾效果开始出现在从相机这个距离。默认设置为5。</dd>
 <dt><em>高度</em></dt>
-<dd><p class="first last">该参数快速指定如何雾强度随相机的高度增加而减小。默认设置为0。</p>
-</dd>
+<dd>该参数快速指定如何雾强度随相机的高度增加而减小。默认设置为0。</dd>
 <dt><em>散去</em></dt>
-<dd><p class="first last">该参数指定规则，根据该边界之间的雾的变化（由 <code class="docutils literal"><span class="pre">Start</span></code> 和 <code class="docutils literal"><span class="pre">Depth</span></code> 参数指定）的密度。可以有以下值：<code class="docutils literal"><span class="pre">Quadratic</span></code>，<code class="docutils literal"><span class="pre">Linear</span></code>， <code class="docutils literal"><span class="pre">Inverse</span> <span class="pre">Quadratic</span></code> 。默认设置为 <code class="docutils literal"><span class="pre">Quadratic</span></code> 。</p>
-</dd>
+<dd>该参数指定规则，根据该边界之间的雾的变化（由 <code class="docutils literal"><span class="pre">Start</span></code> 和 <code class="docutils literal"><span class="pre">Depth</span></code> 参数指定）的密度。可以有以下值：<code class="docutils literal"><span class="pre">Quadratic</span></code>，<code class="docutils literal"><span class="pre">Linear</span></code>， <code class="docutils literal"><span class="pre">Inverse</span> <span class="pre">Quadratic</span></code> 。默认设置为 <code class="docutils literal"><span class="pre">Quadratic</span></code> 。</dd>
 <dt><em>使用自定义颜色</em></dt>
-<dd><p class="first last">可用于设定的雾的颜色。默认情况下启用。如果禁用此参数，标准（0.5，0.5，0.5）的颜色将被使用。</p>
-</dd>
+<dd>可用于设定的雾的颜色。默认情况下启用。如果禁用此参数，标准（0.5，0.5，0.5）的颜色将被使用。</dd>
 <dt><em>雾颜色</em></dt>
-<dd><p class="first last">颜色雾。，如果  <code class="docutils literal"><span class="pre">使用自定义颜色</span></code> 参数启用 ，就可以改变。浅灰色（0.5，0.5，0.5）默认情况下使用。</p>
-</dd>
+<dd>颜色雾。，如果  <code class="docutils literal"><span class="pre">使用自定义颜色</span></code> 参数启用 ，就可以改变。浅灰色（0.5，0.5，0.5）默认情况下使用。</dd>
 </dl>
 </div>
 <div class="section" id="procedural-sky">
 <span id="world-procedural-sky"></span><h3><a class="toc-backref" href="#id38">程序天空</a><a class="headerlink" href="#procedural-sky" title="永久链接至标题">¶</a></h3>
 <blockquote>
-<div><p>程序天空设置。  详尽的描述在 <a class="reference internal" href="colors.html#color-correction"><span>自己的章节</span></a>.</p>
-</div></blockquote>
+<div>程序天空设置。  详尽的描述在 <a class="reference internal" href="colors.html#color-correction"><span class="std std-ref">自己的章节</span></a>.</div></blockquote>
 <a class="reference internal image-reference" href="_images/world_procedural_sky.png"><img alt="_images/world_procedural_sky.png" class="align-center" src="_images/world_procedural_sky.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="animation">
@@ -649,17 +600,13 @@
 <a class="reference internal image-reference" href="_images/world_animation.png"><img alt="_images/world_animation.png" class="align-center" src="_images/world_animation.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>应用默认动画</em></dt>
-<dd><p class="first last">如果启用此参数，引擎将开始加载场景的时候播放动画。</p>
-</dd>
+<dd>如果启用此参数，引擎将开始加载场景的时候播放动画。</dd>
 <dt><em>行为</em></dt>
 <dd><p class="first">设置默认的动画的行为。可用选项有：</p>
 <ul class="simple">
-<li><p class="first"><code class="docutils literal"><span class="pre">Loop</span></code>  - 动画将重复播放。</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">完成停止</span></code>  - 动画将播放一次。</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">完成重置</span></code>  - 动画将播放一次，然后再切换回第一帧。</p>
-</li>
+<li><code class="docutils literal"><span class="pre">Loop</span></code>  - 动画将重复播放。</li>
+<li><code class="docutils literal"><span class="pre">完成停止</span></code>  - 动画将播放一次。</li>
+<li><code class="docutils literal"><span class="pre">完成重置</span></code>  - 动画将播放一次，然后再切换回第一帧。</li>
 </ul>
 <p class="last">仅 启用了 <code class="docutils literal"><span class="pre">应用默认动画</span></code> 参数此选项可用。</p>
 </dd>
@@ -671,8 +618,7 @@
 <a class="reference internal image-reference" href="_images/world_export_options.png"><img alt="_images/world_export_options.png" class="align-center" src="_images/world_export_options.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>不要导出</em></dt>
-<dd><p class="first last">如果启用此参数，环境设置将在导出过程中被忽略。</p>
-</dd>
+<dd>如果启用此参数，环境设置将在导出过程中被忽略。</dd>
 </dl>
 </div>
 </div>
@@ -697,8 +643,8 @@
 
   <div role="contentinfo">
     <p>
-        &copy; 版权所有 2014-2017, Triumph.
-      最后更新于 2017-11-21.
+        &copy; Copyright 2014-2017, Triumph.
+      最后更新于 2017-12-29.
 
     </p>
   </div>
@@ -754,11 +700,11 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

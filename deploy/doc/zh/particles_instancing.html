@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>粒子系统.实例化 &mdash; Blend4Web 17.10.1 用户手册</title>
+  <title>粒子系统.实例化 &mdash; Blend4Web 17.12.0 用户手册</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.10.1 用户手册" href="index.html"/>
+        <link rel="index" title="索引"
+              href="genindex.html"/>
+        <link rel="search" title="搜索" href="search.html"/>
+    <link rel="top" title="Blend4Web 17.12.0 用户手册" href="index.html"/>
         <link rel="next" title="动画" href="animation.html"/>
         <link rel="prev" title="粒子系统,流体" href="particles.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -106,7 +109,7 @@
 <li class="toctree-l1"><a class="reference internal" href="vr_and_ar.html">VR and AR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">纹理</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles.html">粒子系统,流体</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">粒子系统.实例化</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">粒子系统.实例化</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#particle-system-setup">粒子系统设置</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#activation">激活</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#display-settings">显示设置</a></li>
@@ -172,7 +175,7 @@
   <span class="target" id="particles-instancing"></span><div class="section" id="particle-system-instancing">
 <span id="index-0"></span><h1><a class="toc-backref" href="#id1">粒子系统.实例化</a><a class="headerlink" href="#particle-system-instancing" title="永久链接至标题">¶</a></h1>
 <div class="contents topic" id="table-of-contents">
-<p class="topic-title first">目录</p>
+<p class="topic-title first">Table of Contents</p>
 <ul class="simple">
 <li><a class="reference internal" href="#particle-system-instancing" id="id1">粒子系统.实例化</a><ul>
 <li><a class="reference internal" href="#particle-system-setup" id="id2">粒子系统设置</a><ul>
@@ -195,30 +198,23 @@
 </div>
 <p>使用粒子系统实例化有一定的局限性，如：</p>
 <ul class="simple">
-<li><p class="first">粒子系统内的物体的移动和动画是不允许的。</p>
-</li>
-<li><p class="first">粒子系统内的物体是没有父级关系的，除了 dupli-groups。</p>
-</li>
-<li><p class="first">非网格物体的实例化是不可能的。</p>
-</li>
+<li>粒子系统内的物体的移动和动画是不允许的。</li>
+<li>粒子系统内的物体是没有父级关系的，除了 dupli-groups。</li>
+<li>非网格物体的实例化是不可能的。</li>
 </ul>
 <div class="section" id="particle-system-setup">
 <h2><a class="toc-backref" href="#id2">粒子系统设置</a><a class="headerlink" href="#particle-system-setup" title="永久链接至标题">¶</a></h2>
-<a class="reference internal image-reference" href="_images/particles_settings_panel.png"><img alt="_images/particles_settings_panel.png" class="align-center" src="_images/particles_settings_panel.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/particles_settings_panel1.png"><img alt="_images/particles_settings_panel1.png" class="align-center" src="_images/particles_settings_panel1.png" style="width: 100%;" /></a>
 <div class="section" id="activation">
 <h3><a class="toc-backref" href="#id3">激活</a><a class="headerlink" href="#activation" title="永久链接至标题">¶</a></h3>
 <ol class="arabic simple">
-<li><p class="first">在发射器创建 <code class="docutils literal"><span class="pre">Hair</span></code> 类型的粒子系统。</p>
-</li>
-<li><p class="first">在 <code class="docutils literal"><span class="pre">Render</span></code> 面板中选择 <code class="docutils literal"><span class="pre">Object</span></code> （或 <code class="docutils literal"><span class="pre">Group</span></code>）渲染类型。</p>
-</li>
-<li><p class="first">在 <code class="docutils literal"><span class="pre">DUPLI</span> <span class="pre">Object</span></code> 字段（或在 <code class="docutils literal"><span class="pre">DUPLI</span> <span class="pre">Group</span></code> 字段）选择用于实例化的物体（或物体组）。支持本地和链接的物体（或组）。</p>
-</li>
+<li>在发射器创建 <code class="docutils literal"><span class="pre">Hair</span></code> 类型的粒子系统。</li>
+<li>在 <code class="docutils literal"><span class="pre">Render</span></code> 面板中选择 <code class="docutils literal"><span class="pre">Object</span></code> （或 <code class="docutils literal"><span class="pre">Group</span></code>）渲染类型。</li>
+<li>在 <code class="docutils literal"><span class="pre">DUPLI</span> <span class="pre">Object</span></code> 字段（或在 <code class="docutils literal"><span class="pre">DUPLI</span> <span class="pre">Group</span></code> 字段）选择用于实例化的物体（或物体组）。支持本地和链接的物体（或组）。</li>
 </ol>
 <p><strong>建议的额外设置</strong></p>
 <ol class="arabic simple">
-<li><p class="first">为了在视口中显示正确的尺寸，设置  <code class="docutils literal"><span class="pre">Emission</span> <span class="pre">&gt;</span> <span class="pre">Hair</span> <span class="pre">Length</span></code> 和 <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Size</span></code> 参数为1.0。</p>
-</li>
+<li>为了在视口中显示正确的尺寸，设置  <code class="docutils literal"><span class="pre">Emission</span> <span class="pre">&gt;</span> <span class="pre">Hair</span> <span class="pre">Length</span></code> 和 <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Size</span></code> 参数为1.0。</li>
 </ol>
 <a class="reference internal image-reference" href="_images/particles_instancing_setup.png"><img alt="_images/particles_instancing_setup.png" class="align-center" src="_images/particles_instancing_setup.png" style="width: 100%;" /></a>
 <div class="line-block">
@@ -229,25 +225,20 @@
 <h3><a class="toc-backref" href="#id4">显示设置</a><a class="headerlink" href="#display-settings" title="永久链接至标题">¶</a></h3>
 <p><em>Render &gt; Use Count</em></p>
 <blockquote>
-<div><p>该选项可用于粒子物体组。当启用时，用于设置一个组中的物体的相对数的界面变得可见。该引擎不会重现某些类型的物体的确切位置。</p>
-</div></blockquote>
+<div>该选项可用于粒子物体组。当启用时，用于设置一个组中的物体的相对数的界面变得可见。该引擎不会重现某些类型的物体的确切位置。</div></blockquote>
 <p><em>Render &gt; Randomize Location and Size</em></p>
 <blockquote>
-<div><p>该选项使随机化的位置和对象的大小。如果启用引擎产生粒子物体随机坐标和大小（仅限于±25％范围内）。如果禁用，粒子物体的准确坐标和尺寸在导出后使用。</p>
-</div></blockquote>
+<div>该选项使随机化的位置和对象的大小。如果启用引擎产生粒子物体随机坐标和大小（仅限于±25％范围内）。如果禁用，粒子物体的准确坐标和尺寸在导出后使用。</div></blockquote>
 <p><em>Render &gt; Randomize Initial Rotation</em></p>
 <blockquote>
-<div><p>这个选项随机化由 <code class="docutils literal"><span class="pre">Rotation</span> <span class="pre">Type</span></code> 限定的轴线的物体的旋转。如果启用，引擎产生的粒子随意旋转角度。如果禁用，转动使用  <code class="docutils literal"><span class="pre">Rotation</span></code> 面板设置。</p>
-</div></blockquote>
+<div>这个选项随机化由 <code class="docutils literal"><span class="pre">Rotation</span> <span class="pre">Type</span></code> 限定的轴线的物体的旋转。如果启用，引擎产生的粒子随意旋转角度。如果禁用，转动使用  <code class="docutils literal"><span class="pre">Rotation</span></code> 面板设置。</div></blockquote>
 <p><em>Render &gt; Rotation Type</em></p>
 <blockquote>
 <div><p>随机物体的旋转轴（属性时可用 <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Randomize</span> <span class="pre">Initial</span> <span class="pre">Rotation</span></code> 启用）。有两个选项：</p>
 <blockquote>
 <div><ul class="simple">
-<li><p class="first"><code class="docutils literal"><span class="pre">Z</span> <span class="pre">axis</span></code> - 物体是随机绕垂直Z轴旋转</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">Random</span> <span class="pre">axis</span></code>  - 物体是随机绕随机轴线旋转</p>
-</li>
+<li><code class="docutils literal"><span class="pre">Z</span> <span class="pre">axis</span></code> - 物体是随机绕垂直Z轴旋转</li>
+<li><code class="docutils literal"><span class="pre">Random</span> <span class="pre">axis</span></code>  - 物体是随机绕随机轴线旋转</li>
 </ul>
 </div></blockquote>
 <p>默认值是 <code class="docutils literal"><span class="pre">Z</span> <span class="pre">axis</span></code></p>
@@ -257,52 +248,41 @@
 <div><p>系数限定随机旋转角的范围 - 从朝着摄像机的方向计数。  <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Randomize</span> <span class="pre">Initial</span> <span class="pre">Rotation</span></code> 复选框勾选的时候被启用。例子：</p>
 <blockquote>
 <div><ul class="simple">
-<li><p class="first"><code class="docutils literal"><span class="pre">旋转强度=</span> <span class="pre">1</span></code>  - 角度将躺在内  <span class="math">\([-\pi, \pi]\)</span>  范围</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">旋转强度=</span> <span class="pre">0.5</span></code>  - 角度将躺在内  <span class="math">\([-0.5 \cdot \pi, 0.5 \cdot \pi]\)</span> 范围</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">旋转强度=</span> <span class="pre">0.1</span></code>  - 角度将躺在内  <span class="math">\([-0.1 \cdot \pi, 0.1 \cdot \pi]\)</span> 范围</p>
-</li>
+<li><code class="docutils literal"><span class="pre">旋转强度=</span> <span class="pre">1</span></code>  - 角度将躺在内  <span class="math">\([-\pi, \pi]\)</span>  范围</li>
+<li><code class="docutils literal"><span class="pre">旋转强度=</span> <span class="pre">0.5</span></code>  - 角度将躺在内  <span class="math">\([-0.5 \cdot \pi, 0.5 \cdot \pi]\)</span> 范围</li>
+<li><code class="docutils literal"><span class="pre">旋转强度=</span> <span class="pre">0.1</span></code>  - 角度将躺在内  <span class="math">\([-0.1 \cdot \pi, 0.1 \cdot \pi]\)</span> 范围</li>
 </ul>
 </div></blockquote>
 <p>默认值是1。</p>
 </div></blockquote>
 <p><em>渲染&gt;广告牌</em></p>
 <blockquote>
-<div><p>启用对粒子的广告牌。默认情况下禁用。</p>
-</div></blockquote>
+<div>启用对粒子的广告牌。默认情况下禁用。</div></blockquote>
 <p><em>渲染&gt;广告牌类型</em></p>
 <blockquote>
 <div><p>布告板类型。在  <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Billboard</span></code> 选项被启用时可用。三种类型可供选择：</p>
 <blockquote>
 <div><ul class="simple">
-<li><p class="first"><code class="docutils literal"><span class="pre">Basic</span></code>  - 简单片面地产生广告牌：粒子将与他们的前面转向观察者</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">Random</span></code> -<code class="docutils literal"><span class="pre">Random</span></code>  - 随机双面产生广告牌：粒子将被更多地开启他们的前面或后面面向观察者更少的用边来对着观察者;也将有一个小的随机转;这种模式是专门为草实例化</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">Jittered</span></code>  - <code class="docutils literal"><span class="pre">Jittered</span></code>  - 片面产生广告牌沿着其转动到观察者的平面波浪粒子;这种模式是专为树叶的实例化</p>
-</li>
+<li><code class="docutils literal"><span class="pre">Basic</span></code>  - 简单片面地产生广告牌：粒子将与他们的前面转向观察者</li>
+<li><code class="docutils literal"><span class="pre">Random</span></code> -<code class="docutils literal"><span class="pre">Random</span></code>  - 随机双面产生广告牌：粒子将被更多地开启他们的前面或后面面向观察者更少的用边来对着观察者;也将有一个小的随机转;这种模式是专门为草实例化</li>
+<li><code class="docutils literal"><span class="pre">Jittered</span></code>  - <code class="docutils literal"><span class="pre">Jittered</span></code>  - 片面产生广告牌沿着其转动到观察者的平面波浪粒子;这种模式是专为树叶的实例化</li>
 </ul>
 </div></blockquote>
 <p>默认值是 <code class="docutils literal"><span class="pre">Basic</span></code>。</p>
 </div></blockquote>
 <p><em>Render &gt; Jitter Amplitude</em></p>
 <blockquote>
-<div><p>系数限定了粒子振荡幅度。由 <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Billboard</span> <span class="pre">Type</span></code> 菜单中选择 <code class="docutils literal"><span class="pre">Jittered</span></code> 类型时可用。此参数是越大，越大的振幅。缺省值是0。</p>
-</div></blockquote>
+<div>系数限定了粒子振荡幅度。由 <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Billboard</span> <span class="pre">Type</span></code> 菜单中选择 <code class="docutils literal"><span class="pre">Jittered</span></code> 类型时可用。此参数是越大，越大的振幅。缺省值是0。</div></blockquote>
 <p><em>Render &gt; Jitter Frequency</em></p>
 <blockquote>
-<div><p>粒子振荡频率单位赫兹。由 <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Billboard</span> <span class="pre">Type</span></code> 菜单中选择 <code class="docutils literal"><span class="pre">Jittered</span></code> 类型时可用。缺省值是0。</p>
-</div></blockquote>
+<div>粒子振荡频率单位赫兹。由 <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Billboard</span> <span class="pre">Type</span></code> 菜单中选择 <code class="docutils literal"><span class="pre">Jittered</span></code> 类型时可用。缺省值是0。</div></blockquote>
 <p><em>Render &gt; Billboard Geometry</em></p>
 <blockquote>
 <div><p>广告牌旋转方式（ <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Billboard</span></code>  复选框勾选时该选项可用）。两种类型可供选择：</p>
 <blockquote>
 <div><ul class="simple">
-<li><p class="first"><code class="docutils literal"><span class="pre">Spherical</span></code>  - 球形广告牌即粒子完全面向观察者和他们的旋转是无限的;</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">Cylindrical</span></code>  - 圆柱形广告牌即粒子只绕垂直Z轴旋转;</p>
-</li>
+<li><code class="docutils literal"><span class="pre">Spherical</span></code>  - 球形广告牌即粒子完全面向观察者和他们的旋转是无限的;</li>
+<li><code class="docutils literal"><span class="pre">Cylindrical</span></code>  - 圆柱形广告牌即粒子只绕垂直Z轴旋转;</li>
 </ul>
 </div></blockquote>
 <p>默认值是 <code class="docutils literal"><span class="pre">Spherical</span></code>。</p>
@@ -312,12 +292,10 @@
 <h3><a class="toc-backref" href="#id5">动态草设置</a><a class="headerlink" href="#dynamic-grass-setup" title="永久链接至标题">¶</a></h3>
 <p><em>Dynamic Grass</em></p>
 <blockquote>
-<div><p>此选项可启用动态小草渲染模式。默认情况下禁用。</p>
-</div></blockquote>
+<div>此选项可启用动态小草渲染模式。默认情况下禁用。</div></blockquote>
 <p><em>Dynamic Grass &gt; Scale Threshold</em></p>
 <blockquote>
-<div><p>最小尺寸为动态的草粒子。更小的粒子也不会被渲染。如果启用了  <code class="docutils literal"><span class="pre">Dynamic</span> <span class="pre">Grass</span></code> 的选项。</p>
-</div></blockquote>
+<div>最小尺寸为动态的草粒子。更小的粒子也不会被渲染。如果启用了  <code class="docutils literal"><span class="pre">Dynamic</span> <span class="pre">Grass</span></code> 的选项。</div></blockquote>
 </div>
 <div class="section" id="inheritance-settings">
 <h3><a class="toc-backref" href="#id6">继承设置</a><a class="headerlink" href="#inheritance-settings" title="永久链接至标题">¶</a></h3>
@@ -326,10 +304,8 @@
 <div><p>粒子继承了 <code class="docutils literal"><span class="pre">Wind</span> <span class="pre">Bending</span></code> 设置：</p>
 <blockquote>
 <div><ul class="simple">
-<li><p class="first"><code class="docutils literal"><span class="pre">Parent</span></code>  - 从发射器继承</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">Instance</span></code>  - 从粒子物体本身继承</p>
-</li>
+<li><code class="docutils literal"><span class="pre">Parent</span></code>  - 从发射器继承</li>
+<li><code class="docutils literal"><span class="pre">Instance</span></code>  - 从粒子物体本身继承</li>
 </ul>
 </div></blockquote>
 <p>默认值是 <code class="docutils literal"><span class="pre">Parent</span></code>。</p>
@@ -339,10 +315,8 @@
 <div><p>通过粒子继承阴影设置：</p>
 <blockquote>
 <div><ul class="simple">
-<li><p class="first"><code class="docutils literal"><span class="pre">Parent</span></code>  - 从发射器继承</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">Instance</span></code>  - 从粒子物体本身继承</p>
-</li>
+<li><code class="docutils literal"><span class="pre">Parent</span></code>  - 从发射器继承</li>
+<li><code class="docutils literal"><span class="pre">Instance</span></code>  - 从粒子物体本身继承</li>
 </ul>
 </div></blockquote>
 <p>默认值是 <code class="docutils literal"><span class="pre">Parent</span></code>。</p>
@@ -352,10 +326,8 @@
 <div><p>通过粒子继承反射设置：</p>
 <blockquote>
 <div><ul class="simple">
-<li><p class="first"><code class="docutils literal"><span class="pre">Parent</span></code>  - 从发射器继承</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">Instance</span></code>  - 从粒子物体本身继承</p>
-</li>
+<li><code class="docutils literal"><span class="pre">Parent</span></code>  - 从发射器继承</li>
+<li><code class="docutils literal"><span class="pre">Instance</span></code>  - 从粒子物体本身继承</li>
 </ul>
 </div></blockquote>
 <p>默认值是 <code class="docutils literal"><span class="pre">Parent</span></code>。</p>
@@ -365,10 +337,8 @@
 <div><p>继承发射器顶点颜色。包含两个字段：</p>
 <blockquote>
 <div><ul class="simple">
-<li><p class="first"><code class="docutils literal"><span class="pre">From</span></code>  - 发射器的现有顶点颜色名称</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">To</span></code>  - 粒子现有的顶点颜色名称</p>
-</li>
+<li><code class="docutils literal"><span class="pre">From</span></code>  - 发射器的现有顶点颜色名称</li>
+<li><code class="docutils literal"><span class="pre">To</span></code>  - 粒子现有的顶点颜色名称</li>
 </ul>
 </div></blockquote>
 <p>默认没有继承。</p>
@@ -384,21 +354,17 @@
 </div>
 <p><strong>激活</strong></p>
 <ol class="arabic simple">
-<li><p class="first">在一个独立的平面物体创建一个粒子系统再物体实例化。启用  <code class="docutils literal"><span class="pre">Dynamic</span> <span class="pre">Grass</span></code> 选项。</p>
-</li>
-<li><p class="first">为所谓的地形材质启用 <code class="docutils literal"><span class="pre">Terrain</span> <span class="pre">Dynamic</span> <span class="pre">Grass</span></code> 选项。</p>
-</li>
+<li>在一个独立的平面物体创建一个粒子系统再物体实例化。启用  <code class="docutils literal"><span class="pre">Dynamic</span> <span class="pre">Grass</span></code> 选项。</li>
+<li>为所谓的地形材质启用 <code class="docutils literal"><span class="pre">Terrain</span> <span class="pre">Dynamic</span> <span class="pre">Grass</span></code> 选项。</li>
 </ol>
 <p><strong>设置</strong></p>
 <p>建议创建具有少量的平面（例如3）对应于所需草的级联（例如100，150和250米）的尺寸。</p>
 <p>对于景观的 <strong>材质</strong>，当 <code class="docutils literal"><span class="pre">Terrain</span> <span class="pre">Dynamic</span> <span class="pre">Grass</span></code> 选项启用时，以下文本字段被激活：</p>
 <dl class="docutils">
 <dt><em>动态草尺寸（R）</em></dt>
-<dd><p class="first last">景观网格的顶点颜色图层名称其目的是为修改草大小。草的大小（即高度）由灰色色调定义 - 亮颜色草越高。</p>
-</dd>
+<dd>景观网格的顶点颜色图层名称其目的是为修改草大小。草的大小（即高度）由灰色色调定义 - 亮颜色草越高。</dd>
 <dt><em>动态彩色草（RGB）</em></dt>
-<dd><p class="first last">地形网格的顶点色层的名字是用作草的着色。顶点颜色与草材质颜色相乘。为草材质的漫反射纹理的 <code class="docutils literal"><span class="pre">Influence</span> <span class="pre">&gt;</span> <span class="pre">Blend</span></code> 参数应该有 <code class="docutils literal"><span class="pre">Multiply</span></code> 值。</p>
-</dd>
+<dd>地形网格的顶点色层的名字是用作草的着色。顶点颜色与草材质颜色相乘。为草材质的漫反射纹理的 <code class="docutils literal"><span class="pre">Influence</span> <span class="pre">&gt;</span> <span class="pre">Blend</span></code> 参数应该有 <code class="docutils literal"><span class="pre">Multiply</span></code> 值。</dd>
 </dl>
 <p>用这样的名字顶点颜色层应在景观网格存在。</p>
 <p>此外，还建议禁用发射器（的 <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Emitter</span></code> 选项）的渲染。</p>
@@ -416,44 +382,35 @@
 <p>此外，以下的操作可用于发射器来执行：</p>
 <blockquote>
 <div><ul class="simple">
-<li><p class="first">创建顶点组，其包括在其上的粒子将被放置的顶点</p>
-</li>
-<li><p class="first">创建树的风弯曲参数和叶子顶点着色层</p>
-</li>
-<li><p class="first">创建顶点着色层由粒子继承（例如它可以用于着色的粒子）</p>
-</li>
+<li>创建顶点组，其包括在其上的粒子将被放置的顶点</li>
+<li>创建树的风弯曲参数和叶子顶点着色层</li>
+<li>创建顶点着色层由粒子继承（例如它可以用于着色的粒子）</li>
 </ul>
 </div></blockquote>
 <p><strong>设置</strong></p>
 <ol class="arabic simple">
-<li><p class="first"><em>随机旋转设置</em></p>
-</li>
+<li><em>随机旋转设置</em></li>
 </ol>
 <p>如果 <code class="docutils literal"><span class="pre">初始随机Rotation</span></code> 复选框被启用，则建议选择垂直轴随机旋转 - <code class="docutils literal"><span class="pre">Z</span> <span class="pre">axis</span></code> （通过使用 <code class="docutils literal"><span class="pre">Rotation</span> <span class="pre">Type</span></code> 菜单）。该 <code class="docutils literal"><span class="pre">旋转强度</span></code> 值可随意设定。</p>
 <ol class="arabic simple" start="2">
-<li><p class="first"><em>布告板设置</em></p>
-</li>
+<li><em>布告板设置</em></li>
 </ol>
 <p>建议启用广告牌，设置其类型为 <code class="docutils literal"><span class="pre">Jittered</span></code> （通过使用 <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Billboard</span> <span class="pre">Type</span></code> 菜单），并使其球形 - <code class="docutils literal"><span class="pre">Spherical</span></code> （通过使用 <code class="docutils literal"><span class="pre">渲染&gt;广告牌Geometry</span></code> 菜单）。该 <code class="docutils literal"><span class="pre">渲染&gt;抖动Amplitude</span></code> 和 <code class="docutils literal"><span class="pre">渲染&gt;抖动Frequency</span></code> 值可随意设定。</p>
 <ol class="arabic simple" start="3">
-<li><p class="first"><em>粒子位置设置</em></p>
-</li>
+<li><em>粒子位置设置</em></li>
 </ol>
 <p>建议选择从 <code class="docutils literal"><span class="pre">Emission</span> <span class="pre">&gt;</span> <span class="pre">Emit</span> <span class="pre">From</span></code> 菜单中的 <code class="docutils literal"><span class="pre">Verts</span></code> 值，并选择发射器的顶点组（在 <code class="docutils literal"><span class="pre">Vertex</span> <span class="pre">Group</span> <span class="pre">&gt;</span> <span class="pre">Density</span></code> 字段）定义粒子的位置。请注意，在 <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Randomize</span> <span class="pre">Location</span> <span class="pre">and</span> <span class="pre">Size</span></code> 复选框应禁用。</p>
 <ol class="arabic simple" start="4">
-<li><p class="first"><em>风效果设置</em></p>
-</li>
+<li><em>风效果设置</em></li>
 </ol>
 <p>建议从发射器启用继承设置  -  在 <code class="docutils literal"><span class="pre">Properties</span> <span class="pre">Inheritance</span> <span class="pre">&gt;</span> <span class="pre">Wind</span> <span class="pre">Bending</span></code> 菜单选择 <code class="docutils literal"><span class="pre">Parent</span></code> 。在 <code class="docutils literal"><span class="pre">Object</span></code> 面板为发射器启用 <code class="docutils literal"><span class="pre">Wind</span> <span class="pre">Bending</span></code> 再设置弯曲参数。对一颗树指定 <code class="docutils literal"><span class="pre">Wind</span> <span class="pre">Bending</span> <span class="pre">&gt;</span> <span class="pre">Main</span> <span class="pre">Bending</span> <span class="pre">&gt;</span> <span class="pre">Angle</span></code> 和 <code class="docutils literal"><span class="pre">Wind</span> <span class="pre">Bending</span> <span class="pre">&gt;</span> <span class="pre">Main</span> <span class="pre">Bending</span> <span class="pre">&gt;</span> <span class="pre">Frequency</span></code> 参数就够了，在 <code class="docutils literal"><span class="pre">Wind</span> <span class="pre">Bending</span> <span class="pre">&gt;</span> <span class="pre">Main</span> <span class="pre">Bending</span> <span class="pre">&gt;</span> <span class="pre">Main</span> <span class="pre">Stiffness</span></code>  指定顶点色名称用来弯曲。</p>
 <ol class="arabic simple" id="particles-inheritance" start="5">
-<li><p class="first"><em>顶点颜色继承设置</em></p>
-</li>
+<li><em>顶点颜色继承设置</em></li>
 </ol>
 <p>对于由粒子继承发射器的顶点颜色，则需要在分别在  <code class="docutils literal"><span class="pre">Properties</span> <span class="pre">Inheritance</span> <span class="pre">&gt;</span> <span class="pre">Vertex</span> <span class="pre">Color</span> <span class="pre">&gt;</span> <span class="pre">From</span></code> 和 <code class="docutils literal"><span class="pre">Properties</span> <span class="pre">Inheritance</span> <span class="pre">&gt;</span> <span class="pre">Vertex</span> <span class="pre">Color</span> <span class="pre">&gt;</span> <span class="pre">To</span></code>  同时指定发射器的顶点颜色名称。其结果是，发射器的顶点的颜色最接近的是粒子（在 <code class="docutils literal"><span class="pre">From</span></code> 字段指定）将被复制并传播到粒子的 <code class="docutils literal"><span class="pre">To</span></code>  顶点颜色层。</p>
 <p>在 <code class="docutils literal"><span class="pre">Properties</span> <span class="pre">Inheritance</span> <span class="pre">&gt;</span> <span class="pre">Vertex</span> <span class="pre">Color</span> <span class="pre">&gt;</span> <span class="pre">To</span></code> 字段中指定的名称所产生的顶点颜色层所用的粒子的节点材质可用于它的着色和任何其他效果。</p>
 <ol class="arabic simple" start="6">
-<li><p class="first"><em>通过顶点组权重设置粒子的大小</em></p>
-</li>
+<li><em>通过顶点组权重设置粒子的大小</em></li>
 </ol>
 <p>为了创建粒子和顶点组权重的大小之间的依赖，在  <code class="docutils literal"><span class="pre">Vertex</span> <span class="pre">groups</span> <span class="pre">&gt;</span> <span class="pre">Length</span></code> 字段选择所需的顶点组的名称。</p>
 <p>影响可通过选定的顶点组中设定的权重进行调整。</p>
@@ -480,8 +437,8 @@
 
   <div role="contentinfo">
     <p>
-        &copy; 版权所有 2014-2017, Triumph.
-      最后更新于 2017-11-21.
+        &copy; Copyright 2014-2017, Triumph.
+      最后更新于 2017-12-29.
 
     </p>
   </div>
@@ -537,11 +494,11 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

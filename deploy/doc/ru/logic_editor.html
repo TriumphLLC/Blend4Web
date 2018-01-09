@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Редактор логики &mdash; Руководство пользователя Blend4Web 17.10.1</title>
+  <title>Редактор логики &mdash; Руководство пользователя Blend4Web 17.12.0</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 17.10.1" href="index.html"/>
+        <link rel="index" title="Алфавитный указатель"
+              href="genindex.html"/>
+        <link rel="search" title="Поиск" href="search.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 17.12.0" href="index.html"/>
         <link rel="next" title="Освещение, тени и фон" href="lighting.html"/>
         <link rel="prev" title="Нодовые материалы" href="node_materials.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -100,7 +103,7 @@
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
 <li class="toctree-l1"><a class="reference internal" href="material_library.html">Библиотека материалов</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Редактор логики</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Редактор логики</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#basics">Основы</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#control-flow">Control Flow</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#entry-point">Entry Point</a><ul>
@@ -421,7 +424,7 @@
   <div class="section" id="logic-editor">
 <span id="id1"></span><h1><a class="toc-backref" href="#id110">Редактор логики</a><a class="headerlink" href="#logic-editor" title="Ссылка на этот заголовок">¶</a></h1>
 <div class="contents topic" id="table-of-content">
-<p class="topic-title first">Содержание</p>
+<p class="topic-title first">Table of Content</p>
 <ul class="simple">
 <li><a class="reference internal" href="#logic-editor" id="id110">Редактор логики</a><ul>
 <li><a class="reference internal" href="#basics" id="id111">Основы</a></li>
@@ -474,16 +477,14 @@
 <h4>Выходные параметры<a class="headerlink" href="#output-parameters" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Next</em></dt>
-<dd><p class="first last">Следующая нода.</p>
-</dd>
+<dd>Следующая нода.</dd>
 </dl>
 </div>
 <div class="section" id="internal-parameters">
 <h4>Внутренние параметры<a class="headerlink" href="#internal-parameters" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Run From Script</em></dt>
-<dd><p class="first last">Если этот параметр активирован, точка входа может быть запущена с помощью API, используя метод <a class="reference external" href="https://www.blend4web.com/api_doc/module-logic_nodes.html#.run_entrypoint">run_entrypoint</a>.</p>
-</dd>
+<dd>Если этот параметр активирован, точка входа может быть запущена с помощью API, используя метод <a class="reference external" href="https://www.blend4web.com/api_doc/module-logic_nodes.html#.run_entrypoint">run_entrypoint</a>.</dd>
 </dl>
 </div>
 </div>
@@ -495,33 +496,27 @@
 <h4>Входные параметры<a class="headerlink" href="#id2" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Previous</em></dt>
-<dd><p class="first last">Предыдущая нода.</p>
-</dd>
+<dd>Предыдущая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id3">
 <h4>Выходные параметры<a class="headerlink" href="#id3" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>&lt;имя объекта&gt; Hit</em></dt>
-<dd><p class="first last">Этот параметр передаёт управление следующей ноде в случае, если выбран объект, упомянутый в его названии. По умолчанию нода <code class="docutils literal"><span class="pre">Select</span></code> имеет один параметр этого типа, также присутствует возможность создавать новые и удалять уже существующие (нода может и не иметь ни одного такого параметра).</p>
-</dd>
+<dd>Этот параметр передаёт управление следующей ноде в случае, если выбран объект, упомянутый в его названии. По умолчанию нода <code class="docutils literal"><span class="pre">Select</span></code> имеет один параметр этого типа, также присутствует возможность создавать новые и удалять уже существующие (нода может и не иметь ни одного такого параметра).</dd>
 <dt><em>Miss</em></dt>
-<dd><p class="first last">Этот параметр передаёт управление следующей ноде в случае, если выбран любой из объектов со свойством <code class="docutils literal"><span class="pre">Selectable</span></code>, не из числа объектов, указанных в данной ноде.</p>
-</dd>
+<dd>Этот параметр передаёт управление следующей ноде в случае, если выбран любой из объектов со свойством <code class="docutils literal"><span class="pre">Selectable</span></code>, не из числа объектов, указанных в данной ноде.</dd>
 </dl>
 </div>
 <div class="section" id="id4">
 <h4>Внутренние параметры<a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Object</em></dt>
-<dd><p class="first last">Один из объектов, доступных для выбора пользователю. Такие параметры создаются и удаляются автоматически при создании или удалении выходных параметров типа <code class="docutils literal"><span class="pre">Hit</span></code>.</p>
-</dd>
+<dd>Один из объектов, доступных для выбора пользователю. Такие параметры создаются и удаляются автоматически при создании или удалении выходных параметров типа <code class="docutils literal"><span class="pre">Hit</span></code>.</dd>
 <dt><em>Variable</em></dt>
-<dd><p class="first last">Если активирован этот параметр, переменная типа Object может быть указана в поле <code class="docutils literal"><span class="pre">Object</span></code>.</p>
-</dd>
+<dd>Если активирован этот параметр, переменная типа Object может быть указана в поле <code class="docutils literal"><span class="pre">Object</span></code>.</dd>
 <dt><em>Destination</em></dt>
-<dd><p class="first last">Задаёт переменную, в которой сохраняется вбранный объект.</p>
-</dd>
+<dd>Задаёт переменную, в которой сохраняется вбранный объект.</dd>
 </dl>
 </div>
 </div>
@@ -533,19 +528,16 @@
 <h4>Входные параметры<a class="headerlink" href="#id5" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Previous</em></dt>
-<dd><p class="first last">Предыдущая нода.</p>
-</dd>
+<dd>Предыдущая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id6">
 <h4>Выходные параметры<a class="headerlink" href="#id6" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>True</em></dt>
-<dd><p class="first last">Утверждение истинно.</p>
-</dd>
+<dd>Утверждение истинно.</dd>
 <dt><em>False</em></dt>
-<dd><p class="first last">Утверждение ложно.</p>
-</dd>
+<dd>Утверждение ложно.</dd>
 </dl>
 </div>
 <div class="section" id="id7">
@@ -554,29 +546,20 @@
 <dt><em>Condition</em></dt>
 <dd><p class="first">Логическое утверждение. Может иметь один из следующих типов:</p>
 <ul class="last simple">
-<li><p class="first"><em>Equal (=)</em> - первый операнд равен второму.</p>
-</li>
-<li><p class="first"><em>Not Equal (!=)</em> - первый операнд не равен второму.</p>
-</li>
-<li><p class="first"><em>Less Than (&lt;)</em> - первый операнд меньше второго.</p>
-</li>
-<li><p class="first"><em>Greater Than (&gt;)</em> - первый операнд больше второго.</p>
-</li>
-<li><p class="first"><em>Less Than Or Equal (&lt;=)</em> - первый операнд меньше либо равен второму.</p>
-</li>
-<li><p class="first"><em>Greater Than Or Equal (=&gt;)</em> - первый операнд больше либо равен второму.</p>
-</li>
+<li><em>Equal (=)</em> - первый операнд равен второму.</li>
+<li><em>Not Equal (!=)</em> - первый операнд не равен второму.</li>
+<li><em>Less Than (&lt;)</em> - первый операнд меньше второго.</li>
+<li><em>Greater Than (&gt;)</em> - первый операнд больше второго.</li>
+<li><em>Less Than Or Equal (&lt;=)</em> - первый операнд меньше либо равен второму.</li>
+<li><em>Greater Than Or Equal (=&gt;)</em> - первый операнд больше либо равен второму.</li>
 </ul>
 </dd>
 <dt><em>Operand1</em></dt>
-<dd><p class="first last">Первый операнд логического выражения. Может быть числом либо строкой (если включена опция <code class="docutils literal"><span class="pre">String</span> <span class="pre">Operators</span></code>). Может быть задан в самой ноде либо с помощью ссылки на одну из переменных (если включена опция <code class="docutils literal"><span class="pre">Variable</span></code>).</p>
-</dd>
+<dd>Первый операнд логического выражения. Может быть числом либо строкой (если включена опция <code class="docutils literal"><span class="pre">String</span> <span class="pre">Operators</span></code>). Может быть задан в самой ноде либо с помощью ссылки на одну из переменных (если включена опция <code class="docutils literal"><span class="pre">Variable</span></code>).</dd>
 <dt><em>Operand2</em></dt>
-<dd><p class="first last">Второй операнд логического выражения. Аналогичен первому.</p>
-</dd>
-<dt><em>Operand&#8217;s Type</em></dt>
-<dd><p class="first last">Тип операндов. Доступные варианты - <code class="docutils literal"><span class="pre">Number</span></code> (значение по умолчанию), <code class="docutils literal"><span class="pre">String</span></code> и <code class="docutils literal"><span class="pre">Object</span></code>.</p>
-</dd>
+<dd>Второй операнд логического выражения. Аналогичен первому.</dd>
+<dt><em>Operand’s Type</em></dt>
+<dd>Тип операндов. Доступные варианты - <code class="docutils literal"><span class="pre">Number</span></code> (значение по умолчанию), <code class="docutils literal"><span class="pre">String</span></code> и <code class="docutils literal"><span class="pre">Object</span></code>.</dd>
 </dl>
 </div>
 </div>
@@ -588,27 +571,23 @@
 <h4>Входные параметры<a class="headerlink" href="#id8" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Previous</em></dt>
-<dd><p class="first last">Предыдущая нода.</p>
-</dd>
+<dd>Предыдущая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id9">
 <h4>Выходные параметры<a class="headerlink" href="#id9" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>&lt;имя переменной&gt;</em></dt>
-<dd><p class="first last">Одна из переменных, используемых при сравнении. Если значение переменной, заданной этип параметром, совпадает со значением, заданным параметром <code class="docutils literal"><span class="pre">Variable</span></code>, управление передаётся ноде, соединённой с соответствующих выходом. По умолчанию нода <code class="docutils literal"><span class="pre">Switch</span></code> включает один параметр этого типа, но пользователь может добавлять новые и удалять уже существующие (нода может и не иметь ни одного подобного параметра).</p>
-</dd>
+<dd>Одна из переменных, используемых при сравнении. Если значение переменной, заданной этип параметром, совпадает со значением, заданным параметром <code class="docutils literal"><span class="pre">Variable</span></code>, управление передаётся ноде, соединённой с соответствующих выходом. По умолчанию нода <code class="docutils literal"><span class="pre">Switch</span></code> включает один параметр этого типа, но пользователь может добавлять новые и удалять уже существующие (нода может и не иметь ни одного подобного параметра).</dd>
 <dt><em>Default</em></dt>
-<dd><p class="first last">Этот выход передаёт управление следующей ноде в случае, если но одно из заданных значений не совпадает со значение переменной, заданной параметром <code class="docutils literal"><span class="pre">Variable</span></code>.</p>
-</dd>
+<dd>Этот выход передаёт управление следующей ноде в случае, если но одно из заданных значений не совпадает со значение переменной, заданной параметром <code class="docutils literal"><span class="pre">Variable</span></code>.</dd>
 </dl>
 </div>
 <div class="section" id="id10">
 <h4>Внутренние параметры<a class="headerlink" href="#id10" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Variable</em></dt>
-<dd><p class="first last">Задаёт переменную, используемую при сравнении.</p>
-</dd>
+<dd>Задаёт переменную, используемую при сравнении.</dd>
 </dl>
 </div>
 </div>
@@ -620,16 +599,14 @@
 <h4>Входные параметры<a class="headerlink" href="#id11" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Previous</em></dt>
-<dd><p class="first last">Предыдущая нода.</p>
-</dd>
+<dd>Предыдущая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id12">
 <h4>Выходные параметры<a class="headerlink" href="#id12" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Next</em></dt>
-<dd><p class="first last">Следующая нода.</p>
-</dd>
+<dd>Следующая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id13">
@@ -644,18 +621,15 @@
 <p class="last">Входные параметры передаются callback-функции в виде массива, который используется в качестве первого аргумента функции.</p>
 </dd>
 <dt><em>Param &lt;param_number&gt;</em></dt>
-<dd><p class="first last">Задаёт входящий параметр. Параметр может быть как переменной (<code class="docutils literal"><span class="pre">R1</span></code> по умолчанию), так и ссылкой на объект сцены, в зависимости от значения параметра <code class="docutils literal"><span class="pre">Type</span></code> (у каждого входного параметра всегда есть соответствующий параметр <code class="docutils literal"><span class="pre">Type</span></code>).</p>
-</dd>
+<dd>Задаёт входящий параметр. Параметр может быть как переменной (<code class="docutils literal"><span class="pre">R1</span></code> по умолчанию), так и ссылкой на объект сцены, в зависимости от значения параметра <code class="docutils literal"><span class="pre">Type</span></code> (у каждого входного параметра всегда есть соответствующий параметр <code class="docutils literal"><span class="pre">Type</span></code>).</dd>
 <dt><em>Type</em></dt>
-<dd><p class="first last">Тип соответствующего входного параметра. Может иметь одно из двух значений: <code class="docutils literal"><span class="pre">Variable</span></code> (в этом случае в качестве параметра будет использована одна из переменных) или <code class="docutils literal"><span class="pre">Object</span></code> (ссылка на объект сцены).</p>
-</dd>
+<dd>Тип соответствующего входного параметра. Может иметь одно из двух значений: <code class="docutils literal"><span class="pre">Variable</span></code> (в этом случае в качестве параметра будет использована одна из переменных) или <code class="docutils literal"><span class="pre">Object</span></code> (ссылка на объект сцены).</dd>
 <dt><em>Out Params</em></dt>
 <dd><p class="first">Список выходных параметров. По умолчанию пуст. Количество выходных параметров поддаётся настройке.</p>
 <p class="last">Массив, состоящий из выходных параметров, используется в качестве второго аргумента callback-функции.</p>
 </dd>
 <dt><em>Param &lt;param_number&gt;</em></dt>
-<dd><p class="first last">Задаёт переменную, которая будет использоваться в качестве одного из выходных параметров. По умолчанию используется переменная <code class="docutils literal"><span class="pre">R1</span></code>.</p>
-</dd>
+<dd>Задаёт переменную, которая будет использоваться в качестве одного из выходных параметров. По умолчанию используется переменная <code class="docutils literal"><span class="pre">R1</span></code>.</dd>
 </dl>
 </div>
 </div>
@@ -671,22 +645,18 @@
 <h4>Выходные параметры<a class="headerlink" href="#id15" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Next</em></dt>
-<dd><p class="first last">Следующая нода.</p>
-</dd>
+<dd>Следующая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id16">
 <h4>Внутренние параметры<a class="headerlink" href="#id16" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Function</em></dt>
-<dd><p class="first last">Имя функции.</p>
-</dd>
+<dd>Имя функции.</dd>
 <dt><em>In Params</em></dt>
-<dd><p class="first last">Список входных параметров функции. Список пуст по умолчанию, но пользователь может добавлять и удалять параметры с помощью кнопок <code class="docutils literal"><span class="pre">+</span></code> и <code class="docutils literal"><span class="pre">-</span></code>. Параметрам также могут быть присвоены имена.</p>
-</dd>
+<dd>Список входных параметров функции. Список пуст по умолчанию, но пользователь может добавлять и удалять параметры с помощью кнопок <code class="docutils literal"><span class="pre">+</span></code> и <code class="docutils literal"><span class="pre">-</span></code>. Параметрам также могут быть присвоены имена.</dd>
 <dt><em>Out Params</em></dt>
-<dd><p class="first last">Список выходных параметров функции. Рабоает по тому же принципу, что и список <code class="docutils literal"><span class="pre">In</span> <span class="pre">Params</span></code>.</p>
-</dd>
+<dd>Список выходных параметров функции. Рабоает по тому же принципу, что и список <code class="docutils literal"><span class="pre">In</span> <span class="pre">Params</span></code>.</dd>
 </dl>
 </div>
 </div>
@@ -698,33 +668,27 @@
 <h4>Входные параметры<a class="headerlink" href="#id17" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Previous</em></dt>
-<dd><p class="first last">Предыдущая нода.</p>
-</dd>
+<dd>Предыдущая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id18">
 <h4>Выходные параметры<a class="headerlink" href="#id18" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Next</em></dt>
-<dd><p class="first last">Следующая нода.</p>
-</dd>
+<dd>Следующая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id19">
 <h4>Внутренние параметры<a class="headerlink" href="#id19" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>NodeTree</em></dt>
-<dd><p class="first last">Имя нодового дерева, содержащего вызываемую функцию.</p>
-</dd>
+<dd>Имя нодового дерева, содержащего вызываемую функцию.</dd>
 <dt><em>Function</em></dt>
-<dd><p class="first last">Имя функции.</p>
-</dd>
+<dd>Имя функции.</dd>
 <dt><em>In Params</em></dt>
-<dd><p class="first last">Список переменных, задающих входные параметры функции, установленной при помощи параметра <code class="docutils literal"><span class="pre">Function</span></code>.</p>
-</dd>
+<dd>Список переменных, задающих входные параметры функции, установленной при помощи параметра <code class="docutils literal"><span class="pre">Function</span></code>.</dd>
 <dt><em>Out Params</em></dt>
-<dd><p class="first last">Список переменных, задающих выходные параметры функции, заданной параметром <code class="docutils literal"><span class="pre">Function</span></code>.</p>
-</dd>
+<dd>Список переменных, задающих выходные параметры функции, заданной параметром <code class="docutils literal"><span class="pre">Function</span></code>.</dd>
 </dl>
 </div>
 </div>
@@ -739,16 +703,14 @@
 <h4>Входные параметры<a class="headerlink" href="#id20" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Previous</em></dt>
-<dd><p class="first last">Предыдущая нода.</p>
-</dd>
+<dd>Предыдущая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id21">
 <h4>Выходные параметры<a class="headerlink" href="#id21" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Next</em></dt>
-<dd><p class="first last">Следующая нода.</p>
-</dd>
+<dd>Следующая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id22">
@@ -769,8 +731,7 @@
 </div>
 </dd>
 <dt><em>Do Not Wait</em></dt>
-<dd><p class="first last">Если этот параметр активирован, нода <code class="docutils literal"><span class="pre">Play</span> <span class="pre">Animation</span></code> передаст управление следующей ноде сразу после начала воспроизведения анимации. В противном случае управление будет передано только после окончания анимации.</p>
-</dd>
+<dd>Если этот параметр активирован, нода <code class="docutils literal"><span class="pre">Play</span> <span class="pre">Animation</span></code> передаст управление следующей ноде сразу после начала воспроизведения анимации. В противном случае управление будет передано только после окончания анимации.</dd>
 </dl>
 </div>
 </div>
@@ -782,24 +743,21 @@
 <h4>Входные параметры<a class="headerlink" href="#id23" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Previous</em></dt>
-<dd><p class="first last">Предыдущая нода.</p>
-</dd>
+<dd>Предыдущая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id24">
 <h4>Выходные параметры<a class="headerlink" href="#id24" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Next</em></dt>
-<dd><p class="first last">Следующая нода.</p>
-</dd>
+<dd>Следующая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id25">
 <h4>Внутренние параметры<a class="headerlink" href="#id25" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Set First Frame</em></dt>
-<dd><p class="first last">Если этот параметр активирован, анимация будет сброшена на первый кадр таймлайна после остановки воспроизведения. В противном случае анимация будет остановлена на кадре, заданном при помощи параметра <code class="docutils literal"><span class="pre">End</span> <span class="pre">Marker</span></code> ноды <code class="docutils literal"><span class="pre">Play</span> <span class="pre">Timeline</span></code>.</p>
-</dd>
+<dd>Если этот параметр активирован, анимация будет сброшена на первый кадр таймлайна после остановки воспроизведения. В противном случае анимация будет остановлена на кадре, заданном при помощи параметра <code class="docutils literal"><span class="pre">End</span> <span class="pre">Marker</span></code> ноды <code class="docutils literal"><span class="pre">Play</span> <span class="pre">Timeline</span></code>.</dd>
 </dl>
 </div>
 </div>
@@ -818,50 +776,39 @@
 <h4>Входные параметры<a class="headerlink" href="#id26" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Previous</em></dt>
-<dd><p class="first last">Предыдущая нода.</p>
-</dd>
+<dd>Предыдущая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id27">
 <h4>Выходные параметры<a class="headerlink" href="#id27" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Next</em></dt>
-<dd><p class="first last">Следующая нода.</p>
-</dd>
+<dd>Следующая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id28">
 <h4>Внутренние параметры<a class="headerlink" href="#id28" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Environment Anim.</em></dt>
-<dd><p class="first last">Если этот параметр включён, воспроизводиться будет анимация окружающей среды (т.е., объекта типа <code class="docutils literal"><span class="pre">World</span></code>).</p>
-</dd>
+<dd>Если этот параметр включён, воспроизводиться будет анимация окружающей среды (т.е., объекта типа <code class="docutils literal"><span class="pre">World</span></code>).</dd>
 <dt><em>World</em></dt>
-<dd><p class="first last">Задаёт объект типа <code class="docutils literal"><span class="pre">World</span></code>, анимация которого будет воспроизводиться. Этот параметр доступен только в том случае, если включена опция <code class="docutils literal"><span class="pre">Environment</span> <span class="pre">Anim.</span></code>.</p>
-</dd>
+<dd>Задаёт объект типа <code class="docutils literal"><span class="pre">World</span></code>, анимация которого будет воспроизводиться. Этот параметр доступен только в том случае, если включена опция <code class="docutils literal"><span class="pre">Environment</span> <span class="pre">Anim.</span></code>.</dd>
 <dt><em>Object</em></dt>
-<dd><p class="first last">Имя объекта, анимацию которого следует воспроизвести.</p>
-</dd>
+<dd>Имя объекта, анимацию которого следует воспроизвести.</dd>
 <dt><em>Variable</em></dt>
-<dd><p class="first last">Если этот параметр включён, в поле <code class="docutils literal"><span class="pre">Object</span></code> может быть указана переменная типа Object.</p>
-</dd>
+<dd>Если этот параметр включён, в поле <code class="docutils literal"><span class="pre">Object</span></code> может быть указана переменная типа Object.</dd>
 <dt><em>Anim. Name</em></dt>
-<dd><p class="first last">Имя анимации, которую следует воспроизвести. В случае, если имя анимации не указано, проигрывается вся временная шкала.</p>
-</dd>
+<dd>Имя анимации, которую следует воспроизвести. В случае, если имя анимации не указано, проигрывается вся временная шкала.</dd>
 <dt><em>Behavior</em></dt>
 <dd><p class="first">Задаёт поведение анимации. Может иметь одно из следующих значений:</p>
 <ul class="last simple">
-<li><p class="first"><em>Finish Stop</em> - анимация воспроизводится один раз.</p>
-</li>
-<li><p class="first"><em>Finish Reset</em> - анимация воспроизводится один раз, после её завершения объект возвращается в исходное состояние.</p>
-</li>
-<li><p class="first"><em>Loop</em> - анимация воспроизводится циклически до тех пор, пока не остановлена с помощью ноды <code class="docutils literal"><span class="pre">Stop</span> <span class="pre">Animation</span></code>.</p>
-</li>
+<li><em>Finish Stop</em> - анимация воспроизводится один раз.</li>
+<li><em>Finish Reset</em> - анимация воспроизводится один раз, после её завершения объект возвращается в исходное состояние.</li>
+<li><em>Loop</em> - анимация воспроизводится циклически до тех пор, пока не остановлена с помощью ноды <code class="docutils literal"><span class="pre">Stop</span> <span class="pre">Animation</span></code>.</li>
 </ul>
 </dd>
 <dt><em>Do Not Wait</em></dt>
-<dd><p class="first last">Если этот параметр активирован, нода <code class="docutils literal"><span class="pre">Play</span> <span class="pre">Animation</span></code> передаст управление следующей ноде сразу после начала воспроизведения анимации. В противном случае управление будет передано только после окончания анимации.</p>
-</dd>
+<dd>Если этот параметр активирован, нода <code class="docutils literal"><span class="pre">Play</span> <span class="pre">Animation</span></code> передаст управление следующей ноде сразу после начала воспроизведения анимации. В противном случае управление будет передано только после окончания анимации.</dd>
 </dl>
 </div>
 </div>
@@ -873,36 +820,29 @@
 <h4>Входные параметры<a class="headerlink" href="#id29" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Previous</em></dt>
-<dd><p class="first last">Предыдущая нода.</p>
-</dd>
+<dd>Предыдущая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id30">
 <h4>Выходные параметры<a class="headerlink" href="#id30" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Next</em></dt>
-<dd><p class="first last">Следующая нода.</p>
-</dd>
+<dd>Следующая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id31">
 <h4>Внутренние параметры<a class="headerlink" href="#id31" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Environmental Anim.</em></dt>
-<dd><p class="first last">Если активирован этот параметр, остановлена будет анимация окружающей среды (т.е., объекта типа <code class="docutils literal"><span class="pre">World</span></code>).</p>
-</dd>
+<dd>Если активирован этот параметр, остановлена будет анимация окружающей среды (т.е., объекта типа <code class="docutils literal"><span class="pre">World</span></code>).</dd>
 <dt><em>World</em></dt>
-<dd><p class="first last">Задаёт объект типа <code class="docutils literal"><span class="pre">World</span></code>, анимация которого будет остановлена. Этот параметр доступен только в том случае, если включена опция <code class="docutils literal"><span class="pre">Environment</span> <span class="pre">Anim.</span></code>.</p>
-</dd>
+<dd>Задаёт объект типа <code class="docutils literal"><span class="pre">World</span></code>, анимация которого будет остановлена. Этот параметр доступен только в том случае, если включена опция <code class="docutils literal"><span class="pre">Environment</span> <span class="pre">Anim.</span></code>.</dd>
 <dt><em>Object</em></dt>
-<dd><p class="first last">Имя объекта, анимацию которого следует остановить.</p>
-</dd>
+<dd>Имя объекта, анимацию которого следует остановить.</dd>
 <dt><em>Variable</em></dt>
-<dd><p class="first last">Если этот параметр включён, в поле <code class="docutils literal"><span class="pre">Object</span></code> может быть указана переменная типа Object.</p>
-</dd>
+<dd>Если этот параметр включён, в поле <code class="docutils literal"><span class="pre">Object</span></code> может быть указана переменная типа Object.</dd>
 <dt><em>Set First Frame</em></dt>
-<dd><p class="first last">Вернуться к первому кадру после того, как анимация остановлена.</p>
-</dd>
+<dd>Вернуться к первому кадру после того, как анимация остановлена.</dd>
 </dl>
 </div>
 </div>
@@ -917,16 +857,14 @@
 <h4>Входные параметры<a class="headerlink" href="#id32" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Previous</em></dt>
-<dd><p class="first last">Предыдущая нода.</p>
-</dd>
+<dd>Предыдущая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id33">
 <h4>Выходные параметры<a class="headerlink" href="#id33" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Next</em></dt>
-<dd><p class="first last">Следующая нода.</p>
-</dd>
+<dd>Следующая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id34">
@@ -945,8 +883,7 @@
 <p class="last">Этот параметр может быть задан напрямую или с помощью переменной типа Object (если включена опция <code class="docutils literal"><span class="pre">Variable</span></code>).</p>
 </dd>
 <dt><em>Duration</em></dt>
-<dd><p class="first last">Время (в секундах), которое займёт перемещение. По умолчанию равно нулю (в этом случае камера перемещается мгновенно). Может быть задано вручную или с помощью ссылки на переменную (эта возможность появляется при активации параметра <code class="docutils literal"><span class="pre">Variable</span></code>).</p>
-</dd>
+<dd>Время (в секундах), которое займёт перемещение. По умолчанию равно нулю (в этом случае камера перемещается мгновенно). Может быть задано вручную или с помощью ссылки на переменную (эта возможность появляется при активации параметра <code class="docutils literal"><span class="pre">Variable</span></code>).</dd>
 </dl>
 </div>
 </div>
@@ -958,16 +895,14 @@
 <h4>Входные параметры<a class="headerlink" href="#id35" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Previous</em></dt>
-<dd><p class="first last">Предыдущая нода.</p>
-</dd>
+<dd>Предыдущая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id36">
 <h4>Выходные параметры<a class="headerlink" href="#id36" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Next</em></dt>
-<dd><p class="first last">Следующая нода.</p>
-</dd>
+<dd>Следующая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id37">
@@ -978,38 +913,30 @@
 <p class="last">Этот параметр может быть задан напрямую или с помощью переменной типа Object (если включена опция <code class="docutils literal"><span class="pre">Variable</span></code>).</p>
 </dd>
 <dt><em>New Camera Move Style</em></dt>
-<dd><p class="first last">Задаёт новый режим перемещения выбранной камеры. Доступно четыре варианта: <code class="docutils literal"><span class="pre">Hover</span></code>, <code class="docutils literal"><span class="pre">Eye</span></code>, <code class="docutils literal"><span class="pre">Target</span></code> и <code class="docutils literal"><span class="pre">Static</span></code>.</p>
-</dd>
+<dd>Задаёт новый режим перемещения выбранной камеры. Доступно четыре варианта: <code class="docutils literal"><span class="pre">Hover</span></code>, <code class="docutils literal"><span class="pre">Eye</span></code>, <code class="docutils literal"><span class="pre">Target</span></code> и <code class="docutils literal"><span class="pre">Static</span></code>.</dd>
 </dl>
 <p>Следующие параметры недоступны в том случае, если параметр <code class="docutils literal"><span class="pre">New</span> <span class="pre">Camera</span> <span class="pre">Move</span> <span class="pre">Style</span></code> имеет значение <code class="docutils literal"><span class="pre">Static</span></code>:</p>
 <dl class="docutils">
 <dt><em>Translation</em></dt>
-<dd><p class="first last">Задаёт скорость перемещения камеры. Значение по умолчанию - 1.0.</p>
-</dd>
+<dd>Задаёт скорость перемещения камеры. Значение по умолчанию - 1.0.</dd>
 <dt><em>Rotation</em></dt>
-<dd><p class="first last">Задаёт скорость поворота камеры. Значение по умолчанию - 1.0.</p>
-</dd>
+<dd>Задаёт скорость поворота камеры. Значение по умолчанию - 1.0.</dd>
 <dt><em>Zoom</em></dt>
-<dd><p class="first last">Задаёт скорость приближения и удаления камеры. Значение по умолчанию - 0.10. Этот параметр доступен только в том случае, если параметр <code class="docutils literal"><span class="pre">New</span> <span class="pre">Camera</span> <span class="pre">Move</span> <span class="pre">Style</span></code> имеет значение <code class="docutils literal"><span class="pre">Hover</span></code> или <code class="docutils literal"><span class="pre">Target</span></code>.</p>
-</dd>
+<dd>Задаёт скорость приближения и удаления камеры. Значение по умолчанию - 0.10. Этот параметр доступен только в том случае, если параметр <code class="docutils literal"><span class="pre">New</span> <span class="pre">Camera</span> <span class="pre">Move</span> <span class="pre">Style</span></code> имеет значение <code class="docutils literal"><span class="pre">Hover</span></code> или <code class="docutils literal"><span class="pre">Target</span></code>.</dd>
 </dl>
 <p>Следующие параметры используются для задания цели или точки привязки камеры. Они доступны только если параметр <code class="docutils literal"><span class="pre">New</span> <span class="pre">Camera</span> <span class="pre">Move</span> <span class="pre">Style</span></code> имеет значение <code class="docutils literal"><span class="pre">Hover</span></code> или <code class="docutils literal"><span class="pre">Target</span></code>.</p>
 <dl class="docutils">
 <dt><em>Use Object</em></dt>
-<dd><p class="first last">Эта опция включает и выключает использования объекта сцены в качестве цели или точки привязки камеры (в зависимости от типа камеры). Если опция включена, появляется текстовое поле для задания объекта. Эта опция деактивирована по умолчанию.</p>
-</dd>
+<dd>Эта опция включает и выключает использования объекта сцены в качестве цели или точки привязки камеры (в зависимости от типа камеры). Если опция включена, появляется текстовое поле для задания объекта. Эта опция деактивирована по умолчанию.</dd>
 </dl>
 <p>Если параметр <code class="docutils literal"><span class="pre">Use</span> <span class="pre">Object</span></code> деактивирован, становятся доступны следующие три опции:</p>
 <dl class="docutils">
 <dt><em>x</em></dt>
-<dd><p class="first last"><code class="docutils literal"><span class="pre">X</span></code>-координата цели или точки привязки камеры.</p>
-</dd>
+<dd><code class="docutils literal"><span class="pre">X</span></code>-координата цели или точки привязки камеры.</dd>
 <dt><em>y</em></dt>
-<dd><p class="first last"><code class="docutils literal"><span class="pre">Y</span></code>-координата цели или точки привязки камеры.</p>
-</dd>
+<dd><code class="docutils literal"><span class="pre">Y</span></code>-координата цели или точки привязки камеры.</dd>
 <dt><em>z</em></dt>
-<dd><p class="first last"><code class="docutils literal"><span class="pre">Z</span></code>-координата цели или точки привязки камеры.</p>
-</dd>
+<dd><code class="docutils literal"><span class="pre">Z</span></code>-координата цели или точки привязки камеры.</dd>
 </dl>
 </div>
 </div>
@@ -1021,16 +948,14 @@
 <h4>Входные параметры<a class="headerlink" href="#id38" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Previous</em></dt>
-<dd><p class="first last">Предыдущая нода.</p>
-</dd>
+<dd>Предыдущая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id39">
 <h4>Выходные параметры<a class="headerlink" href="#id39" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Next</em></dt>
-<dd><p class="first last">Следующая нода.</p>
-</dd>
+<dd>Следующая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id40">
@@ -1041,23 +966,17 @@
 <p class="last">Этот параметр может быть задан напрямую или с помощью переменной типа Object (если включена опция <code class="docutils literal"><span class="pre">Variable</span></code>).</p>
 </dd>
 <dt><em>Distance Limits</em></dt>
-<dd><p class="first last">Задаёт параметр <code class="docutils literal"><span class="pre">Distance</span> <span class="pre">Limits</span></code>, доступный для камер типов <a class="reference internal" href="camera.html#camera-target-type"><span>Target</span></a> и <a class="reference internal" href="camera.html#camera-hover-type"><span>Hover</span></a>.</p>
-</dd>
+<dd>Задаёт параметр <code class="docutils literal"><span class="pre">Distance</span> <span class="pre">Limits</span></code>, доступный для камер типов <a class="reference internal" href="camera.html#camera-target-type"><span class="std std-ref">Target</span></a> и <a class="reference internal" href="camera.html#camera-hover-type"><span class="std std-ref">Hover</span></a>.</dd>
 <dt><em>Hor. Rotation Limits</em></dt>
-<dd><p class="first last">Задаёт параметр <code class="docutils literal"><span class="pre">Horizontal</span> <span class="pre">Rotation</span> <span class="pre">Limits</span></code>, доступный для камер типов <a class="reference internal" href="camera.html#camera-target-type"><span>Target</span></a> и <a class="reference internal" href="camera.html#camera-eye-type"><span>Eye</span></a>.</p>
-</dd>
+<dd>Задаёт параметр <code class="docutils literal"><span class="pre">Horizontal</span> <span class="pre">Rotation</span> <span class="pre">Limits</span></code>, доступный для камер типов <a class="reference internal" href="camera.html#camera-target-type"><span class="std std-ref">Target</span></a> и <a class="reference internal" href="camera.html#camera-eye-type"><span class="std std-ref">Eye</span></a>.</dd>
 <dt><em>Vert. Rotation Limits</em></dt>
-<dd><p class="first last">Задаёт параметр <code class="docutils literal"><span class="pre">Vertical</span> <span class="pre">Rotation</span> <span class="pre">Limits</span></code>, доступный для камер типов <a class="reference internal" href="camera.html#camera-target-type"><span>Target</span></a>, <a class="reference internal" href="camera.html#camera-hover-type"><span>Hover</span></a> и <a class="reference internal" href="camera.html#camera-eye-type"><span>Eye</span></a>.</p>
-</dd>
+<dd>Задаёт параметр <code class="docutils literal"><span class="pre">Vertical</span> <span class="pre">Rotation</span> <span class="pre">Limits</span></code>, доступный для камер типов <a class="reference internal" href="camera.html#camera-target-type"><span class="std std-ref">Target</span></a>, <a class="reference internal" href="camera.html#camera-hover-type"><span class="std std-ref">Hover</span></a> и <a class="reference internal" href="camera.html#camera-eye-type"><span class="std std-ref">Eye</span></a>.</dd>
 <dt><em>Pivot Translation Limits</em></dt>
-<dd><p class="first last">Задаёт параметр <code class="docutils literal"><span class="pre">Pivot</span> <span class="pre">Translation</span> <span class="pre">Limits</span></code>, доступный для камер типа <a class="reference internal" href="camera.html#camera-target-type"><span>Target</span></a>.</p>
-</dd>
+<dd>Задаёт параметр <code class="docutils literal"><span class="pre">Pivot</span> <span class="pre">Translation</span> <span class="pre">Limits</span></code>, доступный для камер типа <a class="reference internal" href="camera.html#camera-target-type"><span class="std std-ref">Target</span></a>.</dd>
 <dt><em>Hor. Translation Limits</em></dt>
-<dd><p class="first last">Задаёт параметр <code class="docutils literal"><span class="pre">Horizontal</span> <span class="pre">Translation</span> <span class="pre">Limits</span></code>, доступный для камер типа <a class="reference internal" href="camera.html#camera-hover-type"><span>Hover</span></a>.</p>
-</dd>
+<dd>Задаёт параметр <code class="docutils literal"><span class="pre">Horizontal</span> <span class="pre">Translation</span> <span class="pre">Limits</span></code>, доступный для камер типа <a class="reference internal" href="camera.html#camera-hover-type"><span class="std std-ref">Hover</span></a>.</dd>
 <dt><em>Vert. Translation Limits</em></dt>
-<dd><p class="first last">Задаёт параметр <code class="docutils literal"><span class="pre">Vertical</span> <span class="pre">Translation</span> <span class="pre">Limits</span></code>, доступный для камер типа <a class="reference internal" href="camera.html#camera-hover-type"><span>Hover</span></a>.</p>
-</dd>
+<dd>Задаёт параметр <code class="docutils literal"><span class="pre">Vertical</span> <span class="pre">Translation</span> <span class="pre">Limits</span></code>, доступный для камер типа <a class="reference internal" href="camera.html#camera-hover-type"><span class="std std-ref">Hover</span></a>.</dd>
 </dl>
 </div>
 </div>
@@ -1072,30 +991,25 @@
 <h4>Входные параметры<a class="headerlink" href="#id41" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Previous</em></dt>
-<dd><p class="first last">Предыдущая нода.</p>
-</dd>
+<dd>Предыдущая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id42">
 <h4>Выходные параметры<a class="headerlink" href="#id42" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Next</em></dt>
-<dd><p class="first last">Следующая нода.</p>
-</dd>
+<dd>Следующая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id43">
 <h4>Внутренние параметры<a class="headerlink" href="#id43" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Object</em></dt>
-<dd><p class="first last">Объект, который нужно отобразить.</p>
-</dd>
+<dd>Объект, который нужно отобразить.</dd>
 <dt><em>Variable</em></dt>
-<dd><p class="first last">Если этот параметр включён, в поле <code class="docutils literal"><span class="pre">Object</span></code> может быть указана переменная типа Object.</p>
-</dd>
+<dd>Если этот параметр включён, в поле <code class="docutils literal"><span class="pre">Object</span></code> может быть указана переменная типа Object.</dd>
 <dt><em>Process child objects</em></dt>
-<dd><p class="first last">Если этот параметр включён, объекты-потомки также будут показаны.</p>
-</dd>
+<dd>Если этот параметр включён, объекты-потомки также будут показаны.</dd>
 </dl>
 </div>
 </div>
@@ -1107,30 +1021,25 @@
 <h4>Входные параметры<a class="headerlink" href="#id44" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Previous</em></dt>
-<dd><p class="first last">Предыдущая нода.</p>
-</dd>
+<dd>Предыдущая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id45">
 <h4>Выходные параметры<a class="headerlink" href="#id45" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Next</em></dt>
-<dd><p class="first last">Следующая нода.</p>
-</dd>
+<dd>Следующая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id46">
 <h4>Внутренние параметры<a class="headerlink" href="#id46" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Object</em></dt>
-<dd><p class="first last">Объект, который нужно скрыть.</p>
-</dd>
+<dd>Объект, который нужно скрыть.</dd>
 <dt><em>Variable</em></dt>
-<dd><p class="first last">Если этот параметр включён, в поле <code class="docutils literal"><span class="pre">Object</span></code> может быть указана переменная типа Object.</p>
-</dd>
+<dd>Если этот параметр включён, в поле <code class="docutils literal"><span class="pre">Object</span></code> может быть указана переменная типа Object.</dd>
 <dt><em>Process child objects</em></dt>
-<dd><p class="first last">Если этот параметр включён, объекты-потомки также будут скрыты.</p>
-</dd>
+<dd>Если этот параметр включён, объекты-потомки также будут скрыты.</dd>
 </dl>
 </div>
 </div>
@@ -1142,51 +1051,40 @@
 <h4>Входные параметры<a class="headerlink" href="#id47" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Previous</em></dt>
-<dd><p class="first last">Предыдущая нода.</p>
-</dd>
+<dd>Предыдущая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id48">
 <h4>Выходные параметры<a class="headerlink" href="#id48" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Next</em></dt>
-<dd><p class="first last">Следующая нода.</p>
-</dd>
+<dd>Следующая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id49">
 <h4>Внутренние параметры<a class="headerlink" href="#id49" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Object</em></dt>
-<dd><p class="first last">Объект, который нужно трансформировать.</p>
-</dd>
+<dd>Объект, который нужно трансформировать.</dd>
 <dt><em>Variable</em></dt>
-<dd><p class="first last">Если этот параметр включён, в поле <code class="docutils literal"><span class="pre">Object</span></code> может быть указана переменная типа Object.</p>
-</dd>
+<dd>Если этот параметр включён, в поле <code class="docutils literal"><span class="pre">Object</span></code> может быть указана переменная типа Object.</dd>
 <dt><em>Space</em></dt>
 <dd><p class="first">Этот параметр определяет систему координат, которая будет использована для трансформации объекта. Может принимать одно из следующих значений:</p>
 <ul class="simple">
-<li><p class="first"><code class="docutils literal"><span class="pre">World</span></code> - глобальная система координат.</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">Parent</span></code> - система координат объекта, который является предком объекта, указанного в параметре <code class="docutils literal"><span class="pre">Object</span></code>. Точка привязки родительского объекта используется как центр координат, а углы наклона задают направления координатных осей.</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">Local</span></code> - локальная система координат выбранного объекта. Схожа с системой координат родительского объекта, но в данном случае точка привязки самого объекта используется в качестве начала координат.</p>
-</li>
+<li><code class="docutils literal"><span class="pre">World</span></code> - глобальная система координат.</li>
+<li><code class="docutils literal"><span class="pre">Parent</span></code> - система координат объекта, который является предком объекта, указанного в параметре <code class="docutils literal"><span class="pre">Object</span></code>. Точка привязки родительского объекта используется как центр координат, а углы наклона задают направления координатных осей.</li>
+<li><code class="docutils literal"><span class="pre">Local</span></code> - локальная система координат выбранного объекта. Схожа с системой координат родительского объекта, но в данном случае точка привязки самого объекта используется в качестве начала координат.</li>
 </ul>
 <p class="last">Значение по умолчанию - <code class="docutils literal"><span class="pre">World</span></code>.</p>
 </dd>
 <dt><em>Location</em></dt>
-<dd><p class="first last">Перемещение объекта по осям <code class="docutils literal"><span class="pre">X</span></code>, <code class="docutils literal"><span class="pre">Y</span></code> и <code class="docutils literal"><span class="pre">Z</span></code>. По умолчанию все три значения равны нулю. Значения могут быть заданы в самой ноде либо с помощью переменной (если включена опция <code class="docutils literal"><span class="pre">Variable</span></code>).</p>
-</dd>
+<dd>Перемещение объекта по осям <code class="docutils literal"><span class="pre">X</span></code>, <code class="docutils literal"><span class="pre">Y</span></code> и <code class="docutils literal"><span class="pre">Z</span></code>. По умолчанию все три значения равны нулю. Значения могут быть заданы в самой ноде либо с помощью переменной (если включена опция <code class="docutils literal"><span class="pre">Variable</span></code>).</dd>
 <dt><em>Rotation</em></dt>
-<dd><p class="first last">Углы поворота объекта вокруг осей <code class="docutils literal"><span class="pre">X</span></code>, <code class="docutils literal"><span class="pre">Y</span></code> и <code class="docutils literal"><span class="pre">Z</span></code>. По умолчанию все три угла равны нулю. Значения могут быть заданы непосредственно в ноде или через переменные (в том случае, если включена опция <code class="docutils literal"><span class="pre">Variable</span></code>).</p>
-</dd>
+<dd>Углы поворота объекта вокруг осей <code class="docutils literal"><span class="pre">X</span></code>, <code class="docutils literal"><span class="pre">Y</span></code> и <code class="docutils literal"><span class="pre">Z</span></code>. По умолчанию все три угла равны нулю. Значения могут быть заданы непосредственно в ноде или через переменные (в том случае, если включена опция <code class="docutils literal"><span class="pre">Variable</span></code>).</dd>
 <dt><em>Scale</em></dt>
-<dd><p class="first last">Масштаб объекта. Может быть задан напрямую или с помощью переменной (если включена опция <code class="docutils literal"><span class="pre">Variable</span></code>). По умолчанию равен нулю.</p>
-</dd>
+<dd>Масштаб объекта. Может быть задан напрямую или с помощью переменной (если включена опция <code class="docutils literal"><span class="pre">Variable</span></code>). По умолчанию равен нулю.</dd>
 <dt><em>Duration</em></dt>
-<dd><p class="first last">Время (в секундах), которое займёт трансформация. Может быть задано как напрямую, так и посредством переменной (для этого должна быть включена опция <code class="docutils literal"><span class="pre">Variable</span></code>). По умолчанию равно нулю.</p>
-</dd>
+<dd>Время (в секундах), которое займёт трансформация. Может быть задано как напрямую, так и посредством переменной (для этого должна быть включена опция <code class="docutils literal"><span class="pre">Variable</span></code>). По умолчанию равно нулю.</dd>
 </dl>
 </div>
 </div>
@@ -1198,31 +1096,27 @@
 <h4>Входные параметры<a class="headerlink" href="#id50" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Previous</em></dt>
-<dd><p class="first last">Предыдущая нода.</p>
-</dd>
+<dd>Предыдущая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id51">
 <h4>Выходные параметры<a class="headerlink" href="#id51" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Next</em></dt>
-<dd><p class="first last">Следующая нода.</p>
-</dd>
+<dd>Следующая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id52">
 <h4>Внутренние параметры<a class="headerlink" href="#id52" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Object</em></dt>
-<dd><p class="first last">Объект, который требуется переместить. Может быть задан напрямую или с помощью переменной (если включена опция <code class="docutils literal"><span class="pre">Variable</span></code>).</p>
-</dd>
+<dd>Объект, который требуется переместить. Может быть задан напрямую или с помощью переменной (если включена опция <code class="docutils literal"><span class="pre">Variable</span></code>).</dd>
 <dt><em>Destination</em></dt>
 <dd><p class="first">Цель (объект, источник света, камера и т.п.), к которой перемещается объект. После того, как перемещение завершится, координаты объекта и цели будут совпадать.</p>
 <p class="last">Этот параметр может быть задан напрямую или с помощью переменной типа Object (если включена опция <code class="docutils literal"><span class="pre">Variable</span></code>).</p>
 </dd>
 <dt><em>Duration</em></dt>
-<dd><p class="first last">Время (в секундах), которое займёт перемещение. По умолчанию равно нулю (в этом случае объект не движется, а мгновенно перемещается к точке назначения). Может быть задано как в самой ноде, так и с помощью переменной (если активирован параметр <code class="docutils literal"><span class="pre">Variable</span></code>).</p>
-</dd>
+<dd>Время (в секундах), которое займёт перемещение. По умолчанию равно нулю (в этом случае объект не движется, а мгновенно перемещается к точке назначения). Может быть задано как в самой ноде, так и с помощью переменной (если активирован параметр <code class="docutils literal"><span class="pre">Variable</span></code>).</dd>
 </dl>
 </div>
 </div>
@@ -1234,30 +1128,25 @@
 <h4>Входные параметры<a class="headerlink" href="#id53" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Previous</em></dt>
-<dd><p class="first last">Предыдущая нода.</p>
-</dd>
+<dd>Предыдущая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id54">
 <h4>Выходные параметры<a class="headerlink" href="#id54" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Next</em></dt>
-<dd><p class="first last">Следующая нода.</p>
-</dd>
+<dd>Следующая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id55">
 <h4>Внутренние параметры<a class="headerlink" href="#id55" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Object</em></dt>
-<dd><p class="first last">Объект, к которому нужно применить трансформацию.</p>
-</dd>
+<dd>Объект, к которому нужно применить трансформацию.</dd>
 <dt><em>Shape Key</em></dt>
-<dd><p class="first last">Ключ формы, который нужно применить к объекту.</p>
-</dd>
+<dd>Ключ формы, который нужно применить к объекту.</dd>
 <dt><em>Value</em></dt>
-<dd><p class="first last">Степень влияния выбранного ключа формы на объект. Значение может быть задано в самой ноде или взято из переменной (если установлен параметр <code class="docutils literal"><span class="pre">Variable</span></code>). Изменяется в пределах от 0 до 1.</p>
-</dd>
+<dd>Степень влияния выбранного ключа формы на объект. Значение может быть задано в самой ноде или взято из переменной (если установлен параметр <code class="docutils literal"><span class="pre">Variable</span></code>). Изменяется в пределах от 0 до 1.</dd>
 </dl>
 </div>
 </div>
@@ -1269,41 +1158,33 @@
 <h4>Входные параметры<a class="headerlink" href="#id56" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Previous</em></dt>
-<dd><p class="first last">Предыдущая нода.</p>
-</dd>
+<dd>Предыдущая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id57">
 <h4>Выходные параметры<a class="headerlink" href="#id57" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Next</em></dt>
-<dd><p class="first last">Следующая нода.</p>
-</dd>
+<dd>Следующая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id58">
 <h4>Внутренние параметры<a class="headerlink" href="#id58" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Object</em></dt>
-<dd><p class="first last">Объект, эффект обводки которого требуется настроить.</p>
-</dd>
+<dd>Объект, эффект обводки которого требуется настроить.</dd>
 <dt><em>Variable</em></dt>
-<dd><p class="first last">Если этот параметр включён, в поле <code class="docutils literal"><span class="pre">Object</span></code> может быть указана переменная типа Object.</p>
-</dd>
+<dd>Если этот параметр включён, в поле <code class="docutils literal"><span class="pre">Object</span></code> может быть указана переменная типа Object.</dd>
 <dt><em>Operation</em></dt>
 <dd><p class="first">Операция, которую следует произвести с обводкой объекта. Этот параметр может принимать одно из следующих значений:</p>
 <ul class="last simple">
-<li><p class="first"><em>PLAY</em> - включает анимацию обводки</p>
-</li>
-<li><p class="first"><em>STOP</em> - выключает её</p>
-</li>
-<li><p class="first"><em>INTENSITY</em> - позволяет настраивать интенсивность обводки</p>
-</li>
+<li><em>PLAY</em> - включает анимацию обводки</li>
+<li><em>STOP</em> - выключает её</li>
+<li><em>INTENSITY</em> - позволяет настраивать интенсивность обводки</li>
 </ul>
 </dd>
 <dt><em>Intensity</em></dt>
-<dd><p class="first last">Интенсивность обводки объекта. Этот параметр появляется только если параметр <code class="docutils literal"><span class="pre">Operation</span></code> имеет значение <code class="docutils literal"><span class="pre">INTENSITY</span></code>. Интенсивность может быть задана численно или взята из переменной (для этого нужно активировать параметр <code class="docutils literal"><span class="pre">Variable</span></code>).</p>
-</dd>
+<dd>Интенсивность обводки объекта. Этот параметр появляется только если параметр <code class="docutils literal"><span class="pre">Operation</span></code> имеет значение <code class="docutils literal"><span class="pre">INTENSITY</span></code>. Интенсивность может быть задана численно или взята из переменной (для этого нужно активировать параметр <code class="docutils literal"><span class="pre">Variable</span></code>).</dd>
 </dl>
 </div>
 </div>
@@ -1315,33 +1196,27 @@
 <h4>Входные параметры<a class="headerlink" href="#id59" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Previous</em></dt>
-<dd><p class="first last">Предыдущая нода.</p>
-</dd>
+<dd>Предыдущая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id60">
 <h4>Выходные параметры<a class="headerlink" href="#id60" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Next</em></dt>
-<dd><p class="first last">Следующая нода.</p>
-</dd>
+<dd>Следующая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id61">
 <h4>Внутренние параметры<a class="headerlink" href="#id61" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Object</em></dt>
-<dd><p class="first last">Объект, материал которого нужно отредактировать.</p>
-</dd>
+<dd>Объект, материал которого нужно отредактировать.</dd>
 <dt><em>Material</em></dt>
-<dd><p class="first last">Материал, параметры которого нужно изменить. Должен использовать ноды.</p>
-</dd>
+<dd>Материал, параметры которого нужно изменить. Должен использовать ноды.</dd>
 <dt><em>Node</em></dt>
-<dd><p class="first last">Нода, параметры которой нужно изменить. На данный момент поддерживаются только ноды <code class="docutils literal"><span class="pre">Value</span></code> и <code class="docutils literal"><span class="pre">RGB</span></code>.</p>
-</dd>
+<dd>Нода, параметры которой нужно изменить. На данный момент поддерживаются только ноды <code class="docutils literal"><span class="pre">Value</span></code> и <code class="docutils literal"><span class="pre">RGB</span></code>.</dd>
 <dt><em>Parameters</em></dt>
-<dd><p class="first last">Доступные для редактирования параметры выбранной ноды. Значения этих параметров могут быть заданы непосредственно в самой ноде или взяты из указанных переменных (для этого нужно активировать параметр <code class="docutils literal"><span class="pre">Variable</span></code>).</p>
-</dd>
+<dd>Доступные для редактирования параметры выбранной ноды. Значения этих параметров могут быть заданы непосредственно в самой ноде или взяты из указанных переменных (для этого нужно активировать параметр <code class="docutils literal"><span class="pre">Variable</span></code>).</dd>
 </dl>
 </div>
 </div>
@@ -1353,33 +1228,27 @@
 <h4>Входные параметры<a class="headerlink" href="#id62" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Previous</em></dt>
-<dd><p class="first last">Предыдущая нода.</p>
-</dd>
+<dd>Предыдущая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id63">
 <h4>Выходные параметры<a class="headerlink" href="#id63" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Next</em></dt>
-<dd><p class="first last">Следующая нода.</p>
-</dd>
+<dd>Следующая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id64">
 <h4>Внутренние параметры<a class="headerlink" href="#id64" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Source</em></dt>
-<dd><p class="first last">Объект, которому присвоен материал, который требуется скопировать.</p>
-</dd>
+<dd>Объект, которому присвоен материал, который требуется скопировать.</dd>
 <dt><em>Material</em></dt>
-<dd><p class="first last">Материал, который требуется скопировать.</p>
-</dd>
+<dd>Материал, который требуется скопировать.</dd>
 <dt><em>Destination</em></dt>
-<dd><p class="first last">Объект, которому требуется присвоить скопированный материал.</p>
-</dd>
+<dd>Объект, которому требуется присвоить скопированный материал.</dd>
 <dt><em>Material</em></dt>
-<dd><p class="first last">Материал, который будет заменен скопированным материалом.</p>
-</dd>
+<dd>Материал, который будет заменен скопированным материалом.</dd>
 </dl>
 </div>
 </div>
@@ -1394,33 +1263,27 @@
 <h4>Входные параметры<a class="headerlink" href="#id65" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Previous</em></dt>
-<dd><p class="first last">Предыдущая нода.</p>
-</dd>
+<dd>Предыдущая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id66">
 <h4>Выходные параметры<a class="headerlink" href="#id66" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Next</em></dt>
-<dd><p class="first last">Следующая нода.</p>
-</dd>
+<dd>Следующая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id67">
 <h4>Внутренние параметры<a class="headerlink" href="#id67" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Var. name.</em></dt>
-<dd><p class="first last">Имя переменной. Может быть выбрано из списка переменных либо задано самостоятельно (если включен параметр <code class="docutils literal"><span class="pre">New</span> <span class="pre">variable</span></code>).</p>
-</dd>
+<dd>Имя переменной. Может быть выбрано из списка переменных либо задано самостоятельно (если включен параметр <code class="docutils literal"><span class="pre">New</span> <span class="pre">variable</span></code>).</dd>
 <dt><em>Type</em></dt>
-<dd><p class="first last">Тип переменной. Может иметь значения <code class="docutils literal"><span class="pre">Number</span></code> (численная переменная), <code class="docutils literal"><span class="pre">String</span></code> (строковая переменная) или <code class="docutils literal"><span class="pre">Object</span></code> (ссылка на объект).</p>
-</dd>
+<dd>Тип переменной. Может иметь значения <code class="docutils literal"><span class="pre">Number</span></code> (численная переменная), <code class="docutils literal"><span class="pre">String</span></code> (строковая переменная) или <code class="docutils literal"><span class="pre">Object</span></code> (ссылка на объект).</dd>
 <dt><em>Object</em></dt>
-<dd><p class="first last">Этот параметр используется для задания объекта, используемого в качестве переменной. Доступен только в случае, если параметр <code class="docutils literal"><span class="pre">Type</span></code> имеет значение <code class="docutils literal"><span class="pre">Object</span></code>.</p>
-</dd>
+<dd>Этот параметр используется для задания объекта, используемого в качестве переменной. Доступен только в случае, если параметр <code class="docutils literal"><span class="pre">Type</span></code> имеет значение <code class="docutils literal"><span class="pre">Object</span></code>.</dd>
 <dt><em>New Variable</em></dt>
-<dd><p class="first last">Если этот параметр активирован, имя переменной может быть задано самостоятельно (а не выбрано из списка переменных). Может применяться для обмена данными с сервером.</p>
-</dd>
+<dd>Если этот параметр активирован, имя переменной может быть задано самостоятельно (а не выбрано из списка переменных). Может применяться для обмена данными с сервером.</dd>
 <dt><em>Global</em></dt>
 <dd><p class="first">Включение этого параметра делает переменную глобальной. Доступен только если выбран параметр <code class="docutils literal"><span class="pre">New</span> <span class="pre">Variable</span></code>.</p>
 <a class="last reference internal image-reference" href="_images/logic_editor_variable_global.png"><img alt="_images/logic_editor_variable_global.png" class="align-center" src="_images/logic_editor_variable_global.png" style="width: 100%;" /></a>
@@ -1436,16 +1299,14 @@
 <h4>Входные параметры<a class="headerlink" href="#id68" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Previous</em></dt>
-<dd><p class="first last">Предыдущая нода.</p>
-</dd>
+<dd>Предыдущая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id69">
 <h4>Выходные параметры<a class="headerlink" href="#id69" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Next</em></dt>
-<dd><p class="first last">Следующая нода.</p>
-</dd>
+<dd>Следующая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id70">
@@ -1454,51 +1315,31 @@
 <dt><em>Operation</em></dt>
 <dd><p class="first">Математическая операция, производимая над операндами. Может иметь один из следующих типов:</p>
 <ul class="last simple">
-<li><p class="first"><em>Random</em> - генерация случайной величины больше первого операнда и меньше второго.</p>
-</li>
-<li><p class="first"><em>Add</em> - сумма операндов.</p>
-</li>
-<li><p class="first"><em>Multiply</em> - произведение операндов.</p>
-</li>
-<li><p class="first"><em>Subtract</em> - разность операндов.</p>
-</li>
-<li><p class="first"><em>Divide</em> - частное операндов.</p>
-</li>
-<li><p class="first"><em>Sin</em> - синус угла (в радианах), заданного первым операндом.</p>
-</li>
-<li><p class="first"><em>Cos</em> - косинус угла (в радианах), заданного первым операндом.</p>
-</li>
-<li><p class="first"><em>Tan</em> - тангенс угла (в радианах), заданного первым операндом.</p>
-</li>
-<li><p class="first"><em>ArcSin</em> - арксинус значения, заданного первым операндом.</p>
-</li>
-<li><p class="first"><em>ArcCos</em> - арккосинус значения, заданного первым операндом.</p>
-</li>
-<li><p class="first"><em>ArcTan</em> - арктангенс значения, заданного первым операндом.</p>
-</li>
-<li><p class="first"><em>Log</em> - логарифм первого операнда; в качестве базы используется второй операнд.</p>
-</li>
-<li><p class="first"><em>Min</em> - возвращает наименьший из двух операндов.</p>
-</li>
-<li><p class="first"><em>Max</em> - возвращает наибольший из двух операндов.</p>
-</li>
-<li><p class="first"><em>Round</em> - округляет первый операнд.</p>
-</li>
-<li><p class="first"><em>Mod</em> - остаток от деления первого операнда на второй.</p>
-</li>
-<li><p class="first"><em>Abs</em> - значение первого операнда по модулю.</p>
-</li>
+<li><em>Random</em> - генерация случайной величины больше первого операнда и меньше второго.</li>
+<li><em>Add</em> - сумма операндов.</li>
+<li><em>Multiply</em> - произведение операндов.</li>
+<li><em>Subtract</em> - разность операндов.</li>
+<li><em>Divide</em> - частное операндов.</li>
+<li><em>Sin</em> - синус угла (в радианах), заданного первым операндом.</li>
+<li><em>Cos</em> - косинус угла (в радианах), заданного первым операндом.</li>
+<li><em>Tan</em> - тангенс угла (в радианах), заданного первым операндом.</li>
+<li><em>ArcSin</em> - арксинус значения, заданного первым операндом.</li>
+<li><em>ArcCos</em> - арккосинус значения, заданного первым операндом.</li>
+<li><em>ArcTan</em> - арктангенс значения, заданного первым операндом.</li>
+<li><em>Log</em> - логарифм первого операнда; в качестве базы используется второй операнд.</li>
+<li><em>Min</em> - возвращает наименьший из двух операндов.</li>
+<li><em>Max</em> - возвращает наибольший из двух операндов.</li>
+<li><em>Round</em> - округляет первый операнд.</li>
+<li><em>Mod</em> - остаток от деления первого операнда на второй.</li>
+<li><em>Abs</em> - значение первого операнда по модулю.</li>
 </ul>
 </dd>
 <dt><em>Operand1</em></dt>
-<dd><p class="first last">Первый операнд. Может представлять собой численное значение либо ссылку на одну из переменных (в случае, если активирован параметр <code class="docutils literal"><span class="pre">Variable</span></code>).</p>
-</dd>
+<dd>Первый операнд. Может представлять собой численное значение либо ссылку на одну из переменных (в случае, если активирован параметр <code class="docutils literal"><span class="pre">Variable</span></code>).</dd>
 <dt><em>Operand2</em></dt>
-<dd><p class="first last">Второй операнд. Аналогичен первому.</p>
-</dd>
+<dd>Второй операнд. Аналогичен первому.</dd>
 <dt><em>Destination</em></dt>
-<dd><p class="first last">Переменная, в которую помещается результат операции.</p>
-</dd>
+<dd>Переменная, в которую помещается результат операции.</dd>
 </dl>
 </div>
 </div>
@@ -1510,16 +1351,14 @@
 <h4>Входные параметры<a class="headerlink" href="#id71" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Previous</em></dt>
-<dd><p class="first last">Предыдущая нода.</p>
-</dd>
+<dd>Предыдущая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id72">
 <h4>Выходные параметры<a class="headerlink" href="#id72" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Next</em></dt>
-<dd><p class="first last">Следующая нода.</p>
-</dd>
+<dd>Следующая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id73">
@@ -1528,36 +1367,25 @@
 <dt><em>Operation</em></dt>
 <dd><p class="first">Операция, которую нужно произвести над строками. Может иметь одно из следующих значений:</p>
 <ul class="last simple">
-<li><p class="first"><em>Join</em> - объединить первую строку со второй.</p>
-</li>
-<li><p class="first"><em>Find</em> - записывает в переменную позицию первого вхождения второй строки в первую. Если вхождений нет, в переменную записывается результат -1. Следует иметь в виду, что символы строки нумеруются, начиная с нуля, а не с единицы.</p>
-</li>
-<li><p class="first"><em>Replace</em> - найти содержимое второй строки в первой и заменить третьей.</p>
-</li>
-<li><p class="first"><em>Split</em> - разделить первую строку на две части, используя первое вхождение второй строки как маркер места разделения.</p>
-</li>
-<li><p class="first"><em>Compare</em> - сравнить первую строку со второй. Для работы этой операции требуется определить логическое условие. Если условие выполняется, в <code class="docutils literal"><span class="pre">Destination</span></code> будет будет записана единица, если нет - ноль.</p>
-</li>
+<li><em>Join</em> - объединить первую строку со второй.</li>
+<li><em>Find</em> - записывает в переменную позицию первого вхождения второй строки в первую. Если вхождений нет, в переменную записывается результат -1. Следует иметь в виду, что символы строки нумеруются, начиная с нуля, а не с единицы.</li>
+<li><em>Replace</em> - найти содержимое второй строки в первой и заменить третьей.</li>
+<li><em>Split</em> - разделить первую строку на две части, используя первое вхождение второй строки как маркер места разделения.</li>
+<li><em>Compare</em> - сравнить первую строку со второй. Для работы этой операции требуется определить логическое условие. Если условие выполняется, в <code class="docutils literal"><span class="pre">Destination</span></code> будет будет записана единица, если нет - ноль.</li>
 </ul>
 </dd>
 <dt><em>Condition</em></dt>
-<dd><p class="first last">Логическое условие, по которому сравниваются строки. Этот параметр появляется только если параметр <code class="docutils literal"><span class="pre">Operation</span></code> имеет значение <code class="docutils literal"><span class="pre">Compare</span></code>. Аналогично параметру <code class="docutils literal"><span class="pre">Condition</span></code> ноды <code class="docutils literal"><span class="pre">Conditional</span> <span class="pre">Jump</span></code>.</p>
-</dd>
+<dd>Логическое условие, по которому сравниваются строки. Этот параметр появляется только если параметр <code class="docutils literal"><span class="pre">Operation</span></code> имеет значение <code class="docutils literal"><span class="pre">Compare</span></code>. Аналогично параметру <code class="docutils literal"><span class="pre">Condition</span></code> ноды <code class="docutils literal"><span class="pre">Conditional</span> <span class="pre">Jump</span></code>.</dd>
 <dt><em>Operand1</em></dt>
-<dd><p class="first last">Первая строка. Может быть задана в самой ноде или с помощью переменной.</p>
-</dd>
+<dd>Первая строка. Может быть задана в самой ноде или с помощью переменной.</dd>
 <dt><em>Operand2</em></dt>
-<dd><p class="first last">Вторая строка. Аналогична первой.</p>
-</dd>
+<dd>Вторая строка. Аналогична первой.</dd>
 <dt><em>Operand3</em></dt>
-<dd><p class="first last">Этот параметр появляется только если параметр <code class="docutils literal"><span class="pre">Operation</span></code> имеет значение <code class="docutils literal"><span class="pre">Replace</span></code>. Здесь задаётся строка, которой будет заменена вторая строка.</p>
-</dd>
+<dd>Этот параметр появляется только если параметр <code class="docutils literal"><span class="pre">Operation</span></code> имеет значение <code class="docutils literal"><span class="pre">Replace</span></code>. Здесь задаётся строка, которой будет заменена вторая строка.</dd>
 <dt><em>Destination</em></dt>
-<dd><p class="first last">Переменная, в которую будет сохранён результат операции.</p>
-</dd>
+<dd>Переменная, в которую будет сохранён результат операции.</dd>
 <dt><em>Destination2</em></dt>
-<dd><p class="first last">Этот параметр появляется только в том случае, если параметр <code class="docutils literal"><span class="pre">Operation</span></code> имеет значение <code class="docutils literal"><span class="pre">Split</span></code>. Определяет переменную, в которую будет сохранена вторая половина разделённой строки.</p>
-</dd>
+<dd>Этот параметр появляется только в том случае, если параметр <code class="docutils literal"><span class="pre">Operation</span></code> имеет значение <code class="docutils literal"><span class="pre">Split</span></code>. Определяет переменную, в которую будет сохранена вторая половина разделённой строки.</dd>
 </dl>
 </div>
 </div>
@@ -1572,30 +1400,25 @@
 <h4>Входные параметры<a class="headerlink" href="#id74" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Previous</em></dt>
-<dd><p class="first last">Предыдущая нода.</p>
-</dd>
+<dd>Предыдущая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id75">
 <h4>Выходные параметры<a class="headerlink" href="#id75" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Next</em></dt>
-<dd><p class="first last">Следующая нода.</p>
-</dd>
+<dd>Следующая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id76">
 <h4>Внутренние параметры<a class="headerlink" href="#id76" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Speaker</em></dt>
-<dd><p class="first last">Источник звука, который требуется активировать.</p>
-</dd>
+<dd>Источник звука, который требуется активировать.</dd>
 <dt><em>Variable</em></dt>
-<dd><p class="first last">Если этот параметр включён, в поле <code class="docutils literal"><span class="pre">Speaker</span></code> можно указать переменную типа Object.</p>
-</dd>
+<dd>Если этот параметр включён, в поле <code class="docutils literal"><span class="pre">Speaker</span></code> можно указать переменную типа Object.</dd>
 <dt><em>Do Not Wait</em></dt>
-<dd><p class="first last">Если этот параметр активирован, управление будет передано следующей ноде сразу же после того, как началось воспроизведение звука. В противном случае это произойдёт только после того, как звук закончится.</p>
-</dd>
+<dd>Если этот параметр активирован, управление будет передано следующей ноде сразу же после того, как началось воспроизведение звука. В противном случае это произойдёт только после того, как звук закончится.</dd>
 </dl>
 </div>
 </div>
@@ -1607,27 +1430,23 @@
 <h4>Входные параметры<a class="headerlink" href="#id77" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Previous</em></dt>
-<dd><p class="first last">Предыдущая нода.</p>
-</dd>
+<dd>Предыдущая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id78">
 <h4>Выходные параметры<a class="headerlink" href="#id78" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Next</em></dt>
-<dd><p class="first last">Следующая нода.</p>
-</dd>
+<dd>Следующая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id79">
 <h4>Внутренние параметры<a class="headerlink" href="#id79" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Speaker</em></dt>
-<dd><p class="first last">Источник звука, который нужно отключить.</p>
-</dd>
+<dd>Источник звука, который нужно отключить.</dd>
 <dt><em>Variable</em></dt>
-<dd><p class="first last">Если этот параметр включён, в поле <code class="docutils literal"><span class="pre">Speaker</span></code> можно указать переменную типа Object.</p>
-</dd>
+<dd>Если этот параметр включён, в поле <code class="docutils literal"><span class="pre">Speaker</span></code> можно указать переменную типа Object.</dd>
 </dl>
 </div>
 </div>
@@ -1642,16 +1461,14 @@
 <h4>Входные параметры<a class="headerlink" href="#id80" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Previous</em></dt>
-<dd><p class="first last">Предыдущая нода.</p>
-</dd>
+<dd>Предыдущая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id81">
 <h4>Выходные параметры<a class="headerlink" href="#id81" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Next</em></dt>
-<dd><p class="first last">Следующая нода.</p>
-</dd>
+<dd>Следующая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id82">
@@ -1660,24 +1477,20 @@
 <dt><em>Method</em></dt>
 <dd><p class="first">Метод отправки запроса. Может иметь одно из двух значений:</p>
 <ul class="simple">
-<li><p class="first"><em>GET</em> - отправляет запрос на получение данных с сервера.</p>
-</li>
-<li><p class="first"><em>POST</em> - отправляет данные на сервер.</p>
-</li>
+<li><em>GET</em> - отправляет запрос на получение данных с сервера.</li>
+<li><em>POST</em> - отправляет данные на сервер.</li>
 </ul>
 <p class="last">Значение по умолчанию - <code class="docutils literal"><span class="pre">GET</span></code>.</p>
 </dd>
 <dt><em>Url</em></dt>
-<dd><p class="first last">Адрес, на который следует отправить запрос. Может быть задан напрямую или с помощью переменной (если включена опция <code class="docutils literal"><span class="pre">Variable</span></code>). По умолчанию имеет значение “<a class="reference external" href="https://www.blend4web.com">https://www.blend4web.com</a>”.</p>
-</dd>
+<dd>Адрес, на который следует отправить запрос. Может быть задан напрямую или с помощью переменной (если включена опция <code class="docutils literal"><span class="pre">Variable</span> <span class="pre">URL</span></code>). По умолчанию имеет значение “<a class="reference external" href="https://www.blend4web.com">https://www.blend4web.com</a>”.</dd>
 <dt><em>Response Params</em></dt>
-<dd><p class="first last">Задаёт переменную, в которую будут сохранены данные с сервера.</p>
-</dd>
+<dd>Задаёт переменную, в которую будут сохранены данные с сервера.</dd>
 </dl>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
 <p>Информация, полученная с сервера, должна быть в формате JSON:</p>
-<div class="last highlight-json"><div class="highlight"><pre><span class="p">{</span>
+<div class="last highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
     <span class="nt">&quot;var0&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
     <span class="nt">&quot;var1&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
     <span class="nt">&quot;var2&quot;</span><span class="p">:</span> <span class="mi">144</span>
@@ -1687,11 +1500,9 @@
 </div>
 <dl class="docutils">
 <dt><em>Content-Type</em></dt>
-<dd><p class="first last">Определяет формат запроса. Состоит из типа и подтипа, например: <code class="docutils literal"><span class="pre">text/plain</span></code>. Значение по умолчанию - <code class="docutils literal"><span class="pre">Auto</span></code>. Используется для переназначения заголовка HTTP-запроса.</p>
-</dd>
+<dd>Определяет формат запроса. Состоит из типа и подтипа, например: <code class="docutils literal"><span class="pre">text/plain</span></code>. Значение по умолчанию - <code class="docutils literal"><span class="pre">Auto</span></code>. Используется для переназначения заголовка HTTP-запроса.</dd>
 <dt><em>Request Params</em></dt>
-<dd><p class="first last">Задаёт переменную, содержащую JSON-объект, который будет отправлен на сервер. Этот параметр доступен только если параметр <code class="docutils literal"><span class="pre">Method</span></code> имеет значение <code class="docutils literal"><span class="pre">POST</span></code>. Значение по умолчанию - <code class="docutils literal"><span class="pre">R1</span></code>.</p>
-</dd>
+<dd>Задаёт переменную, содержащую JSON-объект, который будет отправлен на сервер. Этот параметр доступен только если параметр <code class="docutils literal"><span class="pre">Method</span></code> имеет значение <code class="docutils literal"><span class="pre">POST</span></code>. Значение по умолчанию - <code class="docutils literal"><span class="pre">R1</span></code>.</dd>
 </dl>
 </div>
 </div>
@@ -1703,40 +1514,34 @@
 <h4>Входные параметры<a class="headerlink" href="#id83" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Previous</em></dt>
-<dd><p class="first last">Предыдущая нода.</p>
-</dd>
+<dd>Предыдущая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id84">
 <h4>Выходные параметры<a class="headerlink" href="#id84" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Next</em></dt>
-<dd><p class="first last">Следующая нода.</p>
-</dd>
+<dd>Следующая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id85">
 <h4>Внутренние параметры<a class="headerlink" href="#id85" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>JSON</em></dt>
-<dd><p class="first last">Сcылка на JSON-объект, который нужно кодировать или декодировать. По умолчанию имеет значение <code class="docutils literal"><span class="pre">R1</span></code>.</p>
-</dd>
+<dd>Сcылка на JSON-объект, который нужно кодировать или декодировать. По умолчанию имеет значение <code class="docutils literal"><span class="pre">R1</span></code>.</dd>
 <dt><em>JSON Operation</em></dt>
-<dd><p class="first last">Операция, которую нужно произвести над JSON-объектом, указанном в параметре <code class="docutils literal"><span class="pre">JSON</span></code>. Может иметь одно из двух значений: <code class="docutils literal"><span class="pre">ENCODE</span></code> кодирует объект, <code class="docutils literal"><span class="pre">PARSE</span></code> декодирует его. Значение по умолчанию - <code class="docutils literal"><span class="pre">ENCODE</span></code>.</p>
-</dd>
+<dd>Операция, которую нужно произвести над JSON-объектом, указанном в параметре <code class="docutils literal"><span class="pre">JSON</span></code>. Может иметь одно из двух значений: <code class="docutils literal"><span class="pre">ENCODE</span></code> кодирует объект, <code class="docutils literal"><span class="pre">PARSE</span></code> декодирует его. Значение по умолчанию - <code class="docutils literal"><span class="pre">ENCODE</span></code>.</dd>
 <dt><em>Paths</em></dt>
-<dd><p class="first last">Список путей к переменным внутри объекта JSON. Пути используются для определения внутренней структуры объекта. Путь должен состоять из нескольких идентификаторов (разделённых точками), указывающих адрес поля JSON. Если имя фрагмента пути состоит только из цифр, такое имя интерпретируется как индекс массива. Пути создаются и удаляются вместе с переменными (в списке <code class="docutils literal"><span class="pre">Variables</span></code>); один путь всегда соответствует одной переменной. Список путей может использоваться как для кодирования, так и для декодирования объектов JSON. По умолчанию список пуст.</p>
-</dd>
+<dd>Список путей к переменным внутри объекта JSON. Пути используются для определения внутренней структуры объекта. Путь должен состоять из нескольких идентификаторов (разделённых точками), указывающих адрес поля JSON. Если имя фрагмента пути состоит только из цифр, такое имя интерпретируется как индекс массива. Пути создаются и удаляются вместе с переменными (в списке <code class="docutils literal"><span class="pre">Variables</span></code>); один путь всегда соответствует одной переменной. Список путей может использоваться как для кодирования, так и для декодирования объектов JSON. По умолчанию список пуст.</dd>
 <dt><em>Variables</em></dt>
-<dd><p class="first last">Список переменных, которые будут использованы для кодирования или декодирования JSON-объекта (в зависимости от значения параметра <code class="docutils literal"><span class="pre">JSON</span> <span class="pre">Operation</span></code>). Имена и количество переменных могут быть настроены. Этот список также пуст по умолчанию.</p>
-</dd>
+<dd>Список переменных, которые будут использованы для кодирования или декодирования JSON-объекта (в зависимости от значения параметра <code class="docutils literal"><span class="pre">JSON</span> <span class="pre">Operation</span></code>). Имена и количество переменных могут быть настроены. Этот список также пуст по умолчанию.</dd>
 </dl>
 </div>
 <div class="section" id="using-json-logic-node-to-encode-json-object">
 <h4>Кодирование объекта JSON с помощью логической ноды JSON.<a class="headerlink" href="#using-json-logic-node-to-encode-json-object" title="Ссылка на этот заголовок">¶</a></h4>
 <a class="reference internal image-reference" href="_images/logic_editor_json_encode_example.png"><img alt="_images/logic_editor_json_encode_example.png" class="align-center" src="_images/logic_editor_json_encode_example.png" style="width: 100%;" /></a>
 <p>Логическое дерево на изображении выше кодирует объект JSON и сохраняет его в переменной <code class="docutils literal"><span class="pre">R1</span></code>. Закодированный объект JSON будет иметь следующий вид:</p>
-<div class="highlight-json"><div class="highlight"><pre><span class="p">{</span>
+<div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
     <span class="nt">&quot;main&quot;</span><span class="p">:{</span>
         <span class="nt">&quot;part1&quot;</span><span class="p">:</span><span class="mi">7</span><span class="p">,</span>
         <span class="nt">&quot;part2&quot;</span><span class="p">:</span><span class="mi">12</span><span class="p">,</span>
@@ -1750,7 +1555,7 @@
 <h4>Декодирование объекта JSON с помощью логической ноды JSON.<a class="headerlink" href="#using-json-logic-node-to-decode-json-object" title="Ссылка на этот заголовок">¶</a></h4>
 <a class="reference internal image-reference" href="_images/logic_editor_json_decode_example.png"><img alt="_images/logic_editor_json_decode_example.png" class="align-center" src="_images/logic_editor_json_decode_example.png" style="width: 100%;" /></a>
 <p>Логическое дерево на изображении выше получает объект JSON с сервера, сохраняет его в переменной <code class="docutils literal"><span class="pre">R1</span></code> и декодирует объект. Объект JSON имеет следующий вид:</p>
-<div class="highlight-json"><div class="highlight"><pre><span class="p">{</span>
+<div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
     <span class="nt">&quot;a&quot;</span><span class="p">:</span> <span class="p">{</span>
         <span class="nt">&quot;b&quot;</span><span class="p">:</span> <span class="mi">17</span><span class="p">,</span>
         <span class="nt">&quot;c&quot;</span><span class="p">:</span> <span class="s2">&quot;abc&quot;</span>
@@ -1758,8 +1563,8 @@
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>При декодировании объекта JSON в этом примере создаются три переменные (создавать их заранее не требуется) с именами <code class="docutils literal"><span class="pre">var0</span></code>, <code class="docutils literal"><span class="pre">var1</span></code> и <code class="docutils literal"><span class="pre">var2</span></code>, которые содержат разные части объекта JSON. В данном случае переменная <code class="docutils literal"><span class="pre">var1</span></code> будет иметь значение, равное 17, переменная <code class="docutils literal"><span class="pre">var2</span></code> будет иметь значение &#8220;abc&#8221;, а переменная <code class="docutils literal"><span class="pre">var0</span></code> будет содержать следующий фрагмент объекта JSON:</p>
-<div class="highlight-json"><div class="highlight"><pre><span class="p">{</span>
+<p>При декодировании объекта JSON в этом примере создаются три переменные (создавать их заранее не требуется) с именами <code class="docutils literal"><span class="pre">var0</span></code>, <code class="docutils literal"><span class="pre">var1</span></code> и <code class="docutils literal"><span class="pre">var2</span></code>, которые содержат разные части объекта JSON. В данном случае переменная <code class="docutils literal"><span class="pre">var1</span></code> будет иметь значение, равное 17, переменная <code class="docutils literal"><span class="pre">var2</span></code> будет иметь значение «abc», а переменная <code class="docutils literal"><span class="pre">var0</span></code> будет содержать следующий фрагмент объекта JSON:</p>
+<div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
     <span class="nt">&quot;b&quot;</span><span class="p">:</span> <span class="mi">17</span><span class="p">,</span>
     <span class="nt">&quot;c&quot;</span><span class="p">:</span> <span class="s2">&quot;abc&quot;</span>
 <span class="p">}</span>
@@ -1775,16 +1580,14 @@
 <h4>Входные параметры<a class="headerlink" href="#id86" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Previous</em></dt>
-<dd><p class="first last">Предыдущая нода.</p>
-</dd>
+<dd>Предыдущая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id87">
 <h4>Выходные параметры<a class="headerlink" href="#id87" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Next</em></dt>
-<dd><p class="first last">Следующая нода.</p>
-</dd>
+<dd>Следующая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id88">
@@ -1795,14 +1598,11 @@
 <p class="last">Если параметр с данным именем присутствует в URL-строке, то его значение будет сохранено в переменную, определенную полем <code class="docutils literal"><span class="pre">Destination</span></code>.</p>
 </dd>
 <dt><em>Destination</em></dt>
-<dd><p class="first last">Переменная, в которую следует сохранить параметр.</p>
-</dd>
+<dd>Переменная, в которую следует сохранить параметр.</dd>
 <dt><em>Param type</em></dt>
-<dd><p class="first last">Тип параметра веб-страницы. Доступные значения: <code class="docutils literal"><span class="pre">Number</span></code>, <code class="docutils literal"><span class="pre">String</span></code> и <code class="docutils literal"><span class="pre">Object</span></code>.</p>
-</dd>
+<dd>Тип параметра веб-страницы. Доступные значения: <code class="docutils literal"><span class="pre">Number</span></code>, <code class="docutils literal"><span class="pre">String</span></code> и <code class="docutils literal"><span class="pre">Object</span></code>.</dd>
 <dt><em>Hash param</em></dt>
-<dd><p class="first last">Если включена эта опция, нода <code class="docutils literal"><span class="pre">Page</span> <span class="pre">Param</span></code> возвращает хэш-параметры; если она не включена, нода возвращает обычные URL-параметры.</p>
-</dd>
+<dd>Если включена эта опция, нода <code class="docutils literal"><span class="pre">Page</span> <span class="pre">Param</span></code> возвращает хэш-параметры; если она не включена, нода возвращает обычные URL-параметры.</dd>
 </dl>
 </div>
 </div>
@@ -1814,8 +1614,7 @@
 <h4>Входные параметры<a class="headerlink" href="#id89" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Previous</em></dt>
-<dd><p class="first last">Предыдущая нода.</p>
-</dd>
+<dd>Предыдущая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id90">
@@ -1826,8 +1625,7 @@
 <h4>Внутренние параметры<a class="headerlink" href="#id91" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Url</em></dt>
-<dd><p class="first last">Адрес веб-страницы, которая будет открыта. Может быть задан напрямую или с помощью переменной (если включена опция <code class="docutils literal"><span class="pre">Variable</span></code>). Значение по умолчанию - “<a class="reference external" href="https://www.blend4web.com">https://www.blend4web.com</a>”.</p>
-</dd>
+<dd>Адрес веб-страницы, которая будет открыта. Может быть задан напрямую или с помощью переменной (если включена опция <code class="docutils literal"><span class="pre">Variable</span> <span class="pre">URL</span></code>). Значение по умолчанию - “<a class="reference external" href="https://www.blend4web.com">https://www.blend4web.com</a>”.</dd>
 </dl>
 </div>
 </div>
@@ -1842,16 +1640,14 @@
 <h4>Входные параметры<a class="headerlink" href="#id92" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Previous</em></dt>
-<dd><p class="first last">Предыдущая нода.</p>
-</dd>
+<dd>Предыдущая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id93">
 <h4>Выходные параметры<a class="headerlink" href="#id93" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Next</em></dt>
-<dd><p class="first last">Следующая нода.</p>
-</dd>
+<dd>Следующая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id94">
@@ -1868,31 +1664,24 @@
 </div>
 </dd>
 <dt><em>Local</em></dt>
-<dd><p class="first last">Значение по умолчанию. Если выбрано это значение, нода возвращает локальное системное время.</p>
-</dd>
+<dd>Значение по умолчанию. Если выбрано это значение, нода возвращает локальное системное время.</dd>
 </dl>
 </dd>
 </dl>
 <p>Время и дата возвращаются в виде набора чисел (текущий год, месяц, день и т.д.), каждое из которых может быть записано в специально выбранную переменную. Среди этих чисел:</p>
 <dl class="docutils">
 <dt><em>Year</em></dt>
-<dd><p class="first last">Текущий год.</p>
-</dd>
+<dd>Текущий год.</dd>
 <dt><em>Month</em></dt>
-<dd><p class="first last">Текущий месяц.</p>
-</dd>
+<dd>Текущий месяц.</dd>
 <dt><em>Day</em></dt>
-<dd><p class="first last">Текущий день.</p>
-</dd>
+<dd>Текущий день.</dd>
 <dt><em>Hours</em></dt>
-<dd><p class="first last">Часы.</p>
-</dd>
+<dd>Часы.</dd>
 <dt><em>Minutes</em></dt>
-<dd><p class="first last">Минуты.</p>
-</dd>
+<dd>Минуты.</dd>
 <dt><em>Seconds</em></dt>
-<dd><p class="first last">Секунды.</p>
-</dd>
+<dd>Секунды.</dd>
 </dl>
 </div>
 </div>
@@ -1904,27 +1693,23 @@
 <h4>Входные параметры<a class="headerlink" href="#id95" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Previous</em></dt>
-<dd><p class="first last">Предыдущая нода.</p>
-</dd>
+<dd>Предыдущая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id96">
 <h4>Выходные параметры<a class="headerlink" href="#id96" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Next</em></dt>
-<dd><p class="first last">Следующая нода.</p>
-</dd>
+<dd>Следующая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id97">
 <h4>Внутренние параметры<a class="headerlink" href="#id97" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>NLA Timeline</em></dt>
-<dd><p class="first last">Если этот параметр активирован, нода будет возвращать текущий кадр NLA-анимации. Если параметр не активирован, нода будет возвращать текущий кадр таймлайна. Включено по умолчанию.</p>
-</dd>
+<dd>Если этот параметр активирован, нода будет возвращать текущий кадр NLA-анимации. Если параметр не активирован, нода будет возвращать текущий кадр таймлайна. Включено по умолчанию.</dd>
 <dt><em>Destination</em></dt>
-<dd><p class="first last">Задаёт переменную, в которую будет сохранено значение текущего кадра. По умолчанию имеет значение <code class="docutils literal"><span class="pre">R1</span></code>.</p>
-</dd>
+<dd>Задаёт переменную, в которую будет сохранено значение текущего кадра. По умолчанию имеет значение <code class="docutils literal"><span class="pre">R1</span></code>.</dd>
 </dl>
 </div>
 </div>
@@ -1936,16 +1721,14 @@
 <h4>Входные параметры<a class="headerlink" href="#id98" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Previous</em></dt>
-<dd><p class="first last">Предыдущая нода.</p>
-</dd>
+<dd>Предыдущая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id99">
 <h4>Выходные параметры<a class="headerlink" href="#id99" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Next</em></dt>
-<dd><p class="first last">Следующая нода.</p>
-</dd>
+<dd>Следующая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id100">
@@ -1961,24 +1744,21 @@
 <h4>Входные параметры<a class="headerlink" href="#id101" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Previous</em></dt>
-<dd><p class="first last">Предыдущая нода.</p>
-</dd>
+<dd>Предыдущая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id102">
 <h4>Выходные параметры<a class="headerlink" href="#id102" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Next</em></dt>
-<dd><p class="first last">Следующая нода.</p>
-</dd>
+<dd>Следующая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id103">
 <h4>Внутренние параметры<a class="headerlink" href="#id103" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Value</em></dt>
-<dd><p class="first last">Время (в секундах), на которое задерживается передача управления следующей ноде. По умолчанию равно нулю. Может быть задано в явном виде или же взято из переменной (в случае, если активирован параметр <code class="docutils literal"><span class="pre">Variable</span></code>).</p>
-</dd>
+<dd>Время (в секундах), на которое задерживается передача управления следующей ноде. По умолчанию равно нулю. Может быть задано в явном виде или же взято из переменной (в случае, если активирован параметр <code class="docutils literal"><span class="pre">Variable</span></code>).</dd>
 </dl>
 </div>
 </div>
@@ -1990,10 +1770,10 @@
 <p>Дополнительный элемент, который применяется для разделения нод на группы.</p>
 <div class="admonition tip">
 <p class="first admonition-title">Совет</p>
-<p class="last">Это не обязательное требование, но frame&#8217;ы рекомандуется использовать в сложных нодовых деревьях, чтобы сделать их проще для восприятия.</p>
+<p class="last">Это не обязательное требование, но frame’ы рекомандуется использовать в сложных нодовых деревьях, чтобы сделать их проще для восприятия.</p>
 </div>
 <a class="reference internal image-reference" href="_images/logic_editor_frame.png"><img alt="_images/logic_editor_frame.png" class="align-center" src="_images/logic_editor_frame.png" style="width: 100%;" /></a>
-<p>Элемент <code class="docutils literal"><span class="pre">Frame</span></code> обладает рядом параметров, доступных из панели Properties. Среди этих параметров - <code class="docutils literal"><span class="pre">Label</span></code> (используется для задания заголовка frame&#8217;а) и <code class="docutils literal"><span class="pre">Color</span></code> (устанавливает цвет frame&#8217;а).</p>
+<p>Элемент <code class="docutils literal"><span class="pre">Frame</span></code> обладает рядом параметров, доступных из панели Properties. Среди этих параметров - <code class="docutils literal"><span class="pre">Label</span></code> (используется для задания заголовка frame’а) и <code class="docutils literal"><span class="pre">Color</span></code> (устанавливает цвет frame’а).</p>
 <p>Этот элемент также присутствует в стандарнтных нодовых редакторах Blender.</p>
 </div>
 <div class="section" id="empty">
@@ -2004,16 +1784,14 @@
 <h4>Входные параметры<a class="headerlink" href="#id104" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Previous</em></dt>
-<dd><p class="first last">Предыдущая нода (либо несколько нод).</p>
-</dd>
+<dd>Предыдущая нода (либо несколько нод).</dd>
 </dl>
 </div>
 <div class="section" id="id105">
 <h4>Выходные параметры<a class="headerlink" href="#id105" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Next</em></dt>
-<dd><p class="first last">Следующая нода.</p>
-</dd>
+<dd>Следующая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id106">
@@ -2042,27 +1820,23 @@
 <h4>Входные параметры<a class="headerlink" href="#id107" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Previous</em></dt>
-<dd><p class="first last">Предыдущая нода.</p>
-</dd>
+<dd>Предыдущая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id108">
 <h4>Выходные параметры<a class="headerlink" href="#id108" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Next</em></dt>
-<dd><p class="first last">Следующая нода.</p>
-</dd>
+<dd>Следующая нода.</dd>
 </dl>
 </div>
 <div class="section" id="id109">
 <h4>Внутренние параметры<a class="headerlink" href="#id109" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Message</em></dt>
-<dd><p class="first last">Сообщение, которые будет напечатано в консоли вместе со значениями переменных.</p>
-</dd>
+<dd>Сообщение, которые будет напечатано в консоли вместе со значениями переменных.</dd>
 <dt>&lt;имя переменной&gt;</dt>
-<dd><p class="first last">Имя одной из переменных, значение которой нужно вывести в консоли. По умолчанию нода <code class="docutils literal"><span class="pre">Console</span> <span class="pre">Print</span></code> имеет один параметр такого типа, также имеется возможность создавать новые и удалять уже существующие (нода может и не иметь ни одного параметра этого типа).</p>
-</dd>
+<dd>Имя одной из переменных, значение которой нужно вывести в консоли. По умолчанию нода <code class="docutils literal"><span class="pre">Console</span> <span class="pre">Print</span></code> имеет один параметр такого типа, также имеется возможность создавать новые и удалять уже существующие (нода может и не иметь ни одного параметра этого типа).</dd>
 </dl>
 </div>
 </div>
@@ -2093,7 +1867,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Триумф.
-      Обновлено: 2017-11-21.
+      Обновлено: 2017-12-29.
 
     </p>
   </div>
@@ -2149,11 +1923,11 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

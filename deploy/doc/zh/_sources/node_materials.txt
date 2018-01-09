@@ -1,10 +1,9 @@
-
 节点材质
 ********
 
 
-目录
-^^^^
+Table of Content
+^^^^^^^^^^^^^^^^
 
 * 节点材质
 
@@ -452,6 +451,11 @@ Cycles 节点
 * "Bump".
 
 部分支持以下节点︰
+
+* "Principled BSDF"
+
+     * "Roughness", "Metallic", "Specular" and "Normal" inputs are
+       supported;
 
 * "Texture Coordinates" ("From Dupli" 参数不支持);
 

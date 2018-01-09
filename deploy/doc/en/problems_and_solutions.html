@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Problems and Solutions &mdash; Blend4Web 17.10.1 User Manual</title>
+  <title>Problems and Solutions &mdash; Blend4Web 17.12.0 User Manual</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.10.1 User Manual" href="index.html"/>
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Blend4Web 17.12.0 User Manual" href="index.html"/>
         <link rel="next" title="Release Notes" href="release_notes.html"/>
         <link rel="prev" title="Team Work. Using Git" href="git_short_manual.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -115,7 +118,7 @@
 <li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Problems and Solutions</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Problems and Solutions</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#webgl-support">WebGL Support</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#problems-upon-startup">Problems Upon Startup</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#webgl-failed-to-initialize">WebGL Failed to Initialize</a></li>
@@ -211,9 +214,9 @@
 </div>
 <div class="section" id="problems-upon-startup">
 <span id="renderer-not-working"></span><h2><a class="toc-backref" href="#id5">Problems Upon Startup</a><a class="headerlink" href="#problems-upon-startup" title="Permalink to this headline">¶</a></h2>
-<p><em>1. The &#8220;Browser could not initialize WebGL&#8221; message is shown</em>.</p>
+<p><em>1. The “Browser could not initialize WebGL” message is shown</em>.</p>
 <a class="reference internal image-reference" href="_images/no_webgl.png"><img alt="_images/no_webgl.png" class="align-center" src="_images/no_webgl.png" style="width: 100%;" /></a>
-<p>Follow the instructions listed in the <a class="reference internal" href="#webgl-not-working"><span>WebGL Failed to Initialize</span></a> section.</p>
+<p>Follow the instructions listed in the <a class="reference internal" href="#webgl-not-working"><span class="std std-ref">WebGL Failed to Initialize</span></a> section.</p>
 <p><em>2. The user interface or background is shown but the default scene is not rendered. At the same time the</em> <a class="reference external" href="http://get.webgl.org/">http://get.webgl.org/</a> <em>site and other WebGL applications are working correctly.</em></p>
 <blockquote>
 <div><p>Possible causes:</p>
@@ -229,7 +232,7 @@
 </li>
 <li><p class="first">You are using an outdated operating system, such as Windows XP.</p>
 </li>
-<li><p class="first">Browser is not set up for loading local resources. In this case, the problem can be fixed by using local web server. See the <a class="reference internal" href="developers.html#browser-for-local-loading"><span>Loading Local Resources</span></a> section.</p>
+<li><p class="first">Browser is not set up for loading local resources. In this case, the problem can be fixed by using local web server. See the <a class="reference internal" href="developers.html#browser-for-local-loading"><span class="std std-ref">Loading Local Resources</span></a> section.</p>
 </li>
 </ul>
 </div></blockquote>
@@ -239,13 +242,13 @@
 <p>The <a class="reference external" href="http://get.webgl.org/">http://get.webgl.org/</a> page tells about problems when viewing it in recent Chrome or Firefox. What can I do?</p>
 <ol class="arabic simple">
 <li>Install the latest updates for your system (for MS Windows see <a class="reference external" href="http://support.microsoft.com/kb/311047">the guide</a>). In case of MS Windows install the latest <a class="reference external" href="https://www.microsoft.com/en-us/Download/confirmation.aspx?id=35">DirectX runtime</a>. Reboot.</li>
-<li>It is recommended to timely update video card drivers. To detect your video card and its vendor please type <strong>about:gpu</strong> (or <strong>chrome://gpu</strong>) to the address bar of Chrome browser...</li>
+<li>It is recommended to timely update video card drivers. To detect your video card and its vendor please type <strong>about:gpu</strong> (or <strong>chrome://gpu</strong>) to the address bar of Chrome browser…</li>
 </ol>
 <a class="reference internal image-reference" href="_images/chrome_gpu.png"><img alt="_images/chrome_gpu.png" class="align-center" src="_images/chrome_gpu.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p>or Firefox...</p>
+<p>or Firefox…</p>
 <a class="reference internal image-reference" href="_images/firefox_gpu.png"><img alt="_images/firefox_gpu.png" class="align-center" src="_images/firefox_gpu.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -281,7 +284,7 @@
 <li>If the measures described above did not help to initialize rendering (or there is no possibility to update the system) try to change the browser settings.</li>
 </ol>
 <p><em>For Chrome</em>:</p>
-<p>Enter <strong>about:flags</strong> (or <strong>chrome://flags</strong>) into the browser&#8217;s address bar, click <code class="file docutils literal"><span class="pre">Enable</span></code> under the <code class="file docutils literal"><span class="pre">Override</span> <span class="pre">software</span> <span class="pre">rendering</span> <span class="pre">list</span></code> option and restart the browser.</p>
+<p>Enter <strong>about:flags</strong> (or <strong>chrome://flags</strong>) into the browser’s address bar, click <code class="file docutils literal"><span class="pre">Enable</span></code> under the <code class="file docutils literal"><span class="pre">Override</span> <span class="pre">software</span> <span class="pre">rendering</span> <span class="pre">list</span></code> option and restart the browser.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -290,7 +293,7 @@
 <div class="line"><br /></div>
 </div>
 <p><em>For Firefox</em>:</p>
-<p>Enter <strong>about:config</strong> into the browser&#8217;s address bar, search for the <code class="docutils literal"><span class="pre">webgl.force-enabled</span></code> parameter and double-click on it to switch from <code class="docutils literal"><span class="pre">false</span></code> to <code class="docutils literal"><span class="pre">true</span></code>.</p>
+<p>Enter <strong>about:config</strong> into the browser’s address bar, search for the <code class="docutils literal"><span class="pre">webgl.force-enabled</span></code> parameter and double-click on it to switch from <code class="docutils literal"><span class="pre">false</span></code> to <code class="docutils literal"><span class="pre">true</span></code>.</p>
 <a class="reference internal image-reference" href="_images/about_config_force_webgl.png"><img alt="_images/about_config_force_webgl.png" class="align-center" src="_images/about_config_force_webgl.png" style="width: 100%;" /></a>
 <p><em>For Safari</em></p>
 <p>Select <code class="docutils literal"><span class="pre">Preferences</span></code> from Safari menu, select the <code class="docutils literal"><span class="pre">Security</span></code> tab and make sure that <code class="docutils literal"><span class="pre">Allow</span> <span class="pre">WebGL</span></code> checkbox is enabled.</p>
@@ -323,28 +326,28 @@
 </li>
 <li><p class="first">Transparent textures may not render correctly in the IE11 and Microsoft Edge web browsers and on iPad.</p>
 <blockquote>
-<div><p>The problem is relevant for the <a class="reference internal" href="materials.html#alpha-blend"><span>transparent materials</span></a>. Image artifacts are visible in the areas where alpha channel value is close or equal to zero. To fix this issue, it is recommended to increase the value of the alpha channel until artifact are no longer visible (increasing it by value from 0.01 to 0.05 should be enough in the most cases).</p>
+<div><p>The problem is relevant for the <a class="reference internal" href="materials.html#alpha-blend"><span class="std std-ref">transparent materials</span></a>. Image artifacts are visible in the areas where alpha channel value is close or equal to zero. To fix this issue, it is recommended to increase the value of the alpha channel until artifact are no longer visible (increasing it by value from 0.01 to 0.05 should be enough in the most cases).</p>
 </div></blockquote>
 </li>
 <li><p class="first">WebGL crashes on Linux Chromium with Nvidia GeForce 400/500 series GPUs with drivers later than 355.</p>
 <blockquote>
-<div><p>This issue is caused by incompatibility of Chromium sandbox and NVIDIA&#8217;s latest drivers. The solution is to downgrade drivers to the 340xx version.</p>
+<div><p>This issue is caused by incompatibility of Chromium sandbox and NVIDIA’s latest drivers. The solution is to downgrade drivers to the 340xx version.</p>
 </div></blockquote>
 </li>
 <li><p class="first">Audio issues.</p>
 <blockquote>
-<div><p>Audio doesn&#8217;t work in some versions of Google Chrome for the &#8220;Background Music&#8221; speakers in case of HTML export. Currently, speaker type is automatically changed to &#8220;Background Sound&#8221; as a workaround.</p>
+<div><p>Audio doesn’t work in some versions of Google Chrome for the “Background Music” speakers in case of HTML export. Currently, speaker type is automatically changed to “Background Sound” as a workaround.</p>
 <p>There is an audio context error when running too many instances (&gt;6) of b4w engine (for example, many browser tabs or many iframes on one page) in Google Chrome. The error is prevented by disabling the audio for an application if the audio context cannot be created for it.</p>
 <p>Pausing the audio may not work on such mobile devices as Nexus 6 and Nexus 9 in Google Chrome 50-52 versions. It should work again in Chrome 53. More info here: <a class="reference external" href="https://bugs.chromium.org/p/chromium/issues/detail?id=616772">https://bugs.chromium.org/p/chromium/issues/detail?id=616772</a>.</p>
 </div></blockquote>
 </li>
-<li><p class="first">QQ Browser doesn&#8217;t support WebGL at the moment.</p>
+<li><p class="first">QQ Browser doesn’t support WebGL at the moment.</p>
 </li>
 <li><p class="first">WebGL is unstable and sometimes crashes on Mesa 11.x drivers in Linux/Chrome with Intel GPUs. Downgrading to Mesa 10.x drivers can help.</p>
 </li>
 <li><p class="first">Information about moving fingers on GearVR touch sensor in VR-mode is not available.</p>
 <blockquote>
-<div><p>Samsung Internet browser doesn&#8217;t fire any events about moving fingers on touch sensor in VR-mode.</p>
+<div><p>Samsung Internet browser doesn’t fire any events about moving fingers on touch sensor in VR-mode.</p>
 </div></blockquote>
 </li>
 <li><p class="first">Particles emitted by particle systems placed on inactive (hidden) layers can have their positions set to zero as inactive layers are not updated by Blender.</p>
@@ -380,7 +383,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Triumph.
-      Last updated on 2017-11-21.
+      Last updated on 2017-12-29.
 
     </p>
   </div>
@@ -436,11 +439,11 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Библиотека материалов &mdash; Руководство пользователя Blend4Web 17.10.1</title>
+  <title>Библиотека материалов &mdash; Руководство пользователя Blend4Web 17.12.0</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 17.10.1" href="index.html"/>
+        <link rel="index" title="Алфавитный указатель"
+              href="genindex.html"/>
+        <link rel="search" title="Поиск" href="search.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 17.12.0" href="index.html"/>
         <link rel="next" title="Нодовые материалы" href="node_materials.html"/>
         <link rel="prev" title="Материалы" href="materials.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -98,7 +101,7 @@
 <li class="toctree-l1"><a class="reference internal" href="normal_editor.html">Редактор нормалей</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Камера</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Библиотека материалов</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Библиотека материалов</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#library-structure">Структура библиотеки</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#material-structure">Структура материала</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#material-core">Ядро материала</a></li>
@@ -174,7 +177,7 @@
   <div class="section" id="material-library">
 <span id="id1"></span><h1><a class="toc-backref" href="#id4">Библиотека материалов</a><a class="headerlink" href="#material-library" title="Ссылка на этот заголовок">¶</a></h1>
 <div class="contents topic" id="table-of-contents">
-<p class="topic-title first">Содержание</p>
+<p class="topic-title first">Table of Contents</p>
 <ul class="simple">
 <li><a class="reference internal" href="#material-library" id="id4">Библиотека материалов</a><ul>
 <li><a class="reference internal" href="#library-structure" id="id5">Структура библиотеки</a></li>
@@ -195,14 +198,14 @@
 <p>Библиотека материалов – это библиотека, где пользователь может найти базовые и наиболее часто используемые материалы для использования в своих проектах или для создания на их базе своих собственных материалов.</p>
 <p>При создании нового проекта возможно перенести библиотеку материалов в новый проект автоматически и подключать материалы оттуда.</p>
 <a class="reference internal image-reference" href="_images/material_library_use.png"><img alt="_images/material_library_use.png" class="align-center" src="_images/material_library_use.png" style="width: 100%;" /></a>
-<p>Для этого при создании нового проекта при помощи <a class="reference internal" href="project_manager.html#project-management"><span>менеджера проектов</span></a> надо выставить галочку <code class="docutils literal"><span class="pre">Use</span> <span class="pre">Material</span> <span class="pre">Library</span></code>. Тогда вся библиотека материалов будет автоматически скопирована в папку <code class="docutils literal"><span class="pre">/assets/material_library/</span></code> в каталоге нового проекта.</p>
+<p>Для этого при создании нового проекта при помощи <a class="reference internal" href="project_manager.html#project-management"><span class="std std-ref">менеджера проектов</span></a> надо выставить галочку <code class="docutils literal"><span class="pre">Use</span> <span class="pre">Material</span> <span class="pre">Library</span></code>. Тогда вся библиотека материалов будет автоматически скопирована в папку <code class="docutils literal"><span class="pre">/assets/material_library/</span></code> в каталоге нового проекта.</p>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
 <p class="last">Библиотека материалов может использоваться и в уже существующем проекте. Для этого достаточно скопировать файлы из папки <code class="docutils literal"><span class="pre">/blender/material_library/</span></code> в каталоге SDK в папку <code class="docutils literal"><span class="pre">/assets/</span></code> в каталоге проекта. После этого файлы материалов можно подключить к файлу сцены и использовать материалы в сцене.</p>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
-<p class="last">Как и любые объекты, материалы можно добавлять к сцене с помощью команд <code class="docutils literal"><span class="pre">Link</span></code> и  <code class="docutils literal"><span class="pre">Append</span></code>. Разница между ними описана <a class="reference internal" href="#material-add"><span>здесь</span></a>.</p>
+<p class="last">Как и любые объекты, материалы можно добавлять к сцене с помощью команд <code class="docutils literal"><span class="pre">Link</span></code> и  <code class="docutils literal"><span class="pre">Append</span></code>. Разница между ними описана <a class="reference internal" href="#material-add"><span class="std std-ref">здесь</span></a>.</p>
 </div>
 <div class="section" id="library-structure">
 <span id="id2"></span><h2><a class="toc-backref" href="#id5">Структура библиотеки</a><a class="headerlink" href="#library-structure" title="Ссылка на этот заголовок">¶</a></h2>
@@ -222,14 +225,10 @@
 <li><p class="first">Текстура с необходимыми дополнительными масками для задания корректного поведения материала на поверхности объекта. В большинстве материалов использованы следующие маски:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p class="first">Карта затенения</p>
-</li>
-<li><p class="first">Карта загрязнения</p>
-</li>
-<li><p class="first">Карта потёртостей</p>
-</li>
-<li><p class="first">Карта патины</p>
-</li>
+<li>Карта затенения</li>
+<li>Карта загрязнения</li>
+<li>Карта потёртостей</li>
+<li>Карта патины</li>
 </ul>
 <p>Не все из них используются в каждом материале, только если требуется для создания корректного поведения того или иного шейдера.</p>
 </div></blockquote>
@@ -255,26 +254,18 @@
 <p>Здесь вы можете видеть пример настройки материала пластика на специальном демонстрационном объекте без использования текстур, подключаемых в ядро материала.</p>
 <a class="reference internal image-reference" href="_images/material_library_example_demo.png"><img alt="_images/material_library_example_demo.png" class="align-center" src="_images/material_library_example_demo.png" style="width: 100%;" /></a>
 <ol class="arabic simple">
-<li><p class="first">Базовый цвет задан простой нодой <code class="docutils literal"><span class="pre">RGB</span> <span class="pre">Color</span></code> и подан на вход в ядро материала.</p>
-</li>
-<li><p class="first">В данной реализации материала не используется никаких карт нормалей и во вход <code class="docutils literal"><span class="pre">Normal</span></code> поданы данные нормалей с геометрии.</p>
-</li>
-<li><p class="first">В данном ядре материала присутствует специфическая настройка, регулирующая уровень глянца на материале. В данном случае значение выставлено на максимум.</p>
-</li>
-<li><p class="first">Также в материале используется запеченная маска затенения.</p>
-</li>
+<li>Базовый цвет задан простой нодой <code class="docutils literal"><span class="pre">RGB</span> <span class="pre">Color</span></code> и подан на вход в ядро материала.</li>
+<li>В данной реализации материала не используется никаких карт нормалей и во вход <code class="docutils literal"><span class="pre">Normal</span></code> поданы данные нормалей с геометрии.</li>
+<li>В данном ядре материала присутствует специфическая настройка, регулирующая уровень глянца на материале. В данном случае значение выставлено на максимум.</li>
+<li>Также в материале используется запеченная маска затенения.</li>
 </ol>
 <p>Теперь рассмотрим использование того же материала на другом объекте - пластиковом джойстике.</p>
 <a class="reference internal image-reference" href="_images/material_library_example_gamepad.png"><img alt="_images/material_library_example_gamepad.png" class="align-center" src="_images/material_library_example_gamepad.png" style="width: 100%;" /></a>
 <ol class="arabic simple">
-<li><p class="first">В качестве цвета здесь используется вертексный цвет с геометрии объекта.</p>
-</li>
-<li><p class="first">Для геометрии джойстика была запечена карта нормалей, которая подана во вход <code class="docutils literal"><span class="pre">Normal</span></code> ядра материала.</p>
-</li>
-<li><p class="first">Уровень глянца объекта настроен на меньшее значение.</p>
-</li>
-<li><p class="first">Вместо масок демонстрационной модели используются маски (загрязнения и затемнения), запеченные специально для модели джойстика.</p>
-</li>
+<li>В качестве цвета здесь используется вертексный цвет с геометрии объекта.</li>
+<li>Для геометрии джойстика была запечена карта нормалей, которая подана во вход <code class="docutils literal"><span class="pre">Normal</span></code> ядра материала.</li>
+<li>Уровень глянца объекта настроен на меньшее значение.</li>
+<li>Вместо масок демонстрационной модели используются маски (загрязнения и затемнения), запеченные специально для модели джойстика.</li>
 </ol>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
@@ -327,7 +318,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Триумф.
-      Обновлено: 2017-11-21.
+      Обновлено: 2017-12-29.
 
     </p>
   </div>
@@ -383,11 +374,11 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

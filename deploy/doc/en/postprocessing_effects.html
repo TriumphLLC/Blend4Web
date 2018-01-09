@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Postprocessing Effects &mdash; Blend4Web 17.10.1 User Manual</title>
+  <title>Postprocessing Effects &mdash; Blend4Web 17.12.0 User Manual</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.10.1 User Manual" href="index.html"/>
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Blend4Web 17.12.0 User Manual" href="index.html"/>
         <link rel="next" title="VR and AR" href="vr_and_ar.html"/>
         <link rel="prev" title="Lighting, Shadows and Background" href="lighting.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -102,7 +105,7 @@
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Editor</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Postprocessing Effects</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Postprocessing Effects</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#motion-blur">Motion Blur</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#activation">Activation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#additional-settings">Additional settings</a></li>
@@ -248,7 +251,7 @@
 <li><p class="first">Then two options are available:</p>
 <blockquote>
 <div><ul class="simple">
-<li>Select an object to use as the camera&#8217;s focus in the <code class="docutils literal"><span class="pre">Focus</span></code> option of the <code class="docutils literal"><span class="pre">Depth</span> <span class="pre">of</span> <span class="pre">Field</span></code> panel. In this case moving away or approaching this object will cause a corresponding correction of the camera focus.</li>
+<li>Select an object to use as the camera’s focus in the <code class="docutils literal"><span class="pre">Focus</span></code> option of the <code class="docutils literal"><span class="pre">Depth</span> <span class="pre">of</span> <span class="pre">Field</span></code> panel. In this case moving away or approaching this object will cause a corresponding correction of the camera focus.</li>
 <li>Set a non-zero value for the <code class="docutils literal"><span class="pre">Distance</span></code> on the same panel (in Blender units = meters). In this case the camera focus will be located at this distance from the camera and will move together with it.</li>
 </ul>
 </div></blockquote>
@@ -262,7 +265,7 @@
 <dt><em>Focus</em></dt>
 <dd>Sets the focal object. By default, this field is empty.</dd>
 <dt><em>Distance</em></dt>
-<dd>This parameter defines the focal distance. Available only if the <code class="docutils literal"><span class="pre">Focus</span></code> parameter hasn&#8217;t been set beforehand (if the corresponding field is empty). Set to zero by default.</dd>
+<dd>This parameter defines the focal distance. Available only if the <code class="docutils literal"><span class="pre">Focus</span></code> parameter hasn’t been set beforehand (if the corresponding field is empty). Set to zero by default.</dd>
 <dt><em>Front Start</em></dt>
 <dd><p class="first">This sets the distance (in meters) from the focus to the nearest plane (relative to the camera) behind which blurring effect starts to occur. The default value is 1.0.</p>
 <p class="last">This parameter is available only if the <code class="docutils literal"><span class="pre">High</span> <span class="pre">Quality</span> <span class="pre">(Bokeh)</span></code> parameter is enabled.</p>
@@ -359,7 +362,7 @@
 <dt><em>Blur</em></dt>
 <dd>Bloom blurriness factor. Set to 4.0 by default.</dd>
 <dt><em>Edge Luminance</em></dt>
-<dd>The boundary value of an element&#8217;s relative brightness above which the bloom effect appears. Set to 1.0 by default.</dd>
+<dd>The boundary value of an element’s relative brightness above which the bloom effect appears. Set to 1.0 by default.</dd>
 </dl>
 </div>
 </div>
@@ -369,7 +372,7 @@
 <a class="reference internal image-reference" href="_images/effects_outline.png"><img alt="_images/effects_outline.png" class="align-center" src="_images/effects_outline.png" style="width: 100%;" /></a>
 <div class="section" id="id13">
 <h3>Activation<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
-<p>The outlining is activated programmatically via API. Different animation models can be applied such as constant glow, fading out glow, pulsatory glow and any other. In order to enable the outlining effect on a certain object, make sure that the <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Object</span> <span class="pre">Selection</span></code> panel&#8217;s <code class="docutils literal"><span class="pre">Enable</span></code> property is set to <code class="docutils literal"><span class="pre">ON</span></code> or <code class="docutils literal"><span class="pre">AUTO</span></code>.</p>
+<p>The outlining is activated programmatically via API. Different animation models can be applied such as constant glow, fading out glow, pulsatory glow and any other. In order to enable the outlining effect on a certain object, make sure that the <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Object</span> <span class="pre">Selection</span></code> panel’s <code class="docutils literal"><span class="pre">Enable</span></code> property is set to <code class="docutils literal"><span class="pre">ON</span></code> or <code class="docutils literal"><span class="pre">AUTO</span></code>.</p>
 </div>
 <div class="section" id="id14">
 <h3>Additional settings<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
@@ -400,7 +403,7 @@
 <a class="reference internal image-reference" href="_images/effects_glow.png"><img alt="_images/effects_glow.png" class="align-center" src="_images/effects_glow.png" style="width: 100%;" /></a>
 <div class="section" id="id16">
 <h3>Activation<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
-<p>Add a <a class="reference internal" href="node_materials.html#glow-output"><span>B4W_GLOW_OUTPUT</span></a> node to a node material. The <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">Glow</span> <span class="pre">Materials</span></code> option on the <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Glow</span> <span class="pre">Materials</span></code> panel should be set to <code class="docutils literal"><span class="pre">ON</span></code> or <code class="docutils literal"><span class="pre">AUTO</span></code>.</p>
+<p>Add a <a class="reference internal" href="node_materials.html#glow-output"><span class="std std-ref">B4W_GLOW_OUTPUT</span></a> node to a node material. The <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">Glow</span> <span class="pre">Materials</span></code> option on the <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Glow</span> <span class="pre">Materials</span></code> panel should be set to <code class="docutils literal"><span class="pre">ON</span></code> or <code class="docutils literal"><span class="pre">AUTO</span></code>.</p>
 </div>
 <div class="section" id="id17">
 <h3>Additional settings<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
@@ -466,7 +469,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Triumph.
-      Last updated on 2017-11-21.
+      Last updated on 2017-12-29.
 
     </p>
   </div>
@@ -522,11 +525,11 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

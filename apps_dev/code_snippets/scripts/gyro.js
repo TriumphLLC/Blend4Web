@@ -1,14 +1,12 @@
-"use strict";
+import b4w from "blend4web";
 
-b4w.register("gyro", function(exports, require) {
-
-var m_data    = require("data");
-var m_app     = require("app");
-var m_cfg     = require("config");
-var m_ctl     = require("controls");
-var m_phy     = require("physics");
-var m_scenes  = require("scenes");
-var m_version = require("version");
+var m_data    = b4w.data;
+var m_app     = b4w.app;
+var m_cfg     = b4w.config;
+var m_ctl     = b4w.controls;
+var m_phy     = b4w.physics;
+var m_scenes  = b4w.scenes;
+var m_version = b4w.version;
 
 var DEBUG = (m_version.type() === "DEBUG");
 
@@ -17,7 +15,7 @@ var FORCE = 500;
 var UP_THRESHOLD = 0.2;
 var DOWN_THRESHOLD = 0.002;
 
-exports.init = function() {
+export function init() {
     m_app.init({
         canvas_container_id: "main_canvas_container",
         callback: init_cb,
@@ -69,6 +67,3 @@ function clamp_delta(values) {
                 || Math.abs(values[i]) < DOWN_THRESHOLD)
             values[i] = 0;
 }
-
-
-});

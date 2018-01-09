@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Lighting, Shadows and Background &mdash; Blend4Web 17.10.1 User Manual</title>
+  <title>Lighting, Shadows and Background &mdash; Blend4Web 17.12.0 User Manual</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.10.1 User Manual" href="index.html"/>
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Blend4Web 17.12.0 User Manual" href="index.html"/>
         <link rel="next" title="Postprocessing Effects" href="postprocessing_effects.html"/>
         <link rel="prev" title="Logic Editor" href="logic_editor.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -101,7 +104,7 @@
 <li class="toctree-l1"><a class="reference internal" href="material_library.html">Material Library</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Editor</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Lighting, Shadows and Background</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Lighting, Shadows and Background</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#shading-types">Shading Types</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#lighting-with-light-sources">Lighting with Light Sources</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#light-source-types">Light source types</a></li>
@@ -212,12 +215,12 @@
 </div>
 <div class="section" id="shading-types">
 <span id="index-1"></span><h2><a class="toc-backref" href="#id5">Shading Types</a><a class="headerlink" href="#shading-types" title="Permalink to this headline">¶</a></h2>
-<p>Lighting (shading) depends on the direction of normal vectors. The standard Blender&#8217;s shading types are supported: <code class="docutils literal"><span class="pre">Shading:</span> <span class="pre">Flat</span></code> (face normals are used), <code class="docutils literal"><span class="pre">Shading:</span> <span class="pre">Smooth</span></code> (interpolated vertex normals are used) and their combinations.</p>
+<p>Lighting (shading) depends on the direction of normal vectors. The standard Blender’s shading types are supported: <code class="docutils literal"><span class="pre">Shading:</span> <span class="pre">Flat</span></code> (face normals are used), <code class="docutils literal"><span class="pre">Shading:</span> <span class="pre">Smooth</span></code> (interpolated vertex normals are used) and their combinations.</p>
 <a class="reference internal image-reference" href="_images/flat_smooth_shading.png"><img alt="_images/flat_smooth_shading.png" class="align-center" src="_images/flat_smooth_shading.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p>If the required effect is impossible to achieve with the standard tools, you can use the <a class="reference internal" href="normal_editor.html#normals-editor"><span>normals editor</span></a>.</p>
+<p>If the required effect is impossible to achieve with the standard tools, you can use the <a class="reference internal" href="normal_editor.html#normals-editor"><span class="std std-ref">normals editor</span></a>.</p>
 <p>The result of applying different shading types and using the normals editor:</p>
 <a class="reference internal image-reference" href="_images/different_shadings_comparison.png"><img alt="_images/different_shadings_comparison.png" class="align-center" src="_images/different_shadings_comparison.png" style="width: 100%;" /></a>
 <ol class="arabic simple">
@@ -285,9 +288,9 @@
 <ol class="arabic simple">
 <li>Flat white lighting.</li>
 <li>Hemispherical lighting model in which horizon and zenith colors should be specified. As a result objects are filled with a gradient between these two colors depending on the direction of normals.</li>
-<li>Lighting using an <a class="reference internal" href="textures.html#environment-map"><span>environment map</span></a> - so called image-based lighting.</li>
+<li>Lighting using an <a class="reference internal" href="textures.html#environment-map"><span class="std std-ref">environment map</span></a> - so called image-based lighting.</li>
 </ol>
-<p>Please note that environment lighting uses a simplified model which doesn&#8217;t take into account mutual shadowing of objects.</p>
+<p>Please note that environment lighting uses a simplified model which doesn’t take into account mutual shadowing of objects.</p>
 <div class="section" id="activation">
 <h3><a class="toc-backref" href="#id10">Activation</a><a class="headerlink" href="#activation" title="Permalink to this headline">¶</a></h3>
 <p>Enable the <code class="docutils literal"><span class="pre">Environment</span> <span class="pre">Lighting</span></code> checkbox on the <code class="docutils literal"><span class="pre">World</span></code> tab.</p>
@@ -299,7 +302,7 @@
 <dt><em>World &gt; Environment Lighting &gt; Energy</em></dt>
 <dd>Environment lighting intensity. The default value is 1.0.</dd>
 <dt><em>World &gt; Environment Lighting &gt; Environment Color</em></dt>
-<dd>Selection of the environment lighting simulation method: <code class="docutils literal"><span class="pre">White</span></code> - flat white lighting, <code class="docutils literal"><span class="pre">Sky</span> <span class="pre">Color</span></code> - hemispherical model, <code class="docutils literal"><span class="pre">Sky</span> <span class="pre">Texture</span></code> - lighting using an <a class="reference internal" href="textures.html#environment-map"><span>environment map</span></a>. The default value is <code class="docutils literal"><span class="pre">White</span></code>.</dd>
+<dd>Selection of the environment lighting simulation method: <code class="docutils literal"><span class="pre">White</span></code> - flat white lighting, <code class="docutils literal"><span class="pre">Sky</span> <span class="pre">Color</span></code> - hemispherical model, <code class="docutils literal"><span class="pre">Sky</span> <span class="pre">Texture</span></code> - lighting using an <a class="reference internal" href="textures.html#environment-map"><span class="std std-ref">environment map</span></a>. The default value is <code class="docutils literal"><span class="pre">White</span></code>.</dd>
 <dt><em>World &gt; Horizon Color</em> and <em>World &gt; Zenith Color</em></dt>
 <dd>If the hemispherical model (<code class="docutils literal"><span class="pre">Sky</span> <span class="pre">Color</span></code>) is selected the horizon and zenith colors can be specified by means of the <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Horizon</span> <span class="pre">Color</span></code> and <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Zenith</span> <span class="pre">Color</span></code> color pickers. It is recommended to activate the <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Blend</span> <span class="pre">Sky</span></code> option for better color selection.</dd>
 <dt><em>World &gt; Use Nodes (Cycles)</em></dt>
@@ -317,8 +320,8 @@
 <li>Enable the <code class="docutils literal"><span class="pre">Environment</span> <span class="pre">Lighting</span></code> checkbox on the <code class="docutils literal"><span class="pre">World</span></code> tab.</li>
 <li>Select <code class="docutils literal"><span class="pre">Environment</span> <span class="pre">Lighting</span> <span class="pre">&gt;</span> <span class="pre">Sky</span> <span class="pre">Texture</span></code>.</li>
 <li>Go from the <code class="docutils literal"><span class="pre">World</span></code> tab to the <code class="docutils literal"><span class="pre">Texture</span></code> tab.</li>
-<li>Create an <a class="reference internal" href="textures.html#environment-map"><span>environment map</span></a>, load the corresponding image to it.</li>
-<li>For the environment map select <code class="docutils literal"><span class="pre">ENVIRONMENT_LIGHTING</span></code> or <code class="docutils literal"><span class="pre">BOTH</span></code> as the <code class="docutils literal"><span class="pre">Sky</span> <span class="pre">Texture</span> <span class="pre">Usage</span></code> value on the <code class="docutils literal"><span class="pre">Export</span> <span class="pre">Options</span></code> panel (the <code class="docutils literal"><span class="pre">BOTH</span></code> option also enables using this texture as a <a class="reference internal" href="textures.html#skydome-texture"><span>skydome texture</span></a>).</li>
+<li>Create an <a class="reference internal" href="textures.html#environment-map"><span class="std std-ref">environment map</span></a>, load the corresponding image to it.</li>
+<li>For the environment map select <code class="docutils literal"><span class="pre">ENVIRONMENT_LIGHTING</span></code> or <code class="docutils literal"><span class="pre">BOTH</span></code> as the <code class="docutils literal"><span class="pre">Sky</span> <span class="pre">Texture</span> <span class="pre">Usage</span></code> value on the <code class="docutils literal"><span class="pre">Export</span> <span class="pre">Options</span></code> panel (the <code class="docutils literal"><span class="pre">BOTH</span></code> option also enables using this texture as a <a class="reference internal" href="textures.html#skydome-texture"><span class="std std-ref">skydome texture</span></a>).</li>
 </ol>
 <a class="reference internal image-reference" href="_images/lighting_environment_texture.png"><img alt="_images/lighting_environment_texture.png" class="align-center" src="_images/lighting_environment_texture.png" style="width: 100%;" /></a>
 <div class="line-block">
@@ -328,7 +331,7 @@
 </div>
 <div class="section" id="shadows">
 <span id="id1"></span><h2><a class="toc-backref" href="#id13">Shadows</a><a class="headerlink" href="#shadows" title="Permalink to this headline">¶</a></h2>
-<p>Shadows are exceptionally important for rendering the final picture. They provide the viewer not only with information about the objects&#8217; outline but also about their height and relative position, light source position and so on.</p>
+<p>Shadows are exceptionally important for rendering the final picture. They provide the viewer not only with information about the objects’ outline but also about their height and relative position, light source position and so on.</p>
 <p>Blend4Web implements the following shadow rendering techniques: cascaded shadow maps (CSM) and softened shadows (PCF).</p>
 <p>Up to 4 (or 3 if SSAO is enabled) light sources can generate shadows simultaneously. If <em>Shadow</em> parameter is enabled for more than 4 light sources, shadows will still be generated only from 4 of them.</p>
 <a class="reference internal image-reference" href="_images/lighting_multiple_shadows.png"><img alt="_images/lighting_multiple_shadows.png" class="align-center" src="_images/lighting_multiple_shadows.png" style="width: 100%;" /></a>
@@ -341,7 +344,7 @@
 </ol>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p>Objects, which have <a class="reference internal" href="materials.html#alpha-blend"><span>transparent materials with a gradient</span></a>, do not cast shadows.</p>
+<p>Objects, which have <a class="reference internal" href="materials.html#alpha-blend"><span class="std std-ref">transparent materials with a gradient</span></a>, do not cast shadows.</p>
 <a class="last reference internal image-reference" href="_images/alpha_shadows.png"><img alt="_images/alpha_shadows.png" class="align-center" src="_images/alpha_shadows.png" style="width: 100%;" /></a>
 </div>
 <div class="line-block">
@@ -354,7 +357,7 @@
 <dt><em>Direction</em></dt>
 <dd>If there are multiple light sources, it is recommended to specify the exact light source which is used for shadow calculations, by enabling the <code class="docutils literal"><span class="pre">Shadow</span> <span class="pre">&gt;</span> <span class="pre">Shadow</span></code> checkbox under the <code class="docutils literal"><span class="pre">Object</span> <span class="pre">Data</span></code> tab for the selected lamp object.</dd>
 <dt><em>Color</em></dt>
-<dd>The shadow color is determined by the <a class="reference internal" href="#environment-lighting"><span>environment lighting</span></a> settings.</dd>
+<dd>The shadow color is determined by the <a class="reference internal" href="#environment-lighting"><span class="std std-ref">environment lighting</span></a> settings.</dd>
 </dl>
 <p>The following additional settings are located on the <code class="docutils literal"><span class="pre">Shadows</span></code> panel of the <code class="docutils literal"><span class="pre">Render</span></code> tab:</p>
 <a class="reference internal image-reference" href="_images/lighting_shadow_settings.png"><img alt="_images/lighting_shadow_settings.png" class="align-center" src="_images/lighting_shadow_settings.png" style="width: 100%;" /></a>
@@ -376,14 +379,14 @@
 <a class="reference internal image-reference" href="_images/self_shadow_artifacts.png"><img alt="_images/self_shadow_artifacts.png" class="align-center" src="_images/self_shadow_artifacts.png" style="width: 100%;" /></a>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">Shadows from <code class="docutils literal"><span class="pre">Point</span></code> light sources are generated the same way as from <code class="docutils literal"><span class="pre">Spot</span></code> light sources and are projected only in one direction specified by the source&#8217;s <code class="docutils literal"><span class="pre">Rotation</span></code> parameter.</p>
+<p class="last">Shadows from <code class="docutils literal"><span class="pre">Point</span></code> light sources are generated the same way as from <code class="docutils literal"><span class="pre">Spot</span></code> light sources and are projected only in one direction specified by the source’s <code class="docutils literal"><span class="pre">Rotation</span></code> parameter.</p>
 </div>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <dl class="docutils">
 <dt><em>Enable CSM</em></dt>
-<dd>Activates the using of cascaded shadows model; reveals additional options. Disabled by default. Won&#8217;t work if the <code class="docutils literal"><span class="pre">Shadow</span></code> setting is enabled for more than one light source. <code class="docutils literal"><span class="pre">Point</span></code> and <code class="docutils literal"><span class="pre">Spot</span></code> type light sources support only one shadow cascade.</dd>
+<dd>Activates the using of cascaded shadows model; reveals additional options. Disabled by default. Won’t work if the <code class="docutils literal"><span class="pre">Shadow</span></code> setting is enabled for more than one light source. <code class="docutils literal"><span class="pre">Point</span></code> and <code class="docutils literal"><span class="pre">Spot</span></code> type light sources support only one shadow cascade.</dd>
 </dl>
 <p>This option allows to choose between the following shadow generation models:</p>
 <ul class="simple">
@@ -460,19 +463,19 @@
 <span id="index-3"></span><h2><a class="toc-backref" href="#id16">Background</a><a class="headerlink" href="#background" title="Permalink to this headline">¶</a></h2>
 <p>You can change the background in the following ways:</p>
 <ol class="arabic simple">
-<li>Enable <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">Sky</span></code>, then set the <code class="docutils literal"><span class="pre">Horizon</span> <span class="pre">Color</span></code> and the <code class="docutils literal"><span class="pre">Zenith</span> <span class="pre">Color</span></code> under Blender&#8217;s <code class="docutils literal"><span class="pre">World</span></code> tab.</li>
+<li>Enable <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">Sky</span></code>, then set the <code class="docutils literal"><span class="pre">Horizon</span> <span class="pre">Color</span></code> and the <code class="docutils literal"><span class="pre">Zenith</span> <span class="pre">Color</span></code> under Blender’s <code class="docutils literal"><span class="pre">World</span></code> tab.</li>
 <li>Place the whole scene inside a model (e.g. a cube or a sphere) with its normals directed inside, with a material and an optional texture.</li>
 <li>Place a surface with a material and an optional texture in front of the camera. Parent it to the camera. If required, tweak the distance to this surface, starting and ending clipping planes for the camera.</li>
 </ol>
 <a class="reference internal image-reference" href="_images/parented_background.png"><img alt="_images/parented_background.png" class="align-center" src="_images/parented_background.png" style="width: 100%;" /></a>
 <ol class="arabic" start="4">
-<li><p class="first">Use a <a class="reference internal" href="textures.html#skydome-texture"><span>skydome</span></a>.</p>
+<li><p class="first">Use a <a class="reference internal" href="textures.html#skydome-texture"><span class="std std-ref">skydome</span></a>.</p>
 </li>
-<li><p class="first">Set up the procedurally generated <a class="reference internal" href="outdoor_rendering.html#atmosphere"><span>atmosphere</span></a>.</p>
+<li><p class="first">Set up the procedurally generated <a class="reference internal" href="outdoor_rendering.html#atmosphere"><span class="std std-ref">atmosphere</span></a>.</p>
 </li>
-<li><p class="first">Set the engine&#8217;s <code class="docutils literal"><span class="pre">background_color</span></code> parameter with the <code class="docutils literal"><span class="pre">config.set()</span></code> method. Please note, that <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">Sky</span></code> under Blender&#8217;s <code class="docutils literal"><span class="pre">World</span></code> tab must be disabled. This value is used as argument for the WebGL <code class="docutils literal"><span class="pre">clearColor()</span></code> method. For correct results, it&#8217;s recommended to turn the WebGL context transparency off (the <code class="docutils literal"><span class="pre">alpha</span></code> parameter). Such the configuration is used by default in the engine&#8217;s standard web player.</p>
+<li><p class="first">Set the engine’s <code class="docutils literal"><span class="pre">background_color</span></code> parameter with the <code class="docutils literal"><span class="pre">config.set()</span></code> method. Please note, that <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">Sky</span></code> under Blender’s <code class="docutils literal"><span class="pre">World</span></code> tab must be disabled. This value is used as argument for the WebGL <code class="docutils literal"><span class="pre">clearColor()</span></code> method. For correct results, it’s recommended to turn the WebGL context transparency off (the <code class="docutils literal"><span class="pre">alpha</span></code> parameter). Such the configuration is used by default in the engine’s standard web player.</p>
 <blockquote>
-<div><div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
+<div><div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_main</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;main&quot;</span><span class="p">);</span>
 
 <span class="c1">// gray</span>
@@ -484,9 +487,9 @@
 </div>
 </div></blockquote>
 </li>
-<li><p class="first">You can use any HTML content behind the <em>canvas</em> element, to which the rendering is performed, as a background. To do this, activate the WebGL context transparency (the <code class="docutils literal"><span class="pre">alpha</span></code> parameter). Please note, that <code class="docutils literal"><span class="pre">World</span>&nbsp; <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">Sky</span></code> under Blender&#8217;s <code class="docutils literal"><span class="pre">World</span></code> tab must be disabled. For correct results, it&#8217;s recommended to set absolutely transparent black background color. Such the configuration is used by default in the <a class="reference internal" href="viewer.html#viewer"><span>scene viewer</span></a> of Blend4Web SDK.</p>
+<li><p class="first">You can use any HTML content behind the <em>canvas</em> element, to which the rendering is performed, as a background. To do this, activate the WebGL context transparency (the <code class="docutils literal"><span class="pre">alpha</span></code> parameter). Please note, that <code class="docutils literal"><span class="pre">World</span>&#160; <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">Sky</span></code> under Blender’s <code class="docutils literal"><span class="pre">World</span></code> tab must be disabled. For correct results, it’s recommended to set absolutely transparent black background color. Such the configuration is used by default in the <a class="reference internal" href="viewer.html#viewer"><span class="std std-ref">scene viewer</span></a> of Blend4Web SDK.</p>
 <blockquote>
-<div><div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
+<div><div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_main</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;main&quot;</span><span class="p">);</span>
 
 <span class="nx">m_cfg</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;background_color&quot;</span><span class="p">,</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]));</span>
@@ -497,7 +500,7 @@
 </div>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="colors.html#alpha-compositing"><span>Alpha Compositing</span></a></p>
+<p class="last"><a class="reference internal" href="colors.html#alpha-compositing"><span class="std std-ref">Alpha Compositing</span></a></p>
 </div>
 </div></blockquote>
 </li>
@@ -525,7 +528,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Triumph.
-      Last updated on 2017-11-21.
+      Last updated on 2017-12-29.
 
     </p>
   </div>
@@ -581,11 +584,11 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

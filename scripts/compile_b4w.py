@@ -11,6 +11,7 @@ import sys
 import tempfile
 
 from os.path import join, normpath
+from mod_list import gen_module_list
 
 BLUE = '\033[96m'
 GREEN = '\033[92m'
@@ -19,7 +20,7 @@ YELLOW = "\033[93m"
 ENDCOL = "\033[0m"
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
-COMMON_DIR = join(BASE_DIR, "..", "deploy", "apps", "common")
+COMMON_DIR = normpath(join(BASE_DIR, "..", "dist"))
 WIN_JAVA_DIR = normpath(join(BASE_DIR, "..", "tools", "java", "win",
                         "openjdk-1.7.0", "bin", "java.exe"))
 
@@ -31,19 +32,7 @@ ENGINE_NAME_WHITE = "b4w.whitespace.min.js"
 
 CURRENT_DATE = "new Date({d.year}, {d.month}-1, {d.day}, {d.hour}, {d.minute},{d.second})".format(d=datetime.datetime.now())
 
-ADDONS = ["src/addons/app.js",
-          "src/addons/camera_anim.js",
-          "src/addons/gp_conf.js",
-          "src/addons/gyroscope.js",
-          "src/addons/hmd_conf.js",
-          "src/addons/hmd.js",
-          "src/addons/fps.js",
-          "src/addons/mixer.js",
-          "src/addons/npc_ai.js",
-          "src/addons/mouse.js",
-          "src/addons/preloader.js",
-          "src/addons/storage.js",
-          "src/addons/screenshooter.js"]
+ADDONS = []
 
 EXTERNS = ["tools/closure-compiler/extern_fullscreen.js",
            "tools/closure-compiler/extern_gl-matrix.js",
@@ -51,98 +40,13 @@ EXTERNS = ["tools/closure-compiler/extern_fullscreen.js",
            "tools/closure-compiler/extern_pointerlock.js",
            "tools/closure-compiler/extern_webassembly.js"]
 
-SRC_FILES = ['src/b4w.js',
-             'version_rel.js',
-             'config_rel.js',
-             'src/anchors.js',
-             'src/armature.js',
-             'src/boundings.js',
-             'src/compat.js',
-             'src/constraints.js',
-             'src/container.js',
-             'src/controls.js',
-             'src/curve.js',
-             'src/debug.js',
-             'src/extensions.js',
-             'src/graph.js',
-             'src/ipc.js',
-             'src/hud.js',
-             'src/material.js',
-             'src/renderer.js',
-             'src/shaders.js',
-             'src/geometry.js',
-             'src/objects.js',
-             'src/obj_util.js',
-             'src/particles.js',
-             'src/primitives.js',
-             'src/prerender.js',
-             'src/print.js',
-             'src/reformer.js',
-             'src/scenegraph.js',
-             'src/subscene.js',
-             'src/texcomp.js',
-             'src/textures.js',
-             'src/assets.js',
-             'src/loader.js',
-             'src/logic_nodes.js',
-             'src/main.js',
-             'src/math.js',
-             'src/navmesh.js',
-             'src/nla.js',
-             'src/camera.js',
-             'src/lights.js',
-             'src/scenes.js',
-             'src/physics.js',
-             'src/data.js',
-             'src/batch.js',
-             'src/nodemat.js',
-             'src/animation.js',
-             'src/time.js',
-             'src/transform.js',
-             'src/tsr.js',
-             'src/util.js',
-             'src/sfx.js',
-             'src/input.js',
-             'src/tbn.js']
+MERGED_SRC = [join(COMMON_DIR, "b4w.js")]
 
-SRC_EXT_FILES = ['src/ext/animation.js',
-                 'src/ext/anchors.js',
-                 'src/ext/armature.js',
-                 'src/ext/assets.js',
-                 'src/ext/camera.js',
-                 'src/ext/config.js',
-                 'src/ext/controls.js',
-                 'src/ext/constraints.js',
-                 'src/ext/container.js',
-                 'src/ext/data.js',
-                 'src/ext/debug.js',
-                 'src/ext/geometry.js',
-                 'src/ext/hud.js',
-                 'src/ext/input.js',
-                 'src/ext/lights.js',
-                 'src/ext/logic_nodes.js',
-                 'src/ext/material.js',
-                 'src/ext/math.js',
-                 'src/ext/particles.js',
-                 'src/ext/physics.js',
-                 'src/ext/rgb.js',
-                 'src/ext/scenes.js',
-                 'src/ext/screen.js',
-                 'src/ext/sfx.js',
-                 'src/ext/textures.js',
-                 'src/ext/time.js',
-                 'src/ext/transform.js',
-                 'src/ext/tsr.js',
-                 'src/ext/util.js',
-                 'src/ext/version.js',
-                 'src/ext/objects.js',
-                 'src/ext/main.js',
-                 'src/ext/nla.js']
+SRC_FILES = []
 
-SRC_LIBS_FILES = ['src/libs/gl-matrix2.js',
-                  'src/libs/md5.js',
-                  'src/libs/pako_inflate.js',
-                  'src/libs/shader_texts.js']
+SRC_EXT_FILES = []
+
+SRC_LIBS_FILES = []
 
 EXCLUSION_MODULES = ['src/libs/gpp_parser.js']
 
@@ -195,11 +99,10 @@ def run():
     else:
         dest_engine_path = ext_path
 
+    update_modules_lists()
+
+
     externs = prepare_externs(EXTERNS)
-    src_files = prepare_js(SRC_FILES)
-    src_libs_files = prepare_js(SRC_LIBS_FILES)
-    src_ext_files = prepare_js(SRC_EXT_FILES)
-    addons = prepare_js(ADDONS)
 
     if platform.system() == "Windows":
         java_exec = WIN_JAVA_DIR
@@ -220,7 +123,6 @@ def run():
                        '--jscomp_off=reportUnknownTypes',
                        "--hide_warnings_for=gl-matrix2.js",
                        "--hide_warnings_for=pako_inflate.js"]
-
     if not show_warn:
         compiler_params.append("--warning_level=QUIET")
         compiler_params.append("--jscomp_off=checkVars")
@@ -294,28 +196,24 @@ def run():
 
     externs.append('--externs=' + externs_gen_file.name)
 
-    append_externs_items(ADDONS, externs_js, externs_gen_file)
-    append_externs_items(SRC_EXT_FILES, externs_js, externs_gen_file)
+    append_externs_items(ADDONS, externs_gen_file)
+    append_externs_items(SRC_EXT_FILES, externs_gen_file)
 
     externs_gen_file.seek(0)
 
-    refact_version()
-
     compiler_params.append('--compilation_level=' + optimization)
 
+    tmp_engine_file = tempfile.NamedTemporaryFile(mode="r+", suffix=".js", delete=False, encoding="utf-8")
     if len(externs_js):
-        refact_ext_js = check_modules(externs_js)
-        refact_ext_js = ['--js=' + i for i in refact_ext_js]
-
+        refact_ext_js = check_modules(externs_js, tmp_engine_file,
+                                      os.path.basename(dest_engine_path))
+        refact_ext_js = ['--js=' + i for i in set(refact_ext_js)]
         compiler_params.extend(refact_ext_js)
-
-        refact_config(os.path.basename(dest_engine_path))
     else:
-        refact_config()
-        compiler_params.extend(src_files)
-        compiler_params.extend(src_libs_files)
-        compiler_params.extend(src_ext_files)
-        compiler_params.extend(addons)
+        merged_src = check_modules(MERGED_SRC, tmp_engine_file)
+        refact_merged_src = prepare_js(merged_src)
+        compiler_params.extend(refact_merged_src)
+    tmp_engine_file.close()
 
     compiler_params.extend(externs)
 
@@ -327,14 +225,15 @@ def run():
                            os.path.relpath(dest_engine_path))
 
     print("    " + "-" * (len(normpath(dest_engine_path)) +
-          len("Compiling : ")))
-    print(GREEN + "    Compiling" + ENDCOL + " :",
+          len("Compiling: ")))
+    print(GREEN + "    Compiling" + ENDCOL + ":",
           BLUE + normpath(dest_engine_path) + ENDCOL)
     print("    " + "-" * (len(normpath(dest_engine_path)) +
-          len("Compiling : ")))
+          len("Compiling: ")))
 
     externs_gen_file.close()
 
+    # print(" ".join(compiler_params))
     subprocess.call(compiler_params)
 
     if use_source_map:
@@ -343,12 +242,6 @@ def run():
         source_map_file.close()
 
         source_map_text = re.sub(normpath(join(BASE_DIR, "..")), "",
-                                     source_map_text)
-
-        source_map_text = re.sub("version_rel.js", "src/version.js",
-                                     source_map_text)
-
-        source_map_text = re.sub("config_rel.js", "src/config.js",
                                      source_map_text)
 
         source_map_file = open(dest_engine_path + ".map", "w", encoding="utf-8")
@@ -368,13 +261,13 @@ def run():
     except:
         print("File ", externs_gen_file.name, " not found")
 
-    if os.path.exists(join(BASE_DIR, "..", "version_rel.js")):
-        os.remove(join(BASE_DIR, "..", "version_rel.js"))
-    if os.path.exists(join(BASE_DIR, "..", "config_rel.js")):
-        os.remove(join(BASE_DIR, "..", "config_rel.js"))
+    try:
+        os.remove(tmp_engine_file.name)
+    except:
+        print("File ", tmp_engine_file.name, " not found")
 
 
-def get_cur_modules():
+def update_modules_lists():
     """Get modules fromm the engine."""
     curr_dir = BASE_DIR
 
@@ -405,8 +298,6 @@ def get_cur_modules():
     if not sdk_root_dir:
         return
 
-    from mod_list import gen_module_list
-
     src_modules = gen_module_list("src", join(sdk_root_dir, "src"))
 
     global ADDONS, SRC_FILES, SRC_EXT_FILES, SRC_LIBS_FILES
@@ -416,8 +307,9 @@ def get_cur_modules():
                   x not in EXCLUSION_MODULES, src_modules))
     SRC_LIBS_FILES = list(filter(lambda x: x.startswith("src/libs/") and
                           x not in EXCLUSION_MODULES, src_modules))
+    # CHECK: shader_texts is in ignore list. WHY?
     SRC_LIBS_FILES.append('src/libs/shader_texts.js')
-    SRC_EXT_FILES = list(filter(lambda x: x.startswith("src/ext/") and
+    SRC_EXT_FILES = list(filter(lambda x: x.startswith("src/extern/") and
                          x not in EXCLUSION_MODULES, src_modules))
     SRC_FILES = list(set(src_modules) -
                      set(SRC_EXT_FILES) -
@@ -425,13 +317,10 @@ def get_cur_modules():
                      set(SRC_LIBS_FILES))
 
 
-def append_externs_items(paths, externs_js, externs_gen_file):
+def append_externs_items(paths, externs_gen_file):
     """Find items in js files which must be added in extern file."""
     for path in paths:
         abs_path = normpath(join(BASE_DIR, "..", path))
-
-        if len(externs_js) and not (abs_path in externs_js):
-            continue
 
         f = open(abs_path, encoding="utf-8")
         text = f.read()
@@ -439,9 +328,8 @@ def append_externs_items(paths, externs_js, externs_gen_file):
 
         function_names = []
 
-        if not len(externs_js):
-            pattern = r'exports\.(?P<function>\S[^=^\s^(]*)'
-            function_names = re.findall(pattern, text)
+        pattern = r'exports\.(?P<function>\S[^=^\s^(]*)'
+        function_names = re.findall(pattern, text)
 
         pattern = r'@cc_externs\s+(?P<cc_externs>[\S].+)'
         raw_attrs_names = re.findall(pattern, text)
@@ -457,63 +345,10 @@ def append_externs_items(paths, externs_js, externs_gen_file):
             externs_gen_file.write("Object.prototype." + func + ";\n")
 
 
-def check_modules(ext_js):
+def check_modules(ext_js, engine_tmp, app_js=False):
     """Check requirement of config.js and version.js."""
     refact_ext_js = []
 
-    for js in ext_js:
-        ex_module = False
-
-        if normpath(join(BASE_DIR, "..", "src", "config.js")) == js:
-            refact_ext_js.append(normpath(join(BASE_DIR, "..",
-                                               "config_rel.js")))
-            continue
-
-        if normpath(join(BASE_DIR, "..", "src", "version.js")) == js:
-            refact_ext_js.append(normpath(join(BASE_DIR, "..",
-                                               "version_rel.js")))
-            continue
-
-        for ex in EXCLUSION_MODULES:
-            if normpath(join(BASE_DIR, "..", ex)) == js:
-                ex_module = True
-                break
-
-        if not ex_module:
-            refact_ext_js.append(js)
-
-    return refact_ext_js
-
-
-def refact_config(app_js=False):
-    """Change meta data in config.js file for working in compiled engine."""
-    config_js_file = open(join(BASE_DIR, "..", "src", "config.js"), encoding="utf-8")
-    config_js_text = config_js_file.readlines()
-    config_js_file.close()
-
-    config_rel_js_file = open(join(BASE_DIR, "..", "config_rel.js"), "a", encoding="utf-8")
-    config_rel_js_file = open(join(BASE_DIR, "..", "config_rel.js"), "w", encoding="utf-8")
-    config_rel_js_file.truncate()
-
-    for line in config_js_text:
-        pattern_1 = "(\"|\')(B4W_ASSETS_PATH=__JS__\/)(?!\'|\")(.*?)(\"|\')"
-        pattern_2 = r'(B4W_URANIUM_PATH=)+(..\/deploy\/apps\/common\/)'
-        pattern_3 = "(\"|\')(B4W_PROJ_ASSETS_PATH=__JS__\/)(?!\'|\")(.*?)(\"|\')"
-
-        line = re.sub(pattern_1, r'\1\2\.\.\/\.\.\/assets\/\4', line)
-        line = re.sub(pattern_2, r'\1\.\/', line)
-        line = re.sub(pattern_3, r'\1\2\.\.\/\.\.\/\3\4', line)
-
-        if app_js:
-            line = re.sub('B4W_MAIN_MODULE', app_js, line)
-
-        config_rel_js_file.write(line)
-
-    config_rel_js_file.close()
-
-
-def refact_version():
-    """Change meta data in version.js file for working in compiled engine."""
     version_file = open(join(BASE_DIR, "..", "VERSION"), encoding="utf-8")
     version_text = version_file.read().split()[1]
     cache_text = version_text.replace(".", "_")
@@ -523,32 +358,48 @@ def refact_version():
                       verc_text_regex.sub('', version_text).split("."))
     version_text = "[" + ",".join(version_arr) + "]"
 
-    version_js_file = open(join(BASE_DIR, "..", "src", "version.js"), encoding="utf-8")
-    version_js_text = version_js_file.readlines()
-    version_js_file.close()
+    for js in ext_js:
+        ex_module = False
 
-    version_rel_js_file = open(join(BASE_DIR, "..",
-                               "version_rel.js"), "a", encoding="utf-8")
-    version_rel_js_file = open(join(BASE_DIR, "..",
-                               "version_rel.js"), "w", encoding="utf-8")
-    version_rel_js_file.truncate()
+        for ex in EXCLUSION_MODULES:
+            if normpath(join(BASE_DIR, "..", ex)) == js:
+                ex_module = True
+                break
 
-    for line in version_js_text:
-        pattern_1 = r'(var\sTYPE\s=\s[\'|\"])+(DEBUG)'
-        pattern_2 = r'(var\sVERSION\s=\s)null'
-        pattern_3 = r'(var\sDATE\s=\s)null'
-        pattern_4 = '(var\sPREVENT_CACHE\s=\s[\'|\"]_b4w_ver_[\'|\"])'
+        if not ex_module and (js.startswith(COMMON_DIR) or app_js):
+            engine_file = open(js, encoding="utf-8")
+            engine_text = engine_file.readlines()
+            engine_file.close()
 
-        line = re.sub(pattern_1, r'\1RELEASE', line)
-        line = re.sub(pattern_2, r'\1' + version_text, line)
-        line = re.sub(pattern_3, r'\1' + CURRENT_DATE, line)
-        line = re.sub(pattern_4, 'var PREVENT_CACHE = "_b4w_ver_' +
-                      cache_text + '_"', line)
+            for line in engine_text:
+                pattern_0 = r'(B4W_URANIUM_PATH=)+(\/dist\/uranium\/)'
+                line = re.sub(pattern_0, r'\1uranium\/', line)
 
-        version_rel_js_file.write(line)
+                pattern_1 = r'(var\sTYPE\s=\s[\'|\"])+(DEBUG)'
+                line = re.sub(pattern_1, r'\1RELEASE', line)
 
-    version_rel_js_file.close()
+                pattern_2 = r'(var\sVERSION\s=\s)null'
+                line = re.sub(pattern_2, r'\1' + version_text, line)
 
+                pattern_3 = r'(var\sDATE\s=\s)null'
+                line = re.sub(pattern_3, r'\1' + CURRENT_DATE, line)
+
+                pattern_4 = '(var\sPREVENT_CACHE\s=\s[\'|\"]_b4w_ver_[\'|\"])'
+                line = re.sub(pattern_4, 'var PREVENT_CACHE = "_b4w_ver_' +
+                            cache_text + '_"', line)
+
+                if app_js:
+                    line = re.sub('B4W_MAIN_MODULE', app_js, line)
+                engine_tmp.write(line)
+
+            refact_ext_js.append(engine_tmp.name)
+
+            ex_module = True
+
+        if not ex_module:
+            refact_ext_js.append(js)
+
+    return refact_ext_js
 
 def prepare_js(paths):
     """Prepare js files for working with closure-compiler."""

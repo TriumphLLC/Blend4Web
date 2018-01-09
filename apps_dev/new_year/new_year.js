@@ -1,24 +1,23 @@
-"use strict";
+import b4w from "blend4web";
 
-b4w.register("new_year_main", function(exports, require) {
+var m_tex       = b4w.textures;
+var m_time      = b4w.time;
+var m_data      = b4w.data;
+var m_app       = b4w.app;
+var m_main      = b4w.main;
+var m_version   = b4w.version;
+var m_scenes    = b4w.scenes;
+var m_anim      = b4w.animation;
+var m_cam       = b4w.camera;
+var m_vec3      = b4w.vec3;
+var m_cont      = b4w.container;
+var m_controls  = b4w.controls;
+var m_trans     = b4w.transform;
+var m_sfx       = b4w.sfx;
+var m_mouse     = b4w.mouse;
+var m_cfg       = b4w.config;
 
-var m_tex       = require("textures");
-var m_time      = require("time");
-var m_data      = require("data");
-var m_app       = require("app");
-var m_main      = require("main");
-var m_version   = require("version");
-var m_scenes    = require("scenes");
-var m_anim      = require("animation");
-var m_cam       = require("camera");
-var m_vec3      = require("vec3");
-var m_cont      = require("container");
-var m_controls  = require("controls");
-var m_trans     = require("transform");
-var m_sfx       = require("sfx");
-var m_mouse     = require("mouse");
-var mc_lang     = require("new_year_language");
-var m_cfg       = require("config");
+import * as mc_lang from "./new_year_language.js";
 
 var _assets_dir;
 var DEBUG = (m_version.type() === "DEBUG");
@@ -52,7 +51,7 @@ var _pl_bar = null;
 var _pl_caption = null;
 
 
-exports.init = function() {
+var init = function() {
     var show_fps = DEBUG;
 
     var url_params = m_app.get_url_params();
@@ -748,5 +747,4 @@ function preloader_cb(percentage) {
     }
 }
 
-});
-b4w.require("new_year_main").init();
+init();

@@ -14,16 +14,19 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-"use strict";
+import register from "../util/register.js";
+
+import m_screen_fact from "../extern/screen.js";
+import m_print_fact from "../intern/print.js";
 
 /**
  * Screen shooter add-on.
  * @module screenshooter
  */
-b4w.module["screenshooter"] = function(exports, require) {
+function Screenshooter(ns, exports) {
 
-var m_screen = require("screen");
-var m_print  = require("print");
+var m_screen = m_screen_fact(ns);
+var m_print  = m_print_fact(ns);
 
 /**
  * Take a screenshot and download as screenshot.png image.
@@ -43,3 +46,7 @@ exports.shot = function(format, quality) {
 }
 
 };
+
+var screenshooter_factory = register("screenshooter", Screenshooter);
+
+export default screenshooter_factory;

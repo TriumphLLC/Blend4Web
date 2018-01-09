@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>VR and AR &mdash; Blend4Web 17.10.1 User Manual</title>
+  <title>VR and AR &mdash; Blend4Web 17.12.0 User Manual</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.10.1 User Manual" href="index.html"/>
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Blend4Web 17.12.0 User Manual" href="index.html"/>
         <link rel="next" title="Textures" href="textures.html"/>
         <link rel="prev" title="Postprocessing Effects" href="postprocessing_effects.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -103,7 +106,7 @@
 <li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Editor</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">VR and AR</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">VR and AR</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#virtual-reality">Virtual Reality</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#activation">Activation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#hmd-settings">HMD Settings</a><ul>
@@ -200,10 +203,12 @@
 <h2><a class="toc-backref" href="#id3">Virtual Reality</a><a class="headerlink" href="#virtual-reality" title="Permalink to this headline">¶</a></h2>
 <p>There are numerous VR devices, and Blend4Web engine supports many of them. Using VR in a Blend4Web application does not require any specific changes made to the application itself.</p>
 <p>The stereoscopic rendering mode is intended for viewing the content using special glasses. It is activated by an application via API.</p>
-<p>Blend4Web supports two techniques of the stereo image rendering - anaglyph image and the HMD (head-mounted display).</p>
-<p id="hmd">HMD:</p>
+<p>Blend4Web supports several techniques of stereo image rendering:</p>
+<p id="hmd">HMD (head-mounted display):</p>
 <a class="reference internal image-reference" href="_images/postprocessing_effects_stereo.png"><img alt="_images/postprocessing_effects_stereo.png" class="align-center" src="_images/postprocessing_effects_stereo.png" style="width: 100%;" /></a>
 <p>HMD is an experimental feature, for now it works only with the <code class="docutils literal"><span class="pre">Eye</span></code> type cameras.</p>
+<p id="side-to-side">Side-to-side rendering:</p>
+<a class="reference internal image-reference" href="_images/side_to_side.png"><img alt="_images/side_to_side.png" class="align-center" src="_images/side_to_side.png" style="width: 100%;" /></a>
 <p id="anaglyph">Anaglyph:</p>
 <a class="reference internal image-reference" href="_images/postprocessing_effects_anaglyph.png"><img alt="_images/postprocessing_effects_anaglyph.png" class="align-center" src="_images/postprocessing_effects_anaglyph.png" style="width: 100%;" /></a>
 <div class="line-block">
@@ -211,7 +216,7 @@
 </div>
 <div class="section" id="activation">
 <h3><a class="toc-backref" href="#id4">Activation</a><a class="headerlink" href="#activation" title="Permalink to this headline">¶</a></h3>
-<p>To use HMD stereo rendering, you need to install Oculus&#8217; <a class="reference external" href="https://developer.oculus.com/downloads/">runtime utility</a> (two versions are supported: the <cite>chromium_webvr_v1_win64.7z</cite> in the root directory and the one in the <cite>Deprecated API</cite> folder). Windows and macOS versions can be found on the Oculus website in binary format, while Linux version should be compiled from the source code.</p>
+<p>To use HMD stereo rendering, you need to install Oculus’ <a class="reference external" href="https://developer.oculus.com/downloads/">runtime utility</a> (two versions are supported: the <cite>chromium_webvr_v1_win64.7z</cite> in the root directory and the one in the <cite>Deprecated API</cite> folder). Windows and macOS versions can be found on the Oculus website in binary format, while Linux version should be compiled from the source code.</p>
 <p>For now, the HMD is supported by the <a class="reference external" href="https://webvr.info/get-chrome/">Chromium experimental builds</a> and in the <a class="reference external" href="https://nightly.mozilla.org/">Firefox nightly builds</a>.</p>
 <p><a class="reference external" href="https://docs.google.com/document/d/1g02qHfX85vSRSOkWm9k33I0b7VuyN79md9U9t6MIa4E/edit">Chromium settings.</a></p>
 <p><a class="reference external" href="https://developer.mozilla.org/en-US/docs/Web/API/WebVR_API">Firefox settings.</a></p>
@@ -225,7 +230,7 @@
 <p>This group of settings allows a user to change various parameters in order to adjust whatever VR device they have to better view a certain 3D application or scene. There are two ways these settings can be accessed:</p>
 <blockquote>
 <div><ul class="simple">
-<li>Firstly, it can be found in the <a class="reference internal" href="viewer.html#viewer"><span>Blend4Web Viewer</span></a> application under the <a class="reference internal" href="viewer.html#stereo-view"><span>Stereo View tab</span></a>.</li>
+<li>Firstly, it can be found in the <a class="reference internal" href="viewer.html#viewer"><span class="std std-ref">Blend4Web Viewer</span></a> application under the <a class="reference internal" href="viewer.html#stereo-view"><span class="std std-ref">Stereo View tab</span></a>.</li>
 <li>And secondly, it can also be shown in an application by using the <a class="reference external" href="https://www.blend4web.com/api_doc/module-hmd_conf.html#.show">show</a> method of the <a class="reference external" href="https://www.blend4web.com/api_doc/module-hmd_conf.html">hmd_conf</a> module, but doing this requires some programming. Examples of this method can be found in the <code class="docutils literal"><span class="pre">viewer.js</span></code> and <code class="docutils literal"><span class="pre">webplayer.js</span></code> applications (in the <code class="docutils literal"><span class="pre">m_hmd_conf</span></code> object).</li>
 </ul>
 </div></blockquote>
@@ -250,7 +255,7 @@ Currently, the following profiles are available:</p>
 <p class="last">This value can vary from 0 to 50. Default value is 32.</p>
 </dd>
 <dt><em>Interpupillary distance</em></dt>
-<dd><p class="first">This parameter specifies the distance between the pupils of the user&#8217;s eyes. Measured in millimeters.</p>
+<dd><p class="first">This parameter specifies the distance between the pupils of the user’s eyes. Measured in millimeters.</p>
 <p class="last">This value can vary from 0 to 100. Default value is 64.</p>
 </dd>
 <dt><em>Screen to lens distance</em></dt>
@@ -304,18 +309,12 @@ Currently, the following profiles are available:</p>
 </div></blockquote>
 </li>
 <li><p class="first">A web browser with the AR support.</p>
-<blockquote>
-<div><div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">At the moment, AR application won&#8217;t work in Safari browser, desktop and iOS version alike. AR support is expected to arrive Fall 2017.</p>
-</div>
-</div></blockquote>
 </li>
 </ul>
 </div></blockquote>
 <div class="section" id="setting-up">
 <h3><a class="toc-backref" href="#id7">Setting Up</a><a class="headerlink" href="#setting-up" title="Permalink to this headline">¶</a></h3>
-<p>Blend4Web SDK features an example of an AR application available in the <a class="reference internal" href="project_manager.html#project-manager"><span>Project Manager</span></a>.</p>
+<p>Blend4Web SDK features an example of an AR application available in the <a class="reference internal" href="project_manager.html#project-manager"><span class="std std-ref">Project Manager</span></a>.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">This example is not included in the Blend4Web CE Lite</p>
@@ -325,8 +324,8 @@ Currently, the following profiles are available:</p>
 <div class="section" id="leap-motion">
 <h3><a class="toc-backref" href="#id8">Leap Motion</a><a class="headerlink" href="#leap-motion" title="Permalink to this headline">¶</a></h3>
 <p>Leap Motion is a controller that can be used for tracking hand movements and gesture recognition. It can be used in conjunction with any supported VR device, or on its own.</p>
-<p>Our <a class="reference internal" href="developers.html#code-snippets"><span>Code Snippets</span></a> application contains an example of using Leap Motion controller. If you are planning to develop applications that support the controller, you may want to examine this example thoroughly. You can also use it as a base for your own projects.</p>
-<p>Leap Motion API is provided as a standard JavaScript library that can be included in the HTML page of the project. This library can be either included in the project or accessed remotely from Leap Motion&#8217;s servers.</p>
+<p>Our <a class="reference internal" href="developers.html#code-snippets"><span class="std std-ref">Code Snippets</span></a> application contains an example of using Leap Motion controller. If you are planning to develop applications that support the controller, you may want to examine this example thoroughly. You can also use it as a base for your own projects.</p>
+<p>Leap Motion API is provided as a standard JavaScript library that can be included in the HTML page of the project. This library can be either included in the project or accessed remotely from Leap Motion’s servers.</p>
 </div>
 </div>
 </div>
@@ -351,7 +350,7 @@ Currently, the following profiles are available:</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Triumph.
-      Last updated on 2017-11-21.
+      Last updated on 2017-12-29.
 
     </p>
   </div>
@@ -407,11 +406,11 @@ Currently, the following profiles are available:</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

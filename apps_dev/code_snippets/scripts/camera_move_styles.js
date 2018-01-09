@@ -1,15 +1,13 @@
-"use strict";
+import b4w from "blend4web";
 
-b4w.register("camera_move_styles", function(exports, require) {
-
-var m_app     = require("app");
-var m_cam     = require("camera");
-var m_cfg     = require("config");
-var m_data    = require("data");
-var m_scenes  = require("scenes");
-var m_trans   = require("transform");
-var m_util    = require("util");
-var m_version = require("version");
+var m_app     = b4w.app;
+var m_cam     = b4w.camera;
+var m_cfg     = b4w.config;
+var m_data    = b4w.data;
+var m_scenes  = b4w.scenes;
+var m_trans   = b4w.transform;
+var m_util    = b4w.util;
+var m_version = b4w.version;
 
 var DEBUG = (m_version.type() === "DEBUG");
 
@@ -55,7 +53,7 @@ var HOVER_PIVOT = new Float32Array([4.5, 0, 0]);
 var _default_pos = new Float32Array(3);
 var _default_rot = new Float32Array(4);
 
-exports.init = function() {
+export function init() {
     m_app.init({
         canvas_container_id: "main_canvas_container",
         callback: init_cb,
@@ -169,5 +167,3 @@ function reset_camera_action() {
     m_cam.static_setup(camera, { pos: _default_pos });
     m_trans.set_rotation_v(camera, _default_rot);
 }
-
-});

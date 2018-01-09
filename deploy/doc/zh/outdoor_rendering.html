@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>室外效果 &mdash; Blend4Web 17.10.1 用户手册</title>
+  <title>室外效果 &mdash; Blend4Web 17.12.0 用户手册</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.10.1 用户手册" href="index.html"/>
+        <link rel="index" title="索引"
+              href="genindex.html"/>
+        <link rel="search" title="搜索" href="search.html"/>
+    <link rel="top" title="Blend4Web 17.12.0 用户手册" href="index.html"/>
         <link rel="next" title="色彩管理" href="colors.html"/>
         <link rel="prev" title="动画" href="animation.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -108,7 +111,7 @@
 <li class="toctree-l1"><a class="reference internal" href="particles.html">粒子系统,流体</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">粒子系统.实例化</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">动画</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">室外效果</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">室外效果</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#water">水</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#activation">激活</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#basic-settings">基本设置</a></li>
@@ -220,7 +223,7 @@
   <div class="section" id="outdoor-effects">
 <span id="outdoor-rendering"></span><h1><a class="toc-backref" href="#id13">室外效果</a><a class="headerlink" href="#outdoor-effects" title="永久链接至标题">¶</a></h1>
 <div class="contents topic" id="table-of-contents">
-<p class="topic-title first">目录</p>
+<p class="topic-title first">Table of Contents</p>
 <ul class="simple">
 <li><a class="reference internal" href="#outdoor-effects" id="id13">室外效果</a><ul>
 <li><a class="reference internal" href="#water" id="id14">水</a><ul>
@@ -273,11 +276,9 @@
 <h3><a class="toc-backref" href="#id16">基本设置</a><a class="headerlink" href="#basic-settings" title="永久链接至标题">¶</a></h3>
 <dl class="docutils">
 <dt><em>透明</em></dt>
-<dd><p class="first last">推荐使用渐变透明度 （设置  <code class="docutils literal"><span class="pre">Transparency</span> <span class="pre">&gt;</span> <span class="pre">Type</span></code> 参数的 <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Blend</span></code> 值） 和调整的 <code class="docutils literal"><span class="pre">Alpha</span></code> 值。</p>
-</dd>
+<dd>推荐使用渐变透明度 （设置  <code class="docutils literal"><span class="pre">Transparency</span> <span class="pre">&gt;</span> <span class="pre">Type</span></code> 参数的 <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Blend</span></code> 值） 和调整的 <code class="docutils literal"><span class="pre">Alpha</span></code> 值。</dd>
 <dt><em>灯光参数</em></dt>
-<dd><p class="first last">水材质照明参数可如 <a class="reference internal" href="materials.html#material-lighting-params"><span>灯光参数</span></a> 章节所描述的进行设置。</p>
-</dd>
+<dd>水材质照明参数可如 <a class="reference internal" href="materials.html#material-lighting-params"><span class="std std-ref">灯光参数</span></a> 章节所描述的进行设置。</dd>
 </dl>
 </div>
 <div class="section" id="waves-dynamics">
@@ -290,7 +291,7 @@
 </div>
 <div class="section" id="reflection-and-fresnel-effect">
 <h3><a class="toc-backref" href="#id19">反射与菲涅尔效应</a><a class="headerlink" href="#reflection-and-fresnel-effect" title="永久链接至标题">¶</a></h3>
-<p>水材质支持静态和动态的反射以及菲涅耳效应。请参阅：参考 <a class="reference internal" href="materials.html#material-mirror"><span>反射</span></a> 章节.</p>
+<p>水材质支持静态和动态的反射以及菲涅耳效应。请参阅：参考 <a class="reference internal" href="materials.html#material-mirror"><span class="std std-ref">反射</span></a> 章节.</p>
 <a class="reference internal image-reference" href="_images/water_reflection_dynamic.png"><img alt="_images/water_reflection_dynamic.png" class="align-center" src="_images/water_reflection_dynamic.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="shoreline-smoothing">
@@ -298,29 +299,23 @@
 <p>效果影响海岸线附近水 - 它变得更加透明。</p>
 <dl class="docutils">
 <dt><em>水&gt;海岸平滑</em></dt>
-<dd><p class="first last">启用平滑。</p>
-</dd>
+<dd>启用平滑。</dd>
 <dt><em>水&gt;吸收因子</em></dt>
-<dd><p class="first last">这是水的吸光系数。越高它是更透明的水。这个值可以从0到100的变化。默认值是6。</p>
-</dd>
+<dd>这是水的吸光系数。越高它是更透明的水。这个值可以从0到100的变化。默认值是6。</dd>
 </dl>
 </div>
 <div class="section" id="color-gradient">
 <h3><a class="toc-backref" href="#id21">颜色渐变</a><a class="headerlink" href="#color-gradient" title="永久链接至标题">¶</a></h3>
-<p>对于颜色渐变的水材质必须具有 <code class="docutils literal"><span class="pre">Export</span> <span class="pre">Options</span> <span class="pre">&gt;</span> <span class="pre">Shore</span> <span class="pre">Distance</span> <span class="pre">Map</span></code> 选项启用。 该纹理可以通过 <a class="reference internal" href="#shore-distance-bake"><span>烘焙海岸线参数</span></a> 用脚本生成.</p>
+<p>对于颜色渐变的水材质必须具有 <code class="docutils literal"><span class="pre">Export</span> <span class="pre">Options</span> <span class="pre">&gt;</span> <span class="pre">Shore</span> <span class="pre">Distance</span> <span class="pre">Map</span></code> 选项启用。 该纹理可以通过 <a class="reference internal" href="#shore-distance-bake"><span class="std std-ref">烘焙海岸线参数</span></a> 用脚本生成.</p>
 <dl class="docutils">
 <dt><em>浅水&gt;颜色</em></dt>
-<dd><p class="first last">设置浅水的颜色。缺省情况下，蓝（0.008，0.222，0.8）被使用。</p>
-</dd>
+<dd>设置浅水的颜色。缺省情况下，蓝（0.008，0.222，0.8）被使用。</dd>
 <dt><em>浅水&gt;因子</em></dt>
-<dd><p class="first last">设置浅层水的颜色混合的因子。这个值可以从0到2变化，默认设置为1。</p>
-</dd>
+<dd>设置浅层水的颜色混合的因子。这个值可以从0到2变化，默认设置为1。</dd>
 <dt><em>滨水&gt;颜色</em></dt>
-<dd><p class="first last">这个决定在岸边水的颜色。缺省情况下，深蓝色（0.003，0.19，0.57）被使用。</p>
-</dd>
+<dd>这个决定在岸边水的颜色。缺省情况下，深蓝色（0.003，0.19，0.57）被使用。</dd>
 <dt><em>滨水&gt;因子</em></dt>
-<dd><p class="first last">设置水在靠近海岸线的颜色混合的因子。这个值可以从0到2变化，默认设定为0.5。</p>
-</dd>
+<dd>设置水在靠近海岸线的颜色混合的因子。这个值可以从0到2变化，默认设定为0.5。</dd>
 </dl>
 </div>
 <div class="section" id="refraction">
@@ -339,19 +334,16 @@
 <h4>设置纹理<a class="headerlink" href="#setting-up-the-textures" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>水泡沫&gt; UV频率</em></dt>
-<dd><p class="first last">动画UV坐标的振荡频率。默认值是（1.0，1.0）。</p>
-</dd>
+<dd>动画UV坐标的振荡频率。默认值是（1.0，1.0）。</dd>
 <dt><em>水泡沫&gt; UV幅度</em></dt>
-<dd><p class="first last">动画UV坐标的振荡幅度。默认值是（1.0，1.0）。</p>
-</dd>
+<dd>动画UV坐标的振荡幅度。默认值是（1.0，1.0）。</dd>
 </dl>
 </div>
 <div class="section" id="setting-up-the-material">
 <h4>建立材质<a class="headerlink" href="#setting-up-the-material" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>泡沫&gt;因子</em></dt>
-<dd><p class="first last">一般泡沫体的影响因子。默认值是0.5。</p>
-</dd>
+<dd>一般泡沫体的影响因子。默认值是0.5。</dd>
 </dl>
 </div>
 </div>
@@ -361,11 +353,9 @@
 <a class="reference internal image-reference" href="_images/water_caustics.png"><img alt="_images/water_caustics.png" class="align-center" src="_images/water_caustics.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>缩放</em></dt>
-<dd><p class="first last">程序纹理的单元大小。默认值是0.25。</p>
-</dd>
+<dd>程序纹理的单元大小。默认值是0.25。</dd>
 <dt><em>亮度</em></dt>
-<dd><p class="first last">焦散影响因子。默认值是0.5。</p>
-</dd>
+<dd>焦散影响因子。默认值是0.5。</dd>
 </dl>
 </div>
 <div class="section" id="underwater-environment">
@@ -375,13 +365,11 @@
 <h4>可见性设置（“雾”）<a class="headerlink" href="#visibility-settings-fog" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>水下雾&gt;颜色</em></dt>
-<dd><p class="first last">雾的颜色。默认值是（0.4，0.6，0.7）。</p>
-</dd>
+<dd>雾的颜色。默认值是（0.4，0.6，0.7）。</dd>
 <dt><em>水下雾&gt;密度</em></dt>
-<dd><p class="first last">其影响密度和能见距离指数因子。默认值是0.06。</p>
-</dd>
+<dd>其影响密度和能见距离指数因子。默认值是0.06。</dd>
 </dl>
-<p><a class="reference internal" href="postprocessing_effects.html#god-rays"><span>上帝光芒</span></a> 效果设置也可用。</p>
+<p><a class="reference internal" href="postprocessing_effects.html#god-rays"><span class="std std-ref">上帝光芒</span></a> 效果设置也可用。</p>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
 <p class="last">想要正确水面渲染效果必须关闭 <code class="docutils literal"><span class="pre">Rendering</span> <span class="pre">Options</span> <span class="pre">&gt;</span> <span class="pre">Backface</span> <span class="pre">Culling</span></code>  选项。</p>
@@ -405,44 +393,31 @@
 <h4>设置<a class="headerlink" href="#setting-up" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>浪高</em></dt>
-<dd><p class="first last">波高度可变化从0到5的默认值是1.0。</p>
-</dd>
+<dd>波高度可变化从0到5的默认值是1.0。</dd>
 <dt><em>波长度</em></dt>
-<dd><p class="first last">波长可以从0.01至200变化，默认值是10.0。</p>
-</dd>
+<dd>波长可以从0.01至200变化，默认值是10.0。</dd>
 <dt><em>噪音DIST缩放0</em></dt>
-<dd><p class="first last">这是开放水浪的第一组分的大小。这个参数可以从0到1变化，默认值是 0.05。</p>
-</dd>
+<dd>这是开放水浪的第一组分的大小。这个参数可以从0到1变化，默认值是 0.05。</dd>
 <dt><em>噪音DIST缩放1</em></dt>
-<dd><p class="first last">这是开放的水浪的第二成分的大小。这个参数可以从0到1变化，默认值是0.03。</p>
-</dd>
+<dd>这是开放的水浪的第二成分的大小。这个参数可以从0到1变化，默认值是0.03。</dd>
 <dt><em>噪声DIST频率0</em></dt>
-<dd><p class="first last">这将设置开放式水浪的第一部分的频率。这个参数可以从0到10变化，默认值是1.3。</p>
-</dd>
+<dd>这将设置开放式水浪的第一部分的频率。这个参数可以从0到10变化，默认值是1.3。</dd>
 <dt><em>噪声DIST频率1</em></dt>
-<dd><p class="first last">这将设置开放水波的第二成分的频率。这个参数可以从0到10变化，并且默认设置为1。</p>
-</dd>
+<dd>这将设置开放水波的第二成分的频率。这个参数可以从0到10变化，并且默认设置为1。</dd>
 <dt><em>最小Dir 河岸因子</em></dt>
-<dd><p class="first last">这是在岸边波的最小高度减少系数。这个参数可以从0到1变化，并且默认设定为0.4。</p>
-</dd>
+<dd>这是在岸边波的最小高度减少系数。这个参数可以从0到1变化，并且默认设定为0.4。</dd>
 <dt><em>Dir频率</em></dt>
-<dd><p class="first last">设置靠着岸边的波浪翻滚的频率。这个参数可以从0到10变化，并且默认设定为0.5。</p>
-</dd>
+<dd>设置靠着岸边的波浪翻滚的频率。这个参数可以从0到10变化，并且默认设定为0.5。</dd>
 <dt><em>噪音Dir缩放</em></dt>
-<dd><p class="first last">设置岸边海浪的噪声大小。这个参数可以从0到1变化，并且默认设置为0.05。</p>
-</dd>
+<dd>设置岸边海浪的噪声大小。这个参数可以从0到1变化，并且默认设置为0.05。</dd>
 <dt><em>噪音Dir频率</em></dt>
-<dd><p class="first last">设置岸波的噪音频率。这个参数可以变化从0到1的默认值是0.07。</p>
-</dd>
+<dd>设置岸波的噪音频率。这个参数可以变化从0到1的默认值是0.07。</dd>
 <dt><em>最小 Dir 噪声因子</em></dt>
-<dd><p class="first last">岸边波浪的最小噪音。这个参数可以从0到1变化，默认值是0.5。</p>
-</dd>
+<dd>岸边波浪的最小噪音。这个参数可以从0到1变化，默认值是0.5。</dd>
 <dt><em>最小Dist因子</em></dt>
-<dd><p class="first last">这台混合打开水浪的最低系数。这个参数可以从0到1变化，默认值是0.2。</p>
-</dd>
+<dd>这台混合打开水浪的最低系数。这个参数可以从0到1变化，默认值是0.2。</dd>
 <dt><em>水平因子</em></dt>
-<dd><p class="first last">该系数表明了岸波向海岸线方向移动的程度。这个参数可以从0到10变化，默认值是5。</p>
-</dd>
+<dd>该系数表明了岸波向海岸线方向移动的程度。这个参数可以从0到10变化，默认值是5。</dd>
 </dl>
 </div>
 </div>
@@ -450,17 +425,13 @@
 <h3><a class="toc-backref" href="#id27">地表生成设置</a><a class="headerlink" href="#settings-for-surface-generation" title="永久链接至标题">¶</a></h3>
 <dl class="docutils">
 <dt><em>生成网格</em></dt>
-<dd><p class="first last">这使得产生的表面。</p>
-</dd>
+<dd>这使得产生的表面。</dd>
 <dt><em>级联数据</em></dt>
-<dd><p class="first last">这个描述所产生的表面上的级联的数量。这个参数的值可以从1至20变化，默认值是5。</p>
-</dd>
+<dd>这个描述所产生的表面上的级联的数量。这个参数的值可以从1至20变化，默认值是5。</dd>
 <dt><em>细分</em></dt>
-<dd><p class="first last">这是生成的网格的细分数目。默认值是64。此参数是最低值是2，而最高的可能值是512。</p>
-</dd>
+<dd>这是生成的网格的细分数目。默认值是64。此参数是最低值是2，而最高的可能值是512。</dd>
 <dt><em>详细距离</em></dt>
-<dd><p class="first last">这指定从相机到最后级联的边的最大距离。这个参数的值可以从1至5000变化，默认值是1000。</p>
-</dd>
+<dd>这指定从相机到最后级联的边的最大距离。这个参数的值可以从1至5000变化，默认值是1000。</dd>
 </dl>
 <div class="section" id="baking-shoreline-data-to-texture">
 <span id="shore-distance-bake"></span><span id="index-0"></span><h4>烘焙海岸线数据到纹理<a class="headerlink" href="#baking-shoreline-data-to-texture" title="永久链接至标题">¶</a></h4>
@@ -474,10 +445,10 @@
 <span id="id4"></span><h2><a class="toc-backref" href="#id28">大气</a><a class="headerlink" href="#atmosphere" title="永久链接至标题">¶</a></h2>
 <div class="section" id="scattering">
 <h3><a class="toc-backref" href="#id29">散射</a><a class="headerlink" href="#scattering" title="永久链接至标题">¶</a></h3>
-<p>启用 <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">Sky</span></code>, 然后激活世界标签下  <code class="docutils literal"><span class="pre">Procedural</span> <span class="pre">Sky</span></code> 面板。请注意，如果一 <a class="reference internal" href="textures.html#skydome-texture"><span>静态天穹材质</span></a> 同时正在被使用，它将被替换。</p>
+<p>启用 <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">Sky</span></code>, 然后激活世界标签下  <code class="docutils literal"><span class="pre">Procedural</span> <span class="pre">Sky</span></code> 面板。请注意，如果一 <a class="reference internal" href="textures.html#skydome-texture"><span class="std std-ref">静态天穹材质</span></a> 同时正在被使用，它将被替换。</p>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
-<p class="last">此外，一个程序的天空纹理可以用来模仿散射  <a class="reference internal" href="lighting.html#environment-lighting"><span>环境灯光</span></a> 类似于 <a class="reference internal" href="textures.html#skydome-texture"><span>static skydome texture</span></a>。要做到这一点， 启用 <code class="docutils literal"><span class="pre">Procedural</span> <span class="pre">Sky</span> <span class="pre">&gt;</span> <span class="pre">Use</span> <span class="pre">as</span> <span class="pre">Environment</span> <span class="pre">Lighting</span></code> and <code class="docutils literal"><span class="pre">Environment</span> <span class="pre">Lighting</span> <span class="pre">&gt;</span> <span class="pre">Sky</span> <span class="pre">Texture</span></code> 选项。如果世界纹理的环境照明已经存在，它会被替换。</p>
+<p class="last">此外，一个程序的天空纹理可以用来模仿散射  <a class="reference internal" href="lighting.html#environment-lighting"><span class="std std-ref">环境灯光</span></a> 类似于 <a class="reference internal" href="textures.html#skydome-texture"><span class="std std-ref">static skydome texture</span></a>。要做到这一点， 启用 <code class="docutils literal"><span class="pre">Procedural</span> <span class="pre">Sky</span> <span class="pre">&gt;</span> <span class="pre">Use</span> <span class="pre">as</span> <span class="pre">Environment</span> <span class="pre">Lighting</span></code> and <code class="docutils literal"><span class="pre">Environment</span> <span class="pre">Lighting</span> <span class="pre">&gt;</span> <span class="pre">Sky</span> <span class="pre">Texture</span></code> 选项。如果世界纹理的环境照明已经存在，它会被替换。</p>
 </div>
 <a class="reference internal image-reference" href="_images/skydome_procedural.png"><img alt="_images/skydome_procedural.png" class="align-center" src="_images/skydome_procedural.png" style="width: 100%;" /></a>
 <div class="line-block">
@@ -486,52 +457,42 @@
 <p>支持设置：</p>
 <dl class="docutils">
 <dt><em>程序天空&gt;天空颜色</em></dt>
-<dd><p class="first last">基础天空的颜色。默认值是（0.087，0.255，0.6）（蓝色）。</p>
-</dd>
+<dd>基础天空的颜色。默认值是（0.087，0.255，0.6）（蓝色）。</dd>
 <dt><em>程序天空&gt;瑞利亮度</em></dt>
-<dd><p class="first last">瑞利散射亮度（即小颗粒散射）。默认值是3.3。</p>
-</dd>
+<dd>瑞利散射亮度（即小颗粒散射）。默认值是3.3。</dd>
 <dt><em>程序天空&gt;三重亮度</em></dt>
-<dd><p class="first last">Mie散射亮度（即大颗粒散射）。缺省值为0.1。</p>
-</dd>
+<dd>Mie散射亮度（即大颗粒散射）。缺省值为0.1。</dd>
 <dt><em>程序天空&gt;曝光亮度</em></dt>
-<dd><p class="first last">Sun SPOT的亮度。默认值是20.0。</p>
-</dd>
+<dd>Sun SPOT的亮度。默认值是20.0。</dd>
 <dt><em>程序天空&gt;散射强度</em></dt>
-<dd><p class="first last">光散射系数。默认值是0.2。</p>
-</dd>
+<dd>光散射系数。默认值是0.2。</dd>
 <dt><em>程序天空&gt;瑞利强度</em></dt>
-<dd><p class="first last">瑞利散射系数。默认值是0.2。</p>
-</dd>
+<dd>瑞利散射系数。默认值是0.2。</dd>
 <dt><em>程序天空&gt;三重强度</em></dt>
-<dd><p class="first last">米氏散射系数。默认值是0.006。</p>
-</dd>
+<dd>米氏散射系数。默认值是0.006。</dd>
 <dt><em>程序天空&gt;瑞利收集强度</em></dt>
-<dd><p class="first last">瑞利散射指数。默认值是0.35。</p>
-</dd>
+<dd>瑞利散射指数。默认值是0.35。</dd>
 <dt><em>程序天空&gt;mie收集强度</em></dt>
-<dd><p class="first last">米氏散射指数。默认值是0.5。</p>
-</dd>
+<dd>米氏散射指数。默认值是0.5。</dd>
 <dt><em>程序天空&gt;Mie分布</em></dt>
-<dd><p class="first last">米氏散射分布。默认值是0.4。</p>
-</dd>
+<dd>米氏散射分布。默认值是0.4。</dd>
 </dl>
 </div>
 <div class="section" id="fog">
 <span id="id5"></span><h3><a class="toc-backref" href="#id30">雾</a><a class="headerlink" href="#fog" title="永久链接至标题">¶</a></h3>
 <p>该引擎支持位于 <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Mist</span></code> 面板上的标准参数。除此之外，可能覆盖雾的颜色。</p>
-<p>雾设置在 <a class="reference internal" href="scene_settings.html#world-mist"><span>场景设置</span></a> 章节中描述。</p>
+<p>雾设置在 <a class="reference internal" href="scene_settings.html#world-mist"><span class="std std-ref">场景设置</span></a> 章节中描述。</p>
 <p>当使用动态天穹，雾的颜色是由天空的颜色定义。</p>
 </div>
 <div class="section" id="time-of-day">
 <h3><a class="toc-backref" href="#id31">当日时间</a><a class="headerlink" href="#time-of-day" title="永久链接至标题">¶</a></h3>
 <p>启用灯的  <code class="docutils literal"><span class="pre">Dynamic</span> <span class="pre">Intensity</span></code> 选项。</p>
-<p>一天中的时间可以在应用程序通过API进行设置。一天中的时间可以用 <a class="reference internal" href="viewer.html#viewer"><span>场景查看器</span></a> 的 <code class="docutils literal"><span class="pre">Lighting</span></code> 界面来设置。</p>
+<p>一天中的时间可以在应用程序通过API进行设置。一天中的时间可以用 <a class="reference internal" href="viewer.html#viewer"><span class="std std-ref">场景查看器</span></a> 的 <code class="docutils literal"><span class="pre">Lighting</span></code> 界面来设置。</p>
 <a class="reference internal image-reference" href="_images/sunset.png"><img alt="_images/sunset.png" class="align-center" src="_images/sunset.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="stars">
 <h3><a class="toc-backref" href="#id32">星星</a><a class="headerlink" href="#stars" title="永久链接至标题">¶</a></h3>
-<p>星的设置描述在 <a class="reference internal" href="materials.html#material-halo"><span>光晕材质</span></a></p>
+<p>星的设置描述在 <a class="reference internal" href="materials.html#material-halo"><span class="std std-ref">光晕材质</span></a></p>
 <a class="reference internal image-reference" href="_images/stars.png"><img alt="_images/stars.png" class="align-center" src="_images/stars.png" style="width: 100%;" /></a>
 </div>
 </div>
@@ -557,7 +518,7 @@
 <div class="section" id="material-settings">
 <h4>材质设置<a class="headerlink" href="#material-settings" title="永久链接至标题">¶</a></h4>
 <p>用于镜头光斑物体的材质应当具有  <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Blend</span></code> 透明度类型。 <code class="docutils literal"><span class="pre">Alpha</span></code> 参数应当被设置为零。</p>
-<p><a class="reference internal" href="node_materials.html#node-materials"><span>节点材质</span></a> 不被支持。</p>
+<p><a class="reference internal" href="node_materials.html#node-materials"><span class="std std-ref">节点材质</span></a> 不被支持。</p>
 </div>
 <div class="section" id="texture-settings">
 <h4>纹理设置<a class="headerlink" href="#texture-settings" title="永久链接至标题">¶</a></h4>
@@ -574,12 +535,9 @@
 <dl class="docutils">
 <dt>风的强度和方向的影响：</dt>
 <dd><ul class="first last simple">
-<li><p class="first"><a class="reference internal" href="#wind-bending"><span>草和树叶的动画</span></a></p>
-</li>
-<li><p class="first"><a class="reference internal" href="particles.html#particles-force-fields"><span>粒子系统动力学</span></a></p>
-</li>
-<li><p class="first"><a class="reference internal" href="#water-volumetric-waves"><span>水浪翻滚频率</span></a> (现在只考虑强度)</p>
-</li>
+<li><a class="reference internal" href="#wind-bending"><span class="std std-ref">草和树叶的动画</span></a></li>
+<li><a class="reference internal" href="particles.html#particles-force-fields"><span class="std std-ref">粒子系统动力学</span></a></li>
+<li><a class="reference internal" href="#water-volumetric-waves"><span class="std std-ref">水浪翻滚频率</span></a> (现在只考虑强度)</li>
 </ul>
 </dd>
 </dl>
@@ -591,16 +549,14 @@
 <h3><a class="toc-backref" href="#id38">设置</a><a class="headerlink" href="#id9" title="永久链接至标题">¶</a></h3>
 <dl class="docutils">
 <dt><em>方向</em></dt>
-<dd><p class="first last">方向可以通过旋转力场物体进行设定。</p>
-</dd>
+<dd>方向可以通过旋转力场物体进行设定。</dd>
 <dt><em>力场&gt;强度</em></dt>
-<dd><p class="first last">风力强度。位于 <code class="docutils literal"><span class="pre">Physics</span></code> 选项卡下。缺省值为1.0。</p>
-</dd>
+<dd>风力强度。位于 <code class="docutils literal"><span class="pre">Physics</span></code> 选项卡下。缺省值为1.0。</dd>
 </dl>
 </div>
 <div class="section" id="animation-of-grass-and-tree-leaves">
 <span id="wind-bending"></span><h3><a class="toc-backref" href="#id39">草和树叶的动画</a><a class="headerlink" href="#animation-of-grass-and-tree-leaves" title="永久链接至标题">¶</a></h3>
-<p><a class="reference internal" href="particles_instancing.html#particles-grass"><span>草地</span></a> 章节讲述了草渲染创作需要的资源。</p>
+<p><a class="reference internal" href="particles_instancing.html#particles-grass"><span class="std std-ref">草地</span></a> 章节讲述了草渲染创作需要的资源。</p>
 <div class="section" id="id10">
 <h4>激活<a class="headerlink" href="#id10" title="永久链接至标题">¶</a></h4>
 <p>在 <code class="docutils literal"><span class="pre">Wind</span> <span class="pre">Bending</span></code> 面板为草或树物题启用。</p>
@@ -614,32 +570,23 @@
 </div>
 <dl class="docutils">
 <dt><em>主要折弯&gt;角</em></dt>
-<dd><p class="first last">风的影响（度）下的 “主” 角偏差幅度。默认值是10.0。</p>
-</dd>
+<dd>风的影响（度）下的 “主” 角偏差幅度。默认值是10.0。</dd>
 <dt><em>主要弯曲&gt;频率</em></dt>
-<dd><p class="first last">风的影响下，“主” 偏差的频率。默认值是0.25。</p>
-</dd>
+<dd>风的影响下，“主” 偏差的频率。默认值是0.25。</dd>
 <dt><em>主要弯曲&gt;主刚度（A）</em></dt>
-<dd><p class="first last">指定其中包含有关 “主” 偏差的刚度信息的顶点颜色层的名称文本字段。可以留空。</p>
-</dd>
+<dd>指定其中包含有关 “主” 偏差的刚度信息的顶点颜色层的名称文本字段。可以留空。</dd>
 <dt><em>详细弯曲&gt;振幅</em></dt>
-<dd><p class="first last">在 “细节” 偏差造成的风的影响（度）的角度幅度。缺省值为0.1。</p>
-</dd>
+<dd>在 “细节” 偏差造成的风的影响（度）的角度幅度。缺省值为0.1。</dd>
 <dt><em>详细折弯&gt;分公司振幅</em></dt>
-<dd><p class="first last">由风造成的影响（度）的分支偏差的角度幅度。默认值是0.3。</p>
-</dd>
+<dd>由风造成的影响（度）的分支偏差的角度幅度。默认值是0.3。</dd>
 <dt><em>详细弯曲&gt;弯曲次数</em></dt>
-<dd><p class="first last">弯曲频率的细节。默认值是 1.0。</p>
-</dd>
+<dd>弯曲频率的细节。默认值是 1.0。</dd>
 <dt><em>详细折弯&gt;叶刚度（R）</em></dt>
-<dd><p class="first last">指定其中包含有关叶子的刚度信息的顶点颜色层的名称文本字段。可以留空。</p>
-</dd>
+<dd>指定其中包含有关叶子的刚度信息的顶点颜色层的名称文本字段。可以留空。</dd>
 <dt><em>详细折弯&gt;叶阶段（G）</em></dt>
-<dd><p class="first last">指定其中包含有关叶偏差的相位信息的顶点颜色层的名称文本字段。可以留空。</p>
-</dd>
+<dd>指定其中包含有关叶偏差的相位信息的顶点颜色层的名称文本字段。可以留空。</dd>
 <dt><em>详细折弯&gt;整体刚度（B）</em></dt>
-<dd><p class="first last">指定其中包含有关叶片的整体刚度信息的顶点颜色层的名称文本字段。可以留空。</p>
-</dd>
+<dd>指定其中包含有关叶片的整体刚度信息的顶点颜色层的名称文本字段。可以留空。</dd>
 </dl>
 <p>如果指定顶点着色层其名称应该是存在于该网格。</p>
 <a class="reference internal image-reference" href="_images/wind_bending_vcolors.png"><img alt="_images/wind_bending_vcolors.png" class="align-center" src="_images/wind_bending_vcolors.png" style="width: 100%;" /></a>
@@ -667,8 +614,8 @@
 
   <div role="contentinfo">
     <p>
-        &copy; 版权所有 2014-2017, Triumph.
-      最后更新于 2017-11-21.
+        &copy; Copyright 2014-2017, Triumph.
+      最后更新于 2017-12-29.
 
     </p>
   </div>
@@ -724,11 +671,11 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

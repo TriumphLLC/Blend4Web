@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>团队工作。使用 Git &mdash; Blend4Web 17.10.1 用户手册</title>
+  <title>团队工作。使用 Git &mdash; Blend4Web 17.12.0 用户手册</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.10.1 用户手册" href="index.html"/>
+        <link rel="index" title="索引"
+              href="genindex.html"/>
+        <link rel="search" title="搜索" href="search.html"/>
+    <link rel="top" title="Blend4Web 17.12.0 用户手册" href="index.html"/>
         <link rel="next" title="存在的问题及解决方案" href="problems_and_solutions.html"/>
         <link rel="prev" title="对于引擎开发者" href="developers_advanced.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -114,7 +117,7 @@
 <li class="toctree-l1"><a class="reference internal" href="physics.html">物理</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers.html">对应用程序开发人员</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">对于引擎开发者</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">团队工作。使用 Git</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">团队工作。使用 Git</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#overview">概述</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#typical-workflow">典型的工作流</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#individual-settings">单独设置</a></li>
@@ -194,7 +197,7 @@
   <div class="section" id="team-work-using-git">
 <span id="git-short-manual"></span><span id="index-0"></span><h1><a class="toc-backref" href="#id2">团队工作。使用 Git</a><a class="headerlink" href="#team-work-using-git" title="永久链接至标题">¶</a></h1>
 <div class="contents topic" id="table-of-contents">
-<p class="topic-title first">目录</p>
+<p class="topic-title first">Table of Contents</p>
 <ul class="simple">
 <li><a class="reference internal" href="#team-work-using-git" id="id2">团队工作。使用 Git</a><ul>
 <li><a class="reference internal" href="#overview" id="id3">概述</a></li>
@@ -236,40 +239,32 @@
 <span id="what-is-git"></span><h2><a class="toc-backref" href="#id3">概述</a><a class="headerlink" href="#overview" title="永久链接至标题">¶</a></h2>
 <p>为了组织团队工作可以使用 Git 版本控制系统。使用 Git 与其他的方式进行协作相比有大量的好处 ︰</p>
 <ul class="simple">
-<li><p class="first">保存更改历史，方便的回滚到以前版本</p>
-</li>
-<li><p class="first">同步用户间的修改，自动合并修改</p>
-</li>
-<li><p class="first">可以用于大型的二进制文件</p>
-</li>
+<li>保存更改历史，方便的回滚到以前版本</li>
+<li>同步用户间的修改，自动合并修改</li>
+<li>可以用于大型的二进制文件</li>
 </ul>
-<p>Git 是一个分布式的系统，每个开发人员或设计师有他自己的本地存储库 （存储）。可以在本地存储库之间同步，通过中央的 （&#8221;共享&#8221;） 存储，放在于一个专用的机器 （服务器）。对服务器的访问可以通过 SSH 协议进行。</p>
+<p>Git 是一个分布式的系统，每个开发人员或设计师有他自己的本地存储库 （存储）。可以在本地存储库之间同步，通过中央的 （&quot;共享&quot;） 存储，放在于一个专用的机器 （服务器）。对服务器的访问可以通过 SSH 协议进行。</p>
 <p>尽管有很多图形用户界面为 Git 初学者准备，但这里解释如何使用标准控制台的 <code class="docutils literal"><span class="pre">git</span></code> 如何工作。</p>
 </div>
 <div class="section" id="typical-workflow">
 <span id="git-pipeline"></span><h2><a class="toc-backref" href="#id4">典型的工作流</a><a class="headerlink" href="#typical-workflow" title="永久链接至标题">¶</a></h2>
 <ol class="arabic simple">
-<li><p class="first">可以在本地仓库创建、 添加或删除文件。</p>
-</li>
-<li><p class="first">当一段确定的工作完结后需要将修改 修复 （提交） 和/或 同步到你同事那。</p>
-</li>
-<li><p class="first">文件已准备好提交，即已更改的审计、 新的和已删除的文件和也全部为更改重置了。</p>
-</li>
-<li><p class="first">执行提交。</p>
-</li>
-<li><p class="first">本地更改上载到共享存储并提供给同事。</p>
-</li>
+<li>可以在本地仓库创建、 添加或删除文件。</li>
+<li>当一段确定的工作完结后需要将修改 修复 （提交） 和/或 同步到你同事那。</li>
+<li>文件已准备好提交，即已更改的审计、 新的和已删除的文件和也全部为更改重置了。</li>
+<li>执行提交。</li>
+<li>本地更改上载到共享存储并提供给同事。</li>
 </ol>
 <p>一组有限的 Git 命令，建议作为创作应用程序和它们的图形资源，展示如下。</p>
 <p>非常有必要在执行命令前切换代码库，例如 ︰</p>
-<div class="highlight-bash"><div class="highlight"><pre>&gt; <span class="nb">cd</span> ~/blend4web
+<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; <span class="nb">cd</span> ~/blend4web
 </pre></div>
 </div>
 </div>
 <div class="section" id="individual-settings">
 <span id="git-config"></span><span id="index-1"></span><h2><a class="toc-backref" href="#id5">单独设置</a><a class="headerlink" href="#individual-settings" title="永久链接至标题">¶</a></h2>
 <p>新用户可以使用这个命令设置他的姓名和电子邮件 ︰</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git config --global user.name &quot;Ivan Petrov&quot;
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt; git config --global user.name &quot;Ivan Petrov&quot;
 &gt; git config --global user.email ipetrov@blend4web.com
 </pre></div>
 </div>
@@ -279,18 +274,18 @@
 <span id="git-example-begin"></span><span id="index-2"></span><h2><a class="toc-backref" href="#id6">检查状态</a><a class="headerlink" href="#checking-the-status" title="永久链接至标题">¶</a></h2>
 <p>建议在执行的所有操作之前,、 在进步和之后都检查存储库状态。</p>
 <p>使用此命令可以检查状态 ︰</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git status
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt; git status
 </pre></div>
 </div>
 <p>如果所有提交了都执行并且没有新的文件 <code class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></code> 命令的结果 ︰</p>
-<div class="highlight-none"><div class="highlight"><pre># On branch master
+<div class="highlight-none"><div class="highlight"><pre><span></span># On branch master
 # Your branch is ahead of &#39;origin/master&#39; by 2 commits.
 #
 nothing to commit (working directory clean)
 </pre></div>
 </div>
 <p>如果有变化可能的  <code class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></code> 结果。例如: <code class="file docutils literal"><span class="pre">apps_dev/firstperson/firstperson.js</span></code> 和 <code class="file docutils literal"><span class="pre">doc_src/git_short_manual.rst</span></code>  文件更和创建了新文件 <code class="file docutils literal"><span class="pre">123.txt</span></code> ：</p>
-<div class="highlight-none"><div class="highlight"><pre># On branch master
+<div class="highlight-none"><div class="highlight"><pre><span></span># On branch master
 # Changes not staged for commit:
 #   (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
 #   (use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory)
@@ -312,15 +307,15 @@ no changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&q
 <h3><a class="toc-backref" href="#id8">检查 （文本文件） 的变化</a><a class="headerlink" href="#checking-changes-of-the-text-files" title="永久链接至标题">¶</a></h3>
 <p>如果是文本文件的情况下，建议在执行提交之前查看介绍了的变化。</p>
 <p>检查在整个目录中的更改内容 ︰</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git diff
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt; git diff
 </pre></div>
 </div>
 <p>或者特定的文件 ︰</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git diff apps_dev/firstperson/firstperson.js
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt; git diff apps_dev/firstperson/firstperson.js
 </pre></div>
 </div>
 <p>一个文本文件的 <code class="docutils literal"><span class="pre">git</span> <span class="pre">diff</span></code> 命令可能的结果 ︰</p>
-<div class="highlight-none"><div class="highlight"><pre>diff --git a/apps_dev/firstperson/firstperson.js b/apps_dev/firstperson/firstperson.js
+<div class="highlight-none"><div class="highlight"><pre><span></span>diff --git a/apps_dev/firstperson/firstperson.js b/apps_dev/firstperson/firstperson.js
 index 4381c99..44b3b15 100644
 --- a/apps_dev/firstperson/firstperson.js
 +++ b/apps_dev/firstperson/firstperson.js
@@ -339,7 +334,7 @@ index 4381c99..44b3b15 100644
 <div class="section" id="rolling-back-files">
 <h3><a class="toc-backref" href="#id9">回滚文件</a><a class="headerlink" href="#rolling-back-files" title="永久链接至标题">¶</a></h3>
 <p>如果文件被更改或删除，但需要恢复 （到最新的提交状态），请使用命令 ︰</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git checkout doc_src/git_short_manual.rst
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt; git checkout doc_src/git_short_manual.rst
 &gt; git checkout 123.txt
 </pre></div>
 </div>
@@ -355,16 +350,16 @@ index 4381c99..44b3b15 100644
 <div class="section" id="adding-files">
 <h3><a class="toc-backref" href="#id12">添加文件</a><a class="headerlink" href="#adding-files" title="永久链接至标题">¶</a></h3>
 <p>如果你对所做的更改满意，添加所需的改变 和/或 新文件到提交。</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git add apps_dev/firstperson/firstperson.js
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt; git add apps_dev/firstperson/firstperson.js
 &gt; git add 123.txt
 </pre></div>
 </div>
 <p>再次检查状态 ︰</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git status
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt; git status
 </pre></div>
 </div>
 <p><code class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></code> 命令后用 <code class="docutils literal"><span class="pre">git</span> <span class="pre">add</span></code> 添加一些文件的可能的结果 ︰</p>
-<div class="highlight-none"><div class="highlight"><pre># On branch master
+<div class="highlight-none"><div class="highlight"><pre><span></span># On branch master
 # Changes to be committed:
 #   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
 #
@@ -384,7 +379,7 @@ index 4381c99..44b3b15 100644
 <div class="section" id="removing-files">
 <h3><a class="toc-backref" href="#id13">删除文件</a><a class="headerlink" href="#removing-files" title="永久链接至标题">¶</a></h3>
 <p>在执行了 <code class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></code> 命令后，一些文件可以被标记为删除，例如 ︰</p>
-<div class="highlight-none"><div class="highlight"><pre># On branch master
+<div class="highlight-none"><div class="highlight"><pre><span></span># On branch master
 # Your branch is ahead of &#39;origin/master&#39; by 2 commits.
 #
 # Changes not staged for commit:
@@ -397,7 +392,7 @@ no changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&q
 </pre></div>
 </div>
 <p>在此情况下，如果删除该文件应该被记录下来 （即输入提交），执行  <code class="docutils literal"><span class="pre">git</span> <span class="pre">rm</span></code> 命令，例如 ︰</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git rm 123.txt
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt; git rm 123.txt
 </pre></div>
 </div>
 <p>如果该文件被意外删除，需要恢复它，使用 <code class="docutils literal"><span class="pre">git</span> <span class="pre">checkout</span></code> 命令。</p>
@@ -406,11 +401,11 @@ no changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&q
 <div class="section" id="commit">
 <span id="git-commit"></span><span id="index-5"></span><h2><a class="toc-backref" href="#id14">提交</a><a class="headerlink" href="#commit" title="永久链接至标题">¶</a></h2>
 <p>执行提交命令 ︰</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git commit
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt; git commit
 </pre></div>
 </div>
 <p>文本编辑器窗口会显示 (例如，<strong>nano</strong> 或 <strong>vim</strong>)，必须在其中输入英文的提交评论。</p>
-<div class="highlight-none"><div class="highlight"><pre>  GNU nano 2.2.6                                    File: .git/COMMIT_EDITMSG
+<div class="highlight-none"><div class="highlight"><pre><span></span>  GNU nano 2.2.6                                    File: .git/COMMIT_EDITMSG
 
 My commit message
 # Please enter the commit message for your changes. Lines starting
@@ -440,16 +435,16 @@ My commit message
 <span id="git-example-repo-sync"></span><span id="index-6"></span><h2><a class="toc-backref" href="#id15">存储库之间同步</a><a class="headerlink" href="#syncing-between-repositories" title="永久链接至标题">¶</a></h2>
 <div class="section" id="from-the-remote-to-the-local">
 <h3><a class="toc-backref" href="#id16">从远程到本地</a><a class="headerlink" href="#from-the-remote-to-the-local" title="永久链接至标题">¶</a></h3>
-<p>所有提交执行后，需要从远程 （&#8221;共享&#8221;） 资源库中加载所做的更改到本地库 ︰</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git pull
+<p>所有提交执行后，需要从远程 （&quot;共享&quot;） 资源库中加载所做的更改到本地库 ︰</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt; git pull
 </pre></div>
 </div>
 <p>如果远程资源库中的任何更改 <code class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></code>  命令的结果 ︰</p>
-<div class="highlight-none"><div class="highlight"><pre>Already up-to-date.
+<div class="highlight-none"><div class="highlight"><pre><span></span>Already up-to-date.
 </pre></div>
 </div>
 <p>如果远程资源库中包含的更改、同步的结果是成功的话，<code class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></code> 命令的结果︰</p>
-<div class="highlight-none"><div class="highlight"><pre>remote: Counting objects: 151, done.
+<div class="highlight-none"><div class="highlight"><pre><span></span>remote: Counting objects: 151, done.
 remote: Compressing objects: 100% (101/101), done.
 remote: Total 102 (delta 74), reused 0 (delta 0)
 Receiving objects: 100% (102/102), 69.77 MiB | 4.87 MiB/s, done.
@@ -469,16 +464,16 @@ Fast-forward
 </pre></div>
 </div>
 <p>如果你希望查找你同事所做的更改，使用下面的命令 ︰</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git diff dbf3877..9f9700c
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt; git diff dbf3877..9f9700c
 </pre></div>
 </div>
 <p>此命令的参数 - 在案例  dbf3877..9f9700c  -显示哪些提交之间确切地进行了更改。此参数可以方便地在控制台的  <code class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></code>  结果中选择再用鼠标点击 （中间的按钮）粘贴到需要的地方。</p>
 <p>还可以查看更新日志 ︰</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git log
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt; git log
 </pre></div>
 </div>
 <p><code class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></code> 命令并不总是能同步成功。当有冲突时 <code class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></code> 的结果 ︰</p>
-<div class="highlight-none"><div class="highlight"><pre>remote: Counting objects: 11, done.
+<div class="highlight-none"><div class="highlight"><pre><span></span>remote: Counting objects: 11, done.
 remote: Compressing objects: 100% (6/6), done.
 remote: Total 6 (delta 5), reused 0 (delta 0)
 Unpacking objects: 100% (6/6), done.
@@ -495,16 +490,16 @@ Automatic merge failed; fix conflicts and then commit the result.
 </div>
 <div class="section" id="from-the-local-to-the-remote">
 <h3><a class="toc-backref" href="#id17">从本地到远程</a><a class="headerlink" href="#from-the-local-to-the-remote" title="永久链接至标题">¶</a></h3>
-<p>在那之后所做的更改，应从本地资源库上载到远程库 （&#8221;共享&#8221;）， 一个能为同事提供所做的更改的库。</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git push
+<p>在那之后所做的更改，应从本地资源库上载到远程库 （&quot;共享&quot;）， 一个能为同事提供所做的更改的库。</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt; git push
 </pre></div>
 </div>
 <p>如果远程资源库中已经包含了所有的本地更改的 <code class="docutils literal"><span class="pre">git</span> <span class="pre">push</span></code> 命令的结果 ︰</p>
-<div class="highlight-none"><div class="highlight"><pre>Everything up-to-date
+<div class="highlight-none"><div class="highlight"><pre><span></span>Everything up-to-date
 </pre></div>
 </div>
 <p>如果同步成功后  <code class="docutils literal"><span class="pre">git</span> <span class="pre">push</span></code> 命令的结果 ︰</p>
-<div class="highlight-none"><div class="highlight"><pre>Counting objects: 25, done.
+<div class="highlight-none"><div class="highlight"><pre><span></span>Counting objects: 25, done.
 Delta compression using up to 8 threads.
 Compressing objects: 100% (14/14), done.
 Writing objects: 100% (14/14), 1.23 KiB, done.
@@ -514,7 +509,7 @@ To gfxteam@lixer:blend4web.git
 </pre></div>
 </div>
 <p>如果同步不成功是因为 <code class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></code> 命令没有首先执行时，<code class="docutils literal"><span class="pre">git</span> <span class="pre">push</span></code> 的结果 ︰</p>
-<div class="highlight-none"><div class="highlight"><pre>To gfxteam@lixer:blend4web.git
+<div class="highlight-none"><div class="highlight"><pre><span></span>To gfxteam@lixer:blend4web.git
  ! [rejected]        master -&gt; master (non-fast-forward)
 error: failed to push some refs to &#39;gfxteam@lixer:blend4web.git&#39;
 To prevent you from losing history, non-fast-forward updates were rejected
@@ -532,19 +527,14 @@ Merge the remote changes (e.g. &#39;git pull&#39;) before pushing again.  See th
 <h3><a class="toc-backref" href="#id19">概述</a><a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h3>
 <p>如果这两个条件都满足，就会发生同步冲突</p>
 <ol class="arabic simple">
-<li><p class="first">同一文件同时在本地和远程资源库中更改，并</p>
-</li>
-<li><p class="first">所做的更改的自动合并没有发生因为所做的更改在文件的同一个地方。</p>
-</li>
+<li>同一文件同时在本地和远程资源库中更改，并</li>
+<li>所做的更改的自动合并没有发生因为所做的更改在文件的同一个地方。</li>
 </ol>
 <p>典型案例 ︰</p>
 <ol class="arabic simple">
-<li><p class="first">二进制文件 （纹理，blend文件） 已被两个开发人员独立修改</p>
-</li>
-<li><p class="first">引起的修改在同一文本文件的同一行</p>
-</li>
-<li><p class="first">一位开发已修改该文件，而另一位又移动它，等等。</p>
-</li>
+<li>二进制文件 （纹理，blend文件） 已被两个开发人员独立修改</li>
+<li>引起的修改在同一文本文件的同一行</li>
+<li>一位开发已修改该文件，而另一位又移动它，等等。</li>
 </ol>
 <p>虽然同步冲突是正常，单如果太过频繁发生会导致工作缓慢。在开始共享二进制文件，处理有关，执行更多的同步时建议要通知你的同事。需要将工作分开分发给开发人员能够减少这种共享的文件数目之间的工作。要做到这一点可以特别地将场景的资源从独自的各个blend文件链接到一个主文件中。</p>
 </div>
@@ -552,7 +542,7 @@ Merge the remote changes (e.g. &#39;git pull&#39;) before pushing again.  See th
 <h3><a class="toc-backref" href="#id20">可采取的步骤</a><a class="headerlink" href="#the-steps-to-be-taken" title="永久链接至标题">¶</a></h3>
 <p>存储库处于冲突状态时，不建议执行任何文件操作 （修改、 删除） 。</p>
 <p>第一件事是要执行 <code class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></code> 命令。</p>
-<div class="highlight-none"><div class="highlight"><pre># On branch master
+<div class="highlight-none"><div class="highlight"><pre><span></span># On branch master
 # Your branch and &#39;origin/master&#39; have diverged,
 # and have 7 and 1 different commit each, respectively.
 #
@@ -572,15 +562,15 @@ no changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&q
 <p>在这个阶段，冲突的二进制文件是和尝试同步本地资源库之前处于相同的状态。文件是完全功能的 （例如他们可以被图形编辑器打开）。</p>
 <p>有冲突的二进制文件的情况下，需要整理 （与同事或自己） 哪个文件应该留下，哪个要丢弃。选择可以使用 <code class="docutils literal"><span class="pre">git</span> <span class="pre">checkout</span></code> 命令执行。</p>
 <p>选择该文件的本地版本 (<strong>- -我们的</strong>). 要确保本地可以打开它。</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git checkout --ours blender/landscape_objects/Fallen_tree.blend
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt; git checkout --ours blender/landscape_objects/Fallen_tree.blend
 </pre></div>
 </div>
 <p>选择该文件的远程版本 (<strong>- -他们的</strong>).确保远程可以打开它。</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git checkout --theirs blender/landscape_objects/Fallen_tree.blend
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt; git checkout --theirs blender/landscape_objects/Fallen_tree.blend
 </pre></div>
 </div>
 <p>再次选择该文件的本地版本 (<strong>- -我们的</strong>).</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git checkout --ours blender/landscape_objects/Fallen_tree.blend
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt; git checkout --ours blender/landscape_objects/Fallen_tree.blend
 </pre></div>
 </div>
 <p>最终你必须坚持正确的文件版本。万一这样对你的工作可能有风险，可以在存储库之外保存废弃的工作文件。</p>
@@ -588,8 +578,8 @@ no changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&q
 <div class="section" id="text-files">
 <h3><a class="toc-backref" href="#id22">文本文件</a><a class="headerlink" href="#text-files" title="永久链接至标题">¶</a></h3>
 <p>在这一阶段 Git 特别指出了冲突文本格式的文件本地和远程的变化。此类文本的文件并不可行作为一项规则</p>
-<p>示例。一个开发人员在应用程序文件中更改场景名称从 &#8220;蓝蜥蜴&#8221; 到 &#8220;绿蜥蜴&#8221; 并将更改上传到中央存储库中。另一个开发人员在同一行更改 &#8220;蓝蜥蜴&#8221; 为 &#8220;红蜥蜴&#8221;，执行提交和执行 <code class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></code> 命令。最后来提交修改的开发人员将负责解决冲突。他的版本的应用程序文件会有下面这根线 ︰</p>
-<div class="highlight-none"><div class="highlight"><pre>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+<p>示例。一个开发人员在应用程序文件中更改场景名称从 &quot;蓝蜥蜴&quot; 到 &quot;绿蜥蜴&quot; 并将更改上传到中央存储库中。另一个开发人员在同一行更改 &quot;蓝蜥蜴&quot; 为 &quot;红蜥蜴&quot;，执行提交和执行 <code class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></code> 命令。最后来提交修改的开发人员将负责解决冲突。他的版本的应用程序文件会有下面这根线 ︰</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
                 &quot;name&quot;: &quot;Red Lizard&quot;,
 =======
                 &quot;name&quot;: &quot;Green Lizard&quot;,
@@ -601,12 +591,12 @@ no changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&q
 <div class="section" id="correcting-commit">
 <h3><a class="toc-backref" href="#id23">纠正提交</a><a class="headerlink" href="#correcting-commit" title="永久链接至标题">¶</a></h3>
 <p>选择所需的文件或编辑所做的更改后，请将它们添加为提交 ︰</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git add blender/landscape_objects/Fallen_tree.blend
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt; git add blender/landscape_objects/Fallen_tree.blend
 &gt; git status
 </pre></div>
 </div>
 <p>添加冲突文件提交后，<code class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></code> 命令可能的结果 ︰</p>
-<div class="highlight-none"><div class="highlight"><pre># On branch master
+<div class="highlight-none"><div class="highlight"><pre><span></span># On branch master
 # Your branch and &#39;origin/master&#39; have diverged,
 # and have 7 and 1 different commit each, respectively.
 #
@@ -614,11 +604,11 @@ nothing to commit (working directory clean)
 </pre></div>
 </div>
 <p>执行提交。建议留下默认注释 ︰</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git commit
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt; git commit
 &gt; git status
 </pre></div>
 </div>
-<div class="highlight-none"><div class="highlight"><pre># On branch master
+<div class="highlight-none"><div class="highlight"><pre><span></span># On branch master
 # Your branch is ahead of &#39;origin/master&#39; by 8 commits.
 #
 nothing to commit (working directory clean)
@@ -631,38 +621,38 @@ nothing to commit (working directory clean)
 <span id="git-tags"></span><span id="index-8"></span><h2><a class="toc-backref" href="#id24">标签</a><a class="headerlink" href="#tags" title="永久链接至标题">¶</a></h2>
 <p>标签用于指向一个确切的提交，例如，指定到一个稳定的产品版本。</p>
 <p>查看标记的列表 ︰</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git tag
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt; git tag
 </pre></div>
 </div>
 <p>从 2013 年 6 月 3 日创建一个标记为发行，指向同一个稳定的产品版本提交 ︰</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git tag R130603 67bb597f7ed1643ed0220d57e894f28662e614e5
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt; git tag R130603 67bb597f7ed1643ed0220d57e894f28662e614e5
 </pre></div>
 </div>
 <p>检查提交标签信息 ︰</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git show --shortstat R130603
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt; git show --shortstat R130603
 </pre></div>
 </div>
-<p>回滚到该标记...</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git checkout R130603
+<p>回滚到该标记…</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt; git checkout R130603
 </pre></div>
 </div>
-<p>...并回车：</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git checkout master
+<p>…并回车：</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt; git checkout master
 </pre></div>
 </div>
 <p>从远程资源库中同步标签 ︰</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git push --tags
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt; git push --tags
 </pre></div>
 </div>
 <p>删除标记 （如果错误地创建） ︰</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git tag -d R130603
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt; git tag -d R130603
 </pre></div>
 </div>
 </div>
 <div class="section" id="other-useful-commands">
 <h2><a class="toc-backref" href="#id25">其他有用的命令</a><a class="headerlink" href="#other-useful-commands" title="永久链接至标题">¶</a></h2>
 <p>检查2012 年 1 月日志，显示文件名称但不合并提交︰</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git log --after={2012-01-01} --before={2012-01-31} --name-only --no-merges
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt; git log --after={2012-01-01} --before={2012-01-31} --name-only --no-merges
 </pre></div>
 </div>
 </div>
@@ -687,8 +677,8 @@ nothing to commit (working directory clean)
 
   <div role="contentinfo">
     <p>
-        &copy; 版权所有 2014-2017, Triumph.
-      最后更新于 2017-11-21.
+        &copy; Copyright 2014-2017, Triumph.
+      最后更新于 2017-12-29.
 
     </p>
   </div>
@@ -744,11 +734,11 @@ nothing to commit (working directory clean)
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

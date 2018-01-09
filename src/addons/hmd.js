@@ -14,7 +14,17 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-"use strict";
+import register from "../util/register.js";
+
+import m_cam_fact from "../extern/camera.js";
+import m_ctl_fact from "../extern/controls.js";
+import m_input_fact from "../extern/input.js";
+import * as m_quat from "../libs/gl_matrix/quat.js";
+import m_scenes_fact from "../extern/scenes.js";
+import m_screen_fact from "../extern/screen.js";
+import m_trans_fact from "../extern/transform.js";
+import m_util_fact from "../extern/util.js";
+import * as m_vec3 from "../libs/gl_matrix/vec3.js";
 
 /**
  * Head Mounted Devices add-on.
@@ -23,17 +33,15 @@
  * @module hmd
  */
 
-b4w.module["hmd"] = function(exports, require) {
+function HMD(ns, exports) {
 
-var m_cam    = require("camera");
-var m_ctl    = require("controls");
-var m_input  = require("input");
-var m_quat   = require("quat");
-var m_scenes = require("scenes");
-var m_screen = require("screen");
-var m_trans  = require("transform");
-var m_util   = require("util");
-var m_vec3   = require("vec3");
+var m_cam    = m_cam_fact(ns);
+var m_ctl    = m_ctl_fact(ns);
+var m_input  = m_input_fact(ns);
+var m_scenes = m_scenes_fact(ns);
+var m_screen = m_screen_fact(ns);
+var m_trans  = m_trans_fact(ns);
+var m_util   = m_util_fact(ns);
 
 var _last_cam_quat = m_quat.create();
 var _yaw_cam_angle = 0;
@@ -387,3 +395,7 @@ exports.get_position = function(dest) {
 }
 
 };
+
+var hmd_factory = register("hmd", HMD);
+
+export default hmd_factory;

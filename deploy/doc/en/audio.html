@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Audio &mdash; Blend4Web 17.10.1 User Manual</title>
+  <title>Audio &mdash; Blend4Web 17.12.0 User Manual</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.10.1 User Manual" href="index.html"/>
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Blend4Web 17.12.0 User Manual" href="index.html"/>
         <link rel="next" title="Physics" href="physics.html"/>
         <link rel="prev" title="Color Management" href="colors.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -110,7 +113,7 @@
 <li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Effects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="colors.html">Color Management</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Audio</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Audio</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#audio-source-settings">Audio Source Settings</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#sound-tab">Sound Tab</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#distance-tab">Distance Tab</a></li>
@@ -210,9 +213,9 @@
 <p><em>Speaker Behavior</em>:</p>
 <blockquote>
 <div><p>The behavior of the audio source.</p>
-<p><code class="docutils literal"><span class="pre">Positional</span></code> &#8212; high-quality sound with spatial positioning and directivity (conicity). The Web Audio API is used for sound rendering. Playback performance of such sounds is the least and so use them only for short samples. This is the default value.</p>
-<p><code class="docutils literal"><span class="pre">Background</span> <span class="pre">Sound</span></code> &#8212; high-quality omnidirectional sound without spatial positioning. The Web Audio API is used for sound rendering. It is more performant but is not effective for music.</p>
-<p><code class="docutils literal"><span class="pre">Background</span> <span class="pre">Music</span></code> &#8212; used for music playback. It has maximum performance due to the use of the Audio HTML tag, but has minimum flexibility.</p>
+<p><code class="docutils literal"><span class="pre">Positional</span></code> — high-quality sound with spatial positioning and directivity (conicity). The Web Audio API is used for sound rendering. Playback performance of such sounds is the least and so use them only for short samples. This is the default value.</p>
+<p><code class="docutils literal"><span class="pre">Background</span> <span class="pre">Sound</span></code> — high-quality omnidirectional sound without spatial positioning. The Web Audio API is used for sound rendering. It is more performant but is not effective for music.</p>
+<p><code class="docutils literal"><span class="pre">Background</span> <span class="pre">Music</span></code> — used for music playback. It has maximum performance due to the use of the Audio HTML tag, but has minimum flexibility.</p>
 </div></blockquote>
 <p>The following options are available on the <code class="docutils literal"><span class="pre">Sound</span></code> panel:</p>
 <p><em>Volume</em></p>
@@ -235,7 +238,7 @@
 <div>Fade-out time interval.</div></blockquote>
 <p><em>Enable Doppler</em></p>
 <blockquote>
-<div>Turn on the source&#8217;s frequency shift upon its moving.</div></blockquote>
+<div>Turn on the source’s frequency shift upon its moving.</div></blockquote>
 <p><em>Auto-play</em></p>
 <blockquote>
 <div>This option enables default playback.</div></blockquote>
@@ -294,7 +297,7 @@
 </div>
 <div class="section" id="audio-mixer">
 <span id="mixer"></span><h2><a class="toc-backref" href="#id7">Audio Mixer</a><a class="headerlink" href="#audio-mixer" title="Permalink to this headline">¶</a></h2>
-<p>This feature can be found in the <a class="reference internal" href="viewer.html#viewer"><span>Scene Viewer</span></a>.</p>
+<p>This feature can be found in the <a class="reference internal" href="viewer.html#viewer"><span class="std std-ref">Scene Viewer</span></a>.</p>
 <a class="reference internal image-reference" href="_images/audio_mixer.png"><img alt="_images/audio_mixer.png" class="align-center" src="_images/audio_mixer.png" style="width: 100%;" /></a>
 <p>Enabling it shows an equalizer interface that contains various parameters of the Speakers present in the scene.</p>
 <a class="reference internal image-reference" href="_images/audio_mixer_parameters.png"><img alt="_images/audio_mixer_parameters.png" class="align-center" src="_images/audio_mixer_parameters.png" style="width: 100%;" /></a>
@@ -305,7 +308,7 @@
 <dt><em>ATTENUATION</em></dt>
 <dd>This value sets the attenuation factor for the sound emitted by a selected speaker. Available only for <code class="docutils literal"><span class="pre">Positional</span> <span class="pre">Sound</span></code> type speakers.</dd>
 <dt><em>DIST_MAX</em></dt>
-<dd>This value shows the maximum distance for a specific speaker. If the distance from the camera to the speaker is greater than this number, the speaker won&#8217;t emit any sound. Available only for <code class="docutils literal"><span class="pre">Positional</span> <span class="pre">Sound</span></code> type speakers.</dd>
+<dd>This value shows the maximum distance for a specific speaker. If the distance from the camera to the speaker is greater than this number, the speaker won’t emit any sound. Available only for <code class="docutils literal"><span class="pre">Positional</span> <span class="pre">Sound</span></code> type speakers.</dd>
 <dt><em>EQ_FREQ</em></dt>
 <dd>The center frequency of where the boost is applied.</dd>
 <dt><em>EQ_Q</em></dt>
@@ -336,7 +339,7 @@
 <li>mp4, AAC codec (Chrome, Safari)</li>
 </ul>
 <p>It is recommended to use <strong>Ogg</strong> as it is an open standard, is widespread in browsers and provides good sound quality. The optimal format in respect to the quality and compatibility is 48kHz/16bit. Single-channel sound (mono) is used to store shot samples while two-channel sound (stereo) is used for music playback.</p>
-<p>Converting resources between different formats is described in the <a class="reference internal" href="developers.html#converter"><span>corresponding section</span></a>.</p>
+<p>Converting resources between different formats is described in the <a class="reference internal" href="developers.html#converter"><span class="std std-ref">corresponding section</span></a>.</p>
 </div>
 </div>
 </div>
@@ -361,7 +364,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Triumph.
-      Last updated on 2017-11-21.
+      Last updated on 2017-12-29.
 
     </p>
   </div>
@@ -417,11 +420,11 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

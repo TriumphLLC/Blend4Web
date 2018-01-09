@@ -1,18 +1,13 @@
-"use strict"
+import b4w from "blend4web";
 
-if (b4w.module_check("game_example_main"))
-    throw "Failed to register module: game_example_main";
-
-b4w.register("game_example_main", function(exports, require) {
-
-var m_anim  = require("animation");
-var m_app   = require("app");
-var m_cfg   = require("config");
-var m_data  = require("data");
-var m_ctl   = require("controls");
-var m_phy   = require("physics");
-var m_cons  = require("constraints");
-var m_scs   = require("scenes");
+var m_anim  = b4w.animation;
+var m_app   = b4w.app;
+var m_cfg   = b4w.config;
+var m_data  = b4w.data;
+var m_ctl   = b4w.controls;
+var m_phy   = b4w.physics;
+var m_cons  = b4w.constraints;
+var m_scs   = b4w.scenes;
 
 var _character = null;
 var _character_rig = null;
@@ -20,7 +15,7 @@ var _character_rig = null;
 var ROT_SPEED = 1.5;
 var CAMERA_OFFSET = new Float32Array([0, 4, 1.5]);
 
-exports.init = function() {
+export function init() {
     m_app.init({
         canvas_container_id: "canvas3d",
         callback: init_cb,
@@ -156,6 +151,4 @@ function setup_camera() {
     m_cons.append_semi_soft(camera, _character, CAMERA_OFFSET);
 }
 
-});
-
-b4w.require("game_example_main").init();
+init();

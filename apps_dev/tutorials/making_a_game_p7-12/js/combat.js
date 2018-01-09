@@ -1,25 +1,19 @@
-"use strict"
+import b4w from "blend4web";
 
-// check if module exists
-if (b4w.module_check("combat"))
-    throw "Failed to register module: combat";
+var m_trans = b4w.transform;
+var m_vec3  = b4w.vec3;
 
-b4w.register("combat", function(exports, require) {
-
-var m_trans = require("transform");
-var m_vec3  = require("vec3");
-
-var m_conf  = require("game_config");
+import * as m_conf from "./game_config.js";
 
 var _vec3_tmp = new Float32Array(3);
 
 var _enemies = null;
 
-exports.set_enemies = function(enemies) {
+export function set_enemies(enemies) {
     _enemies = enemies;
 }
 
-exports.process_attack_on_enemies = function(at_pt, at_dst) {
+export function process_attack_on_enemies(at_pt, at_dst) {
     for (var i = 0; i < _enemies.length; i++) {
 
         var en = _enemies[i];
@@ -35,8 +29,7 @@ exports.process_attack_on_enemies = function(at_pt, at_dst) {
     return false;
 }
 
-exports.check_attack = check_attack;
-function check_attack(at_pt, targ, dist) {
+export function check_attack(at_pt, targ, dist) {
     var targ_trans = _vec3_tmp;
     m_trans.get_translation(targ, targ_trans);
     var targ_dist_to_at_pt = m_vec3.distance(targ_trans, at_pt);
@@ -46,5 +39,3 @@ function check_attack(at_pt, targ, dist) {
 
     return false;
 }
-
-})

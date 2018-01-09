@@ -2,6 +2,11 @@
 2^addons/blend4web
 3^deploy/apps/webplayer/webplayer*
 4^deploy/apps/webplayer/template/webplayer_template.html
+2^deploy/apps/viewer
+2^deploy/apps/viewer/images
+1^scripts/project_server.py
+1^scripts/lib/tornado
+
 !*.blend1
 !*.blend2
 !*.blend3
@@ -10,3 +15,4 @@
 !*.pyc
 !*/__pycache__/*
 !*.swp
+!*.map

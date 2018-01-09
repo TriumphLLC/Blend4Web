@@ -117,11 +117,14 @@ deploy/doc
 deploy/pub/b4w_manual_*.pdf
 deploy/webglreport
 
+dist
+
 distfiles/blend4web_addon.lst
 distfiles/blend4web_ce.lst
 distfiles/blend4web_ce_light.lst
 
 index.html
+index.js
 index_assets
 license/GPL-license.txt
 license/LEGAL_NOTICES.txt
@@ -147,12 +150,20 @@ scripts/screencast.sh
 scripts/shader_analyzer.py
 scripts/templates/
 scripts/translator.py
+scripts/npm.sh
+scripts/node.sh
+scripts/find_nodejs.py
+scripts/app_builder/
+
+package.json
+node_modules/
 
 shaders
 src
 tools
 uranium
 VERSION
+webpack.config.js
 
 !*.blend1
 !*.blend2
@@ -168,6 +179,7 @@ VERSION
 !*.json~
 !*.html~
 !*.xcf
+!*.log
 
 !csrc/b4w_bin/build/
 !uranium/build/

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Team Work. Using Git &mdash; Blend4Web 17.10.1 User Manual</title>
+  <title>Team Work. Using Git &mdash; Blend4Web 17.12.0 User Manual</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.10.1 User Manual" href="index.html"/>
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Blend4Web 17.12.0 User Manual" href="index.html"/>
         <link rel="next" title="Problems and Solutions" href="problems_and_solutions.html"/>
         <link rel="prev" title="For Engine Developers" href="developers_advanced.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -114,7 +117,7 @@
 <li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Team Work. Using Git</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Team Work. Using Git</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#typical-workflow">Typical Workflow</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#individual-settings">Individual Settings</a></li>
@@ -240,7 +243,7 @@
 <li>synchronizing changes between users and automatic merging of changes</li>
 <li>working with large binary files is possible</li>
 </ul>
-<p>Git is a distributed system and every developer or designer has his own local repository (storage). Syncing between the local repositories can be performed via the central (&#8220;shared&#8221;) storage, which can be located on a dedicated machine (server). Access to the server can be organized through SSH protocol.</p>
+<p>Git is a distributed system and every developer or designer has his own local repository (storage). Syncing between the local repositories can be performed via the central (“shared”) storage, which can be located on a dedicated machine (server). Access to the server can be organized through SSH protocol.</p>
 <p>Although there are many GUIs for Git beginners, here the work with the <code class="docutils literal"><span class="pre">git</span></code> standard console utility is explained.</p>
 </div>
 <div class="section" id="typical-workflow">
@@ -253,15 +256,15 @@
 <li>Local changes are uploaded into the shared storage and become available for the colleagues.</li>
 </ol>
 <p>A limited set of Git commands recommended for authoring applications and their graphical resources is described below.</p>
-<p>It&#8217;s necessary to switch to the repository before executing the commands, e.g.:</p>
-<div class="highlight-bash"><div class="highlight"><pre>&gt; <span class="nb">cd</span> ~/blend4web
+<p>It’s necessary to switch to the repository before executing the commands, e.g.:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; <span class="nb">cd</span> ~/blend4web
 </pre></div>
 </div>
 </div>
 <div class="section" id="individual-settings">
 <span id="git-config"></span><span id="index-1"></span><h2><a class="toc-backref" href="#id5">Individual Settings</a><a class="headerlink" href="#individual-settings" title="Permalink to this headline">¶</a></h2>
 <p>A new user can set up his name and email using the commands:</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git config --global user.name &quot;Ivan Petrov&quot;
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt; git config --global user.name &quot;Ivan Petrov&quot;
 &gt; git config --global user.email ipetrov@blend4web.com
 </pre></div>
 </div>
@@ -269,20 +272,20 @@
 </div>
 <div class="section" id="checking-the-status">
 <span id="git-example-begin"></span><span id="index-2"></span><h2><a class="toc-backref" href="#id6">Checking the Status</a><a class="headerlink" href="#checking-the-status" title="Permalink to this headline">¶</a></h2>
-<p>It&#8217;s recommended to check the state of the repository before, in progress and after performing all the operations.</p>
+<p>It’s recommended to check the state of the repository before, in progress and after performing all the operations.</p>
 <p>Use this command to check the status:</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git status
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt; git status
 </pre></div>
 </div>
 <p>The result of the <code class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></code> command if all the commits were performed and there are no new files:</p>
-<div class="highlight-none"><div class="highlight"><pre># On branch master
+<div class="highlight-none"><div class="highlight"><pre><span></span># On branch master
 # Your branch is ahead of &#39;origin/master&#39; by 2 commits.
 #
 nothing to commit (working directory clean)
 </pre></div>
 </div>
 <p>Possible result of <code class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></code> if there are changes. For example the <code class="file docutils literal"><span class="pre">apps_dev/firstperson/firstperson.js</span></code> and <code class="file docutils literal"><span class="pre">doc_src/git_short_manual.rst</span></code> files are changed and a new file <code class="file docutils literal"><span class="pre">123.txt</span></code> is created:</p>
-<div class="highlight-none"><div class="highlight"><pre># On branch master
+<div class="highlight-none"><div class="highlight"><pre><span></span># On branch master
 # Changes not staged for commit:
 #   (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
 #   (use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory)
@@ -304,15 +307,15 @@ no changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&q
 <h3><a class="toc-backref" href="#id8">Checking changes (of the text files)</a><a class="headerlink" href="#checking-changes-of-the-text-files" title="Permalink to this headline">¶</a></h3>
 <p>In case of text files it is recommended to view the introduced changes before performing the commit.</p>
 <p>Check what was changed in the whole directory:</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git diff
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt; git diff
 </pre></div>
 </div>
 <p>or in a specific file only:</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git diff apps_dev/firstperson/firstperson.js
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt; git diff apps_dev/firstperson/firstperson.js
 </pre></div>
 </div>
 <p>A possible result of the <code class="docutils literal"><span class="pre">git</span> <span class="pre">diff</span></code> command for a text file:</p>
-<div class="highlight-none"><div class="highlight"><pre>diff --git a/apps_dev/firstperson/firstperson.js b/apps_dev/firstperson/firstperson.js
+<div class="highlight-none"><div class="highlight"><pre><span></span>diff --git a/apps_dev/firstperson/firstperson.js b/apps_dev/firstperson/firstperson.js
 index 4381c99..44b3b15 100644
 --- a/apps_dev/firstperson/firstperson.js
 +++ b/apps_dev/firstperson/firstperson.js
@@ -331,7 +334,7 @@ index 4381c99..44b3b15 100644
 <div class="section" id="rolling-back-files">
 <h3><a class="toc-backref" href="#id9">Rolling back files</a><a class="headerlink" href="#rolling-back-files" title="Permalink to this headline">¶</a></h3>
 <p>If the file was changed or deleted but it is necessary to recover it (to the latest committed state) use the command:</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git checkout doc_src/git_short_manual.rst
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt; git checkout doc_src/git_short_manual.rst
 &gt; git checkout 123.txt
 </pre></div>
 </div>
@@ -347,16 +350,16 @@ index 4381c99..44b3b15 100644
 <div class="section" id="adding-files">
 <h3><a class="toc-backref" href="#id12">Adding files</a><a class="headerlink" href="#adding-files" title="Permalink to this headline">¶</a></h3>
 <p>If you are happy with the changes, add the needed changed and/or new files for commit.</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git add apps_dev/firstperson/firstperson.js
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt; git add apps_dev/firstperson/firstperson.js
 &gt; git add 123.txt
 </pre></div>
 </div>
 <p>Check the status again:</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git status
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt; git status
 </pre></div>
 </div>
 <p>Possible result of the <code class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></code> command after adding some files with the <code class="docutils literal"><span class="pre">git</span> <span class="pre">add</span></code> command:</p>
-<div class="highlight-none"><div class="highlight"><pre># On branch master
+<div class="highlight-none"><div class="highlight"><pre><span></span># On branch master
 # Changes to be committed:
 #   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
 #
@@ -376,7 +379,7 @@ index 4381c99..44b3b15 100644
 <div class="section" id="removing-files">
 <h3><a class="toc-backref" href="#id13">Removing files</a><a class="headerlink" href="#removing-files" title="Permalink to this headline">¶</a></h3>
 <p>Some files can be marked as deleted from Git after performing the <code class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></code> command, for example:</p>
-<div class="highlight-none"><div class="highlight"><pre># On branch master
+<div class="highlight-none"><div class="highlight"><pre><span></span># On branch master
 # Your branch is ahead of &#39;origin/master&#39; by 2 commits.
 #
 # Changes not staged for commit:
@@ -389,7 +392,7 @@ no changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&q
 </pre></div>
 </div>
 <p>In this case if deleting the file should be recorded (i.e. enter the commit), perform the <code class="docutils literal"><span class="pre">git</span> <span class="pre">rm</span></code> command, for example:</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git rm 123.txt
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt; git rm 123.txt
 </pre></div>
 </div>
 <p>If the file was deleted by accident and its necessary to recover it, use the <code class="docutils literal"><span class="pre">git</span> <span class="pre">checkout</span></code> command.</p>
@@ -398,11 +401,11 @@ no changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&q
 <div class="section" id="commit">
 <span id="git-commit"></span><span id="index-5"></span><h2><a class="toc-backref" href="#id14">Commit</a><a class="headerlink" href="#commit" title="Permalink to this headline">¶</a></h2>
 <p>Perform commit with the command:</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git commit
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt; git commit
 </pre></div>
 </div>
-<p>A text editor window will show up (for example, <strong>nano</strong> or <strong>vim</strong>), in which it&#8217;s necessary to enter the commit comment in English.</p>
-<div class="highlight-none"><div class="highlight"><pre>  GNU nano 2.2.6                                    File: .git/COMMIT_EDITMSG
+<p>A text editor window will show up (for example, <strong>nano</strong> or <strong>vim</strong>), in which it’s necessary to enter the commit comment in English.</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>  GNU nano 2.2.6                                    File: .git/COMMIT_EDITMSG
 
 My commit message
 # Please enter the commit message for your changes. Lines starting
@@ -426,22 +429,22 @@ My commit message
 </pre></div>
 </div>
 <p>Save the changes and quit the editor (in <strong>nano</strong> Ctrl+O, then Ctrl+X; in <strong>vim</strong> ZZ, or ESC :wq).</p>
-<p>After commit it&#8217;s recommended to recheck the status. Commit is performed correctly if the <code class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></code> command returns <code class="docutils literal"><span class="pre">nothing</span> <span class="pre">to</span> <span class="pre">commit,</span> <span class="pre">working</span> <span class="pre">directory</span> <span class="pre">clean</span></code>.</p>
+<p>After commit it’s recommended to recheck the status. Commit is performed correctly if the <code class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></code> command returns <code class="docutils literal"><span class="pre">nothing</span> <span class="pre">to</span> <span class="pre">commit,</span> <span class="pre">working</span> <span class="pre">directory</span> <span class="pre">clean</span></code>.</p>
 </div>
 <div class="section" id="syncing-between-repositories">
 <span id="git-example-repo-sync"></span><span id="index-6"></span><h2><a class="toc-backref" href="#id15">Syncing Between Repositories</a><a class="headerlink" href="#syncing-between-repositories" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="from-the-remote-to-the-local">
 <h3><a class="toc-backref" href="#id16">From the remote - to the local</a><a class="headerlink" href="#from-the-remote-to-the-local" title="Permalink to this headline">¶</a></h3>
-<p>After all the commits are performed it&#8217;s necessary to load the changes from the remote (&#8220;shared&#8221;) repository to the local one:</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git pull
+<p>After all the commits are performed it’s necessary to load the changes from the remote (“shared”) repository to the local one:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt; git pull
 </pre></div>
 </div>
 <p>Result of the <code class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></code> command if there are no changes in the remote repository:</p>
-<div class="highlight-none"><div class="highlight"><pre>Already up-to-date.
+<div class="highlight-none"><div class="highlight"><pre><span></span>Already up-to-date.
 </pre></div>
 </div>
 <p>Result of the <code class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></code> command if the remote repository contains changes and syncing was successful:</p>
-<div class="highlight-none"><div class="highlight"><pre>remote: Counting objects: 151, done.
+<div class="highlight-none"><div class="highlight"><pre><span></span>remote: Counting objects: 151, done.
 remote: Compressing objects: 100% (101/101), done.
 remote: Total 102 (delta 74), reused 0 (delta 0)
 Receiving objects: 100% (102/102), 69.77 MiB | 4.87 MiB/s, done.
@@ -460,17 +463,17 @@ Fast-forward
  create mode 100644    deploy/assets/location_agriculture/textures/rotonda_02_diff.png
 </pre></div>
 </div>
-<p>If you wish it&#8217;s possible to look up the changes made by your colleagues using the following command:</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git diff dbf3877..9f9700c
+<p>If you wish it’s possible to look up the changes made by your colleagues using the following command:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt; git diff dbf3877..9f9700c
 </pre></div>
 </div>
 <p>The parameter of this command - in this case dbf3877..9f9700c - shows between which commits exactly the changes were made. This parameter can be conveniently selected in the console in the <code class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></code> results and pasted with a mouse click (middle button) where you need.</p>
 <p>You can also view the changelog:</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git log
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt; git log
 </pre></div>
 </div>
 <p>The <code class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></code> command does not always lead to a successful synchronization. The result of <code class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></code> when there are conflicts:</p>
-<div class="highlight-none"><div class="highlight"><pre>remote: Counting objects: 11, done.
+<div class="highlight-none"><div class="highlight"><pre><span></span>remote: Counting objects: 11, done.
 remote: Compressing objects: 100% (6/6), done.
 remote: Total 6 (delta 5), reused 0 (delta 0)
 Unpacking objects: 100% (6/6), done.
@@ -487,16 +490,16 @@ Automatic merge failed; fix conflicts and then commit the result.
 </div>
 <div class="section" id="from-the-local-to-the-remote">
 <h3><a class="toc-backref" href="#id17">From the local - to the remote</a><a class="headerlink" href="#from-the-local-to-the-remote" title="Permalink to this headline">¶</a></h3>
-<p>After that the changes should be uploaded from the local repository to the remote (&#8220;shared&#8221;) one to make the changes available for team mates.</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git push
+<p>After that the changes should be uploaded from the local repository to the remote (“shared”) one to make the changes available for team mates.</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt; git push
 </pre></div>
 </div>
 <p>The result of the <code class="docutils literal"><span class="pre">git</span> <span class="pre">push</span></code> command if the remote repository already contains all the local changes:</p>
-<div class="highlight-none"><div class="highlight"><pre>Everything up-to-date
+<div class="highlight-none"><div class="highlight"><pre><span></span>Everything up-to-date
 </pre></div>
 </div>
 <p>The result of the <code class="docutils literal"><span class="pre">git</span> <span class="pre">push</span></code> command if synchronization was successful:</p>
-<div class="highlight-none"><div class="highlight"><pre>Counting objects: 25, done.
+<div class="highlight-none"><div class="highlight"><pre><span></span>Counting objects: 25, done.
 Delta compression using up to 8 threads.
 Compressing objects: 100% (14/14), done.
 Writing objects: 100% (14/14), 1.23 KiB, done.
@@ -506,7 +509,7 @@ To gfxteam@lixer:blend4web.git
 </pre></div>
 </div>
 <p>The result of the <code class="docutils literal"><span class="pre">git</span> <span class="pre">push</span></code> command if synchronization was not successful because the <code class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></code> command was not executed first:</p>
-<div class="highlight-none"><div class="highlight"><pre>To gfxteam@lixer:blend4web.git
+<div class="highlight-none"><div class="highlight"><pre><span></span>To gfxteam@lixer:blend4web.git
  ! [rejected]        master -&gt; master (non-fast-forward)
 error: failed to push some refs to &#39;gfxteam@lixer:blend4web.git&#39;
 To prevent you from losing history, non-fast-forward updates were rejected
@@ -525,7 +528,7 @@ Merge the remote changes (e.g. &#39;git pull&#39;) before pushing again.  See th
 <p>Synchronization conflicts occur if both conditions are met</p>
 <ol class="arabic simple">
 <li>the same file was changed both in the local and remote repositories, and</li>
-<li>automatic merging of the changes didn&#8217;t occur because the changes are in the same place of the file.</li>
+<li>automatic merging of the changes didn’t occur because the changes are in the same place of the file.</li>
 </ol>
 <p>Typical cases:</p>
 <ol class="arabic simple">
@@ -533,13 +536,13 @@ Merge the remote changes (e.g. &#39;git pull&#39;) before pushing again.  See th
 <li>different changes were introduced to the same line of the same text file</li>
 <li>one developer has changed the file while the other has moved it and so on.</li>
 </ol>
-<p>Although synchronization conflicts are normal, if they happen too often it slows down the work. It is recommended to notify your team mates about start of working with the shared binary files, and also to perform synchronization more often. It is necessary to effectively distribute the work between developers to reduce the number of such shared files. This can be achieved particularly through linking of all the scene&#8217;s resources from the separate blend files into the master file.</p>
+<p>Although synchronization conflicts are normal, if they happen too often it slows down the work. It is recommended to notify your team mates about start of working with the shared binary files, and also to perform synchronization more often. It is necessary to effectively distribute the work between developers to reduce the number of such shared files. This can be achieved particularly through linking of all the scene’s resources from the separate blend files into the master file.</p>
 </div>
 <div class="section" id="the-steps-to-be-taken">
 <h3><a class="toc-backref" href="#id20">The steps to be taken</a><a class="headerlink" href="#the-steps-to-be-taken" title="Permalink to this headline">¶</a></h3>
-<p>It&#8217;s not recommended to perform any files operations (modifying, deleting) while the repository is in a conflict state.</p>
+<p>It’s not recommended to perform any files operations (modifying, deleting) while the repository is in a conflict state.</p>
 <p>The first thing to do is to perform the <code class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></code> command.</p>
-<div class="highlight-none"><div class="highlight"><pre># On branch master
+<div class="highlight-none"><div class="highlight"><pre><span></span># On branch master
 # Your branch and &#39;origin/master&#39; have diverged,
 # and have 7 and 1 different commit each, respectively.
 #
@@ -557,17 +560,17 @@ no changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&q
 <div class="section" id="binary-files">
 <h3><a class="toc-backref" href="#id21">Binary files</a><a class="headerlink" href="#binary-files" title="Permalink to this headline">¶</a></h3>
 <p>At this stage the conflicting binary files are in the same state as they were in the local repository before the synchronization attempt. The files are fully functional (for example they can be opened by graphics editors).</p>
-<p>In case of conflicting binary files it&#8217;s necessary to sort out (with the team mates or by yourself) which of the files should be left and which should be discarded. Selecting can be performed with the <code class="docutils literal"><span class="pre">git</span> <span class="pre">checkout</span></code> command.</p>
-<p>Select the local version of the file (<strong>- -ours</strong>). To make sure that it&#8217;s local you can open it.</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git checkout --ours blender/landscape_objects/Fallen_tree.blend
+<p>In case of conflicting binary files it’s necessary to sort out (with the team mates or by yourself) which of the files should be left and which should be discarded. Selecting can be performed with the <code class="docutils literal"><span class="pre">git</span> <span class="pre">checkout</span></code> command.</p>
+<p>Select the local version of the file (<strong>- -ours</strong>). To make sure that it’s local you can open it.</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt; git checkout --ours blender/landscape_objects/Fallen_tree.blend
 </pre></div>
 </div>
-<p>Select the remote version of the file (<strong>- -theirs</strong>). To make sure that it&#8217;s remote you can open it.</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git checkout --theirs blender/landscape_objects/Fallen_tree.blend
+<p>Select the remote version of the file (<strong>- -theirs</strong>). To make sure that it’s remote you can open it.</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt; git checkout --theirs blender/landscape_objects/Fallen_tree.blend
 </pre></div>
 </div>
 <p>Select the local version of the file again (<strong>- -ours</strong>).</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git checkout --ours blender/landscape_objects/Fallen_tree.blend
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt; git checkout --ours blender/landscape_objects/Fallen_tree.blend
 </pre></div>
 </div>
 <p>Eventually you have to stick to the right version of the file. In case there is a threat of losing the work you may save the discarded file outside the repository.</p>
@@ -575,8 +578,8 @@ no changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&q
 <div class="section" id="text-files">
 <h3><a class="toc-backref" href="#id22">Text files</a><a class="headerlink" href="#text-files" title="Permalink to this headline">¶</a></h3>
 <p>At this stage Git introduces both local and remote changes to the conflicting text files, in a special format. Such text files are not workable as a rule</p>
-<p>Example. One developer changed the scene name from &#8220;Blue Lizard&#8221; to &#8220;Green Lizard&#8221; in the application file and uploaded the changes into the central repository. Another developer changed &#8220;Blue Lizard&#8221; to &#8220;Red Lizard&#8221; in the same line, performed commit and executed the <code class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></code> command. As a result this very developer will be responsible for resolving the conflict. The following lines will be present in his version of the application file:</p>
-<div class="highlight-none"><div class="highlight"><pre>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+<p>Example. One developer changed the scene name from “Blue Lizard” to “Green Lizard” in the application file and uploaded the changes into the central repository. Another developer changed “Blue Lizard” to “Red Lizard” in the same line, performed commit and executed the <code class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></code> command. As a result this very developer will be responsible for resolving the conflict. The following lines will be present in his version of the application file:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
                 &quot;name&quot;: &quot;Red Lizard&quot;,
 =======
                 &quot;name&quot;: &quot;Green Lizard&quot;,
@@ -588,12 +591,12 @@ no changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&q
 <div class="section" id="correcting-commit">
 <h3><a class="toc-backref" href="#id23">Correcting commit</a><a class="headerlink" href="#correcting-commit" title="Permalink to this headline">¶</a></h3>
 <p>After selecting the required files or editing the changes, add them for commit:</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git add blender/landscape_objects/Fallen_tree.blend
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt; git add blender/landscape_objects/Fallen_tree.blend
 &gt; git status
 </pre></div>
 </div>
 <p>Possible result of <code class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></code> command after adding the conflicting files for commit:</p>
-<div class="highlight-none"><div class="highlight"><pre># On branch master
+<div class="highlight-none"><div class="highlight"><pre><span></span># On branch master
 # Your branch and &#39;origin/master&#39; have diverged,
 # and have 7 and 1 different commit each, respectively.
 #
@@ -601,11 +604,11 @@ nothing to commit (working directory clean)
 </pre></div>
 </div>
 <p>Perform commit. It is recommended to leave the default comment:</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git commit
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt; git commit
 &gt; git status
 </pre></div>
 </div>
-<div class="highlight-none"><div class="highlight"><pre># On branch master
+<div class="highlight-none"><div class="highlight"><pre><span></span># On branch master
 # Your branch is ahead of &#39;origin/master&#39; by 8 commits.
 #
 nothing to commit (working directory clean)
@@ -618,38 +621,38 @@ nothing to commit (working directory clean)
 <span id="git-tags"></span><span id="index-8"></span><h2><a class="toc-backref" href="#id24">Tags</a><a class="headerlink" href="#tags" title="Permalink to this headline">¶</a></h2>
 <p>Tags are intended for pointing at a certain commit, for example, to specify a stable product version.</p>
 <p>View the list of tags:</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git tag
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt; git tag
 </pre></div>
 </div>
 <p>Create a tag for the release from June 3, 2013, pointing to the commit with a stable product version:</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git tag R130603 67bb597f7ed1643ed0220d57e894f28662e614e5
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt; git tag R130603 67bb597f7ed1643ed0220d57e894f28662e614e5
 </pre></div>
 </div>
 <p>Check the commit tag information:</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git show --shortstat R130603
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt; git show --shortstat R130603
 </pre></div>
 </div>
-<p>Roll back to the tag...</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git checkout R130603
+<p>Roll back to the tag…</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt; git checkout R130603
 </pre></div>
 </div>
-<p>...and return:</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git checkout master
+<p>…and return:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt; git checkout master
 </pre></div>
 </div>
 <p>Synchronize the tags with the remote repository:</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git push --tags
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt; git push --tags
 </pre></div>
 </div>
 <p>Delete the tag (if created by mistake):</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git tag -d R130603
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt; git tag -d R130603
 </pre></div>
 </div>
 </div>
 <div class="section" id="other-useful-commands">
 <h2><a class="toc-backref" href="#id25">Other Useful Commands</a><a class="headerlink" href="#other-useful-commands" title="Permalink to this headline">¶</a></h2>
 <p>Check the log for January, 2012, show file names without merging commits:</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git log --after={2012-01-01} --before={2012-01-31} --name-only --no-merges
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt; git log --after={2012-01-01} --before={2012-01-31} --name-only --no-merges
 </pre></div>
 </div>
 </div>
@@ -675,7 +678,7 @@ nothing to commit (working directory clean)
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Triumph.
-      Last updated on 2017-11-21.
+      Last updated on 2017-12-29.
 
     </p>
   </div>
@@ -731,11 +734,11 @@ nothing to commit (working directory clean)
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

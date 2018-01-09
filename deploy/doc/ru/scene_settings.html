@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Параметры сцены &mdash; Руководство пользователя Blend4Web 17.10.1</title>
+  <title>Параметры сцены &mdash; Руководство пользователя Blend4Web 17.12.0</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 17.10.1" href="index.html"/>
+        <link rel="index" title="Алфавитный указатель"
+              href="genindex.html"/>
+        <link rel="search" title="Поиск" href="search.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 17.12.0" href="index.html"/>
         <link rel="next" title="Объекты" href="objects.html"/>
         <link rel="prev" title="Аддон" href="addon.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -92,7 +95,7 @@
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Параметры сцены</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Параметры сцены</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#render-panel">Вкладка Render</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#development-tools">Development Tools</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#shading">Shading</a></li>
@@ -205,7 +208,7 @@
   <div class="section" id="scene-settings">
 <span id="index-0"></span><span id="id1"></span><h1><a class="toc-backref" href="#id4">Параметры сцены</a><a class="headerlink" href="#scene-settings" title="Ссылка на этот заголовок">¶</a></h1>
 <div class="contents topic" id="table-of-content">
-<p class="topic-title first">Содержание</p>
+<p class="topic-title first">Table of Content</p>
 <ul class="simple">
 <li><a class="reference internal" href="#scene-settings" id="id4">Параметры сцены</a><ul>
 <li><a class="reference internal" href="#render-panel" id="id5">Вкладка Render</a><ul>
@@ -261,7 +264,7 @@
 <p>На этой вкладке находятся параметры сцены, связанные с рендерингом изображения.</p>
 <div class="section" id="development-tools">
 <span id="render-development-server"></span><h3><a class="toc-backref" href="#id6">Development Tools</a><a class="headerlink" href="#development-tools" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Настройки сервера разработки. Подробно описаны в <a class="reference internal" href="addon.html#local-development-server"><span>соответствующем разделе</span></a>.</p>
+<p>Настройки сервера разработки. Подробно описаны в <a class="reference internal" href="addon.html#local-development-server"><span class="std std-ref">соответствующем разделе</span></a>.</p>
 <a class="reference internal image-reference" href="_images/render_development_server.png"><img alt="_images/render_development_server.png" class="align-center" src="_images/render_development_server.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="shading">
@@ -272,24 +275,19 @@
 <dt><em>Set Recommended Options</em></dt>
 <dd><p class="first">Применяется для достижения максимального соответствия между тем, как сцена выглядит в окне просмотра Blender и тем, как она выглядит в движке. При нажатии на кнопку:</p>
 <ul class="last simple">
-<li><p class="first">включается <strong>World Space Shading</strong>,</p>
-</li>
-<li><p class="first">режим материала переключается на <strong>GLSL</strong>,</p>
-</li>
-<li><p class="first">метод затенения объектов в окне просмотра переключается на <strong>Material</strong>,</p>
-</li>
-<li><p class="first">подгонка сенсора главной камеры переключается на <strong>Vertical</strong>.</p>
-</li>
+<li>включается <strong>World Space Shading</strong>,</li>
+<li>режим материала переключается на <strong>GLSL</strong>,</li>
+<li>метод затенения объектов в окне просмотра переключается на <strong>Material</strong>,</li>
+<li>подгонка сенсора главной камеры переключается на <strong>Vertical</strong>.</li>
 </ul>
 </dd>
 <dt><em>World Space Shading</em></dt>
-<dd><p class="first last">Включает и выключает затенение в мировом пространстве (т.е. для расчёта освещённости объектов используется информация об освещении в мировом пространстве координат). Отключено по умолчанию.</p>
-</dd>
+<dd>Включает и выключает затенение в мировом пространстве (т.е. для расчёта освещённости объектов используется информация об освещении в мировом пространстве координат). Отключено по умолчанию.</dd>
 </dl>
 </div>
 <div class="section" id="shadows">
 <span id="render-shadows"></span><h3><a class="toc-backref" href="#id8">Shadows</a><a class="headerlink" href="#shadows" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Настройки теней. Подробно описаны в <a class="reference internal" href="lighting.html#shadows"><span>соответствующем разделе</span></a>.</p>
+<p>Настройки теней. Подробно описаны в <a class="reference internal" href="lighting.html#shadows"><span class="std std-ref">соответствующем разделе</span></a>.</p>
 <a class="reference internal image-reference" href="_images/render_shadows.png"><img alt="_images/render_shadows.png" class="align-center" src="_images/render_shadows.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="reflections-and-refractions">
@@ -298,24 +296,21 @@
 <a class="reference internal image-reference" href="_images/render_reflections_and_refractions.png"><img alt="_images/render_reflections_and_refractions.png" class="align-center" src="_images/render_reflections_and_refractions.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>Reflection</em></dt>
-<dd><p class="first last">Настройки эффекта отражения. Может иметь значения <code class="docutils literal"><span class="pre">ON</span></code> и <code class="docutils literal"><span class="pre">OFF</span></code>. Значение по умолчанию - <code class="docutils literal"><span class="pre">ON</span></code>.</p>
-</dd>
+<dd>Настройки эффекта отражения. Может иметь значения <code class="docutils literal"><span class="pre">ON</span></code> и <code class="docutils literal"><span class="pre">OFF</span></code>. Значение по умолчанию - <code class="docutils literal"><span class="pre">ON</span></code>.</dd>
 <dt><em>Refraction</em></dt>
-<dd><p class="first last">Настройки эффекта преломления. Может иметь значения <code class="docutils literal"><span class="pre">ON</span></code>, <code class="docutils literal"><span class="pre">OFF</span></code> и <code class="docutils literal"><span class="pre">AUTO</span></code>. Значение по умолчанию - <code class="docutils literal"><span class="pre">AUTO</span></code>.</p>
-</dd>
+<dd>Настройки эффекта преломления. Может иметь значения <code class="docutils literal"><span class="pre">ON</span></code>, <code class="docutils literal"><span class="pre">OFF</span></code> и <code class="docutils literal"><span class="pre">AUTO</span></code>. Значение по умолчанию - <code class="docutils literal"><span class="pre">AUTO</span></code>.</dd>
 <dt><em>Quality</em></dt>
-<dd><p class="first last">Настройки качества эффекта отражения и преломления. Может иметь значения <code class="docutils literal"><span class="pre">HIGH</span></code> (высокое качество), <code class="docutils literal"><span class="pre">MEDIUM</span></code> (среднее) и <code class="docutils literal"><span class="pre">LOW</span></code> (низкое). Значение по умолчанию - <code class="docutils literal"><span class="pre">MEDIUM</span></code>.</p>
-</dd>
+<dd>Настройки качества эффекта отражения и преломления. Может иметь значения <code class="docutils literal"><span class="pre">HIGH</span></code> (высокое качество), <code class="docutils literal"><span class="pre">MEDIUM</span></code> (среднее) и <code class="docutils literal"><span class="pre">LOW</span></code> (низкое). Значение по умолчанию - <code class="docutils literal"><span class="pre">MEDIUM</span></code>.</dd>
 </dl>
 </div>
 <div class="section" id="object-outlining">
 <span id="render-object-outlining"></span><h3><a class="toc-backref" href="#id10">Object Outlining</a><a class="headerlink" href="#object-outlining" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Настройки эффекта обводки. Подробно описаны в <a class="reference internal" href="postprocessing_effects.html#outline"><span>соответствующем разделе</span></a>.</p>
+<p>Настройки эффекта обводки. Подробно описаны в <a class="reference internal" href="postprocessing_effects.html#outline"><span class="std std-ref">соответствующем разделе</span></a>.</p>
 <a class="reference internal image-reference" href="_images/render_object_outlining.png"><img alt="_images/render_object_outlining.png" class="align-center" src="_images/render_object_outlining.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="glow-materials">
 <span id="render-glow-materials"></span><h3><a class="toc-backref" href="#id11">Glow Materials</a><a class="headerlink" href="#glow-materials" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Настройки эффекта свечения материалов. Подробно описаны в <a class="reference internal" href="postprocessing_effects.html#glow"><span>соответствующем разделе</span></a>.</p>
+<p>Настройки эффекта свечения материалов. Подробно описаны в <a class="reference internal" href="postprocessing_effects.html#glow"><span class="std std-ref">соответствующем разделе</span></a>.</p>
 <a class="reference internal image-reference" href="_images/render_glow_materials.png"><img alt="_images/render_glow_materials.png" class="align-center" src="_images/render_glow_materials.png" style="width: 100%;" /></a>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
@@ -324,7 +319,7 @@
 </div>
 <div class="section" id="anti-aliasing">
 <span id="render-anti-aliasing"></span><h3><a class="toc-backref" href="#id12">Anti-Aliasing</a><a class="headerlink" href="#anti-aliasing" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Настройки сглаживания изображения (anti-aliasing). Подробно описаны в <a class="reference internal" href="postprocessing_effects.html#antialiasing"><span>соответствующем разделе</span></a>.</p>
+<p>Настройки сглаживания изображения (anti-aliasing). Подробно описаны в <a class="reference internal" href="postprocessing_effects.html#antialiasing"><span class="std std-ref">соответствующем разделе</span></a>.</p>
 <a class="reference internal image-reference" href="_images/render_anti_aliasing.png"><img alt="_images/render_anti_aliasing.png" class="align-center" src="_images/render_anti_aliasing.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="anisotropic-filtering">
@@ -335,27 +330,27 @@
 </div>
 <div class="section" id="bloom">
 <span id="render-bloom"></span><h3><a class="toc-backref" href="#id14">Bloom</a><a class="headerlink" href="#bloom" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Настройки эффекта засветки. Подробно описаны в <a class="reference internal" href="postprocessing_effects.html#bloom"><span>соответствующем разделе</span></a>.</p>
+<p>Настройки эффекта засветки. Подробно описаны в <a class="reference internal" href="postprocessing_effects.html#bloom"><span class="std std-ref">соответствующем разделе</span></a>.</p>
 <a class="reference internal image-reference" href="_images/render_bloom.png"><img alt="_images/render_bloom.png" class="align-center" src="_images/render_bloom.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="motion-blur">
 <span id="render-motion-blur"></span><h3><a class="toc-backref" href="#id15">Motion Blur</a><a class="headerlink" href="#motion-blur" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Настройки эффекта размытия изображения при быстром движении. Подробно описаны в <a class="reference internal" href="postprocessing_effects.html#motion-blur"><span>соответствующем разделе</span></a>.</p>
+<p>Настройки эффекта размытия изображения при быстром движении. Подробно описаны в <a class="reference internal" href="postprocessing_effects.html#motion-blur"><span class="std std-ref">соответствующем разделе</span></a>.</p>
 <a class="reference internal image-reference" href="_images/render_motion_blur.png"><img alt="_images/render_motion_blur.png" class="align-center" src="_images/render_motion_blur.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="ambient-occlusion-ssao">
 <span id="render-ssao"></span><h3><a class="toc-backref" href="#id16">Ambient Occlusion (SSAO)</a><a class="headerlink" href="#ambient-occlusion-ssao" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Настройки эффекта взаимного затенения (SSAO). Подробно описаны в <a class="reference internal" href="postprocessing_effects.html#ssao"><span>соответствующем разделе</span></a>.</p>
+<p>Настройки эффекта взаимного затенения (SSAO). Подробно описаны в <a class="reference internal" href="postprocessing_effects.html#ssao"><span class="std std-ref">соответствующем разделе</span></a>.</p>
 <a class="reference internal image-reference" href="_images/render_ambient_occlusion.png"><img alt="_images/render_ambient_occlusion.png" class="align-center" src="_images/render_ambient_occlusion.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="god-rays">
 <span id="render-god-rays"></span><h3><a class="toc-backref" href="#id17">God Rays</a><a class="headerlink" href="#god-rays" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Настройки эффекта &#8220;сумеречных лучей&#8221;. Подробно описаны в <a class="reference internal" href="postprocessing_effects.html#god-rays"><span>соответствующем разделе</span></a>.</p>
+<p>Настройки эффекта «сумеречных лучей». Подробно описаны в <a class="reference internal" href="postprocessing_effects.html#god-rays"><span class="std std-ref">соответствующем разделе</span></a>.</p>
 <a class="reference internal image-reference" href="_images/render_god_rays.png"><img alt="_images/render_god_rays.png" class="align-center" src="_images/render_god_rays.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="color-correction">
 <span id="render-color-correction"></span><h3><a class="toc-backref" href="#id18">Color Correction</a><a class="headerlink" href="#color-correction" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Настройки цветокоррекции. Подробно описаны в <a class="reference internal" href="colors.html#color-correction"><span>соответствующем разделе</span></a>.</p>
+<p>Настройки цветокоррекции. Подробно описаны в <a class="reference internal" href="colors.html#color-correction"><span class="std std-ref">соответствующем разделе</span></a>.</p>
 <a class="reference internal image-reference" href="_images/render_color_correction.png"><img alt="_images/render_color_correction.png" class="align-center" src="_images/render_color_correction.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="timeline">
@@ -364,19 +359,16 @@
 <a class="reference internal image-reference" href="_images/render_timeline.png"><img alt="_images/render_timeline.png" class="align-center" src="_images/render_timeline.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>Start Frame</em></dt>
-<dd><p class="first last">Первый кадр таймлайна. По умолчанию 1.</p>
-</dd>
+<dd>Первый кадр таймлайна. По умолчанию 1.</dd>
 <dt><em>End Frame</em></dt>
-<dd><p class="first last">Последний кадр таймлайна. По умолчанию 250.</p>
-</dd>
+<dd>Последний кадр таймлайна. По умолчанию 250.</dd>
 <dt><em>Frame Rate</em></dt>
-<dd><p class="first last">Количество кадров в секунду. По умолчанию 24. Этот параметр определяет скорость воспроизведения анимации (но не скорость работы самой сцены).</p>
-</dd>
+<dd>Количество кадров в секунду. По умолчанию 24. Этот параметр определяет скорость воспроизведения анимации (но не скорость работы самой сцены).</dd>
 </dl>
 </div>
 <div class="section" id="dynamic-grass">
 <span id="render-dynamic-grass"></span><h3><a class="toc-backref" href="#id20">Dynamic Grass</a><a class="headerlink" href="#dynamic-grass" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Включает и выключает эффект <a class="reference internal" href="particles_instancing.html#particles-grass"><span>травяного покрова</span></a>.</p>
+<p>Включает и выключает эффект <a class="reference internal" href="particles_instancing.html#particles-grass"><span class="std std-ref">травяного покрова</span></a>.</p>
 <a class="reference internal image-reference" href="_images/render_dynamic_grass.png"><img alt="_images/render_dynamic_grass.png" class="align-center" src="_images/render_dynamic_grass.png" style="width: 100%;" /></a>
 <p>Доступные значения: <code class="docutils literal"><span class="pre">ON</span></code>, <code class="docutils literal"><span class="pre">OFF</span></code> и <code class="docutils literal"><span class="pre">AUTO</span></code>. Значение по умолчанию - <code class="docutils literal"><span class="pre">AUTO</span></code>.</p>
 </div>
@@ -391,8 +383,7 @@
 <a class="reference internal image-reference" href="_images/scene_scene.png"><img alt="_images/scene_scene.png" class="align-center" src="_images/scene_scene.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>Camera</em></dt>
-<dd><p class="first last">Камера, используемая для воспроизведения сцены.</p>
-</dd>
+<dd>Камера, используемая для воспроизведения сцены.</dd>
 </dl>
 </div>
 <div class="section" id="units">
@@ -406,8 +397,7 @@
 <a class="reference internal image-reference" href="_images/scene_audio.png"><img alt="_images/scene_audio.png" class="align-center" src="_images/scene_audio.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>Volume</em></dt>
-<dd><p class="first last">Общая громкость звука в приложении. Значение может изменяться от 0 до 100, значение по умолчанию - 1.0.</p>
-</dd>
+<dd>Общая громкость звука в приложении. Значение может изменяться от 0 до 100, значение по умолчанию - 1.0.</dd>
 <dt><em>Distance Model</em></dt>
 <dd><p class="first">Модель расстояния, используемая для расчёта затухания. Движок поддерживает следующие модели:</p>
 <p><code class="docutils literal"><span class="pre">None</span></code> - затухание не используется, громкость звука не зависит от расстояния.</p>
@@ -421,39 +411,30 @@
 <p class="last">Значение по умолчанию - <code class="docutils literal"><span class="pre">Inverse</span> <span class="pre">Clamped</span></code>.</p>
 </dd>
 <dt><em>Speed</em></dt>
-<dd><p class="first last">Задаёт скорость звука, которая используется для вычисления эффекта Допплера. Это значение измеряется в метрах в секунду и по умолчанию равно 343.3.</p>
-</dd>
+<dd>Задаёт скорость звука, которая используется для вычисления эффекта Допплера. Это значение измеряется в метрах в секунду и по умолчанию равно 343.3.</dd>
 <dt><em>Doppler</em></dt>
-<dd><p class="first last">Этот параметр задаёт значение высоты тона, используемое для расчёта эффекта Допплера. По умолчанию значение равно 1.0.</p>
-</dd>
+<dd>Этот параметр задаёт значение высоты тона, используемое для расчёта эффекта Допплера. По умолчанию значение равно 1.0.</dd>
 <dt><em>Dynamic Compressor</em></dt>
-<dd><p class="first last">Сжатие динамического диапазона звукового сигнала. Применяется для того, чтобы сделать звучание более насыщенным и более равномерным по громкости. По умолчанию отключено.</p>
-</dd>
+<dd>Сжатие динамического диапазона звукового сигнала. Применяется для того, чтобы сделать звучание более насыщенным и более равномерным по громкости. По умолчанию отключено.</dd>
 <dt><em>Threshold</em></dt>
-<dd><p class="first last">Значение входного сигнала, при превышении которого включается компрессор. По умолчанию равно -24.</p>
-</dd>
+<dd>Значение входного сигнала, при превышении которого включается компрессор. По умолчанию равно -24.</dd>
 <dt><em>Knee</em></dt>
-<dd><p class="first last">Интервал над порогом (<code class="docutils literal"><span class="pre">Treshold</span></code>), где кривая громкости переходит в режим затухания. По умолчанию равен 30.</p>
-</dd>
+<dd>Интервал над порогом (<code class="docutils literal"><span class="pre">Treshold</span></code>), где кривая громкости переходит в режим затухания. По умолчанию равен 30.</dd>
 <dt><em>Ratio</em></dt>
-<dd><p class="first last">Фактор затухания компрессора. Значение по умолчанию равно 12.</p>
-</dd>
+<dd>Фактор затухания компрессора. Значение по умолчанию равно 12.</dd>
 <dt><em>Attack</em></dt>
-<dd><p class="first last">Время (в секундах) для затухания громкости на 10 дБ. По умолчанию равно 0.003.</p>
-</dd>
+<dd>Время (в секундах) для затухания громкости на 10 дБ. По умолчанию равно 0.003.</dd>
 <dt><em>Release</em></dt>
-<dd><p class="first last">Время (в секундах) для повышения громкости на 10 дБ. По умолчанию равно 0.25.</p>
-</dd>
+<dd>Время (в секундах) для повышения громкости на 10 дБ. По умолчанию равно 0.25.</dd>
 </dl>
 </div>
 <div class="section" id="logic-editor">
 <span id="scene-logic-editor"></span><h3><a class="toc-backref" href="#id25">Logic Editor</a><a class="headerlink" href="#logic-editor" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Настройки использования логических деревьев (создаваемых в <a class="reference internal" href="logic_editor.html#logic-editor"><span>редакторе логики</span></a>) при воспроизведении сцены. По умолчанию отключено.</p>
+<p>Настройки использования логических деревьев (создаваемых в <a class="reference internal" href="logic_editor.html#logic-editor"><span class="std std-ref">редакторе логики</span></a>) при воспроизведении сцены. По умолчанию отключено.</p>
 <a class="reference internal image-reference" href="_images/scene_logic_editor.png"><img alt="_images/scene_logic_editor.png" class="align-center" src="_images/scene_logic_editor.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>Active Node Tree</em></dt>
-<dd><p class="first last">Дерево логики, используемое при воспроизведении сцены.</p>
-</dd>
+<dd>Дерево логики, используемое при воспроизведении сцены.</dd>
 </dl>
 </div>
 <div class="section" id="nla">
@@ -462,28 +443,25 @@
 <a class="reference internal image-reference" href="_images/scene_nla.png"><img alt="_images/scene_nla.png" class="align-center" src="_images/scene_nla.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>Cyclic NLA</em></dt>
-<dd><p class="first last">При активации этого параметра нелинейная анимация будет зациклена.</p>
-</dd>
+<dd>При активации этого параметра нелинейная анимация будет зациклена.</dd>
 </dl>
 </div>
 <div class="section" id="meta-tags">
 <span id="scene-meta-tags"></span><h3><a class="toc-backref" href="#id27">Meta Tags</a><a class="headerlink" href="#meta-tags" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Мета-теги приложения. Настраиваются так же как и <a class="reference internal" href="objects.html#objects-meta-tags"><span>мета-теги объектов</span></a>.</p>
+<p>Мета-теги приложения. Настраиваются так же как и <a class="reference internal" href="objects.html#objects-meta-tags"><span class="std std-ref">мета-теги объектов</span></a>.</p>
 <a class="reference internal image-reference" href="_images/scene_meta_tags.png"><img alt="_images/scene_meta_tags.png" class="align-center" src="_images/scene_meta_tags.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>Title</em></dt>
-<dd><p class="first last">Заголовок приложения.</p>
-</dd>
+<dd>Заголовок приложения.</dd>
 <dt><em>Description</em></dt>
 <dd><p class="first">Описание приложения. Может быть текстовым или представлять собой ссылку на файл (если параметр <code class="docutils literal"><span class="pre">Description</span> <span class="pre">Source</span></code> имеет значение <code class="docutils literal"><span class="pre">File</span></code>).</p>
 <div class="last admonition note">
 <p class="first admonition-title">Примечание</p>
-<p class="last">Если в качестве данных в поле <code class="docutils literal"><span class="pre">Description</span></code> требуется использовать текстовый файл, то данный файл может быть загружен в Blender через встроенный редактор <a class="reference internal" href="interface.html#ui-text-editor"><span>Text Editor</span></a>.</p>
+<p class="last">Если в качестве данных в поле <code class="docutils literal"><span class="pre">Description</span></code> требуется использовать текстовый файл, то данный файл может быть загружен в Blender через встроенный редактор <a class="reference internal" href="interface.html#ui-text-editor"><span class="std std-ref">Text Editor</span></a>.</p>
 </div>
 </dd>
 <dt><em>Description Source</em></dt>
-<dd><p class="first last">Источник описания приложения. Описание может быть взято из файла или задано непосредственно в поле <code class="docutils literal"><span class="pre">Description</span></code>. Доступные значения - <code class="docutils literal"><span class="pre">Text</span></code> и <code class="docutils literal"><span class="pre">File</span></code>. Значение по умолчанию - <code class="docutils literal"><span class="pre">Text</span></code>.</p>
-</dd>
+<dd>Источник описания приложения. Описание может быть взято из файла или задано непосредственно в поле <code class="docutils literal"><span class="pre">Description</span></code>. Доступные значения - <code class="docutils literal"><span class="pre">Text</span></code> и <code class="docutils literal"><span class="pre">File</span></code>. Значение по умолчанию - <code class="docutils literal"><span class="pre">Text</span></code>.</dd>
 </dl>
 </div>
 <div class="section" id="physics">
@@ -492,8 +470,7 @@
 <a class="reference internal image-reference" href="_images/scene_physics.png"><img alt="_images/scene_physics.png" class="align-center" src="_images/scene_physics.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>Enable Physics</em></dt>
-<dd><p class="first last">Использовать физику в приложении. Включено по умолчанию.</p>
-</dd>
+<dd>Использовать физику в приложении. Включено по умолчанию.</dd>
 </dl>
 </div>
 <div class="section" id="object-clustering-lod">
@@ -502,51 +479,43 @@
 <a class="reference internal image-reference" href="_images/scene_object_clustering.png"><img alt="_images/scene_object_clustering.png" class="align-center" src="_images/scene_object_clustering.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>Cluster Size</em></dt>
-<dd><p class="first last">Размер кластера, применяемого для объединения объектов (в метрах). Может быть использован в целях оптимизации. Если этот параметр равен нулю, движок будет пытаться объединить все объекты в сцене. Значение по умолчанию - 0.</p>
-</dd>
+<dd>Размер кластера, применяемого для объединения объектов (в метрах). Может быть использован в целях оптимизации. Если этот параметр равен нулю, движок будет пытаться объединить все объекты в сцене. Значение по умолчанию - 0.</dd>
 <dt><em>LOD Cluster Size Multiplier</em></dt>
-<dd><p class="first last">Этот параметр используется для разбиения кластеров на части (в зависимости от расстояния LOD, которое настраивается индивидуально для каждого объекта) для того, чтобы переходы между различными уровнями детализации были менее заметны. Размеры меньших кластеров определяются на основании расстояний LOD, умноженных на значение этого параметра. Высокие значения увеличивают размер кластеров, что повышает производительность, но делает более заметными переходы между уровнями детализации. Низкие значения делают переходы менее заметными, но снижают производительность. Значение по умолчанию - 0.5.</p>
-</dd>
+<dd>Этот параметр используется для разбиения кластеров на части (в зависимости от расстояния LOD, которое настраивается индивидуально для каждого объекта) для того, чтобы переходы между различными уровнями детализации были менее заметны. Размеры меньших кластеров определяются на основании расстояний LOD, умноженных на значение этого параметра. Высокие значения увеличивают размер кластеров, что повышает производительность, но делает более заметными переходы между уровнями детализации. Низкие значения делают переходы менее заметными, но снижают производительность. Значение по умолчанию - 0.5.</dd>
 <dt><em>LOD Smooth Transitions</em></dt>
 <dd><p class="first">Определяет, какие объекты будут использовать плавные переходы при переключении уровней LOD. Может принимать следующие значения:</p>
 <ul class="simple">
-<li><p class="first">OFF - плавные переходы отключены (наиболее быстрый вариант).</p>
-</li>
-<li><p class="first">NON-OPAQUE - плавные переходы используются для объектов с <a class="reference internal" href="materials.html#alpha-blend"><span>материалами</span></a> типов <code class="docutils literal"><span class="pre">Add</span></code>, <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Clip</span></code>, <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Blend</span></code>, <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Sort</span></code> и <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Anti-Aliasing</span></code>.</p>
-</li>
-<li><p class="first">ALL - плавные переходы используются для всех объектов (наименее быстрый вариант).</p>
-</li>
+<li>OFF - плавные переходы отключены (наиболее быстрый вариант).</li>
+<li>NON-OPAQUE - плавные переходы используются для объектов с <a class="reference internal" href="materials.html#alpha-blend"><span class="std std-ref">материалами</span></a> типов <code class="docutils literal"><span class="pre">Add</span></code>, <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Clip</span></code>, <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Blend</span></code>, <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Sort</span></code> и <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Anti-Aliasing</span></code>.</li>
+<li>ALL - плавные переходы используются для всех объектов (наименее быстрый вариант).</li>
 </ul>
-<p class="last">Вариант &#8220;ALL&#8221; может существенно снизить производительность приложения, поэтому его следует использовать только тогда, когда это необходимо. Значение параметра по умолчанию - &#8220;NON-OPAQUE&#8221;.</p>
+<p class="last">Вариант «ALL» может существенно снизить производительность приложения, поэтому его следует использовать только тогда, когда это необходимо. Значение параметра по умолчанию - «NON-OPAQUE».</p>
 </dd>
 </dl>
 <p><em>Max LOD Hysteresis Interval</em></p>
 <blockquote>
-<div><p>Длинна (в метрах) интервала, который используется для переключения уровней LOD. Половина этого значения прибавляется к пороговому расстоянию или вычитается из него, образуя два разных пороговых расстояния для более высокого и более низкого уровней LOD. Делает менее заметным эффект &#8220;popping&#8221;. По умолчанию этот параметр равен 4.0.</p>
-</div></blockquote>
+<div>Длинна (в метрах) интервала, который используется для переключения уровней LOD. Половина этого значения прибавляется к пороговому расстоянию или вычитается из него, образуя два разных пороговых расстояния для более высокого и более низкого уровней LOD. Делает менее заметным эффект «popping». По умолчанию этот параметр равен 4.0.</div></blockquote>
 </div>
 <div class="section" id="object-selection">
 <span id="scene-objects-selection"></span><h3><a class="toc-backref" href="#id30">Object Selection</a><a class="headerlink" href="#object-selection" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Настройки параметров выбора объектов с помощью функции API <a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.pick_object">pick_object()</a> и <a class="reference internal" href="logic_editor.html#logic-editor"><span>нодовой логики</span></a>.</p>
+<p>Настройки параметров выбора объектов с помощью функции API <a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.pick_object">pick_object()</a> и <a class="reference internal" href="logic_editor.html#logic-editor"><span class="std std-ref">нодовой логики</span></a>.</p>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
-<p class="last">В <a class="reference internal" href="viewer.html#viewer"><span>просмотрщике сцен</span></a> выделение включено по умолчанию. Отключить его можно в разделе <code class="docutils literal"><span class="pre">Tools</span> <span class="pre">&amp;</span> <span class="pre">Debug</span></code>.</p>
+<p class="last">В <a class="reference internal" href="viewer.html#viewer"><span class="std std-ref">просмотрщике сцен</span></a> выделение включено по умолчанию. Отключить его можно в разделе <code class="docutils literal"><span class="pre">Tools</span> <span class="pre">&amp;</span> <span class="pre">Debug</span></code>.</p>
 </div>
 <a class="reference internal image-reference" href="_images/scene_objects_selection.png"><img alt="_images/scene_objects_selection.png" class="align-center" src="_images/scene_objects_selection.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>Enable</em></dt>
-<dd><p class="first last">Параметр, который определяет, могут ли объекты быть выбраны. Может иметь значения <code class="docutils literal"><span class="pre">ON</span></code>, <code class="docutils literal"><span class="pre">OFF</span></code> и <code class="docutils literal"><span class="pre">AUTO</span></code>. По умолчанию имеет значение <code class="docutils literal"><span class="pre">AUTO</span></code>.</p>
-</dd>
+<dd>Параметр, который определяет, могут ли объекты быть выбраны. Может иметь значения <code class="docutils literal"><span class="pre">ON</span></code>, <code class="docutils literal"><span class="pre">OFF</span></code> и <code class="docutils literal"><span class="pre">AUTO</span></code>. По умолчанию имеет значение <code class="docutils literal"><span class="pre">AUTO</span></code>.</dd>
 </dl>
 </div>
 <div class="section" id="anchors">
 <span id="scene-anchors"></span><h3><a class="toc-backref" href="#id31">Anchors</a><a class="headerlink" href="#anchors" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Настройки определения видимости <a class="reference internal" href="objects.html#objects-anchors"><span>якорей</span></a>.</p>
+<p>Настройки определения видимости <a class="reference internal" href="objects.html#objects-anchors"><span class="std std-ref">якорей</span></a>.</p>
 <a class="reference internal image-reference" href="_images/scene_anchors.png"><img alt="_images/scene_anchors.png" class="align-center" src="_images/scene_anchors.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>Detect Anchors Visibility</em></dt>
-<dd><p class="first last">Параметр определения видимости якорей. Возможные значения: <code class="docutils literal"><span class="pre">ON</span></code>, <code class="docutils literal"><span class="pre">OFF</span></code> и <code class="docutils literal"><span class="pre">AUTO</span></code>. Значение по умолчанию - <code class="docutils literal"><span class="pre">AUTO</span></code>.</p>
-</dd>
+<dd>Параметр определения видимости якорей. Возможные значения: <code class="docutils literal"><span class="pre">ON</span></code>, <code class="docutils literal"><span class="pre">OFF</span></code> и <code class="docutils literal"><span class="pre">AUTO</span></code>. Значение по умолчанию - <code class="docutils literal"><span class="pre">AUTO</span></code>.</dd>
 </dl>
 </div>
 <div class="section" id="export-options">
@@ -555,8 +524,7 @@
 <a class="reference internal image-reference" href="_images/scene_export_options.png"><img alt="_images/scene_export_options.png" class="align-center" src="_images/scene_export_options.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>Do Not Export</em></dt>
-<dd><p class="first last">Игнорировать настройки сцены при экспорте приложения.</p>
-</dd>
+<dd>Игнорировать настройки сцены при экспорте приложения.</dd>
 </dl>
 </div>
 </div>
@@ -575,37 +543,28 @@
 <a class="reference internal image-reference" href="_images/world_world.png"><img alt="_images/world_world.png" class="align-center" src="_images/world_world.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>Render Sky</em></dt>
-<dd><p class="first last">Отображение неба.</p>
-</dd>
+<dd>Отображение неба.</dd>
 <dt><em>Paper Sky</em></dt>
-<dd><p class="first last">Если эта опция включена, градиент неба всегда будет отрисовываться сверху вниз относительно кадра независимо от угла наклона камеры.</p>
-</dd>
+<dd>Если эта опция включена, градиент неба всегда будет отрисовываться сверху вниз относительно кадра независимо от угла наклона камеры.</dd>
 <dt><em>Blend Sky</em></dt>
-<dd><p class="first last">Плавный переход от цвета горизонта к цвету неба в зените.</p>
-</dd>
+<dd>Плавный переход от цвета горизонта к цвету неба в зените.</dd>
 <dt><em>Real Sky</em></dt>
-<dd><p class="first last">Визуализация неба с горизонтом, зависящим от угла наклона камеры.</p>
-</dd>
+<dd>Визуализация неба с горизонтом, зависящим от угла наклона камеры.</dd>
 <dt><em>Horizon Color</em></dt>
-<dd><p class="first last">Цвет неба у горизонта.</p>
-</dd>
+<dd>Цвет неба у горизонта.</dd>
 <dt><em>Zenith Color</em></dt>
-<dd><p class="first last">Цвет неба в зените.</p>
-</dd>
+<dd>Цвет неба в зените.</dd>
 <dt><em>Reflect World</em></dt>
-<dd><p class="first last">Отображать небо при расчёте отражений.</p>
-</dd>
+<dd>Отображать небо при расчёте отражений.</dd>
 <dt><em>Render Only Reflection</em></dt>
-<dd><p class="first last">Отображать небо <em>только</em> при расчёте отражений.</p>
-</dd>
+<dd>Отображать небо <em>только</em> при расчёте отражений.</dd>
 <dt><em>World Background</em></dt>
-<dd><p class="first last">Включает и выключает опцию <code class="docutils literal"><span class="pre">World</span> <span class="pre">Background</span></code> (находится на вкладке <code class="docutils literal"><span class="pre">Display</span></code> панели <code class="docutils literal"><span class="pre">3D</span> <span class="pre">View</span></code>). При включении этой опции цвета окружающей среды будут отображаться в окне просмотра так же, как в самом движке.</p>
-</dd>
+<dd>Включает и выключает опцию <code class="docutils literal"><span class="pre">World</span> <span class="pre">Background</span></code> (находится на вкладке <code class="docutils literal"><span class="pre">Display</span></code> панели <code class="docutils literal"><span class="pre">3D</span> <span class="pre">View</span></code>). При включении этой опции цвета окружающей среды будут отображаться в окне просмотра так же, как в самом движке.</dd>
 </dl>
 </div>
 <div class="section" id="environment-lighting">
 <span id="world-environment-lighting"></span><h3><a class="toc-backref" href="#id36">Environment Lighting</a><a class="headerlink" href="#environment-lighting" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Настройки параметров освещения от окружающей среды. Подробно описаны в <a class="reference internal" href="lighting.html#environment-lighting"><span>соответствующем разделе</span></a>.</p>
+<p>Настройки параметров освещения от окружающей среды. Подробно описаны в <a class="reference internal" href="lighting.html#environment-lighting"><span class="std std-ref">соответствующем разделе</span></a>.</p>
 <a class="reference internal image-reference" href="_images/world_environment_lighting.png"><img alt="_images/world_environment_lighting.png" class="align-center" src="_images/world_environment_lighting.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="mist">
@@ -614,33 +573,25 @@
 <a class="reference internal image-reference" href="_images/world_mist.png"><img alt="_images/world_mist.png" class="align-center" src="_images/world_mist.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>Minimum</em></dt>
-<dd><p class="first last">Минимальная интенсивность тумана. По умолчанию равна 0.</p>
-</dd>
+<dd>Минимальная интенсивность тумана. По умолчанию равна 0.</dd>
 <dt><em>Depth</em></dt>
-<dd><p class="first last">Расстояние от камеры, на котором эффект тумана достигает наибольшей интенсивности. По умолчанию равно 25.</p>
-</dd>
+<dd>Расстояние от камеры, на котором эффект тумана достигает наибольшей интенсивности. По умолчанию равно 25.</dd>
 <dt><em>Start</em></dt>
-<dd><p class="first last">Расстояние от камеры, на котором начинает проявляться эффект тумана. По умолчанию равно 5.</p>
-</dd>
+<dd>Расстояние от камеры, на котором начинает проявляться эффект тумана. По умолчанию равно 5.</dd>
 <dt><em>Height</em></dt>
-<dd><p class="first last">Определяет, насколько быстро плотность тумана падает с ростом высоты. По умолчанию равно 0.</p>
-</dd>
+<dd>Определяет, насколько быстро плотность тумана падает с ростом высоты. По умолчанию равно 0.</dd>
 <dt><em>Fall Out</em></dt>
-<dd><p class="first last">Правило, по которому возрастает интенсивность тумана между его границами (определяются параметрами <code class="docutils literal"><span class="pre">Start</span></code> и <code class="docutils literal"><span class="pre">Depth</span></code>). Доступные значения: <code class="docutils literal"><span class="pre">Quadratic</span></code>, <code class="docutils literal"><span class="pre">Linear</span></code>, <code class="docutils literal"><span class="pre">Inverse</span> <span class="pre">Quadratic</span></code>. Значение по умолчанию - <code class="docutils literal"><span class="pre">Quadratic</span></code>.</p>
-</dd>
+<dd>Правило, по которому возрастает интенсивность тумана между его границами (определяются параметрами <code class="docutils literal"><span class="pre">Start</span></code> и <code class="docutils literal"><span class="pre">Depth</span></code>). Доступные значения: <code class="docutils literal"><span class="pre">Quadratic</span></code>, <code class="docutils literal"><span class="pre">Linear</span></code>, <code class="docutils literal"><span class="pre">Inverse</span> <span class="pre">Quadratic</span></code>. Значение по умолчанию - <code class="docutils literal"><span class="pre">Quadratic</span></code>.</dd>
 <dt><em>Use Custom Colors</em></dt>
-<dd><p class="first last">Позволяет задать цвет тумана. По умолчанию включено. Если отключено, будет использоваться стандартный цвет 0.5, 0.5, 0.5.</p>
-</dd>
+<dd>Позволяет задать цвет тумана. По умолчанию включено. Если отключено, будет использоваться стандартный цвет 0.5, 0.5, 0.5.</dd>
 <dt><em>Fog Color</em></dt>
-<dd><p class="first last">Цвет тумана. Может быть настроен, если активирована опция <code class="docutils literal"><span class="pre">Use</span> <span class="pre">custom</span> <span class="pre">colors</span></code>. По умолчанию установлен светло-серый цвет (0.5, 0.5, 0.5).</p>
-</dd>
+<dd>Цвет тумана. Может быть настроен, если активирована опция <code class="docutils literal"><span class="pre">Use</span> <span class="pre">custom</span> <span class="pre">colors</span></code>. По умолчанию установлен светло-серый цвет (0.5, 0.5, 0.5).</dd>
 </dl>
 </div>
 <div class="section" id="procedural-sky">
 <span id="world-procedural-sky"></span><h3><a class="toc-backref" href="#id38">Procedural Sky</a><a class="headerlink" href="#procedural-sky" title="Ссылка на этот заголовок">¶</a></h3>
 <blockquote>
-<div><p>Настройки процедурного неба. Подробно описаны в <a class="reference internal" href="outdoor_rendering.html#atmosphere"><span>соответствующем разделе</span></a>.</p>
-</div></blockquote>
+<div>Настройки процедурного неба. Подробно описаны в <a class="reference internal" href="outdoor_rendering.html#atmosphere"><span class="std std-ref">соответствующем разделе</span></a>.</div></blockquote>
 <a class="reference internal image-reference" href="_images/world_procedural_sky.png"><img alt="_images/world_procedural_sky.png" class="align-center" src="_images/world_procedural_sky.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="animation">
@@ -649,17 +600,13 @@
 <a class="reference internal image-reference" href="_images/world_animation.png"><img alt="_images/world_animation.png" class="align-center" src="_images/world_animation.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>Apply Default Animation</em></dt>
-<dd><p class="first last">Если этот параметр включён, движок запускает проигрывание анимации окружающей среды после загрузки сцены.</p>
-</dd>
+<dd>Если этот параметр включён, движок запускает проигрывание анимации окружающей среды после загрузки сцены.</dd>
 <dt><em>Behavior</em></dt>
 <dd><p class="first">Устанавливает поведение анимации окружающей среды. Доступные значения:</p>
 <ul class="simple">
-<li><p class="first"><code class="docutils literal"><span class="pre">Loop</span></code> - анимация воспроизводится циклически.</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">Finish</span> <span class="pre">Stop</span></code> - анимация проигрывается один раз.</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">Finish</span> <span class="pre">Reset</span></code> - анимация проигрывается один раз, после чего сбрасывается на нулевой кадр.</p>
-</li>
+<li><code class="docutils literal"><span class="pre">Loop</span></code> - анимация воспроизводится циклически.</li>
+<li><code class="docutils literal"><span class="pre">Finish</span> <span class="pre">Stop</span></code> - анимация проигрывается один раз.</li>
+<li><code class="docutils literal"><span class="pre">Finish</span> <span class="pre">Reset</span></code> - анимация проигрывается один раз, после чего сбрасывается на нулевой кадр.</li>
 </ul>
 <p class="last">Эта опция доступна только при включённом параметре <code class="docutils literal"><span class="pre">Apply</span> <span class="pre">Default</span> <span class="pre">Animation</span></code>.</p>
 </dd>
@@ -671,8 +618,7 @@
 <a class="reference internal image-reference" href="_images/world_export_options.png"><img alt="_images/world_export_options.png" class="align-center" src="_images/world_export_options.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>Do Not Export</em></dt>
-<dd><p class="first last">Игнорировать настройки окружения при экспорте приложения.</p>
-</dd>
+<dd>Игнорировать настройки окружения при экспорте приложения.</dd>
 </dl>
 </div>
 </div>
@@ -698,7 +644,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Триумф.
-      Обновлено: 2017-11-21.
+      Обновлено: 2017-12-29.
 
     </p>
   </div>
@@ -754,11 +700,11 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

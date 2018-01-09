@@ -20,7 +20,13 @@ optimization = advanced
 use_physics = True
 use_smaa_textures = False
 version = 
+ignore = webplayer.scss;node_modules;images;gulpfile.js;package.json;yarn.lock;package.json
 
 [deploy]
 assets_path_prefix = 
 override = 
+assets_path_dest = 
+ignore = 
+
+[url_params]
+

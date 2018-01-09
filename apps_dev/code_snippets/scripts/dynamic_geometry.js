@@ -1,21 +1,21 @@
 "use strict"
 
-b4w.register("dynamic_geometry", function(exports, require) {
+import b4w from "blend4web";
 
-var m_app     = require("app");
-var m_data    = require("data");
-var m_geom    = require("geometry");
-var m_scs     = require("scenes");
-var m_obj     = require("objects");
-var m_trans   = require("transform");
-var m_cfg     = require("config");
-var m_version = require("version");
+var m_app     = b4w.app;
+var m_data    = b4w.data;
+var m_geom    = b4w.geometry;
+var m_scs     = b4w.scenes;
+var m_obj     = b4w.objects;
+var m_trans   = b4w.transform;
+var m_cfg     = b4w.config;
+var m_version = b4w.version;
 
 var DEBUG = (m_version.type() === "DEBUG");
 
 var APP_ASSETS_PATH = m_cfg.get_std_assets_path() + "code_snippets/dynamic_geometry";
 
-exports.init = function() {
+export function init() {
     m_app.init({
         canvas_container_id: "main_canvas_container",
         callback: init_cb,
@@ -89,7 +89,4 @@ function geometry_change(indices, positions) {
     m_obj.update_boundings(plane_blue);
     m_obj.update_boundings(plane_red);
 }
-
-
-});
 

@@ -1,15 +1,13 @@
-"use strict";
+import b4w from "blend4web";
 
-b4w.register("change_image", function(exports, require) {
-
-var m_data    = require("data");
-var m_app     = require("app");
-var m_cfg     = require("config");
-var m_cont    = require("container");
-var m_mouse   = require("mouse");
-var m_tex     = require("textures");
-var m_scenes  = require("scenes");
-var m_version = require("version");
+var m_data    = b4w.data;
+var m_app     = b4w.app;
+var m_cfg     = b4w.config;
+var m_cont    = b4w.container;
+var m_mouse   = b4w.mouse;
+var m_tex     = b4w.textures;
+var m_scenes  = b4w.scenes;
+var m_version = b4w.version;
 
 var DEBUG = (m_version.type() === "DEBUG");
 
@@ -31,7 +29,7 @@ var _napkin_flag = false;
 var _stand_1 = null;
 var _stand_2 = null;
 
-exports.init = function() {
+export function init() {
     m_app.init({
         canvas_container_id: "main_canvas_container",
         callback: init_cb,
@@ -105,5 +103,3 @@ function main_canvas_clicked_cb(e) {
         }
     }
 }
-
-});

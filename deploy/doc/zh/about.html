@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>概述 &mdash; Blend4Web 17.10.1 用户手册</title>
+  <title>概述 &mdash; Blend4Web 17.12.0 用户手册</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="关于这些文档"
               href="#"/>
-    <link rel="top" title="Blend4Web 17.10.1 用户手册" href="index.html"/>
+        <link rel="index" title="索引"
+              href="genindex.html"/>
+        <link rel="search" title="搜索" href="search.html"/>
+    <link rel="top" title="Blend4Web 17.12.0 用户手册" href="index.html"/>
         <link rel="next" title="引擎功能" href="engine_features.html"/>
         <link rel="prev" title="目录" href="index.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -83,9 +86,9 @@
           
           
               <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="">概述</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">概述</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#what-s-blend4web">什么是 Blend4Web</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#about-engines">&#8220;关于引擎&#8221;</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#about-engines">&quot;关于引擎&quot;</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#graphics-engine-game-engine">图形引擎，游戏引擎</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#what-s-webgl">什么是WebGL</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#webgl-browsers-support">WebGL的浏览器支持</a><ul>
@@ -186,7 +189,7 @@
 <p>Blend4Web 3D引擎自2010年起由Triumph LLC员工开发。该引擎于2014年3月28日首次发布。</p>
 </div>
 <div class="section" id="about-engines">
-<span id="about-engine"></span><span id="index-1"></span><h2>&#8220;关于引擎&#8221;<a class="headerlink" href="#about-engines" title="永久链接至标题">¶</a></h2>
+<span id="about-engine"></span><span id="index-1"></span><h2>&quot;关于引擎&quot;<a class="headerlink" href="#about-engines" title="永久链接至标题">¶</a></h2>
 <p>引擎是被用于实现所需的功能使用的外部应用程序的软件代码的单独软件部分。</p>
 <p>引擎的例子是：网站引擎，博客引擎，网上商店擎，维基引擎，搜索引擎，游戏引擎等。软件引擎存在的经济原因是能多处使用相同的功能。例如开发人员可以用相对便宜的引擎来创建网上商店或游戏。</p>
 </div>
@@ -195,17 +198,15 @@
 <p>图形引擎执行的显示图形特殊功能。它是介于以下几者之间的：</p>
 <blockquote>
 <div><ul class="simple">
-<li><p class="first">高级别应用部分（游戏逻辑，业务逻辑）和</p>
-</li>
-<li><p class="first">低层系统的一部分（例如，图形库的 <a class="reference internal" href="#about-webgl"><span>WebGL</span></a> 和 <a class="reference internal" href="#about-drivers-video-cards"><span>drivers</span></a>).</p>
-</li>
+<li>高级别应用部分（游戏逻辑，业务逻辑）和</li>
+<li>低层系统的一部分（例如，图形库的 <a class="reference internal" href="#about-webgl"><span class="std std-ref">WebGL</span></a> 和 <a class="reference internal" href="#about-drivers-video-cards"><span class="std std-ref">drivers</span></a>).</li>
 </ul>
 </div></blockquote>
-<p>图形引擎可以结合到音响系统，物理引擎，人工智能系统，网络系统和场景和逻辑编辑然后产生三维引擎&#8211;从而成为用于创作3D应用的集成环境。</p>
+<p>图形引擎可以结合到音响系统，物理引擎，人工智能系统，网络系统和场景和逻辑编辑然后产生三维引擎–从而成为用于创作3D应用的集成环境。</p>
 </div>
 <div class="section" id="what-s-webgl">
 <span id="about-webgl"></span><span id="index-3"></span><h2>什么是WebGL<a class="headerlink" href="#what-s-webgl" title="永久链接至标题">¶</a></h2>
-<p>WebGL的（Web图形库）是现代浏览器技术，它允许创作3D图形应用程序。换句话说WebGL是 &#8220;浏览器中的3D&#8221; 。</p>
+<p>WebGL的（Web图形库）是现代浏览器技术，它允许创作3D图形应用程序。换句话说WebGL是 &quot;浏览器中的3D&quot; 。</p>
 </div>
 <div class="section" id="webgl-browsers-support">
 <span id="browser-webgl-support"></span><span id="index-4"></span><h2>WebGL的浏览器支持<a class="headerlink" href="#webgl-browsers-support" title="永久链接至标题">¶</a></h2>
@@ -233,107 +234,72 @@
 <li>Tizen</li>
 <li>Ubuntu Touch</li>
 </ul>
-<p>有关详细信息请参阅 <a class="reference internal" href="problems_and_solutions.html#webgl-support"><span>相关章节</span></a> 在问题和解决方案的篇章。</p>
+<p>有关详细信息请参阅 <a class="reference internal" href="problems_and_solutions.html#webgl-support"><span class="std std-ref">相关章节</span></a> 在问题和解决方案的篇章。</p>
 </div>
 </div>
 <div class="section" id="advantages-of-webgl">
 <span id="about-webgl-benefits"></span><span id="index-5"></span><h2>WebGL的优势<a class="headerlink" href="#advantages-of-webgl" title="永久链接至标题">¶</a></h2>
 <ul class="simple">
-<li><p class="first">工作在浏览器无需安装额外的软件（插件）</p>
-</li>
-<li><p class="first">跨平台，适用于所有台式机和嵌入式系统</p>
-</li>
-<li><p class="first"><a class="reference external" href="http://en.wikipedia.org/wiki/Open_standard">开放标准</a> ，不要求授权费用</p>
-</li>
-<li><p class="first">由IT市场的主要参与者支持（谷歌，苹果，微软，NVIDIA，三星，Adobe和其他）</p>
-</li>
-<li><p class="first">基于OpenGL对开发者来说非常熟悉</p>
-</li>
-<li><p class="first">可以与其他 <a class="reference internal" href="#about-browser-tech"><span>浏览器技术</span></a> 集成到一起</p>
-</li>
+<li>工作在浏览器无需安装额外的软件（插件）</li>
+<li>跨平台，适用于所有台式机和嵌入式系统</li>
+<li><a class="reference external" href="http://en.wikipedia.org/wiki/Open_standard">开放标准</a> ，不要求授权费用</li>
+<li>由IT市场的主要参与者支持（谷歌，苹果，微软，NVIDIA，三星，Adobe和其他）</li>
+<li>基于OpenGL对开发者来说非常熟悉</li>
+<li>可以与其他 <a class="reference internal" href="#about-browser-tech"><span class="std std-ref">浏览器技术</span></a> 集成到一起</li>
 </ul>
 </div>
 <div class="section" id="what-s-blender">
 <span id="about-blender"></span><span id="index-6"></span><h2>什么是Blender<a class="headerlink" href="#what-s-blender" title="永久链接至标题">¶</a></h2>
-<p>Blender是一个流行的软件进行3D建模和动画，是自由和开放源码的。在此软件创建模型和场景的显示相当于 <a class="reference internal" href="#about-graphics-engine"><span>三维引擎</span></a> 在网页上的展示。</p>
+<p>Blender是一个流行的软件进行3D建模和动画，是自由和开放源码的。在此软件创建模型和场景的显示相当于 <a class="reference internal" href="#about-graphics-engine"><span class="std std-ref">三维引擎</span></a> 在网页上的展示。</p>
 </div>
 <div class="section" id="d-modeling">
 <span id="about-modelling"></span><span id="index-7"></span><h2>三维建模<a class="headerlink" href="#d-modeling" title="永久链接至标题">¶</a></h2>
 <p>创作图形资源，需要训练有素的专家 - 3D艺术家。</p>
 <p>典型的工作流程可以包括以下阶段：</p>
 <ul class="simple">
-<li><p class="first">选择的照片和/或创建的概念和草图来做模型或场景的特征（前视图 - 侧视图 - 顶视图）</p>
-</li>
-<li><p class="first">建模 - 3D模型由多边形创建</p>
-</li>
-<li><p class="first">UV贴图 - 模型被解开铺平后进行的纹理制作（平面图像）</p>
-</li>
-<li><p class="first">纹理 - 覆盖在3D模型上的肌理</p>
-</li>
-<li><p class="first">材质设置 - 材料被分配给模型的不同部分和色调（例如，木门与金属柄）</p>
-</li>
-<li><p class="first">装配 - 控制单元（“骨架骨头”）附着在模型之上控制模型动画</p>
-</li>
-<li><p class="first">动画 - 让模型的运作动作可视化，比如&#8211;角色动画</p>
-</li>
-<li><p class="first">输出 - 可以在任何阶段来显示3D模型的最终形态，例如，在网页上</p>
-</li>
+<li>选择的照片和/或创建的概念和草图来做模型或场景的特征（前视图 - 侧视图 - 顶视图）</li>
+<li>建模 - 3D模型由多边形创建</li>
+<li>UV贴图 - 模型被解开铺平后进行的纹理制作（平面图像）</li>
+<li>纹理 - 覆盖在3D模型上的肌理</li>
+<li>材质设置 - 材料被分配给模型的不同部分和色调（例如，木门与金属柄）</li>
+<li>装配 - 控制单元（“骨架骨头”）附着在模型之上控制模型动画</li>
+<li>动画 - 让模型的运作动作可视化，比如–角色动画</li>
+<li>输出 - 可以在任何阶段来显示3D模型的最终形态，例如，在网页上</li>
 </ul>
 <p>此外，实践中的改善技术经常用于附加在创建3D模型的过程中：</p>
 <ul class="simple">
-<li><p class="first">创建高精度多边形模型 - 模型的详细版本创建</p>
-</li>
-<li><p class="first">“烘焙” 一个法线贴图 - 高多边形模型细节转到主模型的一个特殊纹理中（法线贴图）</p>
-</li>
-<li><p class="first">创建镜面贴图 - 不同的反射颜色和比率被分配给不同的模型部件</p>
-</li>
-<li><p class="first">烘焙环境贴图 - 将模型表面周围环境反射记录</p>
-</li>
-<li><p class="first">场景中设置摄像机和光源</p>
-</li>
-<li><p class="first">物理模拟参数设置 - 粒子，布料</p>
-</li>
+<li>创建高精度多边形模型 - 模型的详细版本创建</li>
+<li>“烘焙” 一个法线贴图 - 高多边形模型细节转到主模型的一个特殊纹理中（法线贴图）</li>
+<li>创建镜面贴图 - 不同的反射颜色和比率被分配给不同的模型部件</li>
+<li>烘焙环境贴图 - 将模型表面周围环境反射记录</li>
+<li>场景中设置摄像机和光源</li>
+<li>物理模拟参数设置 - 粒子，布料</li>
 </ul>
 <p>创作的3D模型和动画所需的时间取决于它们的复杂性和所需的质量，可能从1-2天不等（例如一个游戏项目）到1-2周（例如详细的飞机模型），甚至数月（现实人物与服装，发型，面部套，动画和特征参数设置）。</p>
 </div>
 <div class="section" id="browser-technologies">
 <span id="about-browser-tech"></span><span id="index-8"></span><h2>浏览器技术<a class="headerlink" href="#browser-technologies" title="永久链接至标题">¶</a></h2>
 <p>浏览器是一种用于查看网络内容的软件。在互联网技术的初期浏览器的作用是查看文本页面与包含在内的静态图像（“超文本”）。现代浏览器是多媒体网络应用程序完整的平台。</p>
-<p>其中在  <a class="reference internal" href="#about-product"><span>Blend4Web</span></a>  使用的已经和可能使用的浏览器功能以下技术可以关注：</p>
+<p>其中在  <a class="reference internal" href="#about-product"><span class="std std-ref">Blend4Web</span></a>  使用的已经和可能使用的浏览器功能以下技术可以关注：</p>
 <ul class="simple">
-<li><p class="first">三维图形, <a class="reference external" href="https://www.khronos.org/registry/webgl/specs/latest/">WebGL</a></p>
-</li>
-<li><p class="first"><a class="reference external" href="https://www.khronos.org/registry/typedarray/specs/latest/">类型数组</a></p>
-</li>
-<li><p class="first"><a class="reference external" href="http://www.w3.org/TR/animation-timing/">对于基于脚本的动画时序控制</a> (需要动画帧)</p>
-</li>
-<li><p class="first">二维图形, <a class="reference external" href="http://www.w3.org/TR/2dcontext/">HTML 画布2D上下文</a></p>
-</li>
-<li><p class="first">声音处理, <a class="reference external" href="http://www.w3.org/TR/webaudio/">网络音频API</a></p>
-</li>
-<li><p class="first">二进制数据加载, <a class="reference external" href="http://www.w3.org/TR/XMLHttpRequest/">XMLHttpRequest Level 2</a></p>
-</li>
-<li><p class="first"><a class="reference external" href="http://dvcs.w3.org/hg/fullscreen/raw-file/tip/Overview.html">全屏</a></p>
-</li>
-<li><p class="first"><a class="reference external" href="http://dvcs.w3.org/hg/pointerlock/raw-file/default/index.html">指针锁定</a></p>
-</li>
-<li><p class="first">多线程, <a class="reference external" href="http://www.w3.org/TR/workers/">Web Workers</a></p>
-</li>
-<li><p class="first"><a class="reference external" href="http://www.w3.org/TR/orientation-event/">设备的方向</a></p>
-</li>
+<li>三维图形, <a class="reference external" href="https://www.khronos.org/registry/webgl/specs/latest/">WebGL</a></li>
+<li><a class="reference external" href="https://www.khronos.org/registry/typedarray/specs/latest/">类型数组</a></li>
+<li><a class="reference external" href="http://www.w3.org/TR/animation-timing/">对于基于脚本的动画时序控制</a> (需要动画帧)</li>
+<li>二维图形, <a class="reference external" href="http://www.w3.org/TR/2dcontext/">HTML 画布2D上下文</a></li>
+<li>声音处理, <a class="reference external" href="http://www.w3.org/TR/webaudio/">网络音频API</a></li>
+<li>二进制数据加载, <a class="reference external" href="http://www.w3.org/TR/XMLHttpRequest/">XMLHttpRequest Level 2</a></li>
+<li><a class="reference external" href="http://dvcs.w3.org/hg/fullscreen/raw-file/tip/Overview.html">全屏</a></li>
+<li><a class="reference external" href="http://dvcs.w3.org/hg/pointerlock/raw-file/default/index.html">指针锁定</a></li>
+<li>多线程, <a class="reference external" href="http://www.w3.org/TR/workers/">Web Workers</a></li>
+<li><a class="reference external" href="http://www.w3.org/TR/orientation-event/">设备的方向</a></li>
 </ul>
 <p>其他有前途的技术：</p>
 <ul class="simple">
-<li><p class="first"><a class="reference external" href="http://www.w3.org/TR/SVG/">可伸缩矢量图形（SVG）</a></p>
-</li>
-<li><p class="first">安全文件访问, <a class="reference external" href="http://www.w3.org/TR/FileAPI/">文件 API</a>, <a class="reference external" href="http://www.w3.org/TR/file-system-api/">File API: 目录和系统</a></p>
-</li>
-<li><p class="first">浏览器之间的实时通信, <a class="reference external" href="http://dev.w3.org/2011/webrtc/editor/webrtc.html">WebRTC</a></p>
-</li>
-<li><p class="first">持久的网络连接, <a class="reference external" href="http://www.w3.org/TR/websockets/">WebSocket API</a></p>
-</li>
-<li><p class="first"><a class="reference external" href="http://dvcs.w3.org/hg/gamepad/raw-file/default/gamepad.html">游戏手柄</a></p>
-</li>
+<li><a class="reference external" href="http://www.w3.org/TR/SVG/">可伸缩矢量图形（SVG）</a></li>
+<li>安全文件访问, <a class="reference external" href="http://www.w3.org/TR/FileAPI/">文件 API</a>, <a class="reference external" href="http://www.w3.org/TR/file-system-api/">File API: 目录和系统</a></li>
+<li>浏览器之间的实时通信, <a class="reference external" href="http://dev.w3.org/2011/webrtc/editor/webrtc.html">WebRTC</a></li>
+<li>持久的网络连接, <a class="reference external" href="http://www.w3.org/TR/websockets/">WebSocket API</a></li>
+<li><a class="reference external" href="http://dvcs.w3.org/hg/gamepad/raw-file/default/gamepad.html">游戏手柄</a></li>
 </ul>
 </div>
 <div class="section" id="interactive-graphics">
@@ -346,7 +312,7 @@
 <span id="about-drivers-video-cards"></span><span id="index-10"></span><h2>显卡和驱动程序<a class="headerlink" href="#video-cards-and-drivers" title="永久链接至标题">¶</a></h2>
 <p>交互图形是由现代计算机一个特殊目的的硬件的一部分的所谓图形处理器可实现为分立装置（视频卡）或中央处理单元的一部分提供的。</p>
 <p>主要图形处理器厂商的台式电脑:  - NVidia (GeForce, Quadro), AMD (Radeon), Intel (HD), 嵌入式设备 - ARM (Mali), PowerVR (SGX), Nvidia (Tegra), Qualcomm (Adreno) (商标在括号中指定).</p>
-<p>程序访问图形处理器资源，​​通过一个名为驱动中间程序进行。这是非常重要的交互式图形程序正确的工作有最新版本的系统中的驱动程序。驱动可以从相应的图形处理器厂商的网站进行安装（或升级）。 内容的详细信息 <a class="reference internal" href="problems_and_solutions.html#webgl-not-working"><span>WebGL的无法初始化</span></a>.</p>
+<p>程序访问图形处理器资源，​​通过一个名为驱动中间程序进行。这是非常重要的交互式图形程序正确的工作有最新版本的系统中的驱动程序。驱动可以从相应的图形处理器厂商的网站进行安装（或升级）。 内容的详细信息 <a class="reference internal" href="problems_and_solutions.html#webgl-not-working"><span class="std std-ref">WebGL的无法初始化</span></a>.</p>
 </div>
 </div>
 
@@ -369,8 +335,8 @@
 
   <div role="contentinfo">
     <p>
-        &copy; 版权所有 2014-2017, Triumph.
-      最后更新于 2017-11-21.
+        &copy; Copyright 2014-2017, Triumph.
+      最后更新于 2017-12-29.
 
     </p>
   </div>
@@ -426,11 +392,11 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

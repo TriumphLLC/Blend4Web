@@ -14,8 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-"use strict"
-
 /**
  * Auto-generated module: Pako inflate (pako_inflate.js) library for
  * decompressing .gz files.
@@ -23,7 +21,6 @@
  * @namespace
  * @exports exports as pako_inflate
  */
-b4w.module["__pako_inflate"] = function(exports, require) {
 
 // NOTE: added to get rid of some gcc warnings
 var module, define, global, pako_require;
@@ -3319,6 +3316,4 @@ exports.ungzip  = inflate;
 },{"./utils/common":1,"./utils/strings":2,"./zlib/constants":4,"./zlib/gzheader":6,"./zlib/inflate":8,"./zlib/messages":10,"./zlib/zstream":11}]},{},[])("/lib/inflate.js")
 });
 
-exports.inflate = window.pako.inflate;
-
-}
+export var inflate = window.pako.inflate;

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Materials &mdash; Blend4Web 17.10.1 User Manual</title>
+  <title>Materials &mdash; Blend4Web 17.12.0 User Manual</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.10.1 User Manual" href="index.html"/>
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Blend4Web 17.12.0 User Manual" href="index.html"/>
         <link rel="next" title="Material Library" href="material_library.html"/>
         <link rel="prev" title="Camera" href="camera.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -97,7 +100,7 @@
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">Meshes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="normal_editor.html">Normal Editor</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Materials</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Materials</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#lighting-parameters">Lighting Parameters</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#transparency">Transparency</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#types">Types</a></li>
@@ -267,7 +270,7 @@
 </dl>
 <dl class="docutils" id="tangent-shading">
 <dt><em>Shading &gt; Tangent Shading</em></dt>
-<dd><p class="first">When this parameter is enabled, the engine will use the material&#8217;s tangent vector (instead of normal vector) for calculating the object&#8217;s color. This can be used for creating anisotropic shading effects.</p>
+<dd><p class="first">When this parameter is enabled, the engine will use the material’s tangent vector (instead of normal vector) for calculating the object’s color. This can be used for creating anisotropic shading effects.</p>
 <div class="last figure align-center" id="id7">
 <a class="reference internal image-reference" href="_images/materials_tangent_shading_comparison.png"><img alt="_images/materials_tangent_shading_comparison.png" src="_images/materials_tangent_shading_comparison.png" style="width: 100%;" /></a>
 <p class="caption"><span class="caption-text"><strong>On the left:</strong> standard shading model; <strong>on the right:</strong> tangent shading model.</span></p>
@@ -292,7 +295,7 @@
 <dt><em>Alpha Sort</em></dt>
 <dd>Transparent with a gradient. The engine sorts the triangles by camera distance in order to render overlapping transparent surfaces correctly. This operation is computationally expensive. It is recommended to use this feature for closed transparent geometry (bottle, car glass etc).</dd>
 <dt><em>Alpha Anti-Aliasing</em></dt>
-<dd>Transparent with a gradient. This feature is implemented with the help of the Alpha to coverage technique. It&#8217;s available only if MSAA is enabled (only on WebGL2-capable devices). The sorting of triangles is not performed. It is recommended to use this feature with a mask texture to visualize smaller details (tree leaves, grass).</dd>
+<dd>Transparent with a gradient. This feature is implemented with the help of the Alpha to coverage technique. It’s available only if MSAA is enabled (only on WebGL2-capable devices). The sorting of triangles is not performed. It is recommended to use this feature with a mask texture to visualize smaller details (tree leaves, grass).</dd>
 <dt><em>Alpha Blend</em></dt>
 <dd>Transparent with a gradient. The sorting of triangles is not performed. It is recommended to use this feature for unclosed transparent geometry (water surface, decals).</dd>
 <dt><em>Add</em></dt>
@@ -323,10 +326,10 @@
 </div>
 <div class="section" id="static-reflection">
 <span id="reflection-static"></span><span id="index-6"></span><h3><a class="toc-backref" href="#id16">Static Reflection</a><a class="headerlink" href="#static-reflection" title="Permalink to this headline">¶</a></h3>
-<p>A surface reflects the same image no matter how the environment changes. For activation simply use the <a class="reference internal" href="textures.html#mirror-map"><span>mirror map</span></a>.</p>
+<p>A surface reflects the same image no matter how the environment changes. For activation simply use the <a class="reference internal" href="textures.html#mirror-map"><span class="std std-ref">mirror map</span></a>.</p>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="#fresnel"><span>Fresnel effect for reflection</span></a></p>
+<p class="last"><a class="reference internal" href="#fresnel"><span class="std std-ref">Fresnel effect for reflection</span></a></p>
 </div>
 </div>
 <div class="section" id="dynamic-reflection">
@@ -334,7 +337,7 @@
 <p>A surface reflects the selected objects in their current position. The engine supports planar and spherical reflections.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">If you are using <a class="reference internal" href="node_materials.html#node-materials"><span>node materials</span></a>, dynamic reflection will only work if a <code class="docutils literal"><span class="pre">Material</span></code> or <code class="docutils literal"><span class="pre">Extended</span> <span class="pre">Material</span></code> node is present in the node tree.</p>
+<p class="last">If you are using <a class="reference internal" href="node_materials.html#node-materials"><span class="std std-ref">node materials</span></a>, dynamic reflection will only work if a <code class="docutils literal"><span class="pre">Material</span></code> or <code class="docutils literal"><span class="pre">Extended</span> <span class="pre">Material</span></code> node is present in the node tree.</p>
 </div>
 <div class="section" id="activation">
 <h4>Activation<a class="headerlink" href="#activation" title="Permalink to this headline">¶</a></h4>
@@ -361,7 +364,7 @@
 <p>Normal maps and shadows are ignored in the reflected image for optimization purposes.</p>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="#fresnel"><span>Fresnel effect for reflection</span></a></p>
+<p class="last"><a class="reference internal" href="#fresnel"><span class="std std-ref">Fresnel effect for reflection</span></a></p>
 </div>
 </div>
 </div>
@@ -404,7 +407,7 @@
 <dd><p class="first">Water wetting effect is activated for the material.</p>
 <div class="last admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="outdoor_rendering.html#water"><span>Water</span></a></p>
+<p class="last"><a class="reference internal" href="outdoor_rendering.html#water"><span class="std std-ref">Water</span></a></p>
 </div>
 </dd>
 <dt><em>Material &gt; Rendering Options &gt; Lens Flare</em></dt>
@@ -421,7 +424,7 @@
 </div>
 <div class="last admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="#alpha-blend"><span>Transparency</span></a></p>
+<p class="last"><a class="reference internal" href="#alpha-blend"><span class="std std-ref">Transparency</span></a></p>
 </div>
 </dd>
 </dl>
@@ -448,14 +451,14 @@
 </div>
 <dl class="docutils">
 <dt><em>Material &gt; Water</em></dt>
-<dd>Special material for <a class="reference internal" href="outdoor_rendering.html#water"><span>water rendering</span></a>.</dd>
+<dd>Special material for <a class="reference internal" href="outdoor_rendering.html#water"><span class="std std-ref">water rendering</span></a>.</dd>
 <dt><em>Material &gt; Terrain Dynamic Grass</em></dt>
-<dd>Material is used for <a class="reference internal" href="particles_instancing.html#particles-grass"><span>grass rendering</span></a>.</dd>
+<dd>Material is used for <a class="reference internal" href="particles_instancing.html#particles-grass"><span class="std std-ref">grass rendering</span></a>.</dd>
 <dt><em>Material &gt; Collision</em></dt>
 <dd><p class="first">A special material for collision geometry.</p>
 <div class="last admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="physics.html#physics"><span>Physics</span></a></p>
+<p class="last"><a class="reference internal" href="physics.html#physics"><span class="std std-ref">Physics</span></a></p>
 </div>
 </dd>
 <dt><em>Material &gt; Export Options &gt; Do Not Export</em></dt>
@@ -507,8 +510,8 @@
 <h3><a class="toc-backref" href="#id26">Methods for Stack Materials</a><a class="headerlink" href="#methods-for-stack-materials" title="Permalink to this headline">¶</a></h3>
 <p>The <a class="reference external" href="https://www.blend4web.com/api_doc/module-material.html">material</a> API module includes methods to control virtually every aspect of a stack material.</p>
 <p>Here are several examples of how the material API module can be used to perform various operations with the material of an object:</p>
-<p>Getting object&#8217;s diffuse color:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_scenes</span>    <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
+<p>Getting object’s diffuse color:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_scenes</span>    <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_material</span>  <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;material&quot;</span><span class="p">);</span>
 
 <span class="p">...</span>
@@ -520,8 +523,8 @@
 <span class="kd">var</span> <span class="nx">diffuse_intensity</span> <span class="o">=</span> <span class="nx">m_material</span><span class="p">.</span><span class="nx">get_diffuse_intensity</span><span class="p">(</span><span class="nx">cube</span><span class="p">,</span> <span class="s2">&quot;MyMaterial&quot;</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>Getting object&#8217;s specular color:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_scenes</span>    <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
+<p>Getting object’s specular color:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_scenes</span>    <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_material</span>  <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;material&quot;</span><span class="p">);</span>
 
 <span class="p">...</span>
@@ -535,7 +538,7 @@
 </pre></div>
 </div>
 <p>Getting other parameters:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_scenes</span>    <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_scenes</span>    <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_material</span>  <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;material&quot;</span><span class="p">);</span>
 
 <span class="p">...</span>
@@ -550,7 +553,7 @@
 </pre></div>
 </div>
 <p>Setting stack material parameters:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_scenes</span>    <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_scenes</span>    <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_material</span>  <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;material&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_rgba</span>      <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;rgba&quot;</span><span class="p">);</span>
 
@@ -586,7 +589,7 @@
 <a class="reference internal image-reference" href="_images/material_node_name.png"><img alt="_images/material_node_name.png" class="align-center" src="_images/material_node_name.png" style="width: 100%;" /></a>
 <p>These two examples show how the parameters of a node material can be adjusted using API methods.</p>
 <p>Getting node material parameters:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_scenes</span>    <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_scenes</span>    <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_material</span>  <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;material&quot;</span><span class="p">);</span>
 
 <span class="p">...</span>
@@ -599,7 +602,7 @@
 </pre></div>
 </div>
 <p>Setting node material parameters:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_scenes</span>    <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_scenes</span>    <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_material</span>  <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;material&quot;</span><span class="p">);</span>
 
 <span class="p">...</span>
@@ -610,8 +613,8 @@
 <span class="nx">m_material</span><span class="p">.</span><span class="nx">set_nodemat_rgb</span><span class="p">(</span><span class="nx">cube</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;MyMaterial&quot;</span><span class="p">,</span> <span class="s2">&quot;MyRGB&quot;</span><span class="p">],</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>Same methods can also be used to adjust the scene environment, if the <code class="docutils literal"><span class="pre">World</span></code> object in the scene uses <code class="docutils literal"><span class="pre">RGB</span></code> or <code class="docutils literal"><span class="pre">Value</span></code> nodes. However, in this case you won&#8217;t have to use the name of the material. The other difference is that a link to a scene object has to be replaced with a link to the <code class="docutils literal"><span class="pre">World</span></code> object that can be retrieved with the <a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.get_world_by_name">get_world_by_name()</a> method:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_scenes</span>    <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
+<p>Same methods can also be used to adjust the scene environment, if the <code class="docutils literal"><span class="pre">World</span></code> object in the scene uses <code class="docutils literal"><span class="pre">RGB</span></code> or <code class="docutils literal"><span class="pre">Value</span></code> nodes. However, in this case you won’t have to use the name of the material. The other difference is that a link to a scene object has to be replaced with a link to the <code class="docutils literal"><span class="pre">World</span></code> object that can be retrieved with the <a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.get_world_by_name">get_world_by_name()</a> method:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_scenes</span>    <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_material</span>  <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;material&quot;</span><span class="p">);</span>
 
 <span class="p">...</span>
@@ -625,7 +628,7 @@
 <div class="section" id="replacing-textures">
 <h3><a class="toc-backref" href="#id28">Replacing Textures</a><a class="headerlink" href="#replacing-textures" title="Permalink to this headline">¶</a></h3>
 <p>API methods also allow you to replace texture images. This can be done using the <a class="reference external" href="https://www.blend4web.com/api_doc/module-textures.html#.change_image">change_image()</a> method from the <a class="reference external" href="https://www.blend4web.com/api_doc/module-textures.html">textures</a> module:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_scenes</span>  <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_scenes</span>  <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_tex</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;textures&quot;</span><span class="p">);</span>
 
 <span class="p">...</span>
@@ -676,7 +679,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Triumph.
-      Last updated on 2017-11-21.
+      Last updated on 2017-12-29.
 
     </p>
   </div>
@@ -732,11 +735,11 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

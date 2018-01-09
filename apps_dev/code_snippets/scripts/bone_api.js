@@ -1,20 +1,20 @@
 "use strict"
 
-b4w.register("bone_api", function(exports, require) {
+import b4w from "blend4web";
 
-var m_app     = require("app");
-var m_data    = require("data");
-var m_scs     = require("scenes");
-var m_cfg     = require("config");
-var m_quat    = require("quat");
-var m_armat   = require("armature");
-var m_tsr     = require("tsr");
-var m_phy     = require("physics");
-var m_trans   = require("transform");
-var m_vec3    = require("vec3");
-var m_util    = require("util");
-var m_cam     = require("camera");
-var m_version = require("version");
+var m_app     = b4w.app;
+var m_data    = b4w.data;
+var m_scs     = b4w.scenes;
+var m_cfg     = b4w.config;
+var m_quat    = b4w.quat;
+var m_armat   = b4w.armature;
+var m_tsr     = b4w.tsr;
+var m_phy     = b4w.physics;
+var m_trans   = b4w.transform;
+var m_vec3    = b4w.vec3;
+var m_util    = b4w.util;
+var m_cam     = b4w.camera;
+var m_version = b4w.version;
 
 var DEBUG = (m_version.type() === "DEBUG");
 
@@ -39,7 +39,7 @@ var _bones_info = {
     "spine": null,
 }
 
-exports.init = function() {
+export function init() {
     m_app.init({
         canvas_container_id: "main_canvas_container",
         callback: init_cb,
@@ -267,5 +267,3 @@ function move_bone(delta_trans) {
     for (var i = 0; i < phy_objs.length; i++)
         m_phy.sync_transform(phy_objs[i]);
 }
-
-});

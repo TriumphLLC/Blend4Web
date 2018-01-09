@@ -1,20 +1,18 @@
-"use strict";
+import b4w from "blend4web";
 
-b4w.register("example_main", function(exports, require) {
-
-var m_anim      = require("animation");
-var m_app       = require("app");
-var m_cfg       = require("config");
-var m_cont      = require("container");
-var m_ctl       = require("controls");
-var m_data      = require("data");
-var m_fps       = require("fps");
-var m_input     = require("input");
-var m_main      = require("main");
-var m_preloader = require("preloader");
-var m_scs       = require("scenes");
-var m_sfx       = require("sfx");
-var m_version   = require("version");
+var m_anim      = b4w.animation;
+var m_app       = b4w.app;
+var m_cfg       = b4w.config;
+var m_cont      = b4w.container;
+var m_ctl       = b4w.controls;
+var m_data      = b4w.data;
+var m_fps       = b4w.fps;
+var m_input     = b4w.input;
+var m_main      = b4w.main;
+var m_preloader = b4w.preloader;
+var m_scs       = b4w.scenes;
+var m_sfx       = b4w.sfx;
+var m_version   = b4w.version;
 
 var DEBUG = (m_version.type() === "DEBUG");
 var FPS_GAME_CAM_SMOOTH_FACTOR = 0.01;
@@ -23,7 +21,7 @@ var FPS_GAME_SENSITIVITY = 110;
 var LEFT_MOUSE_BUTTON_ID = 1;
 var RIGHT_MOUSE_BUTTON_ID = 3;
 
-exports.init = function() {
+export function init() {
     var show_fps = DEBUG;
 
     var url_params = m_app.get_url_params();
@@ -172,7 +170,5 @@ function enable_shot_interaction(html_elemet) {
             [mouse_press_sensor], logic_func, manifold_cb);
 }
 
-});
-
-b4w.require("example_main").init();
+init();
 

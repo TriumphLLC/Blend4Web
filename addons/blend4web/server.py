@@ -93,7 +93,11 @@ class B4WLocalServer():
 
     @classmethod
     def get_root(cls):
-        return bpy.context.user_preferences.addons[__package__].preferences.b4w_src_path
+        if not addon_prefs.has_valid_sdk_path():
+            dirname, filename = os.path.split(os.path.abspath(__file__))
+            return dirname
+        else:
+            return bpy.context.user_preferences.addons[__package__].preferences.b4w_src_path
 
     @classmethod
     def get_proj_serv(cls):
@@ -104,9 +108,11 @@ class B4WLocalServer():
 
         root = cls.get_root()
         scripts_path = join(root, "scripts")
-        proj_serv_tup = imp.find_module("project_server", [scripts_path])
+
+        proj_serv_tup = imp.find_module("project_server", [root, scripts_path])
         proj_serv = imp.load_module("project_util", proj_serv_tup[0],
                 proj_serv_tup[1], proj_serv_tup[2])
+        proj_serv.switch_player_version(True)
         cls.proj_serv_mod = proj_serv
         return proj_serv
 
@@ -138,8 +144,29 @@ class B4WLocalServer():
         return None
 
     @classmethod
+    def prepare_addon_server(cls, server_root):
+        # copy viewer app to blender tmp dir
+        dirname = cls.get_root()
+        root = os.path.join(dirname, "viewer")
+        viewer = os.path.join(server_root, "viewer")
+        os.makedirs(viewer, exist_ok=True)
+        shutil.copy(os.path.join(root, "viewer.html"), os.path.join(viewer, "viewer.html"))
+        shutil.copy(os.path.join(root, "viewer.min.css"), os.path.join(viewer, "viewer.min.css"))
+        shutil.copy(os.path.join(root, "viewer.min.js"), os.path.join(viewer, "viewer.min.js"))
+        shutil.copy(os.path.join(root, "jquery-2.2.0.min.js"), os.path.join(viewer, "jquery-2.2.0.min.js"))
+        shutil.copy(os.path.join(root, "jquery.mobile-1.4.5.js"), os.path.join(viewer, "jquery.mobile-1.4.5.js"))
+        shutil.rmtree(os.path.join(viewer, "uranium"), ignore_errors=True)
+        shutil.copytree(os.path.join(root, "uranium"), os.path.join(viewer, "uranium"))
+        shutil.rmtree(os.path.join(viewer, "images"), ignore_errors=True)
+        shutil.copytree(os.path.join(root, "images"), os.path.join(viewer, "images"))
+
+    @classmethod
     def start(cls):
         root = cls.get_root()
+        if not addon_prefs.has_valid_sdk_path():
+            server_root = join(bpy.app.tempdir, "blend4web")
+            cls.prepare_addon_server(server_root)
+            root = server_root
         port = bpy.context.user_preferences.addons[__package__].preferences.b4w_port_number
         allow_ext_requests = bpy.context.user_preferences.addons[__package__].preferences.b4w_enable_ext_requests
 
@@ -287,13 +314,13 @@ class B4WPreviewScene(bpy.types.Operator):
     bl_options = {"INTERNAL"}
 
     def execute(self, context):
-        root = bpy.context.user_preferences.addons[__package__].preferences.b4w_src_path
+        if addon_prefs.has_valid_sdk_path():
+            root = bpy.context.user_preferences.addons[__package__].preferences.b4w_src_path
+        else:
+            root = join(bpy.app.tempdir, "blend4web")
         tmpdir = join(root, "tmp")
-        if not exists(tmpdir):
-            os.mkdir(tmpdir)
         previewdir = join(tmpdir, "preview")
-        if not exists(previewdir):
-            os.mkdir(previewdir)
+        os.makedirs(previewdir, exist_ok=True)
         preferences = addon_prefs.get_prefs()
         bpy.ops.export_scene.b4w_json(do_autosave = False, run_in_viewer = True,
                 override_filepath=join(previewdir, "preview.json"),
@@ -330,9 +357,8 @@ def init_server(arg):
     if init_server in bpy.app.handlers.scene_update_pre:
         bpy.app.handlers.scene_update_pre.remove(init_server)
 
-    if addon_prefs.has_valid_sdk_path():
-        if (bpy.context.user_preferences.addons[__package__].preferences.b4w_server_auto_start):
-            bpy.ops.b4w.start_server()
+    if (bpy.context.user_preferences.addons[__package__].preferences.b4w_server_auto_start):
+        bpy.ops.b4w.start_server()
 
 def correct_resources_path(previewdir):
     res_dir_path = join(previewdir, "resources")

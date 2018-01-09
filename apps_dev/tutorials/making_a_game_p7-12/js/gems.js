@@ -1,20 +1,17 @@
-if (b4w.module_check("gems"))
-    throw "Failed to register module: gems";
+import b4w from "blend4web";
 
-b4w.register("gems", function(exports, require) {
+var m_ctl = b4w.controls;
+var m_scs = b4w.scenes;
+var m_trans = b4w.transform;
+var m_cons  = b4w.constraints;
 
-var m_ctl = require("controls");
-var m_scs = require("scenes");
-var m_trans = require("transform");
-var m_cons  = require("constraints");
-
-var m_conf = require("game_config");
-var m_obelisks = require("obelisks");
-var m_char = require("character");
+import * as m_conf from "./game_config.js";
+import * as m_obelisks from "./obelisks.js";
+import * as m_char from "./character.js";
 
 var _gem_wrappers = [];
 
-exports.init = function() {
+export function init() {
     var gem_cb = function(gem, id, pulse, gem_wrapper) {
         if (pulse == 1) {
             m_char.add_gem(gem_wrapper);
@@ -45,7 +42,7 @@ function init_gem_wrapper(empty, gem, id) {
     return gem_wrapper;
 }
 
-exports.spawn = function(trans) {
+export function spawn(trans) {
     var num_spare = 0;
     for (var i = 0; i < _gem_wrappers.length; i++) {
         if (can_spawn(i))
@@ -67,7 +64,7 @@ exports.spawn = function(trans) {
     }
 }
 
-exports.reset = function() {
+export function reset() {
     for (var i = 0; i < _gem_wrappers.length; i++) {
         var gem_wrapper = _gem_wrappers[i];
         var gem_empty = gem_wrapper.empty;
@@ -81,5 +78,3 @@ function can_spawn(id) {
     return _gem_wrappers[id].state == m_conf.GM_SPARE &&
            (!m_obelisks.is_filled(id) || id == 5); // multi gem
 }
-
-})

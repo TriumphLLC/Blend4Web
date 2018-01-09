@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Интерфейс Blender &mdash; Руководство пользователя Blend4Web 17.10.1</title>
+  <title>Интерфейс Blender &mdash; Руководство пользователя Blend4Web 17.12.0</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 17.10.1" href="index.html"/>
+        <link rel="index" title="Алфавитный указатель"
+              href="genindex.html"/>
+        <link rel="search" title="Поиск" href="search.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 17.12.0" href="index.html"/>
         <link rel="next" title="Установка и обновление" href="setup.html"/>
         <link rel="prev" title="Возможности движка" href="engine_features.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -85,7 +88,7 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">Общие сведения</a></li>
 <li class="toctree-l1"><a class="reference internal" href="engine_features.html">Возможности движка</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Интерфейс Blender</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Интерфейс Blender</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#d-view">3D View</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#timeline">Timeline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#graph-editor">Graph Editor</a></li>
@@ -203,7 +206,7 @@
   <div class="section" id="blender-user-interface">
 <span id="blender-interface"></span><h1><a class="toc-backref" href="#id1">Интерфейс Blender</a><a class="headerlink" href="#blender-user-interface" title="Ссылка на этот заголовок">¶</a></h1>
 <div class="contents topic" id="table-of-contents">
-<p class="topic-title first">Содержание</p>
+<p class="topic-title first">Table of Contents</p>
 <ul class="simple">
 <li><a class="reference internal" href="#blender-user-interface" id="id1">Интерфейс Blender</a><ul>
 <li><a class="reference internal" href="#d-view" id="id2">3D View</a></li>
@@ -255,7 +258,7 @@
 <div class="section" id="nla-editor">
 <span id="ui-nla-editor"></span><h2><a class="toc-backref" href="#id6">NLA Editor</a><a class="headerlink" href="#nla-editor" title="Ссылка на этот заголовок">¶</a></h2>
 <a class="reference internal image-reference" href="_images/interface_nla_editor.png"><img alt="_images/interface_nla_editor.png" class="align-center" src="_images/interface_nla_editor.png" style="width: 100%;" /></a>
-<p>Инструмент для редактирования нелинейной анимации. Движок Blend4Web поддерживает NLA, а в этой документации им посвящён <a class="reference internal" href="animation.html#nla"><span>отдельный раздел</span></a>.</p>
+<p>Инструмент для редактирования нелинейной анимации. Движок Blend4Web поддерживает NLA, а в этой документации им посвящён <a class="reference internal" href="animation.html#nla"><span class="std std-ref">отдельный раздел</span></a>.</p>
 </div>
 <div class="section" id="uv-image-editor">
 <span id="ui-uv-editor"></span><h2><a class="toc-backref" href="#id7">UV/Image Editor</a><a class="headerlink" href="#uv-image-editor" title="Ссылка на этот заголовок">¶</a></h2>
@@ -277,12 +280,12 @@
 <span id="ui-text-editor"></span><h2><a class="toc-backref" href="#id10">Text Editor</a><a class="headerlink" href="#text-editor" title="Ссылка на этот заголовок">¶</a></h2>
 <a class="reference internal image-reference" href="_images/interface_text_editor.png"><img alt="_images/interface_text_editor.png" class="align-center" src="_images/interface_text_editor.png" style="width: 100%;" /></a>
 <p>Простой текстовый редактор. Поддерживает перенос слов, подсветку синтаксиса, нумерование строк, поиск и замену и другие функции.</p>
-<p>Blend4Web не использует текстовый редактор для редактирования файлов проекта, т.к. специально для этого в состав <a class="reference internal" href="project_manager.html#project-management"><span>Менеджера проектов</span></a> входит отдельный <a class="reference internal" href="project_manager.html#project-edit"><span>редактор</span></a>. Однако текстовые файлы, созданные в Text Editor (или импортированные в <code class="docutils literal"><span class="pre">.blend</span></code>-файл с его помощью) могут применяться для хранения текстов <a class="reference internal" href="objects.html#objects-meta-tags"><span>мета-тэгов</span></a> в Blend4Web.</p>
+<p>Blend4Web не использует текстовый редактор для редактирования файлов проекта, т.к. специально для этого в состав <a class="reference internal" href="project_manager.html#project-management"><span class="std std-ref">Менеджера проектов</span></a> входит отдельный <a class="reference internal" href="project_manager.html#project-edit"><span class="std std-ref">редактор</span></a>. Однако текстовые файлы, созданные в Text Editor (или импортированные в <code class="docutils literal"><span class="pre">.blend</span></code>-файл с его помощью) могут применяться для хранения текстов <a class="reference internal" href="objects.html#objects-meta-tags"><span class="std std-ref">мета-тэгов</span></a> в Blend4Web.</p>
 </div>
 <div class="section" id="node-editor">
 <span id="ui-node-editor"></span><h2><a class="toc-backref" href="#id11">Node Editor</a><a class="headerlink" href="#node-editor" title="Ссылка на этот заголовок">¶</a></h2>
 <a class="reference internal image-reference" href="_images/interface_node_editor.png"><img alt="_images/interface_node_editor.png" class="align-center" src="_images/interface_node_editor.png" style="width: 100%;" /></a>
-<p>Интерфейс для создания нодовых материалов, текстур и эффектов постобработки. Движок Blend4Web поддерживает <a class="reference internal" href="node_materials.html#node-materials"><span>нодовые материалы</span></a>, но не поддерживает нодовые текстуры и постэффекты. Кроме того, Blend4Web использует особый тип нод для создания <a class="reference internal" href="logic_editor.html#logic-editor"><span>нодовой логики</span></a>.</p>
+<p>Интерфейс для создания нодовых материалов, текстур и эффектов постобработки. Движок Blend4Web поддерживает <a class="reference internal" href="node_materials.html#node-materials"><span class="std std-ref">нодовые материалы</span></a>, но не поддерживает нодовые текстуры и постэффекты. Кроме того, Blend4Web использует особый тип нод для создания <a class="reference internal" href="logic_editor.html#logic-editor"><span class="std std-ref">нодовой логики</span></a>.</p>
 </div>
 <div class="section" id="logic-editor">
 <span id="ui-logic-editor"></span><h2><a class="toc-backref" href="#id12">Logic Editor</a><a class="headerlink" href="#logic-editor" title="Ссылка на этот заголовок">¶</a></h2>
@@ -290,7 +293,7 @@
 <p>Инструмент для редактирования логических цепочек в Blender Game Engine.</p>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
-<p class="last">Движок Blend4Web не поддерживает Logic Editor. Вместо него применяется похожий, но независимый инструмент: <a class="reference internal" href="logic_editor.html#logic-editor"><span>Редактор логики</span></a>, использующий особый тип нод.</p>
+<p class="last">Движок Blend4Web не поддерживает Logic Editor. Вместо него применяется похожий, но независимый инструмент: <a class="reference internal" href="logic_editor.html#logic-editor"><span class="std std-ref">Редактор логики</span></a>, использующий особый тип нод.</p>
 </div>
 </div>
 <div class="section" id="properties">
@@ -303,41 +306,41 @@
 <span id="ui-prop-render"></span><h3>Render<a class="headerlink" href="#render" title="Ссылка на этот заголовок">¶</a></h3>
 <a class="reference internal image-reference" href="_images/interface_render.png"><img alt="_images/interface_render.png" class="align-center" src="_images/interface_render.png" style="width: 100%;" /></a>
 <p>Эта вкладка содержит параметры визуализации.</p>
-<p>В режиме Blend4Web вкладка Render содержит набор параметров, несколько отличный от стандартного. Эти параметры описаны <a class="reference internal" href="scene_settings.html#render-settings"><span>здесь</span></a></p>
+<p>В режиме Blend4Web вкладка Render содержит набор параметров, несколько отличный от стандартного. Эти параметры описаны <a class="reference internal" href="scene_settings.html#render-settings"><span class="std std-ref">здесь</span></a></p>
 </div>
 <div class="section" id="render-layers">
 <span id="ui-prop-render-layers"></span><h3>Render Layers<a class="headerlink" href="#render-layers" title="Ссылка на этот заголовок">¶</a></h3>
 <a class="reference internal image-reference" href="_images/interface_render_layers.png"><img alt="_images/interface_render_layers.png" class="align-center" src="_images/interface_render_layers.png" style="width: 100%;" /></a>
-<p>С помощью этой вкладки визуализированное изображение можно разделить на несколько &#8220;слоёв&#8221; (диффузные цвета, тени, нормали и пр.), которые затем можно использовать для композитинга в Blender или в другой программе. В движке Blend4Web эта вкладка не используется.</p>
+<p>С помощью этой вкладки визуализированное изображение можно разделить на несколько «слоёв» (диффузные цвета, тени, нормали и пр.), которые затем можно использовать для композитинга в Blender или в другой программе. В движке Blend4Web эта вкладка не используется.</p>
 </div>
 <div class="section" id="scene">
 <span id="ui-prop-scene"></span><h3>Scene<a class="headerlink" href="#scene" title="Ссылка на этот заголовок">¶</a></h3>
 <a class="reference internal image-reference" href="_images/interface_scene.png"><img alt="_images/interface_scene.png" class="align-center" src="_images/interface_scene.png" style="width: 100%;" /></a>
 <p>Содержит различные параметры настройки 3D-сцены.</p>
-<p>Эта вкладка поддерживается в Blend4Web, однако включает набор параметров, отличный от стандартного. Эти параметры подробно описаны <a class="reference internal" href="scene_settings.html#scene-settings"><span>здесь</span></a>.</p>
+<p>Эта вкладка поддерживается в Blend4Web, однако включает набор параметров, отличный от стандартного. Эти параметры подробно описаны <a class="reference internal" href="scene_settings.html#scene-settings"><span class="std std-ref">здесь</span></a>.</p>
 </div>
 <div class="section" id="world">
 <span id="ui-prop-world"></span><h3>World<a class="headerlink" href="#world" title="Ссылка на этот заголовок">¶</a></h3>
 <a class="reference internal image-reference" href="_images/interface_world.png"><img alt="_images/interface_world.png" class="align-center" src="_images/interface_world.png" style="width: 100%;" /></a>
 <p>Здесь находятся параметры, контролирующие окружения сцены, в том числе цвета фона, освещение от окружающей среды, настройки тумана и пр.</p>
-<p>Эта вкладка также применяется в Blend4Web для настройки окружения. При этом сами параметры несколько отличаются от таковых в Blender. Различия описываются <a class="reference internal" href="scene_settings.html#world-settings"><span>здесь</span></a>.</p>
+<p>Эта вкладка также применяется в Blend4Web для настройки окружения. При этом сами параметры несколько отличаются от таковых в Blender. Различия описываются <a class="reference internal" href="scene_settings.html#world-settings"><span class="std std-ref">здесь</span></a>.</p>
 </div>
 <div class="section" id="object">
 <span id="ui-prop-object"></span><h3>Object<a class="headerlink" href="#object" title="Ссылка на этот заголовок">¶</a></h3>
 <a class="reference internal image-reference" href="_images/interface_object.png"><img alt="_images/interface_object.png" class="align-center" src="_images/interface_object.png" style="width: 100%;" /></a>
-<p>Эта вкладка содержит различные параметры объекта, в том числе его имя, местоположение, группы и др. Параметры объекта активно используются в движке Blend4Web и описаны в <a class="reference internal" href="objects.html#objects"><span>особом разделе</span></a> документации.</p>
+<p>Эта вкладка содержит различные параметры объекта, в том числе его имя, местоположение, группы и др. Параметры объекта активно используются в движке Blend4Web и описаны в <a class="reference internal" href="objects.html#objects"><span class="std std-ref">особом разделе</span></a> документации.</p>
 </div>
 <div class="section" id="constraints">
 <span id="ui-prop-constraints"></span><h3>Constraints<a class="headerlink" href="#constraints" title="Ссылка на этот заголовок">¶</a></h3>
 <a class="reference internal image-reference" href="_images/interface_constraints.png"><img alt="_images/interface_constraints.png" class="align-center" src="_images/interface_constraints.png" style="width: 100%;" /></a>
-<p>Ограничители (&#8220;констрейнты&#8221;) используются для того, чтобы тем или иным образом ограничить перемещение объекта (например, заставить его двигаться вдоль определённой траектории). Ограничитель используются 3D-художниками с целью упростить создание сложных движений и сделать удобнее сам процесс анимации. На этой вкладке находятся инструменты для добавления ограничителей к выбранному объекту, для дальнейшей настройки ограничителей и их удаления.</p>
-<p>Вкладка Constraints может использоваться и в Blend4Web, однако на данный момент движок поддерживает не все ограничители, доступные в Blender. Узнать, как пользоваться ограничителями объектов в Blend4Web, можно в <a class="reference internal" href="objects.html#objects-constraints"><span>соответствующем разделе</span></a>.</p>
+<p>Ограничители («констрейнты») используются для того, чтобы тем или иным образом ограничить перемещение объекта (например, заставить его двигаться вдоль определённой траектории). Ограничитель используются 3D-художниками с целью упростить создание сложных движений и сделать удобнее сам процесс анимации. На этой вкладке находятся инструменты для добавления ограничителей к выбранному объекту, для дальнейшей настройки ограничителей и их удаления.</p>
+<p>Вкладка Constraints может использоваться и в Blend4Web, однако на данный момент движок поддерживает не все ограничители, доступные в Blender. Узнать, как пользоваться ограничителями объектов в Blend4Web, можно в <a class="reference internal" href="objects.html#objects-constraints"><span class="std std-ref">соответствующем разделе</span></a>.</p>
 </div>
 <div class="section" id="modifiers">
 <span id="ui-prop-modifiers"></span><h3>Modifiers<a class="headerlink" href="#modifiers" title="Ссылка на этот заголовок">¶</a></h3>
 <a class="reference internal image-reference" href="_images/interface_modifiers.png"><img alt="_images/interface_modifiers.png" class="align-center" src="_images/interface_modifiers.png" style="width: 100%;" /></a>
 <p>Этот список содержит все модификаторы, назначенные выбранному объекту. Здесь же можно добавлять новые модификаторы, а также настраивать и удалять уже имеющиеся.</p>
-<p>Движок Blend4Web поддерживает использование модификаторов, однако по умолчанию они не применяются к объектам при экспорте сцены. Применить модификаторы можно при помощи опций <a class="reference internal" href="objects.html#apply-modifiers"><span>Apply Modifiers</span></a> или Apply Scale and Modifiers.</p>
+<p>Движок Blend4Web поддерживает использование модификаторов, однако по умолчанию они не применяются к объектам при экспорте сцены. Применить модификаторы можно при помощи опций <a class="reference internal" href="objects.html#apply-modifiers"><span class="std std-ref">Apply Modifiers</span></a> или Apply Scale and Modifiers.</p>
 </div>
 <div class="section" id="data">
 <span id="ui-prop-data"></span><h3>Data<a class="headerlink" href="#data" title="Ссылка на этот заголовок">¶</a></h3>
@@ -348,24 +351,24 @@
 <span id="ui-prop-material"></span><h3>Material<a class="headerlink" href="#material" title="Ссылка на этот заголовок">¶</a></h3>
 <a class="reference internal image-reference" href="_images/interface_material.png"><img alt="_images/interface_material.png" class="align-center" src="_images/interface_material.png" style="width: 100%;" /></a>
 <p>Здесь находятся настройки материала (или нескольких материалов) выбранного объекта.</p>
-<p>Движок Blend4Web использует почти такие же настройки материалов, что и Blender. Различия описаны в <a class="reference internal" href="materials.html#materials"><span>соответствующей главе</span></a>.</p>
+<p>Движок Blend4Web использует почти такие же настройки материалов, что и Blender. Различия описаны в <a class="reference internal" href="materials.html#materials"><span class="std std-ref">соответствующей главе</span></a>.</p>
 </div>
 <div class="section" id="texture">
 <span id="ui-prop-texture"></span><h3>Texture<a class="headerlink" href="#texture" title="Ссылка на этот заголовок">¶</a></h3>
 <a class="reference internal image-reference" href="_images/interface_texture.png"><img alt="_images/interface_texture.png" class="align-center" src="_images/interface_texture.png" style="width: 100%;" /></a>
 <p>Эта вкладка предназначается для настройки текстур как для материалов, так и для окружающей среды.</p>
-<p>Эта же вкладка применяется для настройки текстур в Blend4Web. Работа с текстурами описана в <a class="reference internal" href="textures.html#textures"><span>соответствующем разделе</span></a>.</p>
+<p>Эта же вкладка применяется для настройки текстур в Blend4Web. Работа с текстурами описана в <a class="reference internal" href="textures.html#textures"><span class="std std-ref">соответствующем разделе</span></a>.</p>
 </div>
 <div class="section" id="particles">
 <span id="ui-prop-particles"></span><h3>Particles<a class="headerlink" href="#particles" title="Ссылка на этот заголовок">¶</a></h3>
 <a class="reference internal image-reference" href="_images/interface_particles.png"><img alt="_images/interface_particles.png" class="align-center" src="_images/interface_particles.png" style="width: 100%;" /></a>
 <p>Здесь создаются и настраиваются системы частиц.</p>
-<p>Частицы поддерживаются и в движке Blend4Web, где они применяются для создания <a class="reference internal" href="particles.html#particles"><span>флюидов</span></a> и <a class="reference internal" href="particles_instancing.html#particles-instancing"><span>копий объектов</span></a>.</p>
+<p>Частицы поддерживаются и в движке Blend4Web, где они применяются для создания <a class="reference internal" href="particles.html#particles"><span class="std std-ref">флюидов</span></a> и <a class="reference internal" href="particles_instancing.html#particles-instancing"><span class="std std-ref">копий объектов</span></a>.</p>
 </div>
 <div class="section" id="physics">
 <span id="ui-prop-physics"></span><h3>Physics<a class="headerlink" href="#physics" title="Ссылка на этот заголовок">¶</a></h3>
 <a class="reference internal image-reference" href="_images/interface_physics.png"><img alt="_images/interface_physics.png" class="align-center" src="_images/interface_physics.png" style="width: 100%;" /></a>
-<p>Физические настройки выбранного объекта: назначенная ему физическая модель, ограничивающий объём и др. Физика поддерживается в Blend4Web и описана в <a class="reference internal" href="physics.html#physics"><span>отдельной главе</span></a>.</p>
+<p>Физические настройки выбранного объекта: назначенная ему физическая модель, ограничивающий объём и др. Физика поддерживается в Blend4Web и описана в <a class="reference internal" href="physics.html#physics"><span class="std std-ref">отдельной главе</span></a>.</p>
 </div>
 </div>
 <div class="section" id="outliner">
@@ -395,7 +398,7 @@
 <div class="section" id="add-ons">
 <span id="ui-settings-addons"></span><h3>Add-ons<a class="headerlink" href="#add-ons" title="Ссылка на этот заголовок">¶</a></h3>
 <a class="reference internal image-reference" href="_images/interface_up_addons.png"><img alt="_images/interface_up_addons.png" class="align-center" src="_images/interface_up_addons.png" style="width: 100%;" /></a>
-<p>Эта вкладка предназначена для установки, настройки и удаления аддонов Blender, в том числе <a class="reference internal" href="addon.html#addon"><span>аддона Blend4Web</span></a>.</p>
+<p>Эта вкладка предназначена для установки, настройки и удаления аддонов Blender, в том числе <a class="reference internal" href="addon.html#addon"><span class="std std-ref">аддона Blend4Web</span></a>.</p>
 </div>
 <div class="section" id="themes">
 <span id="ui-settings-themes"></span><h3>Themes<a class="headerlink" href="#themes" title="Ссылка на этот заголовок">¶</a></h3>
@@ -406,7 +409,7 @@
 <span id="ui-settings-file"></span><h3>File<a class="headerlink" href="#file" title="Ссылка на этот заголовок">¶</a></h3>
 <a class="reference internal image-reference" href="_images/interface_up_files.png"><img alt="_images/interface_up_files.png" class="align-center" src="_images/interface_up_files.png" style="width: 100%;" /></a>
 <p>На этой вкладке задаются пути по умолчанию для blend-файлов, текстур, отрендеренных изображений и других файлов. Здесь же настраиваются параметры автосохранения.</p>
-<p>Поле <code class="docutils literal"><span class="pre">Scripts</span></code> на этой вкладке используется для установки движка Blend4Web. Процесс установки подробно описан в <a class="reference internal" href="setup.html#sdk-install"><span>соответствующей главе</span></a>.</p>
+<p>Поле <code class="docutils literal"><span class="pre">Scripts</span></code> на этой вкладке используется для установки движка Blend4Web. Процесс установки подробно описан в <a class="reference internal" href="setup.html#sdk-install"><span class="std std-ref">соответствующей главе</span></a>.</p>
 </div>
 <div class="section" id="system">
 <span id="ui-settings-system"></span><h3>System<a class="headerlink" href="#system" title="Ссылка на этот заголовок">¶</a></h3>
@@ -459,7 +462,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Триумф.
-      Обновлено: 2017-11-21.
+      Обновлено: 2017-12-29.
 
     </p>
   </div>
@@ -515,11 +518,11 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

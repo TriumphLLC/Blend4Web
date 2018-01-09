@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Workflow &mdash; Blend4Web 17.10.1 User Manual</title>
+  <title>Workflow &mdash; Blend4Web 17.12.0 User Manual</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.10.1 User Manual" href="index.html"/>
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Blend4Web 17.12.0 User Manual" href="index.html"/>
         <link rel="next" title="Project Management" href="project_manager.html"/>
         <link rel="prev" title="Installing and Updating" href="setup.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -87,7 +90,7 @@
 <li class="toctree-l1"><a class="reference internal" href="engine_features.html">Engine Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="interface.html">Blender User Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Installing and Updating</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Workflow</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Workflow</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#creating-a-new-project">Creating a New Project</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#creating-scenes">Creating Scenes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#preparing-a-scene-to-use-in-blend4web">Preparing a Scene to Use in Blend4Web</a><ul>
@@ -192,7 +195,7 @@
 </div>
 <p>Developing any product is a creative process with many participants who have
 different skills and experience. However, no matter how complex it is and
-what is the target it&#8217;s always possible to separate the production stage in
+what is the target it’s always possible to separate the production stage in
 which the bulk of assets and source code is authored.</p>
 <p>Any work with the Blend4Web engine should start with running Blender.</p>
 <p>Select <code class="docutils literal"><span class="pre">Blend4Web</span></code> from the render engine list at the top panel in the main Blender window, and you will see how the program interface have changed. Some parameters will disappear, and new ones will take their place. The most important of these new parameters are located in the <code class="docutils literal"><span class="pre">Properties</span></code> window (usually placed at the right side of the main window), on the Render panel.</p>
@@ -200,11 +203,11 @@ which the bulk of assets and source code is authored.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p>If the <code class="docutils literal"><span class="pre">Development</span> <span class="pre">Tools</span></code> tab shows the Development server is off message, this means that the development server is not working. It can be enabled with the <code class="docutils literal"><span class="pre">Start</span> <span class="pre">Server</span></code> button on the same panel. The server can also be configured to run on startup with the <code class="docutils literal"><span class="pre">Run</span> <span class="pre">On</span> <span class="pre">Startup</span></code> option found in the add-on settings (<code class="docutils literal"><span class="pre">User</span> <span class="pre">Preferences</span> <span class="pre">→</span> <span class="pre">Add-Ons</span> <span class="pre">→</span> <span class="pre">Blend4Web</span></code>).</p>
-<p class="last">If any problems occur as you try to run development server, please consult the <a class="reference internal" href="problems_and_solutions.html#problems-and-solutions"><span>Problems and Solutions</span></a> chapter.</p>
+<p class="last">If any problems occur as you try to run development server, please consult the <a class="reference internal" href="problems_and_solutions.html#problems-and-solutions"><span class="std std-ref">Problems and Solutions</span></a> chapter.</p>
 </div>
-<p>The <code class="docutils literal"><span class="pre">SDK</span> <span class="pre">Index</span></code> button opens the <a class="reference internal" href="addon.html#getting-started-launching-viewer"><span>index page</span></a> that can be found by this address: <a class="reference external" href="http://localhost:6687">http://localhost:6687</a>.</p>
-<p>The <code class="docutils literal"><span class="pre">Fast</span> <span class="pre">Preview</span></code> button opens the <a class="reference internal" href="viewer.html#viewer"><span>Scene Viewer</span></a> and loads the scene that is open in Blender at the moment. This is a useful feature for planning and debugging your scenes.</p>
-<p>The <code class="docutils literal"><span class="pre">Project</span> <span class="pre">Manager</span></code> button opens the <a class="reference internal" href="project_manager.html#project-management"><span>Project Manager</span></a> — a powerful and easy to use tool  for working with Blend4Web projects. Using Project Manager is the most simple way to start working with Blend4Web.</p>
+<p>The <code class="docutils literal"><span class="pre">SDK</span> <span class="pre">Index</span></code> button opens the <a class="reference internal" href="addon.html#getting-started-launching-viewer"><span class="std std-ref">index page</span></a> that can be found by this address: <a class="reference external" href="http://localhost:6687">http://localhost:6687</a>.</p>
+<p>The <code class="docutils literal"><span class="pre">Fast</span> <span class="pre">Preview</span></code> button opens the <a class="reference internal" href="viewer.html#viewer"><span class="std std-ref">Scene Viewer</span></a> and loads the scene that is open in Blender at the moment. This is a useful feature for planning and debugging your scenes.</p>
+<p>The <code class="docutils literal"><span class="pre">Project</span> <span class="pre">Manager</span></code> button opens the <a class="reference internal" href="project_manager.html#project-management"><span class="std std-ref">Project Manager</span></a> — a powerful and easy to use tool  for working with Blend4Web projects. Using Project Manager is the most simple way to start working with Blend4Web.</p>
 <p>When using Blend4Web the workflow is the following:</p>
 <ol class="arabic simple">
 <li>Creating a New Project.</li>
@@ -218,8 +221,8 @@ which the bulk of assets and source code is authored.</p>
 <div class="section" id="creating-a-new-project">
 <h2><a class="toc-backref" href="#id2">Creating a New Project</a><a class="headerlink" href="#creating-a-new-project" title="Permalink to this headline">¶</a></h2>
 <p>The work on a project, of course, should always start with creating it.</p>
-<p>The easiest way to create a new project is to use the <a class="reference internal" href="project_manager.html#project-manager"><span>Project Manager</span></a>. To do it, run the Project Manager (either from Blender or from index page) and press the Create New Project button at the top of the Project Manager’s main window.</p>
-<p>The other way is to use the <em>project.py</em> command line script, which is more versatile. Working with this script is described <a class="reference internal" href="project_manager.html#creating-a-project"><span>here</span></a>.</p>
+<p>The easiest way to create a new project is to use the <a class="reference internal" href="project_manager.html#project-manager"><span class="std std-ref">Project Manager</span></a>. To do it, run the Project Manager (either from Blender or from index page) and press the Create New Project button at the top of the Project Manager’s main window.</p>
+<p>The other way is to use the <em>project.py</em> command line script, which is more versatile. Working with this script is described <a class="reference internal" href="project_manager.html#creating-a-project"><span class="std std-ref">here</span></a>.</p>
 </div>
 <div class="section" id="creating-scenes">
 <h2><a class="toc-backref" href="#id3">Creating Scenes</a><a class="headerlink" href="#creating-scenes" title="Permalink to this headline">¶</a></h2>
@@ -227,12 +230,12 @@ which the bulk of assets and source code is authored.</p>
 <p>Scenes for Blend4Web are created in the same manner as the scenes for Blender itself, with only minor differences. The process of working on a scene could be separated into several stages:</p>
 <ol class="arabic simple">
 <li>Modeling the scene objects</li>
-<li><a class="reference internal" href="materials.html#materials"><span>Setting up materials</span></a></li>
-<li><a class="reference internal" href="animation.html#animation"><span>Animating objects</span></a></li>
-<li><a class="reference internal" href="logic_editor.html#logic-editor"><span>Creating scene logic</span></a> (this part is exclusive for Blend4Web engine and does not apply to regular Blender scenes)</li>
+<li><a class="reference internal" href="materials.html#materials"><span class="std std-ref">Setting up materials</span></a></li>
+<li><a class="reference internal" href="animation.html#animation"><span class="std std-ref">Animating objects</span></a></li>
+<li><a class="reference internal" href="logic_editor.html#logic-editor"><span class="std std-ref">Creating scene logic</span></a> (this part is exclusive for Blend4Web engine and does not apply to regular Blender scenes)</li>
 </ol>
 <p>It should be noted that not every project may require all of these stages. More simple scene might not feature any animations or even any materials aside from the default ones.</p>
-<p>The order of the stages is also not strict and can be interchanged to a certain degree (for example, you won&#8217;t probably animate an object before creating it, but you can create a material for it beforehand).</p>
+<p>The order of the stages is also not strict and can be interchanged to a certain degree (for example, you won’t probably animate an object before creating it, but you can create a material for it beforehand).</p>
 <p>Besides the usual stages such as modeling, texturing, animation etc a scene
 should be prepared for working in the engine.</p>
 <p>General recommendations:</p>
@@ -240,7 +243,7 @@ should be prepared for working in the engine.</p>
 <li>We strongly recommend to save your blend files in the <code class="docutils literal"><span class="pre">projects/project_name/blender</span></code> directory. Auxiliary files which are not intended for loading in your app (for example, references), should be located there as well.</li>
 <li>Images and media files should be external and located in the <code class="docutils literal"><span class="pre">projects/project_name/assets</span></code> directory.</li>
 <li>Files from which you export should contain resources which are actually required in your application (objects, materials, textures, animation etc).</li>
-<li>Scene components should have distinct names. They should not be named &#8220;Cube.001&#8221;, &#8220;Material&#8221; or &#8220;Armature&#8221;.</li>
+<li>Scene components should have distinct names. They should not be named “Cube.001”, “Material” or “Armature”.</li>
 <li>We recommend you to link components from other files (libraries).</li>
 </ol>
 </div>
@@ -250,12 +253,12 @@ should be prepared for working in the engine.</p>
 should be prepared for working in the engine.</p>
 <div class="section" id="displaying-scenes-in-the-viewer">
 <span id="assets-json"></span><span id="index-0"></span><h3><a class="toc-backref" href="#id5">Displaying Scenes in the Viewer</a><a class="headerlink" href="#displaying-scenes-in-the-viewer" title="Permalink to this headline">¶</a></h3>
-<p>When using the <a class="reference internal" href="addon.html#local-development-server"><span>local development server</span></a>
-it&#8217;s possible to preview current scene using <code class="docutils literal"><span class="pre">Fast</span> <span class="pre">Preview</span></code> button located at the bottom of Blender&#8217;s 3D View window,
+<p>When using the <a class="reference internal" href="addon.html#local-development-server"><span class="std std-ref">local development server</span></a>
+it’s possible to preview current scene using <code class="docutils literal"><span class="pre">Fast</span> <span class="pre">Preview</span></code> button located at the bottom of Blender’s 3D View window,
 and also on the <code class="docutils literal"><span class="pre">Render</span> <span class="pre">-&gt;</span> <span class="pre">Development</span> <span class="pre">Server</span></code> panel in Blender. In this case
 the scene will be exported inside some temporary storage and loaded in the
 Viewer app.</p>
-<p>The other method is using <a class="reference internal" href="addon.html#run-in-viewer"><span>Run in Viewer</span></a> export
+<p>The other method is using <a class="reference internal" href="addon.html#run-in-viewer"><span class="std std-ref">Run in Viewer</span></a> export
 option. In this case the scene will be displayed in the Viewer app
 immediately after the export.</p>
 </div>
@@ -267,37 +270,37 @@ the formats used by Blend4Web.</p>
 <a class="reference internal image-reference" href="_images/workflow_export_scheme.png"><img alt="_images/workflow_export_scheme.png" class="align-center" src="_images/workflow_export_scheme.png" style="width: 100%;" /></a>
 <p>There are two formats: JSON and HTML.</p>
 <p>The HTML format is used for simple stand-alone applications, where all the resources are packed into one HTML file that can then be easily deployed to a web page.</p>
-<p>The JSON format can be used for creating such projects as well, but it also offers numerous extra features making it possible to create complex projects that require programming. Format differences and export options are described in the <a class="reference internal" href="addon.html#export-formats"><span>Export Formats</span></a> chapter.</p>
+<p>The JSON format can be used for creating such projects as well, but it also offers numerous extra features making it possible to create complex projects that require programming. Format differences and export options are described in the <a class="reference internal" href="addon.html#export-formats"><span class="std std-ref">Export Formats</span></a> chapter.</p>
 <p>To export the scene, select <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">(.json)</span></code> or <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">(.html)</span></code>
 option from the <code class="docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">Export</span></code> menu, or type <code class="docutils literal"><span class="pre">b4w</span> <span class="pre">export</span></code> in the
 operator search menu (available by pressing <code class="docutils literal"><span class="pre">Spacebar</span></code>).</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">If the scene uses Blender features not yet supported by the Blend4Web engine, errors may occur during export. Export errors are listed in <a class="reference internal" href="addon.html#export-errors"><span>this table</span></a>.</p>
+<p class="last">If the scene uses Blender features not yet supported by the Blend4Web engine, errors may occur during export. Export errors are listed in <a class="reference internal" href="addon.html#export-errors"><span class="std std-ref">this table</span></a>.</p>
 </div>
-<p>Export options are described in detail in the <a class="reference internal" href="addon.html#export-opts"><span>corresponding section</span></a>.</p>
+<p>Export options are described in detail in the <a class="reference internal" href="addon.html#export-opts"><span class="std std-ref">corresponding section</span></a>.</p>
 </div>
 <div class="section" id="application-development">
 <h2><a class="toc-backref" href="#id7">Application Development</a><a class="headerlink" href="#application-development" title="Permalink to this headline">¶</a></h2>
 <p>This section only applies to the project types other than Web Player HTML and Web Player JSON.</p>
 <p>At this stage an application is created. Logic for scene loading and user
 interaction is written using JavaScript. The application developer notes are
-given in the <a class="reference internal" href="developers.html#developers"><span>corresponding section</span></a>.</p>
+given in the <a class="reference internal" href="developers.html#developers"><span class="std std-ref">corresponding section</span></a>.</p>
 </div>
 <div class="section" id="project-building">
 <h2><a class="toc-backref" href="#id8">Project Building</a><a class="headerlink" href="#project-building" title="Permalink to this headline">¶</a></h2>
 <p>After development of a project is completed, it should be built so it can then be used outside of the SDK.</p>
-<p>Project building can be performed by clicking the <code class="docutils literal"><span class="pre">build</span> <span class="pre">project</span></code> link in the <a class="reference internal" href="project_manager.html#project-manager"><span>Project Manager</span></a>.</p>
-<p>Before building a project, you might want to <a class="reference internal" href="developers.html#converter"><span>convert media resources</span></a> used in the project, which can help to minimize its size.</p>
+<p>Project building can be performed by clicking the <code class="docutils literal"><span class="pre">build</span> <span class="pre">project</span></code> link in the <a class="reference internal" href="project_manager.html#project-manager"><span class="std std-ref">Project Manager</span></a>.</p>
+<p>Before building a project, you might want to <a class="reference internal" href="developers.html#converter"><span class="std std-ref">convert media resources</span></a> used in the project, which can help to minimize its size.</p>
 </div>
 <div class="section" id="project-deploying">
 <h2><a class="toc-backref" href="#id9">Project Deploying</a><a class="headerlink" href="#project-deploying" title="Permalink to this headline">¶</a></h2>
-<p>After project development is completed, the project can be deployed so it can be used outside of the Blend4Web SDK. Project deployment is performed by clicking the <code class="docutils literal"><span class="pre">deploy</span> <span class="pre">project</span></code> link that can be found in the <code class="docutils literal"><span class="pre">Operations</span></code> command list on the right side of the project entry in the main window of the <a class="reference internal" href="project_manager.html#project-manager"><span>Project Manager</span></a>.</p>
+<p>After project development is completed, the project can be deployed so it can be used outside of the Blend4Web SDK. Project deployment is performed by clicking the <code class="docutils literal"><span class="pre">deploy</span> <span class="pre">project</span></code> link that can be found in the <code class="docutils literal"><span class="pre">Operations</span></code> command list on the right side of the project entry in the main window of the <a class="reference internal" href="project_manager.html#project-manager"><span class="std std-ref">Project Manager</span></a>.</p>
 <p>Clicking this link will cause Project Manager to perform all necessary operations and to deploy the project.</p>
 <p>The deployed project has a form of an archive that contains all project files. This archive can be saved to any place on your disc with the use of a standard Save File dialogue in the web browser you are using.</p>
 <p>A complete project can be placed on a web server.</p>
 <p>To do it, extract the project files from the archive downloaded from the Project Manager and upload them to your web server (while retaining inner file structure) by means of FTP, SSH or any other file transfer protocol supported by the server. After doing this, you only need to place the project on a web page using, for example, an <code class="docutils literal"><span class="pre">iframe</span></code> container.</p>
-<p>Deploying project to web server is described in a <a class="reference internal" href="project_manager.html#project-deploy"><span>dedicated section</span></a> of the <a class="reference internal" href="project_manager.html#project-manager"><span>Project Manager</span></a> chapter.</p>
+<p>Deploying project to web server is described in a <a class="reference internal" href="project_manager.html#project-deploy"><span class="std std-ref">dedicated section</span></a> of the <a class="reference internal" href="project_manager.html#project-manager"><span class="std std-ref">Project Manager</span></a> chapter.</p>
 </div>
 </div>
 
@@ -321,7 +324,7 @@ given in the <a class="reference internal" href="developers.html#developers"><sp
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Triumph.
-      Last updated on 2017-11-21.
+      Last updated on 2017-12-29.
 
     </p>
   </div>
@@ -377,11 +380,11 @@ given in the <a class="reference internal" href="developers.html#developers"><sp
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

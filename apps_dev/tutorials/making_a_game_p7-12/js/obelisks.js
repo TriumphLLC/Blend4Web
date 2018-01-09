@@ -1,19 +1,16 @@
-if (b4w.module_check("obelisks"))
-    throw "Failed to register module: obelisks";
+import b4w from "blend4web";
 
-b4w.register("obelisks", function(exports, require) {
+var m_ctl = b4w.controls;
+var m_scs = b4w.scenes;
+var m_anim = b4w.animation;
+var m_sfx = b4w.sfx;
+var m_trans = b4w.transform;
 
-var m_ctl = require("controls");
-var m_scs = require("scenes");
-var m_anim = require("animation");
-var m_sfx = require("sfx");
-var m_trans = require("transform");
-
-var m_conf = require("game_config");
-var m_char = require("character");
-var m_golems = require("golems");
-var m_env = require("environment");
-var m_interface = require("interface");
+import * as m_conf from "./game_config.js";
+import * as m_char from "./character.js";
+import * as m_golems from "./golems.js";
+import * as m_env from "./environment.js";
+import * as m_interface from "./interface.js";
 
 var _obelisk_stones_num = new Uint16Array([0,0,0,0,0]);
 var _obelisk_stones_health = new Uint16Array(5);
@@ -23,7 +20,7 @@ var _gem_mount_spk = null;
 var _vec3_tmp = new Float32Array(3);
 var _quat4_tmp = new Float32Array(4);
 
-exports.init = function() {
+export function init() {
     reset();
     var char_wrapper = m_char.get_wrapper();
     var obelisk_cb = function(obj, id, pulse) {
@@ -61,8 +58,7 @@ function stop_islands_anim() {
     }
 }
 
-exports.change_gems_num = change_gems_num;
-function change_gems_num(id, num) {
+export function change_gems_num(id, num) {
 
     var obelisk_name = "obelisk_" + id;
 
@@ -89,8 +85,7 @@ function change_gems_num(id, num) {
     check_capture(id);
 }
 
-exports.check_capture = check_capture;
-function check_capture(id) {
+export function check_capture(id) {
     if (is_filled(id) && !m_golems.island_has_golems(id)) {
         var isl_dupli_names = m_conf.ISLES_SHIELD_DUPLI_NAME_LIST;
         isl_dupli_names[2] = "island_shield_" + id;
@@ -160,16 +155,15 @@ function update_victory_interface() {
         [m_ctl.create_timer_sensor(3)], null, interface_cb);
 }
 
-exports.is_filled = is_filled;
-function is_filled(id) {
+export function is_filled(id) {
     return _obelisk_stones_num[id] == m_conf.OBELISK_NUM_GEMS;
 }
 
-exports.num_gems = function(id) {
+export function num_gems(id) {
     return _obelisk_stones_num[id];
 }
 
-exports.damage_obelisk = function(id){
+export function damage_obelisk(id){
     if (!--_obelisk_stones_health[id]) {
         _obelisk_stones_health[id] = m_conf.OBELISK_GEM_HEALTH;
         change_gems_num(id, -1);
@@ -190,5 +184,3 @@ function reset() {
         m_anim.set_frame(isl_shield, 0);
     }
 }
-
-})

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Scene Viewer &mdash; Blend4Web 17.10.1 User Manual</title>
+  <title>Scene Viewer &mdash; Blend4Web 17.12.0 User Manual</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.10.1 User Manual" href="index.html"/>
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Blend4Web 17.12.0 User Manual" href="index.html"/>
         <link rel="next" title="Web Player" href="web_player.html"/>
         <link rel="prev" title="Project Management" href="project_manager.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -89,7 +92,7 @@
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Installing and Updating</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">Project Management</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Scene Viewer</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Scene Viewer</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#navigation">Navigation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#the-side-panel">The Side Panel</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#information-panel">Information Panel</a></li>
@@ -236,10 +239,10 @@
 </li>
 </ul>
 </div>
-<p><a class="reference internal" href="addon.html#getting-started-launching-viewer"><span>Running The Scenes Viewer</span></a>.</p>
+<p><a class="reference internal" href="addon.html#getting-started-launching-viewer"><span class="std std-ref">Running The Scenes Viewer</span></a>.</p>
 <div class="section" id="navigation">
 <h2><a class="toc-backref" href="#id3">Navigation</a><a class="headerlink" href="#navigation" title="Permalink to this headline">¶</a></h2>
-<p>To control the camera hold down a mouse button and move the mouse. Control can also be performed using the <code class="docutils literal"><span class="pre">W</span></code>, <code class="docutils literal"><span class="pre">A</span></code>, <code class="docutils literal"><span class="pre">S</span></code>, <code class="docutils literal"><span class="pre">D</span></code>, <code class="docutils literal"><span class="pre">R</span></code>, <code class="docutils literal"><span class="pre">F</span></code> keys: forward, left, back, right, up, down. Arrows and <code class="docutils literal"><span class="pre">numpad</span></code> keys can be used as well. In the <code class="docutils literal"><span class="pre">Target</span></code> camera mode it&#8217;s possible to focus on the selected object using the <code class="docutils literal"><span class="pre">Z</span></code> or <code class="docutils literal"><span class="pre">.(dot)</span></code> keys.</p>
+<p>To control the camera hold down a mouse button and move the mouse. Control can also be performed using the <code class="docutils literal"><span class="pre">W</span></code>, <code class="docutils literal"><span class="pre">A</span></code>, <code class="docutils literal"><span class="pre">S</span></code>, <code class="docutils literal"><span class="pre">D</span></code>, <code class="docutils literal"><span class="pre">R</span></code>, <code class="docutils literal"><span class="pre">F</span></code> keys: forward, left, back, right, up, down. Arrows and <code class="docutils literal"><span class="pre">numpad</span></code> keys can be used as well. In the <code class="docutils literal"><span class="pre">Target</span></code> camera mode it’s possible to focus on the selected object using the <code class="docutils literal"><span class="pre">Z</span></code> or <code class="docutils literal"><span class="pre">.(dot)</span></code> keys.</p>
 </div>
 <div class="section" id="the-side-panel">
 <h2><a class="toc-backref" href="#id4">The Side Panel</a><a class="headerlink" href="#the-side-panel" title="Permalink to this headline">¶</a></h2>
@@ -264,14 +267,14 @@
 <h3><a class="toc-backref" href="#id6">Basic Control Buttons</a><a class="headerlink" href="#basic-control-buttons" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt><strong>Home</strong></dt>
-<dd>Reloads the last scene exported from Blender using the <code class="docutils literal"><span class="pre">Fast</span> <span class="pre">Preview</span></code> button or, if Scene Viewer hasn&#8217;t been run from Blender, the default scene is loaded.</dd>
+<dd>Reloads the last scene exported from Blender using the <code class="docutils literal"><span class="pre">Fast</span> <span class="pre">Preview</span></code> button or, if Scene Viewer hasn’t been run from Blender, the default scene is loaded.</dd>
 <dt><strong>Reset</strong></dt>
 <dd>This button deletes the saved name of the last viewed scene and reloads the page back to display the default scene.</dd>
 <dt><strong>LOW Q - HIGH Q - ULTRA Q</strong></dt>
 <dd><p class="first">Drop-down menu for choosing the performance profile of the engine.</p>
 <div class="last admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="developers.html#quality-settings"><span>Quality Profiles</span></a></p>
+<p class="last"><a class="reference internal" href="developers.html#quality-settings"><span class="std std-ref">Quality Profiles</span></a></p>
 </div>
 </dd>
 <dt><strong>Pause</strong></dt>
@@ -289,7 +292,7 @@
 <p>This panel contains a range of debugging tools, including:</p>
 <dl class="docutils">
 <dt><em>Overview Outlining Mode</em></dt>
-<dd>Turning this option on makes all objects in the scene <a class="reference internal" href="objects.html#mesh-selection"><span>selectable</span></a> and enables <a class="reference internal" href="postprocessing_effects.html#outline"><span>outline animation</span></a> to be played upon selecting them. This feature is enabled by default.</dd>
+<dd>Turning this option on makes all objects in the scene <a class="reference internal" href="objects.html#mesh-selection"><span class="std std-ref">selectable</span></a> and enables <a class="reference internal" href="postprocessing_effects.html#outline"><span class="std std-ref">outline animation</span></a> to be played upon selecting them. This feature is enabled by default.</dd>
 <dt><em>Auto View Mode</em></dt>
 <dd>Pressing this button will cause Scene Viewer to load every scene from the <code class="docutils literal"><span class="pre">Scenes</span></code> list within one second of each other. This feature can be used to check all available content for console errors.</dd>
 <dt><em>Canvas Resolution Factor</em></dt>
@@ -300,7 +303,7 @@
 </div>
 </dd>
 <dt><em>Make Screenshot</em></dt>
-<dd>This button can be used to make screenshots of the Scene Viewer&#8217;s window. Screenshots are stored in the same folder that web browsers use for storing downloaded files.</dd>
+<dd>This button can be used to make screenshots of the Scene Viewer’s window. Screenshots are stored in the same folder that web browsers use for storing downloaded files.</dd>
 </dl>
 <dl class="docutils" id="index-2">
 <dt><em>Debug View Modes</em></dt>
@@ -310,8 +313,8 @@
 <p><code class="docutils literal"><span class="pre">OPAQUE</span> <span class="pre">WIREFRAME</span></code> - the scene is rendered in flat white color with darker wireframe. The color used for rendering the wireframe can be adjusted by using the <code class="docutils literal"><span class="pre">Wireframe</span> <span class="pre">Edge</span> <span class="pre">Color</span></code> parameter.</p>
 <p><code class="docutils literal"><span class="pre">TRANSPARENT</span> <span class="pre">WIREFRAME</span></code> - the scene is rendered as in normal mode, but wireframes are added on top of it. Like in the previous mode, the color used for rendering the wireframe can be adjusted by using the <code class="docutils literal"><span class="pre">Wireframe</span> <span class="pre">Edge</span> <span class="pre">Color</span></code> parameter.</p>
 <p><code class="docutils literal"><span class="pre">FRONT</span> <span class="pre">BACK</span> <span class="pre">VIEW</span></code> - renders front and back sides of the polygons with different colors.</p>
-<p><code class="docutils literal"><span class="pre">BOUNDINGS</span></code> - this mode adds wireframe spheres that envelope <a class="reference internal" href="objects.html#objects"><span>objects</span></a> and <a class="reference internal" href="meshes.html#meshes"><span>meshes</span></a>. The spheres can be blue (for static objects/meshes) or red (for dynamic objects).</p>
-<p><code class="docutils literal"><span class="pre">CLUSTER</span> <span class="pre">VIEW</span></code> - in this view mode, every object in a specific cluster (used for <a class="reference internal" href="scene_settings.html#scene-batching"><span>batching</span></a>) is rendered with a specific color.</p>
+<p><code class="docutils literal"><span class="pre">BOUNDINGS</span></code> - this mode adds wireframe spheres that envelope <a class="reference internal" href="objects.html#objects"><span class="std std-ref">objects</span></a> and <a class="reference internal" href="meshes.html#meshes"><span class="std std-ref">meshes</span></a>. The spheres can be blue (for static objects/meshes) or red (for dynamic objects).</p>
+<p><code class="docutils literal"><span class="pre">CLUSTER</span> <span class="pre">VIEW</span></code> - in this view mode, every object in a specific cluster (used for <a class="reference internal" href="scene_settings.html#scene-batching"><span class="std std-ref">batching</span></a>) is rendered with a specific color.</p>
 <p><code class="docutils literal"><span class="pre">BATCH</span> <span class="pre">VIEW</span></code> - in this view mode, every batch is rendered using a specific (flat) color. The colors used in rendering can be changed to randomly generated colors by clicking the <code class="docutils literal"><span class="pre">Change</span> <span class="pre">Colors</span></code> button.</p>
 <p><code class="docutils literal"><span class="pre">RENDER</span> <span class="pre">TIME</span></code> - the scene is rendered in different colors to represent the complexity of various parts of the scene. The lightest parts are rendered using shades of green, heavier - shades of orange, and the most resource-demanding parts of the scene are colored red.</p>
 </div></blockquote>
@@ -319,7 +322,7 @@
 <dt><em>Change Colors</em></dt>
 <dd>This button randomly changes the colors that are used in the <code class="docutils literal"><span class="pre">CLUSTER</span> <span class="pre">VIEW</span></code> and <code class="docutils literal"><span class="pre">BATCH</span> <span class="pre">VIEW</span></code> rendering modes. This feature is useful in cases when colors that are picked randomly by the engine are too similar and make it difficult to distinguish parts of the image.</dd>
 <dt><em>Render Time Threshold (ms)</em></dt>
-<dd>This parameter sets a &#8220;threshold&#8221; time for the <code class="docutils literal"><span class="pre">RENDER</span> <span class="pre">TIME</span></code> view mode. If the engine spends more time on rendering a certain object than the time set by this value, this object will be colored red. The default value is 1.5 ms.</dd>
+<dd>This parameter sets a “threshold” time for the <code class="docutils literal"><span class="pre">RENDER</span> <span class="pre">TIME</span></code> view mode. If the engine spends more time on rendering a certain object than the time set by this value, this object will be colored red. The default value is 1.5 ms.</dd>
 <dt><em>Wireframe Edge Color</em></dt>
 <dd>This parameter allows you to change the color of the wireframe edges used in the <code class="docutils literal"><span class="pre">OPAQUE</span> <span class="pre">WIREFRAME</span></code> and <code class="docutils literal"><span class="pre">TRANSPARENT</span> <span class="pre">WIREFRAME</span></code> view modes.</dd>
 <dt><em>HUD Info</em></dt>
@@ -369,7 +372,7 @@
 <dt><em>Animation</em></dt>
 <dd>A list of all animations available for a selected object.</dd>
 <dt><em>Cyclic</em></dt>
-<dd>If this parameter is enabled, the animation will be played repeatedly. If it isn&#8217;t, the animation will stop after being played once. Enabled by default.</dd>
+<dd>If this parameter is enabled, the animation will be played repeatedly. If it isn’t, the animation will stop after being played once. Enabled by default.</dd>
 <dt><em>Range</em></dt>
 <dd>This value shows the length of the selected animation.</dd>
 <dt><em>Status</em></dt>
@@ -386,7 +389,7 @@
 </div>
 <div class="section" id="nla">
 <span id="viewer-nla"></span><h4><a class="toc-backref" href="#id10">NLA</a><a class="headerlink" href="#nla" title="Permalink to this headline">¶</a></h4>
-<p>A tool to control Non-Linear Animation (if it is present in the scene). For this panel to work, NLA option should be enabled in the scene&#8217;s settings.</p>
+<p>A tool to control Non-Linear Animation (if it is present in the scene). For this panel to work, NLA option should be enabled in the scene’s settings.</p>
 <p>Available parameters:</p>
 <dl class="docutils">
 <dt><em>Range</em></dt>
@@ -486,79 +489,79 @@
 <div class="section" id="ambient">
 <span id="viewer-ambient"></span><h4><a class="toc-backref" href="#id14">Ambient</a><a class="headerlink" href="#ambient" title="Permalink to this headline">¶</a></h4>
 <p>Setup for ambient lighting parameters. Changing the colors and intensity of a hemispheric ambient model is supported.</p>
-<p>The settings available for ambient lighting setup are the same as the ones in Blender. They are described in the <a class="reference internal" href="lighting.html#environment-lighting"><span>dedicated section</span></a>.</p>
+<p>The settings available for ambient lighting setup are the same as the ones in Blender. They are described in the <a class="reference internal" href="lighting.html#environment-lighting"><span class="std std-ref">dedicated section</span></a>.</p>
 </div>
 <div class="section" id="shadows">
 <span id="viewer-shadows"></span><h4><a class="toc-backref" href="#id15">Shadows</a><a class="headerlink" href="#shadows" title="Permalink to this headline">¶</a></h4>
 <p>Setup for shadow parameters, including shadow cascades and shadow edges softening parameters.</p>
-<p>The options for setting up shadows are described in the <a class="reference internal" href="lighting.html#shadows"><span>corresponding section</span></a> of this manual.</p>
+<p>The options for setting up shadows are described in the <a class="reference internal" href="lighting.html#shadows"><span class="std std-ref">corresponding section</span></a> of this manual.</p>
 </div>
 <div class="section" id="sky">
 <span id="viewer-sky"></span><h4><a class="toc-backref" href="#id16">Sky</a><a class="headerlink" href="#sky" title="Permalink to this headline">¶</a></h4>
 <p>Setup for dynamic sky parameters such as color, sun light scattering parameters etc.</p>
-<p>Scene Viewer has access to all Blender parameters used for setting up procedural sky. These parameters are described in the <a class="reference internal" href="outdoor_rendering.html#atmosphere"><span>corresponding section</span></a>.</p>
+<p>Scene Viewer has access to all Blender parameters used for setting up procedural sky. These parameters are described in the <a class="reference internal" href="outdoor_rendering.html#atmosphere"><span class="std std-ref">corresponding section</span></a>.</p>
 </div>
 <div class="section" id="sea">
 <span id="viewer-sea"></span><h4><a class="toc-backref" href="#id17">Sea</a><a class="headerlink" href="#sea" title="Permalink to this headline">¶</a></h4>
 <p>Setup for water rendering parameters, including color transitions by depth and by distance from the shore, foam and subsurface scattering parameters, wave dynamics etc.</p>
-<p>The settings for water rendering are described in the <a class="reference internal" href="outdoor_rendering.html#water"><span>Outdoor Rendering</span></a> chapter. Scene Viewer uses the same settings as the Blend4Web engine itself.</p>
+<p>The settings for water rendering are described in the <a class="reference internal" href="outdoor_rendering.html#water"><span class="std std-ref">Outdoor Rendering</span></a> chapter. Scene Viewer uses the same settings as the Blend4Web engine itself.</p>
 </div>
 <div class="section" id="mist">
 <span id="viewer-mist"></span><h4><a class="toc-backref" href="#id18">Mist</a><a class="headerlink" href="#mist" title="Permalink to this headline">¶</a></h4>
 <p>Setup for fog parameters.</p>
-<p>Scene Viewer uses standard fog rendering settings that are described in the <a class="reference internal" href="outdoor_rendering.html#fog"><span>dedicated chapter</span></a>.</p>
+<p>Scene Viewer uses standard fog rendering settings that are described in the <a class="reference internal" href="outdoor_rendering.html#fog"><span class="std std-ref">dedicated chapter</span></a>.</p>
 </div>
 <div class="section" id="wind">
 <span id="viewer-wind"></span><h4><a class="toc-backref" href="#id19">Wind</a><a class="headerlink" href="#wind" title="Permalink to this headline">¶</a></h4>
 <p>Setup for wind parameters, including direction and strength.</p>
-<p>The same parameters as the ones used by Scene Viewer are available in Blender. These parameters are described in the <a class="reference internal" href="outdoor_rendering.html#wind"><span>corresponding chapter</span></a>.</p>
+<p>The same parameters as the ones used by Scene Viewer are available in Blender. These parameters are described in the <a class="reference internal" href="outdoor_rendering.html#wind"><span class="std std-ref">corresponding chapter</span></a>.</p>
 </div>
 <div class="section" id="wind-bending">
 <span id="viewer-wind-bending"></span><h4><a class="toc-backref" href="#id20">Wind Bending</a><a class="headerlink" href="#wind-bending" title="Permalink to this headline">¶</a></h4>
 <p>Setup for wind bending effect parameters.</p>
-<p>The same set of wind bending parameters is available in Blender. It is described in the <a class="reference internal" href="outdoor_rendering.html#wind-bending"><span>Outdoor Rendering</span></a> chapter.</p>
+<p>The same set of wind bending parameters is available in Blender. It is described in the <a class="reference internal" href="outdoor_rendering.html#wind-bending"><span class="std std-ref">Outdoor Rendering</span></a> chapter.</p>
 </div>
 <div class="section" id="screen-space-amb-occlus">
 <span id="viewer-ssao"></span><h4><a class="toc-backref" href="#id21">Screen Space Amb Occlus</a><a class="headerlink" href="#screen-space-amb-occlus" title="Permalink to this headline">¶</a></h4>
 <p>Setup for ambient occlusion parameters.</p>
-<p>All available settings are described in the <a class="reference internal" href="postprocessing_effects.html#ssao"><span>Postprocessing Effects</span></a> chapter.</p>
+<p>All available settings are described in the <a class="reference internal" href="postprocessing_effects.html#ssao"><span class="std std-ref">Postprocessing Effects</span></a> chapter.</p>
 </div>
 <div class="section" id="god-rays">
 <span id="viewer-god-rays"></span><h4><a class="toc-backref" href="#id22">God Rays</a><a class="headerlink" href="#god-rays" title="Permalink to this headline">¶</a></h4>
 <p>Setup for crepuscular ray effect parameters.</p>
-<p>All parameters for this effect are described in the <a class="reference internal" href="postprocessing_effects.html#god-rays"><span>corresponding section</span></a>.</p>
+<p>All parameters for this effect are described in the <a class="reference internal" href="postprocessing_effects.html#god-rays"><span class="std std-ref">corresponding section</span></a>.</p>
 </div>
 <div class="section" id="bloom">
 <span id="viewer-bloom"></span><h4><a class="toc-backref" href="#id23">Bloom</a><a class="headerlink" href="#bloom" title="Permalink to this headline">¶</a></h4>
 <p>Setup for bloom effect parameters.</p>
-<p>This effect uses the same set of parameters as it does in Blender. It is described in greater detail in the <a class="reference internal" href="postprocessing_effects.html#bloom"><span>corresponding section</span></a>.</p>
+<p>This effect uses the same set of parameters as it does in Blender. It is described in greater detail in the <a class="reference internal" href="postprocessing_effects.html#bloom"><span class="std std-ref">corresponding section</span></a>.</p>
 </div>
 <div class="section" id="motion-blur">
 <span id="viewer-motion-blur"></span><h4><a class="toc-backref" href="#id24">Motion Blur</a><a class="headerlink" href="#motion-blur" title="Permalink to this headline">¶</a></h4>
 <p>Motion blur effect settings.</p>
-<p>The parameters for adjusting Motion Blur effect are the same ones that are used in Blender. They are described in the <a class="reference internal" href="postprocessing_effects.html#motion-blur"><span>Postprocessing Effects</span></a> chapter.</p>
+<p>The parameters for adjusting Motion Blur effect are the same ones that are used in Blender. They are described in the <a class="reference internal" href="postprocessing_effects.html#motion-blur"><span class="std std-ref">Postprocessing Effects</span></a> chapter.</p>
 </div>
 <div class="section" id="glow-materials">
 <span id="viewer-glow-materials"></span><h4><a class="toc-backref" href="#id25">Glow Materials</a><a class="headerlink" href="#glow-materials" title="Permalink to this headline">¶</a></h4>
 <p>Glow Material effect settings.</p>
-<p>The settings used for this effect are described in the <a class="reference internal" href="postprocessing_effects.html#glow"><span>corresponding section</span></a>.</p>
+<p>The settings used for this effect are described in the <a class="reference internal" href="postprocessing_effects.html#glow"><span class="std std-ref">corresponding section</span></a>.</p>
 </div>
 <div class="section" id="depth-of-field">
 <span id="viewer-dof"></span><h4><a class="toc-backref" href="#id26">Depth of Field</a><a class="headerlink" href="#depth-of-field" title="Permalink to this headline">¶</a></h4>
 <p>Setup for depth-of-field effect parameters.</p>
-<p>The parameters are described in the <a class="reference internal" href="postprocessing_effects.html#dof"><span>corresponding chapter</span></a>.</p>
+<p>The parameters are described in the <a class="reference internal" href="postprocessing_effects.html#dof"><span class="std std-ref">corresponding chapter</span></a>.</p>
 </div>
 <div class="section" id="color-correction">
 <span id="viewer-color"></span><h4><a class="toc-backref" href="#id27">Color correction</a><a class="headerlink" href="#color-correction" title="Permalink to this headline">¶</a></h4>
 <p>Setup for color correction parameters, including brightness, contrast, exposure and saturation.</p>
-<p>The same set of parameters is used for color correction in Blender itself. The description of these parameters is available in the <a class="reference internal" href="colors.html#color-correction"><span>Color Management</span></a> chapter.</p>
+<p>The same set of parameters is used for color correction in Blender itself. The description of these parameters is available in the <a class="reference internal" href="colors.html#color-correction"><span class="std std-ref">Color Management</span></a> chapter.</p>
 </div>
 <div class="section" id="audio">
 <span id="viewer-audio"></span><h4><a class="toc-backref" href="#id28">Audio</a><a class="headerlink" href="#audio" title="Permalink to this headline">¶</a></h4>
 <p>There is a mixing mode switch on the panel. After it is enabled the mixer interface becomes visible (only for scenes with sound sources).</p>
 <dl class="docutils">
 <dt><em>Mixer</em></dt>
-<dd><p class="first">Enables equalizer that shows various parameters (including volume, frequency, distance, attenuation and others) of the speakers present in the scene, and allows user to adjust these parameters by using a numerical keypad. The available parameters and possibilities are described in greater detail in the <a class="reference internal" href="audio.html#mixer"><span>dedicated section</span></a> of the <a class="reference internal" href="audio.html#audio"><span>Audio chapter</span></a>.</p>
+<dd><p class="first">Enables equalizer that shows various parameters (including volume, frequency, distance, attenuation and others) of the speakers present in the scene, and allows user to adjust these parameters by using a numerical keypad. The available parameters and possibilities are described in greater detail in the <a class="reference internal" href="audio.html#mixer"><span class="std std-ref">dedicated section</span></a> of the <a class="reference internal" href="audio.html#audio"><span class="std std-ref">Audio chapter</span></a>.</p>
 <a class="reference internal image-reference" href="_images/viewer_mixer.png"><img alt="_images/viewer_mixer.png" class="align-center" src="_images/viewer_mixer.png" style="width: 100%;" /></a>
 <p class="last">This feature is disabled by default.</p>
 </dd>
@@ -573,13 +576,13 @@
 <dd><p class="first">A list of all available stereo rendering modes. As of today, three types are supported:</p>
 <blockquote>
 <div><p><code class="docutils literal"><span class="pre">NONE</span></code> - stereo rendering is not used.</p>
-<p><code class="docutils literal"><span class="pre">ANAGLYPH</span></code> - <a class="reference internal" href="vr_and_ar.html#anaglyph"><span>anaglyph</span></a> rendering is used.</p>
-<p><code class="docutils literal"><span class="pre">HMD</span></code> - rendering for <a class="reference internal" href="vr_and_ar.html#hmd"><span>Head-Mounted Displays</span></a> is used. This option is only available if the system has access to an HMD device.</p>
+<p><code class="docutils literal"><span class="pre">ANAGLYPH</span></code> - <a class="reference internal" href="vr_and_ar.html#anaglyph"><span class="std std-ref">anaglyph</span></a> rendering is used.</p>
+<p><code class="docutils literal"><span class="pre">HMD</span></code> - rendering for <a class="reference internal" href="vr_and_ar.html#hmd"><span class="std std-ref">Head-Mounted Displays</span></a> is used. This option is only available if the system has access to an HMD device.</p>
 </div></blockquote>
 <p class="last">Default setting is <code class="docutils literal"><span class="pre">NONE</span></code>.</p>
 </dd>
 <dt><em>HMD Settings</em></dt>
-<dd>Shows the <a class="reference internal" href="vr_and_ar.html#hmd-settings"><span>HMD setup window</span></a>.</dd>
+<dd>Shows the <a class="reference internal" href="vr_and_ar.html#hmd-settings"><span class="std std-ref">HMD setup window</span></a>.</dd>
 </dl>
 </div>
 <div class="section" id="input-devices">
@@ -668,7 +671,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Triumph.
-      Last updated on 2017-11-21.
+      Last updated on 2017-12-29.
 
     </p>
   </div>
@@ -724,11 +727,11 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

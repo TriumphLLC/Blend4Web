@@ -346,7 +346,7 @@ function ast_to_json(files) {
     }
 
     var str = "";
-    str += "b4w.module[\"" + OUTPUT_MODULE_TEXTS + "\"] = function(exports, require) {";
+    str += "import b4w from \"../util/b4w.js\";b4w.module[\"" + OUTPUT_MODULE_TEXTS + "\"] = function(exports, require) {";
     str += data_strings.join();
     str += "}";
 

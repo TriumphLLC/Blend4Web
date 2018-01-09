@@ -1,15 +1,13 @@
-"use strict";
+import b4w from "blend4web";
 
-b4w.register("canvas_texture", function(exports, require) {
-
-var m_tex     = require("textures");
-var m_data    = require("data");
-var m_app     = require("app");
-var m_main    = require("main");
-var m_sfx     = require("sfx");
-var m_scenes  = require("scenes");
-var m_cfg     = require("config");
-var m_version = require("version");
+var m_tex     = b4w.textures;
+var m_data    = b4w.data;
+var m_app     = b4w.app;
+var m_main    = b4w.main;
+var m_sfx     = b4w.sfx;
+var m_scenes  = b4w.scenes;
+var m_cfg     = b4w.config;
+var m_version = b4w.version;
 
 var DEBUG = (m_version.type() === "DEBUG");
 
@@ -18,7 +16,7 @@ var GIF_DELAY_TIME = 100;
 var VIDEO_DELAY_TIME = 1000/30;
 var APP_ASSETS_PATH = m_cfg.get_std_assets_path() + "code_snippets/canvas_texture/";
 
-exports.init = function() {
+export function init() {
     m_app.init({
         canvas_container_id: "main_canvas_container",
         callback: init_cb,
@@ -120,7 +118,4 @@ function draw_picture_iter(cube, image, context, width, height, current_frame) {
     m_tex.update_canvas_ctx(cube, "Picture");
     setTimeout(function() { draw_picture_iter(cube, image, context, width, height, 
             current_frame + 1) }, GIF_DELAY_TIME);
-}
-
-});
-
+    }

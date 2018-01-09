@@ -1,17 +1,65 @@
-"use strict";
+import b4w from "blend4web";
 
+import * as bone_api from "./scripts/bone_api.js";
+import * as camera_animation from "./scripts/camera_animation.js";
+import * as camera_move_styles from "./scripts/camera_move_styles.js";
+import * as canvas_texture from "./scripts/canvas_texture.js";
+import * as change_image from "./scripts/change_image.js";
+import * as custom_anchors from "./scripts/custom_anchors.js";
+import * as dynamic_geometry from "./scripts/dynamic_geometry.js";
+import * as gamepad from "./scripts/gamepad.js";
+import * as gyro from "./scripts/gyro.js";
+import * as instancing from "./scripts/instancing.js";
+import * as leap from "./scripts/leap.js";
+import * as lines from "./scripts/lines.js";
+import * as material_api from "./scripts/material_api.js";
+import * as morphing from "./scripts/morphing.js";
+import * as multitouch from "./scripts/multitouch.js";
+import * as pathfinding from "./scripts/pathfinding.js";
+import * as raytest from "./scripts/raytest.js";
+import * as vr from "./scripts/vr.js";
+import * as webcam from "./scripts/webcam.js";
+var snippets = [
+    wrap(bone_api, "./scripts/bone_api.js", "Bone API", "bone_api"),
+    wrap(camera_animation, "./scripts/camera_animation.js", "Camera Animation", "camera_animation"),
+    wrap(camera_move_styles, "./scripts/camera_move_styles.js", "Camera Move Styles", "camera_move_styles", true),
+    wrap(canvas_texture, "./scripts/canvas_texture.js", "Canvas Texture", "canvas_texture"),
+    wrap(change_image, "./scripts/change_image.js", "Change Image", "change_image"),
+    wrap(custom_anchors, "./scripts/custom_anchors.js", "Custom Anchors", "custom_anchors"),
+    wrap(dynamic_geometry, "./scripts/dynamic_geometry.js", "Dynamic Geometry", "dynamic_geometry"),
+    wrap(gamepad, "./scripts/gamepad.js", "Gamepad", "gamepad"),
+    wrap(gyro, "./scripts/gyro.js", "Gyro", "gyro"),
+    wrap(instancing, "./scripts/instancing.js", "Instancing", "instancing"),
+    wrap(leap, "./scripts/leap.js", "Leap Motion", "leap", true),
+    wrap(lines, "./scripts/lines.js", "Lines", "lines"),
+    wrap(material_api, "./scripts/material_api.js", "Material API", "material_api"),
+    wrap(morphing, "./scripts/morphing.js", "Morphing", "morphing", true),
+    wrap(multitouch, "./scripts/multitouch.js", "Multitouch", "multitouch"),
+    wrap(pathfinding, "./scripts/pathfinding.js", "Pathfinding", "pathfinding"),
+    wrap(raytest, "./scripts/raytest.js", "Ray Test", "raytest"),
+    wrap(vr, "./scripts/vr.js", "VR", "vr"),
+    wrap(webcam, "./scripts/webcam.js", "Webcam", "webcam")
+    
+];
+function wrap(module, path, name, scene, style) {
+    return {
+        module: module,
+        path: path,
+        name: name,
+        scene: scene,
+        style: style
+    }
+}
 
-b4w.register("code_snippets", function(exports, require) {
-
-var m_app       = require("app");
-var m_data      = require("data");
+var m_app       = b4w.app;
+var m_data      = b4w.data;
 
 var WAITING_TIME = 3000;
 var _scripts = null;
 var _curr_index = 0;
 
-exports.init = function() {
-    _scripts = document.querySelectorAll("[data-name]");
+var init = function() {
+    _scripts = snippets;
     open_example();
     init_it();
     check_autoview();
@@ -23,16 +71,16 @@ function open_example() {
 
     if (param && param["scene"])
         for (var i = 0; i < _scripts.length; i++)
-            if (_scripts[i].dataset["scene"] == param["scene"]) {
+            if (_scripts[i].scene == param["scene"]) {
                 _curr_index = i;
                 break;
             }
 
-    if (_scripts[_curr_index].dataset["styles"]) {
+    if (_scripts[_curr_index].style) {
         var head = document.head;
         var link = document.createElement("link");
 
-        link.id    = _scripts[_curr_index].dataset["scene"] + ".css";
+        link.id    = _scripts[_curr_index].scene + ".css";
         link.rel   = "stylesheet";
         link.type  = "text/css";
         link.href  = "css/" + link.id;
@@ -41,8 +89,8 @@ function open_example() {
         head.appendChild(link);
     }
 
-    snippet_name.value = _scripts[_curr_index].dataset["scene"];
-    b4w.require(_scripts[_curr_index].dataset["scene"]).init();
+    snippet_name.value = _scripts[_curr_index].scene;
+    _scripts[_curr_index].module.init();
 }
 
 function init_it() {
@@ -61,8 +109,8 @@ function init_it() {
         else
             btn.className = "btn";
 
-        btn.textContent = _scripts[i].dataset.name;
-        btn.id = _scripts[i].dataset["scene"];
+        btn.textContent = _scripts[i].name;
+        btn.id = _scripts[i].scene;
 
         btn.href = window.location.href.split("?")[0] + "?scene=" + btn.id;
 
@@ -102,7 +150,7 @@ function init_it() {
         var req = new XMLHttpRequest();
 
         req.overrideMimeType("text/plain");
-        req.open("GET", script.src, true);
+        req.open("GET", script.path, true);
         req.onreadystatechange = function() {
             if (req.readyState == 4) {
                 if (req.status == 200 || req.status == 0) {
@@ -115,12 +163,16 @@ function init_it() {
                         var text_html_parent = text_html.parentNode;
                         var text_js_parent   = text_js.parentNode;
 
-                        var raw_html = gen_html_code(script.src);
+                        var raw_html = gen_html_code(script.path);
 
                         var re = new RegExp("get_std_assets_path\\(\\)[\\s\\S]*?\\+[\\s\\S]*?\"code_snippets\\/" 
-                                + script.dataset["scene"] + "\\/?\"");
-                        response = response.replace(re, "get_assets_path(\"" + script.dataset["scene"] + "\")");
-                        var raw_js   = response + 'b4w.require("' + script.dataset["scene"] + '").init();';
+                                + script.scene + "\\/?\"");
+                        response = response.replace(re, "get_assets_path(\"" + script.scene + "\")");
+
+                        var re = new RegExp("\.\./node_modules");
+                        response = response.replace(re, "\./node_modules");
+
+                        var raw_js   = response + '\n\ninit();';
 
                         var highlighted_html = hljs.highlight('html', raw_html).value;
                         var highlighted_js   = hljs.highlight('javascript', raw_js).value;
@@ -204,12 +256,7 @@ function open_next_scene() {
         return;
 
     window.location.href = window.location.href.split("?")[0]
-                    + "?scene="+ _scripts[_curr_index + 1].dataset["scene"] + "&autoview=true";
+                    + "?scene="+ _scripts[_curr_index + 1].scene + "&autoview=true";
 }
 
-});
-
-var module = b4w.require("code_snippets");
-
-document.addEventListener("DOMContentLoaded", function(){
-    module.init();}, false);
+document.addEventListener("DOMContentLoaded", init, false);

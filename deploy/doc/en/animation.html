@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Animation &mdash; Blend4Web 17.10.1 User Manual</title>
+  <title>Animation &mdash; Blend4Web 17.12.0 User Manual</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.10.1 User Manual" href="index.html"/>
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Blend4Web 17.12.0 User Manual" href="index.html"/>
         <link rel="next" title="Outdoor Effects" href="outdoor_rendering.html"/>
         <link rel="prev" title="Particle System. Instancing" href="particles_instancing.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -107,7 +110,7 @@
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Animation</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Animation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#animation-control">Animation Control</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#object-animation">Object Animation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#skinning-and-skeletal-animation">Skinning and Skeletal Animation</a><ul>
@@ -213,33 +216,33 @@
 </li>
 </ul>
 </div>
-<p>In general animation is changing the object&#8217;s parameters in time. The engine supports the following types of animation:</p>
+<p>In general animation is changing the object’s parameters in time. The engine supports the following types of animation:</p>
 <ul class="simple">
 <li>Object animation means the transformation of an object as a whole.</li>
 <li>Skeletal Animation, i.e. object deformation using bones. Animation
 of a standalone armature object is also supported (for parenting to bones).</li>
-<li>Vertex animation. An object&#8217;s deformations can be recorded as frames and
+<li>Vertex animation. An object’s deformations can be recorded as frames and
 then reproduced in the engine.</li>
-<li>Audio sources parametrization. Speaker&#8217;s <code class="docutils literal"><span class="pre">Volume</span></code> and <code class="docutils literal"><span class="pre">Pitch</span></code> can be
+<li>Audio sources parametrization. Speaker’s <code class="docutils literal"><span class="pre">Volume</span></code> and <code class="docutils literal"><span class="pre">Pitch</span></code> can be
 animated.</li>
 <li>Animation of the <code class="docutils literal"><span class="pre">Value</span></code> node output in node materials.</li>
-<li>Wind bending - a procedural animation. Described <a class="reference internal" href="outdoor_rendering.html#wind"><span>separately</span></a>.</li>
-<li>Particle emission. Described in the <a class="reference internal" href="particles.html#particles"><span>corresponding section</span></a>.</li>
+<li>Wind bending - a procedural animation. Described <a class="reference internal" href="outdoor_rendering.html#wind"><span class="std std-ref">separately</span></a>.</li>
+<li>Particle emission. Described in the <a class="reference internal" href="particles.html#particles"><span class="std std-ref">corresponding section</span></a>.</li>
 </ul>
 <div class="section" id="animation-control">
 <h2><a class="toc-backref" href="#id6">Animation Control</a><a class="headerlink" href="#animation-control" title="Permalink to this headline">¶</a></h2>
 <p>There are two ways to control animation in the engine:</p>
 <ol class="arabic simple">
 <li>Automatically, activating the <code class="docutils literal"><span class="pre">Animation</span></code> panel and choosing the
-<code class="docutils literal"><span class="pre">Behavior</span></code> parameter in the object&#8217;s properties. In this case an
+<code class="docutils literal"><span class="pre">Behavior</span></code> parameter in the object’s properties. In this case an
 appropriate animation method will be chosen by the engine and the
-object&#8217;s animation playback will start just after a scene is loaded.
+object’s animation playback will start just after a scene is loaded.
 In case of skeletal animation the action which is assigned to the
 object in the <code class="docutils literal"><span class="pre">Action</span> <span class="pre">Editor</span></code> window is played by default.</li>
 <li>In an application via API using the <code class="docutils literal"><span class="pre">animation</span></code> module methods.</li>
 </ol>
-<p>It&#8217;s useful to use the <code class="docutils literal"><span class="pre">Animation</span></code> interface for tweaking animation.
-This is covered in the <a class="reference internal" href="viewer.html#viewer"><span>corresponding section</span></a>.</p>
+<p>It’s useful to use the <code class="docutils literal"><span class="pre">Animation</span></code> interface for tweaking animation.
+This is covered in the <a class="reference internal" href="viewer.html#viewer"><span class="std std-ref">corresponding section</span></a>.</p>
 </div>
 <div class="section" id="object-animation">
 <span id="whole-object-anim"></span><h2><a class="toc-backref" href="#id7">Object Animation</a><a class="headerlink" href="#object-animation" title="Permalink to this headline">¶</a></h2>
@@ -252,12 +255,12 @@ This is covered in the <a class="reference internal" href="viewer.html#viewer"><
 <p>The following keyframe types are supported:</p>
 <ul class="simple">
 <li><em>Location</em></li>
-<li><em>Rotation</em> &#8211; the <code class="docutils literal"><span class="pre">Quaternion(WXYZ)</span></code> or <code class="docutils literal"><span class="pre">XYZ</span> <span class="pre">Euler</span></code> mode is required.</li>
-<li><em>Scale</em> &#8211; for correct results the scale factor should be the same along all 3 axes.</li>
-<li><em>LocRot</em> &#8211; a combination of <em>Location</em> and <em>Rotation</em>.</li>
-<li><em>LocScale</em> &#8211; a combination of <em>Location</em> and <em>Scale</em>.</li>
-<li><em>LocRotScale</em> &#8211; a combination of <em>Location</em>, <em>Rotation</em> and <em>Scale</em>.</li>
-<li><em>RotScale</em> &#8211; a combination of <em>Rotation</em> and <em>Scale</em>.</li>
+<li><em>Rotation</em> – the <code class="docutils literal"><span class="pre">Quaternion(WXYZ)</span></code> or <code class="docutils literal"><span class="pre">XYZ</span> <span class="pre">Euler</span></code> mode is required.</li>
+<li><em>Scale</em> – for correct results the scale factor should be the same along all 3 axes.</li>
+<li><em>LocRot</em> – a combination of <em>Location</em> and <em>Rotation</em>.</li>
+<li><em>LocScale</em> – a combination of <em>Location</em> and <em>Scale</em>.</li>
+<li><em>LocRotScale</em> – a combination of <em>Location</em>, <em>Rotation</em> and <em>Scale</em>.</li>
+<li><em>RotScale</em> – a combination of <em>Rotation</em> and <em>Scale</em>.</li>
 </ul>
 <p>If a mesh object is animated it is required to activate the <code class="docutils literal"><span class="pre">Force</span> <span class="pre">Dynamic</span> <span class="pre">Object</span></code> option on the <code class="docutils literal"><span class="pre">Rendering</span> <span class="pre">Properties</span></code> panel under the object properties tab.</p>
 </div>
@@ -269,7 +272,7 @@ This is covered in the <a class="reference internal" href="viewer.html#viewer"><
 </div>
 <p>For skeletal animation both a mesh object and an armature object are needed. The four steps should be carried out:</p>
 <ol class="arabic simple">
-<li>Create the object&#8217;s &#8220;skeleton&#8221; in the armature object.</li>
+<li>Create the object’s “skeleton” in the armature object.</li>
 <li>Assign vertex groups in the mesh object and link them to the bones. This can be performed by weight painting f   or example.</li>
 <li>Animate the bones in the pose mode of the armature object.
 The same keyframe types can be used as for the object animation.</li>
@@ -290,14 +293,14 @@ can be performed using the <code class="docutils literal"><span class="pre">Bake
 <dd>The current action name from the list of actions being baked.</dd>
 <dt><em>Optimize Keyframes</em></dt>
 <dd>Optimize the animation keyframes after baking. In case of incorrect results
-it&#8217;s recommended to turn this option off.</dd>
-<dt><em>Use Blender&#8217;s Native Baker</em></dt>
-<dd>Use Blender&#8217;s animation baker (the <code class="docutils literal"><span class="pre">Bake</span> <span class="pre">Action</span></code> option) instead of Blend4Web&#8217;s.
-Blender animation baker&#8217;s settings differ from Blend4Web&#8217;s.</dd>
+it’s recommended to turn this option off.</dd>
+<dt><em>Use Blender’s Native Baker</em></dt>
+<dd>Use Blender’s animation baker (the <code class="docutils literal"><span class="pre">Bake</span> <span class="pre">Action</span></code> option) instead of Blend4Web’s.
+Blender animation baker’s settings differ from Blend4Web’s.</dd>
 <dt><em>Bake</em></dt>
 <dd>Perform baking. If the process is completed successfully, actions with names of
 <em>B4W_BAKED_ACTOR_NAME</em> type appear in the scene. These actions can be assigned
-to the armature object and played back in the engine. It&#8217;s worth noting that appropriate
+to the armature object and played back in the engine. It’s worth noting that appropriate
 functioning of such actions in Blender is not guaranteed.</dd>
 </dl>
 <div class="admonition note">
@@ -309,7 +312,7 @@ the vertex weights are normalized i.e. their sum is reduced to 1.</p>
 <a class="last reference internal image-reference" href="_images/vgroups_cleaner.png"><img alt="_images/vgroups_cleaner.png" class="align-center" src="_images/vgroups_cleaner.png" style="width: 100%;" /></a>
 </div>
 <p>Blend4Web also has initial support of the armature constraints. For now, only several types of constraints are supported, including <code class="docutils literal"><span class="pre">Copy</span> <span class="pre">Transforms</span></code>, which can be used to attach an armature to an object, producing effects such as ragdoll. Support of the other types of constraints will be added in further releases.</p>
-<p>The full list of supported constraints and their descriptions can be found in a <a class="reference internal" href="objects.html#objects-constraints"><span>dedicated section</span></a>.</p>
+<p>The full list of supported constraints and their descriptions can be found in a <a class="reference internal" href="objects.html#objects-constraints"><span class="std std-ref">dedicated section</span></a>.</p>
 </div>
 <div class="section" id="animation-blending">
 <span id="anim-blend"></span><h3><a class="toc-backref" href="#id10">Animation Blending</a><a class="headerlink" href="#animation-blending" title="Permalink to this headline">¶</a></h3>
@@ -319,7 +322,7 @@ the vertex weights are normalized i.e. their sum is reduced to 1.</p>
 <p class="last">No more than <strong>two</strong> animations can be blended simultaneously.</p>
 </div>
 <p>To blend animations, you have to allow two animation slots to blend first:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_animation</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;animation&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_animation</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;animation&quot;</span><span class="p">);</span>
 
 <span class="kd">var</span> <span class="nx">m_scenes</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
 
@@ -340,7 +343,7 @@ the vertex weights are normalized i.e. their sum is reduced to 1.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p>Allows to record any geometry changes of a mesh object. Note that every vertex animation frame counts as a mesh. It&#8217;s not recommended to make a long animation for a high-poly mesh, as it can increase the size of the source and exported files significantly and can also slow down the work of the engine.</p>
+<p>Allows to record any geometry changes of a mesh object. Note that every vertex animation frame counts as a mesh. It’s not recommended to make a long animation for a high-poly mesh, as it can increase the size of the source and exported files significantly and can also slow down the work of the engine.</p>
 <p id="ver-anim">A special tool is used for baking vertex animation - <code class="docutils literal"><span class="pre">Bake</span> <span class="pre">Vertex</span> <span class="pre">Animation</span></code> - located on the <code class="docutils literal"><span class="pre">Blend4Web</span></code> tools panel.</p>
 <a class="reference internal image-reference" href="_images/animation_vertex_baker.png"><img alt="_images/animation_vertex_baker.png" class="align-center" src="_images/animation_vertex_baker.png" style="width: 100%;" /></a>
 <div class="section" id="id2">
@@ -353,10 +356,10 @@ the vertex weights are normalized i.e. their sum is reduced to 1.</p>
 <dt><em>End</em></dt>
 <dd>The baking will end at this frame.</dd>
 <dt><em>Allow NLA</em></dt>
-<dd>Allows using <a class="reference internal" href="#nla"><span>NLA</span></a> to control the baked animation.</dd>
+<dd>Allows using <a class="reference internal" href="#nla"><span class="std std-ref">NLA</span></a> to control the baked animation.</dd>
 <dt><em>Status</em></dt>
 <dd>In this string, the number of frames of the baked animation is shown.
-If the baking hasn&#8217;t been performed yet, the word <code class="docutils literal"><span class="pre">Empty</span></code> is shown instead.</dd>
+If the baking hasn’t been performed yet, the word <code class="docutils literal"><span class="pre">Empty</span></code> is shown instead.</dd>
 <dt><em>Bake</em></dt>
 <dd>The animation baking is performed by pressing this button.</dd>
 </dl>
@@ -368,13 +371,13 @@ If the baking hasn&#8217;t been performed yet, the word <code class="docutils li
 </div>
 <div class="section" id="default-animation">
 <span id="id3"></span><h2><a class="toc-backref" href="#id13">Default Animation</a><a class="headerlink" href="#default-animation" title="Permalink to this headline">¶</a></h2>
-<p>Blend4Web also has an option to automatically play object&#8217;s animation. To do it, you need to enable the <code class="docutils literal"><span class="pre">Apply</span> <span class="pre">Default</span> <span class="pre">Animation</span></code> parameter in the <code class="docutils literal"><span class="pre">Animation</span></code> section of the <code class="docutils literal"><span class="pre">Object</span></code> panel of an object you want to animate. Skeletal and object animation types are supported.</p>
+<p>Blend4Web also has an option to automatically play object’s animation. To do it, you need to enable the <code class="docutils literal"><span class="pre">Apply</span> <span class="pre">Default</span> <span class="pre">Animation</span></code> parameter in the <code class="docutils literal"><span class="pre">Animation</span></code> section of the <code class="docutils literal"><span class="pre">Object</span></code> panel of an object you want to animate. Skeletal and object animation types are supported.</p>
 <a class="reference internal image-reference" href="_images/animation_apply_default_animation.png"><img alt="_images/animation_apply_default_animation.png" class="align-center" src="_images/animation_apply_default_animation.png" style="width: 100%;" /></a>
-<p>Animation starts to play right after the application startup and plays very similar to the <a class="reference internal" href="logic_editor.html#logic-play-timeline"><span>Play Timeline</span></a> node, only without an option to set up the start and end markers (instead, it always starts from the first frame of the timeline and ends with the last). You can also set up animation behavior, like in the <a class="reference internal" href="logic_editor.html#logic-select-play"><span>Play Animation</span></a> node.</p>
+<p>Animation starts to play right after the application startup and plays very similar to the <a class="reference internal" href="logic_editor.html#logic-play-timeline"><span class="std std-ref">Play Timeline</span></a> node, only without an option to set up the start and end markers (instead, it always starts from the first frame of the timeline and ends with the last). You can also set up animation behavior, like in the <a class="reference internal" href="logic_editor.html#logic-select-play"><span class="std std-ref">Play Animation</span></a> node.</p>
 <dl class="docutils">
 <dt><em>Animation Blending</em></dt>
 <dd><p class="first">This option is only available for <code class="docutils literal"><span class="pre">Armature</span></code> type objects. It should be enabled if you want to blend skeletal animations.</p>
-<p class="last">Blending animations is described in a <a class="reference internal" href="#anim-blend"><span>dedicated section</span></a>.</p>
+<p class="last">Blending animations is described in a <a class="reference internal" href="#anim-blend"><span class="std std-ref">dedicated section</span></a>.</p>
 </dd>
 </dl>
 </div>
@@ -382,7 +385,7 @@ If the baking hasn&#8217;t been performed yet, the word <code class="docutils li
 <span id="nla"></span><h2><a class="toc-backref" href="#id14">Non-Linear Animation</a><a class="headerlink" href="#non-linear-animation" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="nla-editor">
 <span id="id4"></span><h3><a class="toc-backref" href="#id15">NLA Editor</a><a class="headerlink" href="#nla-editor" title="Permalink to this headline">¶</a></h3>
-<p>The Blender&#8217;s non-linear editor lets us set the scene&#8217;s behavior in a comfortable way. With its help we can implement simple scenarios. This way coding is not needed for simple scenes and applications.</p>
+<p>The Blender’s non-linear editor lets us set the scene’s behavior in a comfortable way. With its help we can implement simple scenarios. This way coding is not needed for simple scenes and applications.</p>
 <a class="reference internal image-reference" href="_images/simple_machinima.png"><img alt="_images/simple_machinima.png" class="align-center" src="_images/simple_machinima.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -407,7 +410,7 @@ If the baking hasn&#8217;t been performed yet, the word <code class="docutils li
 <p>The <em>NLA &gt; Cyclic NLA</em> scene setting activates the cyclic NLA animation mode.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">In order to use vertex animation, enable  &#8220;Allow NLA&#8221; option on the <a class="reference internal" href="#ver-anim"><span>vertex animation panel</span></a>.</p>
+<p class="last">In order to use vertex animation, enable  “Allow NLA” option on the <a class="reference internal" href="#ver-anim"><span class="std std-ref">vertex animation panel</span></a>.</p>
 </div>
 </div>
 <div class="section" id="limitations">
@@ -420,7 +423,7 @@ If the baking hasn&#8217;t been performed yet, the word <code class="docutils li
 <div class="section" id="controlling-via-api">
 <h3><a class="toc-backref" href="#id16">Controlling via API</a><a class="headerlink" href="#controlling-via-api" title="Permalink to this headline">¶</a></h3>
 <p>Non-linear animation playback can be controlled via API methods of the <code class="docutils literal"><span class="pre">nla.js</span></code> module.</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
 <span class="kd">var</span> <span class="nx">m_nla</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;nla&quot;</span><span class="p">);</span>
 <span class="c1">// ...</span>
 <span class="nx">m_nla</span><span class="p">.</span><span class="nx">set_frame</span><span class="p">(</span><span class="mi">150</span><span class="p">);</span>
@@ -433,7 +436,7 @@ If the baking hasn&#8217;t been performed yet, the word <code class="docutils li
 <span class="c1">// ...</span>
 </pre></div>
 </div>
-<p>Please note, that if the <a class="reference internal" href="logic_editor.html#logic-editor"><span>Logic Editor</span></a> is used, the <code class="docutils literal"><span class="pre">set_frame</span></code>, <code class="docutils literal"><span class="pre">play</span></code>, <code class="docutils literal"><span class="pre">stop</span></code> methods are not available.</p>
+<p>Please note, that if the <a class="reference internal" href="logic_editor.html#logic-editor"><span class="std std-ref">Logic Editor</span></a> is used, the <code class="docutils literal"><span class="pre">set_frame</span></code>, <code class="docutils literal"><span class="pre">play</span></code>, <code class="docutils literal"><span class="pre">stop</span></code> methods are not available.</p>
 </div>
 </div>
 <div class="section" id="audio-source-parametrization">
@@ -460,10 +463,10 @@ If the baking hasn&#8217;t been performed yet, the word <code class="docutils li
 <p class="first admonition-title">Note</p>
 <p class="last">Animation of numerical and color values on other nodes is not supported.</p>
 </div>
-<p>Can be also used to create tracks in the <a class="reference internal" href="#nla-editor"><span>non-linear animation editor</span></a>. Multiple animated <code class="docutils literal"><span class="pre">Value</span></code> or <code class="docutils literal"><span class="pre">RGB</span></code> nodes are supported per single material. Values of these nodes can be also modified via API, by using the <code class="docutils literal"><span class="pre">set_nodemat_value</span></code> and <code class="docutils literal"><span class="pre">set_nodemat_rgb</span></code> methods of the <code class="docutils literal"><span class="pre">objects</span></code> module.</p>
+<p>Can be also used to create tracks in the <a class="reference internal" href="#nla-editor"><span class="std std-ref">non-linear animation editor</span></a>. Multiple animated <code class="docutils literal"><span class="pre">Value</span></code> or <code class="docutils literal"><span class="pre">RGB</span></code> nodes are supported per single material. Values of these nodes can be also modified via API, by using the <code class="docutils literal"><span class="pre">set_nodemat_value</span></code> and <code class="docutils literal"><span class="pre">set_nodemat_rgb</span></code> methods of the <code class="docutils literal"><span class="pre">objects</span></code> module.</p>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="node_materials.html#node-time"><span>Time (B4W_TIME)</span></a></p>
+<p class="last"><a class="reference internal" href="node_materials.html#node-time"><span class="std std-ref">Time (B4W_TIME)</span></a></p>
 </div>
 </div>
 </div>
@@ -488,7 +491,7 @@ If the baking hasn&#8217;t been performed yet, the word <code class="docutils li
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Triumph.
-      Last updated on 2017-11-21.
+      Last updated on 2017-12-29.
 
     </p>
   </div>
@@ -544,11 +547,11 @@ If the baking hasn&#8217;t been performed yet, the word <code class="docutils li
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

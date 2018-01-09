@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Веб-плеер &mdash; Руководство пользователя Blend4Web 17.10.1</title>
+  <title>Веб-плеер &mdash; Руководство пользователя Blend4Web 17.12.0</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 17.10.1" href="index.html"/>
+        <link rel="index" title="Алфавитный указатель"
+              href="genindex.html"/>
+        <link rel="search" title="Поиск" href="search.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 17.12.0" href="index.html"/>
         <link rel="next" title="Аддон" href="addon.html"/>
         <link rel="prev" title="Просмотрщик сцен" href="viewer.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -90,7 +93,7 @@
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Рабочий процесс</a></li>
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">Управление проектами</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Веб-плеер</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Веб-плеер</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#usage">Использование</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#navigation">Навигация</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#control-panel">Панель управления</a></li>
@@ -169,7 +172,7 @@
   <div class="section" id="web-player">
 <span id="index-0"></span><span id="id1"></span><h1><a class="toc-backref" href="#id2">Веб-плеер</a><a class="headerlink" href="#web-player" title="Ссылка на этот заголовок">¶</a></h1>
 <div class="contents topic" id="table-of-contents">
-<p class="topic-title first">Содержание</p>
+<p class="topic-title first">Table of Contents</p>
 <ul class="simple">
 <li><a class="reference internal" href="#web-player" id="id2">Веб-плеер</a><ul>
 <li><a class="reference internal" href="#usage" id="id3">Использование</a></li>
@@ -207,32 +210,19 @@
 <p>Ниже показана панель управления веб-плеера.</p>
 <a class="reference internal image-reference" href="_images/web_player_interface.png"><img alt="_images/web_player_interface.png" class="align-center" src="_images/web_player_interface.png" style="width: 100%;" /></a>
 <ol class="arabic simple">
-<li><p class="first">показ / скрытие панели управления;</p>
-</li>
-<li><p class="first">включение / выключение полноэкранного режима;</p>
-</li>
-<li><p class="first">включение / выключение стереоизображения;</p>
-</li>
-<li><p class="first">установка качества сцены;</p>
-</li>
-<li><p class="first">включение / выключение звука;</p>
-</li>
-<li><p class="first">включение / выключение автоматического поворота камеры вокруг сцены;</p>
-</li>
-<li><p class="first">запуск / остановка движка;</p>
-</li>
-<li><p class="first">открытие окно помощи;</p>
-</li>
-<li><p class="first">кнопка Твиттер;</p>
-</li>
-<li><p class="first">кнопка Facebook;</p>
-</li>
-<li><p class="first">кнопка Google+;</p>
-</li>
-<li><p class="first">кнопка ВКонтакте;</p>
-</li>
-<li><p class="first">кнопка Weibo.</p>
-</li>
+<li>показ / скрытие панели управления;</li>
+<li>включение / выключение полноэкранного режима;</li>
+<li>включение / выключение стереоизображения;</li>
+<li>установка качества сцены;</li>
+<li>включение / выключение звука;</li>
+<li>включение / выключение автоматического поворота камеры вокруг сцены;</li>
+<li>запуск / остановка движка;</li>
+<li>открытие окно помощи;</li>
+<li>кнопка Твиттер;</li>
+<li>кнопка Facebook;</li>
+<li>кнопка Google+;</li>
+<li>кнопка ВКонтакте;</li>
+<li>кнопка Weibo.</li>
 </ol>
 </div>
 <div class="section" id="attributes">
@@ -243,28 +233,17 @@
 <div class="line"><br /></div>
 </div>
 <ol class="arabic simple">
-<li><p class="first">для загрузки сцены используется обязательный атрибут <code class="docutils literal"><span class="pre">load</span></code>, в который помещается относительный путь к JSON файлу.</p>
-</li>
-<li><p class="first">необязательный атрибут <code class="docutils literal"><span class="pre">fallback_image</span></code> используется для установки фона, заменяющего сцену при возникновении ошибки WebGL.</p>
-</li>
-<li><p class="first">необязательный атрибут <code class="docutils literal"><span class="pre">fallback_video</span></code> используется для установки видео, заменяющего сцену при возникновении ошибки WebGL. Может использоваться неоднократно с целью добавления видео файлов различных форматов.</p>
-</li>
-<li><p class="first">необязательный атрибут <code class="docutils literal"><span class="pre">show_fps</span></code> применяется для отображения счетчика кадров в секунду в правом верхнем углу плеера.</p>
-</li>
-<li><p class="first">необязательный атрибут <code class="docutils literal"><span class="pre">autorotate</span></code> используется для включения автоматического вращения камеры сразу после загрузки сцены.</p>
-</li>
-<li><p class="first">необязательный атрибут <code class="docutils literal"><span class="pre">compressed_textures</span></code> используется для включения загрузки уменьшенных текстур и текстур в формате с компрессией (DDS).</p>
-</li>
-<li><p class="first">необязательный атрибут <code class="docutils literal"><span class="pre">compressed_textures_pvr</span></code> используется для включения  загрузки текстур с компрессией PVRTC. Применяется совместно с атрибутом <code class="docutils literal"><span class="pre">compressed_textures</span></code>.</p>
-</li>
-<li><p class="first">необязательный атрибут <code class="docutils literal"><span class="pre">compressed_gzip</span></code> используется для включения загрузки сжатых при помощи GZIP ресурсов, таких как &#8221;.json.gz&#8221;, &#8221;.bin.gz&#8221;, &#8221;.dds.gz&#8221; и &#8221;.pvr.gz&#8221;.</p>
-</li>
-<li><p class="first">необязательный атрибут <code class="docutils literal"><span class="pre">alpha</span></code> используется для установки прозрачности области отрисовки.</p>
-</li>
-<li><p class="first">необязательный атрибут <code class="docutils literal"><span class="pre">no_social</span></code> используется для отключения кнопок социальных сетей на панели управления.</p>
-</li>
-<li><p class="first">необязательный атрибут <code class="docutils literal"><span class="pre">socials</span></code> используется для выборочного включения и отключения кнопок социальных сетей, а также для задания порядка, в котором они располагаются на экране. Этот атрибут должен выглядеть так: <code class="docutils literal"><span class="pre">socials=&lt;...&gt;</span></code>, где <code class="docutils literal"><span class="pre">&lt;...&gt;</span></code> - набор букв, соответствующих кнопкам социальных сетей, которые вы хотите включить (<code class="docutils literal"><span class="pre">f</span></code> - Facebook, <code class="docutils literal"><span class="pre">v</span></code> - VK, <code class="docutils literal"><span class="pre">t</span></code> - Twitter, <code class="docutils literal"><span class="pre">w</span></code> - Weibo, <code class="docutils literal"><span class="pre">g</span></code> - Google+).</p>
-</li>
+<li>для загрузки сцены используется обязательный атрибут <code class="docutils literal"><span class="pre">load</span></code>, в который помещается относительный путь к JSON файлу.</li>
+<li>необязательный атрибут <code class="docutils literal"><span class="pre">fallback_image</span></code> используется для установки фона, заменяющего сцену при возникновении ошибки WebGL.</li>
+<li>необязательный атрибут <code class="docutils literal"><span class="pre">fallback_video</span></code> используется для установки видео, заменяющего сцену при возникновении ошибки WebGL. Может использоваться неоднократно с целью добавления видео файлов различных форматов.</li>
+<li>необязательный атрибут <code class="docutils literal"><span class="pre">show_fps</span></code> применяется для отображения счетчика кадров в секунду в правом верхнем углу плеера.</li>
+<li>необязательный атрибут <code class="docutils literal"><span class="pre">autorotate</span></code> используется для включения автоматического вращения камеры сразу после загрузки сцены.</li>
+<li>необязательный атрибут <code class="docutils literal"><span class="pre">compressed_textures</span></code> используется для включения загрузки уменьшенных текстур и текстур в формате с компрессией (DDS).</li>
+<li>необязательный атрибут <code class="docutils literal"><span class="pre">compressed_textures_pvr</span></code> используется для включения  загрузки текстур с компрессией PVRTC. Применяется совместно с атрибутом <code class="docutils literal"><span class="pre">compressed_textures</span></code>.</li>
+<li>необязательный атрибут <code class="docutils literal"><span class="pre">compressed_gzip</span></code> используется для включения загрузки сжатых при помощи GZIP ресурсов, таких как «.json.gz», «.bin.gz», «.dds.gz» и «.pvr.gz».</li>
+<li>необязательный атрибут <code class="docutils literal"><span class="pre">alpha</span></code> используется для установки прозрачности области отрисовки.</li>
+<li>необязательный атрибут <code class="docutils literal"><span class="pre">no_social</span></code> используется для отключения кнопок социальных сетей на панели управления.</li>
+<li>необязательный атрибут <code class="docutils literal"><span class="pre">socials</span></code> используется для выборочного включения и отключения кнопок социальных сетей, а также для задания порядка, в котором они располагаются на экране. Этот атрибут должен выглядеть так: <code class="docutils literal"><span class="pre">socials=&lt;...&gt;</span></code>, где <code class="docutils literal"><span class="pre">&lt;...&gt;</span></code> - набор букв, соответствующих кнопкам социальных сетей, которые вы хотите включить (<code class="docutils literal"><span class="pre">f</span></code> - Facebook, <code class="docutils literal"><span class="pre">v</span></code> - VK, <code class="docutils literal"><span class="pre">t</span></code> - Twitter, <code class="docutils literal"><span class="pre">w</span></code> - Weibo, <code class="docutils literal"><span class="pre">g</span></code> - Google+).</li>
 </ol>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
@@ -280,24 +259,21 @@
 <h2><a class="toc-backref" href="#id8">Ошибки сцены</a><a class="headerlink" href="#scene-errors" title="Ссылка на этот заголовок">¶</a></h2>
 <p>В случае некорректного использования веб-плеера выводятся сообщения об ошибках.</p>
 <ol class="arabic simple">
-<li><p class="first"><a class="reference internal" href="#webplayer-attributes"><span>атрибутом</span></a> <code class="docutils literal"><span class="pre">load</span></code> указан неверный путь к JSON файлу или данный файл неисправен;</p>
-</li>
+<li><a class="reference internal" href="#webplayer-attributes"><span class="std std-ref">атрибутом</span></a> <code class="docutils literal"><span class="pre">load</span></code> указан неверный путь к JSON файлу или данный файл неисправен;</li>
 </ol>
 <a class="reference internal image-reference" href="_images/error_wrong_json_path.png"><img alt="_images/error_wrong_json_path.png" class="align-center" src="_images/error_wrong_json_path.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <ol class="arabic simple" start="2">
-<li><p class="first"><a class="reference internal" href="#webplayer-attributes"><span>атрибут</span></a> <code class="docutils literal"><span class="pre">load</span></code> не найден или его значение пустое;</p>
-</li>
+<li><a class="reference internal" href="#webplayer-attributes"><span class="std std-ref">атрибут</span></a> <code class="docutils literal"><span class="pre">load</span></code> не найден или его значение пустое;</li>
 </ol>
 <a class="reference internal image-reference" href="_images/error_not_load_attr.png"><img alt="_images/error_not_load_attr.png" class="align-center" src="_images/error_not_load_attr.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <ol class="arabic simple" start="3">
-<li><p class="first">Ошибка инициализации WebGL. Возможные решения описаны на <a class="reference internal" href="problems_and_solutions.html#renderer-not-working"><span>этой странице</span></a>.</p>
-</li>
+<li>Ошибка инициализации WebGL. Возможные решения описаны на <a class="reference internal" href="problems_and_solutions.html#renderer-not-working"><span class="std std-ref">этой странице</span></a>.</li>
 </ol>
 <a class="reference internal image-reference" href="_images/error_webgl.png"><img alt="_images/error_webgl.png" class="align-center" src="_images/error_webgl.png" style="width: 100%;" /></a>
 <div class="line-block">
@@ -326,7 +302,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Триумф.
-      Обновлено: 2017-11-21.
+      Обновлено: 2017-12-29.
 
     </p>
   </div>
@@ -382,11 +358,11 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

@@ -14,7 +14,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-"use strict";
+import register from "../util/register.js";
+
+import m_cam_fact from "../extern/camera.js";
+import m_ctl_fact from "../extern/controls.js";
+import m_scenes_fact from "../extern/scenes.js";
+import m_trans_fact from "../extern/transform.js";
+import m_util_fact from "../extern/util.js";
+import * as m_vec3 from "../libs/gl_matrix/vec3.js";
 
 /**
  * Gyroscope actions add-on.
@@ -23,14 +30,13 @@
  * @module gyroscope
  */
 
-b4w.module["gyroscope"] = function(exports, require) {
+function Gyroscope(ns, exports) {
 
-var m_cam        = require("camera");
-var m_ctl        = require("controls");
-var m_scenes     = require("scenes");
-var m_trans      = require("transform");
-var m_util       = require("util");
-var m_vec3       = require("vec3");
+var m_cam        = m_cam_fact(ns);
+var m_ctl        = m_ctl_fact(ns);
+var m_scenes     = m_scenes_fact(ns);
+var m_trans      = m_trans_fact(ns);
+var m_util       = m_util_fact(ns);
 
 var _begin_angles = new Float32Array(3);
 var _curr_angles = new Float32Array(3);
@@ -137,3 +143,7 @@ exports.disable_camera_rotation = function() {
 }
 
 };
+
+var gyroscope_factory = register("gyroscope", Gyroscope);
+
+export default gyroscope_factory;

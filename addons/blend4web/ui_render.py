@@ -46,22 +46,23 @@ class B4W_RenderDevServer(RenderButtonsPanel, bpy.types.Panel):
 
     def draw(self, context):
         layout = self.layout
+
+        is_started = bool(server.B4WLocalServer.server_process)
+        is_waiting_for_shutdown = server.B4WLocalServer.is_waiting_for_shutdown()
+
+        if is_started:
+            layout.label(text = _("Development server is running."))
+        elif is_waiting_for_shutdown:
+            layout.label(text = _("Stopping server..."))
+        else:
+            layout.label(text = _("Development server is off."))
+
+        if is_started:
+            layout.operator("b4w.stop_server", text=p_("Stop Server", "Operator"), icon="PAUSE")
+        elif not is_waiting_for_shutdown:
+            layout.operator("b4w.start_server", text=p_("Start Server", "Operator"), icon="PLAY")
+
         if addon_prefs.has_valid_sdk_path():
-            is_started = bool(server.B4WLocalServer.server_process)
-            is_waiting_for_shutdown = server.B4WLocalServer.is_waiting_for_shutdown()
-
-            if is_started:
-                layout.label(text = _("Development server is running."))
-            elif is_waiting_for_shutdown:
-                layout.label(text = _("Stopping server..."))
-            else:
-                layout.label(text = _("Development server is off."))
-
-            if is_started:
-                layout.operator("b4w.stop_server", text=p_("Stop Server", "Operator"), icon="PAUSE")
-            elif not is_waiting_for_shutdown:
-                layout.operator("b4w.start_server", text=p_("Start Server", "Operator"), icon="PLAY")
-
             if is_started:
                 layout.operator("b4w.open_sdk", text=p_("SDK Index", "Operator"), icon="URL")
                 layout.operator("b4w.open_proj_manager",
@@ -71,7 +72,7 @@ class B4W_RenderDevServer(RenderButtonsPanel, bpy.types.Panel):
 
         else:
             row = layout.row()
-            row.label(text = _("Development server is unavailable for standalone Blend4Web add-on."))
+            row.label(text = _("Project Manager is unavailable for standalone Blend4Web add-on."))
             row = layout.row()
             row.label(text = _("Remove standalone Blend4Web add-on (if installed) and install Blend4Web SDK."))
 

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Meshes &mdash; Blend4Web 17.10.1 User Manual</title>
+  <title>Meshes &mdash; Blend4Web 17.12.0 User Manual</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.10.1 User Manual" href="index.html"/>
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Blend4Web 17.12.0 User Manual" href="index.html"/>
         <link rel="next" title="Normal Editor" href="normal_editor.html"/>
         <link rel="prev" title="Objects" href="objects.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -94,7 +97,7 @@
 <li class="toctree-l1"><a class="reference internal" href="addon.html">Add-on</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Scene Settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Meshes</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Meshes</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#static-and-dynamic-meshes">Static and Dynamic Meshes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#settings">Settings</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#override-bounding-volumes">Override Bounding Volumes</a></li>
@@ -182,8 +185,8 @@
 </li>
 </ul>
 </div>
-<p>Meshes are a subclass of <a class="reference internal" href="objects.html#objects"><span>objects</span></a>. Meshes are different from objects of the other types in a sense that they have geometric structure that is visible in the scene. All objects user can see in a scene are either meshes or converted to meshes on export (like the <code class="docutils literal"><span class="pre">CURVE</span></code>, <code class="docutils literal"><span class="pre">TEXT</span></code>, <code class="docutils literal"><span class="pre">METABALL</span></code> and <code class="docutils literal"><span class="pre">SURFACE</span></code> type objects).</p>
-<p><a class="reference internal" href="addon.html#addon"><span>Blend4Web addon</span></a> has several tools for mesh editing, including the <a class="reference internal" href="normal_editor.html#normals-editor"><span>normal editor</span></a>.</p>
+<p>Meshes are a subclass of <a class="reference internal" href="objects.html#objects"><span class="std std-ref">objects</span></a>. Meshes are different from objects of the other types in a sense that they have geometric structure that is visible in the scene. All objects user can see in a scene are either meshes or converted to meshes on export (like the <code class="docutils literal"><span class="pre">CURVE</span></code>, <code class="docutils literal"><span class="pre">TEXT</span></code>, <code class="docutils literal"><span class="pre">METABALL</span></code> and <code class="docutils literal"><span class="pre">SURFACE</span></code> type objects).</p>
+<p><a class="reference internal" href="addon.html#addon"><span class="std std-ref">Blend4Web addon</span></a> has several tools for mesh editing, including the <a class="reference internal" href="normal_editor.html#normals-editor"><span class="std std-ref">normal editor</span></a>.</p>
 <p>This chapter provides an overview of the <code class="docutils literal"><span class="pre">MESH</span></code> type object parameters and settings, as well as the API functions to work with them.</p>
 <div class="section" id="static-and-dynamic-meshes">
 <span id="static-dynamic-meshes"></span><h2><a class="toc-backref" href="#id4">Static and Dynamic Meshes</a><a class="headerlink" href="#static-and-dynamic-meshes" title="Permalink to this headline">¶</a></h2>
@@ -195,12 +198,12 @@
 </div>
 <div class="section" id="settings">
 <span id="mesh-settings"></span><h2><a class="toc-backref" href="#id5">Settings</a><a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h2>
-<p>Meshes have all settings of the <a class="reference internal" href="objects.html#object-settings"><span>objects</span></a> and several additional settings.</p>
+<p>Meshes have all settings of the <a class="reference internal" href="objects.html#object-settings"><span class="std std-ref">objects</span></a> and several additional settings.</p>
 <div class="section" id="override-bounding-volumes">
 <span id="id2"></span><h3><a class="toc-backref" href="#id6">Override Bounding Volumes</a><a class="headerlink" href="#override-bounding-volumes" title="Permalink to this headline">¶</a></h3>
 <p>This section is used to override bounding volumes. Such volumes are used to check object’s visibility, to handle collisions and physics interaction. By editing them, you can achieve various effects.</p>
 <a class="reference internal image-reference" href="_images/meshes_override_bounding_volumes.png"><img alt="_images/meshes_override_bounding_volumes.png" class="align-center" src="_images/meshes_override_bounding_volumes.png" style="width: 100%;" /></a>
-<p>The <code class="docutils literal"><span class="pre">Override</span> <span class="pre">Bounding</span> <span class="pre">Volumes</span></code> section can be found on the <code class="docutils literal"><span class="pre">Blend4Web</span></code> panel (beside the <a class="reference internal" href="normal_editor.html#normals-editor"><span>normals editor</span></a>.).</p>
+<p>The <code class="docutils literal"><span class="pre">Override</span> <span class="pre">Bounding</span> <span class="pre">Volumes</span></code> section can be found on the <code class="docutils literal"><span class="pre">Blend4Web</span></code> panel (beside the <a class="reference internal" href="normal_editor.html#normals-editor"><span class="std std-ref">normals editor</span></a>.).</p>
 <p><em>Show Boundings</em></p>
 <blockquote>
 <div><a class="reference internal image-reference" href="_images/meshes_show_boundings.png"><img alt="_images/meshes_show_boundings.png" class="align-center" src="_images/meshes_show_boundings.png" style="width: 100%;" /></a>
@@ -241,7 +244,7 @@
 <p class="first admonition-title">Note</p>
 <p class="last">The object must have <code class="docutils literal"><span class="pre">Export</span> <span class="pre">Shape</span> <span class="pre">Keys</span></code> parameter enabled.</p>
 </div>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
 <span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_object_by_name</span><span class="p">(</span><span class="s2">&quot;Object&quot;</span><span class="p">);</span>
 <span class="nx">m_geometry</span><span class="p">.</span><span class="nx">apply_shape_key</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="s2">&quot;Key 1&quot;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">);</span>
 <span class="c1">// ...</span>
@@ -270,7 +273,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Triumph.
-      Last updated on 2017-11-21.
+      Last updated on 2017-12-29.
 
     </p>
   </div>
@@ -326,11 +329,11 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

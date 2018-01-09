@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Работа с цветом &mdash; Руководство пользователя Blend4Web 17.10.1</title>
+  <title>Работа с цветом &mdash; Руководство пользователя Blend4Web 17.12.0</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 17.10.1" href="index.html"/>
+        <link rel="index" title="Алфавитный указатель"
+              href="genindex.html"/>
+        <link rel="search" title="Поиск" href="search.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 17.12.0" href="index.html"/>
         <link rel="next" title="Звук" href="audio.html"/>
         <link rel="prev" title="Природные эффекты" href="outdoor_rendering.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -109,7 +112,7 @@
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Система частиц. Инстансинг</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">Анимация</a></li>
 <li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Природные эффекты</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Работа с цветом</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Работа с цветом</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#gamma-overview">Общее описание</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#human-vision-and-monitors">Человеческое зрение и мониторы</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#gamma-formula">Гамма</a></li>
@@ -183,7 +186,7 @@
   <div class="section" id="color-management">
 <span id="gamma"></span><h1><a class="toc-backref" href="#id3">Работа с цветом</a><a class="headerlink" href="#color-management" title="Ссылка на этот заголовок">¶</a></h1>
 <div class="contents topic" id="table-of-contents">
-<p class="topic-title first">Содержание</p>
+<p class="topic-title first">Table of Contents</p>
 <ul class="simple">
 <li><a class="reference internal" href="#color-management" id="id3">Работа с цветом</a><ul>
 <li><a class="reference internal" href="#gamma-overview" id="id4">Общее описание</a></li>
@@ -223,35 +226,27 @@
 <col width="46%" />
 </colgroup>
 <thead valign="bottom">
-<tr class="row-odd"><th class="head"><p class="first last">Описание</p>
-</th>
-<th class="head"><p class="first last">Освещённость, лк</p>
-</th>
+<tr class="row-odd"><th class="head">Описание</th>
+<th class="head">Освещённость, лк</th>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td><p class="first last">Летом в полдень</p>
-</td>
+<tr class="row-even"><td>Летом в полдень</td>
 <td>17 000</td>
 </tr>
-<tr class="row-odd"><td><p class="first last">Зимой в полдень</p>
-</td>
+<tr class="row-odd"><td>Зимой в полдень</td>
 <td>5 000</td>
 </tr>
-<tr class="row-even"><td><p class="first last">В пасмурный день</p>
-</td>
+<tr class="row-even"><td>В пасмурный день</td>
 <td>1 000</td>
 </tr>
-<tr class="row-odd"><td><p class="first last">В светлой комнате</p>
-</td>
+<tr class="row-odd"><td>В светлой комнате</td>
 <td>100</td>
 </tr>
-<tr class="row-even"><td><p class="first last">Ночью в полнолуние</p>
-</td>
+<tr class="row-even"><td>Ночью в полнолуние</td>
 <td>0.2</td>
 </tr>
-<tr class="row-odd"><td><p class="first last">В безлунную ночь</p>
-</td>
+<tr class="row-odd"><td>В безлунную ночь</td>
 <td>0.001</td>
 </tr>
 </tbody>
@@ -272,7 +267,7 @@
 <p>Используется в следующей упрощенной формуле:</p>
 <blockquote>
 <div>V<sub>out</sub> = V<sub>in</sub><sup>γ</sup></div></blockquote>
-<p>γ &lt; 1 - упаковывающая гамма, γ &gt; 1 - распаковывающая гамма. В наиболее простом случае используются значения 1/2.2 и 2.2 соответственно. Далее вместо термина &#8220;гамма-коррекция&#8221; будут использованы термины &#8220;упаковка&#8221; (Linear -&gt; sRGB) и &#8220;распаковка&#8221; (sRGB -&gt; Linear).</p>
+<p>γ &lt; 1 - упаковывающая гамма, γ &gt; 1 - распаковывающая гамма. В наиболее простом случае используются значения 1/2.2 и 2.2 соответственно. Далее вместо термина «гамма-коррекция» будут использованы термины «упаковка» (Linear -&gt; sRGB) и «распаковка» (sRGB -&gt; Linear).</p>
 <a class="reference internal image-reference" href="_images/gamma.png"><img alt="_images/gamma.png" class="align-center" src="_images/gamma.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="gamma-in-node-materials">
@@ -303,37 +298,25 @@
 <col width="50%" />
 </colgroup>
 <thead valign="bottom">
-<tr class="row-odd"><th class="head"><p class="first last">Случай использования</p>
-</th>
-<th class="head"><p class="first last">Коррекция</p>
-</th>
+<tr class="row-odd"><th class="head">Случай использования</th>
+<th class="head">Коррекция</th>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td><p class="first last">Текстура для окраски</p>
-</td>
-<td><p class="first last">реализуется автоматически в ноде текстуры (альфа-канал коррекции не подвергается)</p>
-</td>
+<tr class="row-even"><td>Текстура для окраски</td>
+<td>реализуется автоматически в ноде текстуры (альфа-канал коррекции не подвергается)</td>
 </tr>
-<tr class="row-odd"><td><p class="first last">Текстура для маски</p>
-</td>
-<td><p class="first last">GAMMA со значением γ = 0.45</p>
-</td>
+<tr class="row-odd"><td>Текстура для маски</td>
+<td>GAMMA со значением γ = 0.45</td>
 </tr>
-<tr class="row-even"><td><p class="first last">Вертексный цвет для окраски</p>
-</td>
-<td><p class="first last">реализуется автоматически</p>
-</td>
+<tr class="row-even"><td>Вертексный цвет для окраски</td>
+<td>реализуется автоматически</td>
 </tr>
-<tr class="row-odd"><td><p class="first last">Вертексный цвет для маски</p>
-</td>
-<td><p class="first last">GAMMA со значением γ = 0.45</p>
-</td>
+<tr class="row-odd"><td>Вертексный цвет для маски</td>
+<td>GAMMA со значением γ = 0.45</td>
 </tr>
-<tr class="row-even"><td><p class="first last">Карта нормалей</p>
-</td>
-<td><p class="first last">не требуется</p>
-</td>
+<tr class="row-even"><td>Карта нормалей</td>
+<td>не требуется</td>
 </tr>
 </tbody>
 </table>
@@ -358,7 +341,7 @@
 <div class="section" id="implementation">
 <h3><a class="toc-backref" href="#id14">Реализация</a><a class="headerlink" href="#implementation" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Функция смешивания в движке Blend4Web имеет вид:</p>
-<div class="highlight-none"><div class="highlight"><pre>gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+<div class="highlight-none"><div class="highlight"><pre><span></span>gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
 </pre></div>
 </div>
 <p>Инициализация контекста WebGL производится с параметром <cite>premultipliedAlpha = true</cite> (что является значением по умолчанию). Кроме того, на выходе шейдеров производится умножение всех каналов цветности на значение <span class="math">\(\alpha\)</span>.</p>
@@ -375,17 +358,13 @@
 <h3><a class="toc-backref" href="#id17">Дополнительные настройки</a><a class="headerlink" href="#additional-settings" title="Ссылка на этот заголовок">¶</a></h3>
 <dl class="docutils">
 <dt><em>Brightness</em></dt>
-<dd><p class="first last">Яркость. Значение по умолчанию 0.0.</p>
-</dd>
+<dd>Яркость. Значение по умолчанию 0.0.</dd>
 <dt><em>Contrast</em></dt>
-<dd><p class="first last">Яркость. Значение по умолчанию 0.0.</p>
-</dd>
+<dd>Яркость. Значение по умолчанию 0.0.</dd>
 <dt><em>Exposure</em></dt>
-<dd><p class="first last">Экспозиция. Значение по умолчанию 1.0.</p>
-</dd>
+<dd>Экспозиция. Значение по умолчанию 1.0.</dd>
 <dt><em>Saturation</em></dt>
-<dd><p class="first last">Экспозиция. Значение по умолчанию 1.0.</p>
-</dd>
+<dd>Экспозиция. Значение по умолчанию 1.0.</dd>
 </dl>
 </div>
 </div>
@@ -411,7 +390,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Триумф.
-      Обновлено: 2017-11-21.
+      Обновлено: 2017-12-29.
 
     </p>
   </div>
@@ -467,11 +446,11 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

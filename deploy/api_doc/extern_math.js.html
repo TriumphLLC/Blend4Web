@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Source: extern/math.js | Blend4Web API Reference</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: extern/math.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import register from "../util/register.js";
+
+import * as m_vec3 from "../libs/gl_matrix/vec3.js";
+import * as m_util from "../intern/util.js";
+import * as m_math from "../intern/math.js";
+
+/**
+ * Auxiliary math methods. For math methods operating on vectors, matrices or quaternions see the
+ * corresponding modules.
+ * @module math
+ * @local Plane
+ */
+function Math(ns, exports) {
+
+var _vec3_tmp = new Float32Array(3);
+
+/**
+ * Plane represented as vec3 normal and distance to the origin.
+ * @typedef {Float32Array(4)} Plane
+ */
+
+/**
+ * Get the parametric line.
+ * @method module:math.create_pline_from_points
+ * @param {Vec3} point1 First point.
+ * @param {Vec3} point2 Second point.
+ * @returns {ParametricLine} Parametric line.
+ */
+exports.create_pline_from_points = function(point1, point2) {
+    var dest = new Float32Array(6);
+    m_math.set_pline_initial_point(dest, point1);
+
+    m_vec3.subtract(point2, point1, _vec3_tmp);
+
+    m_math.set_pline_directional_vec(dest, _vec3_tmp);
+
+    return dest;
+}
+
+/**
+ * Get the parametric line.
+ * @method module:math.create_pline_from_point_vec
+ * @param {Vec3} point First point.
+ * @param {Vec3} vec Directional vector.
+ * @returns {ParametricLine} Parametric line.
+ */
+exports.create_pline_from_point_vec = function(point, vec) {
+    var dest = new Float32Array(6);
+    m_math.set_pline_initial_point(dest, point);
+    m_math.set_pline_directional_vec(dest, vec);
+
+    return dest;
+}
+
+/**
+ * Init the parametric line.
+ * @method module:math.create_pline
+ * @returns {ParametricLine} pline Parametric line.
+ */
+exports.create_pline = function() {
+    return new Float32Array(6);
+}
+/**
+ * Get the parametric line directional vector.
+ * @method module:math.get_pline_directional_vec
+ * @param {ParametricLine} pline Parametric line.
+ * @param {?Vec3} [dest=new Float32Array(3);] Destination vector.
+ * @returns {?Vec3} Destination vector.
+ */
+exports.get_pline_directional_vec = m_math.get_pline_directional_vec;
+/**
+ * Get the parametric line initial point.
+ * @method module:math.get_pline_initial_point
+ * @param {ParametricLine} pline Parametric line.
+ * @param {?Vec3} [dest=new Float32Array(3);] Destination point.
+ * @returns {?Vec3} Destination point.
+ */
+exports.get_pline_initial_point = m_math.get_pline_initial_point;
+/**
+ * Set the parametric line initial point.
+ * @method module:math.set_pline_initial_point
+ * @param {ParametricLine} pline Parametric line.
+ * @param {Vec3} vec3 Point.
+ */
+exports.set_pline_initial_point = m_math.set_pline_initial_point;
+/**
+ * Set the parametric line directional vector.
+ * @method module:math.set_pline_directional_vec
+ * @param {ParametricLine} pline Parametric line.
+ * @param {Vec3} vec3 Vector.
+ */
+exports.set_pline_directional_vec = m_math.set_pline_directional_vec;
+/**
+ * Calculate intersection point of a line and a plane.
+ * @method module:math.line_plane_intersect
+ * @see Lengyel E. - Mathematics for 3D Game Programming and Computer Graphics,
+ * Third Edition. Chapter 5.2.1 Intersection of a Line and a Plane
+ * @param {Vec3} pn Plane normal.
+ * @param {number} p_dist Plane signed distance from the origin.
+ * @param {ParametricLine} pline Parametric line.
+ * @param {Vec3} dest Destination vector.
+ * @returns {?Vec3} Intersection point or null if the line is parallel to the plane.
+ */
+exports.line_plane_intersect = m_util.line_plane_intersect
+/**
+ * Get the coordinates of a certain point on the given parametric line.
+ * @method module:math.calc_pline_point
+ * @param {ParametricLine} pline Parametric line.
+ * @param {number} t Parameter - distance from the line initial point to a certain point.
+ * @param {?Vec3} [dest=new Float32Array(3);] Destination point.
+ * @returns {?Vec3} Destination point.
+ */
+exports.calc_pline_point = m_math.calc_pline_point;
+/**
+ * Calculate distance from point to plane.
+ * @method module:math.point_plane_dist
+ * @param {Vec3} point Point.
+ * @param {Plane} plane Plane.
+ * @returns {number} Distance.
+ */
+exports.point_plane_dist = m_math.point_plane_dist;
+/**
+ * Interpolate value with no easing, no acceleration.
+ * @method module:math.linear_tween
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.linear_tween = m_math.linear_tween;
+/**
+ * Interpolate value with accelerating from zero velocity.
+ * @method module:math.ease_in_quad
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_in_quad = m_math.ease_in_quad;
+/**
+ * Interpolate value with decelerating to zero velocity.
+ * @method module:math.ease_out_quad
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_out_quad = m_math.ease_out_quad;
+/**
+ * Interpolate value with acceleration until halfway, then deceleration.
+ * @method module:math.ease_in_out_quad
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_in_out_quad = m_math.ease_in_out_quad;
+/**
+ * Interpolate value with accelerating from zero velocity.
+ * @method module:math.ease_in_cubic
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_in_cubic = m_math.ease_in_cubic;
+/**
+ * Interpolate value with decelerating to zero velocity.
+ * @method module:math.ease_out_cubic
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_out_cubic = m_math.ease_out_cubic;
+/**
+ * Interpolate value with acceleration until halfway, then deceleration.
+ * @method module:math.ease_in_out_cubic
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_in_out_cubic = m_math.ease_in_out_cubic;
+/**
+ * Interpolate value with accelerating from zero velocity.
+ * @method module:math.ease_in_quart
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_in_quart = m_math.ease_in_quart;
+/**
+ * Interpolate value with decelerating to zero velocity.
+ * @method module:math.ease_out_quart
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_out_quart = m_math.ease_out_quart;
+/**
+ * Interpolate value with acceleration until halfway, then deceleration.
+ * @method module:math.ease_in_out_quart
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_in_out_quart = m_math.ease_in_out_quart;
+/**
+ * Interpolate value with decelerating from zero velocity.
+ * @method module:math.ease_in_quint
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_in_quint = m_math.ease_in_quint;
+/**
+ * Interpolate value with decelerating to zero velocity.
+ * @method module:math.ease_out_quint
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_out_quint = m_math.ease_out_quint;
+/**
+ * Interpolate value with acceleration until halfway, then deceleration.
+ * @method module:math.ease_in_out_quint
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_in_out_quint = m_math.ease_in_out_quint;
+/**
+ * Interpolate value with decelerating from zero velocity.
+ * @method module:math.ease_in_sine
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_in_sine = m_math.ease_in_sine;
+/**
+ * Interpolate value with decelerating to zero velocity.
+ * @method module:math.ease_out_sine
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_out_sine = m_math.ease_out_sine;
+/**
+ * Interpolate value with acceleration until halfway, then decelerating.
+ * @method module:math.ease_in_out_sine
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_in_out_sine = m_math.ease_in_out_sine;
+/**
+ * Interpolate value with decelerating from zero velocity.
+ * @method module:math.ease_in_expo
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_in_expo = m_math.ease_in_expo;
+/**
+ * Interpolate value with decelerating to zero velocity.
+ * @method module:math.ease_out_expo
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_out_expo = m_math.ease_out_expo;
+/**
+ * Interpolate value with acceleration until halfway, then decelerating.
+ * @method module:math.ease_in_out_expo
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_in_out_expo = m_math.ease_in_out_expo;
+/**
+ * Interpolate value with decelerating from zero velocity.
+ * @method module:math.ease_in_circ
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_in_circ = m_math.ease_in_circ;
+/**
+ * Interpolate value with decelerating to zero velocity.
+ * @method module:math.ease_out_circ
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_out_circ = m_math.ease_out_circ;
+/**
+ * Interpolate value with acceleration until halfway, then deceleration.
+ * @method module:math.ease_in_out_circ
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_in_out_circ = m_math.ease_in_out_circ;
+/**
+ * Interpolate value with decelerating from zero velocity.
+ * @method module:math.ease_in_elastic
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_in_elastic = m_math.ease_in_elastic;
+/**
+ * Interpolate value with decelerating to zero velocity.
+ * @method module:math.ease_out_elastic
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_out_elastic = m_math.ease_out_elastic;
+/**
+ * Interpolate value with acceleration until halfway, then deceleration.
+ * @method module:math.ease_in_out_elastic
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_in_out_elastic = m_math.ease_in_out_elastic;
+/**
+ * Interpolate value with decelerating from zero velocity.
+ * @method module:math.ease_in_back
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_in_back = m_math.ease_in_back;
+/**
+ * Interpolate value with decelerating to zero velocity.
+ * @method module:math.ease_out_back
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_out_back = m_math.ease_out_back;
+/**
+ * Interpolate value with acceleration until halfway, then deceleration.
+ * @method module:math.ease_in_out_back
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_in_out_back = m_math.ease_in_out_back;
+/**
+ * Interpolate value with decelerating from zero velocity.
+ * @method module:math.ease_in_bounce
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_in_bounce = m_math.ease_in_bounce;
+/**
+ * Interpolate value with decelerating to zero velocity.
+ * @method module:math.ease_out_bounce
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_out_bounce = m_math.ease_out_bounce;
+/**
+ * Interpolate value with acceleration until halfway, then deceleration.
+ * @method module:math.ease_in_out_bounce
+ * @param {number} t Current time.
+ * @param {number} b Start value.
+ * @param {number} c Change in value.
+ * @param {number} d Duration.
+ * @returns {number} Interpolated value.
+ */
+exports.ease_in_out_bounce = m_math.ease_in_out_bounce;
+
+}
+
+var math_factory = register("math", Math);
+
+export default math_factory;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-armature.html">armature</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-fps.html">fps</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gp_conf.html">gp_conf</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hmd.html">hmd</a></li><li><a href="module-hmd_conf.html">hmd_conf</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-input.html">input</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-logic_nodes.html">logic_nodes</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-math.html">math</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screen.html">screen</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Blend4Web API Reference (generated by JSDoc 3.5.5 on Fri Dec 29 2017 16:28:37 GMT+0300 (MSK))
+    <a href="https://www.blend4web.com">www.blend4web.com</a>
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+  (function() {
+    if (window.document.domain != "www.blend4web.com")
+      return;
+
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter24512171 = new Ya.Metrika({
+                    id:24512171,
+                    clickmap:false,
+                    trackLinks:true,
+                    accurateTrackBounce:true
+                });
+            } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+  })();
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/24512171" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -16,6 +16,7 @@ import subprocess
 import sys
 import tempfile
 import zipfile
+import platform
 
 from os.path import (basename, join, normpath, exists, relpath, splitext,
                      isfile, isdir, dirname)
@@ -52,9 +53,12 @@ URANIUM_FILE_NAME = "uranium.js"
 URANIUM_FILE_NAME_BIN = "uranium.js.mem"
 URANIUM_WASM_FILE_NAME = "uranium_wasm.js"
 URANIUM_WASM_FILE_NAME_BIN = "uranium_wasm.wasm"
+URANIUM_DIR = "uranium"
 ENGINE_ADV_FILE_NAME = "b4w.min.js"
 ENGINE_WHITE_FILE_NAME = "b4w.whitespace.min.js"
 ENGINE_SIM_FILE_NAME = "b4w.simple.min.js"
+
+ENGINE_BUILD_NAME = "b4w.js"
 
 # ignore these files during compilation/deployment
 COMP_DEPL_IGNORE = ['project.py', '.b4w_project', '.b4w_icon.*', '.map']
@@ -78,6 +82,7 @@ _mod_dev_dir = None
 _js_cc_params = None
 
 _java_exec = "java"
+_node_exec = None
 
 # files deleted after compile project
 _temporary_files = []
@@ -329,7 +334,7 @@ def run(argv, base_dir):
 
 def fill_global_paths(base_dir):
     global _base_dir, _curr_work_dir, _cc_dir, _src_dir, _js_cc_params
-    global _engine_dir, _java_exec, _mod_dev_dir, _std_dev_dir
+    global _engine_dir, _java_exec, _mod_dev_dir, _std_dev_dir, _node_exec
 
     # sdk base directory
     _base_dir = base_dir
@@ -344,7 +349,7 @@ def fill_global_paths(base_dir):
     _cc_dir = join(base_dir, "tools", "closure-compiler")
 
     # engine build directory
-    _engine_dir = join(base_dir, "deploy", "apps", "common")
+    _engine_dir = join(base_dir, "dist")
 
     # closure compiler executive file
     js_cc_path = join(_cc_dir, "compiler.jar")
@@ -362,6 +367,8 @@ def fill_global_paths(base_dir):
     # standard developer directory
     _std_dev_dir = join(base_dir, "apps_dev")
 
+    from find_nodejs import node_path
+    _node_exec = node_path()
 
 def run_help(cmd=""):
     """Run console help."""
@@ -826,8 +833,8 @@ def copy_app_templates(proj_name, dev_dir, base_dir, src_dir, title, author):
     tpl_html_file.close()
 
     import mod_list
-    scripts = mod_list.gen_code(mod_list.gen_module_list("../../src/",
-                                src_dir))
+    scripts = mod_list.gen_code([join(relpath(_engine_dir, dev_dir),
+        ENGINE_BUILD_NAME)])
 
     if title == "":
         html_title = proj_name
@@ -835,7 +842,7 @@ def copy_app_templates(proj_name, dev_dir, base_dir, src_dir, title, author):
         html_title = title
 
     html_insertions = dict(name=proj_name, arg_name=proj_name,
-                           title=html_title, scripts=scripts)
+                           title=html_title, scripts=scripts, type="text/javascript")
 
     out_html_str = string.Template(tpl_html_str).substitute(html_insertions)
 
@@ -1129,11 +1136,10 @@ def run_clone_snippet(args, snippet_name):
     tpl_html_str = tpl_html_file.read()
     tpl_html_file.close()
 
-    import mod_list
-    scripts = mod_list.gen_code(mod_list.gen_module_list("../../src/", join(_base_dir, "src")))
+    scripts = ""
 
     assets_path = "m_cfg.get_assets_path(\"" + new_proj_name + "\")"
-    html_insertions = dict(name=new_proj_name, assets_path=assets_path, scripts=scripts, title="")
+    html_insertions = dict(name=new_proj_name, assets_path=assets_path, scripts=scripts, title="", type="module")
 
     out_html_str = string.Template(tpl_html_str).substitute(html_insertions)
 
@@ -1148,11 +1154,11 @@ def run_clone_snippet(args, snippet_name):
     tmp_js_lines = []
 
     for line in js_lines:
-        line = re.sub("b4w\.register\(\"" + snippet_name, "b4w.register(\"" + new_proj_name, line)
-        line = re.sub("APP_ASSETS_PATH *=(.*?);", "APP_ASSETS_PATH = m_cfg.get_assets_path(\"" + new_proj_name + "\");", line)
+        line = re.sub("APP_ASSETS_PATH *=(.*?);",
+                      "APP_ASSETS_PATH = m_cfg.get_assets_path(\"" + new_proj_name + "\");", line)
         tmp_js_lines.append(line)
 
-    tmp_js_lines.append("b4w.require(\""+ new_proj_name + "\").init();")
+    tmp_js_lines.append("init();")
 
     js_file = open(join(new_proj_path, new_proj_name + ".js"), 'w', encoding="utf-8", newline="\n")
     js_file.writelines(tmp_js_lines)
@@ -1364,7 +1370,9 @@ def run_build(args, dev_proj_path):
 
         for html_app in html_apps:
             parser = parse_html_file(html_app.as_posix())
-            cur_js_dict = list(filter(lambda x: not dirname(normpath(join(str(html_app.parent), x["src"]))).startswith(_src_dir), parser.js))
+            cur_js_dict = list(filter(lambda x:
+                not dirname(normpath(join(str(html_app.parent), x["src"]))).startswith(_src_dir) and 
+                not dirname(normpath(join(str(html_app.parent), x["src"]))).startswith(_engine_dir), parser.js))
 
             for js in cur_js_dict:
                 _undeleted_files.append(normpath(join(build_proj_path, relpath(html_app.parent.as_posix(), dev_proj_path), js["src"])))
@@ -1611,6 +1619,20 @@ def build_app(app, **kwargs):
     js_ignore = [relpath(js.as_posix(), build_proj_path) for js in js_ignore]
 
     parser = parse_html_file(html_file, js_ignore, css_ignore)
+    for s in parser.js:
+        if "type" in s and s["type"] == "module":
+            run_webpack = [_node_exec, join(_base_dir, "scripts", "app_builder", "run_webpack.js"), "--output", kwargs["build_proj_path"], "--root", _base_dir,"--inject-relative-paths", html_file]
+            print_flush()
+            print("    " + "-"*(len(s["src"]) + len("Converting ES6: ")))
+            print(GREEN + "    Converting ES6" + ENDCOL + ": " + BLUE + s["src"] + ENDCOL)
+            print("    " + "-"*(len(s["src"]) + len("Converting ES6: ")))
+            # print(" ".join(run_webpack))
+            print_flush()
+            subprocess.call(run_webpack)
+            engine_type = "bundle"
+            parser = parse_html_file(html_file, js_ignore, css_ignore)
+            break
+
     css_pos = {}
     js_pos = {}
 
@@ -1620,7 +1642,11 @@ def build_app(app, **kwargs):
         if not css_dir in css_pos or css_pos[css_dir][0] > css["start_pos"][0]:
             css_pos[css_dir] = [css["start_pos"][0], css["start_pos"][1]]
 
-    cur_mods_dict = list(filter(lambda x: not is_abs(x["src"]) and dirname(normpath(join(str(app.parent), unix_path(x["src"])))).startswith(_src_dir), parser.js))
+    cur_mods_dict = list(filter(lambda x: not is_abs(x["src"]) and (
+        dirname(normpath(join(str(app.parent), unix_path(x["src"])))).startswith(_src_dir) or
+        dirname(normpath(join(str(app.parent), unix_path(x["src"])))).startswith(_engine_dir) or
+        basename(unix_path(x["src"])) == "b4w_app_bundle.js"  # created by webpack
+        ), parser.js))
 
     try:
         engine_pos = [cur_mods_dict[0]["start_pos"][0], cur_mods_dict[0]["start_pos"][1]]
@@ -1673,7 +1699,7 @@ def build_app(app, **kwargs):
         "engine_pos":        engine_pos,
         "use_physics":       use_physics,
         "opt_level":         opt_level,
-        "version":           kwargs["version"]
+        "version":           kwargs["version"],
     }
 
     build_html(**params)
@@ -1690,13 +1716,9 @@ def build_app(app, **kwargs):
 
 def parse_html_file(html_file, js_ignore=[], css_ignore=[]):
     parser = HTMLProcessor(js_ignore, css_ignore)
-    src_file = open(html_file, encoding="utf-8")
-    src_text = src_file.read()
-    src_file.seek(0)
-    src_file.close()
-
-    parser.feed(src_text)
-
+    with open(html_file, encoding="utf-8") as f:
+        src_text = f.read()
+        parser.feed(src_text)
     return parser
 
 def parse_body(start_body, end_body, src_lines):
@@ -1755,15 +1777,18 @@ def build_html(**kwargs):
         new_engine_path = normpath(join(build_proj_path, engine_file_name))
         shutil.copyfile(engine_path, new_engine_path)
 
+    if engine_type == "bundle":
+        engine_src = app.stem + ".min.js"
+
     rel_assets_root = "."
 
     if len(kwargs["conf_assets_dirs"]):
         rel_assets_root = kwargs["conf_assets_dirs"][0]
 
-    if engine_type in ["compile", "copy"]:
+    if engine_type in ["compile", "copy", "bundle"]:
         change_build_assets_prefix(build_proj_path, rel_assets_root)
 
-        if engine_type == "compile":
+        if engine_type in ["compile", "bundle"]:
             change_build_version(build_proj_path, False, version, js_paths)
         else:
             change_build_version(build_proj_path, engine_file_name, version, False)
@@ -1783,9 +1808,6 @@ def build_html(**kwargs):
             ['<link type="text/css" rel="stylesheet" href="' + \
             unix_path(normpath(join(rel, app.stem))) + \
             '.min.css' + suffix + '">', css_pos[rel][1]]
-
-    engine_str = ""
-
     if engine_src:
         engine_str =\
             '<script type="text/javascript" src="' +\
@@ -1794,8 +1816,11 @@ def build_html(**kwargs):
     js_strs = {}
 
     for parent in js_paths:
+        # if we have scripts in the same dir with html which are not created from ES6
+        # Note! The corresponding js is already included above as engine_str
+        if normpath(parent) == normpath(join(out_html_file_path, "..")) and engine_type == "bundle":
+            continue
         rel = relpath(parent, start=join(out_html_file_path, ".."))
-
         js_strs[str(js_pos[rel][0])] = \
             ['<script type="text/javascript" src="' +\
             unix_path(normpath(join(rel, app.stem))) + '.min.js' + suffix + '"></script>', js_pos[rel][1]]
@@ -1830,10 +1855,12 @@ def build_html(**kwargs):
     html_file.close()
 
 def copy_phys_to_proj_path(proj_path):
-    shutil.copy(join(_engine_dir, URANIUM_FILE_NAME), proj_path)
-    shutil.copy(join(_engine_dir, URANIUM_FILE_NAME_BIN), proj_path)
-    shutil.copy(join(_engine_dir, URANIUM_WASM_FILE_NAME), proj_path)
-    shutil.copy(join(_engine_dir, URANIUM_WASM_FILE_NAME_BIN), proj_path)
+    path = join(proj_path, URANIUM_DIR)
+    os.makedirs(path, exist_ok=True)
+    shutil.copy(join(_engine_dir, URANIUM_DIR, URANIUM_FILE_NAME), path)
+    shutil.copy(join(_engine_dir, URANIUM_DIR, URANIUM_FILE_NAME_BIN), path)
+    shutil.copy(join(_engine_dir, URANIUM_DIR, URANIUM_WASM_FILE_NAME), path)
+    shutil.copy(join(_engine_dir, URANIUM_DIR, URANIUM_WASM_FILE_NAME_BIN), path)
 
 def change_build_version(build_proj_path, engine_file_name, version, js_paths=False):
     processed_files = []
@@ -2007,14 +2034,15 @@ def compile_js(js_paths, file_name, opt_level, engine_type, use_source_map, dev_
                    normpath(join(_cc_dir, "extern_webassembly.js"))]
 
     for parent in js_paths:
-        if engine_type == "compile":
+        if engine_type in ["compile", "bundle"]:
             ENGINE_CP_TMP = ENGINE_CP[:]
-            ENGINE_CP_TMP.extend(["--external-js=" + join(_src_dir, "b4w.js")])
-            ENGINE_CP_TMP.extend(["--external-js=" +
-                              i for i in get_used_modules(js_paths[parent])])
+            if not engine_type == "bundle":
+                ENGINE_CP_TMP.extend(["--external-js=" + join(_engine_dir, ENGINE_BUILD_NAME)])
             ENGINE_CP_TMP.extend(["--external-js=" + i for i in js_paths[parent]])
             ENGINE_CP_TMP.extend(["-d", join(parent, file_name + ".min.js")])
             ENGINE_CP_TMP.append("--optimization=" + opt_level)
+
+            # print("ENGINE_CP_TMP ", " ".join(ENGINE_CP_TMP))
 
             proc = subprocess.Popen(ENGINE_CP_TMP, stdout=subprocess.PIPE,
                     stderr=subprocess.STDOUT, universal_newlines=True)
@@ -2037,7 +2065,7 @@ def compile_js(js_paths, file_name, opt_level, engine_type, use_source_map, dev_
                 externs_gen_file = tempfile.NamedTemporaryFile(mode="r+", suffix=".js", delete=False)
 
                 addons_path_obj = Path(join(_src_dir, "addons"))
-                ext_path_obj    = Path(join(_src_dir, "ext"))
+                ext_path_obj    = Path(join(_src_dir, "extern"))
 
                 addons = addons_path_obj.rglob('*.js')
                 ext    = ext_path_obj.rglob('*.js')
@@ -2479,7 +2507,7 @@ def run_deploy(args, proj_path):
 
     assets_dirs = []
 
-    ignore = []
+    ignore = ["*webpack.log", "*.map"]
 
     for o, a in opts:
         if o == "--assets-dest" or o == "-e":
@@ -2792,6 +2820,7 @@ def run_import(args):
 
         engine_type = proj_cfg_value(proj_cfg, "compile", "engine_type", "copy")
 
+        # FIXME: engine_type cannot be "external" now.
         if engine_type in ["copy", "compile", "external"]:
             print("Check modules in the '", basename(proj_path),"' project.")
             run_check_mods(proj_path_dst)
@@ -3028,7 +3057,7 @@ def run_check_mods(proj_path):
         sys.exit(1)
 
     for app in apps:
-        src_modules = gen_module_list(_src_dir, _src_dir)
+        src_modules = [join(_engine_dir, ENGINE_BUILD_NAME)]
         used = []
         unused = []
         parser = HTMLProcessor()
@@ -3037,24 +3066,28 @@ def run_check_mods(proj_path):
         src_file.seek(0)
         src_file.close()
         parser.feed(src_text)
+        mods = list(filter(lambda x: not is_abs(x["src"]) and (
+            normpath(join(str(app.parent), unix_path(x["src"]))).startswith(_src_dir) or
+            normpath(join(str(app.parent), unix_path(x["src"]))).startswith(_engine_dir)
+            ), parser.js))
 
-        mods = list(filter(lambda x: not is_abs(x["src"]) and normpath(join(str(app.parent), unix_path(x["src"]))).startswith(_src_dir), parser.js))
+        use_es6_module = any(map(lambda x: "type" in x and x["type"] == "module", parser.js))
+
         used.extend(list(set(src_modules) - set([normpath(join(str(app.parent), unix_path(x["src"]))) for x in mods])))
         unused.extend(list(set([normpath(join(str(app.parent), unix_path(x["src"]))) for x in mods]) - set(src_modules)))
 
         is_ok = True
 
-        for m in used:
-            if is_ok:
+        if not use_es6_module:
+            for m in used:
                 is_ok = False
 
-            print(" Module '" + relpath(m, _src_dir) + "' is missing in the '" + app.name + "', please include it or run 'Update Modules'.")
+                print(RED, " Module '" + m + "' is missing in the '" + app.name + "', please include it or run 'Update Modules'.")
 
         for m in unused:
-            if is_ok:
-                is_ok = False
+            is_ok = False
 
-            print(" Incorrect module '" + relpath(m, _src_dir) + "' in the '" + app.name + "', please remove it or run 'Update Modules'.")
+            print(RED, " Incorrect module '" + m + "' in the '" + app.name + "', please remove it or run 'Update Modules'.")
 
         if is_ok:
             print(GREEN, "Module check complete. No problems detected in the '" + app.name + "'.", ENDCOL)
@@ -3081,8 +3114,6 @@ def run_update_mods(proj_path):
         apps = list(filter(lambda app: str(app.relative_to(proj_path).parts[0]) != "assets", apps))
         apps = list(filter(lambda app: str(app.relative_to(proj_path).parts[0]) != "blender", apps))
 
-    from mod_list import gen_module_list
-
     engine_type = proj_cfg_value(proj_cfg, "compile", "engine_type", "none")
 
     # check right engine type
@@ -3091,13 +3122,16 @@ def run_update_mods(proj_path):
         sys.exit(1)
 
     for app in apps:
-        src_modules = gen_module_list(relpath(_src_dir, str(app.parent)), _src_dir)
+        src_modules = [join(relpath(_engine_dir, proj_path), ENGINE_BUILD_NAME)]
 
         # current html file js with meta info (like start_pos, end_pos)
         cur_js_dict = get_cur_js_dict(normpath(join(proj_path, app.as_posix())))
 
         # current html file modules with meta info (like start_pos, end_pos)
-        cur_mods_dict = list(filter(lambda x: not is_abs(x["src"]) and dirname(normpath(join(proj_path, unix_path(x["src"])))).startswith(_src_dir), cur_js_dict))
+        cur_mods_dict = list(filter(lambda x: not is_abs(x["src"]) and (
+            dirname(normpath(join(proj_path, unix_path(x["src"])))).startswith(_src_dir) or
+            dirname(normpath(join(proj_path, unix_path(x["src"])))).startswith(_engine_dir)
+        ), cur_js_dict))
 
         # remove all src modules from html file
         remove_mods_from_html(normpath(app.as_posix()), cur_mods_dict, "</script>")
@@ -3303,7 +3337,7 @@ Options:
 
 
 def change_uranium_bin_path(build_proj_path, version, phys_js_name, phys_bin_name):
-    uranium_bin_path = join(build_proj_path, phys_js_name)
+    uranium_bin_path = join(build_proj_path, URANIUM_DIR, phys_js_name)
 
     uranium_file = open(uranium_bin_path, "r", encoding="utf-8")
     uranium_file_data = uranium_file.read()

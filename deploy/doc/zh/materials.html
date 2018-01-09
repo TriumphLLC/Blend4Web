@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>材质 &mdash; Blend4Web 17.10.1 用户手册</title>
+  <title>材质 &mdash; Blend4Web 17.12.0 用户手册</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.10.1 用户手册" href="index.html"/>
+        <link rel="index" title="索引"
+              href="genindex.html"/>
+        <link rel="search" title="搜索" href="search.html"/>
+    <link rel="top" title="Blend4Web 17.12.0 用户手册" href="index.html"/>
         <link rel="next" title="材质库" href="material_library.html"/>
         <link rel="prev" title="相机" href="camera.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -97,7 +100,7 @@
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">网格</a></li>
 <li class="toctree-l1"><a class="reference internal" href="normal_editor.html">法线编辑器</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">相机</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">材质</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">材质</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#lighting-parameters">灯光参数</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#transparency">透明</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#types">类型</a></li>
@@ -200,7 +203,7 @@
   <span class="target" id="materials"></span><div class="section" id="index-0">
 <span id="id1"></span><h1><a class="toc-backref" href="#id10">材质</a><a class="headerlink" href="#index-0" title="永久链接至标题">¶</a></h1>
 <div class="contents topic" id="table-of-content">
-<p class="topic-title first">目录</p>
+<p class="topic-title first">Table of Content</p>
 <ul class="simple">
 <li><a class="reference internal" href="#index-0" id="id10">材质</a><ul>
 <li><a class="reference internal" href="#lighting-parameters" id="id11">灯光参数</a></li>
@@ -245,35 +248,25 @@
 <a class="reference internal image-reference" href="_images/panel_shading.png"><img alt="_images/panel_shading.png" class="align-center" src="_images/panel_shading.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>漫射 &gt; 颜色</em></dt>
-<dd><p class="first last">漫反射光的颜色。默认值为 0.8，0.8 （0.8）。它可能与漫射映射贴图颜色进行交互。</p>
-</dd>
+<dd>漫反射光的颜色。默认值为 0.8，0.8 （0.8）。它可能与漫射映射贴图颜色进行交互。</dd>
 <dt><em>漫射 &gt; 强度</em></dt>
-<dd><p class="first last">漫反射光的强度。默认值为 0.8。</p>
-</dd>
+<dd>漫反射光的强度。默认值为 0.8。</dd>
 <dt><em>漫射 &gt; 着色</em></dt>
-<dd><p class="first last">漫反射着色算法。默认值为 <code class="docutils literal"><span class="pre">兰伯特</span></code>.</p>
-</dd>
+<dd>漫反射着色算法。默认值为 <code class="docutils literal"><span class="pre">兰伯特</span></code>.</dd>
 <dt><em>反射 &gt; 颜色</em></dt>
-<dd><p class="first last">反射光的颜色。默认值是 1.0，1.0 （1.0）。它可能与高光贴图颜色进行交互。</p>
-</dd>
+<dd>反射光的颜色。默认值是 1.0，1.0 （1.0）。它可能与高光贴图颜色进行交互。</dd>
 <dt><em>反射 &gt; 强度</em></dt>
-<dd><p class="first last">镜面反射光的强度。默认值是 0.5。</p>
-</dd>
+<dd>镜面反射光的强度。默认值是 0.5。</dd>
 <dt><em>反射 &gt; 硬度</em></dt>
-<dd><p class="first last">反射着色计算公式中的指数。默认值为 50。请注意，在引擎中使用的公式和Blender中的略有不同。</p>
-</dd>
+<dd>反射着色计算公式中的指数。默认值为 50。请注意，在引擎中使用的公式和Blender中的略有不同。</dd>
 <dt><em>反射 &gt; 着色</em></dt>
-<dd><p class="first last">高光着色算法。默认值为  <code class="docutils literal"><span class="pre">CookTorr</span></code>.</p>
-</dd>
+<dd>高光着色算法。默认值为  <code class="docutils literal"><span class="pre">CookTorr</span></code>.</dd>
 <dt><em>着色 &gt; Emit</em></dt>
-<dd><p class="first last">发光强度。默认值为 0.0。</p>
-</dd>
+<dd>发光强度。默认值为 0.0。</dd>
 <dt><em>着色 &gt; 环境</em></dt>
-<dd><p class="first last">影响材质的环境因素。默认值是 1.0。</p>
-</dd>
+<dd>影响材质的环境因素。默认值是 1.0。</dd>
 <dt><em>着色 &gt; 无光影</em></dt>
-<dd><p class="first last">当启用时，材质不会对光起反应。默认为禁用。</p>
-</dd>
+<dd>当启用时，材质不会对光起反应。默认为禁用。</dd>
 </dl>
 <dl class="docutils" id="tangent-shading">
 <dt><em>着色 &gt; 切向着色</em></dt>
@@ -284,8 +277,7 @@
 </div>
 </dd>
 <dt><em>着色 &gt; 双面光照</em></dt>
-<dd><p class="first last">启用双面照明模式。此选项是适用于非透明物体的单层网格。</p>
-</dd>
+<dd>启用双面照明模式。此选项是适用于非透明物体的单层网格。</dd>
 </dl>
 </div>
 <div class="section" id="transparency">
@@ -301,37 +293,28 @@
 <p>支持的透明度实现类型是 （按性能升序排序） ︰</p>
 <dl class="docutils">
 <dt><em>Alpha 排序</em></dt>
-<dd><p class="first last">带渐变透明。引擎按三角与相机间的距离进行排序来正确渲染重叠的透明表面。此操作计算代价昂贵。建议将此功能用于封闭透明几何 （瓶、 汽车玻璃等）。</p>
-</dd>
+<dd>带渐变透明。引擎按三角与相机间的距离进行排序来正确渲染重叠的透明表面。此操作计算代价昂贵。建议将此功能用于封闭透明几何 （瓶、 汽车玻璃等）。</dd>
 <dt><em>Alpha抗锯齿</em></dt>
-<dd><p class="first last">透明渐变。这个功能是在Alpha覆盖技术的帮助下实现的。仅当启用MSAA（仅在支持WebGL2的设备上）时才可用。不执行三角形排序。建议该功能在可视化遮罩纹理较小的细节（树叶，草）时使用。</p>
-</dd>
+<dd>透明渐变。这个功能是在Alpha覆盖技术的帮助下实现的。仅当启用MSAA（仅在支持WebGL2的设备上）时才可用。不执行三角形排序。建议该功能在可视化遮罩纹理较小的细节（树叶，草）时使用。</dd>
 <dt><em>Alpha 混合</em></dt>
-<dd><p class="first last">带渐变透明。不执行三角形排序。建议在无封闭透明几何体 （水表面，贴花） 使用此功能。</p>
-</dd>
+<dd>带渐变透明。不执行三角形排序。建议在无封闭透明几何体 （水表面，贴花） 使用此功能。</dd>
 <dt><em>添加</em></dt>
-<dd><p class="first last">带渐变透明。不执行三角形排序。引擎将禁用导致透明曲面以任意顺序渲染的深度缓冲区写入。建议在效果中 （粒子系统，辉光） 中使用此功能。</p>
-</dd>
+<dd>带渐变透明。不执行三角形排序。引擎将禁用导致透明曲面以任意顺序渲染的深度缓冲区写入。建议在效果中 （粒子系统，辉光） 中使用此功能。</dd>
 <dt><em>Alpha 剪切</em></dt>
-<dd><p class="first last">没有渐变透明。如果 alpha 小于 0.5，引擎丢弃像素。不执行三角形排序。建议使用此功能与遮罩纹理一起用来渲染小细节 （树的树叶、 草）。</p>
-</dd>
+<dd>没有渐变透明。如果 alpha 小于 0.5，引擎丢弃像素。不执行三角形排序。建议使用此功能与遮罩纹理一起用来渲染小细节 （树的树叶、 草）。</dd>
 <dt><em>不透明</em></dt>
-<dd><p class="first last">非透明。Alpha 将被忽略。这是默认值。</p>
-</dd>
+<dd>非透明。Alpha 将被忽略。这是默认值。</dd>
 </dl>
 </div>
 <div class="section" id="additional-settings">
 <span id="index-4"></span><h3><a class="toc-backref" href="#id14">附加设置</a><a class="headerlink" href="#additional-settings" title="永久链接至标题">¶</a></h3>
 <dl class="docutils">
 <dt><em>透明度 &gt; 显示透明度</em></dt>
-<dd><p class="first last">启用透明度复选框是可以在Blender中查看透明物体。引擎忽略此选项- 引擎要用 <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Blend</span></code> 选项。</p>
-</dd>
+<dd>启用透明度复选框是可以在Blender中查看透明物体。引擎忽略此选项- 引擎要用 <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Blend</span></code> 选项。</dd>
 <dt><em>透明度 &gt; 阿尔法</em></dt>
-<dd><p class="first last">材质的透明度级别。引擎忽略此参数 （与Blender相反），如果有漫射纹理 - 改为使用纹理的 alpha 通道值。</p>
-</dd>
+<dd>材质的透明度级别。引擎忽略此参数 （与Blender相反），如果有漫射纹理 - 改为使用纹理的 alpha 通道值。</dd>
 <dt><em>透明度 &gt; 阿尔法</em></dt>
-<dd><p class="first last">此选项明确指定带有深度排序相关的 <strong>不同</strong> 材质物体的相对定位顺序。该选项可以有正负值。越遥远的物体用较小的参数值更能被正确的渲染。默认值为 0.0。</p>
-</dd>
+<dd>此选项明确指定带有深度排序相关的 <strong>不同</strong> 材质物体的相对定位顺序。该选项可以有正负值。越遥远的物体用较小的参数值更能被正确的渲染。默认值为 0.0。</dd>
 </dl>
 </div>
 </div>
@@ -343,10 +326,10 @@
 </div>
 <div class="section" id="static-reflection">
 <span id="reflection-static"></span><span id="index-6"></span><h3><a class="toc-backref" href="#id16">静态反射</a><a class="headerlink" href="#static-reflection" title="永久链接至标题">¶</a></h3>
-<p>无论环境如何变化，表面任然渲染同样的一张图。只需使用 <a class="reference internal" href="textures.html#mirror-map"><span>mirror map</span></a> 便可激活。</p>
+<p>无论环境如何变化，表面任然渲染同样的一张图。只需使用 <a class="reference internal" href="textures.html#mirror-map"><span class="std std-ref">mirror map</span></a> 便可激活。</p>
 <div class="admonition seealso">
 <p class="first admonition-title">参见</p>
-<p class="last"><a class="reference internal" href="#fresnel"><span>菲涅耳反射效果</span></a></p>
+<p class="last"><a class="reference internal" href="#fresnel"><span class="std std-ref">菲涅耳反射效果</span></a></p>
 </div>
 </div>
 <div class="section" id="dynamic-reflection">
@@ -354,29 +337,22 @@
 <p>表面反射了他们当前的位置中的选定的物体。引擎支持平面和球面反射。</p>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
-<p class="last">如果您使用的是 <a class="reference internal" href="node_materials.html#node-materials"><span>节点材质</span></a>, 如果 <code class="docutils literal"><span class="pre">Material</span></code> 或 <code class="docutils literal"><span class="pre">Extended</span> <span class="pre">Material</span></code> 节点出现在节点树，动态反射才有效。</p>
+<p class="last">如果您使用的是 <a class="reference internal" href="node_materials.html#node-materials"><span class="std std-ref">节点材质</span></a>, 如果 <code class="docutils literal"><span class="pre">Material</span></code> 或 <code class="docutils literal"><span class="pre">Extended</span> <span class="pre">Material</span></code> 节点出现在节点树，动态反射才有效。</p>
 </div>
 <div class="section" id="activation">
 <h4>激活<a class="headerlink" href="#activation" title="永久链接至标题">¶</a></h4>
 <ol class="arabic simple">
-<li><p class="first">检查 <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Reflections</span></code>  和折射面板上的  <code class="docutils literal"><span class="pre">Reflections</span></code> 设置。</p>
-</li>
-<li><p class="first">对 <em>反射</em> 物体，启用 <code class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Reflections</span></code> 面板上的 <code class="docutils literal"><span class="pre">Reflective</span></code> 选项。</p>
-<ul>
-<li><p class="first">对平面的反射， <code class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Reflections</span> <span class="pre">&gt;</span> <span class="pre">Type</span></code>  属性设置为 <code class="docutils literal"><span class="pre">Plane</span></code>。然后，添加一个空物体用作反射平面，例如通过执行 <code class="docutils literal"><span class="pre">Add</span> <span class="pre">&gt;</span> <span class="pre">Empty</span> <span class="pre">&gt;</span> <span class="pre">Single</span> <span class="pre">Arrow</span></code>。为方便起见重命名，在反射物体 <code class="docutils literal"><span class="pre">Reflection</span> <span class="pre">plane</span></code> 字段中指定其名称。</p>
-</li>
-<li><p class="first">用方块贴图反射， <code class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Reflections</span> <span class="pre">&gt;</span> <span class="pre">Type</span></code> 属性设置为 <code class="docutils literal"><span class="pre">Cube</span></code>.</p>
-</li>
+<li>检查 <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Reflections</span></code>  和折射面板上的  <code class="docutils literal"><span class="pre">Reflections</span></code> 设置。</li>
+<li>对 <em>反射</em> 物体，启用 <code class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Reflections</span></code> 面板上的 <code class="docutils literal"><span class="pre">Reflective</span></code> 选项。<ul>
+<li>对平面的反射， <code class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Reflections</span> <span class="pre">&gt;</span> <span class="pre">Type</span></code>  属性设置为 <code class="docutils literal"><span class="pre">Plane</span></code>。然后，添加一个空物体用作反射平面，例如通过执行 <code class="docutils literal"><span class="pre">Add</span> <span class="pre">&gt;</span> <span class="pre">Empty</span> <span class="pre">&gt;</span> <span class="pre">Single</span> <span class="pre">Arrow</span></code>。为方便起见重命名，在反射物体 <code class="docutils literal"><span class="pre">Reflection</span> <span class="pre">plane</span></code> 字段中指定其名称。</li>
+<li>用方块贴图反射， <code class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Reflections</span> <span class="pre">&gt;</span> <span class="pre">Type</span></code> 属性设置为 <code class="docutils literal"><span class="pre">Cube</span></code>.</li>
 </ul>
 </li>
-<li><p class="first"><em>反射</em> 物体如需要材质，设置 <code class="docutils literal"><span class="pre">材质</span> <span class="pre">&gt;</span> <span class="pre">Mirror</span> <span class="pre">&gt;</span> <span class="pre">Reflectivity</span></code> 值。</p>
-<ul>
-<li><p class="first">在Blender中显示的物体上的反射需要设置 <code class="docutils literal"><span class="pre">Mirror</span> <span class="pre">&gt;</span> <span class="pre">Reflectivity</span> <span class="pre">&gt;</span> <span class="pre">Show</span> <span class="pre">Reflectivity</span></code>  。引擎将忽略此选项。</p>
-</li>
+<li><em>反射</em> 物体如需要材质，设置 <code class="docutils literal"><span class="pre">材质</span> <span class="pre">&gt;</span> <span class="pre">Mirror</span> <span class="pre">&gt;</span> <span class="pre">Reflectivity</span></code> 值。<ul>
+<li>在Blender中显示的物体上的反射需要设置 <code class="docutils literal"><span class="pre">Mirror</span> <span class="pre">&gt;</span> <span class="pre">Reflectivity</span> <span class="pre">&gt;</span> <span class="pre">Show</span> <span class="pre">Reflectivity</span></code>  。引擎将忽略此选项。</li>
 </ul>
 </li>
-<li><p class="first">对 <em>反射性</em> 物体，启用 <code class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Reflections</span></code> 面板上的 <code class="docutils literal"><span class="pre">Reflexible</span></code> 复选框。</p>
-</li>
+<li>对 <em>反射性</em> 物体，启用 <code class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Reflections</span></code> 面板上的 <code class="docutils literal"><span class="pre">Reflexible</span></code> 复选框。</li>
 </ol>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
@@ -388,7 +364,7 @@
 <p>因为优化性能的原因法线贴图和阴影在反射图像中将被忽略。</p>
 <div class="admonition seealso">
 <p class="first admonition-title">参见</p>
-<p class="last"><a class="reference internal" href="#fresnel"><span>菲涅耳反射效果</span></a></p>
+<p class="last"><a class="reference internal" href="#fresnel"><span class="std std-ref">菲涅耳反射效果</span></a></p>
 </div>
 </div>
 </div>
@@ -408,11 +384,9 @@
 <p>菲涅耳效应可以设置静态和动态的反射。</p>
 <dl class="docutils">
 <dt><em>材质 &gt; 镜面 &gt; 菲尼尔</em></dt>
-<dd><p class="first last">反射的菲涅尔指数。 Schlick方程中的N指数。在blender中被限制在0到5的值。设置为零的时候菲涅尔效应无法被观察到，所有的反射都是正常的。大于零的时候，在角度这是接近正确的角度观看时表面材料是弱反射性的。参数值越大，可以看到菲涅尔效应的观察角度越大。</p>
-</dd>
+<dd>反射的菲涅尔指数。 Schlick方程中的N指数。在blender中被限制在0到5的值。设置为零的时候菲涅尔效应无法被观察到，所有的反射都是正常的。大于零的时候，在角度这是接近正确的角度观看时表面材料是弱反射性的。参数值越大，可以看到菲涅尔效应的观察角度越大。</dd>
 <dt><em>材质 &gt; 镜面 &gt; 混合</em></dt>
-<dd><p class="first last">菲涅耳反射系数。在Schlick公式中通过下面的表达式 R<sub>0</sub> = 1 - <code class="docutils literal"><span class="pre">Blend</span></code> / 5 它减少到  R<sub>0</sub> 。在Blender中它仅限于值从 0 到 5。此参数定义了菲涅耳效应强度:  <code class="docutils literal"><span class="pre">Blend</span></code> 因子越大，更多的菲涅耳效应影响。如果它是等于零的菲涅耳影响观察不到。</p>
-</dd>
+<dd>菲涅耳反射系数。在Schlick公式中通过下面的表达式 R<sub>0</sub> = 1 - <code class="docutils literal"><span class="pre">Blend</span></code> / 5 它减少到  R<sub>0</sub> 。在Blender中它仅限于值从 0 到 5。此参数定义了菲涅耳效应强度:  <code class="docutils literal"><span class="pre">Blend</span></code> 因子越大，更多的菲涅耳效应影响。如果它是等于零的菲涅耳影响观察不到。</dd>
 </dl>
 <a class="reference internal image-reference" href="_images/reflection_dynamic_and_fresnel.png"><img alt="_images/reflection_dynamic_and_fresnel.png" class="align-center" src="_images/reflection_dynamic_and_fresnel.png" style="width: 100%;" /></a>
 <div class="line-block">
@@ -426,27 +400,22 @@
 <a class="reference internal image-reference" href="_images/panel_render_options.png"><img alt="_images/panel_render_options.png" class="align-center" src="_images/panel_render_options.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>材质 &gt; 渲染选项 &gt; 不要渲染</em></dt>
-<dd><p class="first last">禁用渲染此物体。</p>
-</dd>
+<dd>禁用渲染此物体。</dd>
 <dt><em>材质 &gt; 渲染选项 &gt; 背面剔除</em></dt>
-<dd><p class="first last">当启用时，引擎不会渲染多边形背面。默认情况下启用。</p>
-</dd>
+<dd>当启用时，引擎不会渲染多边形背面。默认情况下启用。</dd>
 <dt><em>材质 &gt; 渲染选项 &gt; 湿润</em></dt>
 <dd><p class="first">为材质激活水润湿效果。</p>
 <div class="last admonition seealso">
 <p class="first admonition-title">参见</p>
-<p class="last"><a class="reference internal" href="outdoor_rendering.html#water"><span>水</span></a></p>
+<p class="last"><a class="reference internal" href="outdoor_rendering.html#water"><span class="std std-ref">水</span></a></p>
 </div>
 </dd>
 <dt><em>材料&gt;渲染选项&gt;镜头光晕</em></dt>
-<dd><p class="first last">启用此参数可激活材质镜头光晕效果。</p>
-</dd>
+<dd>启用此参数可激活材质镜头光晕效果。</dd>
 <dt><em>材质 &gt; 渲染选项 &gt; 渲染以上全部</em></dt>
-<dd><p class="first last">材质被渲染在场景的所有物体的顶层。要求使用渐变透明度类型  (<code class="docutils literal"><span class="pre">Add</span></code>, Alpha Blend`` 或者 <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Sort</span></code>).</p>
-</dd>
+<dd>材质被渲染在场景的所有物体的顶层。要求使用渐变透明度类型  (<code class="docutils literal"><span class="pre">Add</span></code>, Alpha Blend`` 或者 <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Sort</span></code>).</dd>
 <dt><em>材质 &gt; 渲染选项 &gt; 顶点色绘制</em></dt>
-<dd><p class="first last">复选框启用时，使用网格顶点颜色而不是物质的漫反射颜色。</p>
-</dd>
+<dd>复选框启用时，使用网格顶点颜色而不是物质的漫反射颜色。</dd>
 <dt><em>材质 &gt; 渲染选项 &gt; 折射性</em></dt>
 <dd><p class="first">使物体折射。摄动因素可以设置 <code class="docutils literal"><span class="pre">Refraction</span> <span class="pre">Settings</span></code> 面板上的 <code class="docutils literal"><span class="pre">Refraction</span> <span class="pre">Bump</span></code> 选项设置。默认值为 0.001。</p>
 <div class="admonition note">
@@ -455,7 +424,7 @@
 </div>
 <div class="last admonition seealso">
 <p class="first admonition-title">参见</p>
-<p class="last"><a class="reference internal" href="#alpha-blend"><span>透明</span></a></p>
+<p class="last"><a class="reference internal" href="#alpha-blend"><span class="std std-ref">透明</span></a></p>
 </div>
 </dd>
 </dl>
@@ -469,8 +438,7 @@
 <a class="reference internal image-reference" href="_images/update_material_anim.png"><img alt="_images/update_material_anim.png" class="align-center" src="_images/update_material_anim.png" style="width: 100%;" /></a>
 <p><em>更新材质动画</em></p>
 <blockquote>
-<div><p>在Blender视口更新动画着色。</p>
-</div></blockquote>
+<div>在Blender视口更新动画着色。</div></blockquote>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -483,21 +451,18 @@
 </div>
 <dl class="docutils">
 <dt><em>材质 &gt; 水</em></dt>
-<dd><p class="first last">特殊材质 <a class="reference internal" href="outdoor_rendering.html#water"><span>水渲染</span></a>.</p>
-</dd>
+<dd>特殊材质 <a class="reference internal" href="outdoor_rendering.html#water"><span class="std std-ref">水渲染</span></a>.</dd>
 <dt><em>材质 &gt; 地面动态草</em></dt>
-<dd><p class="first last">材质用于 <a class="reference internal" href="particles_instancing.html#particles-grass"><span>草渲染</span></a>.</p>
-</dd>
+<dd>材质用于 <a class="reference internal" href="particles_instancing.html#particles-grass"><span class="std std-ref">草渲染</span></a>.</dd>
 <dt><em>材质 &gt; 碰撞</em></dt>
 <dd><p class="first">碰撞几何体的一种特殊材质。</p>
 <div class="last admonition seealso">
 <p class="first admonition-title">参见</p>
-<p class="last"><a class="reference internal" href="physics.html#physics"><span>物理</span></a></p>
+<p class="last"><a class="reference internal" href="physics.html#physics"><span class="std std-ref">物理</span></a></p>
 </div>
 </dd>
 <dt><em>材质 &gt; 导出选项 &gt; 不要导出</em></dt>
-<dd><p class="first last">材质不导出。</p>
-</dd>
+<dd>材质不导出。</dd>
 </dl>
 </div>
 <div class="section" id="halo-materials">
@@ -512,35 +477,25 @@
 <h3><a class="toc-backref" href="#id24">附加设置</a><a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h3>
 <dl class="docutils">
 <dt><em>光晕 &gt; Alpha</em></dt>
-<dd><p class="first last">材质透明度的参数。默认值是 1.0 （不透明）。</p>
-</dd>
+<dd>材质透明度的参数。默认值是 1.0 （不透明）。</dd>
 <dt><em>光晕 &gt; 颜色</em></dt>
-<dd><p class="first last">材质的颜色。默认值是 (0.8, 0.8, 0.8) （基本是白色）。</p>
-</dd>
+<dd>材质的颜色。默认值是 (0.8, 0.8, 0.8) （基本是白色）。</dd>
 <dt><em>光晕 &gt; 大小</em></dt>
-<dd><p class="first last">粒子大小。默认值是 0.5。</p>
-</dd>
+<dd>粒子大小。默认值是 0.5。</dd>
 <dt><em>光晕 &gt; 硬度</em></dt>
-<dd><p class="first last">计算渐变的指数。影响粒子的可见尺寸。默认值为 50。</p>
-</dd>
+<dd>计算渐变的指数。影响粒子的可见尺寸。默认值为 50。</dd>
 <dt><em>光晕 &gt; 环</em></dt>
-<dd><p class="first last">使用环。可以设置相对数量和颜色。</p>
-</dd>
+<dd>使用环。可以设置相对数量和颜色。</dd>
 <dt><em>光晕 &gt; 线</em></dt>
-<dd><p class="first last">使用线。可以设置相对数量和颜色。</p>
-</dd>
+<dd>使用线。可以设置相对数量和颜色。</dd>
 <dt><em>光晕 &gt; 星点</em></dt>
-<dd><p class="first last">使用星星。可以设置边的数量。</p>
-</dd>
+<dd>使用星星。可以设置边的数量。</dd>
 <dt><em>光晕 &gt; 特殊: 星</em></dt>
-<dd><p class="first last">启用星空渲染模式。网格被固定的相对于相机。  还需启用 <code class="docutils literal"><span class="pre">Sun</span></code> 的 <code class="docutils literal"><span class="pre">Lamp</span> <span class="pre">&gt;</span> <span class="pre">Dynamic</span> <span class="pre">Intensity</span></code> 复选框。应用程序应通过 API设置黑暗的时间长度。</p>
-</dd>
+<dd>启用星空渲染模式。网格被固定的相对于相机。  还需启用 <code class="docutils literal"><span class="pre">Sun</span></code> 的 <code class="docutils literal"><span class="pre">Lamp</span> <span class="pre">&gt;</span> <span class="pre">Dynamic</span> <span class="pre">Intensity</span></code> 复选框。应用程序应通过 API设置黑暗的时间长度。</dd>
 <dt><em>光晕 &gt; 混合高度</em></dt>
-<dd><p class="first last">褪色的星星的高度范围。</p>
-</dd>
+<dd>褪色的星星的高度范围。</dd>
 <dt><em>光晕 &gt; 最小高度</em></dt>
-<dd><p class="first last">物体的局部坐标系中使星星可见的最小高度。</p>
-</dd>
+<dd>物体的局部坐标系中使星星可见的最小高度。</dd>
 </dl>
 </div>
 </div>
@@ -556,7 +511,7 @@
 <p><a class="reference external" href="https://www.blend4web.com/api_doc/module-material.html">material</a> API模块包括控制堆栈材质的每一个方面的方法。</p>
 <p>这里有材质API模块如何用来对一个物体的材质进行各种操作的几个示例：</p>
 <p>获取物体的漫反射颜色：</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_scenes</span>    <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_scenes</span>    <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_material</span>  <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;material&quot;</span><span class="p">);</span>
 
 <span class="p">...</span>
@@ -569,7 +524,7 @@
 </pre></div>
 </div>
 <p>获取物体的高光颜色：</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_scenes</span>    <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_scenes</span>    <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_material</span>  <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;material&quot;</span><span class="p">);</span>
 
 <span class="p">...</span>
@@ -583,7 +538,7 @@
 </pre></div>
 </div>
 <p>获取其他参数：</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_scenes</span>    <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_scenes</span>    <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_material</span>  <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;material&quot;</span><span class="p">);</span>
 
 <span class="p">...</span>
@@ -598,7 +553,7 @@
 </pre></div>
 </div>
 <p>设置堆叠材质参数：</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_scenes</span>    <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_scenes</span>    <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_material</span>  <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;material&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_rgba</span>      <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;rgba&quot;</span><span class="p">);</span>
 
@@ -621,14 +576,10 @@
 <p>此时，API方法只能影响RGB节点和数值值节点。不支持任何其他类型。</p>
 <p>要改变一个特定的材质节点的值，您需要：</p>
 <ul class="simple">
-<li><p class="first">到物体的链接，使用这种特殊的材质，</p>
-</li>
-<li><p class="first">该材质的名称，</p>
-</li>
-<li><p class="first">节点本身的名称</p>
-</li>
-<li><p class="first">和包含该节点（如果存在的话）的节点组的名称。</p>
-</li>
+<li>到物体的链接，使用这种特殊的材质，</li>
+<li>该材质的名称，</li>
+<li>节点本身的名称</li>
+<li>和包含该节点（如果存在的话）的节点组的名称。</li>
 </ul>
 <p>最好也给节点唯一的名称，否则你将无法获得它们的链接。一个节点的名称可以在在节点编辑器窗口的右侧侧面板的上部查看和改变。</p>
 <div class="admonition note">
@@ -638,7 +589,7 @@
 <a class="reference internal image-reference" href="_images/material_node_name.png"><img alt="_images/material_node_name.png" class="align-center" src="_images/material_node_name.png" style="width: 100%;" /></a>
 <p>这两个例子说明了一个节点材质的参数如何通过API方法来调节。</p>
 <p>获取节点材质参数︰</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_scenes</span>    <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_scenes</span>    <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_material</span>  <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;material&quot;</span><span class="p">);</span>
 
 <span class="p">...</span>
@@ -651,7 +602,7 @@
 </pre></div>
 </div>
 <p>设置节点材质参数：</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_scenes</span>    <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_scenes</span>    <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_material</span>  <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;material&quot;</span><span class="p">);</span>
 
 <span class="p">...</span>
@@ -663,7 +614,7 @@
 </pre></div>
 </div>
 <p>同样的方法还可以用于调整场景环境，如果在场景中的 <code class="docutils literal"><span class="pre">World</span></code> 物体使用 <code class="docutils literal"><span class="pre">RGB</span></code> 或者 <code class="docutils literal"><span class="pre">Value</span></code> 的节点时。但是，在这种情况下，您不需要使用材质的名称。另一个差别是一个链接到场景的物体已被取代的一个链接  <code class="docutils literal"><span class="pre">World</span></code> 的物体，可以用  <a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.get_world_by_name">get_world_by_name()</a> 方法来检索到：</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_scenes</span>    <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_scenes</span>    <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_material</span>  <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;material&quot;</span><span class="p">);</span>
 
 <span class="p">...</span>
@@ -677,7 +628,7 @@
 <div class="section" id="replacing-textures">
 <h3><a class="toc-backref" href="#id28">替换纹理</a><a class="headerlink" href="#replacing-textures" title="永久链接至标题">¶</a></h3>
 <p>API 方法还允许您替换纹理图像。这可以使用  <a class="reference external" href="https://www.blend4web.com/api_doc/module-textures.html">textures</a> 模块的  <a class="reference external" href="https://www.blend4web.com/api_doc/module-textures.html#.change_image">change_image()</a>  方法：</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_scenes</span>  <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_scenes</span>  <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_tex</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;textures&quot;</span><span class="p">);</span>
 
 <span class="p">...</span>
@@ -727,8 +678,8 @@
 
   <div role="contentinfo">
     <p>
-        &copy; 版权所有 2014-2017, Triumph.
-      最后更新于 2017-11-21.
+        &copy; Copyright 2014-2017, Triumph.
+      最后更新于 2017-12-29.
 
     </p>
   </div>
@@ -784,11 +735,11 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Objects &mdash; Blend4Web 17.10.1 User Manual</title>
+  <title>Objects &mdash; Blend4Web 17.12.0 User Manual</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.10.1 User Manual" href="index.html"/>
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Blend4Web 17.12.0 User Manual" href="index.html"/>
         <link rel="next" title="Meshes" href="meshes.html"/>
         <link rel="prev" title="Scene Settings" href="scene_settings.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -93,7 +96,7 @@
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">Add-on</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Scene Settings</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Objects</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Objects</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#types">Types</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#static-and-dynamic-objects">Static and Dynamic Objects</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#settings">Settings</a><ul>
@@ -257,12 +260,12 @@
 <p>The engine supports objects of the following types:</p>
 <blockquote>
 <div><ul class="simple">
-<li><a class="reference internal" href="meshes.html#meshes"><span>meshes (mesh)</span></a></li>
-<li><a class="reference internal" href="camera.html#camera"><span>camera</span></a></li>
-<li><a class="reference internal" href="lighting.html#lighting"><span>lamp</span></a></li>
+<li><a class="reference internal" href="meshes.html#meshes"><span class="std std-ref">meshes (mesh)</span></a></li>
+<li><a class="reference internal" href="camera.html#camera"><span class="std std-ref">camera</span></a></li>
+<li><a class="reference internal" href="lighting.html#lighting"><span class="std std-ref">lamp</span></a></li>
 <li>empty</li>
-<li><a class="reference internal" href="animation.html#skeletal-animation"><span>armature</span></a></li>
-<li><a class="reference internal" href="audio.html#audio"><span>speaker</span></a></li>
+<li><a class="reference internal" href="animation.html#skeletal-animation"><span class="std std-ref">armature</span></a></li>
+<li><a class="reference internal" href="audio.html#audio"><span class="std std-ref">speaker</span></a></li>
 <li>curve</li>
 <li>text</li>
 <li>metaball</li>
@@ -305,7 +308,7 @@
 <dt><em>Transform &gt; Location</em></dt>
 <dd>Position coordinates.</dd>
 <dt><em>Transform &gt; Rotation</em></dt>
-<dd>Rotation angles. For the object rotation all available modes can be used (<code class="docutils literal"><span class="pre">Rotation</span> <span class="pre">Mode</span></code>). However only <code class="docutils literal"><span class="pre">Quaternion</span> <span class="pre">(WXYZ)</span></code> and <code class="docutils literal"><span class="pre">XYZ</span> <span class="pre">Euler</span></code> are supported for <a class="reference internal" href="animation.html#whole-object-anim"><span>object animation</span></a>.</dd>
+<dd>Rotation angles. For the object rotation all available modes can be used (<code class="docutils literal"><span class="pre">Rotation</span> <span class="pre">Mode</span></code>). However only <code class="docutils literal"><span class="pre">Quaternion</span> <span class="pre">(WXYZ)</span></code> and <code class="docutils literal"><span class="pre">XYZ</span> <span class="pre">Euler</span></code> are supported for <a class="reference internal" href="animation.html#whole-object-anim"><span class="std std-ref">object animation</span></a>.</dd>
 <dt><em>Transform &gt; Scale</em></dt>
 <dd>Scaling. All 3 components (x, y, z) should be the same. Scaling for physics objects is not supported.</dd>
 </dl>
@@ -335,7 +338,7 @@
 <dt><em>Levels of Detail &gt; Distance</em></dt>
 <dd>The distance to begin using this level of detail.</dd>
 </dl>
-<p>Using levels of detail is described in the <a class="reference internal" href="#lods"><span>dedicated section</span></a>.</p>
+<p>Using levels of detail is described in the <a class="reference internal" href="#lods"><span class="std std-ref">dedicated section</span></a>.</p>
 </div>
 <div class="section" id="animation-panel">
 <span id="object-settings-animation"></span><h4>Animation Panel<a class="headerlink" href="#animation-panel" title="Permalink to this headline">¶</a></h4>
@@ -383,7 +386,7 @@
 <dt><em>Rendering Properties &gt; Hidden</em></dt>
 <dd>An object with this property enabled will be hidden on load.</dd>
 <dt><em>Rendering Properties &gt; Hidden Children</em></dt>
-<dd>All of the object&#8217;s children and children&#8217;s children and so on will be hidden on load. Available only if the <code class="docutils literal"><span class="pre">Rendering</span> <span class="pre">Properties</span> <span class="pre">&gt;</span> <span class="pre">Hidden</span></code> property is enabled and if the object has any children.</dd>
+<dd>All of the object’s children and children’s children and so on will be hidden on load. Available only if the <code class="docutils literal"><span class="pre">Rendering</span> <span class="pre">Properties</span> <span class="pre">&gt;</span> <span class="pre">Hidden</span></code> property is enabled and if the object has any children.</dd>
 <dt><em>Rendering Properties &gt; Do Not Render</em></dt>
 <dd><p class="first">Disable object rendering (for example useful for a physics object).</p>
 <p class="last">This parameter is not available for <code class="docutils literal"><span class="pre">Empty</span></code> type objects.</p>
@@ -393,13 +396,13 @@
 <p class="last">This parameter is not available for <code class="docutils literal"><span class="pre">Empty</span></code> type objects.</p>
 </dd>
 <dt><em>Rendering Properties &gt; Force Dynamic Object</em></dt>
-<dd>Force the object to become a <a class="reference internal" href="#static-dynamic-objects"><span>dynamic object</span></a>.</dd>
+<dd>Force the object to become a <a class="reference internal" href="#static-dynamic-objects"><span class="std std-ref">dynamic object</span></a>.</dd>
 </dl>
 <dl class="docutils" id="dynamic-geom">
 <dt><em>Rendering Properties &gt; Dynamic Geometry &amp; Materials</em></dt>
 <dd>Allows using geometry update API and inherit materials for the object.</dd>
 <dt><em>Rendering Properties &gt; Line Rendering</em></dt>
-<dd><p class="first">Enables using the object for rendering <a class="reference internal" href="#line-rendering"><span>lines</span></a>.</p>
+<dd><p class="first">Enables using the object for rendering <a class="reference internal" href="#line-rendering"><span class="std std-ref">lines</span></a>.</p>
 <p class="last">This parameter is only available for <code class="docutils literal"><span class="pre">Empty</span></code> type objects.</p>
 </dd>
 </dl>
@@ -455,16 +458,16 @@
 <img alt="_images/object_settings_selection.png" class="align-center" src="_images/object_settings_selection.png" />
 <dl class="docutils">
 <dt><em>Selection and Outlining &gt; Selectable</em></dt>
-<dd>Enable <a class="reference internal" href="#mesh-selection"><span>object selection</span></a> with the mouse or another input device.</dd>
+<dd>Enable <a class="reference internal" href="#mesh-selection"><span class="std std-ref">object selection</span></a> with the mouse or another input device.</dd>
 <dt><em>Selection and Outlining &gt; Enable Outlining</em></dt>
-<dd>Enable <a class="reference internal" href="postprocessing_effects.html#outline"><span>outline glow</span></a> for the object.</dd>
+<dd>Enable <a class="reference internal" href="postprocessing_effects.html#outline"><span class="std std-ref">outline glow</span></a> for the object.</dd>
 </dl>
 </div>
 <div class="section" id="anchors-panel">
 <span id="object-settings-anchors"></span><h4>Anchors Panel<a class="headerlink" href="#anchors-panel" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Anchors &gt; Enable Anchor</em></dt>
-<dd><p class="first">This parameter enables interface for adding anchors (2D tags) to objects. Available for <code class="docutils literal"><span class="pre">EMPTY</span></code> objects only. Described in the <a class="reference internal" href="#objects-anchors"><span>corresponding section</span></a>.</p>
+<dd><p class="first">This parameter enables interface for adding anchors (2D tags) to objects. Available for <code class="docutils literal"><span class="pre">EMPTY</span></code> objects only. Described in the <a class="reference internal" href="#objects-anchors"><span class="std std-ref">corresponding section</span></a>.</p>
 <a class="last reference internal image-reference" href="_images/objects_enable_anchors.png"><img alt="_images/objects_enable_anchors.png" class="align-center" src="_images/objects_enable_anchors.png" style="width: 100%;" /></a>
 </dd>
 </dl>
@@ -477,14 +480,14 @@
 <dd><p class="first">Interface for adding meta tags to the object:</p>
 <dl class="last docutils">
 <dt><em>Meta Tags &gt; Title</em></dt>
-<dd>Object&#8217;s title.</dd>
+<dd>Object’s title.</dd>
 <dt><em>Meta Tags &gt; Category</em></dt>
-<dd>Object&#8217;s category.</dd>
+<dd>Object’s category.</dd>
 <dt><em>Meta Tags &gt; Description</em></dt>
 <dd><p class="first">Description for the object. Depending on <code class="docutils literal"><span class="pre">Description</span> <span class="pre">Source</span></code>, this field accepts either description text itself, or the name of a file where this description is contained.</p>
 <div class="last admonition note">
 <p class="first admonition-title">Note</p>
-<p>To use a text file as a description source you first have to open an existing file in Blender <a class="reference internal" href="interface.html#ui-text-editor"><span>Text Editor</span></a> or to create a new text file in the same editor.</p>
+<p>To use a text file as a description source you first have to open an existing file in Blender <a class="reference internal" href="interface.html#ui-text-editor"><span class="std std-ref">Text Editor</span></a> or to create a new text file in the same editor.</p>
 <p class="last">Then, you only have to set the name of the file in the <code class="docutils literal"><span class="pre">Description</span></code> field.</p>
 </div>
 </dd>
@@ -505,7 +508,7 @@
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p class="last">These settings can be used to align the object to an active camera. They are described in the <a class="reference internal" href="camera.html#camera-viewport-alignment"><span>Camera chapter</span></a>.</p>
+<p class="last">These settings can be used to align the object to an active camera. They are described in the <a class="reference internal" href="camera.html#camera-viewport-alignment"><span class="std std-ref">Camera chapter</span></a>.</p>
 </dd>
 </dl>
 </div>
@@ -519,7 +522,7 @@
 <img alt="_images/object_settings_wind.png" class="align-center" src="_images/object_settings_wind.png" />
 <dl class="docutils">
 <dt><em>Wind Bending</em></dt>
-<dd>Enables wind bending procedural animation. Thoroughly described at the <a class="reference internal" href="outdoor_rendering.html#wind-bending"><span>outdoor rendering</span></a> page.</dd>
+<dd>Enables wind bending procedural animation. Thoroughly described at the <a class="reference internal" href="outdoor_rendering.html#wind-bending"><span class="std std-ref">outdoor rendering</span></a> page.</dd>
 </dl>
 </div>
 <div class="section" id="special-effects-panel">
@@ -543,11 +546,11 @@
 <dt><em>Detect Collisions</em></dt>
 <dd>Activate the object’s physics.</dd>
 <dt><em>Floating</em></dt>
-<dd>Make the object floating. The settings for floating objects are described in detail in the <a class="reference internal" href="physics.html#physics"><span>physics</span></a> section.</dd>
+<dd>Make the object floating. The settings for floating objects are described in detail in the <a class="reference internal" href="physics.html#physics"><span class="std std-ref">physics</span></a> section.</dd>
 <dt><em>Vehicle</em></dt>
-<dd>Use the object as part of a vehicle. The vehicle settings are described in detail in the <a class="reference internal" href="physics.html#physics"><span>physics</span></a> section.</dd>
+<dd>Use the object as part of a vehicle. The vehicle settings are described in detail in the <a class="reference internal" href="physics.html#physics"><span class="std std-ref">physics</span></a> section.</dd>
 <dt><em>Character</em></dt>
-<dd>Use the object for character physics. The character settings are described in detail in the <a class="reference internal" href="physics.html#physics"><span>physics</span></a> section.</dd>
+<dd>Use the object for character physics. The character settings are described in detail in the <a class="reference internal" href="physics.html#physics"><span class="std std-ref">physics</span></a> section.</dd>
 </dl>
 </div>
 </div>
@@ -577,18 +580,18 @@
 <ul>
 <li><p class="first"><a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html#.append_semi_soft">append_semi_soft()</a></p>
 <blockquote>
-<div><p>This method can be used to attach one object to another one using a semi-soft constraint. The object will smoothly follow the object&#8217;s rear. This can be used to create third-person cameras.</p>
+<div><p>This method can be used to attach one object to another one using a semi-soft constraint. The object will smoothly follow the object’s rear. This can be used to create third-person cameras.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html#.append_semi_stiff">append_semi_stiff()</a></p>
 <blockquote>
-<div><p>This method can be used to attach the object to the other object using a semi-stiff constraint, meaning that the child object will move and rotate together with its parent, but it will also be possible to rotate it independently in the parent&#8217;s local space. A behavior similar to that of a tank turret can be created this way.</p>
+<div><p>This method can be used to attach the object to the other object using a semi-stiff constraint, meaning that the child object will move and rotate together with its parent, but it will also be possible to rotate it independently in the parent’s local space. A behavior similar to that of a tank turret can be created this way.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html#.append_stiff">append_stiff()</a></p>
 <blockquote>
 <div><p>This method attaches the object to another object (or to an armature bone) using a stiff constraint. The child object will move, rotate and scale together with its parent.</p>
-<p>Examples: a sword parented to the character&#8217;s hand; a character sitting in a vehicle.</p>
+<p>Examples: a sword parented to the character’s hand; a character sitting in a vehicle.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html#.append_stiff_trans">append_stiff_trans()</a></p>
@@ -624,7 +627,7 @@
 <dt><em>Type</em></dt>
 <dd><p class="first">Anchor type</p>
 <ul class="simple">
-<li><code class="docutils literal"><span class="pre">Annotation</span></code> - content is obtained from the <a class="reference internal" href="#objects-meta-tags"><span>meta tags</span></a> assigned to the object and displayed in the standard section.</li>
+<li><code class="docutils literal"><span class="pre">Annotation</span></code> - content is obtained from the <a class="reference internal" href="#objects-meta-tags"><span class="std std-ref">meta tags</span></a> assigned to the object and displayed in the standard section.</li>
 <li><code class="docutils literal"><span class="pre">Custom</span> <span class="pre">Element</span></code> - an arbitrary HTML element from the current web page is used as an anchor.</li>
 <li><code class="docutils literal"><span class="pre">Generic</span></code> - an anchor’s position can be detected using the <code class="docutils literal"><span class="pre">anchors</span></code> API module.</li>
 </ul>
@@ -642,7 +645,7 @@
 <span id="index-0"></span><h2><a class="toc-backref" href="#id14">Object Transform API</a><a class="headerlink" href="#object-transform-api" title="Permalink to this headline">¶</a></h2>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">Make sure that the object you are trying to transform is a <a class="reference internal" href="#static-dynamic-objects"><span>dynamic object</span></a>.</p>
+<p class="last">Make sure that the object you are trying to transform is a <a class="reference internal" href="#static-dynamic-objects"><span class="std std-ref">dynamic object</span></a>.</p>
 </div>
 <p>Use the following methods of the <a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html">transform</a> module to move objects in the engine:</p>
 <dl class="docutils">
@@ -686,7 +689,7 @@
 <dl class="docutils">
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.get_object_by_name">get_object_by_name()</a></dt>
 <dd><p class="first">Get object by name.</p>
-<div class="last highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
+<div class="last highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
 <span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_object_by_name</span><span class="p">(</span><span class="s2">&quot;Object&quot;</span><span class="p">);</span>
 <span class="c1">// ...</span>
 </pre></div>
@@ -694,7 +697,7 @@
 </dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.get_object_by_dupli_name">get_object_by_dupli_name()</a></dt>
 <dd><p class="first">Get the duplicated object by empty name and dupli name.</p>
-<div class="last highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
+<div class="last highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
 <span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_object_by_dupli_name</span><span class="p">(</span><span class="s2">&quot;Empty&quot;</span><span class="p">,</span> <span class="s2">&quot;Object&quot;</span><span class="p">);</span>
 <span class="c1">// ...</span>
 </pre></div>
@@ -702,7 +705,7 @@
 </dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.get_object_by_dupli_name_list">get_object_by_dupli_name_list()</a></dt>
 <dd><p class="first">Get the duplicated object by empty name and dupli name list (an array of <code class="docutils literal"><span class="pre">String</span></code> type elements).</p>
-<div class="last highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
+<div class="last highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
 <span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_object_by_dupli_name_list</span><span class="p">([</span><span class="s2">&quot;Empty1&quot;</span><span class="p">,</span> <span class="s2">&quot;Empty2&quot;</span><span class="p">,</span> <span class="s2">&quot;Object&quot;</span><span class="p">]);</span>
 <span class="c1">// ...</span>
 </pre></div>
@@ -710,7 +713,7 @@
 </dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.get_object_name_hierarchy">get_object_name_hierarchy()</a></dt>
 <dd><p class="first">Returns the object names hierarchy array (from the highest parent to the object itself) for a given object.</p>
-<div class="last highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
+<div class="last highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
 <span class="kd">var</span> <span class="nx">names</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_object_name_hierarchy</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span>
 <span class="c1">// ...</span>
 </pre></div>
@@ -718,7 +721,7 @@
 </dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.check_object_by_name">check_object_by_name()</a></dt>
 <dd><p class="first">Check if object with given name is present on scene.</p>
-<div class="last highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
+<div class="last highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
 <span class="kd">var</span> <span class="nx">object_exists</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">check_object_by_name</span><span class="p">(</span><span class="s2">&quot;Cube&quot;</span><span class="p">);</span>
 <span class="c1">// ...</span>
 </pre></div>
@@ -726,7 +729,7 @@
 </dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.check_object_by_dupli_name">check_object_by_dupli_name()</a></dt>
 <dd><p class="first">Check if duplicated object is present on scene by empty name and dupli name.</p>
-<div class="last highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
+<div class="last highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
 <span class="kd">var</span> <span class="nx">object_exists</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">check_object_by_dupli_name</span><span class="p">(</span><span class="s2">&quot;Empty&quot;</span><span class="p">,</span> <span class="s2">&quot;Cube&quot;</span><span class="p">);</span>
 <span class="c1">// ...</span>
 </pre></div>
@@ -734,7 +737,7 @@
 </dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.check_object_by_dupli_name_list">check_object_by_dupli_name_list()</a></dt>
 <dd><p class="first">Check if duplicated object is present on scene by empty name and dupli name list (an array of <code class="docutils literal"><span class="pre">String</span></code> type elements).</p>
-<div class="last highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
+<div class="last highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
 <span class="kd">var</span> <span class="nx">object_exists</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">check_object_by_dupli_name_list</span><span class="p">([</span><span class="s2">&quot;Empty1&quot;</span><span class="p">,</span> <span class="s2">&quot;Empty2&quot;</span><span class="p">,</span> <span class="s2">&quot;Object&quot;</span><span class="p">]);</span>
 <span class="c1">// ...</span>
 </pre></div>
@@ -742,7 +745,7 @@
 </dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.get_object_name">get_object_name()</a></dt>
 <dd><p class="first">Get the object’s name.</p>
-<div class="last highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
+<div class="last highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
 <span class="kd">var</span> <span class="nx">object_name</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_object_name</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span>
 <span class="c1">// ...</span>
 </pre></div>
@@ -758,7 +761,7 @@
 <p class="last">Make sure that the status on the <code class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Object</span> <span class="pre">Outlining</span></code> panel is set to <code class="docutils literal"><span class="pre">ON</span></code> or <code class="docutils literal"><span class="pre">AUTO</span></code>.</p>
 </div>
 <p>Object selection is possible programmatically via API, for example, in the <code class="docutils literal"><span class="pre">scenes.js</span></code> module there is the <code class="docutils literal"><span class="pre">pick_object</span></code> function which selects an object based on canvas 2D coordinates,</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
 <span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">clientX</span><span class="p">;</span>
 <span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">clientY</span><span class="p">;</span>
 
@@ -766,8 +769,8 @@
 <span class="c1">// ...</span>
 </pre></div>
 </div>
-<p>or using the <a class="reference internal" href="logic_editor.html#logic-select"><span>Logic Editor</span></a>.</p>
-<p>If the selectable object has enabled <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">Outlining</span></code> and <code class="docutils literal"><span class="pre">Outline</span> <span class="pre">on</span> <span class="pre">Select</span></code> checkboxes on the <code class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Selection</span></code> and Outlining panel, then the <code class="docutils literal"><span class="pre">pick_object</span></code> function call will activate <a class="reference internal" href="postprocessing_effects.html#outline"><span>outline glow animation</span></a>.</p>
+<p>or using the <a class="reference internal" href="logic_editor.html#logic-select"><span class="std std-ref">Logic Editor</span></a>.</p>
+<p>If the selectable object has enabled <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">Outlining</span></code> and <code class="docutils literal"><span class="pre">Outline</span> <span class="pre">on</span> <span class="pre">Select</span></code> checkboxes on the <code class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Selection</span></code> and Outlining panel, then the <code class="docutils literal"><span class="pre">pick_object</span></code> function call will activate <a class="reference internal" href="postprocessing_effects.html#outline"><span class="std std-ref">outline glow animation</span></a>.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">If the selected object is transparent (<code class="docutils literal"><span class="pre">Blend</span></code>, <code class="docutils literal"><span class="pre">Add</span></code> and <code class="docutils literal"><span class="pre">Sort</span></code> transparency types), outline glow will only be visible on the parts that have <code class="docutils literal"><span class="pre">Alpha</span></code> value higher than 0.5.</p>
@@ -780,7 +783,7 @@
 <dt>Copying objects has its limitations:</dt>
 <dd><ul class="first last simple">
 <li>only <code class="docutils literal"><span class="pre">MESH</span></code> objects can be copied</li>
-<li>the object should be <a class="reference internal" href="#static-dynamic-objects"><span>dynamic</span></a> (enable <code class="docutils literal"><span class="pre">Rendering</span> <span class="pre">Properties</span> <span class="pre">&gt;</span> <span class="pre">Force</span> <span class="pre">Dynamic</span> <span class="pre">Object</span></code>)</li>
+<li>the object should be <a class="reference internal" href="#static-dynamic-objects"><span class="std std-ref">dynamic</span></a> (enable <code class="docutils literal"><span class="pre">Rendering</span> <span class="pre">Properties</span> <span class="pre">&gt;</span> <span class="pre">Force</span> <span class="pre">Dynamic</span> <span class="pre">Object</span></code>)</li>
 <li>the source object should belong to the active scene</li>
 </ul>
 </dd>
@@ -791,11 +794,11 @@
 </div>
 <div class="section" id="making-a-deep-copy">
 <h3><a class="toc-backref" href="#id19">Making a Deep Copy</a><a class="headerlink" href="#making-a-deep-copy" title="Permalink to this headline">¶</a></h3>
-<p>In case of deep copying, the new object will have unique properties, namely it will have its own mesh. Thus, if the original object’s mesh is changed, the copied object’s mesh will not be changed. Also, the canvas textures on the copied objects are different textures and not one and the same like it is the case with the simple copying. To make deep copying possible, it is required to enable the <a class="reference internal" href="#dynamic-geom"><span>Rendering Properties &gt; Dynamic Geometry</span></a> checkbox for the source object.
+<p>In case of deep copying, the new object will have unique properties, namely it will have its own mesh. Thus, if the original object’s mesh is changed, the copied object’s mesh will not be changed. Also, the canvas textures on the copied objects are different textures and not one and the same like it is the case with the simple copying. To make deep copying possible, it is required to enable the <a class="reference internal" href="#dynamic-geom"><span class="std std-ref">Rendering Properties &gt; Dynamic Geometry</span></a> checkbox for the source object.
 |</p>
 <p>Copying objects in runtime can be performed with the <code class="docutils literal"><span class="pre">copy</span></code> method of the <code class="docutils literal"><span class="pre">objects.js</span></code> module. This method requires three arguments: the id of the source object, a unique name for the new object and the boolean value to specify the copy mode (i.e. simple or deep). By default, simple copying will be performed.</p>
 <p>The newly created object should be added to the scene. This can be performed with the <code class="docutils literal"><span class="pre">append_object</span></code> method of the <code class="docutils literal"><span class="pre">scenes.js</span></code> module. The new object should be passed to it as an argument.</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
 <span class="kd">var</span> <span class="nx">new_obj</span> <span class="o">=</span> <span class="nx">m_objects</span><span class="p">.</span><span class="nx">copy</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="s2">&quot;New_name&quot;</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
 <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">append_object</span><span class="p">(</span><span class="nx">new_obj</span><span class="p">);</span>
 <span class="nx">m_transform</span><span class="p">.</span><span class="nx">set_translation</span><span class="p">(</span><span class="nx">new_obj</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
@@ -806,7 +809,7 @@
 <div class="section" id="removing-objects">
 <h3><a class="toc-backref" href="#id20">Removing Objects</a><a class="headerlink" href="#removing-objects" title="Permalink to this headline">¶</a></h3>
 <p>To remove objects, use the <code class="docutils literal"><span class="pre">remove_object</span></code> method of the <code class="docutils literal"><span class="pre">scenes.js</span></code> module. Pass the object to it as an argument. Dynamic mesh- and empty-type objects can be removed this way.</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
 <span class="nx">m_objects</span><span class="p">.</span><span class="nx">remove_object</span><span class="p">(</span><span class="nx">new_obj</span><span class="p">);</span>
 <span class="c1">// ...</span>
 </pre></div>
@@ -851,11 +854,11 @@
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p>Let&#8217;s save a reference to the object in the <strong>aircraft</strong> variable:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">aircraft</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_object_by_name</span><span class="p">(</span><span class="s2">&quot;Cessna&quot;</span><span class="p">);</span>
+<p>Let’s save a reference to the object in the <strong>aircraft</strong> variable:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">aircraft</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_object_by_name</span><span class="p">(</span><span class="s2">&quot;Cessna&quot;</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>Let&#8217;s rotate it:</p>
+<p>Let’s rotate it:</p>
 <blockquote>
 <div><ul class="simple">
 <li>A clockwise rotation corresponds to the rotation to the right (i.e. in the negative direction).</li>
@@ -863,7 +866,7 @@
 </ul>
 </div></blockquote>
 <p>As a result we get:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// compose quaternion</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// compose quaternion</span>
 <span class="kd">var</span> <span class="nx">quat_60_Z_neg</span> <span class="o">=</span> <span class="nx">m_quat</span><span class="p">.</span><span class="nx">setAxisAngle</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="o">-</span><span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="nx">m_quat</span><span class="p">.</span><span class="nx">create</span><span class="p">());</span>
 
 <span class="c1">// get old rotation</span>
@@ -877,7 +880,7 @@
 </pre></div>
 </div>
 <p>The optimized version which does not create new objects:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// cache arrays as global vars</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// cache arrays as global vars</span>
 <span class="kd">var</span> <span class="nx">AXIS_Z</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 <span class="kd">var</span> <span class="nx">quat_tmp</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">quat_tmp2</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
@@ -905,11 +908,11 @@
 <a class="reference internal image-reference" href="_images/objects_line_rendering.png"><img alt="_images/objects_line_rendering.png" class="align-center" src="_images/objects_line_rendering.png" style="width: 100%;" /></a>
 <p>API methods used for line rendering itself are located in the <a class="reference external" href="https://www.blend4web.com/api_doc/module-geometry.html">geometry</a> module, while the style of a rendered line (i.e. its color and thickness) can be set with the <a class="reference external" href="https://www.blend4web.com/api_doc/module-material.html#.set_line_params">set_line_params()</a> method of the <a class="reference external" href="https://www.blend4web.com/api_doc/module-material.html">material</a> module.</p>
 <p>To use line rendering, at least one <code class="docutils literal"><span class="pre">Empty</span></code> type object with enabled <code class="docutils literal"><span class="pre">Line</span> <span class="pre">Rendering</span></code> option needs to be present in the scene.</p>
-<p>To render a line, you first have to <a class="reference internal" href="#get-object-api"><span>retrieve a link</span></a> to an <code class="docutils literal"><span class="pre">Empty</span></code> object. The origin point of this object will then be used as a center of coordinates when rendering lines.</p>
+<p>To render a line, you first have to <a class="reference internal" href="#get-object-api"><span class="std std-ref">retrieve a link</span></a> to an <code class="docutils literal"><span class="pre">Empty</span></code> object. The origin point of this object will then be used as a center of coordinates when rendering lines.</p>
 <p>The line itself can be rendered by calling the <a class="reference external" href="https://www.blend4web.com/api_doc/module-geometry.html#.draw_line">draw_line()</a> API method. Its first parameter is a link to an <code class="docutils literal"><span class="pre">Empty</span></code> object (see above), while the second one is an array of vertices that will be used for building a line. The method is also has a third, optional, parameter, that defines the rendering mode: whether the method will produce a single line or a set of lines defined by pairs of vertices (in the latter case, the total number of vertices should be even).</p>
 <p>If an <code class="docutils literal"><span class="pre">Empty</span></code> object is used to render more than one line at a time, only the last one will be visible. To render multiple lines, you will need to use multiple <code class="docutils literal"><span class="pre">Empty</span></code> objects.</p>
 <p>The following example shows a part of the coordinate axes object in the picture above rendered using lines:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_scenes</span>    <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_scenes</span>    <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_material</span>  <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;material&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_geometry</span>  <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;geometry&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_rgba</span>      <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;rgba&quot;</span><span class="p">);</span>
@@ -938,10 +941,10 @@
 <h3><a class="toc-backref" href="#id26">Overview</a><a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h3>
 <p>LODs, or levels of detail, are versions of a single object with various amounts of detail. Levels of detail are used for the purpose of optimization, and the idea here is that if an object is far from the camera, you can render more simple version of it – for example, the one with less polygons and simpler material. This can reduce the burden on the GPU without decreasing the quality of the render, as most of the details of the original object won’t be visible from the distance.</p>
 <p>LODs are often used in large-scale scenes with high object count. More compact scenes may not gain a major performance boost from using this feature. Video game locations such as islands, countrysides or town streets are most suitable for using LODs.</p>
-<p>LODs can be set up directly in Blender at the <code class="docutils literal"><span class="pre">Levels</span> <span class="pre">of</span> <span class="pre">Detail</span></code> <a class="reference internal" href="#object-settings-lod"><span>panel</span></a>.</p>
+<p>LODs can be set up directly in Blender at the <code class="docutils literal"><span class="pre">Levels</span> <span class="pre">of</span> <span class="pre">Detail</span></code> <a class="reference internal" href="#object-settings-lod"><span class="std std-ref">panel</span></a>.</p>
 <a class="reference internal image-reference" href="_images/objects_lod_list.png"><img alt="_images/objects_lod_list.png" class="align-center" src="_images/objects_lod_list.png" style="width: 100%;" /></a>
 <p>There, you can set levels of detail and distances at which they will be used for an individual object. Each level of detail is a separate object. The main rule is obvious: the lower the level of detail is positioned in the list, the simpler the corresponding object should be.</p>
-<p>You can make your objects simpler in different ways: by decreasing its polycount, by making the materials less complex (this is especially true for node materials) or by turning off various effect such as <a class="reference internal" href="lighting.html#shadows"><span>shadows</span></a>, <a class="reference internal" href="animation.html#animation"><span>animations</span></a> or <a class="reference internal" href="outdoor_rendering.html#wind"><span>Wind Bending</span></a>.</p>
+<p>You can make your objects simpler in different ways: by decreasing its polycount, by making the materials less complex (this is especially true for node materials) or by turning off various effect such as <a class="reference internal" href="lighting.html#shadows"><span class="std std-ref">shadows</span></a>, <a class="reference internal" href="animation.html#animation"><span class="std std-ref">animations</span></a> or <a class="reference internal" href="outdoor_rendering.html#wind"><span class="std std-ref">Wind Bending</span></a>.</p>
 <p>The number of levels can be set as you see fit, depending on the overall scale of the scene.</p>
 <div class="figure align-center" id="id4">
 <a class="reference internal image-reference" href="_images/objects_levels_compare.png"><img alt="_images/objects_levels_compare.png" src="_images/objects_levels_compare.png" style="width: 100%;" /></a>
@@ -965,13 +968,13 @@
 <a class="reference internal image-reference" href="_images/objects_lod_smoothing.png"><img alt="_images/objects_lod_smoothing.png" src="_images/objects_lod_smoothing.png" style="width: 100%;" /></a>
 <p class="caption"><span class="caption-text"><em>Smooth transition between the original object and its LOD.</em></span></p>
 </div>
-<p>The option used for this is called <code class="docutils literal"><span class="pre">LOD</span> <span class="pre">Smooth</span> <span class="pre">Transitions</span></code> and can be found on the <code class="docutils literal"><span class="pre">Scene-&gt;Object</span> <span class="pre">Clustering</span> <span class="pre">&amp;</span> <span class="pre">LOD</span></code> <a class="reference internal" href="scene_settings.html#scene-batching"><span>panel</span></a>.</p>
+<p>The option used for this is called <code class="docutils literal"><span class="pre">LOD</span> <span class="pre">Smooth</span> <span class="pre">Transitions</span></code> and can be found on the <code class="docutils literal"><span class="pre">Scene-&gt;Object</span> <span class="pre">Clustering</span> <span class="pre">&amp;</span> <span class="pre">LOD</span></code> <a class="reference internal" href="scene_settings.html#scene-batching"><span class="std std-ref">panel</span></a>.</p>
 <p>It is intended for enabling smooth LOD transition and setting object types that this transition will be applied to. It should be noted that enabling this option might significantly decrease performance (it depends on the number of LOD objects and their materials).</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p>Smooth LOD transition is not always required. For example, if you instantly transport your camera to some distant object, you probably don’t want LOD switching to occur right in front of it. In cases like this, the <code class="docutils literal"><span class="pre">lod_leap_smooth_threshold</span></code> parameter should be used. It defines the threshold distance (in meters) that the camera can cover in one frame. If this value is exceeded, LODs are switched instantaneously. This can be used to disable smooth LOD transition when camera is teleported to a new location or simply moves very fast.</p>
 <blockquote class="last">
-<div><div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
+<div><div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
 
 <span class="nx">m_cfg</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;lod_leap_smooth_threshold&quot;</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span> <span class="c1">// 5 meters</span>
 </pre></div>
@@ -982,7 +985,7 @@
 <div class="section" id="hysteresis">
 <h3><a class="toc-backref" href="#id29">Hysteresis</a><a class="headerlink" href="#hysteresis" title="Permalink to this headline">¶</a></h3>
 <p>LODs are switched at certain distances from the object. These level borders are set up on the <code class="docutils literal"><span class="pre">Levels</span> <span class="pre">of</span> <span class="pre">Detail</span></code> panel. If the camera is moving near a border like this, it can cross it often, which results in frequent LOD switching. Under such circumstances, LOD switching becomes very apparent and thus undesirable.</p>
-<p>This problem can be negated with the <code class="docutils literal"><span class="pre">Max</span> <span class="pre">LOD</span> <span class="pre">Hysteresis</span> <span class="pre">Interval</span></code> parameter located on the <code class="docutils literal"><span class="pre">Scene-&gt;Object</span> <span class="pre">Clustering</span> <span class="pre">&amp;</span> <span class="pre">LOD</span></code> <a class="reference internal" href="scene_settings.html#scene-batching"><span>panel</span></a>. It sets an interval (in meters) that is used as a gap between two LOD levels.</p>
+<p>This problem can be negated with the <code class="docutils literal"><span class="pre">Max</span> <span class="pre">LOD</span> <span class="pre">Hysteresis</span> <span class="pre">Interval</span></code> parameter located on the <code class="docutils literal"><span class="pre">Scene-&gt;Object</span> <span class="pre">Clustering</span> <span class="pre">&amp;</span> <span class="pre">LOD</span></code> <a class="reference internal" href="scene_settings.html#scene-batching"><span class="std std-ref">panel</span></a>. It sets an interval (in meters) that is used as a gap between two LOD levels.</p>
 <p>For example, if <code class="docutils literal"><span class="pre">Max</span> <span class="pre">LOD</span> <span class="pre">Hysteresis</span> <span class="pre">Interval</span></code> is set to 4 meters while the distance between detail levels is equal to the 20 meters, one level will be turned on at the distance of 18 meters and the other, at the distance of 22 meters. Using this option eliminates frequent LOD switching, as levels of detail no longer have definite border between them. The setting is adaptive and can adjust to different LOD distances, reducing the set interval, if needed.</p>
 </div>
 </div>
@@ -1008,7 +1011,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Triumph.
-      Last updated on 2017-11-21.
+      Last updated on 2017-12-29.
 
     </p>
   </div>
@@ -1064,11 +1067,11 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

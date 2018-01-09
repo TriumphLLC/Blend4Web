@@ -1,23 +1,20 @@
-if (b4w.module_check("golems"))
-    throw "Failed to register module: golems";
+import b4w from "blend4web";
 
-b4w.register("golems", function(exports, require) {
+var m_ctl   = b4w.controls;
+var m_scs   = b4w.scenes;
+var m_anim  = b4w.animation;
+var m_sfx   = b4w.sfx;
+var m_trans = b4w.transform;
+var m_util  = b4w.util;
+var m_vec3  = b4w.vec3;
+var m_quat  = b4w.quat;
 
-var m_ctl   = require("controls");
-var m_scs   = require("scenes");
-var m_anim  = require("animation");
-var m_sfx   = require("sfx");
-var m_trans = require("transform");
-var m_util  = require("util");
-var m_vec3  = require("vec3");
-var m_quat  = require("quat");
-
-var m_conf     = require("game_config");
-var m_char     = require("character");
-var m_combat   = require("combat");
-var m_obelisks = require("obelisks");
-var m_bonuses  = require("bonuses");
-var m_gems     = require("gems");
+import * as m_conf from "./game_config.js";
+import * as m_char from "./character.js";
+import * as m_combat from "./combat.js";
+import * as m_obelisks from "./obelisks.js";
+import * as m_bonuses from "./bonuses.js";
+import * as m_gems from "./gems.js";
 
 var _golems_wrappers = [];
 
@@ -29,7 +26,7 @@ var _quat4_tmp2 = new Float32Array(4);
 
 var _golems_spawn_timer = 0;
 
-exports.init = function(elapsed_sensor) {
+export function init(elapsed_sensor) {
     _golems_spawn_timer = m_conf.GOLEMS_SPAWN_INTERVAL;
     for (var i = 0; i < m_conf.GOLEMS_EMPTIES.length; i++) {
 
@@ -94,7 +91,7 @@ function golem_ai_cb(golem_wrapper, id) {
     }
 }
 
-exports.init_spawn = function(elapsed_sensor) {
+export function init_spawn(elapsed_sensor) {
     var spawn_points = [];
     var spawn_quats = [];
     for (var i = 0; i < m_conf.GOLEM_SPAWN_POINTS.length; i++) {
@@ -444,7 +441,7 @@ function get_obelisk_by_island_id(island_id) {
     return obelisk;
 }
 
-exports.reset = function() {
+export function reset() {
     _golems_spawn_timer = m_conf.GOLEMS_SPAWN_INTERVAL;
     for (var i = 0; i < _golems_wrappers.length; i++) {
         var gw = _golems_wrappers[i];
@@ -456,12 +453,10 @@ exports.reset = function() {
     }
 }
 
-exports.island_has_golems = function(island_id) {
+export function island_has_golems(island_id) {
     for (var i = 0; i < _golems_wrappers.length; i++)
         if (_golems_wrappers[i].island_id == island_id)
             return true;
 
     return false;
 }
-
-})

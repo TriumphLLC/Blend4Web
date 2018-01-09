@@ -1,27 +1,26 @@
 "use strict"
 
-// register the application module
-b4w.register("AR_main", function(exports, require) {
+import b4w from "blend4web";
 
 // import modules used by the app
-var m_anim      = require("animation");
-var m_app       = require("app");
-var m_cam       = require("camera");
-var m_cfg       = require("config");
-var m_cont      = require("container");
-var m_ctl       = require("controls");
-var m_data      = require("data");
-var m_main      = require("main");
-var m_mat4      = require("mat4");
-var m_math      = require("math");
-var m_preloader = require("preloader");
-var m_tsr       = require("tsr");
-var m_scs       = require("scenes");
-var m_trans     = require("transform");
-var m_util      = require("util");
-var m_ver       = require("version");
-var m_vec3      = require("vec3");
-var m_vec4      = require("vec4");
+var m_anim      = b4w.animation;
+var m_app       = b4w.app;
+var m_cam       = b4w.camera;
+var m_cfg       = b4w.config;
+var m_cont      = b4w.container;
+var m_ctl       = b4w.controls;
+var m_data      = b4w.data;
+var m_main      = b4w.main;
+var m_mat4      = b4w.mat4;
+var m_math      = b4w.math;
+var m_preloader = b4w.preloader;
+var m_tsr       = b4w.tsr;
+var m_scs       = b4w.scenes;
+var m_trans     = b4w.transform;
+var m_util      = b4w.util;
+var m_ver       = b4w.version;
+var m_vec3      = b4w.vec3;
+var m_vec4      = b4w.vec4;
 
 var _tsr_tmp = m_tsr.create();
 var _vec2_tmp = new Float32Array(2);
@@ -95,7 +94,7 @@ var _activated_rotation = true;
 /**
  * export the method to initialize the app (called at the bottom of this file)
  */
-exports.init = function() {
+function init() {
     m_app.init({
         canvas_container_id: "main_canvas_container",
         callback: init_cb,
@@ -721,7 +720,4 @@ function check_user_agent(str) {
         return false;
 }
 
-});
-
-// import the app module and start the app by calling the init method
-b4w.require("AR_main").init();
+init();

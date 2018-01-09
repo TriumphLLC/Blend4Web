@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>VR и AR &mdash; Руководство пользователя Blend4Web 17.10.1</title>
+  <title>VR и AR &mdash; Руководство пользователя Blend4Web 17.12.0</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 17.10.1" href="index.html"/>
+        <link rel="index" title="Алфавитный указатель"
+              href="genindex.html"/>
+        <link rel="search" title="Поиск" href="search.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 17.12.0" href="index.html"/>
         <link rel="next" title="Текстуры" href="textures.html"/>
         <link rel="prev" title="Спецэффекты" href="postprocessing_effects.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -103,7 +106,7 @@
 <li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Редактор логики</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Освещение, тени и фон</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Спецэффекты</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">VR и AR</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">VR и AR</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#virtual-reality">Виртуальная реальность</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#activation">Активация</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#hmd-settings">Настройки HMD</a><ul>
@@ -178,7 +181,7 @@
   <div class="section" id="vr-and-ar">
 <span id="stereo"></span><span id="index-0"></span><h1><a class="toc-backref" href="#id2">VR и AR</a><a class="headerlink" href="#vr-and-ar" title="Ссылка на этот заголовок">¶</a></h1>
 <div class="contents topic" id="table-of-contents">
-<p class="topic-title first">Содержание</p>
+<p class="topic-title first">Table of Contents</p>
 <ul class="simple">
 <li><a class="reference internal" href="#vr-and-ar" id="id2">VR и AR</a><ul>
 <li><a class="reference internal" href="#virtual-reality" id="id3">Виртуальная реальность</a><ul>
@@ -200,10 +203,12 @@
 <h2><a class="toc-backref" href="#id3">Виртуальная реальность</a><a class="headerlink" href="#virtual-reality" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Существует большое количество VR-устройств; движок Blend4Web поддерживает многие из них. Для использования VR в Blend4Web-приложении не требуется вносить никаких существенных изменений в само приложение.</p>
 <p>Режим стереоизображения предназначен для просмотра контента в специальных очках и активируется приложением.</p>
-<p>Blend4Web поддерживает два стереорежима - анаглифное изображение и HMD (Head-mounted display, шлем виртуальной реальности).</p>
-<p id="hmd">HMD:</p>
+<p>Blend4Web supports several techniques of stereo image rendering:</p>
+<p id="hmd">HMD (head-mounted display):</p>
 <a class="reference internal image-reference" href="_images/postprocessing_effects_stereo.png"><img alt="_images/postprocessing_effects_stereo.png" class="align-center" src="_images/postprocessing_effects_stereo.png" style="width: 100%;" /></a>
 <p>HMD - экспериментальная возможность, она работает только с камерами типа <code class="docutils literal"><span class="pre">Eye</span></code>.</p>
+<p id="side-to-side">Side-to-side rendering:</p>
+<a class="reference internal image-reference" href="_images/side_to_side.png"><img alt="_images/side_to_side.png" class="align-center" src="_images/side_to_side.png" style="width: 100%;" /></a>
 <p id="anaglyph">Анаглиф:</p>
 <a class="reference internal image-reference" href="_images/postprocessing_effects_anaglyph.png"><img alt="_images/postprocessing_effects_anaglyph.png" class="align-center" src="_images/postprocessing_effects_anaglyph.png" style="width: 100%;" /></a>
 <div class="line-block">
@@ -225,10 +230,8 @@
 <p>Эта группа настроек позволяет пользователю регулировать различные параметры для максимально комфортного просмотра 3D-сцены или приложения на своём VR-устройстве. Получить доступ к настройкам можно двумя способами:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p class="first">Во-первых, с помощью <a class="reference internal" href="viewer.html#stereo-view"><span>панели Stereo View</span></a> в <a class="reference internal" href="viewer.html#viewer"><span>Просмотрщике сцен Blend4Web</span></a>.</p>
-</li>
-<li><p class="first">Во-вторых, с использованием в приложении метода <a class="reference external" href="https://www.blend4web.com/api_doc/module-hmd_conf.html#.show">show</a> из модуля <a class="reference external" href="https://www.blend4web.com/api_doc/module-hmd_conf.html">hmd_conf</a>, для чего требуется написание программного кода. Примеры использования этого метода можно увидеть в приложениях <code class="docutils literal"><span class="pre">viewer.js</span></code> и  <code class="docutils literal"><span class="pre">webplayer.js</span></code> (в объекте <code class="docutils literal"><span class="pre">m_hmd_conf</span></code>).</p>
-</li>
+<li>Во-первых, с помощью <a class="reference internal" href="viewer.html#stereo-view"><span class="std std-ref">панели Stereo View</span></a> в <a class="reference internal" href="viewer.html#viewer"><span class="std std-ref">Просмотрщике сцен Blend4Web</span></a>.</li>
+<li>Во-вторых, с использованием в приложении метода <a class="reference external" href="https://www.blend4web.com/api_doc/module-hmd_conf.html#.show">show</a> из модуля <a class="reference external" href="https://www.blend4web.com/api_doc/module-hmd_conf.html">hmd_conf</a>, для чего требуется написание программного кода. Примеры использования этого метода можно увидеть в приложениях <code class="docutils literal"><span class="pre">viewer.js</span></code> и  <code class="docutils literal"><span class="pre">webplayer.js</span></code> (в объекте <code class="docutils literal"><span class="pre">m_hmd_conf</span></code>).</li>
 </ul>
 </div></blockquote>
 <div class="section" id="profile">
@@ -280,14 +283,11 @@
 <h4>Другие инструменты управления<a class="headerlink" href="#other-control-tools" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Save</em></dt>
-<dd><p class="first last">Сохраняет настройки.</p>
-</dd>
+<dd>Сохраняет настройки.</dd>
 <dt><em>Cancel</em></dt>
-<dd><p class="first last">Закрывает окно настроек без сохранения изменений.</p>
-</dd>
+<dd>Закрывает окно настроек без сохранения изменений.</dd>
 <dt><em>Reset</em></dt>
-<dd><p class="first last">Восстанавливает настройки по умолчанию.</p>
-</dd>
+<dd>Восстанавливает настройки по умолчанию.</dd>
 </dl>
 </div>
 </div>
@@ -308,18 +308,12 @@
 </div></blockquote>
 </li>
 <li><p class="first">Веб-браузер с поддержкой AR.</p>
-<blockquote>
-<div><div class="admonition warning">
-<p class="first admonition-title">Предупреждение</p>
-<p class="last">На данный момент AR-приложения не работают в браузере Safari (как настольной, так и мобильной версии). Поддержка AR ожидается осенью 2017 года.</p>
-</div>
-</div></blockquote>
 </li>
 </ul>
 </div></blockquote>
 <div class="section" id="setting-up">
 <h3><a class="toc-backref" href="#id7">Подготовка</a><a class="headerlink" href="#setting-up" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Blend4Web SDK включает пример AR-приложения,  который можно найти в <a class="reference internal" href="project_manager.html#project-manager"><span>Менеджере проектов</span></a>.</p>
+<p>Blend4Web SDK включает пример AR-приложения,  который можно найти в <a class="reference internal" href="project_manager.html#project-manager"><span class="std std-ref">Менеджере проектов</span></a>.</p>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
 <p class="last">Этот пример не входит в состав Blend4Web CE Lite</p>
@@ -329,7 +323,7 @@
 <div class="section" id="leap-motion">
 <h3><a class="toc-backref" href="#id8">Leap Motion</a><a class="headerlink" href="#leap-motion" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Leap Motion - контроллер, применяемый для отслеживания движений рук и распознавания жестов. Он может использоваться как отдельно, так и совместно с любым поддеживаемым VR-устройством.</p>
-<p>В состав нашего приложения <a class="reference internal" href="developers.html#code-snippets"><span>Code Snippets</span></a> входит пример использования контроллера Leap Motion. Если вы планируете создавать приложения с поддержкой Leap Motion, мы советуем вам внимательно изучить этот пример и, возможно, также использовать его как основу для собственных проектов.</p>
+<p>В состав нашего приложения <a class="reference internal" href="developers.html#code-snippets"><span class="std std-ref">Code Snippets</span></a> входит пример использования контроллера Leap Motion. Если вы планируете создавать приложения с поддержкой Leap Motion, мы советуем вам внимательно изучить этот пример и, возможно, также использовать его как основу для собственных проектов.</p>
 <p>API Leap Motion представляет собой стандартную JavaScript-библиотеку, которая может быть подключена к HTML-странице проекта. Приложение может работать с библиотекой, входящей в состав файлов проекта или обращаться к серверу Leap Motion.</p>
 </div>
 </div>
@@ -355,7 +349,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Триумф.
-      Обновлено: 2017-11-21.
+      Обновлено: 2017-12-29.
 
     </p>
   </div>
@@ -411,11 +405,11 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

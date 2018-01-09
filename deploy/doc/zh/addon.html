@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>插件 &mdash; Blend4Web 17.10.1 用户手册</title>
+  <title>插件 &mdash; Blend4Web 17.12.0 用户手册</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.10.1 用户手册" href="index.html"/>
+        <link rel="index" title="索引"
+              href="genindex.html"/>
+        <link rel="search" title="搜索" href="search.html"/>
+    <link rel="top" title="Blend4Web 17.12.0 用户手册" href="index.html"/>
         <link rel="next" title="场景设置" href="scene_settings.html"/>
         <link rel="prev" title="网络播放器" href="web_player.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -91,7 +94,7 @@
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">场景预览器</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">网络播放器</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">插件</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">插件</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#local-development-server">本地开发服务器</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#running-viewer-and-demos">运行预览器和演示</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#export-formats">输出格式</a><ul>
@@ -175,31 +178,31 @@
            <div itemprop="articleBody">
             
   <span class="target" id="addon"></span><div class="section" id="add-on">
-<span id="index-0"></span><h1><a class="toc-backref" href="#id4">插件</a><a class="headerlink" href="#add-on" title="永久链接至标题">¶</a></h1>
+<span id="index-0"></span><h1><a class="toc-backref" href="#id5">插件</a><a class="headerlink" href="#add-on" title="永久链接至标题">¶</a></h1>
 <div class="contents topic" id="table-of-content">
-<p class="topic-title first">目录</p>
+<p class="topic-title first">Table of Content</p>
 <ul class="simple">
-<li><a class="reference internal" href="#add-on" id="id4">插件</a><ul>
-<li><a class="reference internal" href="#local-development-server" id="id5">本地开发服务器</a></li>
-<li><a class="reference internal" href="#running-viewer-and-demos" id="id6">运行预览器和演示</a></li>
-<li><a class="reference internal" href="#export-formats" id="id7">输出格式</a><ul>
-<li><a class="reference internal" href="#json" id="id8">JSON</a></li>
-<li><a class="reference internal" href="#html" id="id9">HTML</a></li>
+<li><a class="reference internal" href="#add-on" id="id5">插件</a><ul>
+<li><a class="reference internal" href="#local-development-server" id="id6">本地开发服务器</a></li>
+<li><a class="reference internal" href="#running-viewer-and-demos" id="id7">运行预览器和演示</a></li>
+<li><a class="reference internal" href="#export-formats" id="id8">输出格式</a><ul>
+<li><a class="reference internal" href="#json" id="id9">JSON</a></li>
+<li><a class="reference internal" href="#html" id="id10">HTML</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#export-options" id="id10">导出选项</a></li>
-<li><a class="reference internal" href="#index-2" id="id11">初始化错误</a></li>
-<li><a class="reference internal" href="#compatibility-errors" id="id12">兼容性错误</a></li>
-<li><a class="reference internal" href="#critical-export-errors" id="id13">关键导出错误</a></li>
-<li><a class="reference internal" href="#non-critical-export-errors" id="id14">非致命导出的错误</a></li>
-<li><a class="reference internal" href="#other-messages" id="id15">其他消息</a></li>
-<li><a class="reference internal" href="#add-on-translations" id="id16">插件翻译</a></li>
+<li><a class="reference internal" href="#export-options" id="id11">导出选项</a></li>
+<li><a class="reference internal" href="#index-2" id="id12">初始化错误</a></li>
+<li><a class="reference internal" href="#compatibility-errors" id="id13">兼容性错误</a></li>
+<li><a class="reference internal" href="#critical-export-errors" id="id14">关键导出错误</a></li>
+<li><a class="reference internal" href="#non-critical-export-errors" id="id15">非致命导出的错误</a></li>
+<li><a class="reference internal" href="#other-messages" id="id16">其他消息</a></li>
+<li><a class="reference internal" href="#add-on-translations" id="id17">插件翻译</a></li>
 </ul>
 </li>
 </ul>
 </div>
 <div class="section" id="local-development-server">
-<span id="id1"></span><h2><a class="toc-backref" href="#id5">本地开发服务器</a><a class="headerlink" href="#local-development-server" title="永久链接至标题">¶</a></h2>
+<span id="id1"></span><h2><a class="toc-backref" href="#id6">本地开发服务器</a><a class="headerlink" href="#local-development-server" title="永久链接至标题">¶</a></h2>
 <p>本地开发服务器的设置中可以在  <code class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">User</span> <span class="pre">Preferences...</span></code>  找到 (快捷键 <code class="file docutils literal"><span class="pre">Ctrl-Alt-U</span></code>) 。在这里，您可以更改端口号被用来运行开发服务器（默认情况下6687），可随Blender启动开启。要做到这一点，在插件上启用 <code class="docutils literal"><span class="pre">Run</span> <span class="pre">on</span> <span class="pre">Startup</span></code> 选项运行。</p>
 <a class="reference internal image-reference" href="_images/addon_server_setup.png"><img alt="_images/addon_server_setup.png" class="align-center" src="_images/addon_server_setup.png" style="width: 100%;" /></a>
 <div class="line-block">
@@ -220,53 +223,54 @@
 <p class="last">如果服务器端口已被一些其他的应用程序可能会出现此错误。</p>
 </div>
 <p>按 <code class="docutils literal"><span class="pre">SDK</span> <span class="pre">Index</span></code> 按钮，在浏览器中打开Blend4Web SDK的索引网页。本页面可在 <a class="reference external" href="http://localhost:6687">http://localhost:6687</a> 访问。</p>
-<a class="reference internal image-reference" href="_images/server_open.png"><img alt="_images/server_open.png" class="align-center" src="_images/server_open.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/addon_dev_tools.png"><img alt="_images/addon_dev_tools.png" class="align-center" src="_images/addon_dev_tools.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p>然后，对于您的操作系统的默认浏览器将启动。</p>
-<p><code class="docutils literal"><span class="pre">Project</span> <span class="pre">Manager</span></code> 按钮可用于打开 <a class="reference internal" href="project_manager.html#project-management"><span>项目管理器</span></a>.</p>
-<p><code class="docutils literal"><span class="pre">Fast</span> <span class="pre">Preview</span></code> 按钮加载当前正在Blender打开的场景到 <a class="reference internal" href="viewer.html#viewer"><span>查看器</span></a>.</p>
+<p><code class="docutils literal"><span class="pre">Project</span> <span class="pre">Manager</span></code> 按钮可用于打开 <a class="reference internal" href="project_manager.html#project-management"><span class="std std-ref">项目管理器</span></a>.</p>
+<p><code class="docutils literal"><span class="pre">Fast</span> <span class="pre">Preview</span></code> 按钮加载当前正在Blender打开的场景到 <a class="reference internal" href="viewer.html#viewer"><span class="std std-ref">查看器</span></a>.</p>
+<p>This button is duplicated in the <code class="docutils literal"><span class="pre">Info</span></code> panel of the <a class="reference internal" href="interface.html#ui-3dview"><span class="std std-ref">3D View window</span></a>.</p>
+<div class="figure align-center" id="id4">
+<a class="reference internal image-reference" href="_images/addon_fast_preview.png"><img alt="_images/addon_fast_preview.png" src="_images/addon_fast_preview.png" style="width: 100%;" /></a>
+<p class="caption"><span class="caption-text"><code class="docutils literal"><span class="pre">Fast</span> <span class="pre">Preview</span></code> button on the <code class="docutils literal"><span class="pre">Info</span></code> panel</span></p>
+</div>
+<p>The button at the right side of it controls data syncronization between Blender and <a class="reference internal" href="viewer.html#viewer"><span class="std std-ref">Scene Viewer</span></a>. If this option is enabled, re-exporting a scene will cause Scene Viewer application (if it is open) to reload and update the scene in accordance to the changes made to it. This option eliminates the need to open preview scene manually after exporting it. It is enabled by default.</p>
+<div class="admonition note">
+<p class="first admonition-title">注解</p>
+<p class="last">The <code class="docutils literal"><span class="pre">Fast</span> <span class="pre">Preview</span></code> button in the <code class="docutils literal"><span class="pre">Info</span></code> panel is available in <code class="docutils literal"><span class="pre">Cycles</span></code> render engine as well.</p>
+</div>
 <p>服务器可以通过按下 <code class="docutils literal"><span class="pre">Stop</span> <span class="pre">Server</span></code>  按钮被停止。当Blender被关闭也停止。</p>
 </div>
 <div class="section" id="running-viewer-and-demos">
-<span id="getting-started-launching-viewer"></span><span id="index-1"></span><h2><a class="toc-backref" href="#id6">运行预览器和演示</a><a class="headerlink" href="#running-viewer-and-demos" title="永久链接至标题">¶</a></h2>
+<span id="getting-started-launching-viewer"></span><span id="index-1"></span><h2><a class="toc-backref" href="#id7">运行预览器和演示</a><a class="headerlink" href="#running-viewer-and-demos" title="永久链接至标题">¶</a></h2>
 <a class="reference internal image-reference" href="_images/addon_sdk_index.png"><img alt="_images/addon_sdk_index.png" class="align-center" src="_images/addon_sdk_index.png" style="width: 100%;" /></a>
 <p>索引页包含以下链接：</p>
 <ul class="simple">
-<li><p class="first"><a class="reference internal" href="project_manager.html#project-management"><span>项目管理器</span></a>;</p>
-</li>
-<li><p class="first"><a class="reference internal" href="developers.html#code-snippets"><span>代码片段</span></a>, 演示应用程序列表。需要一个 <a class="reference internal" href="about.html#browser-webgl-support"><span>WebGL适配的浏览器</span></a> 来运行这些应用程序;</p>
-</li>
-<li><p class="first">WebGL报告页面，用于检查Web浏览器提供的WebGL支持级别;</p>
-</li>
-<li><p class="first"><a class="reference internal" href="about.html#about"><span>用户手册</span></a>,以三种语言都提供HTML和PDF格式;</p>
-</li>
-<li><p class="first">API参考，其中包含Blend4Web引擎提供的每个API模块和方法的描述;</p>
-</li>
-<li><p class="first">教程：</p>
-</li>
-<li><p class="first">FAQ 页面，在那里你可以找到一些对于使用引擎最基本问题的答案;</p>
-</li>
-<li><p class="first">社区支持论坛;</p>
-</li>
-<li><p class="first">支持电子邮件 （仅在 PRO 版中可用）。</p>
-</li>
+<li><a class="reference internal" href="project_manager.html#project-management"><span class="std std-ref">项目管理器</span></a>;</li>
+<li><a class="reference internal" href="developers.html#code-snippets"><span class="std std-ref">代码片段</span></a>, 演示应用程序列表。需要一个 <a class="reference internal" href="about.html#browser-webgl-support"><span class="std std-ref">WebGL适配的浏览器</span></a> 来运行这些应用程序;</li>
+<li>WebGL报告页面，用于检查Web浏览器提供的WebGL支持级别;</li>
+<li><a class="reference internal" href="about.html#about"><span class="std std-ref">用户手册</span></a>,以三种语言都提供HTML和PDF格式;</li>
+<li>API参考，其中包含Blend4Web引擎提供的每个API模块和方法的描述;</li>
+<li>教程：</li>
+<li>FAQ 页面，在那里你可以找到一些对于使用引擎最基本问题的答案;</li>
+<li>社区支持论坛;</li>
+<li>支持电子邮件 （仅在 PRO 版中可用）。</li>
 </ul>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
-<p class="last">如果SDK应用程序显示不正确，或显示错误消息，请按照  <a class="reference internal" href="problems_and_solutions.html#renderer-not-working"><span>启动时的问题</span></a> 部分中的说明。</p>
+<p class="last">如果SDK应用程序显示不正确，或显示错误消息，请按照  <a class="reference internal" href="problems_and_solutions.html#renderer-not-working"><span class="std std-ref">启动时的问题</span></a> 部分中的说明。</p>
 </div>
 </div>
 <div class="section" id="export-formats">
-<span id="id2"></span><h2><a class="toc-backref" href="#id7">输出格式</a><a class="headerlink" href="#export-formats" title="永久链接至标题">¶</a></h2>
+<span id="id2"></span><h2><a class="toc-backref" href="#id8">输出格式</a><a class="headerlink" href="#export-formats" title="永久链接至标题">¶</a></h2>
 <p>场景制作完成后，需要将其转换成由Blend4Web引擎所支持的格式。</p>
 <p>目前，两种格式都支持：JSON和HTML。</p>
 <div class="section" id="json">
-<h3><a class="toc-backref" href="#id8">JSON</a><a class="headerlink" href="#json" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id9">JSON</a><a class="headerlink" href="#json" title="永久链接至标题">¶</a></h3>
 <p>导出场景到这种格式会创建一个 <code class="docutils literal"><span class="pre">.json</span></code> （JavaScript对象符号）文件，其中包含所有导出的数据结构和链接到外部资源（图片，声音等等），还有一个 <code class="docutils literal"><span class="pre">.bin</span></code> 文件包含二进制格式的模型数据阵列。</p>
 <p>如果媒体资源被 <a class="reference external" href="https://www.blender.org/manual/data_system/introduction.html#pack-and-unpack-data">打包到.blend文件</a>, 他们会在导出过程中解压，并在项目的目录放置在隐藏的 <code class="docutils literal"><span class="pre">../tmp/</span></code> 文件夹中（SDK目录内）。应当注意的是，这样的话文件的名称将被自动地改变，工作的时候可能变得复杂。</p>
 <p>建议将所有资源存储在SDK目录中一个专门的文件夹，例如，它可以被称为 <code class="docutils literal"><span class="pre">projects/project_name/assets</span></code> 。</p>
@@ -275,31 +279,27 @@
 <p class="last">按照安全因素考虑，开发服务器只能访问SDK文件夹。如果媒体数据被放置在另一个文件夹，服务器将无法在部署的时候导出（即使是在Blender内工作正常）它。</p>
 </div>
 <p>外部资源路径应该是相对的。如果不是这种情况，执行  <code class="docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">External</span> <span class="pre">Data</span> <span class="pre">&gt;</span> <span class="pre">Make</span> <span class="pre">All</span> <span class="pre">Paths</span> <span class="pre">Relative</span></code>  命令，否则在其他电脑上打开这个项目会有问题。</p>
-<p>这是一个复杂的项目，其中包括多个场景，并且需要JavaScript编程的主要格式。对应的部分项目开发进一步说明在 <a class="reference internal" href="developers.html#developers"><span>corresponding section</span></a>.</p>
+<p>这是一个复杂的项目，其中包括多个场景，并且需要JavaScript编程的主要格式。对应的部分项目开发进一步说明在 <a class="reference internal" href="developers.html#developers"><span class="std std-ref">corresponding section</span></a>.</p>
 </div>
 <div class="section" id="html">
-<h3><a class="toc-backref" href="#id9">HTML</a><a class="headerlink" href="#html" title="永久链接至标题">¶</a></h3>
-<p>导出场景到这种格式会打包场景的所有的资源投入到一个文件带HTML扩展。这个HTML文件不仅包含场景本身，而且还材质，声音Blend4Web引擎和标准 <a class="reference internal" href="web_player.html#web-player"><span>web player</span></a>. 像这样的文件可以在任何计算机和有支持WebGL的Web浏览器的任何移动设备上执行。</p>
+<h3><a class="toc-backref" href="#id10">HTML</a><a class="headerlink" href="#html" title="永久链接至标题">¶</a></h3>
+<p>导出场景到这种格式会打包场景的所有的资源投入到一个文件带HTML扩展。这个HTML文件不仅包含场景本身，而且还材质，声音Blend4Web引擎和标准 <a class="reference internal" href="web_player.html#web-player"><span class="std std-ref">web player</span></a>. 像这样的文件可以在任何计算机和有支持WebGL的Web浏览器的任何移动设备上执行。</p>
 <p>不能使用HTML文件做进一步的开发，但你也并不需要任何额外的操作来运行它们。这种格式对开发中等规模的相对简单的应用非常有用。</p>
 <p>应当指出，不论如何，HTML应用程序不支持以下功能：</p>
 <blockquote>
 <div><ul class="simple">
-<li><p class="first"><a class="reference internal" href="physics.html#physics"><span>物理</span></a></p>
-</li>
-<li><p class="first"><a class="reference internal" href="developers.html#converter-data-format"><span>DDS纹理</span></a></p>
-</li>
-<li><p class="first"><a class="reference internal" href="developers.html#converter"><span>min50 纹理</span></a></p>
-</li>
+<li><a class="reference internal" href="physics.html#physics"><span class="std std-ref">物理</span></a></li>
+<li><a class="reference internal" href="developers.html#converter-data-format"><span class="std std-ref">DDS纹理</span></a></li>
+<li><a class="reference internal" href="developers.html#converter"><span class="std std-ref">min50 纹理</span></a></li>
 </ul>
 </div></blockquote>
 </div>
 </div>
 <div class="section" id="export-options">
-<span id="export-opts"></span><h2><a class="toc-backref" href="#id10">导出选项</a><a class="headerlink" href="#export-options" title="永久链接至标题">¶</a></h2>
+<span id="export-opts"></span><h2><a class="toc-backref" href="#id11">导出选项</a><a class="headerlink" href="#export-options" title="永久链接至标题">¶</a></h2>
 <dl class="docutils">
 <dt><em>自动保存Blend文件</em></dt>
-<dd><p class="first last">自动保存从导出的实际文件。 <strong>默认情况下启用</strong> 。自动保存正在执行的导出之后，以保证目前的混合文件和导出的文件内容之间的一致性。此外，相对路径导出的文件被保存方便。</p>
-</dd>
+<dd>自动保存从导出的实际文件。 <strong>默认情况下启用</strong> 。自动保存正在执行的导出之后，以保证目前的混合文件和导出的文件内容之间的一致性。此外，相对路径导出的文件被保存方便。</dd>
 </dl>
 <a class="reference internal image-reference" href="_images/addon_save_mode.png"><img alt="_images/addon_save_mode.png" class="align-center" src="_images/addon_save_mode.png" style="width: 100%;" /></a>
 <div class="line-block">
@@ -307,24 +307,21 @@
 </div>
 <dl class="docutils">
 <dt><em>严格模式</em></dt>
-<dd><p class="first last">这种模式可以防止输出是否有适用于用户的注意力的任何错误或消息。这种模式使能了 <code class="docutils literal"><span class="pre">Strict</span> <span class="pre">Mode</span></code> 在导出菜单设置：</p>
-</dd>
+<dd>这种模式可以防止输出是否有适用于用户的注意力的任何错误或消息。这种模式使能了 <code class="docutils literal"><span class="pre">Strict</span> <span class="pre">Mode</span></code> 在导出菜单设置：</dd>
 </dl>
 <a class="reference internal image-reference" href="_images/addon_strict_mode.png"><img alt="_images/addon_strict_mode.png" class="align-center" src="_images/addon_strict_mode.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <blockquote>
-<div><p>如果有用户的注意力任何非关键性的错误或消息，一个对话窗口会显示如下：</p>
-</div></blockquote>
+<div>如果有用户的注意力任何非关键性的错误或消息，一个对话窗口会显示如下：</div></blockquote>
 <a class="reference internal image-reference" href="_images/addon_messages.png"><img alt="_images/addon_messages.png" class="align-center" src="_images/addon_messages.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <dl class="docutils">
 <dt><em>输出转换媒体</em></dt>
-<dd><p class="first last">此选项可用于HTML导出。当启用该选项，不同格式的转换后mediafiles都写在HTML文件。使用不同的mediafiles是必不可少的，而使用HTML导出创造跨浏览器和跨平台的应用程序。这些文件可以由创建 <a class="reference internal" href="developers.html#converter"><span>转换器</span></a>.</p>
-</dd>
+<dd>此选项可用于HTML导出。当启用该选项，不同格式的转换后mediafiles都写在HTML文件。使用不同的mediafiles是必不可少的，而使用HTML导出创造跨浏览器和跨平台的应用程序。这些文件可以由创建 <a class="reference internal" href="developers.html#converter"><span class="std std-ref">转换器</span></a>.</dd>
 </dl>
 <a class="reference internal image-reference" href="_images/addon_media_data.png"><img alt="_images/addon_media_data.png" class="align-center" src="_images/addon_media_data.png" style="width: 100%;" /></a>
 <div class="line-block">
@@ -333,7 +330,7 @@
 <dl class="docutils" id="run-in-viewer">
 <dt><em>在预览器中运行</em></dt>
 <dd><p class="first">自动启动场景查看，导出的场景添加到它。</p>
-<p>当使用 <a class="reference internal" href="#local-development-server"><span>本地开发服务器</span></a>, 可以在场景预览器中打开导出的 <code class="docutils literal"><span class="pre">.json</span></code> 文件。要做到这一点，选择在导出时Blend4Web SDK文件结构中的任何路径。</p>
+<p>当使用 <a class="reference internal" href="#local-development-server"><span class="std std-ref">本地开发服务器</span></a>, 可以在场景预览器中打开导出的 <code class="docutils literal"><span class="pre">.json</span></code> 文件。要做到这一点，选择在导出时Blend4Web SDK文件结构中的任何路径。</p>
 <p class="last">应该于SDK里面的目录。如果没有，这个选项将不会显示在菜单中。另外，如果本地开发服务器宕机也不会显示。</p>
 </dd>
 </dl>
@@ -343,7 +340,7 @@
 </div>
 <span class="target" id="initialization-errors"></span></div>
 <div class="section" id="index-2">
-<span id="id3"></span><h2><a class="toc-backref" href="#id11">初始化错误</a><a class="headerlink" href="#index-2" title="永久链接至标题">¶</a></h2>
+<span id="id3"></span><h2><a class="toc-backref" href="#id12">初始化错误</a><a class="headerlink" href="#index-2" title="永久链接至标题">¶</a></h2>
 <p>可能出现安装的加载项或当一个场景是在Blender打开时初始化错误。在这种情况下，一个对话窗口，显示错误的描述。</p>
 <a class="reference internal image-reference" href="_images/addon_init_error_message.png"><img alt="_images/addon_init_error_message.png" class="align-center" src="_images/addon_init_error_message.png" style="width: 100%;" /></a>
 <div class="line-block">
@@ -355,35 +352,30 @@
 <col width="54%" />
 </colgroup>
 <thead valign="bottom">
-<tr class="row-odd"><th class="head"><p class="first last">错误信息</p>
-</th>
-<th class="head"><p class="first last">原因</p>
-</th>
+<tr class="row-odd"><th class="head">错误信息</th>
+<th class="head">原因</th>
 </tr>
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td>Blend4Web initialization error!
 Add-on is not compatible with
 the PLATFORM platform.</td>
-<td><p class="first last">该Blend4Web插件和该平台不兼容。</p>
-</td>
+<td>该Blend4Web插件和该平台不兼容。</td>
 </tr>
 <tr class="row-odd"><td>Warning: Blender version mismatch.
 Blender VER_REQUIRED is recommended
 for the Blend4Web add-on.
 Current version is VER_CURRENT.</td>
-<td><p class="first last">警告有关可能不符合当前Blender的版本号。它建议使用VER_REQUIREDBlender版本。当前的版本是VER_CURRENT。</p>
-</td>
+<td>警告有关可能不符合当前Blender的版本号。它建议使用VER_REQUIREDBlender版本。当前的版本是VER_CURRENT。</td>
 </tr>
 <tr class="row-even"><td>Incorrect add-on directory name.</td>
-<td><p class="first last">插件目录的不正确的名称。在存档附加结构已损坏，或归档的全部被打乱。</p>
-</td>
+<td>插件目录的不正确的名称。在存档附加结构已损坏，或归档的全部被打乱。</td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="section" id="compatibility-errors">
-<span id="version-errors"></span><span id="index-3"></span><h2><a class="toc-backref" href="#id12">兼容性错误</a><a class="headerlink" href="#compatibility-errors" title="永久链接至标题">¶</a></h2>
+<span id="version-errors"></span><span id="index-3"></span><h2><a class="toc-backref" href="#id13">兼容性错误</a><a class="headerlink" href="#compatibility-errors" title="永久链接至标题">¶</a></h2>
 <p>当试图在浏览器中查看一个场景，在下列情况下兼容性错误可能出现：如果版本的附加用于导出场景不同版本Blend4Web引擎，它尝试加载的场景，或者.bin文件不对应于.json文件。</p>
 <p>相比版本的插件与该场景被导出引擎版本太旧。场景将不会被加载。我们建议您使用引擎和插件的最新版本。</p>
 <table border="1" class="docutils">
@@ -392,10 +384,8 @@ Current version is VER_CURRENT.</td>
 <col width="54%" />
 </colgroup>
 <thead valign="bottom">
-<tr class="row-odd"><th class="head"><p class="first last">错误信息</p>
-</th>
-<th class="head"><p class="first last">原因</p>
-</th>
+<tr class="row-odd"><th class="head">错误信息</th>
+<th class="head">原因</th>
 </tr>
 </thead>
 <tbody valign="top">
@@ -403,51 +393,45 @@ Current version is VER_CURRENT.</td>
 B4W engine: VER_OLD, required:
 VER_NEW. Reexport scene with the
 latest B4W add-on to fix it.</td>
-<td><p class="first last">插件版本，与场景被导出版本相比太旧：VER_OLD。该引擎要求：VER_NEW。场景将不会被加载。我们建议您使用的加载项的最新版本重新导出场景。我们也建议使用引擎的最新版本。</p>
-</td>
+<td>插件版本，与场景被导出版本相比太旧：VER_OLD。该引擎要求：VER_NEW。场景将不会被加载。我们建议您使用的加载项的最新版本重新导出场景。我们也建议使用引擎的最新版本。</td>
 </tr>
 <tr class="row-odd"><td>JSON version is a bit old relative
 to B4W engine: VER_OLD, required:
 VER_NEW. Some compatibility issues
 can occur. Reexport scene with the
 latest B4W add-on to fix it.</td>
-<td><p class="first last">插件版本与场景的导出版本，是有点老了：VER_OLD。该引擎要求：VER_NEW。场景将被载入像往常一样，但是可能会出现一些错误。我们建议您使用的加载项的最新版本重新导出场景。我们也建议使用发动机的最新版本。</p>
-</td>
+<td>插件版本与场景的导出版本，是有点老了：VER_OLD。该引擎要求：VER_NEW。场景将被载入像往常一样，但是可能会出现一些错误。我们建议您使用的加载项的最新版本重新导出场景。我们也建议使用发动机的最新版本。</td>
 </tr>
 <tr class="row-even"><td>B4W engine version is too old
-relative to JSON. Can&#8217;t load the
+relative to JSON. Can’t load the
 scene. Update your engine version
 to fix it.</td>
-<td><p class="first last">相比版本的插件与该场景被导出引擎版本太旧。场景将不会被加载。我们建议您使用引擎和插件的最新版本。</p>
-</td>
+<td>相比版本的插件与该场景被导出引擎版本太旧。场景将不会被加载。我们建议您使用引擎和插件的最新版本。</td>
 </tr>
 <tr class="row-odd"><td>B4W engine version is a bit old
 relative to JSON. Some
 compatibility issues can occur.
 Update your engine version to fix
 it.</td>
-<td><p class="first last">相比版本的插件与该场景被导出引擎版本是有点老了。场景将被载入像往常一样，但是可能会出现一些错误。我们建议您使用引擎和插件的最新版本。</p>
-</td>
+<td>相比版本的插件与该场景被导出引擎版本是有点老了。场景将被载入像往常一样，但是可能会出现一些错误。我们建议您使用引擎和插件的最新版本。</td>
 </tr>
 <tr class="row-even"><td>BIN version does not match to
 JSON version: VER_BIN, required:
-VER_JSON. Couldn&#8217;t load the scene.
+VER_JSON. Couldn’t load the scene.
 Reexport scene to fix it.</td>
-<td><p class="first last">.bin文件的版本太旧相对于.json文件：VER_BIN，.json文件版本VER_JSON。场景将不会被加载。我们建议您再导出侑场景。</p>
-</td>
+<td>.bin文件的版本太旧相对于.json文件：VER_BIN，.json文件版本VER_JSON。场景将不会被加载。我们建议您再导出侑场景。</td>
 </tr>
 <tr class="row-odd"><td>BIN version does not match to
 JSON version: VER_BIN, required:
 VER_JSON. Some compatibility issues
 can occur. Reexport scene to fix it.</td>
-<td><p class="first last">.bin文件的版本有点老相对于.json文件：VER_BIN，.json文件版本VER_JSON。可能会出现一些不兼容的错误。我们建议您再导出侑场景。</p>
-</td>
+<td>.bin文件的版本有点老相对于.json文件：VER_BIN，.json文件版本VER_JSON。可能会出现一些不兼容的错误。我们建议您再导出侑场景。</td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="section" id="critical-export-errors">
-<span id="export-errors"></span><span id="index-4"></span><h2><a class="toc-backref" href="#id13">关键导出错误</a><a class="headerlink" href="#critical-export-errors" title="永久链接至标题">¶</a></h2>
+<span id="export-errors"></span><span id="index-4"></span><h2><a class="toc-backref" href="#id14">关键导出错误</a><a class="headerlink" href="#critical-export-errors" title="永久链接至标题">¶</a></h2>
 <p>在导出的情况下错误的 <code class="docutils literal"><span class="pre">BLEND4WEB</span> <span class="pre">EXPORT</span> <span class="pre">ERROR</span></code> 对话框出现描述该问题：</p>
 <blockquote>
 <div><p><code class="docutils literal"><span class="pre">COMPONENT</span></code> -组件（对象，网格，材质，纹理等），才造成了导出的错误的类型。</p>
@@ -464,75 +448,62 @@ can occur. Reexport scene to fix it.</td>
 <col width="54%" />
 </colgroup>
 <thead valign="bottom">
-<tr class="row-odd"><th class="head"><p class="first last">错误信息</p>
-</th>
-<th class="head"><p class="first last">原因</p>
-</th>
+<tr class="row-odd"><th class="head">错误信息</th>
+<th class="head">原因</th>
 </tr>
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td>Export to different disk is
 forbidden</td>
-<td><p class="first last">导出到位于不同的磁盘上的目录被禁止</p>
-</td>
+<td>导出到位于不同的磁盘上的目录被禁止</td>
 </tr>
 <tr class="row-odd"><td>Incompatible objects with
 a shared mesh; The OBJECT_NAME
 object has both vertex groups and
 a shared mesh</td>
-<td><p class="first last">不兼容的对象有一个共享的网格。不允许导出的对象既具有共享网格和顶点组。例外：导出是可能的，如果一个对象具有 <code class="docutils literal"><span class="pre">Apply</span> <span class="pre">modifiers</span></code>, <code class="docutils literal"><span class="pre">Export</span> <span class="pre">vertex</span> <span class="pre">animation</span></code>, <code class="docutils literal"><span class="pre">Export</span> <span class="pre">edited</span> <span class="pre">normals</span></code>, <code class="docutils literal"><span class="pre">Apply</span> <span class="pre">scale</span></code> 选项打开（因为在这些情况下，网格的完全复制时）。</p>
-</td>
+<td>不兼容的对象有一个共享的网格。不允许导出的对象既具有共享网格和顶点组。例外：导出是可能的，如果一个对象具有 <code class="docutils literal"><span class="pre">Apply</span> <span class="pre">modifiers</span></code>, <code class="docutils literal"><span class="pre">Export</span> <span class="pre">vertex</span> <span class="pre">animation</span></code>, <code class="docutils literal"><span class="pre">Export</span> <span class="pre">edited</span> <span class="pre">normals</span></code>, <code class="docutils literal"><span class="pre">Apply</span> <span class="pre">scale</span></code> 选项打开（因为在这些情况下，网格的完全复制时）。</td>
 </tr>
 <tr class="row-even"><td>Incorrect mesh; Corrupted file:
 Wrong vertex color values</td>
-<td><p class="first last">损坏的文件：不正确的顶点颜色值。</p>
-</td>
+<td>损坏的文件：不正确的顶点颜色值。</td>
 </tr>
 <tr class="row-odd"><td>Loading of resources from different
 disk is forbidden</td>
-<td><p class="first last">从不同的磁盘资源的装载是被禁止的。</p>
-</td>
+<td>从不同的磁盘资源的装载是被禁止的。</td>
 </tr>
 <tr class="row-even"><td>The material has a normal map but
-doesn&#8217;t have any material nodes</td>
-<td><p class="first last">节点材质采用 <code class="docutils literal"><span class="pre">Normal</span> <span class="pre">Mapping</span></code>, 但没有 <code class="docutils literal"><span class="pre">Material</span></code> 节点。</p>
-</td>
+doesn’t have any material nodes</td>
+<td>节点材质采用 <code class="docutils literal"><span class="pre">Normal</span> <span class="pre">Mapping</span></code>, 但没有 <code class="docutils literal"><span class="pre">Material</span></code> 节点。</td>
 </tr>
 <tr class="row-odd"><td>The mesh has a UV map but has no
 exported material</td>
-<td><p class="first last">该网格具有UV图层但并无材质导出。</p>
-</td>
+<td>该网格具有UV图层但并无材质导出。</td>
 </tr>
 <tr class="row-even"><td>The mesh has a vertex color layer
 but has no exported material</td>
-<td><p class="first last">该网格具有顶点颜色层，但有无材质导出。</p>
-</td>
+<td>该网格具有顶点颜色层，但有无材质导出。</td>
 </tr>
 <tr class="row-odd"><td>No such file or directory</td>
-<td><p class="first last">文件或目录不存在。</p>
-</td>
+<td>文件或目录不存在。</td>
 </tr>
 <tr class="row-even"><td>Permission denied</td>
-<td><p class="first last">没有访问权限到当前目录。</p>
-</td>
+<td>没有访问权限到当前目录。</td>
 </tr>
 <tr class="row-odd"><td>Wrong edited normals count; It
-doesn&#8217;t match with the mesh
+doesn’t match with the mesh
 vertices count</td>
-<td><p class="first last">编辑法线的数目不匹配的网格顶点的数量。执行 <code class="docutils literal"><span class="pre">Clean</span> <span class="pre">Up</span></code> 或 <code class="docutils literal"><span class="pre">Save</span></code> 在 <code class="docutils literal"><span class="pre">B4W</span> <span class="pre">Vertex</span> <span class="pre">Normals</span> <span class="pre">Editor</span></code> 面板.</p>
-</td>
+<td>编辑法线的数目不匹配的网格顶点的数量。执行 <code class="docutils literal"><span class="pre">Clean</span> <span class="pre">Up</span></code> 或 <code class="docutils literal"><span class="pre">Save</span></code> 在 <code class="docutils literal"><span class="pre">B4W</span> <span class="pre">Vertex</span> <span class="pre">Normals</span> <span class="pre">Editor</span></code> 面板.</td>
 </tr>
 <tr class="row-even"><td>Wrong overridden bounding box;
-Check the mesh&#8217;s bounding box
+Check the mesh’s bounding box
 values</td>
-<td><p class="first last">错尺寸覆盖网格的时指定 <code class="docutils literal"><span class="pre">BoundingBox</span></code>: 最小值为大于尺寸中的至少一个最大值。</p>
-</td>
+<td>错尺寸覆盖网格的时指定 <code class="docutils literal"><span class="pre">BoundingBox</span></code>: 最小值为大于尺寸中的至少一个最大值。</td>
 </tr>
 </tbody>
 </table>
 <span class="target" id="export-errors-warnings"></span></div>
 <div class="section" id="non-critical-export-errors">
-<span id="index-5"></span><h2><a class="toc-backref" href="#id14">非致命导出的错误</a><a class="headerlink" href="#non-critical-export-errors" title="永久链接至标题">¶</a></h2>
+<span id="index-5"></span><h2><a class="toc-backref" href="#id15">非致命导出的错误</a><a class="headerlink" href="#non-critical-export-errors" title="永久链接至标题">¶</a></h2>
 <p>在对比上述所列临界导出错误，这些错误不会禁止导出，但可以使显示不正确的场景。这些消息可以在浏览器的控制台中查看（与打开 <code class="docutils literal"><span class="pre">F12</span></code>) 当一个场景被加载。该消息是这样的：</p>
 <blockquote>
 <div><code class="docutils literal"><span class="pre">B4W</span> <span class="pre">EXPORT</span> <span class="pre">ERROR:</span> <span class="pre">Error</span> <span class="pre">message</span></code></div></blockquote>
@@ -546,104 +517,85 @@ values</td>
 <col width="54%" />
 </colgroup>
 <thead valign="bottom">
-<tr class="row-odd"><th class="head"><p class="first last">错误信息</p>
-</th>
-<th class="head"><p class="first last">原因</p>
-</th>
+<tr class="row-odd"><th class="head">错误信息</th>
+<th class="head">原因</th>
 </tr>
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td>Canvas texture ID NAME already
 exists. Texture NAME.</td>
-<td><p class="first last">该 <code class="docutils literal"><span class="pre">Canvas</span></code> ID已经存在。</p>
-</td>
+<td>该 <code class="docutils literal"><span class="pre">Canvas</span></code> ID已经存在。</td>
 </tr>
 <tr class="row-odd"><td>Dupli group error for object
 OBJECT_NAME. Objects from the
 GROUP_NAME dupli group on the
 OBJECT_NAME object cannot be
 exported</td>
-<td><p class="first last">其中没有被选定为重复的OBJECT_NAME对象的GROUP_NAME组中的对象可以被导出。导出许可的组中的至少一个对象，或删除的组的复制是必需的。</p>
-</td>
+<td>其中没有被选定为重复的OBJECT_NAME对象的GROUP_NAME组中的对象可以被导出。导出许可的组中的至少一个对象，或删除的组的复制是必需的。</td>
 </tr>
 <tr class="row-even"><td>Empty canvas texture ID for texture
 NAME.</td>
-<td><p class="first last"><code class="docutils literal"><span class="pre">Canvas</span></code> ID是空的。</p>
-</td>
+<td><code class="docutils literal"><span class="pre">Canvas</span></code> ID是空的。</td>
 </tr>
 <tr class="row-odd"><td>Empty material slot in node
-&#8220;NAME&#8221;. Material: &#8220;NAME&#8221;.</td>
-<td><p class="first last">在“名称”节点空的材质插槽。</p>
-</td>
+&quot;NAME&quot;. Material: &quot;NAME&quot;.</td>
+<td>在“名称”节点空的材质插槽。</td>
 </tr>
-<tr class="row-even"><td>Environment map in the &#8220;NAME&#8221;
+<tr class="row-even"><td>Environment map in the &quot;NAME&quot;
 world texture slot cannot be
 a movie.</td>
-<td><p class="first last">环境贴图无法显示一个视频文件。</p>
-</td>
+<td>环境贴图无法显示一个视频文件。</td>
 </tr>
 <tr class="row-odd"><td>Ignoring LODs after empty LOD for
 the NAME object.</td>
-<td><p class="first last">按照空槽，所有LOD对象被忽略（在LOD对象列表对象的名称）。</p>
-</td>
+<td>按照空槽，所有LOD对象被忽略（在LOD对象列表对象的名称）。</td>
 </tr>
 <tr class="row-even"><td>Incomplete mesh NAME; Dynamic grass
 vertex colors required
 by material settings</td>
-<td><p class="first last">该 <code class="docutils literal"><span class="pre">Dynamic</span> <span class="pre">grass</span> <span class="pre">size</span></code> 和/或 <code class="docutils literal"><span class="pre">Dynamic</span> <span class="pre">grass</span> <span class="pre">color</span></code> 选择所使用的特殊地形材质，但网格没有顶点着色这样的名字。</p>
-</td>
+<td>该 <code class="docutils literal"><span class="pre">Dynamic</span> <span class="pre">grass</span> <span class="pre">size</span></code> 和/或 <code class="docutils literal"><span class="pre">Dynamic</span> <span class="pre">grass</span> <span class="pre">color</span></code> 选择所使用的特殊地形材质，但网格没有顶点着色这样的名字。</td>
 </tr>
 <tr class="row-odd"><td>Incomplete mesh; Material settings
 require vertex colors</td>
-<td><p class="first last">该 <code class="docutils literal"><span class="pre">Vertex</span> <span class="pre">Color</span> <span class="pre">Paint</span></code> 启用了网状材料的选择，但网格没有顶点颜色层。</p>
-</td>
+<td>该 <code class="docutils literal"><span class="pre">Vertex</span> <span class="pre">Color</span> <span class="pre">Paint</span></code> 启用了网状材料的选择，但网格没有顶点颜色层。</td>
 </tr>
 <tr class="row-even"><td>Incorrect NLA script, falling back
 to simple sequential NLA.</td>
-<td><p class="first last">不正确的 NLA 脚本。返回到简单的序列 NLA。</p>
-</td>
+<td>不正确的 NLA 脚本。返回到简单的序列 NLA。</td>
 </tr>
 <tr class="row-odd"><td>Incorrect vertex animation for mesh
 NAME. Object has no vertex
 animation.</td>
-<td><p class="first last">对象的顶点动画导出选项，但没有顶点动画。</p>
-</td>
+<td>对象的顶点动画导出选项，但没有顶点动画。</td>
 </tr>
 <tr class="row-even"><td>Incorrect vertex animation for mesh
-NAME. Unbaked &#8220;ANIM_NAME&#8221; vertex
+NAME. Unbaked &quot;ANIM_NAME&quot; vertex
 animation.</td>
-<td><p class="first last">顶点动画导出是打开的网格，但ANIM_NAME动画没有任何帧。</p>
-</td>
+<td>顶点动画导出是打开的网格，但ANIM_NAME动画没有任何帧。</td>
 </tr>
 <tr class="row-odd"><td>Incorrect mesh NAME;
 Wrong group indices</td>
-<td><p class="first last">该网格具有分配给不存在的顶点顶点组的顶点。</p>
-</td>
+<td>该网格具有分配给不存在的顶点顶点组的顶点。</td>
 </tr>
 <tr class="row-even"><td>Incorrect mesh NAME;
 Wrong vertex positions</td>
-<td><p class="first last">损坏的文件：不正确的顶点坐标值。</p>
-</td>
+<td>损坏的文件：不正确的顶点坐标值。</td>
 </tr>
 <tr class="row-odd"><td>Incorrect mesh NAME;
 Wrong normals</td>
-<td><p class="first last">损坏的文件：不正确法线值。</p>
-</td>
+<td>损坏的文件：不正确法线值。</td>
 </tr>
 <tr class="row-even"><td>Incorrect mesh NAME;
 Wrong tangents</td>
-<td><p class="first last">损坏的文件：不正确正切值。</p>
-</td>
+<td>损坏的文件：不正确正切值。</td>
 </tr>
 <tr class="row-odd"><td>Incorrect mesh NAME;
 Wrong texture coordinates</td>
-<td><p class="first last">损坏的文件：不正确的纹理坐标值。</p>
-</td>
+<td>损坏的文件：不正确的纹理坐标值。</td>
 </tr>
 <tr class="row-even"><td>Incorrect mesh NAME;
 Wrong vertex group weights</td>
-<td><p class="first last">损坏的文件：不正确的顶点组权重值。</p>
-</td>
+<td>损坏的文件：不正确的顶点组权重值。</td>
 </tr>
 </tbody>
 </table>
@@ -654,82 +606,69 @@ Wrong vertex group weights</td>
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td>Incomplete vehicle. The NAME
-vehicle doesn&#8217;t have any chassis
+vehicle doesn’t have any chassis
 or hull</td>
-<td><p class="first last">模型的 NAME 车辆是不完整的，因为它应该包含一个 <code class="docutils literal"><span class="pre">Chassis</span></code> 或 <code class="docutils literal"><span class="pre">Hull</span></code> 元素。</p>
-</td>
+<td>模型的 NAME 车辆是不完整的，因为它应该包含一个 <code class="docutils literal"><span class="pre">Chassis</span></code> 或 <code class="docutils literal"><span class="pre">Hull</span></code> 元素。</td>
 </tr>
 <tr class="row-even"><td>Incomplete vehicle. The NAME
 vehicle requires at least one bob</td>
-<td><p class="first last">模拟的NAME车辆是不完整的，因为它应该含有至少一种 <code class="docutils literal"><span class="pre">Bob</span></code> 元件。</p>
-</td>
+<td>模拟的NAME车辆是不完整的，因为它应该含有至少一种 <code class="docutils literal"><span class="pre">Bob</span></code> 元件。</td>
 </tr>
 <tr class="row-odd"><td>Incomplete vehicle. The NAME
 vehicle requires at least one wheel</td>
-<td><p class="first last">模拟的NAME车辆是不完整的，因为它应包含至少一个 <code class="docutils literal"><span class="pre">Wheel</span></code> 元件。</p>
-</td>
+<td>模拟的NAME车辆是不完整的，因为它应包含至少一个 <code class="docutils literal"><span class="pre">Wheel</span></code> 元件。</td>
 </tr>
 <tr class="row-even"><td>Invalid link found in node
-material. Material: &#8220;NAME&#8221;.</td>
-<td><p class="first last">&#8220;NAME&#8221; 节点材料包含节点之间的不正确连接。</p>
-</td>
+material. Material: &quot;NAME&quot;.</td>
+<td>&quot;NAME&quot; 节点材料包含节点之间的不正确连接。</td>
 </tr>
 <tr class="row-odd"><td>No image in the NAME texture.
 [Material: NAME.]</td>
-<td><p class="first last">纹理有没有图像。</p>
-</td>
+<td>纹理有没有图像。</td>
 </tr>
 <tr class="row-even"><td>No texture for the NAME particle
 settings texture slot.</td>
-<td><p class="first last">在粒子设置“纹理槽没有纹理。</p>
-</td>
+<td>在粒子设置“纹理槽没有纹理。</td>
 </tr>
 <tr class="row-odd"><td>No texture in the NAME world
 texture slot.</td>
-<td><p class="first last">在NAME世界纹理插槽没有纹理</p>
-</td>
+<td>在NAME世界纹理插槽没有纹理</td>
 </tr>
 <tr class="row-even"><td>No texture in the texture slot.
 Material: NAME.</td>
-<td><p class="first last">有一个在材料的纹理插槽没有纹理</p>
-</td>
+<td>有一个在材料的纹理插槽没有纹理</td>
 </tr>
-<tr class="row-odd"><td>Node material invalid: &#8220;NAME&#8221;.
+<tr class="row-odd"><td>Node material invalid: &quot;NAME&quot;.
 Check sockets compatibility:
-&#8220;FROM_NODE&#8221; with &#8220;TO_NODE&#8221;.</td>
-<td><p class="first last">节点材质错误：之间的联系的输入和输出类型 <code class="docutils literal"><span class="pre">FROM_NODE</span></code> 和 <code class="docutils literal"><span class="pre">TO_NODE</span></code> 节点应该匹配。</p>
-</td>
+&quot;FROM_NODE&quot; with &quot;TO_NODE&quot;.</td>
+<td>节点材质错误：之间的联系的输入和输出类型 <code class="docutils literal"><span class="pre">FROM_NODE</span></code> 和 <code class="docutils literal"><span class="pre">TO_NODE</span></code> 节点应该匹配。</td>
 </tr>
-<tr class="row-even"><td>Object &#8220;NAME&#8221; hasn&#8217;t renderable
+<tr class="row-even"><td>Object &quot;NAME&quot; hasn’t renderable
 data. Converted to EMPTY.</td>
-<td><p class="first last">名为“NAME”的对象是失效的，比如没有多边形。对象的类型已更改为空。</p>
-</td>
+<td>名为“NAME”的对象是失效的，比如没有多边形。对象的类型已更改为空。</td>
 </tr>
-<tr class="row-odd"><td>Object: &#8220;NAME&#8221; &gt; Constraint:
-&#8220;CONSTRAINT_TYPE&#8221;. Check
+<tr class="row-odd"><td>Object: &quot;NAME&quot; &gt; Constraint:
+&quot;CONSTRAINT_TYPE&quot;. Check
 constraint settings.</td>
-<td>The object &#8220;NAME&#8221; has a constraint of
-type &#8220;CONSTRAINT_TYPE&#8221;, which isn&#8217;t
+<td>The object &quot;NAME&quot; has a constraint of
+type &quot;CONSTRAINT_TYPE&quot;, which isn’t
 configured properly.</td>
 </tr>
-<tr class="row-even"><td>Object &#8220;NAME&#8221; has the mesh with
+<tr class="row-even"><td>Object &quot;NAME&quot; has the mesh with
 shape keys. The property
-&#8220;Relative&#8221; of mesh has been
+&quot;Relative&quot; of mesh has been
 enabled.</td>
-<td><p class="first last">名为“NAME”的对象具有按键形状的网格。该网具有“相对”属性，使这是被禁止的。</p>
-</td>
+<td>名为“NAME”的对象具有按键形状的网格。该网具有“相对”属性，使这是被禁止的。</td>
 </tr>
-<tr class="row-odd"><td>Object &#8220;NAME&#8221; has no data or
+<tr class="row-odd"><td>Object &quot;NAME&quot; has no data or
 data is broken. Change object type
 to EMPTY.</td>
-<td><p class="first last">名为“NAME”的对象是失效的，比如没有多边形。对象的类型已更改为空。</p>
-</td>
+<td>名为“NAME”的对象是失效的，比如没有多边形。对象的类型已更改为空。</td>
 </tr>
-<tr class="row-even"><td>Packed media &#8220;FILE_NAME&#8221; has not
+<tr class="row-even"><td>Packed media &quot;FILE_NAME&quot; has not
 been exported to
-&#8220;CONVERTED_FILE_PATH&#8221;</td>
-<td><p class="first last">填充媒体文件“FILE_NAME”不能被转换为“CONVERTED_FILE_PATH”。请解压缩这个文件，并将其转换。</p>
-</td>
+&quot;CONVERTED_FILE_PATH&quot;</td>
+<td>填充媒体文件“FILE_NAME”不能被转换为“CONVERTED_FILE_PATH”。请解压缩这个文件，并将其转换。</td>
 </tr>
 </tbody>
 </table>
@@ -739,90 +678,77 @@ been exported to
 <col width="54%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td>Particle system error for &#8220;NAME&#8221;;
-The &#8220;NAME&#8221; vertex color specified
+<tr class="row-odd"><td>Particle system error for &quot;NAME&quot;;
+The &quot;NAME&quot; vertex color specified
 in the <code class="docutils literal"><span class="pre">from</span></code> field is missing in
-the last of the &#8220;OBJECT_NAME&#8221;
-object&#8217;s vertex colors</td>
-<td><p class="first last">该名称顶点颜色是在指定 <code class="docutils literal"><span class="pre">from</span></code> 领域，但它没有出现在OBJECT_NAME发射器。</p>
-</td>
+the last of the &quot;OBJECT_NAME&quot;
+object’s vertex colors</td>
+<td>该名称顶点颜色是在指定 <code class="docutils literal"><span class="pre">from</span></code> 领域，但它没有出现在OBJECT_NAME发射器。</td>
 </tr>
-<tr class="row-even"><td>Particle system error for &#8220;NAME&#8221;;
-The &#8220;NAME&#8221; vertex color specified
+<tr class="row-even"><td>Particle system error for &quot;NAME&quot;;
+The &quot;NAME&quot; vertex color specified
 in the <code class="docutils literal"><span class="pre">to</span></code> field is missing in
-the list of the &#8220;OBJECT_NAME&#8221;
-object&#8217;s vertex colors</td>
-<td><p class="first last">这个NAME顶点颜色中指定 <code class="docutils literal"><span class="pre">to</span></code> 场，但它不存在于被选择作为一个粒子的OBJECT_NAME对象。</p>
-</td>
+the list of the &quot;OBJECT_NAME&quot;
+object’s vertex colors</td>
+<td>这个NAME顶点颜色中指定 <code class="docutils literal"><span class="pre">to</span></code> 场，但它不存在于被选择作为一个粒子的OBJECT_NAME对象。</td>
 </tr>
-<tr class="row-odd"><td>Particle system error for &#8220;NAME&#8221;;
-The &#8220;NAME&#8221; vertex color specified
-in the &#8220;<code class="docutils literal"><span class="pre">to</span></code> field is missing in
-the &#8220;OBJECT_NAME&#8221; object
-(&#8220;GROUP_NAME&#8221; dupli group)</td>
-<td><p class="first last">这个NAME顶点颜色中指定 <code class="docutils literal"><span class="pre">to</span></code> 区域，但它不存在于被选择作为一个粒子的GROUP_NAME组的OBJECT_NAME对象。</p>
-</td>
+<tr class="row-odd"><td>Particle system error for &quot;NAME&quot;;
+The &quot;NAME&quot; vertex color specified
+in the &quot;<code class="docutils literal"><span class="pre">to</span></code> field is missing in
+the &quot;OBJECT_NAME&quot; object
+(&quot;GROUP_NAME&quot; dupli group)</td>
+<td>这个NAME顶点颜色中指定 <code class="docutils literal"><span class="pre">to</span></code> 区域，但它不存在于被选择作为一个粒子的GROUP_NAME组的OBJECT_NAME对象。</td>
 </tr>
 <tr class="row-even"><td>Particle system error for object
-&#8220;NAME&#8221;. Invalid dupli object
-&#8220;OBJECT_NAME&#8221;.</td>
-<td><p class="first last">粒子系统错误的对象名称。无效DUPLI对象OBJECT_NAME。</p>
-</td>
+&quot;NAME&quot;. Invalid dupli object
+&quot;OBJECT_NAME&quot;.</td>
+<td>粒子系统错误的对象名称。无效DUPLI对象OBJECT_NAME。</td>
 </tr>
 <tr class="row-odd"><td>Particle system error. Unsupported
-render type &#8220;TYPE&#8221; for the HAIR
-particles &#8220;NAME&#8221; on object
-&#8220;OBJECT_NAME&#8221;. Particle system
+render type &quot;TYPE&quot; for the HAIR
+particles &quot;NAME&quot; on object
+&quot;OBJECT_NAME&quot;. Particle system
 removed.</td>
-<td><p class="first last">粒子系统错误。对象NAME上的HAIR粒子PSYS_NAME的不支持的渲染类型TYPE。粒子系统已经去除。</p>
-</td>
+<td>粒子系统错误。对象NAME上的HAIR粒子PSYS_NAME的不支持的渲染类型TYPE。粒子系统已经去除。</td>
 </tr>
 <tr class="row-even"><td>Particle system error. Unsupported
-render type &#8220;TYPE&#8221; for the EMITTER
-particles &#8220;NAME&#8221; on object
-&#8220;OBJECT_NAME&#8221;. Particle system
+render type &quot;TYPE&quot; for the EMITTER
+particles &quot;NAME&quot; on object
+&quot;OBJECT_NAME&quot;. Particle system
 removed.</td>
-<td><p class="first last">粒子系统错误。对象NAME上的EMITTER粒子PSYS_NAME的不支持的渲染类型TYPE。粒子系统已经去除。</p>
-</td>
+<td>粒子系统错误。对象NAME上的EMITTER粒子PSYS_NAME的不支持的渲染类型TYPE。粒子系统已经去除。</td>
 </tr>
-<tr class="row-odd"><td>Particle system error for &#8220;NAME&#8221;.
-Dupli object isn&#8217;t specified.</td>
-<td><p class="first last">粒子系统错误：没有对象被选中作为一个粒子。</p>
-</td>
+<tr class="row-odd"><td>Particle system error for &quot;NAME&quot;.
+Dupli object isn’t specified.</td>
+<td>粒子系统错误：没有对象被选中作为一个粒子。</td>
 </tr>
-<tr class="row-even"><td>Particle system error for &#8220;NAME&#8221;.
-Dupli group isn&#8217;t specified.</td>
-<td><p class="first last">粒子系统错误：没有选择组作为粒子。</p>
-</td>
+<tr class="row-even"><td>Particle system error for &quot;NAME&quot;.
+Dupli group isn’t specified.</td>
+<td>粒子系统错误：没有选择组作为粒子。</td>
 </tr>
-<tr class="row-odd"><td>Particle system error for &#8220;NAME&#8221;.
-Wrong dupli object type &#8220;TYPE&#8221;.</td>
-<td><p class="first last">被选择为粒子不适当类型的对象。支持的类型： <code class="docutils literal"><span class="pre">MESH</span></code>.</p>
-</td>
+<tr class="row-odd"><td>Particle system error for &quot;NAME&quot;.
+Wrong dupli object type &quot;TYPE&quot;.</td>
+<td>被选择为粒子不适当类型的对象。支持的类型： <code class="docutils literal"><span class="pre">MESH</span></code>.</td>
 </tr>
-<tr class="row-even"><td>Particle system error for &#8220;NAME&#8221;.
-Dupli object &#8220;NAME&#8221; has not been
+<tr class="row-even"><td>Particle system error for &quot;NAME&quot;.
+Dupli object &quot;NAME&quot; has not been
 exported.</td>
-<td><p class="first last">选择为粒子的NAME物体无法导出（设置“不要导出”复选框）。</p>
-</td>
+<td>选择为粒子的NAME物体无法导出（设置“不要导出”复选框）。</td>
 </tr>
-<tr class="row-odd"><td>Particle system error for &#8220;NAME&#8221;.
-The &#8220;GROUP_NAME&#8221; dupli group
+<tr class="row-odd"><td>Particle system error for &quot;NAME&quot;.
+The &quot;GROUP_NAME&quot; dupli group
 contains no valid object for export.</td>
-<td><p class="first last">被选择作为粒子的GROUP_NAME DUPLI组包含导出没有有效的对象。无论这样的对象具有 <code class="docutils literal"><span class="pre">Do</span> <span class="pre">not</span> <span class="pre">export</span></code> 启用复选框或对象的类型不适合。支持的对象类型： <code class="docutils literal"><span class="pre">MESH</span></code>.</p>
-</td>
+<td>被选择作为粒子的GROUP_NAME DUPLI组包含导出没有有效的对象。无论这样的对象具有 <code class="docutils literal"><span class="pre">Do</span> <span class="pre">not</span> <span class="pre">export</span></code> 启用复选框或对象的类型不适合。支持的对象类型： <code class="docutils literal"><span class="pre">MESH</span></code>.</td>
 </tr>
 <tr class="row-even"><td>Sound file is missing in the
-SPEAKER object &#8220;NAME&#8221;. Converted
+SPEAKER object &quot;NAME&quot;. Converted
 to EMPTY.</td>
-<td><p class="first last">扬声器没有附加声音。物体的类型已更改为空。</p>
-</td>
+<td>扬声器没有附加声音。物体的类型已更改为空。</td>
 </tr>
-<tr class="row-odd"><td>The lamp object &#8220;NAME&#8221; has
+<tr class="row-odd"><td>The lamp object &quot;NAME&quot; has
 unsupported AREA type. Changed to
 SUN.</td>
-<td><p class="first last">灯物体“NAME”具有不受支持的区域类型。灯泡类型已更改为SUN。</p>
-</td>
+<td>灯物体“NAME”具有不受支持的区域类型。灯泡类型已更改为SUN。</td>
 </tr>
 </tbody>
 </table>
@@ -835,84 +761,70 @@ SUN.</td>
 <tr class="row-odd"><td>The main scene NAME can not be
 rendered by another scene. Material
 NAME has been removed.</td>
-<td><p class="first last">主场景名称不能被其他场景渲染。材料名称已被删除。</p>
-</td>
+<td>主场景名称不能被其他场景渲染。材料名称已被删除。</td>
 </tr>
 <tr class="row-even"><td>The NAME action has decimal frames.
 Converted to integer.</td>
-<td><p class="first last">操作具有十进制的帧。转换为整数。</p>
-</td>
+<td>操作具有十进制的帧。转换为整数。</td>
 </tr>
 <tr class="row-odd"><td>The NAME armature modifier has a
 proxy object as an armature.
 Modifier removed.</td>
-<td><p class="first last">一个骨架修改器具有一个代理对象作为骨架。</p>
-</td>
+<td>一个骨架修改器具有一个代理对象作为骨架。</td>
 </tr>
 <tr class="row-even"><td>The NAME armature modifier has no
 armature object or it is not
 exported. Modifier removed.</td>
-<td><p class="first last">NAME``Armature`` 修饰符没有谷歌物体，或者没有导出。修改器被删除。</p>
-</td>
+<td>NAME``Armature`` 修饰符没有谷歌物体，或者没有导出。修改器被删除。</td>
 </tr>
 <tr class="row-odd"><td>The NAME curve modifier has no curve
 object. Modifier removed.</td>
-<td><p class="first last">该  NAME 曲线修改器没有物体。修改器删除。</p>
-</td>
+<td>该  NAME 曲线修改器没有物体。修改器删除。</td>
 </tr>
 <tr class="row-even"><td>The NAME curve modifier has
 unsupported curve object. Modifier
 removed.</td>
-<td><p class="first last">该名称的曲线修饰有不支持的对象。修改删除。</p>
-</td>
+<td>该名称的曲线修饰有不支持的对象。修改删除。</td>
 </tr>
 <tr class="row-odd"><td>The NAME object has the NAME
 armature modifier and a vertex
 animation. Modifier removed.</td>
-<td><p class="first last">Name对象既有顶点动画和不支持的电枢修改。其结果是，该改性剂已被删除。</p>
-</td>
+<td>Name对象既有顶点动画和不支持的电枢修改。其结果是，该改性剂已被删除。</td>
 </tr>
 <tr class="row-even"><td>The NAME object has the NAME
 armature modifier. It belongs to a
 not exported scene. Modifier
 removed.</td>
-<td><p class="first last">该  NAME 拥有 一个名为  NAME 的 <code class="docutils literal"><span class="pre">Armature</span></code> 骨架修改器，该骨架物体在修改器中未指明或者属于不导出场景。修改器移除。</p>
-</td>
+<td>该  NAME 拥有 一个名为  NAME 的 <code class="docutils literal"><span class="pre">Armature</span></code> 骨架修改器，该骨架物体在修改器中未指明或者属于不导出场景。修改器移除。</td>
 </tr>
 <tr class="row-odd"><td>The NAME LAMP node has no lamp
 object. Material: NAME.</td>
-<td><p class="first last">在指定的名字错了对象 <code class="docutils literal"><span class="pre">LAMP</span></code> 节点。</p>
-</td>
+<td>在指定的名字错了对象 <code class="docutils literal"><span class="pre">LAMP</span></code> 节点。</td>
 </tr>
 <tr class="row-even"><td>The NAME node is not supported.
 The NAME material will be rendered
 without nodes. Material: NAME.</td>
-<td><p class="first last">引擎不支持该节点与该名字，并因此节点材料将被关闭。经常出现这种情况时，循环节点使用。</p>
-</td>
+<td>引擎不支持该节点与该名字，并因此节点材料将被关闭。经常出现这种情况时，循环节点使用。</td>
 </tr>
 <tr class="row-odd"><td>The NAME object has NAME armature
 modifier which references the wrong
 group. Modifier removed.</td>
-<td><p class="first last">一个物体应该是在同一组作为骨架，或两个物体应该明确地出现在场景中。</p>
-</td>
+<td>一个物体应该是在同一组作为骨架，或两个物体应该明确地出现在场景中。</td>
 </tr>
-<tr class="row-even"><td>&#8220;TEXTURE_TYPE&#8221; texture type is not
-supported for world &#8220;NAME&#8221;.</td>
-<td><p class="first last">不支持TEXTURE_TYPE纹理类型为世界WORLD_NAME</p>
-</td>
+<tr class="row-even"><td>&quot;TEXTURE_TYPE&quot; texture type is not
+supported for world &quot;NAME&quot;.</td>
+<td>不支持TEXTURE_TYPE纹理类型为世界WORLD_NAME</td>
 </tr>
 <tr class="row-odd"><td>Using B4W_REFRACTION node NODE_NAME
 with incorrect type of Alpha Blend.
 Material: NAME.</td>
-<td><p class="first last">用不正确的透明混合属性节点材质。 <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">sort</span></code>, <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">blend</span></code> 和 <code class="docutils literal"><span class="pre">Add</span></code> 使用的是“折射”节点时允许的。</p>
-</td>
+<td>用不正确的透明混合属性节点材质。 <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">sort</span></code>, <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">blend</span></code> 和 <code class="docutils literal"><span class="pre">Add</span></code> 使用的是“折射”节点时允许的。</td>
 </tr>
 <tr class="row-even"><td>Wind bending: not all
-vertex colors exist for &#8220;NAME&#8221;.
+vertex colors exist for &quot;NAME&quot;.
 Properties were set to default
 values.</td>
-<td><p class="first last">风弯曲参数设置：所有指定的顶点颜色层应该存在。</p>
-</td>
+<td>风弯曲参数设置：所有指定的顶点颜色层应该存在。</td>
 </tr>
 </tbody>
 </table>
@@ -922,48 +834,42 @@ values.</td>
 <col width="54%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td>Wind bending: vertex colors weren&#8217;t
-properly assigned for &#8220;NAME&#8221;.
+<tr class="row-odd"><td>Wind bending: vertex colors weren’t
+properly assigned for &quot;NAME&quot;.
 Properties were set to default
 values.</td>
-<td><p class="first last">风弯曲参数设置：它必须指定或者所有顶点颜色层的名称 (<code class="docutils literal"><span class="pre">Main</span> <span class="pre">stiffness</span> <span class="pre">(A)</span></code>, <code class="docutils literal"><span class="pre">Leaves</span> <span class="pre">stiffness</span> <span class="pre">(R)</span></code>, <code class="docutils literal"><span class="pre">Leaves</span> <span class="pre">phase</span> <span class="pre">(G)</span></code>, <code class="docutils literal"><span class="pre">Overall</span> <span class="pre">stiffness</span> <span class="pre">(B)</span></code>), 或主要的一个唯一的 (<code class="docutils literal"><span class="pre">Main</span> <span class="pre">stiffness</span> <span class="pre">(A)</span></code>), 或没有其中之一的。</p>
-</td>
+<td>风弯曲参数设置：它必须指定或者所有顶点颜色层的名称 (<code class="docutils literal"><span class="pre">Main</span> <span class="pre">stiffness</span> <span class="pre">(A)</span></code>, <code class="docutils literal"><span class="pre">Leaves</span> <span class="pre">stiffness</span> <span class="pre">(R)</span></code>, <code class="docutils literal"><span class="pre">Leaves</span> <span class="pre">phase</span> <span class="pre">(G)</span></code>, <code class="docutils literal"><span class="pre">Overall</span> <span class="pre">stiffness</span> <span class="pre">(B)</span></code>), 或主要的一个唯一的 (<code class="docutils literal"><span class="pre">Main</span> <span class="pre">stiffness</span> <span class="pre">(A)</span></code>), 或没有其中之一的。</td>
 </tr>
-<tr class="row-even"><td>Wrong &#8220;Height Map&#8221; input for the
-&#8220;NAME&#8221; B4W_PARALLAX node. Only link
+<tr class="row-even"><td>Wrong &quot;Height Map&quot; input for the
+&quot;NAME&quot; B4W_PARALLAX node. Only link
 from the TEXTURE node with a
 non-empty texture is allowed.</td>
-<td><p class="first last">错误的数据传递给该名称的“高度贴图”输入 <code class="docutils literal"><span class="pre">B4W_PARALLAX</span></code> 节点。只从一个非空的输出 <code class="docutils literal"><span class="pre">TEXTURE</span></code> 节点是允许的。</p>
-</td>
+<td>错误的数据传递给该名称的“高度贴图”输入 <code class="docutils literal"><span class="pre">B4W_PARALLAX</span></code> 节点。只从一个非空的输出 <code class="docutils literal"><span class="pre">TEXTURE</span></code> 节点是允许的。</td>
 </tr>
 <tr class="row-odd"><td>Wrong texture coordinates type
 in texture NAME. [Material: NAME.]</td>
-<td><p class="first last">下列坐标类型的图像纹理支持： <code class="docutils literal"><span class="pre">UV</span></code>, <code class="docutils literal"><span class="pre">Normal</span></code> 和 <code class="docutils literal"><span class="pre">Generated</span></code>.</p>
-</td>
+<td>下列坐标类型的图像纹理支持： <code class="docutils literal"><span class="pre">UV</span></code>, <code class="docutils literal"><span class="pre">Normal</span></code> 和 <code class="docutils literal"><span class="pre">Generated</span></code>.</td>
 </tr>
 <tr class="row-even"><td>Wrong F-Curve interpolation mode for
 ACTION_NAME. Only BEZIER, LINEAR or
 CONSTANT mode is allowed for F-Curve
 interpolation. Switch to BEZIER.</td>
-<td><p class="first last">动作插补模式支持以下类型： <code class="docutils literal"><span class="pre">BEZIER</span></code>, <code class="docutils literal"><span class="pre">LINEAR</span></code> 和 <code class="docutils literal"><span class="pre">CONSTANT</span></code>.</p>
-</td>
+<td>动作插补模式支持以下类型： <code class="docutils literal"><span class="pre">BEZIER</span></code>, <code class="docutils literal"><span class="pre">LINEAR</span></code> 和 <code class="docutils literal"><span class="pre">CONSTANT</span></code>.</td>
 </tr>
 <tr class="row-odd"><td>Wrong vertex animation vertices
-count for mesh NAME. It doesn&#8217;t
+count for mesh NAME. It doesn’t
 match with the mesh vertices count
-for &#8220;ANIM_NAME&#8221;.</td>
-<td><p class="first last">顶点动画导出被启用，但顶点在焙烤ANIM_NAME动画帧的数目不匹配网格顶点编号。可能的解决方案是“重新烘焙”的动画。</p>
-</td>
+for &quot;ANIM_NAME&quot;.</td>
+<td>顶点动画导出被启用，但顶点在焙烤ANIM_NAME动画帧的数目不匹配网格顶点编号。可能的解决方案是“重新烘焙”的动画。</td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="section" id="other-messages">
-<span id="export-errors-other"></span><h2><a class="toc-backref" href="#id15">其他消息</a><a class="headerlink" href="#other-messages" title="永久链接至标题">¶</a></h2>
+<span id="export-errors-other"></span><h2><a class="toc-backref" href="#id16">其他消息</a><a class="headerlink" href="#other-messages" title="永久链接至标题">¶</a></h2>
 <p>这些消息可以在浏览器的控制台中查看（与打开 <code class="docutils literal"><span class="pre">F12</span></code> 一样) 当一个场景被加载。该消息是这样的：</p>
 <blockquote>
-<div><p><code class="docutils literal"><span class="pre">B4W</span> <span class="pre">EXPORT警告：导出消息，这就需要用户注意</span></code></p>
-</div></blockquote>
+<div><code class="docutils literal"><span class="pre">B4W</span> <span class="pre">EXPORT警告：导出消息，这就需要用户注意</span></code></div></blockquote>
 <a class="reference internal image-reference" href="_images/addon_export_warning_message.png"><img alt="_images/addon_export_warning_message.png" class="align-center" src="_images/addon_export_warning_message.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -974,72 +880,63 @@ for &#8220;ANIM_NAME&#8221;.</td>
 <col width="54%" />
 </colgroup>
 <thead valign="bottom">
-<tr class="row-odd"><th class="head"><p class="first last">错误信息</p>
-</th>
-<th class="head"><p class="first last">原因</p>
-</th>
+<tr class="row-odd"><th class="head">错误信息</th>
+<th class="head">原因</th>
 </tr>
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td>Material tangent shading is
-enabled, but object&#8217;s mesh has no
+enabled, but object’s mesh has no
 UV map.</td>
-<td><p class="first last">该材质启用了 “切线着色” 选项，它始终需要UV映射。</p>
-</td>
+<td>该材质启用了 “切线着色” 选项，它始终需要UV映射。</td>
 </tr>
 <tr class="row-odd"><td>Missing active camera or wrong
 active camera object</td>
-<td><p class="first last">在场景中没有激活的(<code class="docutils literal"><span class="pre">Camera</span></code> 属性在 <code class="docutils literal"><span class="pre">Scene</span></code> 面板).</p>
-</td>
+<td>在场景中没有激活的(<code class="docutils literal"><span class="pre">Camera</span></code> 属性在 <code class="docutils literal"><span class="pre">Scene</span></code> 面板).</td>
 </tr>
 <tr class="row-even"><td>Missing world or wrong active world
 object</td>
-<td><p class="first last">应该有至少有一个数据块的世界场景中。</p>
-</td>
+<td>应该有至少有一个数据块的世界场景中。</td>
 </tr>
 <tr class="row-odd"><td>Multiple constraints added on an
-object &#8220;Cube&#8221;, but it supports only
-one. Others won&#8217;t be used.</td>
+object &quot;Cube&quot;, but it supports only
+one. Others won’t be used.</td>
 <td>Multiple constraints added on an object
 NAME, but it supports only one. Others
-won&#8217;t be used. The engine currently
-doesn&#8217;t support multiple constraints on
+won’t be used. The engine currently
+doesn’t support multiple constraints on
 an object.</td>
 </tr>
 <tr class="row-even"><td>NAME particle settings has the NAME
 texture rendering a scene. It has
 been replaced by the default
 texture.</td>
-<td><p class="first last">粒子设置数据块名称包含被用于渲染场景到纹理名称。此纹理被替换为默认的纹理。</p>
-</td>
+<td>粒子设置数据块名称包含被用于渲染场景到纹理名称。此纹理被替换为默认的纹理。</td>
 </tr>
 <tr class="row-odd"><td>The action NAME has no fcurves.</td>
-<td>The action with the name &#8220;NAME&#8221; has no
+<td>The action with the name &quot;NAME&quot; has no
 fcurves.</td>
 </tr>
-<tr class="row-even"><td>The &#8220;NAME&#8221; camera has unsupported
+<tr class="row-even"><td>The &quot;NAME&quot; camera has unsupported
 PANORAMIC type. Changed to
-PERSPECTIVE type.&#8221;</td>
-<td><p class="first last">不支持全景相机。立体模式来代替。</p>
-</td>
+PERSPECTIVE type.&quot;</td>
+<td>不支持全景相机。立体模式来代替。</td>
 </tr>
 <tr class="row-odd"><td>Unsupported texture type or texture
 is missing for Lens Flare material
-&#8220;NAME&#8221;</td>
-<td><p class="first last">不支持的纹理类型或纹理缺少镜头光晕材质 &#8220;NAME&#8221;</p>
-</td>
+&quot;NAME&quot;</td>
+<td>不支持的纹理类型或纹理缺少镜头光晕材质 &quot;NAME&quot;</td>
 </tr>
 <tr class="row-even"><td>Use of ENVIRONMENT_MAP as diffuse
 color is not supported. Use as
 mirror instead.</td>
-<td><p class="first last">ENVIRONMENT MAP纹理不能用作漫反射颜色。禁用漫射&gt;颜色并启用“纹理”&gt;“影响”面板上的“着色&gt;镜像”选项，将此纹理用作镜像贴图。</p>
-</td>
+<td>ENVIRONMENT MAP纹理不能用作漫反射颜色。禁用漫射&gt;颜色并启用“纹理”&gt;“影响”面板上的“着色&gt;镜像”选项，将此纹理用作镜像贴图。</td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="section" id="add-on-translations">
-<span id="translator"></span><h2><a class="toc-backref" href="#id16">插件翻译</a><a class="headerlink" href="#add-on-translations" title="永久链接至标题">¶</a></h2>
+<span id="translator"></span><h2><a class="toc-backref" href="#id17">插件翻译</a><a class="headerlink" href="#add-on-translations" title="永久链接至标题">¶</a></h2>
 <p>还有就是可以翻译插件到Blender所支持的语言。为了做到这一点，重命名文件“empty.po”，它位于目录SDK/blender_scripts/addons/blend4web/locales,下表中的名称之一：</p>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -1050,176 +947,133 @@ mirror instead.</td>
 <col width="50%" />
 </colgroup>
 <thead valign="bottom">
-<tr class="row-odd"><th class="head"><p class="first last">文件名</p>
-</th>
-<th class="head"><p class="first last">语言</p>
-</th>
+<tr class="row-odd"><th class="head">文件名</th>
+<th class="head">语言</th>
 </tr>
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td>ru_RU.po</td>
-<td><p class="first last">俄语</p>
-</td>
+<td>俄语</td>
 </tr>
 <tr class="row-odd"><td>ja_JP.po</td>
-<td><p class="first last">日本</p>
-</td>
+<td>日本</td>
 </tr>
 <tr class="row-even"><td>en_US.po</td>
-<td><p class="first last">英语</p>
-</td>
+<td>英语</td>
 </tr>
 <tr class="row-odd"><td>nl_NL.po</td>
-<td><p class="first last">荷兰</p>
-</td>
+<td>荷兰</td>
 </tr>
 <tr class="row-even"><td>it_IT.po</td>
-<td><p class="first last">意大利</p>
-</td>
+<td>意大利</td>
 </tr>
 <tr class="row-odd"><td>de_DE.po</td>
-<td><p class="first last">德语</p>
-</td>
+<td>德语</td>
 </tr>
 <tr class="row-even"><td>fi_FI.po</td>
-<td><p class="first last">芬兰</p>
-</td>
+<td>芬兰</td>
 </tr>
 <tr class="row-odd"><td>sv_SE.po</td>
-<td><p class="first last">瑞典</p>
-</td>
+<td>瑞典</td>
 </tr>
 <tr class="row-even"><td>fr_FR.po</td>
-<td><p class="first last">法国</p>
-</td>
+<td>法国</td>
 </tr>
 <tr class="row-odd"><td>es.po</td>
-<td><p class="first last">西班牙语</p>
-</td>
+<td>西班牙语</td>
 </tr>
 <tr class="row-even"><td>ca_AD.po</td>
-<td><p class="first last">加泰罗尼亚</p>
-</td>
+<td>加泰罗尼亚</td>
 </tr>
 <tr class="row-odd"><td>cs_CZ.po</td>
-<td><p class="first last">捷克</p>
-</td>
+<td>捷克</td>
 </tr>
 <tr class="row-even"><td>pt_PT.po</td>
-<td><p class="first last">葡萄牙语</p>
-</td>
+<td>葡萄牙语</td>
 </tr>
 <tr class="row-odd"><td>zh_CN.po</td>
-<td><p class="first last">简体中文</p>
-</td>
+<td>简体中文</td>
 </tr>
 <tr class="row-even"><td>zh_TW.po</td>
-<td><p class="first last">繁体中文</p>
-</td>
+<td>繁体中文</td>
 </tr>
 <tr class="row-odd"><td>hr_HR.po</td>
-<td><p class="first last">克罗地亚</p>
-</td>
+<td>克罗地亚</td>
 </tr>
 <tr class="row-even"><td>sr_RS.po</td>
-<td><p class="first last">塞尔维亚</p>
-</td>
+<td>塞尔维亚</td>
 </tr>
 <tr class="row-odd"><td>uk_UA.po</td>
-<td><p class="first last">乌克兰</p>
-</td>
+<td>乌克兰</td>
 </tr>
 <tr class="row-even"><td>pl_PL.po</td>
-<td><p class="first last">波兰</p>
-</td>
+<td>波兰</td>
 </tr>
 <tr class="row-odd"><td>ro_RO.po</td>
-<td><p class="first last">罗马尼亚</p>
-</td>
+<td>罗马尼亚</td>
 </tr>
 <tr class="row-even"><td>ar_EG.po</td>
-<td><p class="first last">阿拉伯</p>
-</td>
+<td>阿拉伯</td>
 </tr>
 <tr class="row-odd"><td>bg_BG.po</td>
-<td><p class="first last">保加利亚语</p>
-</td>
+<td>保加利亚语</td>
 </tr>
 <tr class="row-even"><td>el_GR.po</td>
-<td><p class="first last">希腊语</p>
-</td>
+<td>希腊语</td>
 </tr>
 <tr class="row-odd"><td>ko_KR.po</td>
-<td><p class="first last">朝鲜的</p>
-</td>
+<td>朝鲜的</td>
 </tr>
 <tr class="row-even"><td>ne_NP.po</td>
-<td><p class="first last">尼泊尔</p>
-</td>
+<td>尼泊尔</td>
 </tr>
 <tr class="row-odd"><td>fa_IR.po</td>
-<td><p class="first last">波斯语</p>
-</td>
+<td>波斯语</td>
 </tr>
 <tr class="row-even"><td>id_ID.po</td>
-<td><p class="first last">印度尼西亚</p>
-</td>
+<td>印度尼西亚</td>
 </tr>
 <tr class="row-odd"><td>sr_RS&#64;latin.po</td>
-<td><p class="first last">塞尔维亚拉丁语</p>
-</td>
+<td>塞尔维亚拉丁语</td>
 </tr>
 <tr class="row-even"><td>ky_KG.po</td>
-<td><p class="first last">吉尔吉斯</p>
-</td>
+<td>吉尔吉斯</td>
 </tr>
 <tr class="row-odd"><td>tr_TR.po</td>
-<td><p class="first last">土耳其</p>
-</td>
+<td>土耳其</td>
 </tr>
 <tr class="row-even"><td>hu_HU.po</td>
-<td><p class="first last">匈牙利</p>
-</td>
+<td>匈牙利</td>
 </tr>
 <tr class="row-odd"><td>pt_BR.po</td>
-<td><p class="first last">巴西葡萄牙语</p>
-</td>
+<td>巴西葡萄牙语</td>
 </tr>
 <tr class="row-even"><td>he_IL.po</td>
-<td><p class="first last">希伯来语</p>
-</td>
+<td>希伯来语</td>
 </tr>
 <tr class="row-odd"><td>et_EE.po</td>
-<td><p class="first last">爱沙尼亚语</p>
-</td>
+<td>爱沙尼亚语</td>
 </tr>
 <tr class="row-even"><td>eo.po</td>
-<td><p class="first last">世界语</p>
-</td>
+<td>世界语</td>
 </tr>
 <tr class="row-odd"><td>es_ES.po</td>
-<td><p class="first last">西班牙西班牙</p>
-</td>
+<td>西班牙西班牙</td>
 </tr>
 <tr class="row-even"><td>am_ET.po</td>
-<td><p class="first last">阿姆哈拉语</p>
-</td>
+<td>阿姆哈拉语</td>
 </tr>
 <tr class="row-odd"><td>uz_UZ.po</td>
-<td><p class="first last">乌兹别克</p>
-</td>
+<td>乌兹别克</td>
 </tr>
 <tr class="row-even"><td>uz_UZ&#64;cyrillic.po</td>
-<td><p class="first last">乌兹别克西里尔</p>
-</td>
+<td>乌兹别克西里尔</td>
 </tr>
 <tr class="row-odd"><td>hi_IN.po</td>
-<td><p class="first last">印地语</p>
-</td>
+<td>印地语</td>
 </tr>
 <tr class="row-even"><td>vi_VN.po</td>
-<td><p class="first last">越南</p>
-</td>
+<td>越南</td>
 </tr>
 </tbody>
 </table>
@@ -1247,8 +1101,8 @@ mirror instead.</td>
 
   <div role="contentinfo">
     <p>
-        &copy; 版权所有 2014-2017, Triumph.
-      最后更新于 2017-11-21.
+        &copy; Copyright 2014-2017, Triumph.
+      最后更新于 2017-12-29.
 
     </p>
   </div>
@@ -1304,11 +1158,11 @@ mirror instead.</td>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2017-10-31 12:05+0300\n"
+"POT-Creation-Date: 2017-12-29 14:09+0300\n"
 "PO-Revision-Date: 2017-09-04 00:35+0800\n"
 "Last-Translator: kidux <yuzukyo@gmail.com>\n"
 "Language-Team: Chinese <info [at] blend4web.com>\n"
@@ -19,11 +19,142 @@ msgstr ""
 msgid "Release Notes"
 msgstr "发布说明"
 
-msgid "v17.10"
+msgid "v17.12"
 msgstr ""
 
 msgid "New Features"
 msgstr "新功能"
+
+msgid "Support for ES6 modules"
+msgstr ""
+
+msgid "Now Blend4Web modules can be imported using `import` keyword"
+msgstr ""
+
+msgid ""
+"The old modules import which use `b4w.require` also work and old "
+"applications will work without modifications"
+msgstr ""
+
+msgid "Webpack is used in build system for ES6 modules support"
+msgstr ""
+
+#, fuzzy
+msgid "Support for NPM"
+msgstr "支持相机加载。"
+
+msgid ""
+"`Blend4Web` SDK now has intergated node.js. You can run it using "
+"`scripts/node.sh`"
+msgstr ""
+
+msgid ""
+"`Blend4Web` SDK now supports modules installed from `NPM`, use "
+"`scripts/npm.sh install packag-name` to install the package you need"
+msgstr ""
+
+msgid ""
+"Also, you can find `Blend4Web` engine in `NPM` repository!!! ``npm "
+"install blend4web``"
+msgstr ""
+
+msgid "Fast Preview in standalone addon is now available"
+msgstr ""
+
+msgid "New functions in ``physics`` module for controlling collision shape"
+msgstr ""
+
+msgid ""
+"``sync_bounding`` - synchronize collision boundings of the mesh after "
+"shapekey change"
+msgstr ""
+
+msgid "``sync_mesh`` - synchronize collision mesh after shapekey change"
+msgstr ""
+
+#, fuzzy
+msgid "Further support for Cycles materials"
+msgstr "对于 ``Cycles`` 材质的进一步支持。"
+
+msgid ""
+"Basic ``Principled BSDF`` node support has been added. Supported inputs "
+"include ``Base Color``, ``Metallic``, ``Roughness``, ``Normal``. This "
+"node allows to create PBR materials accordindg to Roughness/Metallic "
+"pipeline"
+msgstr ""
+
+msgid ""
+"``Transparent BSDF`` support has been improved and extended. This node "
+"now has custom option ``Use Alpha``, which allows to mimic behavior of "
+"Blend4Web transparent materials with ``Alpha Sort`` blend mode"
+msgstr ""
+
+msgid ""
+"Added vertex colors support via ``Attribute`` node. The ``Color`` output "
+"of this node is similiar to the ``Vertex Color`` output of the ``Blender "
+"Internal`` ``Geometry`` node"
+msgstr ""
+
+msgid "Changes"
+msgstr "变更"
+
+msgid ""
+"Now background_color parameter of the :b4wmod:`config` affects only "
+"canvas while internal framebuffers retain default color (black)."
+msgstr ""
+
+msgid "Fixes"
+msgstr "修复"
+
+msgid "Fixed camera movement in case of vertical axis is not Z-axis."
+msgstr ""
+
+msgid ""
+"Fixed Material/Material_ext node of the node materials, now diffuse and "
+"specular inputs are not clamped."
+msgstr ""
+
+msgid ""
+"Fixed the :b4wref:`material.set_nodemat_rgb`, "
+":b4wref:`material.get_nodemat_rgb`, :b4wref:`material.set_nodemat_value` "
+"and :b4wref:`material.get_nodemat_value` methods."
+msgstr ""
+
+msgid "Fixed shader crash in case of using in Google Chrome."
+msgstr ""
+
+msgid "Fixed incorrect recursion detection in Logic Editor."
+msgstr ""
+
+msgid ""
+"Fixed bug in `sphinx_rtd_theme`, which caused non-working search function"
+" in documentation."
+msgstr ""
+
+msgid "Fixed passing and modificating global variables in Logic Editor."
+msgstr ""
+
+msgid "Fixed export to different drives on Windows."
+msgstr ""
+
+msgid "Fixed properties repetitions in Logic nodes."
+msgstr ""
+
+msgid ""
+"Fixed logic nodes: now maximum number of nodes is processed per frame to "
+"prevent blinking when using ``Show`` and ``Hide`` nodes."
+msgstr ""
+
+msgid "Known Issues"
+msgstr ""
+
+msgid ""
+"The issue with SDK unpacking occurs on the Windows when using standard "
+"archiver. Workaround is to use other archiver e.g. ``7zip``."
+msgstr ""
+
+msgid "v17.10"
+msgstr ""
 
 msgid "Added side-by-side rendering stereo mode."
 msgstr ""
@@ -75,9 +206,6 @@ msgid ""
 "``Glossy BSDF`` and ``Diffuse BSDF`` nodes."
 msgstr ""
 
-msgid "Changes"
-msgstr "变更"
-
 msgid "Now NLA can be stopped with API in case of using Logic Nodes."
 msgstr ""
 
@@ -103,9 +231,6 @@ msgid ""
 "Simplified Logic Node Tree to the scene attachment procedure: Refresh "
 "button has been removed due to our patch for blender (D113)"
 msgstr ""
-
-msgid "Fixes"
-msgstr "修复"
 
 msgid ""
 "Fixed DOF artifacts with bokeh enabled. The algorithm now requires WebGL "
@@ -3913,9 +4038,6 @@ msgstr ""
 msgid ""
 "Shader generation error that occurred in case there were more than 10 "
 "textures in the material has been fixed."
-msgstr ""
-
-msgid "Known Issues"
 msgstr ""
 
 msgid ""
@@ -8159,10 +8281,22 @@ msgstr ""
 #~ msgid "Added ``Object`` type of variable to the Logic Editor"
 #~ msgstr ""
 
+#~ msgid "Support for ES6 modules."
+#~ msgstr ""
+
+#~ msgid "Fixed Material/Material_ext node of the node materials."
+#~ msgstr ""
+
 #~ msgid ""
-#~ "Added ``Destination`` field to the "
-#~ "``Select`` node. This field specifies a"
-#~ " variable used to contains selected "
-#~ "object after the event of selection."
+#~ "Fixed logic nodes: processing maximum "
+#~ "nodes amount to prevent blinking when"
+#~ " using `Show` and `Hide` ndoes."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The issue with sdk unpacking on "
+#~ "the Windows occurs when using standard"
+#~ " archiver. Workaround is to use other"
+#~ " archiver e.g. `7zip`."
 #~ msgstr ""
 

@@ -1,31 +1,25 @@
-"use strict"
+import b4w from "blend4web";
 
-// check if module exists
-if (b4w.module_check("game_example_main"))
-    throw "Failed to register module: game_example_main";
+var m_app   = b4w.app;
+var m_cfg   = b4w.config;
+var m_data  = b4w.data;
+var m_ctl   = b4w.controls;
+var m_cons  = b4w.constraints;
+var m_scs   = b4w.scenes;
+var m_print = b4w.print;
+var m_sfx   = b4w.sfx;
 
-b4w.register("game_example_main", function(exports, require) {
-
-var m_app   = require("app");
-var m_cfg   = require("config");
-var m_data  = require("data");
-var m_ctl   = require("controls");
-var m_cons  = require("constraints");
-var m_scs   = require("scenes");
-var m_print = require("print");
-var m_sfx   = require("sfx");
-
-var m_conf = require("game_config");
-var m_char = require("character");
-var m_bonuses = require("bonuses");
-var m_interface = require("interface");
-var m_golems = require("golems");
-var m_obelisks = require("obelisks");
-var m_gems = require("gems");
-var m_env = require("environment");
+import * as m_conf from "./game_config.js"
+import * as m_char from "./character.js"
+import * as m_bonuses from "./bonuses.js"
+import * as m_interface from "./interface.js"
+import * as m_golems from "./golems.js"
+import * as m_obelisks from "./obelisks.js"
+import * as m_gems from "./gems.js"
+import * as m_env from "./environment.js"
 
 
-exports.init = function() {
+export function init() {
     
     var is_mobile = detect_mobile();
 
@@ -155,6 +149,4 @@ function setup_music() {
         [m_ctl.create_timer_sensor(intro_duration)], null, playlist_cb);
 }
 
-});
-
-b4w.require("game_example_main").init();
+init();

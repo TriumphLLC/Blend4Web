@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>色彩管理 &mdash; Blend4Web 17.10.1 用户手册</title>
+  <title>色彩管理 &mdash; Blend4Web 17.12.0 用户手册</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.10.1 用户手册" href="index.html"/>
+        <link rel="index" title="索引"
+              href="genindex.html"/>
+        <link rel="search" title="搜索" href="search.html"/>
+    <link rel="top" title="Blend4Web 17.12.0 用户手册" href="index.html"/>
         <link rel="next" title="音频" href="audio.html"/>
         <link rel="prev" title="室外效果" href="outdoor_rendering.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -109,7 +112,7 @@
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">粒子系统.实例化</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">动画</a></li>
 <li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">室外效果</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">色彩管理</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">色彩管理</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#gamma-overview">Gamma概述</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#human-vision-and-monitors">人类视觉和显示器</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#gamma-formula">伽玛公式</a></li>
@@ -183,7 +186,7 @@
   <div class="section" id="color-management">
 <span id="gamma"></span><h1><a class="toc-backref" href="#id3">色彩管理</a><a class="headerlink" href="#color-management" title="永久链接至标题">¶</a></h1>
 <div class="contents topic" id="table-of-contents">
-<p class="topic-title first">目录</p>
+<p class="topic-title first">Table of Contents</p>
 <ul class="simple">
 <li><a class="reference internal" href="#color-management" id="id3">色彩管理</a><ul>
 <li><a class="reference internal" href="#gamma-overview" id="id4">Gamma概述</a></li>
@@ -223,35 +226,27 @@
 <col width="46%" />
 </colgroup>
 <thead valign="bottom">
-<tr class="row-odd"><th class="head"><p class="first last">描述</p>
-</th>
-<th class="head"><p class="first last">照度，光通量</p>
-</th>
+<tr class="row-odd"><th class="head">描述</th>
+<th class="head">照度，光通量</th>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td><p class="first last">夏季中午</p>
-</td>
+<tr class="row-even"><td>夏季中午</td>
 <td>17 000</td>
 </tr>
-<tr class="row-odd"><td><p class="first last">冬季中午</p>
-</td>
+<tr class="row-odd"><td>冬季中午</td>
 <td>5 000</td>
 </tr>
-<tr class="row-even"><td><p class="first last">日常天</p>
-</td>
+<tr class="row-even"><td>日常天</td>
 <td>1 000</td>
 </tr>
-<tr class="row-odd"><td><p class="first last">在明亮房间</p>
-</td>
+<tr class="row-odd"><td>在明亮房间</td>
 <td>100</td>
 </tr>
-<tr class="row-even"><td><p class="first last">月圆夜</p>
-</td>
+<tr class="row-even"><td>月圆夜</td>
 <td>0.2</td>
 </tr>
-<tr class="row-odd"><td><p class="first last">没有月亮的光</p>
-</td>
+<tr class="row-odd"><td>没有月亮的光</td>
 <td>0.001</td>
 </tr>
 </tbody>
@@ -303,37 +298,25 @@
 <col width="50%" />
 </colgroup>
 <thead valign="bottom">
-<tr class="row-odd"><th class="head"><p class="first last">使用案例</p>
-</th>
-<th class="head"><p class="first last">校正</p>
-</th>
+<tr class="row-odd"><th class="head">使用案例</th>
+<th class="head">校正</th>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td><p class="first last">纹理着色</p>
-</td>
-<td><p class="first last">在纹理节点自动执行（Alpha通道不校正）</p>
-</td>
+<tr class="row-even"><td>纹理着色</td>
+<td>在纹理节点自动执行（Alpha通道不校正）</td>
 </tr>
-<tr class="row-odd"><td><p class="first last">纹理遮罩</p>
-</td>
-<td><p class="first last">GAMMA 值  γ = 0.45</p>
-</td>
+<tr class="row-odd"><td>纹理遮罩</td>
+<td>GAMMA 值  γ = 0.45</td>
 </tr>
-<tr class="row-even"><td><p class="first last">顶点颜色着色</p>
-</td>
-<td><p class="first last">自动实现</p>
-</td>
+<tr class="row-even"><td>顶点颜色着色</td>
+<td>自动实现</td>
 </tr>
-<tr class="row-odd"><td><p class="first last">作为遮罩顶点的颜色</p>
-</td>
-<td><p class="first last">GAMMA 值  γ = 0.45</p>
-</td>
+<tr class="row-odd"><td>作为遮罩顶点的颜色</td>
+<td>GAMMA 值  γ = 0.45</td>
 </tr>
-<tr class="row-even"><td><p class="first last">法线</p>
-</td>
-<td><p class="first last">不需要</p>
-</td>
+<tr class="row-even"><td>法线</td>
+<td>不需要</td>
 </tr>
 </tbody>
 </table>
@@ -358,7 +341,7 @@
 <div class="section" id="implementation">
 <h3><a class="toc-backref" href="#id14">实现</a><a class="headerlink" href="#implementation" title="永久链接至标题">¶</a></h3>
 <p>在Blend4Web使用的混合功能如下：</p>
-<div class="highlight-none"><div class="highlight"><pre>gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+<div class="highlight-none"><div class="highlight"><pre><span></span>gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
 </pre></div>
 </div>
 <p>WebGL的上下文初始化是使用 premultipliedAlpha = true 参数（即默认值）进行的。由所有颜色通道相乘  <span class="math">\(\alpha\)</span> 值在着色器进行输出。</p>
@@ -375,17 +358,13 @@
 <h3><a class="toc-backref" href="#id17">其他设置</a><a class="headerlink" href="#additional-settings" title="永久链接至标题">¶</a></h3>
 <dl class="docutils">
 <dt><em>亮度</em></dt>
-<dd><p class="first last">默认值是 0.0。</p>
-</dd>
+<dd>默认值是 0.0。</dd>
 <dt><em>对比度</em></dt>
-<dd><p class="first last">默认值是 0.0。</p>
-</dd>
+<dd>默认值是 0.0。</dd>
 <dt><em>曝光度</em></dt>
-<dd><p class="first last">默认值是 1.0。</p>
-</dd>
+<dd>默认值是 1.0。</dd>
 <dt><em>饱和度</em></dt>
-<dd><p class="first last">默认值是 1.0。</p>
-</dd>
+<dd>默认值是 1.0。</dd>
 </dl>
 </div>
 </div>
@@ -410,8 +389,8 @@
 
   <div role="contentinfo">
     <p>
-        &copy; 版权所有 2014-2017, Triumph.
-      最后更新于 2017-11-21.
+        &copy; Copyright 2014-2017, Triumph.
+      最后更新于 2017-12-29.
 
     </p>
   </div>
@@ -467,11 +446,11 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Overview &mdash; Blend4Web 17.10.1 User Manual</title>
+  <title>Overview &mdash; Blend4Web 17.12.0 User Manual</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="About these documents"
               href="#"/>
-    <link rel="top" title="Blend4Web 17.10.1 User Manual" href="index.html"/>
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Blend4Web 17.12.0 User Manual" href="index.html"/>
         <link rel="next" title="Engine Features" href="engine_features.html"/>
         <link rel="prev" title="Table of Contents" href="index.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -83,18 +86,18 @@
           
           
               <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="">Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#what-s-blend4web">What&#8217;s Blend4Web</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#about-engines">&#8220;About Engines&#8221;</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#what-s-blend4web">What’s Blend4Web</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#about-engines">“About Engines”</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#graphics-engine-game-engine">Graphics Engine, Game Engine</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#what-s-webgl">What&#8217;s WebGL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#what-s-webgl">What’s WebGL</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#webgl-browsers-support">WebGL Browsers Support</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#desktop-browsers">Desktop Browsers</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#mobile-platforms">Mobile Platforms</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#advantages-of-webgl">Advantages of WebGL</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#what-s-blender">What&#8217;s Blender</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#what-s-blender">What’s Blender</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#d-modeling">3D Modeling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#browser-technologies">Browser Technologies</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#interactive-graphics">Interactive Graphics</a></li>
@@ -178,7 +181,7 @@
   <div class="section" id="overview">
 <span id="about"></span><h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="what-s-blend4web">
-<span id="about-product"></span><span id="index-0"></span><h2>What&#8217;s Blend4Web<a class="headerlink" href="#what-s-blend4web" title="Permalink to this headline">¶</a></h2>
+<span id="about-product"></span><span id="index-0"></span><h2>What’s Blend4Web<a class="headerlink" href="#what-s-blend4web" title="Permalink to this headline">¶</a></h2>
 <p>Blend4Web is a web-oriented 3D engine - a software framework for authoring and interactive rendering of three-dimensional graphics and audio in browsers.</p>
 <p>The platform is intended for visualizations, presentations, online-shops, games and other rich internet applications.</p>
 <p>The Blend4Web framework is integrated tightly with Blender - a 3D modeling and animation tool (hence the name). The content is rendered by means of WebGL and other browser technologies, without the use of plugins.</p>
@@ -186,7 +189,7 @@
 <p>The Blend4Web 3D engine has been developed by Triumph LLC employees since 2010. The engine was first released on March 28 2014.</p>
 </div>
 <div class="section" id="about-engines">
-<span id="about-engine"></span><span id="index-1"></span><h2>&#8220;About Engines&#8221;<a class="headerlink" href="#about-engines" title="Permalink to this headline">¶</a></h2>
+<span id="about-engine"></span><span id="index-1"></span><h2>“About Engines”<a class="headerlink" href="#about-engines" title="Permalink to this headline">¶</a></h2>
 <p>An engine is a separate part of software code which is used by external applications for implementing the required functionality.</p>
 <p>Engine examples are: site engine, blog engine, online shop engine, wiki engine, search engine, game engine etc. The economical reason for the existence of software engines is multiple usage of the same functionality. For example developers may create relatively cheap online shops or games using one or another engine.</p>
 </div>
@@ -196,14 +199,14 @@
 <blockquote>
 <div><ul class="simple">
 <li>high-level application part (game logic, business logic) and</li>
-<li>low-level system part (for example, the graphics library <a class="reference internal" href="#about-webgl"><span>WebGL</span></a> and underlying <a class="reference internal" href="#about-drivers-video-cards"><span>drivers</span></a>).</li>
+<li>low-level system part (for example, the graphics library <a class="reference internal" href="#about-webgl"><span class="std std-ref">WebGL</span></a> and underlying <a class="reference internal" href="#about-drivers-video-cards"><span class="std std-ref">drivers</span></a>).</li>
 </ul>
 </div></blockquote>
 <p>A graphics engine may be combined with the sound system, the physics engine, the artificial intelligence system, the networking system and the scene and logic editors producing a <strong>three-dimensional engine</strong> - an integrated environment for authoring 3D applications.</p>
 </div>
 <div class="section" id="what-s-webgl">
-<span id="about-webgl"></span><span id="index-3"></span><h2>What&#8217;s WebGL<a class="headerlink" href="#what-s-webgl" title="Permalink to this headline">¶</a></h2>
-<p>WebGL (Web Graphics Library) is one of the modern browser technologies which allows authoring 3D graphics applications. In other words WebGL is &#8220;3D in a browser&#8221;.</p>
+<span id="about-webgl"></span><span id="index-3"></span><h2>What’s WebGL<a class="headerlink" href="#what-s-webgl" title="Permalink to this headline">¶</a></h2>
+<p>WebGL (Web Graphics Library) is one of the modern browser technologies which allows authoring 3D graphics applications. In other words WebGL is “3D in a browser”.</p>
 </div>
 <div class="section" id="webgl-browsers-support">
 <span id="browser-webgl-support"></span><span id="index-4"></span><h2>WebGL Browsers Support<a class="headerlink" href="#webgl-browsers-support" title="Permalink to this headline">¶</a></h2>
@@ -231,7 +234,7 @@
 <li>Tizen</li>
 <li>Ubuntu Touch</li>
 </ul>
-<p>For further details see the <a class="reference internal" href="problems_and_solutions.html#webgl-support"><span>dedicated section</span></a> in the Problems and Solutions chapter.</p>
+<p>For further details see the <a class="reference internal" href="problems_and_solutions.html#webgl-support"><span class="std std-ref">dedicated section</span></a> in the Problems and Solutions chapter.</p>
 </div>
 </div>
 <div class="section" id="advantages-of-webgl">
@@ -242,12 +245,12 @@
 <li><a class="reference external" href="http://en.wikipedia.org/wiki/Open_standard">open standard</a>, does not require licensing fees</li>
 <li>supported by the leading participants of the IT market (Google, Apple, Microsoft, Nvidia, Samsung, Adobe and others)</li>
 <li>based on OpenGL which is familiar to developers</li>
-<li>can be integrated with other <a class="reference internal" href="#about-browser-tech"><span>browser technologies</span></a></li>
+<li>can be integrated with other <a class="reference internal" href="#about-browser-tech"><span class="std std-ref">browser technologies</span></a></li>
 </ul>
 </div>
 <div class="section" id="what-s-blender">
-<span id="about-blender"></span><span id="index-6"></span><h2>What&#8217;s Blender<a class="headerlink" href="#what-s-blender" title="Permalink to this headline">¶</a></h2>
-<p>Blender is a popular piece of software for 3D modeling and animation and is free and open source. Models and scenes which are created in this software can be displayed, for example, by means of a <a class="reference internal" href="#about-graphics-engine"><span>three-dimensional engine</span></a> on a web page.</p>
+<span id="about-blender"></span><span id="index-6"></span><h2>What’s Blender<a class="headerlink" href="#what-s-blender" title="Permalink to this headline">¶</a></h2>
+<p>Blender is a popular piece of software for 3D modeling and animation and is free and open source. Models and scenes which are created in this software can be displayed, for example, by means of a <a class="reference internal" href="#about-graphics-engine"><span class="std std-ref">three-dimensional engine</span></a> on a web page.</p>
 </div>
 <div class="section" id="d-modeling">
 <span id="about-modelling"></span><span id="index-7"></span><h2>3D Modeling<a class="headerlink" href="#d-modeling" title="Permalink to this headline">¶</a></h2>
@@ -259,14 +262,14 @@
 <li>UV mapping - the model is unwrapped for further overlaying of textures (flat images)</li>
 <li>texturing - textures are overlaid on the 3D model</li>
 <li>materials setup - materials are assigned for different parts of the model and tuned (for example, a wooden door with a metal handle)</li>
-<li>rigging - the controlling elements (&#8220;skeletal bones&#8221;) are attached to the model to animate it</li>
+<li>rigging - the controlling elements (“skeletal bones”) are attached to the model to animate it</li>
 <li>animation - the model is set in motion to visualize actions for example - of characters</li>
 <li>export - can be performed on any stage to display the 3D model in its final form, for example, on a web page</li>
 </ul>
 <p>In addition, realism improving techniques are often used in the process of creating 3D models which require additional stages:</p>
 <ul class="simple">
 <li>creating a high-poly model - a detailed version of the model is created</li>
-<li>&#8220;baking&#8221; of a normal map - details from the high-poly model are transferred to the main model in the form of a special texture (normal map)</li>
+<li>“baking” of a normal map - details from the high-poly model are transferred to the main model in the form of a special texture (normal map)</li>
 <li>creating a specular map - different reflection color and ratio are assigned to different model parts</li>
 <li>baking environment maps - is performed to visualize the surrounding environment reflection on the model surface</li>
 <li>setting up the camera and the light sources on the scene</li>
@@ -276,8 +279,8 @@
 </div>
 <div class="section" id="browser-technologies">
 <span id="about-browser-tech"></span><span id="index-8"></span><h2>Browser Technologies<a class="headerlink" href="#browser-technologies" title="Permalink to this headline">¶</a></h2>
-<p>Browser is a program for viewing Internet content. At the dawn of Internet technologies the browser&#8217;s role was to view text pages with the inclusion of static images (&#8220;hyper-text&#8221;). Modern browsers are full-scale platforms for multimedia web applications.</p>
-<p>Among the already implemented and promising browser features which are used in <a class="reference internal" href="#about-product"><span>Blend4Web</span></a> the following technologies can be noted:</p>
+<p>Browser is a program for viewing Internet content. At the dawn of Internet technologies the browser’s role was to view text pages with the inclusion of static images (“hyper-text”). Modern browsers are full-scale platforms for multimedia web applications.</p>
+<p>Among the already implemented and promising browser features which are used in <a class="reference internal" href="#about-product"><span class="std std-ref">Blend4Web</span></a> the following technologies can be noted:</p>
 <ul class="simple">
 <li>three-dimensional graphics, <a class="reference external" href="https://www.khronos.org/registry/webgl/specs/latest/">WebGL</a></li>
 <li><a class="reference external" href="https://www.khronos.org/registry/typedarray/specs/latest/">Typed Array</a></li>
@@ -301,15 +304,15 @@
 </div>
 <div class="section" id="interactive-graphics">
 <span id="about-interactive-graphics"></span><span id="index-9"></span><h2>Interactive Graphics<a class="headerlink" href="#interactive-graphics" title="Permalink to this headline">¶</a></h2>
-<p>Applied to computer graphics the term &#8220;interactive&#8221; means that the user can interact with a constantly changing image. For example the user can change the view direction in a 3D scene, move the objects, trigger animation and carry out other actions normally associated with computer games.</p>
+<p>Applied to computer graphics the term “interactive” means that the user can interact with a constantly changing image. For example the user can change the view direction in a 3D scene, move the objects, trigger animation and carry out other actions normally associated with computer games.</p>
 <p>Graphics interactivity is achieved by utilizing a frequent change of images, so the user action (for example a mouse movement or the pressing of a key) between frames leads to the image changing in the next frame. Images must replace each other so frequently that the human eye could not recognize them individually (at least 30 frames per second).</p>
-<p>&#8220;Real-time graphics&#8221; or &#8220;real-time rendering&#8221; are also similar in meaning to the term.</p>
+<p>“Real-time graphics” or “real-time rendering” are also similar in meaning to the term.</p>
 </div>
 <div class="section" id="video-cards-and-drivers">
 <span id="about-drivers-video-cards"></span><span id="index-10"></span><h2>Video Cards and Drivers<a class="headerlink" href="#video-cards-and-drivers" title="Permalink to this headline">¶</a></h2>
 <p>Interactive graphics is provided by a special-purpose hardware part of modern computers so called graphics processor which can be implemented as a discrete device (video card) or as a part of the central processing unit.</p>
 <p>Main graphics processors vendors for desktop computers are:  - Nvidia (GeForce, Quadro), AMD (Radeon), Intel (HD), for embedded devices - ARM (Mali), PowerVR (SGX), Nvidia (Tegra), Qualcomm (Adreno) (trade marks are specified in brackets).</p>
-<p>Program access to graphics processor resources is carried out via an intermediate program called driver. It&#8217;s important for the correct working of interactive graphics programs to have drivers of the latest version in the system. Drivers can be installed (or upgraded) from corresponding websites of graphics processors vendors. See detailed info in the section <a class="reference internal" href="problems_and_solutions.html#webgl-not-working"><span>WebGL Failed to Initialize</span></a>.</p>
+<p>Program access to graphics processor resources is carried out via an intermediate program called driver. It’s important for the correct working of interactive graphics programs to have drivers of the latest version in the system. Drivers can be installed (or upgraded) from corresponding websites of graphics processors vendors. See detailed info in the section <a class="reference internal" href="problems_and_solutions.html#webgl-not-working"><span class="std std-ref">WebGL Failed to Initialize</span></a>.</p>
 </div>
 </div>
 
@@ -333,7 +336,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Triumph.
-      Last updated on 2017-11-21.
+      Last updated on 2017-12-29.
 
     </p>
   </div>
@@ -389,11 +392,11 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

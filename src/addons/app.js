@@ -14,7 +14,23 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-"use strict";
+import register from "../util/register.js";
+import m_cam_fact from "../extern/camera.js";
+import m_cfg_fact from "../extern/config.js";
+import m_cons_fact from "../extern/constraints.js";
+import m_cont_fact from "../extern/container.js";
+import m_ctl_fact from "../extern/controls.js";
+import m_data_fact from "../extern/data.js";
+import m_dbg_fact from "../extern/debug.js";
+import m_input_fact from "../extern/input.js";
+import m_main_fact from "../extern/main.js";
+import m_phy_fact from "../extern/physics.js";
+import m_print_fact from "../intern/print.js";
+import m_screen_fact from "../extern/screen.js";
+import m_scs_fact from "../extern/scenes.js";
+import m_trans_fact from "../extern/transform.js";
+import m_util_fact from "../extern/util.js";
+import * as m_vec3 from "../libs/gl_matrix/vec3.js";
 
 /**
  * Application add-on.
@@ -25,24 +41,23 @@
  * @local QueueObject
  */
 
-b4w.module["app"] = function(exports, require) {
+function App(ns, exports) {
 
-var m_cam   = require("camera");
-var m_cfg   = require("config");
-var m_cons  = require("constraints");
-var m_cont  = require("container");
-var m_ctl   = require("controls");
-var m_data  = require("data");
-var m_dbg   = require("debug");
-var m_input = require("input");
-var m_main  = require("main");
-var m_phy   = require("physics");
-var m_print = require("print");
-var m_screen = require("screen");
-var m_scs   = require("scenes");
-var m_trans = require("transform");
-var m_util  = require("util");
-var m_vec3  = require("vec3");
+var m_cam    = m_cam_fact(ns);
+var m_cfg    = m_cfg_fact(ns);
+var m_cons   = m_cons_fact(ns);
+var m_cont   = m_cont_fact(ns);
+var m_ctl    = m_ctl_fact(ns);
+var m_data   = m_data_fact(ns);
+var m_dbg    = m_dbg_fact(ns);
+var m_input  = m_input_fact(ns);
+var m_main   = m_main_fact(ns);
+var m_phy    = m_phy_fact(ns);
+var m_print  = m_print_fact(ns);
+var m_screen = m_screen_fact(ns);
+var m_scs    = m_scs_fact(ns);
+var m_trans  = m_trans_fact(ns);
+var m_util   = m_util_fact(ns);
 
 // Constants used for the target camera
 var TARGET_KEY_ZOOM_POW1     = 1.0;
@@ -1702,3 +1717,7 @@ exports.get_camera_smooth_factor = function() {
 }
 
 }
+
+var app_factory = register("app", App);
+
+export default app_factory;

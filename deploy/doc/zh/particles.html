@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>粒子系统,流体 &mdash; Blend4Web 17.10.1 用户手册</title>
+  <title>粒子系统,流体 &mdash; Blend4Web 17.12.0 用户手册</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.10.1 用户手册" href="index.html"/>
+        <link rel="index" title="索引"
+              href="genindex.html"/>
+        <link rel="search" title="搜索" href="search.html"/>
+    <link rel="top" title="Blend4Web 17.12.0 用户手册" href="index.html"/>
         <link rel="next" title="粒子系统.实例化" href="particles_instancing.html"/>
         <link rel="prev" title="纹理" href="textures.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -105,7 +108,7 @@
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">后期处理效果</a></li>
 <li class="toctree-l1"><a class="reference internal" href="vr_and_ar.html">VR and AR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">纹理</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">粒子系统,流体</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">粒子系统,流体</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#usage">用法</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#necessary-steps">必要的步骤</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#recommended-additional-settings">推荐其他设置</a></li>
@@ -184,7 +187,7 @@
   <span class="target" id="particles"></span><div class="section" id="particle-system-fluids">
 <span id="index-0"></span><h1><a class="toc-backref" href="#id1">粒子系统,流体</a><a class="headerlink" href="#particle-system-fluids" title="永久链接至标题">¶</a></h1>
 <div class="contents topic" id="table-of-contents">
-<p class="topic-title first">目录</p>
+<p class="topic-title first">Table of Contents</p>
 <ul class="simple">
 <li><a class="reference internal" href="#particle-system-fluids" id="id1">粒子系统,流体</a><ul>
 <li><a class="reference internal" href="#usage" id="id2">用法</a><ul>
@@ -232,10 +235,8 @@
 <li><p class="first">启动引擎播放。有两个选项可供选择：</p>
 <blockquote>
 <div><ul class="simple">
-<li><p class="first">&#8220;cyclic emission&#8221; - 对粒子系统启用 <code class="docutils literal"><span class="pre">Emission</span> <span class="pre">&gt;</span> <span class="pre">Cyclic</span> <span class="pre">emission</span></code> 对发射器启用  <code class="docutils literal"><span class="pre">Animation</span> <span class="pre">&gt;</span> <span class="pre">Apply</span> <span class="pre">Default</span> <span class="pre">Animation</span></code> 。</p>
-</li>
-<li><p class="first">&#8220;non-cyclic animation&#8221; -启用发射器的  <code class="docutils literal"><span class="pre">Animation</span> <span class="pre">&gt;</span> <span class="pre">Apply</span> <span class="pre">Default</span> <span class="pre">Animation</span></code> 选项。</p>
-</li>
+<li>&quot;cyclic emission&quot; - 对粒子系统启用 <code class="docutils literal"><span class="pre">Emission</span> <span class="pre">&gt;</span> <span class="pre">Cyclic</span> <span class="pre">emission</span></code> 对发射器启用  <code class="docutils literal"><span class="pre">Animation</span> <span class="pre">&gt;</span> <span class="pre">Apply</span> <span class="pre">Default</span> <span class="pre">Animation</span></code> 。</li>
+<li>&quot;non-cyclic animation&quot; -启用发射器的  <code class="docutils literal"><span class="pre">Animation</span> <span class="pre">&gt;</span> <span class="pre">Apply</span> <span class="pre">Default</span> <span class="pre">Animation</span></code> 选项。</li>
 </ul>
 </div></blockquote>
 </li>
@@ -244,14 +245,10 @@
 <div class="section" id="recommended-additional-settings">
 <h3><a class="toc-backref" href="#id4">推荐其他设置</a><a class="headerlink" href="#recommended-additional-settings" title="永久链接至标题">¶</a></h3>
 <ol class="arabic simple">
-<li><p class="first">设置粒子材质 <code class="docutils literal"><span class="pre">Add</span></code> 透明度类型。</p>
-</li>
-<li><p class="first">如果需要，禁用发射器渲染，使用 <code class="docutils literal"><span class="pre">Particles</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Emitter</span></code> 复选框。</p>
-</li>
-<li><p class="first">如果一个场景的发射器需要用到额外材质。在这种情况下，在粒子设置的 <code class="docutils literal"><span class="pre">Particles</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Material</span></code> 菜单选择粒子材质。</p>
-</li>
-<li><p class="first">如果使用了 <code class="docutils literal"><span class="pre">Surface</span></code> 材质类型它需要（通常与alpha通道）添加漫射纹理到该材质。在  <code class="docutils literal"><span class="pre">Mapping</span> <span class="pre">&gt;</span> <span class="pre">Coordinates</span></code> 菜单中选择 <code class="docutils literal"><span class="pre">UV</span></code> 。确保发射器的网格有UV层。</p>
-</li>
+<li>设置粒子材质 <code class="docutils literal"><span class="pre">Add</span></code> 透明度类型。</li>
+<li>如果需要，禁用发射器渲染，使用 <code class="docutils literal"><span class="pre">Particles</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Emitter</span></code> 复选框。</li>
+<li>如果一个场景的发射器需要用到额外材质。在这种情况下，在粒子设置的 <code class="docutils literal"><span class="pre">Particles</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Material</span></code> 菜单选择粒子材质。</li>
+<li>如果使用了 <code class="docutils literal"><span class="pre">Surface</span></code> 材质类型它需要（通常与alpha通道）添加漫射纹理到该材质。在  <code class="docutils literal"><span class="pre">Mapping</span> <span class="pre">&gt;</span> <span class="pre">Coordinates</span></code> 菜单中选择 <code class="docutils literal"><span class="pre">UV</span></code> 。确保发射器的网格有UV层。</li>
 </ol>
 <a class="reference internal image-reference" href="_images/particles_first_steps.png"><img alt="_images/particles_first_steps.png" class="align-center" src="_images/particles_first_steps.png" style="width: 100%;" /></a>
 </div>
@@ -259,22 +256,18 @@
 <div class="section" id="setup">
 <h2><a class="toc-backref" href="#id5">设置</a><a class="headerlink" href="#setup" title="永久链接至标题">¶</a></h2>
 <p>粒子系统参数可以在 <code class="docutils literal"><span class="pre">Particles</span></code> 选项卡下进行设置。支持每个发射多个粒子系统。</p>
-<a class="reference internal image-reference" href="_images/particles_settings_panel1.png"><img alt="_images/particles_settings_panel1.png" class="align-center" src="_images/particles_settings_panel1.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/particles_settings_panel.png"><img alt="_images/particles_settings_panel.png" class="align-center" src="_images/particles_settings_panel.png" style="width: 100%;" /></a>
 <div class="section" id="basic-settings">
 <h3><a class="toc-backref" href="#id6">基本设置</a><a class="headerlink" href="#basic-settings" title="永久链接至标题">¶</a></h3>
 <dl class="docutils">
 <dt><em>名字</em></dt>
-<dd><p class="first last">粒子系统名称。默认名称是 &#8220;ParticleSystem&#8221; 。</p>
-</dd>
+<dd>粒子系统名称。默认名称是 &quot;ParticleSystem&quot; 。</dd>
 <dt><em>设置</em></dt>
-<dd><p class="first last">参照粒子系统的设置数据块。该数据块的设置可以在不同粒子系统之间共享。</p>
-</dd>
+<dd>参照粒子系统的设置数据块。该数据块的设置可以在不同粒子系统之间共享。</dd>
 <dt><em>类型</em></dt>
-<dd><p class="first last">粒子系统类型: <code class="docutils literal"><span class="pre">Emitter</span></code> 或 <code class="docutils literal"><span class="pre">Hair</span></code>. <code class="docutils literal"><span class="pre">Hair</span></code> 粒子系统可以用于创建许多副本的 （称为实例化） 的物体。默认值为 <code class="docutils literal"><span class="pre">Emitter</span></code>.</p>
-</dd>
+<dd>粒子系统类型: <code class="docutils literal"><span class="pre">Emitter</span></code> 或 <code class="docutils literal"><span class="pre">Hair</span></code>. <code class="docutils literal"><span class="pre">Hair</span></code> 粒子系统可以用于创建许多副本的 （称为实例化） 的物体。默认值为 <code class="docutils literal"><span class="pre">Emitter</span></code>.</dd>
 <dt><em>随机种</em></dt>
-<dd><p class="first last">粒子系统产生的随机数的表格索引。缺省值是0。</p>
-</dd>
+<dd>粒子系统产生的随机数的表格索引。缺省值是0。</dd>
 </dl>
 </div>
 <div class="section" id="emission-settings">
@@ -282,54 +275,41 @@
 <a class="reference internal image-reference" href="_images/particles_settings.png"><img alt="_images/particles_settings.png" class="align-center" src="_images/particles_settings.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>Emission &gt; Number</em></dt>
-<dd><p class="first last">粒子的数目。默认值为 1000。</p>
-</dd>
+<dd>粒子的数目。默认值为 1000。</dd>
 <dt><em>Emission &gt; Start</em></dt>
-<dd><p class="first last">粒子发射开始的第一帧。缺省值为1.0。</p>
-</dd>
+<dd>粒子发射开始的第一帧。缺省值为1.0。</dd>
 <dt><em>Emission &gt; End</em></dt>
-<dd><p class="first last">粒子发射结束的最后一帧。默认值为200.0。</p>
-</dd>
+<dd>粒子发射结束的最后一帧。默认值为200.0。</dd>
 <dt><em>Emission &gt; Lifetime</em></dt>
-<dd><p class="first last">粒子以帧为单位的寿命。默认值是50.0。</p>
-</dd>
+<dd>粒子以帧为单位的寿命。默认值是50.0。</dd>
 <dt><em>Emission &gt; Lifetime &gt; Random</em></dt>
-<dd><p class="first last">生存期随机因子。默认值为 0.0。</p>
-</dd>
+<dd>生存期随机因子。默认值为 0.0。</dd>
 <dt><em>Emission &gt; Emit From</em></dt>
-<dd><p class="first last">发射源类型。支持以下类型︰ <code class="docutils literal"><span class="pre">Verts</span></code> （从顶点发出），<code class="docutils literal"><span class="pre">Faces</span></code> （从多边形发出）。默认值为 <code class="docutils literal"><span class="pre">Faces</span></code>.</p>
-</dd>
+<dd>发射源类型。支持以下类型︰ <code class="docutils literal"><span class="pre">Verts</span></code> （从顶点发出），<code class="docutils literal"><span class="pre">Faces</span></code> （从多边形发出）。默认值为 <code class="docutils literal"><span class="pre">Faces</span></code>.</dd>
 <dt><em>Emission &gt; Cyclic emission</em></dt>
-<dd><p class="first last">该选项启用循环发射模式。它可以用于永久效果 （如烟，燃烧，水溅）。建议设置的 <code class="docutils literal"><span class="pre">Emission</span> <span class="pre">&gt;</span> <span class="pre">Start</span></code> 的值为零。默认为禁用。</p>
-</dd>
+<dd>该选项启用循环发射模式。它可以用于永久效果 （如烟，燃烧，水溅）。建议设置的 <code class="docutils literal"><span class="pre">Emission</span> <span class="pre">&gt;</span> <span class="pre">Start</span></code> 的值为零。默认为禁用。</dd>
 <dt><em>Emission &gt; Allow NLA</em></dt>
-<dd><p class="first last">激活此选项将允许粒子发射由NLA进行控制。默认情况下启用。</p>
-</dd>
+<dd>激活此选项将允许粒子发射由NLA进行控制。默认情况下启用。</dd>
 <dt><em>Emission &gt; Random Delay</em></dt>
-<dd><p class="first last">该选项允许启用粒子随机发射时间。默认情况下禁用。</p>
-</dd>
+<dd>该选项允许启用粒子随机发射时间。默认情况下禁用。</dd>
 </dl>
 </div>
 <div class="section" id="direction-settings">
 <h3><a class="toc-backref" href="#id8">方向设置</a><a class="headerlink" href="#direction-settings" title="永久链接至标题">¶</a></h3>
 <dl class="docutils">
 <dt><em>Velocity &gt; Emitter Geometry &gt; Normal</em></dt>
-<dd><p class="first last">沿着发射器的网格法线的发射影响因子。缺省值为1.0。</p>
-</dd>
+<dd>沿着发射器的网格法线的发射影响因子。缺省值为1.0。</dd>
 <dt><em>Velocity &gt; Other &gt; Random</em></dt>
-<dd><p class="first last">随机的发射方向的因子。默认值是0.0。</p>
-</dd>
+<dd>随机的发射方向的因子。默认值是0.0。</dd>
 </dl>
 </div>
 <div class="section" id="rotation-settings">
 <h3><a class="toc-backref" href="#id9">旋转设置</a><a class="headerlink" href="#rotation-settings" title="永久链接至标题">¶</a></h3>
 <dl class="docutils">
 <dt><em>Rotation &gt; Angular Velocity &gt; Mode</em></dt>
-<dd><p class="first last">模式为粒子广告牌的自转。 <code class="docutils literal"><span class="pre">Hair</span></code> 粒子系统支持所有类型的旋转， <code class="docutils literal"><span class="pre">Emitter</span></code> 只支持 <code class="docutils literal"><span class="pre">Velocity</span></code> 。</p>
-</dd>
+<dd>模式为粒子广告牌的自转。 <code class="docutils literal"><span class="pre">Hair</span></code> 粒子系统支持所有类型的旋转， <code class="docutils literal"><span class="pre">Emitter</span></code> 只支持 <code class="docutils literal"><span class="pre">Velocity</span></code> 。</dd>
 <dt><em>Rotation &gt; Angular Velocity &gt; Factor</em></dt>
-<dd><p class="first last">粒子广告牌旋转速度的因子。默认值为 0.0。</p>
-</dd>
+<dd>粒子广告牌旋转速度的因子。默认值为 0.0。</dd>
 </dl>
 </div>
 <div class="section" id="physics-settings">
@@ -337,17 +317,13 @@
 <a class="reference internal image-reference" href="_images/particles_settings2.png"><img alt="_images/particles_settings2.png" class="align-center" src="_images/particles_settings2.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>Physics &gt; Type</em></dt>
-<dd><p class="first last">物理计算类型: <code class="docutils literal"><span class="pre">No</span></code>, <code class="docutils literal"><span class="pre">Newtonian</span></code>, <code class="docutils literal"><span class="pre">Keyed</span></code>, <code class="docutils literal"><span class="pre">Boids</span></code>, <code class="docutils literal"><span class="pre">Fluid</span></code>. 由引擎忽略。总是用 <code class="docutils literal"><span class="pre">Newtonian</span></code> 。默认值为 <code class="docutils literal"><span class="pre">Newtonian</span></code> 。</p>
-</dd>
+<dd>物理计算类型: <code class="docutils literal"><span class="pre">No</span></code>, <code class="docutils literal"><span class="pre">Newtonian</span></code>, <code class="docutils literal"><span class="pre">Keyed</span></code>, <code class="docutils literal"><span class="pre">Boids</span></code>, <code class="docutils literal"><span class="pre">Fluid</span></code>. 由引擎忽略。总是用 <code class="docutils literal"><span class="pre">Newtonian</span></code> 。默认值为 <code class="docutils literal"><span class="pre">Newtonian</span></code> 。</dd>
 <dt><em>Physics &gt; Size</em></dt>
-<dd><p class="first last">粒子大小。默认值为 0.05。</p>
-</dd>
+<dd>粒子大小。默认值为 0.05。</dd>
 <dt><em>Physics &gt; Mass</em></dt>
-<dd><p class="first last">粒子质量。影响与力场 （风能） 的互动。默认值是 1.0。</p>
-</dd>
+<dd>粒子质量。影响与力场 （风能） 的互动。默认值是 1.0。</dd>
 <dt><em>Physics &gt; Forces &gt; Brownian</em></dt>
-<dd><p class="first last">导出但是不在引擎中使用。</p>
-</dd>
+<dd>导出但是不在引擎中使用。</dd>
 </dl>
 </div>
 <div class="section" id="rendering-settings">
@@ -355,56 +331,44 @@
 <a class="reference internal image-reference" href="_images/particles_rendering.png"><img alt="_images/particles_rendering.png" class="align-center" src="_images/particles_rendering.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>Render &gt; Material</em></dt>
-<dd><p class="first last">选择粒子材质的菜单。用于发射器有多个材质的情况下的粒子材质。默认值为 <code class="docutils literal"><span class="pre">Default</span> <span class="pre">Material</span></code> 。</p>
-</dd>
+<dd>选择粒子材质的菜单。用于发射器有多个材质的情况下的粒子材质。默认值为 <code class="docutils literal"><span class="pre">Default</span> <span class="pre">Material</span></code> 。</dd>
 <dt><em>Render &gt; Emitter</em></dt>
-<dd><p class="first last">启用场景中发射器渲染。默认情况下启用。</p>
-</dd>
+<dd>启用场景中发射器渲染。默认情况下启用。</dd>
 <dt><em>Render &gt; Type</em></dt>
-<dd><p class="first last">粒子渲染模式：<code class="docutils literal"><span class="pre">None</span></code>，<code class="docutils literal"><span class="pre">Halo</span></code>，<code class="docutils literal"><span class="pre">Line</span></code>，<code class="docutils literal"><span class="pre">Path</span></code>，<code class="docutils literal"><span class="pre">Object</span></code>，<code class="docutils literal"><span class="pre">Group</span></code>，<code class="docutils literal"><span class="pre">Billboard</span></code>。该引擎支持 <code class="docutils literal"><span class="pre">Object</span></code> 和 <code class="docutils literal"><span class="pre">Object</span></code> 和 <code class="docutils literal"><span class="pre">Group</span></code> 分别实例化模式。其他模式将被忽略。推荐使用 <code class="docutils literal"><span class="pre">Billboard</span></code> 模式，广告牌方便的显示。默认值是 <code class="docutils literal"><span class="pre">Halo</span></code> 。</p>
-</dd>
+<dd>粒子渲染模式：<code class="docutils literal"><span class="pre">None</span></code>，<code class="docutils literal"><span class="pre">Halo</span></code>，<code class="docutils literal"><span class="pre">Line</span></code>，<code class="docutils literal"><span class="pre">Path</span></code>，<code class="docutils literal"><span class="pre">Object</span></code>，<code class="docutils literal"><span class="pre">Group</span></code>，<code class="docutils literal"><span class="pre">Billboard</span></code>。该引擎支持 <code class="docutils literal"><span class="pre">Object</span></code> 和 <code class="docutils literal"><span class="pre">Object</span></code> 和 <code class="docutils literal"><span class="pre">Group</span></code> 分别实例化模式。其他模式将被忽略。推荐使用 <code class="docutils literal"><span class="pre">Billboard</span></code> 模式，广告牌方便的显示。默认值是 <code class="docutils literal"><span class="pre">Halo</span></code> 。</dd>
 <dt><em>Render &gt; Billboard Align</em></dt>
-<dd><p class="first last">广告牌的方式取向：<code class="docutils literal"><span class="pre">View</span></code>  - 按照相机，<code class="docutils literal"><span class="pre">XY</span> <span class="pre">plane</span></code>，<code class="docutils literal"><span class="pre">YZ</span> <span class="pre">plane</span></code>，<code class="docutils literal"><span class="pre">ZX</span> <span class="pre">plane</span></code>  - 对准相应的平面（在世界坐标搅拌机系统）。默认值是 <code class="docutils literal"><span class="pre">View</span></code>。</p>
-</dd>
+<dd>广告牌的方式取向：<code class="docutils literal"><span class="pre">View</span></code>  - 按照相机，<code class="docutils literal"><span class="pre">XY</span> <span class="pre">plane</span></code>，<code class="docutils literal"><span class="pre">YZ</span> <span class="pre">plane</span></code>，<code class="docutils literal"><span class="pre">ZX</span> <span class="pre">plane</span></code>  - 对准相应的平面（在世界坐标搅拌机系统）。默认值是 <code class="docutils literal"><span class="pre">View</span></code>。</dd>
 <dt><em>Render &gt; Tilt</em></dt>
 <dd><p class="first">这组参数控制初始的广告牌飞机倾斜。它是由两个参数︰</p>
 <dl class="last docutils">
 <dt><em>角度</em></dt>
-<dd><p class="first last">广告牌平面的旋转角度。它的值可以从-1 到 1。旋转 180 度的值为 1 （即颠倒广告牌）。设置为零，默认情况。</p>
-</dd>
+<dd>广告牌平面的旋转角度。它的值可以从-1 到 1。旋转 180 度的值为 1 （即颠倒广告牌）。设置为零，默认情况。</dd>
 <dt><em>随机</em></dt>
-<dd><p class="first last">倾斜的随机变化。它的值可以从零到 1 更改，默认情况设置为零 。</p>
-</dd>
+<dd>倾斜的随机变化。它的值可以从零到 1 更改，默认情况设置为零 。</dd>
 </dl>
 </dd>
 <dt><em>Render &gt; Dissolve intervals &gt; Fade-in</em> and <em>Fade-out</em></dt>
-<dd><p class="first last">开始和结束的时间间隔（以帧测量的）为逐渐增加和减小粒子的透明度。</p>
-</dd>
+<dd>开始和结束的时间间隔（以帧测量的）为逐渐增加和减小粒子的透明度。</dd>
 <dt><em>Render &gt; Coordinate System</em></dt>
-<dd><p class="first last">发射粒子的坐标系统：<code class="docutils literal"><span class="pre">Local</span></code>  - 使用局部坐标发射物体的系统，<code class="docutils literal"><span class="pre">World</span></code>  - 使用世界坐标系。</p>
-</dd>
+<dd>发射粒子的坐标系统：<code class="docutils literal"><span class="pre">Local</span></code>  - 使用局部坐标发射物体的系统，<code class="docutils literal"><span class="pre">World</span></code>  - 使用世界坐标系。</dd>
 <dt><em>Render &gt; Soft Particles</em></dt>
-<dd><p class="first last">支持软粒子，它的广告牌与表面接触时能够消融。使用 <code class="docutils literal"><span class="pre">Particle</span> <span class="pre">Softness</span></code> 滑块来调整这种效果。</p>
-</dd>
+<dd>支持软粒子，它的广告牌与表面接触时能够消融。使用 <code class="docutils literal"><span class="pre">Particle</span> <span class="pre">Softness</span></code> 滑块来调整这种效果。</dd>
 </dl>
 </div>
 <div class="section" id="supported-settings-for-force-field-influence">
 <span id="particles-force-fields"></span><h3><a class="toc-backref" href="#id12">支持设置力场的影响</a><a class="headerlink" href="#supported-settings-for-force-field-influence" title="永久链接至标题">¶</a></h3>
 <dl class="docutils">
 <dt><em>Field Weights &gt; Gravity</em></dt>
-<dd><p class="first last">重力影响因素（地球引力）。缺省值为1.0。</p>
-</dd>
+<dd>重力影响因素（地球引力）。缺省值为1.0。</dd>
 <dt><em>Field Weights &gt; Wind</em></dt>
-<dd><p class="first last">风的影响因子。<code class="docutils literal"><span class="pre">Wind</span></code> 力场源需要存在 （可以  <code class="docutils literal"><span class="pre">Add</span> <span class="pre">&gt;</span> <span class="pre">Force</span> <span class="pre">Field</span></code> 添加使用）。一个粒子系统也受到风的方向和强度影响。默认值是 1.0。</p>
-</dd>
+<dd>风的影响因子。<code class="docutils literal"><span class="pre">Wind</span></code> 力场源需要存在 （可以  <code class="docutils literal"><span class="pre">Add</span> <span class="pre">&gt;</span> <span class="pre">Force</span> <span class="pre">Field</span></code> 添加使用）。一个粒子系统也受到风的方向和强度影响。默认值是 1.0。</dd>
 </dl>
 </div>
 <div class="section" id="engine-specific-settings">
 <h3><a class="toc-backref" href="#id13">引擎特定的设置</a><a class="headerlink" href="#engine-specific-settings" title="永久链接至标题">¶</a></h3>
 <dl class="docutils">
 <dt><em>Export Options &gt; Do not export</em></dt>
-<dd><p class="first last">不要导出。</p>
-</dd>
+<dd>不要导出。</dd>
 </dl>
 </div>
 </div>
@@ -452,8 +416,8 @@
 
   <div role="contentinfo">
     <p>
-        &copy; 版权所有 2014-2017, Triumph.
-      最后更新于 2017-11-21.
+        &copy; Copyright 2014-2017, Triumph.
+      最后更新于 2017-12-29.
 
     </p>
   </div>
@@ -509,11 +473,11 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

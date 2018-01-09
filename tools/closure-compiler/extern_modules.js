@@ -1,8 +1,11 @@
 var b4w, hljs;
 window.b4w;
+var self;
+self.b4w;
 var GLOBAL;
 GLOBAL.b4w;
 b4w.module;
+b4w._n_module;
 b4w.require;
 b4w.register;
 b4w.module_check;

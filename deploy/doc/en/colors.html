@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Color Management &mdash; Blend4Web 17.10.1 User Manual</title>
+  <title>Color Management &mdash; Blend4Web 17.12.0 User Manual</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.10.1 User Manual" href="index.html"/>
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Blend4Web 17.12.0 User Manual" href="index.html"/>
         <link rel="next" title="Audio" href="audio.html"/>
         <link rel="prev" title="Outdoor Effects" href="outdoor_rendering.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -109,7 +112,7 @@
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Effects</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Color Management</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Color Management</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#gamma-overview">Gamma Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#human-vision-and-monitors">Human Vision and Monitors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#gamma-formula">Gamma Formula</a></li>
@@ -340,7 +343,7 @@ channel is not corrected)</td>
 <div class="section" id="implementation">
 <h3><a class="toc-backref" href="#id14">Implementation</a><a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h3>
 <p>The blending function used in Blend4Web is the following:</p>
-<div class="highlight-none"><div class="highlight"><pre>gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+<div class="highlight-none"><div class="highlight"><pre><span></span>gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
 </pre></div>
 </div>
 <p>WebGL context initialization is performed using the premultipliedAlpha = true parameter (that is the default value). Also multiplication of all the color channels by the <span class="math">\(\alpha\)</span> value is performed on the output of the shaders.</p>
@@ -389,7 +392,7 @@ channel is not corrected)</td>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Triumph.
-      Last updated on 2017-11-21.
+      Last updated on 2017-12-29.
 
     </p>
   </div>
@@ -445,11 +448,11 @@ channel is not corrected)</td>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

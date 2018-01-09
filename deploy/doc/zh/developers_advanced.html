@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>对于引擎开发者 &mdash; Blend4Web 17.10.1 用户手册</title>
+  <title>对于引擎开发者 &mdash; Blend4Web 17.12.0 用户手册</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.10.1 用户手册" href="index.html"/>
+        <link rel="index" title="索引"
+              href="genindex.html"/>
+        <link rel="search" title="搜索" href="search.html"/>
+    <link rel="top" title="Blend4Web 17.12.0 用户手册" href="index.html"/>
         <link rel="next" title="团队工作。使用 Git" href="git_short_manual.html"/>
         <link rel="prev" title="对应用程序开发人员" href="developers.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -113,7 +116,7 @@
 <li class="toctree-l1"><a class="reference internal" href="audio.html">音频</a></li>
 <li class="toctree-l1"><a class="reference internal" href="physics.html">物理</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers.html">对应用程序开发人员</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">对于引擎开发者</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">对于引擎开发者</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#coding-style">代码样式</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#examples">例子</a></li>
 </ul>
@@ -183,7 +186,7 @@
   <div class="section" id="for-engine-developers">
 <span id="developers-advanced"></span><h1><a class="toc-backref" href="#id4">对于引擎开发者</a><a class="headerlink" href="#for-engine-developers" title="永久链接至标题">¶</a></h1>
 <div class="contents topic" id="table-of-contents">
-<p class="topic-title first">目录</p>
+<p class="topic-title first">Table of Contents</p>
 <ul class="simple">
 <li><a class="reference internal" href="#for-engine-developers" id="id4">对于引擎开发者</a><ul>
 <li><a class="reference internal" href="#coding-style" id="id5">代码样式</a><ul>
@@ -214,7 +217,7 @@
 <span id="id1"></span><h2><a class="toc-backref" href="#id5">代码样式</a><a class="headerlink" href="#coding-style" title="永久链接至标题">¶</a></h2>
 <p>这款引擎采用结构化程序。该代码由模块组织。没有用OOP方法都，没有定义的类，不进行继承等。</p>
 <p>使用 <a class="reference external" href="http://en.wikipedia.org/wiki/1_true_brace_style#K.26R_style">K＆R风格</a> 除了对于一个组合操作的括号开口被放置在同一行上，例如：</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">foo_bar</span><span class="p">()</span> <span class="p">{</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">function</span> <span class="nx">foo_bar</span><span class="p">()</span> <span class="p">{</span>
     <span class="c1">// ...</span>
 <span class="p">}</span>
 
@@ -227,20 +230,20 @@
 <div class="section" id="examples">
 <h3><a class="toc-backref" href="#id6">例子</a><a class="headerlink" href="#examples" title="永久链接至标题">¶</a></h3>
 <p>下划线符号在函数和变量名称中使用：</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">foo_bar</span> <span class="o">=</span> <span class="mi">123</span><span class="p">;</span>  <span class="c1">// correct</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">foo_bar</span> <span class="o">=</span> <span class="mi">123</span><span class="p">;</span>  <span class="c1">// correct</span>
 <span class="kd">var</span> <span class="nx">fooBar</span> <span class="o">=</span> <span class="mi">123</span><span class="p">;</span>   <span class="c1">// wrong</span>
 </pre></div>
 </div>
 <p>所有的全局变量以下划线开头：</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">_foo_bar</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">_foo_bar</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
 </pre></div>
 </div>
 <p>这些常量用大写字母表示，从不以下划线开头：</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">FOO_BAR</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">FOO_BAR</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
 </pre></div>
 </div>
 <p>外部API方法和属性的名称均在点之后写的。为了避免混淆他们必须用 <code class="docutils literal"><span class="pre">&#64;</span> <span class="pre">cc_externs</span></code> 标签字段：</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">exports</span><span class="p">.</span><span class="nx">FOO_BAR</span> <span class="o">=</span> <span class="mi">123</span><span class="p">;</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">exports</span><span class="p">.</span><span class="nx">FOO_BAR</span> <span class="o">=</span> <span class="mi">123</span><span class="p">;</span>
 
 <span class="nx">exports</span><span class="p">.</span><span class="nx">foo_bar</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
 
@@ -269,21 +272,21 @@
 </div>
 <div class="section" id="building-the-engine">
 <h2><a class="toc-backref" href="#id7">构建引擎</a><a class="headerlink" href="#building-the-engine" title="永久链接至标题">¶</a></h2>
-<p>构建之前，请确保您的系统已安装所有需要的依赖关系（参见 <a class="reference internal" href="#dependencies"><span>table</span></a>).</p>
+<p>构建之前，请确保您的系统已安装所有需要的依赖关系（参见 <a class="reference internal" href="#dependencies"><span class="std std-ref">table</span></a>).</p>
 <p>要编译引擎，并纳入SDK，请执行以下命令（在SDK根目录）的应用程序：</p>
-<div class="highlight-bash"><div class="highlight"><pre>make compile
+<div class="highlight-bash"><div class="highlight"><pre><span></span>make compile
 </pre></div>
 </div>
 <p>完整的构建，包括将资源（纹理，声音和视频），编辑和转换的文档，可以用下面的命令执行：</p>
-<div class="highlight-bash"><div class="highlight"><pre>make build
+<div class="highlight-bash"><div class="highlight"><pre><span></span>make build
 </pre></div>
 </div>
 <p>构建发布档案：</p>
-<div class="highlight-bash"><div class="highlight"><pre>make dist
+<div class="highlight-bash"><div class="highlight"><pre><span></span>make dist
 </pre></div>
 </div>
 <p>所有上述操作可以用一个命令来执行：</p>
-<div class="highlight-bash"><div class="highlight"><pre>make all
+<div class="highlight-bash"><div class="highlight"><pre><span></span>make all
 </pre></div>
 </div>
 </div>
@@ -294,15 +297,13 @@
 <dl class="docutils">
 <dt>路径相对于库根：</dt>
 <dd><ul class="first last simple">
-<li><p class="first">构建脚本：<code class="docutils literal"><span class="pre">csrc/b4w_bin/build.py</span></code></p>
-</li>
-<li><p class="first">Blend4Web插件： <code class="docutils literal"><span class="pre">addons/blend4web/</span></code></p>
-</li>
+<li>构建脚本：<code class="docutils literal"><span class="pre">csrc/b4w_bin/build.py</span></code></li>
+<li>Blend4Web插件： <code class="docutils literal"><span class="pre">addons/blend4web/</span></code></li>
 </ul>
 </dd>
 </dl>
 <p>该构建过程开始于以下方式：</p>
-<div class="highlight-bash"><div class="highlight"><pre>python3 ./csrc/b4w_bin/build.py
+<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 ./csrc/b4w_bin/build.py
 </pre></div>
 </div>
 <p>由于构建的结果，你会得到一个名为二进制文件：</p>
@@ -319,117 +320,86 @@
 <col width="31%" />
 </colgroup>
 <thead valign="bottom">
-<tr class="row-odd"><th class="head"><p class="first last">名称</p>
-</th>
-<th class="head"><p class="first last">Ubuntu的16.04包</p>
-</th>
-<th class="head"><p class="first last">用途</p>
-</th>
+<tr class="row-odd"><th class="head">名称</th>
+<th class="head">Ubuntu的16.04包</th>
+<th class="head">用途</th>
 </tr>
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td>Bash</td>
-<td><p class="first last">默认情况下包含</p>
-</td>
-<td><p class="first last">脚本解释器</p>
-</td>
+<td>默认情况下包含</td>
+<td>脚本解释器</td>
 </tr>
 <tr class="row-odd"><td>Python 3</td>
-<td><p class="first last">默认情况下包含</p>
-</td>
-<td><p class="first last">脚本解释器</p>
-</td>
+<td>默认情况下包含</td>
+<td>脚本解释器</td>
 </tr>
 <tr class="row-even"><td>NodeJS</td>
 <td>nodejs</td>
-<td><p class="first last">着色器编译</p>
-</td>
+<td>着色器编译</td>
 </tr>
 <tr class="row-odd"><td>Java</td>
-<td><p class="first last">默认的JRE</p>
-</td>
-<td><p class="first last">编译和混淆引擎模块</p>
-</td>
+<td>默认的JRE</td>
+<td>编译和混淆引擎模块</td>
 </tr>
 <tr class="row-even"><td>ImageMagick</td>
 <td>imagemagick</td>
-<td><p class="first last">转换纹理</p>
-</td>
+<td>转换纹理</td>
 </tr>
-<tr class="row-odd"><td><p class="first last">NVIDIA纹理工具</p>
-</td>
+<tr class="row-odd"><td>NVIDIA纹理工具</td>
 <td>libnvtt-bin</td>
-<td><p class="first last">转换纹理</p>
-</td>
+<td>转换纹理</td>
 </tr>
 <tr class="row-even"><td>Libav</td>
 <td>libav-tools</td>
-<td><p class="first last">转换资源</p>
-</td>
+<td>转换资源</td>
 </tr>
-<tr class="row-odd"><td><p class="first last">NVIDIA CG工具包</p>
-</td>
-<td><p class="first last">NVIDIA-CG-工具包</p>
-</td>
-<td><p class="first last">着色器的调试</p>
-</td>
+<tr class="row-odd"><td>NVIDIA CG工具包</td>
+<td>NVIDIA-CG-工具包</td>
+<td>着色器的调试</td>
 </tr>
 <tr class="row-even"><td>OptiPNG</td>
 <td>optipng</td>
-<td><p class="first last">优化 PNG 文件</p>
-</td>
+<td>优化 PNG 文件</td>
 </tr>
 <tr class="row-odd"><td>Emscripten</td>
-<td><p class="first last"><a class="reference external" href="http://kripken.github.io/emscripten-site/docs/building_from_source/index.html">from EMSDK source 代码</a></p>
-</td>
-<td><p class="first last">构建Uranium</p>
-</td>
+<td><a class="reference external" href="http://kripken.github.io/emscripten-site/docs/building_from_source/index.html">from EMSDK source 代码</a></td>
+<td>构建Uranium</td>
 </tr>
 <tr class="row-even"><td>Gnuplot</td>
 <td>gnuplot</td>
-<td><p class="first last">偵錯</p>
-</td>
+<td>偵錯</td>
 </tr>
 <tr class="row-odd"><td>Graphviz</td>
 <td>graphviz</td>
-<td><p class="first last">偵錯</p>
-</td>
+<td>偵錯</td>
 </tr>
 <tr class="row-even"><td>xsel</td>
 <td>xsel</td>
-<td><p class="first last">偵錯</p>
-</td>
+<td>偵錯</td>
 </tr>
 <tr class="row-odd"><td>Sphinx</td>
 <td>python3-sphinx</td>
-<td><p class="first last">构建手册</p>
-</td>
+<td>构建手册</td>
 </tr>
 <tr class="row-even"><td>sphinx-intl</td>
-<td><p class="first last">使用 PIP v3 安装（pip3 install sphinx-intl）</p>
-</td>
-<td><p class="first last">构建手册（国际）</p>
-</td>
+<td>使用 PIP v3 安装（pip3 install sphinx-intl）</td>
+<td>构建手册（国际）</td>
 </tr>
 <tr class="row-odd"><td>TeX Live</td>
 <td>texlive texlive-latex-extra
 texlive-lang-cyrillic
 texlive-lang-chinese
 texlive-xetex</td>
-<td><p class="first last">构建说明书（PDF版）</p>
-</td>
+<td>构建说明书（PDF版）</td>
 </tr>
 <tr class="row-even"><td>JSDoc 3</td>
-<td><p class="first last">使用 NPM 进行安装 (npm install -g jsdoc)</p>
-</td>
-<td><p class="first last">构建API文档</p>
-</td>
+<td>使用 NPM 进行安装 (npm install -g jsdoc)</td>
+<td>构建API文档</td>
 </tr>
 <tr class="row-odd"><td>PEG.js</td>
-<td><p class="first last"><a class="reference external" href="http://pegjs.majda.cz/">从PEG.js源代码</a></p>
-</td>
-<td><p class="first last">着色器预处理</p>
-</td>
+<td><a class="reference external" href="http://pegjs.majda.cz/">从PEG.js源代码</a></td>
+<td>着色器预处理</td>
 </tr>
 </tbody>
 </table>
@@ -439,45 +409,34 @@ texlive-xetex</td>
 <p>当创建新的函数和变量，建议使用以下前缀和后缀。</p>
 <dl class="docutils">
 <dt><em>init_</em></dt>
-<dd><p class="first last">创建抽象物体</p>
-</dd>
+<dd>创建抽象物体</dd>
 <dt><em>create_</em></dt>
-<dd><p class="first last">创建实际的物体</p>
-</dd>
+<dd>创建实际的物体</dd>
 <dt><em>update_</em></dt>
-<dd><p class="first last">更新现有物体的状态</p>
-</dd>
+<dd>更新现有物体的状态</dd>
 <dt><em>attach_/detach_</em></dt>
-<dd><p class="first last">添加/删除临时物体属性</p>
-</dd>
+<dd>添加/删除临时物体属性</dd>
 <dt><em>append_/remove_</em></dt>
-<dd><p class="first last">添加/删除临时属性同类的现有属性</p>
-</dd>
+<dd>添加/删除临时属性同类的现有属性</dd>
 <dt><em>insert_/pop_</em></dt>
-<dd><p class="first last">添加/删除数组元素（按索引访问）</p>
-</dd>
+<dd>添加/删除数组元素（按索引访问）</dd>
 <dt><em>switch_</em></dt>
-<dd><p class="first last">切换标志的二进制值</p>
-</dd>
+<dd>切换标志的二进制值</dd>
 <dt><em>apply_/clear_</em></dt>
-<dd><p class="first last">操作标志，二进制值或任意参数的操作</p>
-</dd>
+<dd>操作标志，二进制值或任意参数的操作</dd>
 <dt><em>set_/get_</em></dt>
-<dd><p class="first last">设置/获取属性/变量值</p>
-</dd>
+<dd>设置/获取属性/变量值</dd>
 <dt><em>_tmp</em></dt>
-<dd><p class="first last">全局变量 - 缓存在一个简单的物体的形式（数组，向量）</p>
-</dd>
+<dd>全局变量 - 缓存在一个简单的物体的形式（数组，向量）</dd>
 <dt><em>_cache</em></dt>
-<dd><p class="first last">全局变量 - 缓存在一个复杂的物体的形式</p>
-</dd>
+<dd>全局变量 - 缓存在一个复杂的物体的形式</dd>
 </dl>
 </div>
 <div class="section" id="debugging">
 <span id="id3"></span><h2><a class="toc-backref" href="#id11">调试中</a><a class="headerlink" href="#debugging" title="永久链接至标题">¶</a></h2>
 <p>引擎调试在 <code class="docutils literal"><span class="pre">debug.js</span></code> 模块方法进行。</p>
 <p>当前的渲染图的结构可以用 <code class="docutils literal"><span class="pre">b4w.debug.scenegraph_to_dot()</span></code> 调用，例如，在浏览器的控制台被保存在DOT格式。调用此方法后，保存控制台输出与.gv扩展名的文件。为了得到在视觉形式图表中的 <a class="reference external" href="http://www.graphviz.org/">graphviz的</a> 是必需的工具。转换为SVG格式是使用命令执行：</p>
-<div class="highlight-bash"><div class="highlight"><pre>&gt; dot -Tsvg graph.gv -o graph.svg
+<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; dot -Tsvg graph.gv -o graph.svg
 </pre></div>
 </div>
 <p>其中，<code class="docutils literal"><span class="pre">graph.gv</span></code> 是保存的图形文件的名称。</p>
@@ -486,67 +445,52 @@ texlive-xetex</td>
 <span id="index-0"></span><h2><a class="toc-backref" href="#id12">着色器编译</a><a class="headerlink" href="#shader-compilation" title="永久链接至标题">¶</a></h2>
 <p>在引擎中使用的所有着色器由编译器处理。编译器执行以下三个主要步骤：</p>
 <ul class="simple">
-<li><p class="first">shader代码的验证，</p>
-</li>
-<li><p class="first">它的混淆处理，</p>
-</li>
-<li><p class="first">优化</p>
-</li>
+<li>shader代码的验证，</li>
+<li>它的混淆处理，</li>
+<li>优化</li>
 </ul>
 <p>为了编译运行，在SDK根处键入以下命令执行：</p>
-<div class="highlight-bash"><div class="highlight"><pre>&gt; make compile_shaders
+<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; make compile_shaders
 &gt; make verify_shaders
 </pre></div>
 </div>
 <ul class="simple">
-<li><p class="first"><strong>make</strong> <em>compile_shaders</em>  - 执行验证，混淆，优化和最后，编译着色器的导出，</p>
-</li>
-<li><p class="first"><strong>make</strong> <em>verify_shaders</em>  - 只执行验证，混淆和优化。</p>
-</li>
+<li><strong>make</strong> <em>compile_shaders</em>  - 执行验证，混淆，优化和最后，编译着色器的导出，</li>
+<li><strong>make</strong> <em>verify_shaders</em>  - 只执行验证，混淆和优化。</li>
 </ul>
 <p>在编译期间首先进行着色文本的语法分析（解析）。相应的解析器自动创建基于语法，使用 <a class="reference external" href="http://pegjs.majda.cz/">PEG.js</a> 引擎。然后将由着色器验证，混淆和优化根据解析器数据，之后该着色器中抽象语法树（AST），用于在引擎直接装载的形式输出。</p>
 <p>资源库中的主要文件的位置：</p>
 <ul class="simple">
-<li><p class="first">初步的语法 -  glsl_utils / pegjs / glsl_parser.pegjs</p>
-</li>
-<li><p class="first">解析器生成脚本 -  glsl_utils / pegjs / gen_nodejs.sh</p>
-</li>
-<li><p class="first">解析器 -  glsl_utils /编译器/ glsl_parser.js</p>
-</li>
+<li>初步的语法 -  glsl_utils / pegjs / glsl_parser.pegjs</li>
+<li>解析器生成脚本 -  glsl_utils / pegjs / gen_nodejs.sh</li>
+<li>解析器 -  glsl_utils /编译器/ glsl_parser.js</li>
 </ul>
 <div class="section" id="validation">
 <span id="index-1"></span><h3><a class="toc-backref" href="#id13">验证</a><a class="headerlink" href="#validation" title="永久链接至标题">¶</a></h3>
 <p>编译器执行与着色器代码验证以下程序：</p>
 <ul class="simple">
-<li><p class="first">报告有关未使用的变量和函数（死码）</p>
-</li>
-<li><p class="first">检查着色器的语法，</p>
-</li>
-<li><p class="first">检查着色器的一致性导入/导出机制，</p>
-</li>
-<li><p class="first">去除奇数或重复的标记：空格，endlines和分号。</p>
-</li>
+<li>报告有关未使用的变量和函数（死码）</li>
+<li>检查着色器的语法，</li>
+<li>检查着色器的一致性导入/导出机制，</li>
+<li>去除奇数或重复的标记：空格，endlines和分号。</li>
 </ul>
 </div>
 <div class="section" id="obfuscation">
 <span id="index-2"></span><h3><a class="toc-backref" href="#id14">混淆</a><a class="headerlink" href="#obfuscation" title="永久链接至标题">¶</a></h3>
 <p>混淆minifies的GLSL代码，使得它很难理解它。到目前为止以下过程实现：</p>
 <ul class="simple">
-<li><p class="first">具有较短的单符号（与支持导入/导出机制的）替换用户定义的标识符，两符号等的名称。</p>
-</li>
+<li>具有较短的单符号（与支持导入/导出机制的）替换用户定义的标识符，两符号等的名称。</li>
 </ul>
 </div>
 <div class="section" id="optimization">
 <span id="index-3"></span><h3><a class="toc-backref" href="#id15">优化</a><a class="headerlink" href="#optimization" title="永久链接至标题">¶</a></h3>
 <p>优化构成以下程序：</p>
 <ul class="simple">
-<li><p class="first">除去大括号，不能在除了创建本地作用域任何方式有用（这一功能是用于处理节点/灯指示），</p>
-</li>
-<li><p class="first">内部功能的优化 - 创建共享局部变量，以取代原来由程序员创建的。</p>
-</li>
+<li>除去大括号，不能在除了创建本地作用域任何方式有用（这一功能是用于处理节点/灯指示），</li>
+<li>内部功能的优化 - 创建共享局部变量，以取代原来由程序员创建的。</li>
 </ul>
 <p>删除未使用大括号的一个例子：替换下面的代码</p>
-<div class="highlight-glsl"><div class="highlight"><pre><span class="k">void</span> <span class="n">function</span><span class="p">(){</span>
+<div class="highlight-glsl"><div class="highlight"><pre><span></span><span class="k">void</span> <span class="n">function</span><span class="p">(){</span>
     <span class="k">int</span> <span class="n">a</span><span class="p">;</span>
     <span class="p">{</span>
         <span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
@@ -555,14 +499,14 @@ texlive-xetex</td>
 </pre></div>
 </div>
 <p>与这些代码</p>
-<div class="highlight-glsl"><div class="highlight"><pre><span class="k">void</span> <span class="n">function</span><span class="p">(){</span>
+<div class="highlight-glsl"><div class="highlight"><pre><span></span><span class="k">void</span> <span class="n">function</span><span class="p">(){</span>
     <span class="k">int</span> <span class="n">a</span><span class="p">;</span>
     <span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
 </div>
 <p>临时局部变量的低数量是由在不同情况下重复使用它们来实现的。例如，下面的代码</p>
-<div class="highlight-glsl"><div class="highlight"><pre><span class="k">int</span> <span class="n">function</span><span class="p">(){</span>
+<div class="highlight-glsl"><div class="highlight"><pre><span></span><span class="k">int</span> <span class="n">function</span><span class="p">(){</span>
     <span class="k">int</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
     <span class="k">int</span> <span class="n">b</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="mi">3</span><span class="p">;</span>
     <span class="k">return</span> <span class="n">b</span><span class="p">;</span>
@@ -570,7 +514,7 @@ texlive-xetex</td>
 </pre></div>
 </div>
 <p>Blender内置渲染引擎的纹理绘图类型已被其它三个模块所取代：</p>
-<div class="highlight-glsl"><div class="highlight"><pre><span class="k">int</span> <span class="n">function</span><span class="p">(){</span>
+<div class="highlight-glsl"><div class="highlight"><pre><span></span><span class="k">int</span> <span class="n">function</span><span class="p">(){</span>
     <span class="k">int</span> <span class="n">_int_tmp0</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
     <span class="n">_int_tmp0</span> <span class="o">=</span> <span class="n">_int_tmp0</span> <span class="o">+</span> <span class="mi">3</span><span class="p">;</span>
     <span class="k">return</span> <span class="n">_int_tmp0</span><span class="p">;</span>
@@ -585,7 +529,7 @@ texlive-xetex</td>
 <div class="section" id="import-export-directives">
 <span id="index-4"></span><h3><a class="toc-backref" href="#id16">导入/导出指令</a><a class="headerlink" href="#import-export-directives" title="永久链接至标题">¶</a></h3>
 <p>导入/导出指令用于组织，结构和增加着色器代码的可读性中包含文件。它们在文件的开头指定，应该看起来大约是这样的：</p>
-<div class="highlight-glsl"><div class="highlight"><pre><span class="cp">#import u_frame_factor u_quatsb u_quatsa u_transb u_transa a_influence</span>
+<div class="highlight-glsl"><div class="highlight"><pre><span></span><span class="cp">#import u_frame_factor u_quatsb u_quatsa u_transb u_transa a_influence</span>
 <span class="cp">#import qrot</span>
 
 <span class="cp">#export skin</span>
@@ -600,10 +544,9 @@ texlive-xetex</td>
 <span id="index-5"></span><h3><a class="toc-backref" href="#id17">建议和限制</a><a class="headerlink" href="#recommendations-and-limitations" title="永久链接至标题">¶</a></h3>
 <p>由于以下几个原因：预处理，处理多个着色器和包括文件和由于编译器的功能的需要 - 其可能保证只有当一些规则和限制方面的着色源推崇的输出代码的工作码：</p>
 <ol class="arabic simple">
-<li><p class="first">为了描述这是由引擎在运行中定义的常量，有必要使用``＃var``特殊指令。例如：</p>
-</li>
+<li>为了描述这是由引擎在运行中定义的常量，有必要使用``＃var``特殊指令。例如：</li>
 </ol>
-<div class="highlight-glsl"><div class="highlight"><pre><span class="cp">#var AU_QUALIFIER uniform</span>
+<div class="highlight-glsl"><div class="highlight"><pre><span></span><span class="cp">#var AU_QUALIFIER uniform</span>
 <span class="n">AU_QUALIFIER</span> <span class="k">float</span> <span class="n">a</span><span class="p">;</span>
 </pre></div>
 </div>
@@ -613,31 +556,24 @@ texlive-xetex</td>
 <p class="last">该#var指令没有必要不是在着色的代码，但在预处理器表达式中使用的常数。</p>
 </div>
 <ol class="arabic simple" start="2">
-<li><p class="first">在需要的时候使用导入/导出指令。</p>
-</li>
-<li><p class="first">内置的功能，不能超载 - 只有用户的。</p>
-</li>
-<li><p class="first">变量不应与的内置函数名称，或者主要（即使它不导致错误）中声明。</p>
-</li>
-<li><p class="first">的#var和#define指令不能被用于以这样运营商更换单个符号：“  ”，“ - ”，“* =”，“/ =”，“  =”，“ -  =” ，“==”，“&lt;=”，“&gt; =”，“！=”，“&amp;&amp;”，“||”，“^^”。</p>
-</li>
+<li>在需要的时候使用导入/导出指令。</li>
+<li>内置的功能，不能超载 - 只有用户的。</li>
+<li>变量不应与的内置函数名称，或者主要（即使它不导致错误）中声明。</li>
+<li>的#var和#define指令不能被用于以这样运营商更换单个符号：“  ”，“ - ”，“* =”，“/ =”，“  =”，“ -  =” ，“==”，“&lt;=”，“&gt; =”，“！=”，“&amp;&amp;”，“||”，“^^”。</li>
 </ol>
 <p>例如：</p>
-<div class="highlight-glsl"><div class="highlight"><pre><span class="cp">#var EQUAL =</span>
+<div class="highlight-glsl"><div class="highlight"><pre><span></span><span class="cp">#var EQUAL =</span>
 <span class="p">...</span>
 <span class="n">a</span> <span class="o">*</span><span class="n">EQUAL</span> <span class="n">b</span><span class="p">;</span>
 <span class="p">...</span>
 </pre></div>
 </div>
 <ol class="arabic simple" start="6">
-<li><p class="first">#include指令的使用不应该包含文件的混淆中产生歧义。当多个着色器纳入相同的文件，上面定义的指令（如#var或者将#define）可以对任何人的影响，可能发生这种情况。此外，最好不要使用未声明的函数和变量中包含文件。</p>
-</li>
-<li><p class="first">多级包括或相同的多个纳入到包括不支持相同的着色器。</p>
-</li>
-<li><p class="first">着色器的故障也可以通过使用非平凡的预处理，例如，创建一个无效的GLSL代码引起的：</p>
-</li>
+<li>#include指令的使用不应该包含文件的混淆中产生歧义。当多个着色器纳入相同的文件，上面定义的指令（如#var或者将#define）可以对任何人的影响，可能发生这种情况。此外，最好不要使用未声明的函数和变量中包含文件。</li>
+<li>多级包括或相同的多个纳入到包括不支持相同的着色器。</li>
+<li>着色器的故障也可以通过使用非平凡的预处理，例如，创建一个无效的GLSL代码引起的：</li>
 </ol>
-<div class="highlight-glsl"><div class="highlight"><pre><span class="cp">#if TYPE</span>
+<div class="highlight-glsl"><div class="highlight"><pre><span></span><span class="cp">#if TYPE</span>
 <span class="k">void</span> <span class="n">function1</span><span class="p">()</span> <span class="p">{</span>
 <span class="cp">#else</span>
 <span class="k">void</span> <span class="n">function1</span><span class="p">(</span><span class="k">int</span> <span class="n">i</span><span class="p">)</span> <span class="p">{</span>
@@ -647,12 +583,9 @@ texlive-xetex</td>
 </pre></div>
 </div>
 <ol class="arabic simple" start="9">
-<li><p class="first">不要声明与这样的名字变量 <code class="docutils literal"><span class="pre">node_</span> <span class="pre">[NODE_NAME]</span> <span class="pre">_var_</span> <span class="pre">[IN_OUT_NODE]</span></code>，其中 <code class="docutils literal"><span class="pre">NODE_NAME</span></code> &#8212;一些节点的名称，<code class="docutils literal"><span class="pre">IN_OUT_NODE</span></code> &#8212;输入或输出的名称节点。</p>
-</li>
-<li><p class="first">重复使用 <code class="docutils literal"><span class="pre">＃nodes_main</span></code>，<code class="docutils literal"><span class="pre">＃nodes_global</span></code> 或 <code class="docutils literal"><span class="pre">＃lamps_main</span></code> 指令是不是一个单一的着色器内禁止。</p>
-</li>
-<li><p class="first">在 <code class="docutils literal"><span class="pre">＃nodes_main</span></code>，<code class="docutils literal"><span class="pre">＃nodes_global</span></code> 和 <code class="docutils literal"><span class="pre">＃lamps_main</span></code> 指令，建议在该文件中使用，包含这些着色器节点的说明，例如，在同一个包含文件。这是必要的正确的着色器验证。</p>
-</li>
+<li>不要声明与这样的名字变量 <code class="docutils literal"><span class="pre">node_</span> <span class="pre">[NODE_NAME]</span> <span class="pre">_var_</span> <span class="pre">[IN_OUT_NODE]</span></code>，其中 <code class="docutils literal"><span class="pre">NODE_NAME</span></code> —一些节点的名称，<code class="docutils literal"><span class="pre">IN_OUT_NODE</span></code> —输入或输出的名称节点。</li>
+<li>重复使用 <code class="docutils literal"><span class="pre">＃nodes_main</span></code>，<code class="docutils literal"><span class="pre">＃nodes_global</span></code> 或 <code class="docutils literal"><span class="pre">＃lamps_main</span></code> 指令是不是一个单一的着色器内禁止。</li>
+<li>在 <code class="docutils literal"><span class="pre">＃nodes_main</span></code>，<code class="docutils literal"><span class="pre">＃nodes_global</span></code> 和 <code class="docutils literal"><span class="pre">＃lamps_main</span></code> 指令，建议在该文件中使用，包含这些着色器节点的说明，例如，在同一个包含文件。这是必要的正确的着色器验证。</li>
 </ol>
 </div>
 <div class="section" id="webgl-extensions">
@@ -674,56 +607,43 @@ texlive-xetex</td>
 <col width="54%" />
 </colgroup>
 <thead valign="bottom">
-<tr class="row-odd"><th class="head"><p class="first last">错误信息</p>
-</th>
-<th class="head"><p class="first last">原因</p>
-</th>
+<tr class="row-odd"><th class="head">错误信息</th>
+<th class="head">原因</th>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td><p class="first last">错误！含糊不清的包含文件“FILE_NAME”。</p>
-</td>
-<td><p class="first last">在“FILE_NAME”含糊不清包含文件。</p>
-</td>
+<tr class="row-even"><td>错误！含糊不清的包含文件“FILE_NAME”。</td>
+<td>在“FILE_NAME”含糊不清包含文件。</td>
 </tr>
-<tr class="row-odd"><td><p class="first last">错误！扩展名是在混淆器不支持。文件：“FILE_NAME”。</p>
-</td>
-<td><p class="first last">在FILE_NAME文件中使用的名称WebGL的扩展不被混淆器支持。</p>
-</td>
+<tr class="row-odd"><td>错误！扩展名是在混淆器不支持。文件：“FILE_NAME”。</td>
+<td>在FILE_NAME文件中使用的名称WebGL的扩展不被混淆器支持。</td>
 </tr>
-<tr class="row-even"><td><p class="first last">错误！包括“FILE_NAME找不到。</p>
-</td>
-<td><p class="first last">该FILE_NAME包含文件找不到。</p>
-</td>
+<tr class="row-even"><td>错误！包括“FILE_NAME找不到。</td>
+<td>该FILE_NAME包含文件找不到。</td>
 </tr>
-<tr class="row-odd"><td>Error! Undeclared TYPE: &#8216;NAME&#8217;.
-File: &#8216;FILE_NAME&#8217;.</td>
-<td><p class="first last">FILE_NAME文件中错误。类型TYPE（变量，函数，结构等）的未声明标识符名称。</p>
-</td>
+<tr class="row-odd"><td>Error! Undeclared TYPE: 'NAME'.
+File: 'FILE_NAME'.</td>
+<td>FILE_NAME文件中错误。类型TYPE（变量，函数，结构等）的未声明标识符名称。</td>
 </tr>
-<tr class="row-even"><td>Error! Undeclared TYPE: &#8216;NAME&#8217;.
+<tr class="row-even"><td>Error! Undeclared TYPE: 'NAME'.
 Importing data missed. File:
-&#8216;FILE_NAME&#8217;.</td>
-<td><p class="first last">类型TYPE（变量，函数，结构等）的未声明标识符名称。声明中缺少在FILE_NAME所需的标识符包括根据``＃import``指令文件。</p>
-</td>
+'FILE_NAME'.</td>
+<td>类型TYPE（变量，函数，结构等）的未声明标识符名称。声明中缺少在FILE_NAME所需的标识符包括根据``＃import``指令文件。</td>
 </tr>
-<tr class="row-odd"><td>Error! Undeclared TYPE: &#8216;NAME&#8217;.
+<tr class="row-odd"><td>Error! Undeclared TYPE: 'NAME'.
 Possibly exporting needed in
-include file &#8216;INCLUDE_NAME&#8217;. File:
-&#8216;FILE_NAME&#8217;.</td>
-<td><p class="first last">在FILE_NAME文件有错误。类型TYPE（变量，函数，结构等）的未声明标识符名称。可能出口到INCLUDE_NAME include文件应该被允许。</p>
-</td>
+include file 'INCLUDE_NAME'. File:
+'FILE_NAME'.</td>
+<td>在FILE_NAME文件有错误。类型TYPE（变量，函数，结构等）的未声明标识符名称。可能出口到INCLUDE_NAME include文件应该被允许。</td>
 </tr>
-<tr class="row-even"><td>Error! Undeclared TYPE: &#8216;NAME&#8217;.
+<tr class="row-even"><td>Error! Undeclared TYPE: 'NAME'.
 Possibly importing needed. File:
-&#8216;FILE_NAME&#8217;.</td>
-<td><p class="first last">类型TYPE（变量，函数，结构等）的未声明标识符名称。也许应指定为FILE_NAME进口包含文件。</p>
-</td>
+'FILE_NAME'.</td>
+<td>类型TYPE（变量，函数，结构等）的未声明标识符名称。也许应指定为FILE_NAME进口包含文件。</td>
 </tr>
-<tr class="row-odd"><td>Error! Unused export token &#8216;NAME&#8217;
-in include file &#8216;FILE_NAME&#8217;.</td>
-<td><p class="first last">未声明的标识符名称是允许在出口FILE_NAME包含文件。</p>
-</td>
+<tr class="row-odd"><td>Error! Unused export token 'NAME'
+in include file 'FILE_NAME'.</td>
+<td>未声明的标识符名称是允许在出口FILE_NAME包含文件。</td>
 </tr>
 </tbody>
 </table>
@@ -737,44 +657,37 @@ in include file &#8216;FILE_NAME&#8217;.</td>
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td>Error! Using reserved word in TYPE
-&#8216;NAME&#8217;. File: &#8216;FILE_NAME&#8217;.</td>
-<td><p class="first last">错误FILE_NAME文件。的预留ID用于声明类型TYPE（变量，函数，结构等）的标识符名称。</p>
-</td>
+'NAME'. File: 'FILE_NAME'.</td>
+<td>错误FILE_NAME文件。的预留ID用于声明类型TYPE（变量，函数，结构等）的标识符名称。</td>
 </tr>
-<tr class="row-even"><td>Error! &#8216;all&#8217; extension cannot have
+<tr class="row-even"><td>Error! 'all' extension cannot have
 BEHAVIOR_TYPE behavior. File:
-&#8216;FILE_NAME&#8217;.</td>
-<td><p class="first last">对于指定的  <code class="docutils literal"><span class="pre">#extension</span></code>  指令 在FILE_NAME文件 <code class="docutils literal"><span class="pre">all</span></code> WebGL的扩展不支持的行为 BEHAVIOR_TYPE。</p>
-</td>
+'FILE_NAME'.</td>
+<td>对于指定的  <code class="docutils literal"><span class="pre">#extension</span></code>  指令 在FILE_NAME文件 <code class="docutils literal"><span class="pre">all</span></code> WebGL的扩展不支持的行为 BEHAVIOR_TYPE。</td>
 </tr>
 <tr class="row-odd"><td>Syntax Error. ERROR_MESSAGE. File:
 FILE_NAME, line: LINE_NUMBER,
 column: COL_NUMBER.</td>
-<td><p class="first last">解析FILE_NAME着色器在线路LINE_NUMBER列COL_NUMBER语法错误。最初的错误描述在ERROR_MESSAGE是引用。代码清单来自各地的相应线路连接到邮件采取的（注意哪些指定哪个才是真正的错误后，一点点就行pegjs解析器的特点。</p>
-</td>
+<td>解析FILE_NAME着色器在线路LINE_NUMBER列COL_NUMBER语法错误。最初的错误描述在ERROR_MESSAGE是引用。代码清单来自各地的相应线路连接到邮件采取的（注意哪些指定哪个才是真正的错误后，一点点就行pegjs解析器的特点。</td>
 </tr>
-<tr class="row-even"><td>Warning! Function &#8216;NAME&#8217; is
+<tr class="row-even"><td>Warning! Function 'NAME' is
 declared in [include ]file
 FILE_NAME, but never used.</td>
-<td><p class="first last">未使用的函数名在FILE_NAME文件中声明。</p>
-</td>
+<td>未使用的函数名在FILE_NAME文件中声明。</td>
 </tr>
-<tr class="row-odd"><td>Warning! Include file &#8216;FILE_NAME&#8217;
+<tr class="row-odd"><td>Warning! Include file 'FILE_NAME'
 not used in any shader, would be
 omitted!</td>
-<td><p class="first last">该FILE_NAME包含文件未在任何着色器的使用，所以它会从模糊版本被排除在外。</p>
-</td>
+<td>该FILE_NAME包含文件未在任何着色器的使用，所以它会从模糊版本被排除在外。</td>
 </tr>
-<tr class="row-even"><td>Warning! Unused import token &#8216;NAME&#8217;
-in include file &#8216;FILE_NAME&#8217;.</td>
-<td><p class="first last">未使用的ID名称在FILE_NAME导入包含文件。</p>
-</td>
+<tr class="row-even"><td>Warning! Unused import token 'NAME'
+in include file 'FILE_NAME'.</td>
+<td>未使用的ID名称在FILE_NAME导入包含文件。</td>
 </tr>
-<tr class="row-odd"><td>Warning! Variable &#8216;NAME&#8217; is
+<tr class="row-odd"><td>Warning! Variable 'NAME' is
 declared in include file
 FILE_NAME, but never used.</td>
-<td><p class="first last">未使用的变量名称在FILE_NAME文件中声明。</p>
-</td>
+<td>未使用的变量名称在FILE_NAME文件中声明。</td>
 </tr>
 </tbody>
 </table>
@@ -783,15 +696,15 @@ FILE_NAME, but never used.</td>
 <div class="section" id="updating-add-on-translations">
 <h2><a class="toc-backref" href="#id20">更新插件翻译</a><a class="headerlink" href="#updating-add-on-translations" title="永久链接至标题">¶</a></h2>
 <p>如果您需要更新现有的所有.po文件，运行不带参数的SDK / scripts目录中的脚本  <em>translator.py</em>：</p>
-<div class="highlight-bash"><div class="highlight"><pre>&gt; python3 translator.py
+<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; python3 translator.py
 </pre></div>
 </div>
 <p>为了更新现有的.po文件，以支持的语言代码作为参数运行脚本：</p>
-<div class="highlight-bash"><div class="highlight"><pre>&gt; python3 translator.py ru_RU
+<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; python3 translator.py ru_RU
 </pre></div>
 </div>
 <p>为了查看支持的语言列表，运行脚本如下：</p>
-<div class="highlight-bash"><div class="highlight"><pre>&gt; python3 translator.py <span class="nb">help</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; python3 translator.py <span class="nb">help</span>
 </pre></div>
 </div>
 <p>在任何情况下，该文件 <em>empty.po</em> 将在运行脚本进行更新。</p>
@@ -818,8 +731,8 @@ FILE_NAME, but never used.</td>
 
   <div role="contentinfo">
     <p>
-        &copy; 版权所有 2014-2017, Triumph.
-      最后更新于 2017-11-21.
+        &copy; Copyright 2014-2017, Triumph.
+      最后更新于 2017-12-29.
 
     </p>
   </div>
@@ -875,11 +788,11 @@ FILE_NAME, but never used.</td>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

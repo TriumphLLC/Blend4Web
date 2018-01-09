@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Природные эффекты &mdash; Руководство пользователя Blend4Web 17.10.1</title>
+  <title>Природные эффекты &mdash; Руководство пользователя Blend4Web 17.12.0</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 17.10.1" href="index.html"/>
+        <link rel="index" title="Алфавитный указатель"
+              href="genindex.html"/>
+        <link rel="search" title="Поиск" href="search.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 17.12.0" href="index.html"/>
         <link rel="next" title="Работа с цветом" href="colors.html"/>
         <link rel="prev" title="Анимация" href="animation.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -108,7 +111,7 @@
 <li class="toctree-l1"><a class="reference internal" href="particles.html">Система частиц. Флюиды</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Система частиц. Инстансинг</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">Анимация</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Природные эффекты</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Природные эффекты</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#water">Вода</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#activation">Активация</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#basic-settings">Базовые настройки</a></li>
@@ -126,7 +129,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#caustics-and-chromatic-aberration">Каустика и хроматическая аберрация</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#underwater-environment">Подводная среда</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#visibility-settings-fog">Настройки видимости (&#8220;туман&#8221;)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#visibility-settings-fog">Настройки видимости («туман»)</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#volumetric-waves">Объемные волны</a><ul>
@@ -220,7 +223,7 @@
   <div class="section" id="outdoor-effects">
 <span id="outdoor-rendering"></span><h1><a class="toc-backref" href="#id13">Природные эффекты</a><a class="headerlink" href="#outdoor-effects" title="Ссылка на этот заголовок">¶</a></h1>
 <div class="contents topic" id="table-of-contents">
-<p class="topic-title first">Содержание</p>
+<p class="topic-title first">Table of Contents</p>
 <ul class="simple">
 <li><a class="reference internal" href="#outdoor-effects" id="id13">Природные эффекты</a><ul>
 <li><a class="reference internal" href="#water" id="id14">Вода</a><ul>
@@ -273,11 +276,9 @@
 <h3><a class="toc-backref" href="#id16">Базовые настройки</a><a class="headerlink" href="#basic-settings" title="Ссылка на этот заголовок">¶</a></h3>
 <dl class="docutils">
 <dt><em>Прозрачность</em></dt>
-<dd><p class="first last">Рекомендуется включить прозрачность с градиентом (установить значение <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Blend</span></code> для параметра <code class="docutils literal"><span class="pre">Transparency</span> <span class="pre">&gt;</span> <span class="pre">Type</span></code>) и настроить значение <code class="docutils literal"><span class="pre">Alpha</span></code>.</p>
-</dd>
+<dd>Рекомендуется включить прозрачность с градиентом (установить значение <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Blend</span></code> для параметра <code class="docutils literal"><span class="pre">Transparency</span> <span class="pre">&gt;</span> <span class="pre">Type</span></code>) и настроить значение <code class="docutils literal"><span class="pre">Alpha</span></code>.</dd>
 <dt><em>Параметры освещения</em></dt>
-<dd><p class="first last">Параметры освещения материала воды настраиваются как описано в разделе <a class="reference internal" href="materials.html#material-lighting-params"><span>Параметры освещения</span></a>.</p>
-</dd>
+<dd>Параметры освещения материала воды настраиваются как описано в разделе <a class="reference internal" href="materials.html#material-lighting-params"><span class="std std-ref">Параметры освещения</span></a>.</dd>
 </dl>
 </div>
 <div class="section" id="waves-dynamics">
@@ -290,7 +291,7 @@
 </div>
 <div class="section" id="reflection-and-fresnel-effect">
 <h3><a class="toc-backref" href="#id19">Отражение и эффект Френеля</a><a class="headerlink" href="#reflection-and-fresnel-effect" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Для материала воды поддерживается как статическое, так и динамическое зеркальное отражение, с эффектом Френеля. См. раздел <a class="reference internal" href="materials.html#material-mirror"><span>Зеркальное отражение</span></a>.</p>
+<p>Для материала воды поддерживается как статическое, так и динамическое зеркальное отражение, с эффектом Френеля. См. раздел <a class="reference internal" href="materials.html#material-mirror"><span class="std std-ref">Зеркальное отражение</span></a>.</p>
 <a class="reference internal image-reference" href="_images/water_reflection_dynamic.png"><img alt="_images/water_reflection_dynamic.png" class="align-center" src="_images/water_reflection_dynamic.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="shoreline-smoothing">
@@ -298,29 +299,23 @@
 <p>Эффект заключается в том, что вода ближе к берегу становится прозрачнее.</p>
 <dl class="docutils">
 <dt><em>Water &gt; Shore Smoothing</em></dt>
-<dd><p class="first last">Включить сглаживание.</p>
-</dd>
+<dd>Включить сглаживание.</dd>
 <dt><em>Water &gt; Absorb Factor</em></dt>
-<dd><p class="first last">Коэффициент поглощения света водой. Чем он выше, тем прозрачнее вода.Значение этого параметра может находиться в пределах от 0 до 100. Значение по умолчанию - 6.</p>
-</dd>
+<dd>Коэффициент поглощения света водой. Чем он выше, тем прозрачнее вода.Значение этого параметра может находиться в пределах от 0 до 100. Значение по умолчанию - 6.</dd>
 </dl>
 </div>
 <div class="section" id="color-gradient">
 <h3><a class="toc-backref" href="#id21">Градиент цвета</a><a class="headerlink" href="#color-gradient" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Для создания цветного градиента на материале воды должна быть наложена текстура с включенной опцией <code class="docutils literal"><span class="pre">Export</span> <span class="pre">Options</span> <span class="pre">&gt;</span> <span class="pre">Shore</span> <span class="pre">Distance</span> <span class="pre">Map</span></code>, генерируемая с помощью скрипта для <a class="reference internal" href="#shore-distance-bake"><span>запекания параметров береговой линии</span></a>.</p>
+<p>Для создания цветного градиента на материале воды должна быть наложена текстура с включенной опцией <code class="docutils literal"><span class="pre">Export</span> <span class="pre">Options</span> <span class="pre">&gt;</span> <span class="pre">Shore</span> <span class="pre">Distance</span> <span class="pre">Map</span></code>, генерируемая с помощью скрипта для <a class="reference internal" href="#shore-distance-bake"><span class="std std-ref">запекания параметров береговой линии</span></a>.</p>
 <dl class="docutils">
 <dt><em>Shallow Water &gt; Color</em></dt>
-<dd><p class="first last">Цвет воды на мелководье. По умолчанию используется синий (0.008, 0.222, 0.8) цвет.</p>
-</dd>
+<dd>Цвет воды на мелководье. По умолчанию используется синий (0.008, 0.222, 0.8) цвет.</dd>
 <dt><em>Shallow Water &gt; Factor</em></dt>
-<dd><p class="first last">Коэффициент примешивания цвета воды на мелководье. Этот параметр может принимать значения от 0 до 2, значение по умолчанию - 1.</p>
-</dd>
+<dd>Коэффициент примешивания цвета воды на мелководье. Этот параметр может принимать значения от 0 до 2, значение по умолчанию - 1.</dd>
 <dt><em>Shore Water &gt; Color</em></dt>
-<dd><p class="first last">Цвет воды непосредственно у береговой линии. По умолчанию используется тёмно-синий (0.003, 0.19, 0.57) цвет.</p>
-</dd>
+<dd>Цвет воды непосредственно у береговой линии. По умолчанию используется тёмно-синий (0.003, 0.19, 0.57) цвет.</dd>
 <dt><em>Shore Water &gt; Factor</em></dt>
-<dd><p class="first last">Коэффициент примешивания цвета воды на береговой линии. Возможные значения - от 0 до 2, значение по умолчанию - 0.5.</p>
-</dd>
+<dd>Коэффициент примешивания цвета воды на береговой линии. Возможные значения - от 0 до 2, значение по умолчанию - 0.5.</dd>
 </dl>
 </div>
 <div class="section" id="refraction">
@@ -339,19 +334,16 @@
 <h4>Настройка текстур<a class="headerlink" href="#setting-up-the-textures" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Water Foam &gt; UV Frequency</em></dt>
-<dd><p class="first last">Частота колебаний анимированной развертки. Значение по умолчанию (1.0, 1.0).</p>
-</dd>
+<dd>Частота колебаний анимированной развертки. Значение по умолчанию (1.0, 1.0).</dd>
 <dt><em>Water Foam &gt; UV Magnitude</em></dt>
-<dd><p class="first last">Амплитуда колебаний анимированной развертки. Значение по умолчанию (1.0, 1.0).</p>
-</dd>
+<dd>Амплитуда колебаний анимированной развертки. Значение по умолчанию (1.0, 1.0).</dd>
 </dl>
 </div>
 <div class="section" id="setting-up-the-material">
 <h4>Настройка материала<a class="headerlink" href="#setting-up-the-material" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Foam &gt; Factor</em></dt>
-<dd><p class="first last">Фактор общего влияния пены. Значение по умолчанию 0.5.</p>
-</dd>
+<dd>Фактор общего влияния пены. Значение по умолчанию 0.5.</dd>
 </dl>
 </div>
 </div>
@@ -361,27 +353,23 @@
 <a class="reference internal image-reference" href="_images/water_caustics.png"><img alt="_images/water_caustics.png" class="align-center" src="_images/water_caustics.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>Scale</em></dt>
-<dd><p class="first last">Размер ячеек процедурной текстуры. Значение по умолчанию 0.25.</p>
-</dd>
+<dd>Размер ячеек процедурной текстуры. Значение по умолчанию 0.25.</dd>
 <dt><em>Brightness</em></dt>
-<dd><p class="first last">Фактор влияния каустики. Значение по умолчанию 0.5.</p>
-</dd>
+<dd>Фактор влияния каустики. Значение по умолчанию 0.5.</dd>
 </dl>
 </div>
 <div class="section" id="underwater-environment">
 <h3><a class="toc-backref" href="#id25">Подводная среда</a><a class="headerlink" href="#underwater-environment" title="Ссылка на этот заголовок">¶</a></h3>
 <a class="reference internal image-reference" href="_images/underwater.png"><img alt="_images/underwater.png" class="align-center" src="_images/underwater.png" style="width: 100%;" /></a>
 <div class="section" id="visibility-settings-fog">
-<h4>Настройки видимости (&#8220;туман&#8221;)<a class="headerlink" href="#visibility-settings-fog" title="Ссылка на этот заголовок">¶</a></h4>
+<h4>Настройки видимости («туман»)<a class="headerlink" href="#visibility-settings-fog" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Underwater Fog &gt; Color</em></dt>
-<dd><p class="first last">Цвет тумана. Значение по умолчанию (0.4, 0.6, 0.7).</p>
-</dd>
+<dd>Цвет тумана. Значение по умолчанию (0.4, 0.6, 0.7).</dd>
 <dt><em>Underwater Fog &gt; Density</em></dt>
-<dd><p class="first last">Экспоненциальный фактор, влияющий на плотность и расстояние. Значение по умолчанию 0.06.</p>
-</dd>
+<dd>Экспоненциальный фактор, влияющий на плотность и расстояние. Значение по умолчанию 0.06.</dd>
 </dl>
-<p>Применяются также настройки <a class="reference internal" href="postprocessing_effects.html#god-rays"><span>сумеречных лучей</span></a>.</p>
+<p>Применяются также настройки <a class="reference internal" href="postprocessing_effects.html#god-rays"><span class="std std-ref">сумеречных лучей</span></a>.</p>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
 <p class="last">Для корректного отображения водной поверхности необходимо выключить опцию <code class="docutils literal"><span class="pre">Rendering</span> <span class="pre">Options</span> <span class="pre">&gt;</span> <span class="pre">Backface</span> <span class="pre">Culling</span></code>.</p>
@@ -405,44 +393,31 @@
 <h4>Настройка<a class="headerlink" href="#setting-up" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Wave Height</em></dt>
-<dd><p class="first last">Высота волн. Возможные значения - от 0 до 5. Значение по умолчанию 0.0.</p>
-</dd>
+<dd>Высота волн. Возможные значения - от 0 до 5. Значение по умолчанию 0.0.</dd>
 <dt><em>Wave Length</em></dt>
-<dd><p class="first last">Длина волн. Возможные значения - от 0.01 до 200. Значение по умолчанию 10.0.</p>
-</dd>
+<dd>Длина волн. Возможные значения - от 0.01 до 200. Значение по умолчанию 10.0.</dd>
 <dt><em>Noise Dist Scale 0</em></dt>
-<dd><p class="first last">Размер первого компонента волн, удаленных от берега. Этот параметр может принимать значения от 0 до 1. Значение по умолчанию - 0.05.</p>
-</dd>
+<dd>Размер первого компонента волн, удаленных от берега. Этот параметр может принимать значения от 0 до 1. Значение по умолчанию - 0.05.</dd>
 <dt><em>Noise Dist Scale 1</em></dt>
-<dd><p class="first last">Размер второго компонента волн, удаленных от берега. Возможные значения - от 0 до 1. Значение по умолчанию - 0.03.</p>
-</dd>
+<dd>Размер второго компонента волн, удаленных от берега. Возможные значения - от 0 до 1. Значение по умолчанию - 0.03.</dd>
 <dt><em>Noise Dist Freq 0</em></dt>
-<dd><p class="first last">Частота первого компонента волн, удалённых от берега. Этот параметр может принимать значения от 0 до 10. Значение по умолчанию - 1.3.</p>
-</dd>
+<dd>Частота первого компонента волн, удалённых от берега. Этот параметр может принимать значения от 0 до 10. Значение по умолчанию - 1.3.</dd>
 <dt><em>Noise Dist Freq 1</em></dt>
-<dd><p class="first last">Частота второго компонента волн, удаленных от берега. Возможные значения - от 0 до 10, значение по умолчанию - 1.</p>
-</dd>
+<dd>Частота второго компонента волн, удаленных от берега. Возможные значения - от 0 до 10, значение по умолчанию - 1.</dd>
 <dt><em>Min Dir Shore Fac</em></dt>
-<dd><p class="first last">Минимальный коэффициент уменьшения высоты прибрежных волн. Диапазон значений - от 0 до 1, значение по умолчанию - 0.4.</p>
-</dd>
+<dd>Минимальный коэффициент уменьшения высоты прибрежных волн. Диапазон значений - от 0 до 1, значение по умолчанию - 0.4.</dd>
 <dt><em>Dir Frequency</em></dt>
-<dd><p class="first last">Частота накатывания прибрежных волн. Значение этого параметра может изменяться от 0 до 10. Значение по умолчанию - 0.5.</p>
-</dd>
+<dd>Частота накатывания прибрежных волн. Значение этого параметра может изменяться от 0 до 10. Значение по умолчанию - 0.5.</dd>
 <dt><em>Noise Dir Scale</em></dt>
-<dd><p class="first last">Размер шума на прибрежных волнах. Возможные значения - от 0 до 1, значение по умолчанию - 0.05.</p>
-</dd>
+<dd>Размер шума на прибрежных волнах. Возможные значения - от 0 до 1, значение по умолчанию - 0.05.</dd>
 <dt><em>Noise Dir Freq</em></dt>
-<dd><p class="first last">Частота шума на прибрежных волнах. Возможные значения - от 0 до 1. Значение по умолчанию - 0.07.</p>
-</dd>
+<dd>Частота шума на прибрежных волнах. Возможные значения - от 0 до 1. Значение по умолчанию - 0.07.</dd>
 <dt><em>Min Dir Noise Fac</em></dt>
-<dd><p class="first last">Минимальное значение шума на прибрежных волнах.  Этот параметр может принимать значения от 0 до 1. Значение по умолчанию - 0.5.</p>
-</dd>
+<dd>Минимальное значение шума на прибрежных волнах.  Этот параметр может принимать значения от 0 до 1. Значение по умолчанию - 0.5.</dd>
 <dt><em>Min Dist Fac</em></dt>
-<dd><p class="first last">Минимальный коэффициент примешивания волн, удаленных от берега. Значение этого параметра может меняться от 0 до 1 и по умолчанию равно 0.2.</p>
-</dd>
+<dd>Минимальный коэффициент примешивания волн, удаленных от берега. Значение этого параметра может меняться от 0 до 1 и по умолчанию равно 0.2.</dd>
 <dt><em>Horizontal Factor</em></dt>
-<dd><p class="first last">Коэффициент смещения прибрежных волн в направлении к берегу. Этот параметр может принимать значения от 0 до 10 и равен 5 по умолчанию.</p>
-</dd>
+<dd>Коэффициент смещения прибрежных волн в направлении к берегу. Этот параметр может принимать значения от 0 до 10 и равен 5 по умолчанию.</dd>
 </dl>
 </div>
 </div>
@@ -450,21 +425,17 @@
 <h3><a class="toc-backref" href="#id27">Настройки генерируемой поверхности</a><a class="headerlink" href="#settings-for-surface-generation" title="Ссылка на этот заголовок">¶</a></h3>
 <dl class="docutils">
 <dt><em>Generate Mesh</em></dt>
-<dd><p class="first last">Включить генерируемую поверхность.</p>
-</dd>
+<dd>Включить генерируемую поверхность.</dd>
 <dt><em>Cascades Number</em></dt>
-<dd><p class="first last">Задаёт количество каскадов в генерируемой поверхности. Этот параметр может принимать значения от 1 до 20. Значение по умолчанию - 5.</p>
-</dd>
+<dd>Задаёт количество каскадов в генерируемой поверхности. Этот параметр может принимать значения от 1 до 20. Значение по умолчанию - 5.</dd>
 <dt><em>Subdivisions</em></dt>
-<dd><p class="first last">Количество подразделений в генерируемой поверхности. Значение по умолчанию - 64. Минимальное возможное значение для этого параметра - 2, а максимальное - 512.</p>
-</dd>
+<dd>Количество подразделений в генерируемой поверхности. Значение по умолчанию - 64. Минимальное возможное значение для этого параметра - 2, а максимальное - 512.</dd>
 <dt><em>Detailed Distance</em></dt>
-<dd><p class="first last">Этот параметр задаёт максимальное расстояние от камеры до края последнего каскада. Значение параметра может меняться от 1 до 5000. Значение по умолчанию - 1000.</p>
-</dd>
+<dd>Этот параметр задаёт максимальное расстояние от камеры до края последнего каскада. Значение параметра может меняться от 1 до 5000. Значение по умолчанию - 1000.</dd>
 </dl>
 <div class="section" id="baking-shoreline-data-to-texture">
 <span id="shore-distance-bake"></span><span id="index-0"></span><h4>Создание текстуры с параметрами береговой линии<a class="headerlink" href="#baking-shoreline-data-to-texture" title="Ссылка на этот заголовок">¶</a></h4>
-<p>На панели инструментов (горячая клавиша &#8220;T&#8221;) во вкладке <code class="docutils literal"><span class="pre">Blend4Web</span></code> открыть панель <code class="docutils literal"><span class="pre">Bake</span> <span class="pre">Shore</span> <span class="pre">Distance</span> <span class="pre">Map</span></code>. Выставить настройки максимального расстояния до берега <code class="docutils literal"><span class="pre">Maximum</span> <span class="pre">Distance</span></code> и размера получаемой текстуры <code class="docutils literal"><span class="pre">Texture</span> <span class="pre">Size</span></code>. Выбрать сначала объект (или несколько объектов) ландшафта, затем объект воды. Нажать кнопку <code class="docutils literal"><span class="pre">Bake</span></code>.</p>
+<p>На панели инструментов (горячая клавиша «T») во вкладке <code class="docutils literal"><span class="pre">Blend4Web</span></code> открыть панель <code class="docutils literal"><span class="pre">Bake</span> <span class="pre">Shore</span> <span class="pre">Distance</span> <span class="pre">Map</span></code>. Выставить настройки максимального расстояния до берега <code class="docutils literal"><span class="pre">Maximum</span> <span class="pre">Distance</span></code> и размера получаемой текстуры <code class="docutils literal"><span class="pre">Texture</span> <span class="pre">Size</span></code>. Выбрать сначала объект (или несколько объектов) ландшафта, затем объект воды. Нажать кнопку <code class="docutils literal"><span class="pre">Bake</span></code>.</p>
 <p>В зависимости от размера текстуры и количества вершин в обрабатываемых мешах время выполнения скрипта варьируется от долей секунды до нескольких минут. Убедиться, что в меше воды создана текстура с названием <code class="docutils literal"><span class="pre">ShoreDistance</span></code>.</p>
 <p>При вызове скрипта в материале воды сохраняются некоторые системные свойства. Поэтому, после его работы обязательно нужно сохранять сцену.</p>
 </div>
@@ -474,10 +445,10 @@
 <span id="id4"></span><h2><a class="toc-backref" href="#id28">Атмосфера</a><a class="headerlink" href="#atmosphere" title="Ссылка на этот заголовок">¶</a></h2>
 <div class="section" id="scattering">
 <h3><a class="toc-backref" href="#id29">Рассеивание</a><a class="headerlink" href="#scattering" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Во вкладке <code class="docutils literal"><span class="pre">World</span></code> активировать панель <code class="docutils literal"><span class="pre">Procedural</span> <span class="pre">Sky</span></code>, предварительно выставив опцию <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">Sky</span></code>. Если одновременно с этим используется статическая <a class="reference internal" href="textures.html#skydome-texture"><span>текстура неба</span></a>, она будет заменена.</p>
+<p>Во вкладке <code class="docutils literal"><span class="pre">World</span></code> активировать панель <code class="docutils literal"><span class="pre">Procedural</span> <span class="pre">Sky</span></code>, предварительно выставив опцию <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">Sky</span></code>. Если одновременно с этим используется статическая <a class="reference internal" href="textures.html#skydome-texture"><span class="std std-ref">текстура неба</span></a>, она будет заменена.</p>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
-<p class="last">Кроме того, процедурная текстура неба может быть использована для имитации рассеянного <a class="reference internal" href="lighting.html#environment-lighting"><span>освещения от окружающей среды</span></a>, по аналогии со статической <a class="reference internal" href="textures.html#skydome-texture"><span>текстурой неба</span></a>. Для этого необходимо выставить опции <code class="docutils literal"><span class="pre">Procedural</span> <span class="pre">Sky</span> <span class="pre">&gt;</span> <span class="pre">Use</span> <span class="pre">as</span> <span class="pre">Environment</span> <span class="pre">Lighting</span></code> и <code class="docutils literal"><span class="pre">Environment</span> <span class="pre">Lighting</span> <span class="pre">&gt;</span> <span class="pre">Sky</span> <span class="pre">Texture</span></code>. Если текстура мира для рассеянного освещения уже существует, она будет заменена.</p>
+<p class="last">Кроме того, процедурная текстура неба может быть использована для имитации рассеянного <a class="reference internal" href="lighting.html#environment-lighting"><span class="std std-ref">освещения от окружающей среды</span></a>, по аналогии со статической <a class="reference internal" href="textures.html#skydome-texture"><span class="std std-ref">текстурой неба</span></a>. Для этого необходимо выставить опции <code class="docutils literal"><span class="pre">Procedural</span> <span class="pre">Sky</span> <span class="pre">&gt;</span> <span class="pre">Use</span> <span class="pre">as</span> <span class="pre">Environment</span> <span class="pre">Lighting</span></code> и <code class="docutils literal"><span class="pre">Environment</span> <span class="pre">Lighting</span> <span class="pre">&gt;</span> <span class="pre">Sky</span> <span class="pre">Texture</span></code>. Если текстура мира для рассеянного освещения уже существует, она будет заменена.</p>
 </div>
 <a class="reference internal image-reference" href="_images/skydome_procedural.png"><img alt="_images/skydome_procedural.png" class="align-center" src="_images/skydome_procedural.png" style="width: 100%;" /></a>
 <div class="line-block">
@@ -486,52 +457,42 @@
 <p>Движком поддерживаются следующие настройки:</p>
 <dl class="docutils">
 <dt><em>Procedural Sky &gt; Sky Color</em></dt>
-<dd><p class="first last">Базовый цвет неба. Значение по умолчанию (0.087, 0.255, 0.6) (голубой).</p>
-</dd>
+<dd>Базовый цвет неба. Значение по умолчанию (0.087, 0.255, 0.6) (голубой).</dd>
 <dt><em>Procedural Sky &gt; Rayleigh Brightness</em></dt>
-<dd><p class="first last">Яркость рэлеевского рассеяния (на малых частицах). Значение по умолчанию 3.3.</p>
-</dd>
+<dd>Яркость рэлеевского рассеяния (на малых частицах). Значение по умолчанию 3.3.</dd>
 <dt><em>Procedural Sky &gt; Mie Brightness</em></dt>
-<dd><p class="first last">Яркость рассеяния Ми (на крупных частицах). Значение по умолчанию 0.1.</p>
-</dd>
+<dd>Яркость рассеяния Ми (на крупных частицах). Значение по умолчанию 0.1.</dd>
 <dt><em>Procedural Sky &gt; Spot Brightness</em></dt>
-<dd><p class="first last">Яркость пятна солнца. Значение по умолчанию 20.0.</p>
-</dd>
+<dd>Яркость пятна солнца. Значение по умолчанию 20.0.</dd>
 <dt><em>Procedural Sky &gt; Scatter Strength</em></dt>
-<dd><p class="first last">Фактор рассеяния света. Значение по умолчанию 0.2.</p>
-</dd>
+<dd>Фактор рассеяния света. Значение по умолчанию 0.2.</dd>
 <dt><em>Procedural Sky &gt; Rayleigh Strength</em></dt>
-<dd><p class="first last">Фактор рэлеевского рассеяния. Значение по умолчанию 0.2.</p>
-</dd>
+<dd>Фактор рэлеевского рассеяния. Значение по умолчанию 0.2.</dd>
 <dt><em>Procedural Sky &gt; Mie Strength</em></dt>
-<dd><p class="first last">Фактор рассеяния Ми. Значение по умолчанию 0.006.</p>
-</dd>
+<dd>Фактор рассеяния Ми. Значение по умолчанию 0.006.</dd>
 <dt><em>Procedural Sky &gt; Rayleigh Collection Power</em></dt>
-<dd><p class="first last">Степенной коэффициент рэлеевского рассеяния. Значение по умолчанию 0.35.</p>
-</dd>
+<dd>Степенной коэффициент рэлеевского рассеяния. Значение по умолчанию 0.35.</dd>
 <dt><em>Procedural Sky &gt; Mie Collection Power</em></dt>
-<dd><p class="first last">Степенной коэффициент рассеяния Ми. Значение по умолчанию 0.5.</p>
-</dd>
+<dd>Степенной коэффициент рассеяния Ми. Значение по умолчанию 0.5.</dd>
 <dt><em>Procedural Sky &gt; Mie Distribution</em></dt>
-<dd><p class="first last">Распределение рассеяния Ми. Значение по умолчанию 0.4.</p>
-</dd>
+<dd>Распределение рассеяния Ми. Значение по умолчанию 0.4.</dd>
 </dl>
 </div>
 <div class="section" id="fog">
 <span id="id5"></span><h3><a class="toc-backref" href="#id30">Туман</a><a class="headerlink" href="#fog" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Движком поддерживаются стандартные параметры вкладки <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Mist</span></code>. Помимо этого возможно переопределение цвета тумана.</p>
-<p>Настройки тумана описаны в главе <a class="reference internal" href="scene_settings.html#world-mist"><span>Параметры сцены</span></a>.</p>
+<p>Настройки тумана описаны в главе <a class="reference internal" href="scene_settings.html#world-mist"><span class="std std-ref">Параметры сцены</span></a>.</p>
 <p>При использовании динамического неба цвет тумана определяется цветом неба.</p>
 </div>
 <div class="section" id="time-of-day">
 <h3><a class="toc-backref" href="#id31">Время суток</a><a class="headerlink" href="#time-of-day" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Для лампы необходимо выставить опцию <code class="docutils literal"><span class="pre">Dynamic</span> <span class="pre">Intensity</span></code>.</p>
-<p>Время суток устанавливается приложениями с использованием соответствующего API. В частности, время суток может устанавливаться в интерфейсе <code class="docutils literal"><span class="pre">Lighting</span></code> <a class="reference internal" href="viewer.html#viewer"><span>просмотрщика сцен</span></a>.</p>
+<p>Время суток устанавливается приложениями с использованием соответствующего API. В частности, время суток может устанавливаться в интерфейсе <code class="docutils literal"><span class="pre">Lighting</span></code> <a class="reference internal" href="viewer.html#viewer"><span class="std std-ref">просмотрщика сцен</span></a>.</p>
 <a class="reference internal image-reference" href="_images/sunset.png"><img alt="_images/sunset.png" class="align-center" src="_images/sunset.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="stars">
 <h3><a class="toc-backref" href="#id32">Звезды</a><a class="headerlink" href="#stars" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Настройка данного эффекта описывается в разделе <a class="reference internal" href="materials.html#material-halo"><span>Материалы гало (Halo)</span></a>.</p>
+<p>Настройка данного эффекта описывается в разделе <a class="reference internal" href="materials.html#material-halo"><span class="std std-ref">Материалы гало (Halo)</span></a>.</p>
 <a class="reference internal image-reference" href="_images/stars.png"><img alt="_images/stars.png" class="align-center" src="_images/stars.png" style="width: 100%;" /></a>
 </div>
 </div>
@@ -550,14 +511,14 @@
 <div class="section" id="lens-flare-object">
 <h3><a class="toc-backref" href="#id35">Объект для бликов линз</a><a class="headerlink" href="#lens-flare-object" title="Ссылка на этот заголовок">¶</a></h3>
 <a class="reference internal image-reference" href="_images/outdoor_rendering_lens_flare_object.png"><img alt="_images/outdoor_rendering_lens_flare_object.png" class="align-center" src="_images/outdoor_rendering_lens_flare_object.png" style="width: 100%;" /></a>
-<p>Объект используется при визуализации эффекта. По сути, такой объект представляет собой набор плоскостей, каждая из которых содержит один из элементов блика. Нормаль каждой плоскости должна быть направлена в сторону <code class="docutils literal"><span class="pre">-Y</span></code>. Каждый элемент блика может двигаться по экрану с поворотом камеры, единственным исключением является центральный элемент (яркая белая &#8220;звезда&#8221; на изображении выше). Эта плоскость считается центром объекта, и её <em>локальная</em> координата <code class="docutils literal"><span class="pre">Y</span></code> должна быть равна 1.</p>
+<p>Объект используется при визуализации эффекта. По сути, такой объект представляет собой набор плоскостей, каждая из которых содержит один из элементов блика. Нормаль каждой плоскости должна быть направлена в сторону <code class="docutils literal"><span class="pre">-Y</span></code>. Каждый элемент блика может двигаться по экрану с поворотом камеры, единственным исключением является центральный элемент (яркая белая «звезда» на изображении выше). Эта плоскость считается центром объекта, и её <em>локальная</em> координата <code class="docutils literal"><span class="pre">Y</span></code> должна быть равна 1.</p>
 <p>Расположение и пространственная ориентация самого объекта при визуализации не учитываются.</p>
 <p>Для корректной работы объекта следует включить опцию <code class="docutils literal"><span class="pre">Disable</span> <span class="pre">Frustum</span> <span class="pre">Culling</span></code>.</p>
 <p>Пример использования подобного объекта можно увидеть в нашем демо <strong>Island</strong>.</p>
 <div class="section" id="material-settings">
 <h4>Настройки материала<a class="headerlink" href="#material-settings" title="Ссылка на этот заголовок">¶</a></h4>
 <p>Материал объекта для бликов линз должен иметь тип прозрачности <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Blend</span></code>. Значение параметра <code class="docutils literal"><span class="pre">Alpha</span></code> должно быть равно нулю.</p>
-<p><a class="reference internal" href="node_materials.html#node-materials"><span>Нодовые материалы</span></a> не поддерживаются.</p>
+<p><a class="reference internal" href="node_materials.html#node-materials"><span class="std std-ref">Нодовые материалы</span></a> не поддерживаются.</p>
 </div>
 <div class="section" id="texture-settings">
 <h4>Настройки текстуры<a class="headerlink" href="#texture-settings" title="Ссылка на этот заголовок">¶</a></h4>
@@ -574,12 +535,9 @@
 <dl class="docutils">
 <dt>Сила и направление ветра оказывает воздействие на:</dt>
 <dd><ul class="first last simple">
-<li><p class="first"><a class="reference internal" href="#wind-bending"><span>анимацию травы и крон деревьев</span></a></p>
-</li>
-<li><p class="first"><a class="reference internal" href="particles.html#particles-force-fields"><span>динамику систем частиц</span></a></p>
-</li>
-<li><p class="first"><a class="reference internal" href="#water-volumetric-waves"><span>частоту колебаний волн воды</span></a> (в настоящий момент влияет только сила)</p>
-</li>
+<li><a class="reference internal" href="#wind-bending"><span class="std std-ref">анимацию травы и крон деревьев</span></a></li>
+<li><a class="reference internal" href="particles.html#particles-force-fields"><span class="std std-ref">динамику систем частиц</span></a></li>
+<li><a class="reference internal" href="#water-volumetric-waves"><span class="std std-ref">частоту колебаний волн воды</span></a> (в настоящий момент влияет только сила)</li>
 </ul>
 </dd>
 </dl>
@@ -591,16 +549,14 @@
 <h3><a class="toc-backref" href="#id38">Настройка</a><a class="headerlink" href="#id9" title="Ссылка на этот заголовок">¶</a></h3>
 <dl class="docutils">
 <dt><em>Направление</em></dt>
-<dd><p class="first last">Направление задается посредством вращения объекта - силового поля.</p>
-</dd>
+<dd>Направление задается посредством вращения объекта - силового поля.</dd>
 <dt><em>Force Fields &gt; Strength</em></dt>
-<dd><p class="first last">Сила ветра. Располагается во вкладке <code class="docutils literal"><span class="pre">Physics</span></code>. Значение по умолчанию 1.0.</p>
-</dd>
+<dd>Сила ветра. Располагается во вкладке <code class="docutils literal"><span class="pre">Physics</span></code>. Значение по умолчанию 1.0.</dd>
 </dl>
 </div>
 <div class="section" id="animation-of-grass-and-tree-leaves">
 <span id="wind-bending"></span><h3><a class="toc-backref" href="#id39">Анимация травы и крон деревьев</a><a class="headerlink" href="#animation-of-grass-and-tree-leaves" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Подготовка ресурсов для рендеринга травы описана в разделе <a class="reference internal" href="particles_instancing.html#particles-grass"><span>Травяной покров</span></a>.</p>
+<p>Подготовка ресурсов для рендеринга травы описана в разделе <a class="reference internal" href="particles_instancing.html#particles-grass"><span class="std std-ref">Травяной покров</span></a>.</p>
 <div class="section" id="id10">
 <h4>Активация<a class="headerlink" href="#id10" title="Ссылка на этот заголовок">¶</a></h4>
 <p>На объекте травы или дерева активировать панель <code class="docutils literal"><span class="pre">Wind</span> <span class="pre">Bending</span></code>.</p>
@@ -614,32 +570,23 @@
 </div>
 <dl class="docutils">
 <dt><em>Main Bending &gt; Angle</em></dt>
-<dd><p class="first last">Амплитуда угла &#8220;основного&#8221; отклонения под действием ветра (в градусах). Значение по умолчанию 10.0.</p>
-</dd>
+<dd>Амплитуда угла «основного» отклонения под действием ветра (в градусах). Значение по умолчанию 10.0.</dd>
 <dt><em>Main Bending &gt; Frequency</em></dt>
-<dd><p class="first last">Частота &#8220;основного&#8221; отклонения под действием ветра. Значение по умолчанию 0.25.</p>
-</dd>
+<dd>Частота «основного» отклонения под действием ветра. Значение по умолчанию 0.25.</dd>
 <dt><em>Main Bending &gt; Main Stiffness (A)</em></dt>
-<dd><p class="first last">Текстовое поле для названия слоя вертексного цвета, содержащего информацию о жесткости &#8220;основного&#8221; отклонения. Может быть оставлено пустым.</p>
-</dd>
+<dd>Текстовое поле для названия слоя вертексного цвета, содержащего информацию о жесткости «основного» отклонения. Может быть оставлено пустым.</dd>
 <dt><em>Detail Bending &gt; Amplitude</em></dt>
-<dd><p class="first last">Амплитуда угла &#8220;детализованного&#8221; отклонения под действием ветра (в градусах). Значение по умолчанию 0.1.</p>
-</dd>
+<dd>Амплитуда угла «детализованного» отклонения под действием ветра (в градусах). Значение по умолчанию 0.1.</dd>
 <dt><em>Detail Bending &gt; Branch Amplitude</em></dt>
-<dd><p class="first last">Амплитуда угла отклонения ветвей под действием ветра (в градусах). Значение по умолчанию 0.3.</p>
-</dd>
+<dd>Амплитуда угла отклонения ветвей под действием ветра (в градусах). Значение по умолчанию 0.3.</dd>
 <dt><em>Detail Bending &gt; Bending Frequency</em></dt>
-<dd><p class="first last">Частота колебаний ветвей. Значение по умолчанию 1.0.</p>
-</dd>
+<dd>Частота колебаний ветвей. Значение по умолчанию 1.0.</dd>
 <dt><em>Detail Bending &gt; Leaves Stiffness (R)</em></dt>
-<dd><p class="first last">Текстовое поле для названия слоя вертексного цвета, содержащего информацию о жесткости листвы. Может быть оставлено пустым.</p>
-</dd>
+<dd>Текстовое поле для названия слоя вертексного цвета, содержащего информацию о жесткости листвы. Может быть оставлено пустым.</dd>
 <dt><em>Detail Bending &gt; Leaves Phase (G)</em></dt>
-<dd><p class="first last">Текстовое поле для названия слоя вертексного цвета, содержащего информацию о фазе отклонения листвы. Может быть оставлено пустым.</p>
-</dd>
+<dd>Текстовое поле для названия слоя вертексного цвета, содержащего информацию о фазе отклонения листвы. Может быть оставлено пустым.</dd>
 <dt><em>Detail Bending &gt; Overall Stiffness (B)</em></dt>
-<dd><p class="first last">Текстовое поле для названия слоя вертексного цвета, содержащего информацию об общей жесткости листвы. Может быть оставлено пустым.</p>
-</dd>
+<dd>Текстовое поле для названия слоя вертексного цвета, содержащего информацию об общей жесткости листвы. Может быть оставлено пустым.</dd>
 </dl>
 <p>Слои вертексных цветов с указанными в настройках названиями должны существовать в меше.</p>
 <a class="reference internal image-reference" href="_images/wind_bending_vcolors.png"><img alt="_images/wind_bending_vcolors.png" class="align-center" src="_images/wind_bending_vcolors.png" style="width: 100%;" /></a>
@@ -668,7 +615,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Триумф.
-      Обновлено: 2017-11-21.
+      Обновлено: 2017-12-29.
 
     </p>
   </div>
@@ -724,11 +671,11 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

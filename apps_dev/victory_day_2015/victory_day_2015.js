@@ -1,32 +1,27 @@
-"use strict";
+import b4w from "blend4web";
 
-b4w.register("victory_day_2015_main", function(exports, require) {
-
-
-var m_anim     = require("animation");
-var m_app      = require("app");
-var m_cam      = require("camera");
-var m_cfg      = require("config");
-var m_cons     = require("constraints");
-var m_cont     = require("container");
-var m_data     = require("data");
-var m_lights   = require("lights");
-var m_main     = require("main");
-var m_mat      = require("material");
-var m_math     = require("math");
-var m_mouse    = require("mouse");
-var m_obj      = require("objects");
-var m_scs      = require("scenes");
-var m_sfx      = require("sfx");
-var m_time     = require("time");
-var m_trans    = require("transform");
-var m_tsr      = require("tsr");
-var m_util     = require("util");
-var m_version  = require("version");
-
-var m_quat     = require("quat");
-var m_vec3     = require("vec3");
-
+var m_anim     = b4w.animation;
+var m_app      = b4w.app;
+var m_cam      = b4w.camera;
+var m_cfg      = b4w.config;
+var m_cons     = b4w.constraints;
+var m_cont     = b4w.container;
+var m_data     = b4w.data;
+var m_lights   = b4w.lights;
+var m_main     = b4w.main;
+var m_mat      = b4w.material;
+var m_math     = b4w.math;
+var m_mouse    = b4w.mouse;
+var m_obj      = b4w.objects;
+var m_scs      = b4w.scenes;
+var m_sfx      = b4w.sfx;
+var m_time     = b4w.time;
+var m_trans    = b4w.transform;
+var m_tsr      = b4w.tsr;
+var m_util     = b4w.util;
+var m_version  = b4w.version;
+var m_quat     = b4w.quat;
+var m_vec3     = b4w.vec3;
 
 var DEBUG = (m_version.type() === "DEBUG");
 
@@ -167,7 +162,7 @@ var _rocket_num    = 0;
 
 var _light_params = null;
 
-exports.init = function() {
+export function init() {
     var show_fps = DEBUG;
 
     var url_params = m_app.get_url_params();
@@ -1197,6 +1192,4 @@ function add_listeners() {
     _camera_state = 1;
 }
 
-});
-
-b4w.require("victory_day_2015_main").init();
+init();

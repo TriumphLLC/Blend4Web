@@ -1,15 +1,15 @@
 "use strict"
 
-b4w.register("webcam", function(exports, require) {
+import b4w from "blend4web";
 
-var m_app     = require("app");
-var m_cfg     = require("config");
-var m_data    = require("data");
-var m_ver     = require("version");
-var m_tex     = require("textures");
-var m_scn     = require("scenes");
-var m_cont    = require("container");
-var m_version = require("version");
+var m_app     = b4w.app;
+var m_cfg     = b4w.config;
+var m_data    = b4w.data;
+var m_ver     = b4w.version;
+var m_tex     = b4w.textures;
+var m_scn     = b4w.scenes;
+var m_cont    = b4w.container;
+var m_version = b4w.version;
 
 var DEBUG = (m_version.type() === "DEBUG");
 
@@ -19,7 +19,7 @@ var APP_ASSETS_PATH = m_cfg.get_std_assets_path() + "code_snippets/webcam/";
 
 var _cam_waiting_handle = null;
 
-exports.init = function() {
+export function init() {
     m_app.init({
         canvas_container_id: "main_canvas_container",
         callback: init_cb,
@@ -107,5 +107,3 @@ function start_video() {
 
     user_media(media_stream_constraint, success_cb, fail_cb);
 }
-
-});

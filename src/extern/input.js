@@ -1,0 +1,1127 @@
+/**
+ * Copyright (C) 2014-2017 Triumph LLC
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+import register from "../util/register.js";
+
+import m_input_fact from "../intern/input.js";
+import m_cam_fact from "../intern/camera.js";
+import m_cfg_fact from "../intern/config.js";
+import m_cont_fact from "../intern/container.js";
+import m_obj_util_fact from "../intern/obj_util.js";
+import m_print_fact from "../intern/print.js";
+import m_scs_fact from "../intern/scenes.js";
+import * as m_vec4 from "../libs/gl_matrix/vec4.js";
+
+/**
+ * Low-level input device API.
+ * For more generic cases use {@link module:controls|sensor-based API}.
+ * @module input
+ * @local DeviceType
+ * @local DeviceVectorParameterSync
+ * @local DeviceValueParameterSync
+ * @local DeviceParameterAsync
+ * @local DeviceHMDType
+ * @local DeviceConfig
+ * @local MouseLocationCallback
+ * @local MouseDownWhichCallback
+ * @local MouseUpWhichCallback
+ * @local MouseWheelCallback
+ * @local KeyboardDownCallback
+ * @local KeyboardUpCallback
+ * @local TouchStartCallback
+ * @local TouchMoveCallback
+ * @local TouchEndCallback
+ * @local GyroscopeQuatCallback
+ * @local GyroscopeAnglesCallback
+ */
+
+function Input(ns, exports) {
+
+var m_input   = m_input_fact(ns);
+var m_cam     = m_cam_fact(ns);
+var m_cfg     = m_cfg_fact(ns);
+var m_cont    = m_cont_fact(ns);
+var m_obj_util= m_obj_util_fact(ns);
+var m_print   = m_print_fact(ns);
+var m_scs     = m_scs_fact(ns);
+
+var _vec4_tmp = m_vec4.create();
+var _vec4_tmp2 = m_vec4.create();
+
+var _splited_screen = false;
+
+var cfg_dbg = m_cfg.debug_subs;
+var cfg_def = m_cfg.defaults;
+
+/**
+ * Type of the names of the synchronous vector parameter of a device.
+ * @typedef {Float32Array} DeviceVectorParameterSync
+ */
+
+/**
+* Type of the names of the synchronous value parameter of a device.
+* @typedef {number} DeviceValueParameterSync
+*/
+
+/**
+ * Type of the names of the asynchronous parameter of a device.
+ * @typedef {number} DeviceParameterAsync
+ */
+
+/**
+ * HMD type enum. Value of {@link module:input.HMD_WEBVR_TYPE|input.HMD_WEBVR_TYPE}.
+ * @typedef {number} DeviceHMDType
+ */
+
+/**
+ * Type of the names of the device config.
+ * @typedef {number} DeviceConfig
+ */
+
+/**
+ * Gamepad D-pad up button ID.
+ * @const {number} module:input.GMPD_BUTTON_12
+ */
+exports.GMPD_BUTTON_12 = m_input.GMPD_BUTTON_12;
+/**
+ * Gamepad D-pad down button ID.
+ * @const {number} module:input.GMPD_BUTTON_13
+ */
+exports.GMPD_BUTTON_13 = m_input.GMPD_BUTTON_13;
+/**
+ * Gamepad D-pad right button ID.
+ * @const {number} module:input.GMPD_BUTTON_15
+ */
+exports.GMPD_BUTTON_15 = m_input.GMPD_BUTTON_15;
+/**
+ * Gamepad D-pad left button ID.
+ * @const {number} module:input.GMPD_BUTTON_14
+ */
+exports.GMPD_BUTTON_14 = m_input.GMPD_BUTTON_14;
+/**
+ * Gamepad face panel up button ID.
+ * @const {number} module:input.GMPD_BUTTON_3
+ */
+exports.GMPD_BUTTON_3 = m_input.GMPD_BUTTON_3;
+/**
+ * Gamepad face panel down button ID.
+ * @const {number} module:input.GMPD_BUTTON_0
+ */
+exports.GMPD_BUTTON_0 = m_input.GMPD_BUTTON_0;
+/**
+ * Gamepad face panel right button ID.
+ * @const {number} module:input.GMPD_BUTTON_1
+ */
+exports.GMPD_BUTTON_1 = m_input.GMPD_BUTTON_1;
+/**
+ * Gamepad face panel left button ID.
+ * @const {number} module:input.GMPD_BUTTON_2
+ */
+exports.GMPD_BUTTON_2 = m_input.GMPD_BUTTON_2;
+/**
+ * Gamepad right top shoulder button ID.
+ * @const {number} module:input.GMPD_BUTTON_5
+ */
+exports.GMPD_BUTTON_5 = m_input.GMPD_BUTTON_5;
+/**
+ * Gamepad right bottom shoulder button ID.
+ * @const {number} module:input.GMPD_BUTTON_7
+ */
+exports.GMPD_BUTTON_7 = m_input.GMPD_BUTTON_7;
+/**
+ * Gamepad left top shoulder button ID.
+ * @const {number} module:input.GMPD_BUTTON_4
+ */
+exports.GMPD_BUTTON_4 = m_input.GMPD_BUTTON_4;
+/**
+ * Gamepad left bottom shoulder button ID.
+ * @const {number} module:input.GMPD_BUTTON_6
+ */
+exports.GMPD_BUTTON_6 = m_input.GMPD_BUTTON_6;
+/**
+ * Gamepad select/back button ID.
+ * @const {number} module:input.GMPD_BUTTON_8
+ */
+exports.GMPD_BUTTON_8 = m_input.GMPD_BUTTON_8;
+/**
+ * Gamepad start/forward button ID.
+ * @const {number} module:input.GMPD_BUTTON_9
+ */
+exports.GMPD_BUTTON_9 = m_input.GMPD_BUTTON_9;
+/**
+ * Gamepad left analog button ID.
+ * @const {number} module:input.GMPD_BUTTON_10
+ */
+exports.GMPD_BUTTON_10 = m_input.GMPD_BUTTON_10;
+/**
+ * Gamepad right analog button ID.
+ * @const {number} module:input.GMPD_BUTTON_11
+ */
+exports.GMPD_BUTTON_11 = m_input.GMPD_BUTTON_11;
+/**
+ * Gamepad main button ID.
+ * @const {number} module:input.GMPD_BUTTON_16
+ */
+exports.GMPD_BUTTON_16 = m_input.GMPD_BUTTON_16;
+/**
+ * Gamepad button.
+ * @const {number} module:input.GMPD_BUTTON_17
+ */
+exports.GMPD_BUTTON_17 = m_input.GMPD_BUTTON_17;
+/**
+ * Gamepad button.
+ * @const {number} module:input.GMPD_BUTTON_18
+ */
+exports.GMPD_BUTTON_18 = m_input.GMPD_BUTTON_18;
+/**
+ * Gamepad button.
+ * @const {number} module:input.GMPD_BUTTON_19
+ */
+exports.GMPD_BUTTON_19 = m_input.GMPD_BUTTON_19;
+/**
+ * Gamepad button.
+ * @const {number} module:input.GMPD_BUTTON_20
+ */
+exports.GMPD_BUTTON_20 = m_input.GMPD_BUTTON_20;
+/**
+ * Gamepad button.
+ * @const {number} module:input.GMPD_BUTTON_21
+ */
+exports.GMPD_BUTTON_21 = m_input.GMPD_BUTTON_21;
+/**
+ * Gamepad button.
+ * @const {number} module:input.GMPD_BUTTON_22
+ */
+exports.GMPD_BUTTON_22 = m_input.GMPD_BUTTON_22;
+/**
+ * Gamepad button.
+ * @const {number} module:input.GMPD_BUTTON_23
+ */
+exports.GMPD_BUTTON_23 = m_input.GMPD_BUTTON_23;
+/**
+ * Gamepad button.
+ * @const {number} module:input.GMPD_BUTTON_24
+ */
+exports.GMPD_BUTTON_24 = m_input.GMPD_BUTTON_24;
+/**
+ * Gamepad button.
+ * @const {number} module:input.GMPD_BUTTON_25
+ */
+exports.GMPD_BUTTON_25 = m_input.GMPD_BUTTON_25;
+/**
+ * Gamepad track pad ID.
+ * @const {number} module:input.GMPD_TRACKPAD_BUTTON
+ */
+exports.GMPD_TRACKPAD_BUTTON = m_input.GMPD_TRACKPAD_BUTTON;
+/**
+ * Gamepad trigger ID.
+ * @const {number} module:input.GMPD_TRIGGER_BUTTON
+ */
+exports.GMPD_TRIGGER_BUTTON = m_input.GMPD_TRIGGER_BUTTON;
+/**
+ * Gamepad grips ID.
+ * @const {number} module:input.GMPD_GRIPS_BUTTON
+ */
+exports.GMPD_GRIPS_BUTTON = m_input.GMPD_GRIPS_BUTTON;
+/**
+ * Gamepad grips ID.
+ * @const {number} module:input.GMPD_MENU_BUTTON
+ */
+exports.GMPD_MENU_BUTTON = m_input.GMPD_MENU_BUTTON;
+/**
+ * Gamepad axis.
+ * @const {number} module:input.GMPD_AXIS_0
+ */
+exports.GMPD_AXIS_0 = m_input.GMPD_AXIS_0;
+/**
+ * Gamepad axis.
+ * @const {number} module:input.GMPD_AXIS_1
+ */
+exports.GMPD_AXIS_1 = m_input.GMPD_AXIS_1;
+/**
+ * Gamepad axis.
+ * @const {number} module:input.GMPD_AXIS_2
+ */
+exports.GMPD_AXIS_2 = m_input.GMPD_AXIS_2;
+/**
+ * Gamepad axis.
+ * @const {number} module:input.GMPD_AXIS_3
+ */
+exports.GMPD_AXIS_3 = m_input.GMPD_AXIS_3;
+/**
+ * Gamepad axis.
+ * @const {number} module:input.GMPD_AXIS_4
+ */
+exports.GMPD_AXIS_4 = m_input.GMPD_AXIS_4;
+/**
+ * Gamepad axis.
+ * @const {number} module:input.GMPD_AXIS_5
+ */
+exports.GMPD_AXIS_5 = m_input.GMPD_AXIS_5;
+/**
+ * Gamepad axis.
+ * @const {number} module:input.GMPD_AXIS_6
+ */
+exports.GMPD_AXIS_6 = m_input.GMPD_AXIS_6;
+/**
+ * Gamepad axis.
+ * @const {number} module:input.GMPD_AXIS_7
+ */
+exports.GMPD_AXIS_7 = m_input.GMPD_AXIS_7;
+/**
+ * Gamepad axis.
+ * @const {number} module:input.GMPD_AXIS_8
+ */
+exports.GMPD_AXIS_8 = m_input.GMPD_AXIS_8;
+/**
+ * Gamepad axis.
+ * @const {number} module:input.GMPD_AXIS_9
+ */
+exports.GMPD_AXIS_9 = m_input.GMPD_AXIS_9;
+/**
+ * Gamepad axis.
+ * @const {number} module:input.GMPD_AXIS_10
+ */
+exports.GMPD_AXIS_10 = m_input.GMPD_AXIS_10;
+/**
+ * Gamepad axis.
+ * @const {number} module:input.GMPD_AXIS_11
+ */
+exports.GMPD_AXIS_11 = m_input.GMPD_AXIS_11;
+
+/**
+ * Parameter of HMD orientation quaternion.
+ * @const {DeviceVectorParameterSync} module:input.HMD_ORIENTATION_QUAT
+ */
+exports.HMD_ORIENTATION_QUAT = m_input.HMD_ORIENTATION_QUAT;
+
+/**
+ * Parameter of HMD position.
+ * @const {DeviceVectorParameterSync} module:input.HMD_POSITION
+ */
+exports.HMD_POSITION = m_input.HMD_POSITION;
+
+/**
+ * Parameter of HMD type.
+ * @const {DeviceValueParameterSync} module:input.HMD_WEBVR_TYPE
+ */
+exports.HMD_WEBVR_TYPE = m_input.HMD_WEBVR_TYPE;
+
+/**
+ * WebVR (old) desktop HMD
+ * @const {DeviceHMDType} module:input.HMD_WEBVR_DESKTOP
+ */
+exports.HMD_WEBVR_DESKTOP = m_input.HMD_WEBVR_DESKTOP;
+
+/**
+ * WebVR (old) mobile HMD
+ * @const {DeviceHMDType} module:input.HMD_WEBVR_MOBILE
+ */
+exports.HMD_WEBVR_MOBILE = m_input.HMD_WEBVR_MOBILE;
+
+/**
+ * Non-WebVR HMD
+ * @const {DeviceHMDType} module:input.HMD_NON_WEBVR
+ */
+exports.HMD_NON_WEBVR = m_input.HMD_NON_WEBVR;
+
+/**
+ * WebVR API 1.0
+ * @const {DeviceHMDType} module:input.HMD_WEBVR1
+ */
+exports.HMD_WEBVR1 = m_input.HMD_WEBVR1;
+
+/**
+ * WebVR API 1.1
+ * @const {DeviceHMDType} module:input.HMD_WEBVR1_1
+ */
+exports.HMD_WEBVR1_1 = m_input.HMD_WEBVR1_1;
+
+/**
+ * Parameter of HMD eye distance.
+ * @const {DeviceConfig} module:input.HMD_EYE_DISTANCE
+ */
+var HMD_EYE_DISTANCE = m_input.HMD_EYE_DISTANCE
+exports.HMD_EYE_DISTANCE = HMD_EYE_DISTANCE;
+
+/**
+ * Parameter of HMD distortion coefficients.
+ * @const {DeviceConfig} module:input.HMD_DISTORTION
+ */
+exports.HMD_DISTORTION = m_input.HMD_DISTORTION;
+
+/**
+ * Parameter of HMD baseline distance.
+ * @const {DeviceConfig} module:input.HMD_BASELINE_DIST
+ */
+exports.HMD_BASELINE_DIST = m_input.HMD_BASELINE_DIST;
+
+/**
+ * Parameter of HMD screen to lens distance.
+ * @const {DeviceConfig} module:input.HMD_SCREEN_LENS_DIST
+ */
+exports.HMD_SCREEN_LENS_DIST = m_input.HMD_SCREEN_LENS_DIST;
+
+/**
+ * Parameter of mobile screen width.
+ * @const {DeviceConfig} module:input.HMD_SCREEN_WIDTH
+ */
+exports.HMD_SCREEN_WIDTH = m_input.HMD_SCREEN_WIDTH;
+
+/**
+ * Parameter of mobile screen height.
+ * @const {DeviceConfig} module:input.HMD_SCREEN_HEIGHT
+ */
+exports.HMD_SCREEN_HEIGHT = m_input.HMD_SCREEN_HEIGHT;
+
+/**
+ * Parameter of mobile bevel size.
+ * @const {DeviceConfig} module:input.HMD_BEVEL_SIZE
+ */
+exports.HMD_BEVEL_SIZE = m_input.HMD_BEVEL_SIZE;
+
+/**
+ * Parameter of the mouse pointer coordinates.
+ * @const {DeviceVectorParameterSync | DeviceParameterAsync} module:input.MOUSE_LOCATION
+ */
+exports.MOUSE_LOCATION = m_input.MOUSE_LOCATION;
+
+/**
+ * Parameter of the mouse downed key.
+ * @const {DeviceParameterAsync} module:input.MOUSE_DOWN_WHICH
+ */
+exports.MOUSE_DOWN_WHICH = m_input.MOUSE_DOWN_WHICH;
+
+/**
+ * Parameter of the mouse upped key.
+ * @const {DeviceParameterAsync} module:input.MOUSE_UP_WHICH
+ */
+exports.MOUSE_UP_WHICH = m_input.MOUSE_UP_WHICH;
+
+/**
+ * Parameter of the vertical scroll amount.
+ * @const {DeviceParameterAsync} module:input.MOUSE_WHEEL
+ */
+exports.MOUSE_WHEEL = m_input.MOUSE_WHEEL;
+
+/**
+ * Parameter of the keyboard upped key.
+ * @const {DeviceParameterAsync} module:input.KEYBOARD_UP
+ */
+exports.KEYBOARD_UP = m_input.KEYBOARD_UP;
+
+/**
+ * Parameter of the keyboard downed key.
+ * @const {DeviceParameterAsync} module:input.KEYBOARD_DOWN
+ */
+exports.KEYBOARD_DOWN = m_input.KEYBOARD_DOWN;
+
+/**
+ * Parameter of started touch point list on the touch surface.
+ * @const {DeviceParameterAsync} module:input.TOUCH_START
+ */
+exports.TOUCH_START = m_input.TOUCH_START;
+
+/**
+ * Parameter of moving touch list on the touch surface.
+ * @const {DeviceParameterAsync} module:input.TOUCH_MOVE
+ */
+exports.TOUCH_MOVE = m_input.TOUCH_MOVE;
+
+/**
+ * Parameter of ended touch point list on the touch surface.
+ * @const {DeviceParameterAsync} module:input.TOUCH_END
+ */
+exports.TOUCH_END = m_input.TOUCH_END;
+
+/**
+ * Parameter of gyroscope orientation quaternion.
+ * @const {DeviceParameterAsync} module:input.GYRO_ORIENTATION_QUAT
+ */
+exports.GYRO_ORIENTATION_QUAT = m_input.GYRO_ORIENTATION_QUAT;
+
+/**
+ * Parameter of gyroscope orientation angles.
+ * @const {DeviceParameterAsync} module:input.GYRO_ORIENTATION_ANGLES
+ */
+exports.GYRO_ORIENTATION_ANGLES = m_input.GYRO_ORIENTATION_ANGLES;
+
+var SYNC_VECTOR_PARAMS = {};
+SYNC_VECTOR_PARAMS[m_input.DEVICE_HMD] = [m_input.HMD_ORIENTATION_QUAT,
+        m_input.HMD_POSITION];
+SYNC_VECTOR_PARAMS[m_input.DEVICE_MOUSE] = [m_input.MOUSE_LOCATION];
+
+var SYNC_VALUE_PARAMS = {};
+SYNC_VALUE_PARAMS[m_input.DEVICE_HMD] = [m_input.HMD_WEBVR_TYPE];
+
+var ASYNC_PARAMS = {};
+ASYNC_PARAMS[m_input.DEVICE_MOUSE] = [m_input.MOUSE_LOCATION,
+        m_input.MOUSE_DOWN_WHICH, m_input.MOUSE_UP_WHICH, m_input.MOUSE_WHEEL];
+ASYNC_PARAMS[m_input.DEVICE_KEYBOARD] = [m_input.KEYBOARD_UP,
+        m_input.KEYBOARD_DOWN];
+ASYNC_PARAMS[m_input.DEVICE_TOUCH] = [m_input.TOUCH_START, m_input.TOUCH_MOVE,
+        m_input.TOUCH_END];
+ASYNC_PARAMS[m_input.DEVICE_GYRO] = [m_input.GYRO_ORIENTATION_QUAT,
+        m_input.GYRO_ORIENTATION_ANGLES];
+
+var CONF = {};
+CONF[m_input.DEVICE_HMD] = [m_input.HMD_DISTORTION,
+        m_input.HMD_EYE_DISTANCE, m_input.HMD_BASELINE_DIST,
+        m_input.HMD_SCREEN_LENS_DIST, m_input.HMD_SCREEN_WIDTH,
+        m_input.HMD_SCREEN_HEIGHT, m_input.HMD_BEVEL_SIZE];
+
+/**
+ * The callback for the mouse location corresponding to the
+ * {@link module:input.MOUSE_LOCATION|MOUSE_LOCATION} param.
+ * @callback MouseLocationCallback
+ * @param {Float32Array} location List: the horizontal mouse coordinate, the
+ * vertical mouse coordinate.
+ * @example
+ * var m_input = require("input");
+ * 
+ * var mouse_location_cb = function(location) {
+ *     console.log("The horizontal location: " + location[0]);
+ *     console.log("The vertical location: " + location[1]);
+ * };
+ * var device = m_input.get_device_by_type_element(m_input.DEVICE_MOUSE);
+ * m_input.attach_param_cb(device, m_input.MOUSE_LOCATION, mouse_location_cb);
+ */
+
+/**
+ * The callback for the pressed mouse button corresponding to the
+ * {@link module:input.MOUSE_DOWN_WHICH|MOUSE_DOWN_WHICH} param.
+ * @callback MouseDownWhichCallback
+ * @param {number} which Number indicates button that was pressed on the mouse
+ * (1 -- left button, 2 -- middle button, 3 -- right button).
+ * @example
+ * var m_input = require("input");
+ * 
+ * var mouse_down_which_cb = function(which) {
+ *     console.log("Pressed button: " + which);
+ * };
+ * var device = m_input.get_device_by_type_element(m_input.DEVICE_MOUSE);
+ * m_input.attach_param_cb(device, m_input.MOUSE_DOWN_WHICH, mouse_down_which_cb);
+ */
+
+/**
+ * The callback for the released mouse button corresponding to the
+ * {@link module:input.MOUSE_UP_WHICH|MOUSE_UP_WHICH} param.
+ * @callback MouseUpWhichCallback
+ * @param {number} which Number indicates button that was released on the mouse
+ * (1 -- left button, 2 -- middle button, 3 -- right button).
+ * @example
+ * var m_input = require("input");
+ * 
+ * var mouse_up_which_cb = function(which) {
+ *     console.log("Released button: " + which);
+ * };
+ * var device = m_input.get_device_by_type_element(m_input.DEVICE_MOUSE);
+ * m_input.attach_param_cb(device, m_input.MOUSE_UP_WHICH, mouse_up_which_cb);
+ */
+
+/**
+ * The callback for the mouse scroll corresponding to the
+ * {@link module:input.MOUSE_WHEEL|MOUSE_WHEEL} param.
+ * @callback MouseWheelCallback
+ * @param {number} delta The vertical mouse scroll amount.
+ * @example
+ * var m_input = require("input");
+ * 
+ * var mouse_wheel_cb = function(delta) {
+ *     console.log("Scroll amount: " + delta);
+ * };
+ * var device = m_input.get_device_by_type_element(m_input.DEVICE_MOUSE);
+ * m_input.attach_param_cb(device, m_input.MOUSE_WHEEL, mouse_wheel_cb);
+ */
+
+/**
+ * The callback for the pressed keyboard button corresponding to the
+ * {@link module:input.KEYBOARD_DOWN|KEYBOARD_DOWN} param.
+ * @callback KeyboardDownCallback
+ * @param {number} key_code Number indicates button that was pressed on the
+ * keyboard (use constants KEY_* from module {@link module:controls|controls}).
+ * @example
+ * var m_input = require("input");
+ * 
+ * var keyboard_down_cb = function(key_code) {
+ *     console.log("Pressed keyboard button: " + key_code);
+ * };
+ * var device = m_input.get_device_by_type_element(m_input.DEVICE_KEYBOARD);
+ * m_input.attach_param_cb(device, m_input.KEYBOARD_DOWN, keyboard_down_cb);
+ */
+
+/**
+ * The callback for the released keyboard button corresponding to the
+ * {@link module:input.KEYBOARD_UP|KEYBOARD_UP} param.
+ * @callback KeyboardUpCallback
+ * @param {number} key_code Number indicates button that was released on the
+ * keyboard (use constants KEY_* from module {@link module:controls|controls}).
+ * @example
+ * var m_input = require("input");
+ * 
+ * var keyboard_up_cb = function(key_code) {
+ *     console.log("Released keyboard button: " + key_code);
+ * };
+ * var device = m_input.get_device_by_type_element(m_input.DEVICE_KEYBOARD);
+ * m_input.attach_param_cb(device, m_input.KEYBOARD_UP, keyboard_up_cb);
+ */
+
+/**
+ * The callback for the start of touch surface contacting corresponding to the
+ * {@link module:input.TOUCH_START|TOUCH_START} param.
+ * @callback TouchStartCallback
+ * @param {Array} touches List of touch objects corresponding to the
+ * contacting with the touch surface points.
+ * @example
+ * var m_input = require("input");
+ * 
+ * var touch_start_cb = function(touches) {
+ *     for (var i = 0; i < touches.length; ++i)
+ *          console.log("Touch contact " + touches[i].identifier + " has position" +
+ *                  + " x: " + touches[i].clientX + " y: " + touches[i].clientY);
+ * };
+ * var device = m_input.get_device_by_type_element(m_input.DEVICE_TOUCH);
+ * m_input.attach_param_cb(device, m_input.TOUCH_START, touch_start_cb);
+ */
+
+/**
+ * The callback for the contact moving on the touch surface corresponding to the
+ * {@link module:input.TOUCH_MOVE|TOUCH_MOVE} param.
+ * @callback TouchMoveCallback
+ * @param {Array} touches List of touch objects corresponding to the
+ * contacting with the touch surface points.
+ * @example
+ * var m_input = require("input");
+ * 
+ * var touch_move_cb = function(touches) {
+ *     for (var i = 0; i < touches.length; ++i)
+ *          console.log("Touch contact " + touches[i].identifier + " has position" +
+ *                  + " x: " + touches[i].clientX + " y: " + touches[i].clientY);
+ * };
+ * var device = m_input.get_device_by_type_element(m_input.DEVICE_TOUCH);
+ * m_input.attach_param_cb(device, m_input.TOUCH_MOVE, touch_move_cb);
+ */
+
+/**
+ * The callback for the end of touch surface contacting corresponding to the
+ * {@link module:input.TOUCH_END|TOUCH_END} param.
+ * @callback TouchEndCallback
+ * @param {Array} touches List of touch objects corresponding to the
+ * contacting with the touch surface points.
+ * @example
+ * var m_input = require("input");
+ * 
+ * var touch_end_cb = function(touches) {
+ *     for (var i = 0; i < touches.length; ++i)
+ *          console.log("Touch contact " + touches[i].identifier + " has position" +
+ *                  + " x: " + touches[i].clientX + " y: " + touches[i].clientY);
+ * };
+ * var device = m_input.get_device_by_type_element(m_input.DEVICE_TOUCH);
+ * m_input.attach_param_cb(device, m_input.TOUCH_END, touch_end_cb);
+ */
+
+/**
+ * The callback for the quaternion of the gyroscope orientation corresponding 
+ * to the {@link module:input.GYRO_ORIENTATION_QUAT|GYRO_ORIENTATION_QUAT} param.
+ * @callback GyroscopeQuatCallback
+ * @param {Quat} quat Quaternion vector corresponding to the gyroscope orientation.
+ * @example
+ * var m_input = require("input");
+ * 
+ * var gyroscope_quat_cb = function(quat) {
+ *     console.log("Gyroscope orientation quaternion is " + quat);
+ * };
+ * var device = m_input.get_device_by_type_element(m_input.DEVICE_GYRO);
+ * m_input.attach_param_cb(device, m_input.GYRO_ORIENTATION_QUAT, gyroscope_quat_cb);
+ */
+
+/**
+ * The callback for the Euler angles of the gyroscope orientation corresponding
+ * to the {@link module:input.GYRO_ORIENTATION_ANGLES|GYRO_ORIENTATION_ANGLES} param.
+ * @callback GyroscopeAnglesCallback
+ * @param {Euler} angles Euler angles (in radians) corresponding to the gyroscope 
+ * orientation.
+ * @example
+ * var m_input = require("input");
+ * 
+ * var gyroscope_angles_cb = function(angles) {
+ *     console.log("Gyroscope orientation Euler angles are " + angles);
+ * };
+ * var device = m_input.get_device_by_type_element(m_input.DEVICE_GYRO);
+ * m_input.attach_param_cb(device, m_input.GYRO_ORIENTATION_ANGLES, gyroscope_angles_cb);
+ */
+
+/**
+ * Device type enum.
+ * @typedef {number} DeviceType
+ */
+
+/**
+ * Gyroscope device type.
+ * @const {DeviceType} module:input.DEVICE_GYRO
+ */
+exports.DEVICE_GYRO = m_input.DEVICE_GYRO;
+
+/**
+ * Head mounted device type.
+ * @const {DeviceType} module:input.DEVICE_HMD
+ */
+exports.DEVICE_HMD = m_input.DEVICE_HMD;
+
+/**
+ * Mouse device type.
+ * @const {DeviceType} module:input.DEVICE_MOUSE
+ */
+exports.DEVICE_MOUSE = m_input.DEVICE_MOUSE;
+
+/**
+ * Keyboard device type.
+ * @const {DeviceType} module:input.DEVICE_KEYBOARD
+ */
+exports.DEVICE_KEYBOARD = m_input.DEVICE_KEYBOARD;
+
+/**
+ * Touch device type.
+ * @const {DeviceType} module:input.DEVICE_TOUCH
+ */
+exports.DEVICE_TOUCH = m_input.DEVICE_TOUCH;
+
+/**
+ * Check if the device can be used.
+ * @method module:input.can_use_device
+ * @param {DeviceType} type Device type.
+ * @returns {boolean} Result of the check
+ */
+exports.can_use_device = m_input.can_use_device;
+
+/**
+ * Get device object by associated device type and DOM element.
+ * If device is not available, then return null.
+ * @method module:input.get_device_by_type_element
+ * @param {DeviceType} type Device type.
+ * @param {?HTMLElement} element HTML element to add event listeners to.
+ * @returns {?Object} Device object.
+ */
+exports.get_device_by_type_element = m_input.get_device_by_type_element;
+
+/**
+ * Switch triggering of the browser default actions for registered events.
+ * @param {Object} device Device object. Use
+ * {@link module:input.get_device_by_type_element|input.get_device_by_type_element} to obtain it.
+ * @param {boolean} prevent_default Prevent default flag.
+ * @method module:input.switch_prevent_default
+ */
+exports.switch_prevent_default = function(device, prevent_default) {
+    if (device)
+        m_input.switch_prevent_default(device, prevent_default);
+}
+
+/**
+ * Register device. Right now it should be used for DEVICE_HMD.
+ * @method module:input.register_device
+ * @deprecated Not needed anymore.
+ */
+exports.register_device = function() {
+    m_print.error_once("input.register_device() deprecated");
+}
+
+/**
+ * Reset device. The device parameters values return to zero.
+ * Right now it should be used for DEVICE_HMD.
+ * @param {Object} device Device object. Use
+ * {@link module:input.get_device_by_type_element|input.get_device_by_type_element} to obtain it.
+ * @method module:input.reset_device
+ */
+exports.reset_device = function(device) {
+    if (!device || device.type != m_input.DEVICE_HMD) {
+        m_print.error("reset_device is undefined for device.");
+        return;
+    }
+
+    m_input.reset_device(device);
+}
+
+/**
+ * Get parameter vector.
+ * @param {Object} device Device object. Use
+ * {@link module:input.get_device_by_type_element|input.get_device_by_type_element} to obtain it.
+ * @param {DeviceVectorParameterSync} param Name of the device vector parameter.
+ * @param {Float32Array} dest Destination vector.
+ * @returns {?Float32Array} Destination vector.
+ * @method module:input.get_vector_param
+ */
+exports.get_vector_param = function(device, param, dest) {
+    if (device && device.type in SYNC_VECTOR_PARAMS &&
+            SYNC_VECTOR_PARAMS[device.type].indexOf(param) >= 0)
+        return m_input.get_vector_param(device, param, dest);
+    else
+        m_print.error("device hasn't param: ", param);
+    return null;
+}
+
+/**
+ * Get parameter value.
+ * @param {Object} device Device object. Use
+ * {@link module:input.get_device_by_type_element|input.get_device_by_type_element} to obtain it.
+ * @param {DeviceValueParameterSync} param Name of the device value parameter.
+ * @returns {number|boolean|null} Parameter value.
+ * @method module:input.get_value_param
+ */
+exports.get_value_param = function(device, param) {
+    if (device && device.type in SYNC_VALUE_PARAMS &&
+            SYNC_VALUE_PARAMS[device.type].indexOf(param) >= 0)
+        return m_input.get_value_param(device, param);
+    else
+        m_print.error("device hasn't param: ", param);
+
+    return null;
+}
+
+/**
+ * Attach callback to the device parameter. It is called when parameter is changed.
+ * @param {Object} device Device object. Use
+ * {@link module:input.get_device_by_type_element|input.get_device_by_type_element} to obtain it.
+ * @param {DeviceParameterAsync} param Name of the device parameter.
+ * @param {MouseLocationCallback|MouseDownWhichCallback|MouseUpWhichCallback|
+ * MouseWheelCallback|KeyboardDownCallback|KeyboardUpCallback|
+ * TouchStartCallback|TouchMoveCallback|TouchEndCallback|
+ * GyroscopeQuatCallback|GyroscopeAnglesCallback} [cb = null] Callback.
+ * @method module:input.attach_param_cb
+ */
+exports.attach_param_cb = function(device, param, cb) {
+    cb = cb || null;
+    if (device && device.type in ASYNC_PARAMS &&
+            ASYNC_PARAMS[device.type].indexOf(param) >= 0)
+        return m_input.attach_param_cb(device, param, cb);
+    else
+        m_print.error("device hasn't param: ", param);
+}
+
+/**
+ * Detach callback from the device parameter.
+ * @param {Object} device Device object. Use
+ * {@link module:input.get_device_by_type_element|input.get_device_by_type_element} to obtain it.
+ * @param {DeviceParameterAsync} param Name of the device parameter.
+ * @param {MouseLocationCallback|MouseDownWhichCallback|MouseUpWhichCallback|
+ * MouseWheelCallback|KeyboardDownCallback|KeyboardUpCallback|
+ * TouchStartCallback|TouchMoveCallback|TouchEndCallback|
+ * GyroscopeQuatCallback|GyroscopeAnglesCallback} [cb = null] Callback.
+ * @method module:input.detach_param_cb
+ */
+exports.detach_param_cb = function(device, param, cb) {
+    cb = cb || null;
+    if (device && device.type in ASYNC_PARAMS &&
+            ASYNC_PARAMS[device.type].indexOf(param) >= 0)
+        return m_input.detach_param_cb(device, param, cb);
+    else
+        m_print.error("device hasn't param: ", param);
+}
+
+exports.set_config = function(device, config, value) {
+    if (device && device.type in CONF &&
+            CONF[device.type].indexOf(config) >= 0)
+        return m_input.set_config(device, config, value);
+    else
+        m_print.error("device hasn't config: ", config);
+}
+
+/**
+ * Request fullscreen mode.
+ * @method module:input.request_fullscreen_hmd
+ * @deprecated Use {@link module:screen.request_fullscreen_hmd} instead
+ */
+exports.request_fullscreen_hmd = function() {
+    m_print.error_deprecated("request_fullscreen_hmd", "screen.request_fullscreen_hmd");
+
+    if (m_scs.check_active()) {
+         var cam_obj = m_scs.get_camera(m_scs.get_active());
+         if (!cam_obj)
+             return;
+    } else
+        return;
+
+    enable_split_screen(cam_obj);
+
+    var hmd_device = m_input.get_device_by_type_element(m_input.DEVICE_HMD);
+    if (hmd_device) {
+        var webvr_display = hmd_device.webvr_display;
+        // TODO: add "&& !webvr_display.isPresenting" to "if" (optimization).
+        // Right now webvr_display.isPresenting is allways "true" after
+        // first requestPresent.
+        if (webvr_display && !webvr_display.isPresenting) {
+            var capabilities = webvr_display.capabilities;
+            if (!capabilities.canPresent)
+                m_print.error("HMD fullscreen request failed.");
+            else {
+                var canvas = m_cont.get_canvas();
+                webvr_display.requestPresent([{source: canvas}]).then(function () {
+                    // TODO: check code below
+                    // There was strange behavior Samsung Internet on GearVR
+
+                    if (!cfg_def.is_mobile_device) {
+                        var left_eye = webvr_display.getEyeParameters("left");
+                        var right_eye = webvr_display.getEyeParameters("right");
+
+                        m_cont.resize(
+                                Math.max(left_eye.renderWidth, right_eye.renderWidth) * 2,
+                                Math.max(left_eye.renderHeight, right_eye.renderHeight), false);
+                    }
+                }, function () {
+                    m_print.error("HMD fullscreen request failed.");
+                });
+            }
+        }
+    }
+}
+
+/**
+ * Enable "split screen" mode.
+ * @method module:input.enable_split_screen
+ * @param {Object3D} camobj Camera 3D-object.
+ * @returns {boolean} "Split screen" mode is enabled.
+ * @deprecated Use {@link module:screen.request_split_screen} instead
+ */
+exports.enable_split_screen = enable_split_screen;
+function enable_split_screen(camobj) {
+    m_print.error_deprecated("enable_split_screen", "screen.request_split_screen");
+
+    var hmd_device = m_input.get_device_by_type_element(m_input.DEVICE_HMD);
+    if (!hmd_device)
+        return false;
+
+    if (_splited_screen)
+        return true;
+
+    var hmd_left_fov = m_input.get_vector_param(hmd_device, m_input.HMD_FOV_LEFT, _vec4_tmp);
+    var hmd_right_fov = m_input.get_vector_param(hmd_device, m_input.HMD_FOV_RIGHT, _vec4_tmp2);
+    m_cam.set_hmd_fov(camobj, hmd_left_fov, hmd_right_fov);
+
+    var eye_distance = m_input.get_value_param(hmd_device, HMD_EYE_DISTANCE);
+    if (eye_distance) {
+        var active_scene = m_scs.get_active();
+        var cam_scene_data = m_obj_util.get_scene_data(camobj, active_scene);
+        var cameras = cam_scene_data.cameras;
+        m_cam.set_eye_distance(cameras, eye_distance);
+    }
+
+    var hmd_params = {};
+    hmd_params.base_line_factor = 0.5;
+    hmd_params.inter_lens_factor = 0.5;
+    hmd_params.enable_hmd_stereo = true;
+    var hmd_type = m_input.get_value_param(hmd_device, m_input.HMD_WEBVR_TYPE)
+    if (hmd_type & (m_input.HMD_NON_WEBVR | m_input.HMD_WEBVR_MOBILE |
+            m_input.HMD_WEBVR_DESKTOP)) {
+        hmd_params.distortion_coefs = [
+            hmd_device.distortion_coefs[0],
+            hmd_device.distortion_coefs[1]
+        ];
+        hmd_params.chromatic_aberration_coefs = [
+            hmd_device.chromatic_aberration_coefs[0],
+            hmd_device.chromatic_aberration_coefs[1],
+            hmd_device.chromatic_aberration_coefs[2],
+            hmd_device.chromatic_aberration_coefs[3]
+        ];
+        if (!hmd_device.webvr_hmd_device)
+            if (hmd_device.base_line_dist && hmd_device.height_dist && hmd_device.bevel_size)
+                hmd_params.base_line_factor = (hmd_device.base_line_dist - hmd_device.bevel_size) /
+                        hmd_device.height_dist;
+            else if (!hmd_device.bevel_size)
+                hmd_params.base_line_factor = hmd_device.base_line_dist / hmd_device.height_dist;
+        if (hmd_device.inter_lens_dist && hmd_device.width_dist && !hmd_device.webvr_hmd_device)
+            hmd_params.inter_lens_factor = hmd_device.inter_lens_dist /
+                    hmd_device.width_dist;
+        // NOTE: prevent crash in case of difference of slink's dimensions.
+        // For example: "debug" slink ~ 0.5 X 1.0,
+        //              "origin" slink ~ distortion_scale * 0.5 X distortion_scale * 1.0
+        if (!cfg_dbg.enabled) {
+            var distortion_scale = (1 + hmd_device.distortion_coefs[0] + hmd_device.distortion_coefs[1]);
+            m_scs.multiply_size_mult(distortion_scale, distortion_scale);
+        }
+    }
+    m_scs.set_hmd_params(hmd_params);
+
+    m_cont.resize_to_container(true);
+
+    m_input.reset_device(hmd_device);
+
+    _splited_screen = true;
+    return true;
+}
+
+/**
+ * Disable "split screen" mode.
+ * @method module:input.disable_split_screen
+ * @returns {boolean} "Split screen" mode is disabled.
+ * @deprecated Use {@link module:screen.exit_split_screen} instead
+ */
+exports.disable_split_screen = function() {
+    m_print.error_deprecated("disable_split_screen", "screen.exit_split_screen");
+
+    var hmd_device = m_input.get_device_by_type_element(m_input.DEVICE_HMD)
+    if (!_splited_screen || !hmd_device || !hmd_device.registered)
+        return false;
+
+    // set up non-vr mode
+    var hmd_params = {};
+    hmd_params.enable_hmd_stereo = false;
+    m_scs.set_hmd_params(hmd_params);
+
+    var distortion_scale = 1 / (1 + hmd_device.distortion_coefs[0] + hmd_device.distortion_coefs[1]);
+    m_scs.multiply_size_mult(distortion_scale, distortion_scale);
+    // resize screen to canvas resolution (non-vr mode)
+    m_cont.resize_to_container(true);
+    return true;
+}
+/**
+ * Set gamepad button key value.
+ * @method module:input.set_gamepad_key
+ * @param {number} gamepad_id Connected gamepad number.
+ * @param {number} btn Button or axis identifier.
+ * @param {number} key Button key value.
+ */
+exports.set_gamepad_key = function(gamepad_id, btn, key) {
+    switch(gamepad_id) {
+    case 0:
+        var type = m_input.DEVICE_GAMEPAD0;
+        break;
+    case 1:
+        var type = m_input.DEVICE_GAMEPAD1;
+        break;
+    case 2:
+        var type = m_input.DEVICE_GAMEPAD2;
+        break;
+    case 3:
+        var type = m_input.DEVICE_GAMEPAD3;
+        break;
+    default:
+        var type = m_input.DEVICE_GAMEPAD0;
+    }
+    var device = m_input.get_device_by_type_element(type);
+    m_input.set_config(device, btn, key);
+};
+/**
+ * Get pressed button key value.
+ * @method module:input.get_pressed_gmpd_btn
+ * @param {number} gamepad_id Gamepad identifier (Connected device number 0-3).
+ * @returns {number} Pressed button key value.
+ */
+exports.get_pressed_gmpd_btn = m_input.get_pressed_gmpd_btn;
+/**
+ * Get moved axis key value.
+ * @method module:input.get_moved_gmpd_axis
+ * @param {number} gamepad_id Gamepad identifier (Connected device number 0-3).
+ * @returns {number} Moved axis key value.
+ */
+exports.get_moved_gmpd_axis = m_input.get_moved_gmpd_axis;
+/**
+ * Get gamepad position.
+ * @method module:input.get_gamepad_position
+ * @param {number} gamepad_id Gamepad identifier (Connected device number 0-3).
+ * @param {Vec3} dest Destination vector.
+ * @returns {Vec3} Gamepad position.
+ */
+exports.get_gamepad_position = m_input.get_gamepad_position;
+/**
+ * Get gamepad orientation.
+ * @method module:input.get_gamepad_orientation
+ * @param {number} gamepad_id Gamepad identifier (Connected device number 0-3).
+ * @param {Quat} dest Destination vector.
+ * @returns {Quat} Gamepad orientation.
+ */
+exports.get_gamepad_orientation = m_input.get_gamepad_orientation;
+/**
+ * Check available gamepads indices.
+ * @method module:input.check_enable_gamepad_indices
+ * @returns {Array} Numeric array with indices
+ * @cc_externs getGamepads webkitGetGamepads
+ */
+exports.check_enable_gamepad_indices = check_enable_gamepad_indices;
+function check_enable_gamepad_indices() {
+    var gamepads = navigator.getGamepads ? navigator.getGamepads() :
+            (navigator.webkitGetGamepads ? navigator.webkitGetGamepads : []);
+    var indices = [];
+    for (var i = 0; i < gamepads.length; i++)
+        if (gamepads[i])
+            indices.push(i);
+    return indices;
+}
+
+/**
+ * Get gamepad id of VR controller.
+ * @method module:input.get_vr_controller_id
+ * @param {number} controller_id VR controller id.
+ * @return {number} Gamepad id.
+ * @example
+ * var m_input = require("input");
+ *
+ * // get the id of the first VR controller (among all gamepads)
+ * var vr_id = m_input.get_vr_controller_id(0);
+ */
+exports.get_vr_controller_id = function(controller_id) {
+    var gamepads = navigator.getGamepads ? navigator.getGamepads() :
+            (navigator.webkitGetGamepads ? navigator.webkitGetGamepads : []);
+
+    // CHECK: there could be more than 4 gamepads in Firefox Nightly
+    for (var i = 0, j = 0; i < 4; i++) {
+        var gamepad = gamepads[i];
+        // use gamepad.id == "", bcz there is a bug in Firefox Nightly
+        if (gamepad && (gamepad.id == "" ||
+                gamepad.id == "OpenVR Gamepad" ||
+                gamepad.id == "Oculus Touch (Left)" ||
+                gamepad.id == "Oculus Touch (Right)"
+                )) {
+            if (j == controller_id)
+                return j;
+            j++;
+        }
+    }
+
+    return controller_id;
+}
+
+/**
+ * Register the listener on the click event. Callback is called on right
+ * after click on element (without 300ms delay).
+ * @method module:input.add_click_listener
+ * @param {HTMLElement} element DOM element.
+ * @param {Callback} callback Callback.
+ */
+exports.add_click_listener = function(element, callback) {
+    if (!element || !callback)
+        return;
+
+    m_input.add_click_listener(element, callback);
+}
+
+/**
+ * Unregister the listener registered with
+ * {@link module:input.add_click_listener | input.add_click_listener}.
+ * @method module:input.remove_click_listener
+ * @param {HTMLElement} element DOM element.
+ * @param {Callback} callback Callback.
+ */
+exports.remove_click_listener = function(element, callback) {
+    if (!element || !callback)
+        return;
+
+    m_input.remove_click_listener(element, callback);
+}
+
+}
+
+var input_factory = register("input", Input);
+
+export default input_factory;

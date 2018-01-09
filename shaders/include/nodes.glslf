@@ -43,6 +43,9 @@
 #var CAMERA_TYPE CAM_TYPE_PERSP
 #var IS_WORLD 0
 
+#var USE_BSDF_TRANSPARENT_REFRACT 0
+#var USE_BSDF_TRANSPARENT_ALPHA 0
+
 /*==============================================================================
                                    IMPORTS
 ==============================================================================*/
@@ -506,11 +509,13 @@ float fresnel_dielectric(vec3 inc, vec3 norm, float eta)
     #node_in vec3 a_color
     #node_in float alpha_in
     #node_out vec3 color_out
+    #node_out float alpha_out
 
     float s_roughness = clamp(bsdf_params[1], _0_0, _1_0);
     float metalness = bsdf_params[2];
 
     color_out = color_in.rgb;
+    alpha_out = _1_0;
 
 # node_if REFLECTION_TYPE == REFL_PBR_STANDARD || REFLECTION_TYPE == REFL_PBR_SIMPLE
     color_out += apply_mirror_bsdf(d_color, s_color, nin_eye_dir, normal,
@@ -525,10 +530,20 @@ float fresnel_dielectric(vec3 inc, vec3 norm, float eta)
     color_out = mix(color_out, e_color, emission);
 
 # node_if USE_NODE_BSDF_TRANSPARENT
+
+#  node_if USE_BSDF_TRANSPARENT_REFRACT
     vec3 back_color = GLSL_TEXTURE(u_refractmap, v_tex_pos_clip.xy/v_tex_pos_clip.z).rgb;
     srgb_to_lin(back_color);
     a_color = a_color * back_color;
     color_out += a_color;
+    alpha_out = _1_0;
+#  node_endif
+
+#  node_if USE_BSDF_TRANSPARENT_ALPHA
+    color_out = mix(a_color, color_out, alpha_in);
+    alpha_out = alpha_in;
+#  node_endif
+
 # node_endif
     // NOTE: using unused variable to pass shader verification
     normal;
@@ -629,6 +644,45 @@ float fresnel_dielectric(vec3 inc, vec3 norm, float eta)
     float FV = mix(F_b, F_a, F0);
 
     sfactor = max(dot_nl * D * FV, _0_0);
+#endnode
+
+#node BSDF_PRINCIPLED
+    #node_var USE_NORMAL_IN 0
+    #node_in vec4  base_color_in
+    #node_in float metalness_in
+    #node_in float roughness_in
+    #node_in vec3  normal_in
+    #node_out vec3 surface
+    #node_out vec3 d_color
+    #node_out float d_roughness
+    #node_out vec3 s_color
+    #node_out float s_roughness
+    #node_out float metalness
+    #node_out vec3 normal
+    #node_out vec3 e_color
+    #node_out float emission
+    #node_out vec3 a_color
+    #node_out float alpha
+
+    s_color = base_color_in.rgb;
+    s_roughness = roughness_in * roughness_in;
+    d_color = base_color_in.rgb;
+    d_roughness = roughness_in;
+    metalness = metalness_in;
+    emission = _0_0;
+    alpha = _1_0;
+# node_if USE_NORMAL_IN
+    normal = normal_in;
+# node_else
+     normal = nin_normal;
+# node_endif
+
+    // NOTE: using unused variable to pass shader verification
+    // + explicit zeroing to prevent glitches in some browsers
+    surface;
+
+    e_color = vec3(_0_0);
+    a_color = vec3(_0_0);
 #endnode
 
 #node BSDF_ANISOTROPIC
@@ -765,7 +819,11 @@ float fresnel_dielectric(vec3 inc, vec3 norm, float eta)
     a_color = color_in;
     metalness = _0_0;
     emission = _0_0;
+# node_if USE_BSDF_TRANSPARENT_ALPHA
     alpha = _0_0;
+# node_else
+    alpha = _1_0;
+# node_endif
     normal = nin_normal;
 
     // NOTE: using unused variable to pass shader verification
@@ -2280,9 +2338,10 @@ float fresnel_dielectric(vec3 inc, vec3 norm, float eta)
 
 #node OUTPUT_SURFACE
     #node_in vec3 color_in
+    #node_in float alpha_in
 
     nout_color = color_in;
-    nout_alpha = _1_0;
+    nout_alpha = alpha_in;
 #endnode
 
 #node OUTPUT_WORLD_SURFACE
@@ -2314,9 +2373,9 @@ float fresnel_dielectric(vec3 inc, vec3 norm, float eta)
     #node_param const vec3 specular_params // vec3(intensity, spec_param_0, spec_param_1)
 
     // diffuse
-    D = clamp(color_in, _0_0, _1_0);
+    D = color_in;
     // specular
-    S = specular_params[0] * clamp(specular_color, _0_0, _1_0);
+    S = specular_params[0] * specular_color;
 
 # node_if USE_MATERIAL_NORMAL
     normal = normalize(normal_in);
@@ -3013,11 +3072,11 @@ float fresnel_dielectric(vec3 inc, vec3 norm, float eta)
     #node_out float value
 
 #node_if USE_OUT_color
-    color[2] = color[1] = color[0] = _0_0;
+    color = vec3(_0_0);
 #node_endif
 
 #node_if USE_OUT_normal
-    normal[2] = normal[1] = normal[0] = _0_0;
+    normal = vec3(_0_0);
 #node_endif
 
 #node_if USE_OUT_value

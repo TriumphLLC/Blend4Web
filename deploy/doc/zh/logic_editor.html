@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>逻辑编辑器 &mdash; Blend4Web 17.10.1 用户手册</title>
+  <title>逻辑编辑器 &mdash; Blend4Web 17.12.0 用户手册</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.10.1 用户手册" href="index.html"/>
+        <link rel="index" title="索引"
+              href="genindex.html"/>
+        <link rel="search" title="搜索" href="search.html"/>
+    <link rel="top" title="Blend4Web 17.12.0 用户手册" href="index.html"/>
         <link rel="next" title="照明、 阴影和背景" href="lighting.html"/>
         <link rel="prev" title="节点材质" href="node_materials.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -100,7 +103,7 @@
 <li class="toctree-l1"><a class="reference internal" href="materials.html">材质</a></li>
 <li class="toctree-l1"><a class="reference internal" href="material_library.html">材质库</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">节点材质</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">逻辑编辑器</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">逻辑编辑器</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#basics">基础</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#control-flow">控制流</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#entry-point">入口点</a><ul>
@@ -421,7 +424,7 @@
   <div class="section" id="logic-editor">
 <span id="id1"></span><h1><a class="toc-backref" href="#id110">逻辑编辑器</a><a class="headerlink" href="#logic-editor" title="永久链接至标题">¶</a></h1>
 <div class="contents topic" id="table-of-content">
-<p class="topic-title first">目录</p>
+<p class="topic-title first">Table of Content</p>
 <ul class="simple">
 <li><a class="reference internal" href="#logic-editor" id="id110">逻辑编辑器</a><ul>
 <li><a class="reference internal" href="#basics" id="id111">基础</a></li>
@@ -474,16 +477,14 @@
 <h4>输出参数<a class="headerlink" href="#output-parameters" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>下一个</em></dt>
-<dd><p class="first last">下一个节点。</p>
-</dd>
+<dd>下一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="internal-parameters">
 <h4>内部参数<a class="headerlink" href="#internal-parameters" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>从脚本运行</em></dt>
-<dd><p class="first last">如果启用此参数，切入点可以通过API使用  <a class="reference external" href="https://www.blend4web.com/api_doc/module-logic_nodes.html#.run_entrypoint">run_entrypoint</a> 方法触发。</p>
-</dd>
+<dd>如果启用此参数，切入点可以通过API使用  <a class="reference external" href="https://www.blend4web.com/api_doc/module-logic_nodes.html#.run_entrypoint">run_entrypoint</a> 方法触发。</dd>
 </dl>
 </div>
 </div>
@@ -495,8 +496,7 @@
 <h4>输入参数<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>上一个</em></dt>
-<dd><p class="first last">前一个节点。</p>
-</dd>
+<dd>前一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id3">
@@ -512,8 +512,7 @@
 <h4>内部参数<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>物体</em></dt>
-<dd><p class="first last">用户可以选择的物体之一。当您创建或删除命中参数时，这些参数会自动创建和删除 <code class="docutils literal"><span class="pre">Hit</span></code> 参数。这样的参数的数量总是等于  <code class="docutils literal"><span class="pre">Hit</span></code> 参数的数目。</p>
-</dd>
+<dd>用户可以选择的物体之一。当您创建或删除命中参数时，这些参数会自动创建和删除 <code class="docutils literal"><span class="pre">Hit</span></code> 参数。这样的参数的数量总是等于  <code class="docutils literal"><span class="pre">Hit</span></code> 参数的数目。</dd>
 <dt><em>Variable</em></dt>
 <dd>If this parameter is enabled, you can specify an object variable in the corresponding <code class="docutils literal"><span class="pre">Object</span></code> field.</dd>
 <dt><em>目标</em></dt>
@@ -529,19 +528,16 @@
 <h4>输入参数<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>上一个</em></dt>
-<dd><p class="first last">前一个节点。</p>
-</dd>
+<dd>前一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id6">
 <h4>输出参数<a class="headerlink" href="#id6" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>真</em></dt>
-<dd><p class="first last">条件为真。</p>
-</dd>
+<dd>条件为真。</dd>
 <dt><em>假</em></dt>
-<dd><p class="first last">条件是假的。</p>
-</dd>
+<dd>条件是假的。</dd>
 </dl>
 </div>
 <div class="section" id="id7">
@@ -550,27 +546,19 @@
 <dt><em>条件</em></dt>
 <dd><p class="first">逻辑条件。可以有以下几种类型：</p>
 <ul class="last simple">
-<li><p class="first"><em>Equal (=)</em> - 第一个操作数等于第二个。</p>
-</li>
-<li><p class="first"><em>Not Equal (!=)</em> - 第一个操作数不等于第二个。</p>
-</li>
-<li><p class="first"><em>Less Than (&lt;)</em> - 第一个操作数小于第二个。</p>
-</li>
-<li><p class="first"><em>Greater Than (&gt;)</em> - 第一个操作数大于第二个。</p>
-</li>
-<li><p class="first"><em>Less Than Or Equal (&lt;=)</em> -  第一个操作数小于或等于第二。</p>
-</li>
-<li><p class="first"><em>Greater Than Or Equal (=&gt;)</em> - 第一个操作数是大于或等于第二个。</p>
-</li>
+<li><em>Equal (=)</em> - 第一个操作数等于第二个。</li>
+<li><em>Not Equal (!=)</em> - 第一个操作数不等于第二个。</li>
+<li><em>Less Than (&lt;)</em> - 第一个操作数小于第二个。</li>
+<li><em>Greater Than (&gt;)</em> - 第一个操作数大于第二个。</li>
+<li><em>Less Than Or Equal (&lt;=)</em> -  第一个操作数小于或等于第二。</li>
+<li><em>Greater Than Or Equal (=&gt;)</em> - 第一个操作数是大于或等于第二个。</li>
 </ul>
 </dd>
 <dt><em>Operand1</em></dt>
-<dd><p class="first last">逻辑条件的第一个操作数。包含数值或字符串（如果 <code class="docutils literal"><span class="pre">String</span> <span class="pre">Operators</span></code> 参数已启用）。可以在节点中指定，也可以是指向其中一个变量的链接（如果右侧的 <code class="docutils literal"><span class="pre">Variable</span></code> 参数被启用）。</p>
-</dd>
+<dd>逻辑条件的第一个操作数。包含数值或字符串（如果 <code class="docutils literal"><span class="pre">String</span> <span class="pre">Operators</span></code> 参数已启用）。可以在节点中指定，也可以是指向其中一个变量的链接（如果右侧的 <code class="docutils literal"><span class="pre">Variable</span></code> 参数被启用）。</dd>
 <dt><em>Operand2</em></dt>
-<dd><p class="first last">逻辑条件的第二个操作数。和第一个以同样的方式工作。</p>
-</dd>
-<dt><em>Operand&#8217;s Type</em></dt>
+<dd>逻辑条件的第二个操作数。和第一个以同样的方式工作。</dd>
+<dt><em>Operand’s Type</em></dt>
 <dd>The type of the operands. Available values are <code class="docutils literal"><span class="pre">Number</span></code> (the default option), <code class="docutils literal"><span class="pre">String</span></code> and <code class="docutils literal"><span class="pre">Object</span></code>.</dd>
 </dl>
 </div>
@@ -583,8 +571,7 @@
 <h4>输入参数<a class="headerlink" href="#id8" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>上一个</em></dt>
-<dd><p class="first last">前一个节点。</p>
-</dd>
+<dd>前一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id9">
@@ -612,16 +599,14 @@
 <h4>输入参数<a class="headerlink" href="#id11" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>上一个</em></dt>
-<dd><p class="first last">前一个节点。</p>
-</dd>
+<dd>前一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id12">
 <h4>输出参数<a class="headerlink" href="#id12" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>下一个</em></dt>
-<dd><p class="first last">下一个节点。</p>
-</dd>
+<dd>下一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id13">
@@ -636,18 +621,15 @@
 <p class="last">输入的参数传递给回调函数作为数组来作为第一个函数的参数。</p>
 </dd>
 <dt><em>参数 &lt;param_number&gt;</em></dt>
-<dd><p class="first last">指定输入的参数。此参数可以是一个变量 (如默认的  <code class="docutils literal"><span class="pre">R1</span></code> ) 或链接到一个场景物体，根据 <code class="docutils literal"><span class="pre">Type</span></code> 参数 （这些参数每一个总是有相应的 <code class="docutils literal"><span class="pre">Type</span></code> 参数） 的值。</p>
-</dd>
+<dd>指定输入的参数。此参数可以是一个变量 (如默认的  <code class="docutils literal"><span class="pre">R1</span></code> ) 或链接到一个场景物体，根据 <code class="docutils literal"><span class="pre">Type</span></code> 参数 （这些参数每一个总是有相应的 <code class="docutils literal"><span class="pre">Type</span></code> 参数） 的值。</dd>
 <dt><em>类型</em></dt>
-<dd><p class="first last">相应的输入参数的类型。它可以有两个值之一:  <code class="docutils literal"><span class="pre">Variable</span></code> （在这种情况下，其中一个变量将用作参数） 和  <code class="docutils literal"><span class="pre">Object</span></code>  （链接至一个场景物体）。</p>
-</dd>
+<dd>相应的输入参数的类型。它可以有两个值之一:  <code class="docutils literal"><span class="pre">Variable</span></code> （在这种情况下，其中一个变量将用作参数） 和  <code class="docutils literal"><span class="pre">Object</span></code>  （链接至一个场景物体）。</dd>
 <dt><em>输出参数</em></dt>
 <dd><p class="first">输出参数的列表。默认情况下为空。可以调整输出参数的数目。</p>
 <p class="last">一个数组，包含输出参数作为回调函数的第二个参数。</p>
 </dd>
 <dt><em>参数 &lt;param_number&gt;</em></dt>
-<dd><p class="first last">指定变量之一作为输出参数。默认情况下，使用 <code class="docutils literal"><span class="pre">R1</span></code> 变量。</p>
-</dd>
+<dd>指定变量之一作为输出参数。默认情况下，使用 <code class="docutils literal"><span class="pre">R1</span></code> 变量。</dd>
 </dl>
 </div>
 </div>
@@ -663,8 +645,7 @@
 <h4>输出参数<a class="headerlink" href="#id15" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>下一个</em></dt>
-<dd><p class="first last">下一个节点。</p>
-</dd>
+<dd>下一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id16">
@@ -673,9 +654,9 @@
 <dt><em>Function</em></dt>
 <dd>The name of the function.</dd>
 <dt><em>输入参数</em></dt>
-<dd>The list of the function&#8217;s input parameters. This list is empty by default, but you can add and remove variables using <code class="docutils literal"><span class="pre">+</span></code> and <code class="docutils literal"><span class="pre">-</span></code> buttons. Each variable can also be named.</dd>
+<dd>The list of the function’s input parameters. This list is empty by default, but you can add and remove variables using <code class="docutils literal"><span class="pre">+</span></code> and <code class="docutils literal"><span class="pre">-</span></code> buttons. Each variable can also be named.</dd>
 <dt><em>输出参数</em></dt>
-<dd>The list of the function&#8217;s output parameters. Works in the same way as the <code class="docutils literal"><span class="pre">In</span> <span class="pre">Params</span></code> list.</dd>
+<dd>The list of the function’s output parameters. Works in the same way as the <code class="docutils literal"><span class="pre">In</span> <span class="pre">Params</span></code> list.</dd>
 </dl>
 </div>
 </div>
@@ -687,16 +668,14 @@
 <h4>输入参数<a class="headerlink" href="#id17" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>上一个</em></dt>
-<dd><p class="first last">前一个节点。</p>
-</dd>
+<dd>前一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id18">
 <h4>输出参数<a class="headerlink" href="#id18" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>下一个</em></dt>
-<dd><p class="first last">下一个节点。</p>
-</dd>
+<dd>下一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id19">
@@ -724,16 +703,14 @@
 <h4>输入参数<a class="headerlink" href="#id20" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>上一个</em></dt>
-<dd><p class="first last">前一个节点。</p>
-</dd>
+<dd>前一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id21">
 <h4>输出参数<a class="headerlink" href="#id21" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>下一个</em></dt>
-<dd><p class="first last">下一个节点。</p>
-</dd>
+<dd>下一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id22">
@@ -743,14 +720,14 @@
 <dd><p class="first">First frame of the animation.</p>
 <div class="last admonition note">
 <p class="first admonition-title">注解</p>
-<p class="last">If this parameter is not specified, the animation plays from the current frame, i.e. if animation hasn&#8217;t been played yet, playback will start from the first frame of the timeline. If playback has been stopped with the <code class="docutils literal"><span class="pre">Stop</span> <span class="pre">Timeline</span></code> node and then started again, it will continue from the last played frame.</p>
+<p class="last">If this parameter is not specified, the animation plays from the current frame, i.e. if animation hasn’t been played yet, playback will start from the first frame of the timeline. If playback has been stopped with the <code class="docutils literal"><span class="pre">Stop</span> <span class="pre">Timeline</span></code> node and then started again, it will continue from the last played frame.</p>
 </div>
 </dd>
 <dt><em>结束标记</em></dt>
 <dd><p class="first">Last frame of the animation.</p>
 <div class="last admonition note">
 <p class="first admonition-title">注解</p>
-<p class="last">If this parameter is not specified, an animation plays to the next marker (or to the end of the timeline, if there isn&#8217;t any).</p>
+<p class="last">If this parameter is not specified, an animation plays to the next marker (or to the end of the timeline, if there isn’t any).</p>
 </div>
 </dd>
 <dt><em>不要等</em></dt>
@@ -766,16 +743,14 @@
 <h4>输入参数<a class="headerlink" href="#id23" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>上一个</em></dt>
-<dd><p class="first last">前一个节点。</p>
-</dd>
+<dd>前一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id24">
 <h4>输出参数<a class="headerlink" href="#id24" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>下一个</em></dt>
-<dd><p class="first last">下一个节点。</p>
-</dd>
+<dd>下一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id25">
@@ -801,16 +776,14 @@
 <h4>输入参数<a class="headerlink" href="#id26" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>上一个</em></dt>
-<dd><p class="first last">前一个节点。</p>
-</dd>
+<dd>前一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id27">
 <h4>输出参数<a class="headerlink" href="#id27" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>下一个</em></dt>
-<dd><p class="first last">下一个节点。</p>
-</dd>
+<dd>下一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id28">
@@ -821,27 +794,21 @@
 <dt><em>World</em></dt>
 <dd>Specifies the <code class="docutils literal"><span class="pre">World</span></code> object, animation of which will be played. This parameter is only available if the <code class="docutils literal"><span class="pre">Environment</span> <span class="pre">Anim.</span></code> parameter is enabled.</dd>
 <dt><em>物体</em></dt>
-<dd><p class="first last">物体，动画，其中将播放的名称。</p>
-</dd>
+<dd>物体，动画，其中将播放的名称。</dd>
 <dt><em>Variable</em></dt>
 <dd>If this parameter is enabled, an Object-type variable can be set in the <code class="docutils literal"><span class="pre">Object</span></code> field.</dd>
 <dt><em>动画名称</em></dt>
-<dd><p class="first last">要播放动画的名字。如果未指定，则整个时间轴将播放。</p>
-</dd>
+<dd>要播放动画的名字。如果未指定，则整个时间轴将播放。</dd>
 <dt><em>行为</em></dt>
 <dd><p class="first">指定动画行为。可以有以下值之一：</p>
 <ul class="last simple">
-<li><p class="first"><em>完成停止</em>  - 动画将播放一次。</p>
-</li>
-<li><p class="first"><em>完成重置</em>  - 动画将被播放一次，则该物体将返回到起点。</p>
-</li>
-<li><p class="first"><em>循环</em>  - 动画将被反复播放直到它被 <code class="docutils literal"><span class="pre">Stop</span> <span class="pre">Animation</span></code> 节点停止掉。</p>
-</li>
+<li><em>完成停止</em>  - 动画将播放一次。</li>
+<li><em>完成重置</em>  - 动画将被播放一次，则该物体将返回到起点。</li>
+<li><em>循环</em>  - 动画将被反复播放直到它被 <code class="docutils literal"><span class="pre">Stop</span> <span class="pre">Animation</span></code> 节点停止掉。</li>
 </ul>
 </dd>
 <dt><em>不要等</em></dt>
-<dd><p class="first last">如果该参数被启用，<code class="docutils literal"><span class="pre">Play</span> <span class="pre">Animation</span></code> 节点将控制传递到下一个节点上启动动画播放。如果不是，控制将被传递到播放完成后才会进入下一个节点。</p>
-</dd>
+<dd>如果该参数被启用，<code class="docutils literal"><span class="pre">Play</span> <span class="pre">Animation</span></code> 节点将控制传递到下一个节点上启动动画播放。如果不是，控制将被传递到播放完成后才会进入下一个节点。</dd>
 </dl>
 </div>
 </div>
@@ -853,16 +820,14 @@
 <h4>输入参数<a class="headerlink" href="#id29" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>上一个</em></dt>
-<dd><p class="first last">前一个节点。</p>
-</dd>
+<dd>前一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id30">
 <h4>输出参数<a class="headerlink" href="#id30" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>下一个</em></dt>
-<dd><p class="first last">下一个节点。</p>
-</dd>
+<dd>下一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id31">
@@ -877,8 +842,7 @@
 <dt><em>Variable</em></dt>
 <dd>If this parameter is enabled, an Object-type variable can be set in the <code class="docutils literal"><span class="pre">Object</span></code> field.</dd>
 <dt><em>设置第一帧</em></dt>
-<dd><p class="first last">返回到第一帧的动画已经停止之后。</p>
-</dd>
+<dd>返回到第一帧的动画已经停止之后。</dd>
 </dl>
 </div>
 </div>
@@ -893,16 +857,14 @@
 <h4>输入参数<a class="headerlink" href="#id32" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>上一个</em></dt>
-<dd><p class="first last">前一个节点。</p>
-</dd>
+<dd>前一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id33">
 <h4>输出参数<a class="headerlink" href="#id33" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>下一个</em></dt>
-<dd><p class="first last">下一个节点。</p>
-</dd>
+<dd>下一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id34">
@@ -921,8 +883,7 @@
 <p class="last">This parameter can be set directly or using an Object-type variable (if the <code class="docutils literal"><span class="pre">Variable</span></code> option is enabled).</p>
 </dd>
 <dt><em>持续</em></dt>
-<dd><p class="first last">相机被转移到一个新的位置将花费的时间（秒）。默认设置为零（在这种情况下，相机实际上并没有移动，它只是改变了它的位置）。它可以手动指定或作为一个变量的一个链接（如果是启用了变量的参数）。</p>
-</dd>
+<dd>相机被转移到一个新的位置将花费的时间（秒）。默认设置为零（在这种情况下，相机实际上并没有移动，它只是改变了它的位置）。它可以手动指定或作为一个变量的一个链接（如果是启用了变量的参数）。</dd>
 </dl>
 </div>
 </div>
@@ -934,16 +895,14 @@
 <h4>输入参数<a class="headerlink" href="#id35" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>上一个</em></dt>
-<dd><p class="first last">前一个节点。</p>
-</dd>
+<dd>前一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id36">
 <h4>输出参数<a class="headerlink" href="#id36" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>下一个</em></dt>
-<dd><p class="first last">下一个节点。</p>
-</dd>
+<dd>下一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id37">
@@ -954,38 +913,30 @@
 <p class="last">This parameter can be set directly or using an Object-type variable (if the <code class="docutils literal"><span class="pre">Variable</span></code> option is enabled).</p>
 </dd>
 <dt><em>新相机移动方式</em></dt>
-<dd><p class="first last">此参数指定相机将使用新的方式。四个选项可用： <code class="docutils literal"><span class="pre">Hover</span></code>, <code class="docutils literal"><span class="pre">Eye</span></code>, <code class="docutils literal"><span class="pre">Target</span></code> and <code class="docutils literal"><span class="pre">Static</span></code>.</p>
-</dd>
+<dd>此参数指定相机将使用新的方式。四个选项可用： <code class="docutils literal"><span class="pre">Hover</span></code>, <code class="docutils literal"><span class="pre">Eye</span></code>, <code class="docutils literal"><span class="pre">Target</span></code> and <code class="docutils literal"><span class="pre">Static</span></code>.</dd>
 </dl>
 <p>以下选项只是 <code class="docutils literal"><span class="pre">New</span> <span class="pre">Camera</span> <span class="pre">Move</span> <span class="pre">Style</span></code> 参数未设置为 <code class="docutils literal"><span class="pre">Static</span></code> 时才可用︰</p>
 <dl class="docutils">
 <dt><em>变换</em></dt>
-<dd><p class="first last">设置相机变换速度。默认情况下，此参数设置为 1.0。</p>
-</dd>
+<dd>设置相机变换速度。默认情况下，此参数设置为 1.0。</dd>
 <dt><em>旋转</em></dt>
-<dd><p class="first last">设置摄像机的旋转速度。默认情况下，此参数设置为 1.0。</p>
-</dd>
+<dd>设置摄像机的旋转速度。默认情况下，此参数设置为 1.0。</dd>
 <dt><em>放大</em></dt>
-<dd><p class="first last">设置相机的变焦速度。默认值为 0.10。只有 <code class="docutils literal"><span class="pre">New</span> <span class="pre">Camera</span> <span class="pre">Move</span> <span class="pre">Style</span></code> 参数设置为 <code class="docutils literal"><span class="pre">Hover</span></code> 或 <code class="docutils literal"><span class="pre">Target</span></code> 时才可用。</p>
-</dd>
+<dd>设置相机的变焦速度。默认值为 0.10。只有 <code class="docutils literal"><span class="pre">New</span> <span class="pre">Camera</span> <span class="pre">Move</span> <span class="pre">Style</span></code> 参数设置为 <code class="docutils literal"><span class="pre">Hover</span></code> 或 <code class="docutils literal"><span class="pre">Target</span></code> 时才可用。</dd>
 </dl>
 <p>以下参数用于指定目标或相机的轴心点和仅在 <code class="docutils literal"><span class="pre">New</span> <span class="pre">Camera</span> <span class="pre">Move</span> <span class="pre">Style</span></code> 参数设置为 <code class="docutils literal"><span class="pre">Hover</span></code> 或者 <code class="docutils literal"><span class="pre">Target</span></code> 时才可用︰</p>
 <dl class="docutils">
 <dt><em>使用物体</em></dt>
-<dd><p class="first last">此参数启用和禁用使用场景物体作为相机的目标或轴心点 （取决于相机类型）。如果它激活，一个文本字段将显示在指定的物体。此参数默认被禁用的。</p>
-</dd>
+<dd>此参数启用和禁用使用场景物体作为相机的目标或轴心点 （取决于相机类型）。如果它激活，一个文本字段将显示在指定的物体。此参数默认被禁用的。</dd>
 </dl>
 <p>如果``使用物体``参数被禁用，以下三个选项可用：</p>
 <dl class="docutils">
 <dt><em>x</em></dt>
-<dd><p class="first last">相机的目标/轴心点的 <code class="docutils literal"><span class="pre">X</span></code> 分量。</p>
-</dd>
+<dd>相机的目标/轴心点的 <code class="docutils literal"><span class="pre">X</span></code> 分量。</dd>
 <dt><em>y</em></dt>
-<dd><p class="first last">相机的目标/轴心点的 <code class="docutils literal"><span class="pre">Y</span></code> 分量。</p>
-</dd>
+<dd>相机的目标/轴心点的 <code class="docutils literal"><span class="pre">Y</span></code> 分量。</dd>
 <dt><em>z</em></dt>
-<dd><p class="first last">相机的目标/轴心点的 <code class="docutils literal"><span class="pre">Z</span></code> 分量。</p>
-</dd>
+<dd>相机的目标/轴心点的 <code class="docutils literal"><span class="pre">Z</span></code> 分量。</dd>
 </dl>
 </div>
 </div>
@@ -997,16 +948,14 @@
 <h4>输入参数<a class="headerlink" href="#id38" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>上一个</em></dt>
-<dd><p class="first last">前一个节点。</p>
-</dd>
+<dd>前一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id39">
 <h4>输出参数<a class="headerlink" href="#id39" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>下一个</em></dt>
-<dd><p class="first last">下一个节点。</p>
-</dd>
+<dd>下一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id40">
@@ -1017,23 +966,17 @@
 <p class="last">This parameter can be set directly or using an Object-type variable (if the <code class="docutils literal"><span class="pre">Variable</span></code> option is enabled).</p>
 </dd>
 <dt><em>Distance Limits</em></dt>
-<dd><p class="first last">设置 <code class="docutils literal"><span class="pre">距离限制</span></code> 参数用于   <a class="reference internal" href="camera.html#camera-target-type"><span>目标</span></a> 和 <a class="reference internal" href="camera.html#camera-hover-type"><span>悬停</span></a> 照相机类型。</p>
-</dd>
+<dd>设置 <code class="docutils literal"><span class="pre">距离限制</span></code> 参数用于   <a class="reference internal" href="camera.html#camera-target-type"><span class="std std-ref">目标</span></a> 和 <a class="reference internal" href="camera.html#camera-hover-type"><span class="std std-ref">悬停</span></a> 照相机类型。</dd>
 <dt><em>Hor. Rotation Limits</em></dt>
-<dd><p class="first last">设置  <code class="docutils literal"><span class="pre">水平旋转限制</span></code> 参数用于于  <a class="reference internal" href="camera.html#camera-target-type"><span>目标</span></a> 和 <a class="reference internal" href="camera.html#camera-eye-type"><span>眼</span></a>  照相机类型。</p>
-</dd>
+<dd>设置  <code class="docutils literal"><span class="pre">水平旋转限制</span></code> 参数用于于  <a class="reference internal" href="camera.html#camera-target-type"><span class="std std-ref">目标</span></a> 和 <a class="reference internal" href="camera.html#camera-eye-type"><span class="std std-ref">眼</span></a>  照相机类型。</dd>
 <dt><em>Vert. Rotation Limits</em></dt>
-<dd><p class="first last">设置  <code class="docutils literal"><span class="pre">垂直旋转限制</span></code> 参数用于于  <a class="reference internal" href="camera.html#camera-target-type"><span>目标</span></a>, <a class="reference internal" href="camera.html#camera-hover-type"><span>悬停</span></a> 和 <a class="reference internal" href="camera.html#camera-eye-type"><span>眼</span></a>  照相机类型。</p>
-</dd>
+<dd>设置  <code class="docutils literal"><span class="pre">垂直旋转限制</span></code> 参数用于于  <a class="reference internal" href="camera.html#camera-target-type"><span class="std std-ref">目标</span></a>, <a class="reference internal" href="camera.html#camera-hover-type"><span class="std std-ref">悬停</span></a> 和 <a class="reference internal" href="camera.html#camera-eye-type"><span class="std std-ref">眼</span></a>  照相机类型。</dd>
 <dt><em>Pivot Translation Limits</em></dt>
-<dd><p class="first last">设置 <code class="docutils literal"><span class="pre">轴点移动限制</span></code>  参数用于  <a class="reference internal" href="camera.html#camera-target-type"><span>目标</span></a>  相机类型。</p>
-</dd>
+<dd>设置 <code class="docutils literal"><span class="pre">轴点移动限制</span></code>  参数用于  <a class="reference internal" href="camera.html#camera-target-type"><span class="std std-ref">目标</span></a>  相机类型。</dd>
 <dt><em>Hor. Translation Limits</em></dt>
-<dd><p class="first last">设置  <code class="docutils literal"><span class="pre">水平移动限制</span></code> 参数用于  <a class="reference internal" href="camera.html#camera-hover-type"><span>悬停</span></a> 相机类型。</p>
-</dd>
+<dd>设置  <code class="docutils literal"><span class="pre">水平移动限制</span></code> 参数用于  <a class="reference internal" href="camera.html#camera-hover-type"><span class="std std-ref">悬停</span></a> 相机类型。</dd>
 <dt><em>Vert. Translation Limits</em></dt>
-<dd><p class="first last">设置 <code class="docutils literal"><span class="pre">垂直移动限制</span></code> 参数用于  <a class="reference internal" href="camera.html#camera-hover-type"><span>悬停</span></a>  相机类型。</p>
-</dd>
+<dd>设置 <code class="docutils literal"><span class="pre">垂直移动限制</span></code> 参数用于  <a class="reference internal" href="camera.html#camera-hover-type"><span class="std std-ref">悬停</span></a>  相机类型。</dd>
 </dl>
 </div>
 </div>
@@ -1048,29 +991,25 @@
 <h4>输入参数<a class="headerlink" href="#id41" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>上一个</em></dt>
-<dd><p class="first last">前一个节点。</p>
-</dd>
+<dd>前一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id42">
 <h4>输出参数<a class="headerlink" href="#id42" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>下一个</em></dt>
-<dd><p class="first last">下一个节点。</p>
-</dd>
+<dd>下一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id43">
 <h4>内部参数<a class="headerlink" href="#id43" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>物体</em></dt>
-<dd><p class="first last">显示一个物体。</p>
-</dd>
+<dd>显示一个物体。</dd>
 <dt><em>Variable</em></dt>
 <dd>If this parameter is enabled, an Object-type variable can be set in the <code class="docutils literal"><span class="pre">Object</span></code> field.</dd>
 <dt><em>处理子物体</em></dt>
-<dd><p class="first last">如果启用此参数，则将显示子物体。</p>
-</dd>
+<dd>如果启用此参数，则将显示子物体。</dd>
 </dl>
 </div>
 </div>
@@ -1082,29 +1021,25 @@
 <h4>输入参数<a class="headerlink" href="#id44" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>上一个</em></dt>
-<dd><p class="first last">前一个节点。</p>
-</dd>
+<dd>前一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id45">
 <h4>输出参数<a class="headerlink" href="#id45" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>下一个</em></dt>
-<dd><p class="first last">下一个节点。</p>
-</dd>
+<dd>下一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id46">
 <h4>内部参数<a class="headerlink" href="#id46" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>物体</em></dt>
-<dd><p class="first last">一个物体隐藏。</p>
-</dd>
+<dd>一个物体隐藏。</dd>
 <dt><em>Variable</em></dt>
 <dd>If this parameter is enabled, an Object-type variable can be set in the <code class="docutils literal"><span class="pre">Object</span></code> field.</dd>
 <dt><em>处理子物体</em></dt>
-<dd><p class="first last">如果启用此参数，则将隐藏子物体。</p>
-</dd>
+<dd>如果启用此参数，则将隐藏子物体。</dd>
 </dl>
 </div>
 </div>
@@ -1116,50 +1051,40 @@
 <h4>输入参数<a class="headerlink" href="#id47" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>上一个</em></dt>
-<dd><p class="first last">前一个节点。</p>
-</dd>
+<dd>前一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id48">
 <h4>输出参数<a class="headerlink" href="#id48" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>下一个</em></dt>
-<dd><p class="first last">下一个节点。</p>
-</dd>
+<dd>下一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id49">
 <h4>内部参数<a class="headerlink" href="#id49" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>物体</em></dt>
-<dd><p class="first last">需要进行变换的物体。</p>
-</dd>
+<dd>需要进行变换的物体。</dd>
 <dt><em>Variable</em></dt>
 <dd>If this parameter is enabled, an Object-type variable can be set in the <code class="docutils literal"><span class="pre">Object</span></code> field.</dd>
 <dt><em>空间</em></dt>
 <dd><p class="first">此参数定义将用于转换的物体的坐标空间。它可以具有下列值之一 ︰</p>
 <ul class="simple">
-<li><p class="first"><code class="docutils literal"><span class="pre">World</span></code> - 全局坐标空间。</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">Parent</span></code> - 物体在  <code class="docutils literal"><span class="pre">Object</span></code> 参数中指定的父物体的本地坐标系统。父物体的原点作为坐标的中心，而它的旋转角度定义坐标轴的方向。</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">Local</span></code> -所选物体的局部坐标空间。类似于 <code class="docutils literal"><span class="pre">Parent</span></code> 坐标空间，但在这种情况下，物体本身的起始点作为坐标原点。</p>
-</li>
+<li><code class="docutils literal"><span class="pre">World</span></code> - 全局坐标空间。</li>
+<li><code class="docutils literal"><span class="pre">Parent</span></code> - 物体在  <code class="docutils literal"><span class="pre">Object</span></code> 参数中指定的父物体的本地坐标系统。父物体的原点作为坐标的中心，而它的旋转角度定义坐标轴的方向。</li>
+<li><code class="docutils literal"><span class="pre">Local</span></code> -所选物体的局部坐标空间。类似于 <code class="docutils literal"><span class="pre">Parent</span></code> 坐标空间，但在这种情况下，物体本身的起始点作为坐标原点。</li>
 </ul>
 <p class="last">默认设置为  <code class="docutils literal"><span class="pre">World</span></code> 。</p>
 </dd>
 <dt><em>位置</em></dt>
-<dd><p class="first last">如何沿着  <code class="docutils literal"><span class="pre">X</span></code>, <code class="docutils literal"><span class="pre">Y</span></code> 和 <code class="docutils literal"><span class="pre">Z</span></code> 轴移动物体。默认情况下，所有三个参数设置为零。值可以指定节点本身或通过变量 （如果启用了变量选项）。</p>
-</dd>
+<dd>如何沿着  <code class="docutils literal"><span class="pre">X</span></code>, <code class="docutils literal"><span class="pre">Y</span></code> 和 <code class="docutils literal"><span class="pre">Z</span></code> 轴移动物体。默认情况下，所有三个参数设置为零。值可以指定节点本身或通过变量 （如果启用了变量选项）。</dd>
 <dt><em>旋转</em></dt>
-<dd><p class="first last">围绕 <code class="docutils literal"><span class="pre">X</span></code>, <code class="docutils literal"><span class="pre">Y</span></code> 和 <code class="docutils literal"><span class="pre">Z</span></code> 轴旋转物体。所有的三个值都设置为零，默认情况。可以指定节点中直接或通过变量 （如果启用了变量选项）。</p>
-</dd>
+<dd>围绕 <code class="docutils literal"><span class="pre">X</span></code>, <code class="docutils literal"><span class="pre">Y</span></code> 和 <code class="docutils literal"><span class="pre">Z</span></code> 轴旋转物体。所有的三个值都设置为零，默认情况。可以指定节点中直接或通过变量 （如果启用了变量选项）。</dd>
 <dt><em>缩放</em></dt>
-<dd><p class="first last">物体的大小。可以指定直接或通过一个变量 （如果启用了变量参数）。默认设置为 1。</p>
-</dd>
+<dd>物体的大小。可以指定直接或通过一个变量 （如果启用了变量参数）。默认设置为 1。</dd>
 <dt><em>持续</em></dt>
-<dd><p class="first last">变换需要的时间 （以秒为单位）。它可以指定直接或用变量 （若要做到这一点，变量参数应启用）。设置为零，默认情况。</p>
-</dd>
+<dd>变换需要的时间 （以秒为单位）。它可以指定直接或用变量 （若要做到这一点，变量参数应启用）。设置为零，默认情况。</dd>
 </dl>
 </div>
 </div>
@@ -1171,16 +1096,14 @@
 <h4>输入参数<a class="headerlink" href="#id50" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>上一个</em></dt>
-<dd><p class="first last">前一个节点。</p>
-</dd>
+<dd>前一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id51">
 <h4>输出参数<a class="headerlink" href="#id51" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>下一个</em></dt>
-<dd><p class="first last">下一个节点。</p>
-</dd>
+<dd>下一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id52">
@@ -1193,8 +1116,7 @@
 <p class="last">This parameter can be set directly or using an Object-type variable (if the <code class="docutils literal"><span class="pre">Variable</span></code> option is enabled).</p>
 </dd>
 <dt><em>持续</em></dt>
-<dd><p class="first last">该物体将移到新位置花的时间 （以秒为单位）。默认情况下，此参数设置为零 （和在这种情况下，物体实际上并不移动，它只是改变了其在一个时刻的位置）。它可以设置手动或用变量 （仅当启用了变量参数可用）。</p>
-</dd>
+<dd>该物体将移到新位置花的时间 （以秒为单位）。默认情况下，此参数设置为零 （和在这种情况下，物体实际上并不移动，它只是改变了其在一个时刻的位置）。它可以设置手动或用变量 （仅当启用了变量参数可用）。</dd>
 </dl>
 </div>
 </div>
@@ -1206,27 +1128,23 @@
 <h4>输入参数<a class="headerlink" href="#id53" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>上一个</em></dt>
-<dd><p class="first last">前一个节点。</p>
-</dd>
+<dd>前一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id54">
 <h4>输出参数<a class="headerlink" href="#id54" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>下一个</em></dt>
-<dd><p class="first last">下一个节点。</p>
-</dd>
+<dd>下一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id55">
 <h4>内部参数<a class="headerlink" href="#id55" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>物体</em></dt>
-<dd><p class="first last">待转化需要的物体。</p>
-</dd>
+<dd>待转化需要的物体。</dd>
 <dt><em>形变关键帧</em></dt>
-<dd><p class="first last">形状将被应用到物体的密钥。</p>
-</dd>
+<dd>形状将被应用到物体的密钥。</dd>
 <dt><em>值</em></dt>
 <dd>How much the shape key will influence the object. This value can be set directly in the node or using a variable (if the <code class="docutils literal"><span class="pre">Variable</span></code> parameter is set). The value should be between 0 and 1.</dd>
 </dl>
@@ -1240,40 +1158,33 @@
 <h4>输入参数<a class="headerlink" href="#id56" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>上一个</em></dt>
-<dd><p class="first last">前一个节点。</p>
-</dd>
+<dd>前一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id57">
 <h4>输出参数<a class="headerlink" href="#id57" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>下一个</em></dt>
-<dd><p class="first last">下一个节点。</p>
-</dd>
+<dd>下一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id58">
 <h4>内部参数<a class="headerlink" href="#id58" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>物体</em></dt>
-<dd><p class="first last">的轮廓效果的任何更改将只适用于由该参数指定的物体。</p>
-</dd>
+<dd>的轮廓效果的任何更改将只适用于由该参数指定的物体。</dd>
 <dt><em>Variable</em></dt>
 <dd>If this parameter is enabled, an Object-type variable can be set in the <code class="docutils literal"><span class="pre">Object</span></code> field.</dd>
 <dt><em>操作</em></dt>
 <dd><p class="first">指定将完成到该物体的轮廓的操作。这个参数可以具有以下值之一：</p>
 <ul class="last simple">
-<li><p class="first"><em>PLAY</em> 启用轮廓动画</p>
-</li>
-<li><p class="first"><em>停止</em> 禁用它</p>
-</li>
-<li><p class="first"><em>INTENSITY</em> 可以用来设置该物体的轮廓强度</p>
-</li>
+<li><em>PLAY</em> 启用轮廓动画</li>
+<li><em>停止</em> 禁用它</li>
+<li><em>INTENSITY</em> 可以用来设置该物体的轮廓强度</li>
 </ul>
 </dd>
 <dt><em>强度</em></dt>
-<dd><p class="first last">轮廓强度。如果 <code class="docutils literal"><span class="pre">Operation</span></code> 参数设置为 <code class="docutils literal"><span class="pre">INTENSITY</span></code>  时此参数才是可用的。值可以设置手动或通过变量 （如果启用了变量参数）。</p>
-</dd>
+<dd>轮廓强度。如果 <code class="docutils literal"><span class="pre">Operation</span></code> 参数设置为 <code class="docutils literal"><span class="pre">INTENSITY</span></code>  时此参数才是可用的。值可以设置手动或通过变量 （如果启用了变量参数）。</dd>
 </dl>
 </div>
 </div>
@@ -1285,33 +1196,27 @@
 <h4>输入参数<a class="headerlink" href="#id59" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>上一个</em></dt>
-<dd><p class="first last">前一个节点。</p>
-</dd>
+<dd>前一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id60">
 <h4>输出参数<a class="headerlink" href="#id60" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>下一个</em></dt>
-<dd><p class="first last">下一个节点。</p>
-</dd>
+<dd>下一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id61">
 <h4>内部参数<a class="headerlink" href="#id61" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>物体</em></dt>
-<dd><p class="first last">有需要被编辑材质的物体。</p>
-</dd>
+<dd>有需要被编辑材质的物体。</dd>
 <dt><em>材质</em></dt>
-<dd><p class="first last">需要材质进行编辑。它应使用的节点。</p>
-</dd>
+<dd>需要材质进行编辑。它应使用的节点。</dd>
 <dt>RGB节点</dt>
-<dd><p class="first last">可以改变参数的节点。现在，只有 <code class="docutils literal"><span class="pre">Value</span></code> 和 <code class="docutils literal"><span class="pre">RGB</span></code> 节点被支持。</p>
-</dd>
+<dd>可以改变参数的节点。现在，只有 <code class="docutils literal"><span class="pre">Value</span></code> 和 <code class="docutils literal"><span class="pre">RGB</span></code> 节点被支持。</dd>
 <dt><em>参数</em></dt>
-<dd><p class="first last">可编辑参数的选定节点。在设置时可以在节点本身或通过变量 （如果启用了变量参数）。</p>
-</dd>
+<dd>可编辑参数的选定节点。在设置时可以在节点本身或通过变量 （如果启用了变量参数）。</dd>
 </dl>
 </div>
 </div>
@@ -1323,33 +1228,27 @@
 <h4>输入参数<a class="headerlink" href="#id62" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>上一个</em></dt>
-<dd><p class="first last">前一个节点。</p>
-</dd>
+<dd>前一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id63">
 <h4>输出参数<a class="headerlink" href="#id63" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>下一个</em></dt>
-<dd><p class="first last">下一个节点。</p>
-</dd>
+<dd>下一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id64">
 <h4>内部参数<a class="headerlink" href="#id64" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>源</em></dt>
-<dd><p class="first last">物体的材质可以被继承。</p>
-</dd>
+<dd>物体的材质可以被继承。</dd>
 <dt><em>材质</em></dt>
-<dd><p class="first last">要继承的材质。</p>
-</dd>
+<dd>要继承的材质。</dd>
 <dt><em>目标</em></dt>
-<dd><p class="first last">一个物体，将继承选定的材质。</p>
-</dd>
+<dd>一个物体，将继承选定的材质。</dd>
 <dt><em>材质</em></dt>
-<dd><p class="first last">将由继承所替代的材质。</p>
-</dd>
+<dd>将由继承所替代的材质。</dd>
 </dl>
 </div>
 </div>
@@ -1364,31 +1263,27 @@
 <h4>输入参数<a class="headerlink" href="#id65" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>上一个</em></dt>
-<dd><p class="first last">前一个节点。</p>
-</dd>
+<dd>前一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id66">
 <h4>输出参数<a class="headerlink" href="#id66" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>下一个</em></dt>
-<dd><p class="first last">下一个节点。</p>
-</dd>
+<dd>下一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id67">
 <h4>内部参数<a class="headerlink" href="#id67" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>变量名称</em></dt>
-<dd><p class="first last">变量的名称。可以从变量列表中选定或手动指定 (如果 <code class="docutils literal"><span class="pre">New</span> <span class="pre">variable</span></code> 参数已启用)。</p>
-</dd>
+<dd>变量的名称。可以从变量列表中选定或手动指定 (如果 <code class="docutils literal"><span class="pre">New</span> <span class="pre">variable</span></code> 参数已启用)。</dd>
 <dt><em>类型</em></dt>
 <dd>Variable’s type. This parameter can have one of the three values: <code class="docutils literal"><span class="pre">Number</span></code> (for numerical variables), <code class="docutils literal"><span class="pre">String</span></code> (for string variables) or <code class="docutils literal"><span class="pre">Object</span></code> (for object variables).</dd>
 <dt><em>物体</em></dt>
 <dd>This parameter is used to specify the object that will be used as a variable. It is only available if the <code class="docutils literal"><span class="pre">Type</span></code> parameter is set to <code class="docutils literal"><span class="pre">Object</span></code>.</dd>
 <dt><em>新变量</em></dt>
-<dd><p class="first last">如果启用此参数，则可以手动输入变量名称并不只是选择其中一个变量。这可以用于应用程序和服务器之间传输的数据。</p>
-</dd>
+<dd>如果启用此参数，则可以手动输入变量名称并不只是选择其中一个变量。这可以用于应用程序和服务器之间传输的数据。</dd>
 <dt><em>全局</em></dt>
 <dd><p class="first">启用此参数可使变量成全局变量。仅当启用了 <code class="docutils literal"><span class="pre">New</span> <span class="pre">Variable</span></code> 参数可用。</p>
 <a class="last reference internal image-reference" href="_images/logic_editor_variable_global.png"><img alt="_images/logic_editor_variable_global.png" class="align-center" src="_images/logic_editor_variable_global.png" style="width: 100%;" /></a>
@@ -1404,16 +1299,14 @@
 <h4>输入参数<a class="headerlink" href="#id68" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>上一个</em></dt>
-<dd><p class="first last">前一个节点。</p>
-</dd>
+<dd>前一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id69">
 <h4>输出参数<a class="headerlink" href="#id69" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>下一个</em></dt>
-<dd><p class="first last">下一个节点。</p>
-</dd>
+<dd>下一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id70">
@@ -1422,51 +1315,31 @@
 <dt><em>操作</em></dt>
 <dd><p class="first">数学运算。可以有以下几种类型：</p>
 <ul class="last simple">
-<li><p class="first"><em>随机</em> 产生比第一操作数大比第二个小的随机值。</p>
-</li>
-<li><p class="first"><em>添加</em> 量操作数相加。</p>
-</li>
-<li><p class="first"><em>乘</em> 将操作数相乘。</p>
-</li>
-<li><p class="first"><em>减去</em> 从所述第一个数中减去第二个操作数。</p>
-</li>
-<li><p class="first"><em>除数</em> 由第二个把第一个操作数除。</p>
-</li>
-<li><p class="first"><em>正弦</em> 返回第一个操作数所定义的角度 （以弧度为单位来衡量） 的正弦值。</p>
-</li>
-<li><p class="first"><em>余弦</em> 返回第一个操作数所定义的角度 （以弧度为单位来衡量） 的余弦值</p>
-</li>
-<li><p class="first"><em>正切</em> 返回第一个操作数所定义的角度 （以弧度为单位来衡量） 的正切值。</p>
-</li>
-<li><p class="first"><em>反正弦</em> 返回第一个操作数的反正弦值。</p>
-</li>
-<li><p class="first"><em>反余弦</em> 返回第一个操作数的反余弦值。</p>
-</li>
-<li><p class="first"><em>反正切</em> 返回第一个操作数的反正切值。</p>
-</li>
-<li><p class="first"><em>对数</em> 返回用第二个操作数用作基底的第一个操作数的对数值。</p>
-</li>
-<li><p class="first"><em>最小</em> 返回一个较小的两个操作数。</p>
-</li>
-<li><p class="first"><em>最大</em> 返回两个操作数的其中大的那个。</p>
-</li>
-<li><p class="first"><em>四舍五入</em> 四舍五入第一个操作数。</p>
-</li>
-<li><p class="first"><em>求余</em> 返回第一个数被第二个数相除后的余数。</p>
-</li>
-<li><p class="first"><em>绝对值</em> 返回第一个操作数的绝对值。</p>
-</li>
+<li><em>随机</em> 产生比第一操作数大比第二个小的随机值。</li>
+<li><em>添加</em> 量操作数相加。</li>
+<li><em>乘</em> 将操作数相乘。</li>
+<li><em>减去</em> 从所述第一个数中减去第二个操作数。</li>
+<li><em>除数</em> 由第二个把第一个操作数除。</li>
+<li><em>正弦</em> 返回第一个操作数所定义的角度 （以弧度为单位来衡量） 的正弦值。</li>
+<li><em>余弦</em> 返回第一个操作数所定义的角度 （以弧度为单位来衡量） 的余弦值</li>
+<li><em>正切</em> 返回第一个操作数所定义的角度 （以弧度为单位来衡量） 的正切值。</li>
+<li><em>反正弦</em> 返回第一个操作数的反正弦值。</li>
+<li><em>反余弦</em> 返回第一个操作数的反余弦值。</li>
+<li><em>反正切</em> 返回第一个操作数的反正切值。</li>
+<li><em>对数</em> 返回用第二个操作数用作基底的第一个操作数的对数值。</li>
+<li><em>最小</em> 返回一个较小的两个操作数。</li>
+<li><em>最大</em> 返回两个操作数的其中大的那个。</li>
+<li><em>四舍五入</em> 四舍五入第一个操作数。</li>
+<li><em>求余</em> 返回第一个数被第二个数相除后的余数。</li>
+<li><em>绝对值</em> 返回第一个操作数的绝对值。</li>
 </ul>
 </dd>
 <dt><em>Operand1</em></dt>
-<dd><p class="first last">对于第一个操作数。它可以在节点中指定或它可以链接到一个变量 （如果启用了变量参数）。</p>
-</dd>
+<dd>对于第一个操作数。它可以在节点中指定或它可以链接到一个变量 （如果启用了变量参数）。</dd>
 <dt><em>Operand2</em></dt>
-<dd><p class="first last">第二操作数。的工作方式与第一个同。</p>
-</dd>
+<dd>第二操作数。的工作方式与第一个同。</dd>
 <dt><em>目标</em></dt>
-<dd><p class="first last">该运算的结果将保存在此参数所指定的变量中。</p>
-</dd>
+<dd>该运算的结果将保存在此参数所指定的变量中。</dd>
 </dl>
 </div>
 </div>
@@ -1478,16 +1351,14 @@
 <h4>输入参数<a class="headerlink" href="#id71" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>上一个</em></dt>
-<dd><p class="first last">前一个节点。</p>
-</dd>
+<dd>前一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id72">
 <h4>输出参数<a class="headerlink" href="#id72" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>下一个</em></dt>
-<dd><p class="first last">下一个节点。</p>
-</dd>
+<dd>下一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id73">
@@ -1496,36 +1367,25 @@
 <dt><em>操作</em></dt>
 <dd><p class="first">您需要有两个字符串，其可具有以下值中的一个来执行操作：</p>
 <ul class="last simple">
-<li><p class="first"><em>加入</em>  - 连接两个字符串合并为一个。</p>
-</li>
-<li><p class="first"><em>查找</em> - 如果第二个字符串在第一个里面出现就将在第一个里面出现的第二个的索引位置写入变量。如果没有匹配项，则将写入值为-1。应该指出的是，字符串的第一个符号具有索引为 0，不是 1。</p>
-</li>
-<li><p class="first"><em>替换</em> 用第三个字符串替换第一个字符串中出现的第二个字符串。</p>
-</li>
-<li><p class="first"><em>拆分</em> 用第二个字符串在第一个字符串中出现位置作为拆分标记将第一个字符串拆成两个</p>
-</li>
-<li><p class="first"><em>比较</em> 比较两个字符串。对于此操作，您需要指定一个逻辑条件。如果满足此条件，值为 1 将被输出到 <code class="docutils literal"><span class="pre">Destination</span></code> 变量，如果不是，零将被输出。</p>
-</li>
+<li><em>加入</em>  - 连接两个字符串合并为一个。</li>
+<li><em>查找</em> - 如果第二个字符串在第一个里面出现就将在第一个里面出现的第二个的索引位置写入变量。如果没有匹配项，则将写入值为-1。应该指出的是，字符串的第一个符号具有索引为 0，不是 1。</li>
+<li><em>替换</em> 用第三个字符串替换第一个字符串中出现的第二个字符串。</li>
+<li><em>拆分</em> 用第二个字符串在第一个字符串中出现位置作为拆分标记将第一个字符串拆成两个</li>
+<li><em>比较</em> 比较两个字符串。对于此操作，您需要指定一个逻辑条件。如果满足此条件，值为 1 将被输出到 <code class="docutils literal"><span class="pre">Destination</span></code> 变量，如果不是，零将被输出。</li>
 </ul>
 </dd>
 <dt><em>条件</em></dt>
-<dd><p class="first last">要比较两个字符串的逻辑条件。只有  <code class="docutils literal"><span class="pre">Operation</span></code> 参数设置为 <code class="docutils literal"><span class="pre">Compare</span></code>，此参数才可用。 和  <code class="docutils literal"><span class="pre">Conditional</span> <span class="pre">Jump</span></code> 节点的 <code class="docutils literal"><span class="pre">Condition</span></code> 参数相同的工作。</p>
-</dd>
+<dd>要比较两个字符串的逻辑条件。只有  <code class="docutils literal"><span class="pre">Operation</span></code> 参数设置为 <code class="docutils literal"><span class="pre">Compare</span></code>，此参数才可用。 和  <code class="docutils literal"><span class="pre">Conditional</span> <span class="pre">Jump</span></code> 节点的 <code class="docutils literal"><span class="pre">Condition</span></code> 参数相同的工作。</dd>
 <dt><em>Operand1</em></dt>
-<dd><p class="first last">第一个字符串。可以指定在该节点本身或与一个变量。</p>
-</dd>
+<dd>第一个字符串。可以指定在该节点本身或与一个变量。</dd>
 <dt><em>Operand2</em></dt>
-<dd><p class="first last">第二个字符串。的工作方式与第一个相同。</p>
-</dd>
+<dd>第二个字符串。的工作方式与第一个相同。</dd>
 <dt><em>操作数3</em></dt>
-<dd><p class="first last">只有 <code class="docutils literal"><span class="pre">Operation</span></code> 参数设置为 <code class="docutils literal"><span class="pre">Replace</span></code>，此参数才可用。可以用来指定第三个字符串，将替换在第一个中出现的第二个字符串。</p>
-</dd>
+<dd>只有 <code class="docutils literal"><span class="pre">Operation</span></code> 参数设置为 <code class="docutils literal"><span class="pre">Replace</span></code>，此参数才可用。可以用来指定第三个字符串，将替换在第一个中出现的第二个字符串。</dd>
 <dt><em>目标</em></dt>
-<dd><p class="first last">一个变量来保存操作的结果。</p>
-</dd>
+<dd>一个变量来保存操作的结果。</dd>
 <dt><em>Destination2</em></dt>
-<dd><p class="first last">只有 <code class="docutils literal"><span class="pre">Operation</span></code> 参数设置为  <code class="docutils literal"><span class="pre">Split</span></code>，此参数才可用。指定的变量来保存第二个拆分 （第一半将被保存到 <code class="docutils literal"><span class="pre">Destination</span></code> 参数所指定的变量） 的字符串。</p>
-</dd>
+<dd>只有 <code class="docutils literal"><span class="pre">Operation</span></code> 参数设置为  <code class="docutils literal"><span class="pre">Split</span></code>，此参数才可用。指定的变量来保存第二个拆分 （第一半将被保存到 <code class="docutils literal"><span class="pre">Destination</span></code> 参数所指定的变量） 的字符串。</dd>
 </dl>
 </div>
 </div>
@@ -1540,29 +1400,25 @@
 <h4>输入参数<a class="headerlink" href="#id74" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>上一个</em></dt>
-<dd><p class="first last">前一个节点。</p>
-</dd>
+<dd>前一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id75">
 <h4>输出参数<a class="headerlink" href="#id75" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>下一个</em></dt>
-<dd><p class="first last">下一个节点。</p>
-</dd>
+<dd>下一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id76">
 <h4>内部参数<a class="headerlink" href="#id76" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>扬声器</em></dt>
-<dd><p class="first last">将启用的扬声器。</p>
-</dd>
+<dd>将启用的扬声器。</dd>
 <dt><em>Variable</em></dt>
 <dd>If this parameter is enabled, an Object-type variable can be set in the <code class="docutils literal"><span class="pre">Speaker</span></code> field.</dd>
 <dt><em>不要等</em></dt>
-<dd><p class="first last">如果启用此参数，控制将声音开始播放后立即传递到下一个节点。如果未启用它，当播放完成控制只会通过。</p>
-</dd>
+<dd>如果启用此参数，控制将声音开始播放后立即传递到下一个节点。如果未启用它，当播放完成控制只会通过。</dd>
 </dl>
 </div>
 </div>
@@ -1574,24 +1430,21 @@
 <h4>输入参数<a class="headerlink" href="#id77" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>上一个</em></dt>
-<dd><p class="first last">前一个节点。</p>
-</dd>
+<dd>前一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id78">
 <h4>输出参数<a class="headerlink" href="#id78" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>下一个</em></dt>
-<dd><p class="first last">下一个节点。</p>
-</dd>
+<dd>下一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id79">
 <h4>内部参数<a class="headerlink" href="#id79" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>扬声器</em></dt>
-<dd><p class="first last">将被关闭的扬声器。</p>
-</dd>
+<dd>将被关闭的扬声器。</dd>
 <dt><em>Variable</em></dt>
 <dd>If this parameter is enabled, an Object-type variable can be set in the <code class="docutils literal"><span class="pre">Speaker</span></code> field.</dd>
 </dl>
@@ -1608,16 +1461,14 @@
 <h4>输入参数<a class="headerlink" href="#id80" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>上一个</em></dt>
-<dd><p class="first last">前一个节点。</p>
-</dd>
+<dd>前一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id81">
 <h4>输出参数<a class="headerlink" href="#id81" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>下一个</em></dt>
-<dd><p class="first last">下一个节点。</p>
-</dd>
+<dd>下一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id82">
@@ -1626,23 +1477,20 @@
 <dt><em>方法</em></dt>
 <dd><p class="first">请求方法。可以有两个值之一：</p>
 <ul class="simple">
-<li><p class="first"><em>GET</em> 用来从服务器请求数据。</p>
-</li>
-<li><p class="first"><em>POST</em> 被用于将数据发送到服务器。</p>
-</li>
+<li><em>GET</em> 用来从服务器请求数据。</li>
+<li><em>POST</em> 被用于将数据发送到服务器。</li>
 </ul>
 <p class="last">默认设置为 <code class="docutils literal"><span class="pre">GET</span></code> 。</p>
 </dd>
 <dt><em>Url</em></dt>
 <dd>A web address to send request to. It can be defined directly or using a variable (if the <code class="docutils literal"><span class="pre">Variable</span> <span class="pre">URL</span></code> option is enabled). Set to “<a class="reference external" href="https://www.blend4web.com">https://www.blend4web.com</a>” by default.</dd>
 <dt><em>响应参数</em></dt>
-<dd><p class="first last">指定要保存接收到来自服务器的数据的变量。</p>
-</dd>
+<dd>指定要保存接收到来自服务器的数据的变量。</dd>
 </dl>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
 <p>从服务器收到的数据应该是JSON格式 ︰</p>
-<div class="last highlight-json"><div class="highlight"><pre><span class="p">{</span>
+<div class="last highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
     <span class="nt">&quot;var0&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
     <span class="nt">&quot;var1&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
     <span class="nt">&quot;var2&quot;</span><span class="p">:</span> <span class="mi">144</span>
@@ -1652,11 +1500,9 @@
 </div>
 <dl class="docutils">
 <dt><em>Content-Type</em></dt>
-<dd><p class="first last">表示信息内容的媒体类型。一个类型和子类型，例如包括：<code class="docutils literal"><span class="pre">text/plain</span></code>。默认设置为 <code class="docutils literal"><span class="pre">Auto</span></code> 。可以用来重新分配HTTP请求的标题。</p>
-</dd>
+<dd>表示信息内容的媒体类型。一个类型和子类型，例如包括：<code class="docutils literal"><span class="pre">text/plain</span></code>。默认设置为 <code class="docutils literal"><span class="pre">Auto</span></code> 。可以用来重新分配HTTP请求的标题。</dd>
 <dt><em>Request Params</em></dt>
-<dd><p class="first last">指定将发送到服务器的包含 JSON 物体的变量。 <code class="docutils literal"><span class="pre">Method</span></code> 参数设置为 <code class="docutils literal"><span class="pre">Method</span></code> 时才可用。默认值为 <code class="docutils literal"><span class="pre">R1</span></code> 。</p>
-</dd>
+<dd>指定将发送到服务器的包含 JSON 物体的变量。 <code class="docutils literal"><span class="pre">Method</span></code> 参数设置为 <code class="docutils literal"><span class="pre">Method</span></code> 时才可用。默认值为 <code class="docutils literal"><span class="pre">R1</span></code> 。</dd>
 </dl>
 </div>
 </div>
@@ -1668,40 +1514,34 @@
 <h4>输入参数<a class="headerlink" href="#id83" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>上一个</em></dt>
-<dd><p class="first last">前一个节点。</p>
-</dd>
+<dd>前一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id84">
 <h4>输出参数<a class="headerlink" href="#id84" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>下一个</em></dt>
-<dd><p class="first last">下一个节点。</p>
-</dd>
+<dd>下一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id85">
 <h4>内部参数<a class="headerlink" href="#id85" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>JSON</em></dt>
-<dd><p class="first last">链接到一个您需要进行解码或编码的 JSON 物体。默认设置为 <code class="docutils literal"><span class="pre">R1</span></code> 。</p>
-</dd>
+<dd>链接到一个您需要进行解码或编码的 JSON 物体。默认设置为 <code class="docutils literal"><span class="pre">R1</span></code> 。</dd>
 <dt><em>JSON 操作</em></dt>
-<dd><p class="first last">需要对 <code class="docutils literal"><span class="pre">JSON</span></code>  参数所指定的 JSON 物体执行的操作。可以有两个值之一: <code class="docutils literal"><span class="pre">ENCODE</span></code> 对  JSON 物体进行编码 和 <code class="docutils literal"><span class="pre">PARSE</span></code> 进行解码。默认设置为 <code class="docutils literal"><span class="pre">ENCODE</span></code> 。</p>
-</dd>
+<dd>需要对 <code class="docutils literal"><span class="pre">JSON</span></code>  参数所指定的 JSON 物体执行的操作。可以有两个值之一: <code class="docutils literal"><span class="pre">ENCODE</span></code> 对  JSON 物体进行编码 和 <code class="docutils literal"><span class="pre">PARSE</span></code> 进行解码。默认设置为 <code class="docutils literal"><span class="pre">ENCODE</span></code> 。</dd>
 <dt><em>Paths</em></dt>
-<dd><p class="first last">一个JSON物体内部的变量的路径列表。路径是用来定义一个JSON物体的内部结构。路径应该包括几个标识符（用逗号分隔），作为一个JSON字段路径。如果路径的片段的名称仅由数字组成，则该名称将被解释为数组索引。路径的创建和删除跟变量是同时的（变量列表），和一个路径总是对应于一个变量。这个列表可以用来进行编码和解码的JSON物体。默认情况下，列表是空的。</p>
-</dd>
+<dd>一个JSON物体内部的变量的路径列表。路径是用来定义一个JSON物体的内部结构。路径应该包括几个标识符（用逗号分隔），作为一个JSON字段路径。如果路径的片段的名称仅由数字组成，则该名称将被解释为数组索引。路径的创建和删除跟变量是同时的（变量列表），和一个路径总是对应于一个变量。这个列表可以用来进行编码和解码的JSON物体。默认情况下，列表是空的。</dd>
 <dt><em>Variables</em></dt>
-<dd><p class="first last">变量列表，将用于存储数据的解码或编码一个JSON物体（取决于 <code class="docutils literal"><span class="pre">JSON</span> <span class="pre">Operation</span></code> 参数的值）。变量总是有类似 <code class="docutils literal"><span class="pre">var0</span></code>, <code class="docutils literal"><span class="pre">var1</span></code> 等的名字，他们的数量和名称可以调整。默认列表为空。</p>
-</dd>
+<dd>变量列表，将用于存储数据的解码或编码一个JSON物体（取决于 <code class="docutils literal"><span class="pre">JSON</span> <span class="pre">Operation</span></code> 参数的值）。变量总是有类似 <code class="docutils literal"><span class="pre">var0</span></code>, <code class="docutils literal"><span class="pre">var1</span></code> 等的名字，他们的数量和名称可以调整。默认列表为空。</dd>
 </dl>
 </div>
 <div class="section" id="using-json-logic-node-to-encode-json-object">
 <h4>使用JSON逻辑节点编码JSON物体<a class="headerlink" href="#using-json-logic-node-to-encode-json-object" title="永久链接至标题">¶</a></h4>
 <a class="reference internal image-reference" href="_images/logic_editor_json_encode_example.png"><img alt="_images/logic_editor_json_encode_example.png" class="align-center" src="_images/logic_editor_json_encode_example.png" style="width: 100%;" /></a>
 <p>在图片的逻辑节点设置在 <code class="docutils literal"><span class="pre">R1</span></code> 可 变编码以上JSON物体，并将其存储。这样的JSON物体如下：</p>
-<div class="highlight-json"><div class="highlight"><pre><span class="p">{</span>
+<div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
     <span class="nt">&quot;main&quot;</span><span class="p">:{</span>
         <span class="nt">&quot;part1&quot;</span><span class="p">:</span><span class="mi">7</span><span class="p">,</span>
         <span class="nt">&quot;part2&quot;</span><span class="p">:</span><span class="mi">12</span><span class="p">,</span>
@@ -1715,7 +1555,7 @@
 <h4>使用JSON逻辑节点解码JSON物体<a class="headerlink" href="#using-json-logic-node-to-decode-json-object" title="永久链接至标题">¶</a></h4>
 <a class="reference internal image-reference" href="_images/logic_editor_json_decode_example.png"><img alt="_images/logic_editor_json_decode_example.png" class="align-center" src="_images/logic_editor_json_decode_example.png" style="width: 100%;" /></a>
 <p>上图为逻辑节点的设置，从服务器获取JSON物体，并将其存储在 <code class="docutils literal"><span class="pre">R1</span></code> 变量，然后解码。这样的JSON物体如下：</p>
-<div class="highlight-json"><div class="highlight"><pre><span class="p">{</span>
+<div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
     <span class="nt">&quot;a&quot;</span><span class="p">:</span> <span class="p">{</span>
         <span class="nt">&quot;b&quot;</span><span class="p">:</span> <span class="mi">17</span><span class="p">,</span>
         <span class="nt">&quot;c&quot;</span><span class="p">:</span> <span class="s2">&quot;abc&quot;</span>
@@ -1723,8 +1563,8 @@
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>这解码JSON物体的 <code class="docutils literal"><span class="pre">JSON</span></code> 逻辑节点 <code class="docutils literal"><span class="pre">var0</span></code>，<code class="docutils literal"><span class="pre">var1</span></code> 和 <code class="docutils literal"><span class="pre">var2</span></code> 三个变量命名的结果（你不必事先创建的变量）将包含JSON物体的各个部分。在这个例子中，<code class="docutils literal"><span class="pre">var1</span></code> 变量的值是17，则 <code class="docutils literal"><span class="pre">var2</span></code> 变量的值是 &#8220;abc&#8221;，而 <code class="docutils literal"><span class="pre">var0</span></code> 变量包含JSON物体的以下片段：</p>
-<div class="highlight-json"><div class="highlight"><pre><span class="p">{</span>
+<p>这解码JSON物体的 <code class="docutils literal"><span class="pre">JSON</span></code> 逻辑节点 <code class="docutils literal"><span class="pre">var0</span></code>，<code class="docutils literal"><span class="pre">var1</span></code> 和 <code class="docutils literal"><span class="pre">var2</span></code> 三个变量命名的结果（你不必事先创建的变量）将包含JSON物体的各个部分。在这个例子中，<code class="docutils literal"><span class="pre">var1</span></code> 变量的值是17，则 <code class="docutils literal"><span class="pre">var2</span></code> 变量的值是 &quot;abc&quot;，而 <code class="docutils literal"><span class="pre">var0</span></code> 变量包含JSON物体的以下片段：</p>
+<div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
     <span class="nt">&quot;b&quot;</span><span class="p">:</span> <span class="mi">17</span><span class="p">,</span>
     <span class="nt">&quot;c&quot;</span><span class="p">:</span> <span class="s2">&quot;abc&quot;</span>
 <span class="p">}</span>
@@ -1740,16 +1580,14 @@
 <h4>输入参数<a class="headerlink" href="#id86" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>上一个</em></dt>
-<dd><p class="first last">前一个节点。</p>
-</dd>
+<dd>前一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id87">
 <h4>输出参数<a class="headerlink" href="#id87" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>下一个</em></dt>
-<dd><p class="first last">下一个节点。</p>
-</dd>
+<dd>下一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id88">
@@ -1760,12 +1598,11 @@
 <p class="last">如果该字段中指定的参数在URL中显示，则其值将被保存到 <code class="docutils literal"><span class="pre">Destination</span></code> 参数指定的变量中。</p>
 </dd>
 <dt><em>目标</em></dt>
-<dd><p class="first last">将用来保存参数的变量。</p>
-</dd>
+<dd>将用来保存参数的变量。</dd>
 <dt><em>Param type</em></dt>
 <dd>The type of the web page parameter. Available values are <code class="docutils literal"><span class="pre">Number</span></code>, <code class="docutils literal"><span class="pre">String</span></code> and <code class="docutils literal"><span class="pre">Object</span></code>.</dd>
 <dt><em>Hash param</em></dt>
-<dd>If this option is enabled, the <code class="docutils literal"><span class="pre">Page</span> <span class="pre">Param</span></code> node will process hash parameters; if it isn&#8217;t, the node will process regular URL parameters.</dd>
+<dd>If this option is enabled, the <code class="docutils literal"><span class="pre">Page</span> <span class="pre">Param</span></code> node will process hash parameters; if it isn’t, the node will process regular URL parameters.</dd>
 </dl>
 </div>
 </div>
@@ -1777,8 +1614,7 @@
 <h4>输入参数<a class="headerlink" href="#id89" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>上一个</em></dt>
-<dd><p class="first last">前一个节点。</p>
-</dd>
+<dd>前一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id90">
@@ -1804,16 +1640,14 @@
 <h4>输入参数<a class="headerlink" href="#id92" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>上一个</em></dt>
-<dd><p class="first last">前一个节点。</p>
-</dd>
+<dd>前一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id93">
 <h4>输出参数<a class="headerlink" href="#id93" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>下一个</em></dt>
-<dd><p class="first last">下一个节点。</p>
-</dd>
+<dd>下一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id94">
@@ -1830,31 +1664,24 @@
 </div>
 </dd>
 <dt><em>本地</em></dt>
-<dd><p class="first last">如果选择此值，则从本地系统时间检索时间。默认情况下选择此值。</p>
-</dd>
+<dd>如果选择此值，则从本地系统时间检索时间。默认情况下选择此值。</dd>
 </dl>
 </dd>
 </dl>
 <p>时间和日期作为一组数字（当前年，月，日等）返回，其中每一个可以存储到特定变量中。这些数字包括：</p>
 <dl class="docutils">
 <dt><em>年</em></dt>
-<dd><p class="first last">本年度</p>
-</dd>
+<dd>本年度</dd>
 <dt><em>月</em></dt>
-<dd><p class="first last">本月</p>
-</dd>
+<dd>本月</dd>
 <dt><em>天</em></dt>
-<dd><p class="first last">本日</p>
-</dd>
+<dd>本日</dd>
 <dt><em>小时</em></dt>
-<dd><p class="first last">当前小时</p>
-</dd>
+<dd>当前小时</dd>
 <dt><em>分钟</em></dt>
-<dd><p class="first last">当前分钟。</p>
-</dd>
+<dd>当前分钟。</dd>
 <dt><em>秒</em></dt>
-<dd><p class="first last">当前的秒数。</p>
-</dd>
+<dd>当前的秒数。</dd>
 </dl>
 </div>
 </div>
@@ -1866,27 +1693,23 @@
 <h4>输入参数<a class="headerlink" href="#id95" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>上一个</em></dt>
-<dd><p class="first last">前一个节点。</p>
-</dd>
+<dd>前一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id96">
 <h4>输出参数<a class="headerlink" href="#id96" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>下一个</em></dt>
-<dd><p class="first last">下一个节点。</p>
-</dd>
+<dd>下一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id97">
 <h4>内部参数<a class="headerlink" href="#id97" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>NLA 时间线</em></dt>
-<dd><p class="first last">如果启用此参数，则该节点将返回当前动画的帧的 NLA。如果禁用了它，则该节点将返回当前帧的时间线。默认情况下启用。</p>
-</dd>
+<dd>如果启用此参数，则该节点将返回当前动画的帧的 NLA。如果禁用了它，则该节点将返回当前帧的时间线。默认情况下启用。</dd>
 <dt><em>目标</em></dt>
-<dd><p class="first last">指定一个变量来存储当前帧的数量。默认设置为  <code class="docutils literal"><span class="pre">R1</span></code> 。</p>
-</dd>
+<dd>指定一个变量来存储当前帧的数量。默认设置为  <code class="docutils literal"><span class="pre">R1</span></code> 。</dd>
 </dl>
 </div>
 </div>
@@ -1898,16 +1721,14 @@
 <h4>输入参数<a class="headerlink" href="#id98" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>上一个</em></dt>
-<dd><p class="first last">前一个节点。</p>
-</dd>
+<dd>前一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id99">
 <h4>输出参数<a class="headerlink" href="#id99" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>下一个</em></dt>
-<dd><p class="first last">下一个节点。</p>
-</dd>
+<dd>下一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id100">
@@ -1923,24 +1744,21 @@
 <h4>输入参数<a class="headerlink" href="#id101" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>上一个</em></dt>
-<dd><p class="first last">前一个节点。</p>
-</dd>
+<dd>前一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id102">
 <h4>输出参数<a class="headerlink" href="#id102" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>下一个</em></dt>
-<dd><p class="first last">下一个节点。</p>
-</dd>
+<dd>下一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id103">
 <h4>内部参数<a class="headerlink" href="#id103" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>值</em></dt>
-<dd><p class="first last">将在下一个节点激活之前的时间 （以秒为单位）。默认情况设置为零。可以手动或通过一个变量来设置 （如果启用了 <code class="docutils literal"><span class="pre">Variable</span></code> 参数）。</p>
-</dd>
+<dd>将在下一个节点激活之前的时间 （以秒为单位）。默认情况设置为零。可以手动或通过一个变量来设置 （如果启用了 <code class="docutils literal"><span class="pre">Variable</span></code> 参数）。</dd>
 </dl>
 </div>
 </div>
@@ -1966,16 +1784,14 @@
 <h4>输入参数<a class="headerlink" href="#id104" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>上一个</em></dt>
-<dd><p class="first last">前一个节点（或多个节点）。</p>
-</dd>
+<dd>前一个节点（或多个节点）。</dd>
 </dl>
 </div>
 <div class="section" id="id105">
 <h4>输出参数<a class="headerlink" href="#id105" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>下一个</em></dt>
-<dd><p class="first last">下一个节点。</p>
-</dd>
+<dd>下一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id106">
@@ -2004,27 +1820,23 @@
 <h4>输入参数<a class="headerlink" href="#id107" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>上一个</em></dt>
-<dd><p class="first last">前一个节点。</p>
-</dd>
+<dd>前一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id108">
 <h4>输出参数<a class="headerlink" href="#id108" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>下一个</em></dt>
-<dd><p class="first last">下一个节点。</p>
-</dd>
+<dd>下一个节点。</dd>
 </dl>
 </div>
 <div class="section" id="id109">
 <h4>内部参数<a class="headerlink" href="#id109" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>信息</em></dt>
-<dd><p class="first last">将与值一起打印到控制台的消息。</p>
-</dd>
+<dd>将与值一起打印到控制台的消息。</dd>
 <dt>&lt;variable name&gt;</dt>
-<dd><p class="first last">将打印到控制台的变量。默认情况下，<code class="docutils literal"><span class="pre">Console</span> <span class="pre">Print</span></code> 节点都有一个这样的参数，但您可以添加新成员和删除现有的 （节点甚至可能没有这种参数）。</p>
-</dd>
+<dd>将打印到控制台的变量。默认情况下，<code class="docutils literal"><span class="pre">Console</span> <span class="pre">Print</span></code> 节点都有一个这样的参数，但您可以添加新成员和删除现有的 （节点甚至可能没有这种参数）。</dd>
 </dl>
 </div>
 </div>
@@ -2054,8 +1866,8 @@
 
   <div role="contentinfo">
     <p>
-        &copy; 版权所有 2014-2017, Triumph.
-      最后更新于 2017-11-21.
+        &copy; Copyright 2014-2017, Triumph.
+      最后更新于 2017-12-29.
 
     </p>
   </div>
@@ -2111,11 +1923,11 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

@@ -1,10 +1,9 @@
-
 插件
 ****
 
 
-目录
-^^^^
+Table of Content
+^^^^^^^^^^^^^^^^
 
 * 插件
 
@@ -74,6 +73,20 @@ http://localhost:6687 访问。
 "Project Manager" 按钮可用于打开 项目管理器.
 
 "Fast Preview" 按钮加载当前正在Blender打开的场景到 查看器.
+
+This button is duplicated in the "Info" panel of the 3D View window.
+
+   [图片]"Fast Preview" button on the "Info" panel
+
+The button at the right side of it controls data syncronization
+between Blender and Scene Viewer. If this option is enabled, re-
+exporting a scene will cause Scene Viewer application (if it is open)
+to reload and update the scene in accordance to the changes made to
+it. This option eliminates the need to open preview scene manually
+after exporting it. It is enabled by default.
+
+注解: The "Fast Preview" button in the "Info" panel is available in
+  "Cycles" render engine as well.
 
 服务器可以通过按下 "Stop Server"  按钮被停止。当Blender被关闭也停止。
 

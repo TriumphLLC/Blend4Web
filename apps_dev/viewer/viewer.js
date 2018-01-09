@@ -1,36 +1,34 @@
-"use strict";
+import b4w from "blend4web";
 
-b4w.register("viewer_main", function(exports, require) {
-
-var m_anim     = require("animation");
-var m_app      = require("app");
-var m_cam      = require("camera");
-var m_cam_anim = require("camera_anim");
-var m_cfg      = require("config");
-var m_cont     = require("container");
-var m_ctl      = require("controls");
-var m_data     = require("data");
-var m_debug    = require("debug");
-var m_gp_conf  = require("gp_conf");
-var m_hmd_conf = require("hmd_conf");
-var m_geom     = require("geometry");
-var m_gyro     = require("gyroscope");
-var m_input    = require("input");
-var m_lights   = require("lights");
-var m_main     = require("main");
-var m_hmd      = require("hmd");
-var m_mixer    = require("mixer");
-var m_mat      = require("material");
-var m_nla      = require("nla");
-var m_obj      = require("objects");
-var m_rgb      = require("rgb");
-var m_screen   = require("screen");
-var m_scenes   = require("scenes");
-var m_storage  = require("storage");
-var m_trans    = require("transform");
-var m_version  = require("version");
-
-var m_vec3 = require("vec3");
+var m_anim      = b4w.animation;
+var m_app       = b4w.app;
+var m_cam       = b4w.camera;
+var m_cam_anim  = b4w.camera_anim;
+var m_cfg       = b4w.config;
+var m_cons      = b4w.constraints;
+var m_cont      = b4w.container;
+var m_ctl       = b4w.controls;
+var m_data      = b4w.data;
+var m_debug     = b4w.debug;
+var m_gp_conf   = b4w.gp_conf;
+var m_hmd_conf  = b4w.hmd_conf;
+var m_geom      = b4w.geometry;
+var m_gyro      = b4w.gyroscope;
+var m_input     = b4w.input;
+var m_lights    = b4w.lights;
+var m_main      = b4w.main;
+var m_hmd       = b4w.hmd;
+var m_mixer     = b4w.mixer;
+var m_mat       = b4w.material;
+var m_nla       = b4w.nla;
+var m_obj       = b4w.objects;
+var m_rgb       = b4w.rgb;
+var m_screen    = b4w.screen;
+var m_scenes    = b4w.scenes;
+var m_storage   = b4w.storage;
+var m_trans     = b4w.transform;
+var m_version   = b4w.version;
+var m_vec3      = b4w.vec3;
 
 var DEBUG = (m_version.type() === "DEBUG");
 var AUTO_ROTATE_RATIO = 0.3;
@@ -65,7 +63,7 @@ var _ws = null;
 var _instance_id = null;
 var _was_file_changed = false;
 
-exports.init = function() {
+var init = function() {
     m_storage.init("b4w_viewer");
     set_quality_config();
     set_stereo_view_config();
@@ -2787,6 +2785,4 @@ function interface_name_to_object(name) {
     return m_scenes.get_object_by_dupli_name_list(name.split("->"));
 }
 
-});
-
-b4w.require("viewer_main").init();
+init();

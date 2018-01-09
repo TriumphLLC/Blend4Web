@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Проблемы и решения &mdash; Руководство пользователя Blend4Web 17.10.1</title>
+  <title>Проблемы и решения &mdash; Руководство пользователя Blend4Web 17.12.0</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 17.10.1" href="index.html"/>
+        <link rel="index" title="Алфавитный указатель"
+              href="genindex.html"/>
+        <link rel="search" title="Поиск" href="search.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 17.12.0" href="index.html"/>
         <link rel="next" title="Замечания к релизам" href="release_notes.html"/>
         <link rel="prev" title="Работа в команде с использованием Git" href="git_short_manual.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -115,11 +118,11 @@
 <li class="toctree-l1"><a class="reference internal" href="developers.html">Разработчикам приложений</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">Разработчикам движка</a></li>
 <li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Работа в команде с использованием Git</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Проблемы и решения</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Проблемы и решения</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#webgl-support">Поддержка WebGL</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#problems-upon-startup">Проблемы при запуске движка</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#webgl-failed-to-initialize">Ошибка инициализации WebGL</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#more-in-depth-troubleshooting">Если ничего не помогло...</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#more-in-depth-troubleshooting">Если ничего не помогло…</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#known-issues">Известные проблемы</a></li>
 </ul>
 </li>
@@ -168,13 +171,13 @@
   <div class="section" id="problems-and-solutions">
 <span id="id1"></span><h1><a class="toc-backref" href="#id3">Проблемы и решения</a><a class="headerlink" href="#problems-and-solutions" title="Ссылка на этот заголовок">¶</a></h1>
 <div class="contents topic" id="table-of-contents">
-<p class="topic-title first">Содержание</p>
+<p class="topic-title first">Table of Contents</p>
 <ul class="simple">
 <li><a class="reference internal" href="#problems-and-solutions" id="id3">Проблемы и решения</a><ul>
 <li><a class="reference internal" href="#webgl-support" id="id4">Поддержка WebGL</a></li>
 <li><a class="reference internal" href="#problems-upon-startup" id="id5">Проблемы при запуске движка</a></li>
 <li><a class="reference internal" href="#webgl-failed-to-initialize" id="id6">Ошибка инициализации WebGL</a></li>
-<li><a class="reference internal" href="#more-in-depth-troubleshooting" id="id7">Если ничего не помогло...</a></li>
+<li><a class="reference internal" href="#more-in-depth-troubleshooting" id="id7">Если ничего не помогло…</a></li>
 <li><a class="reference internal" href="#known-issues" id="id8">Известные проблемы</a></li>
 </ul>
 </li>
@@ -186,12 +189,9 @@
 <p>Если вы используете настольный компьютер или ноутбук, вам требуется видеокарта с поддержкой DirectX 9.0c и OpenGL 2.1, такая, как:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p class="first">Nvidia GeForce серии 6xxx или выше.</p>
-</li>
-<li><p class="first">AMD/ATi Radeon серии R500 (X1xxx) или выше.</p>
-</li>
-<li><p class="first">Intel GMA 950 или выше.</p>
-</li>
+<li>Nvidia GeForce серии 6xxx или выше.</li>
+<li>AMD/ATi Radeon серии R500 (X1xxx) или выше.</li>
+<li>Intel GMA 950 или выше.</li>
 </ul>
 </div></blockquote>
 <p>Если вы используете WebGL на мобильном устройстве, проверьте, присутствует ли ваше устройство в <a class="reference external" href="http://mobilehtml5.org/">списке совместимости</a>.</p>
@@ -199,21 +199,14 @@
 <p>WebGL поддерживают следующие веб-браузеры:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p class="first">Google Chrome (начиная с версии 9)</p>
-</li>
-<li><p class="first">Mozilla Firefox (начиная с версии 4.0)</p>
-</li>
-<li><p class="first">Safari (начиная с версии 8.0)</p>
-</li>
-<li><p class="first">Chrome for Android (начиная с версии 25)</p>
-</li>
-<li><p class="first">Internet Explorer (начиная с версии 11)</p>
-</li>
+<li>Google Chrome (начиная с версии 9)</li>
+<li>Mozilla Firefox (начиная с версии 4.0)</li>
+<li>Safari (начиная с версии 8.0)</li>
+<li>Chrome for Android (начиная с версии 25)</li>
+<li>Internet Explorer (начиная с версии 11)</li>
 <li>Microsoft Edge</li>
-<li><p class="first">Opera (начиная с версии 12)</p>
-</li>
-<li><p class="first">UC Browser (экспериментальная поддержка)</p>
-</li>
+<li>Opera (начиная с версии 12)</li>
+<li>UC Browser (экспериментальная поддержка)</li>
 <li>Yandex Browser</li>
 </ul>
 </div></blockquote>
@@ -221,9 +214,9 @@
 </div>
 <div class="section" id="problems-upon-startup">
 <span id="renderer-not-working"></span><h2><a class="toc-backref" href="#id5">Проблемы при запуске движка</a><a class="headerlink" href="#problems-upon-startup" title="Ссылка на этот заголовок">¶</a></h2>
-<p><em>1. Появляется сообщение &#8220;Browser could not initialize WebGL.&#8221;</em></p>
+<p><em>1. Появляется сообщение «Browser could not initialize WebGL.»</em></p>
 <a class="reference internal image-reference" href="_images/no_webgl.png"><img alt="_images/no_webgl.png" class="align-center" src="_images/no_webgl.png" style="width: 100%;" /></a>
-<p>Следует выполнить действия, описанные в разделе <a class="reference internal" href="#webgl-not-working"><span>Ошибка инициализации WebGL</span></a>.</p>
+<p>Следует выполнить действия, описанные в разделе <a class="reference internal" href="#webgl-not-working"><span class="std std-ref">Ошибка инициализации WebGL</span></a>.</p>
 <p><em>2. Видны элементы интерфейса или пустой экран, но сцена не отображается. При этом тестовый сайт</em> <a class="reference external" href="http://get.webgl.org/">http://get.webgl.org/</a> <em>и другие WebGL приложения работают корректно.</em></p>
 <blockquote>
 <div><p>Вероятные причины:</p>
@@ -239,7 +232,7 @@
 </li>
 <li><p class="first">Используется устаревшая операционная система, такая как Windows XP.</p>
 </li>
-<li><p class="first">Браузер не настроен для работы с локальными ресурсами. В этом случае проблема может быть решена использованием локального веб-сервера. См. раздел <a class="reference internal" href="developers.html#browser-for-local-loading"><span>Загрузка локальных ресурсов</span></a>.</p>
+<li><p class="first">Браузер не настроен для работы с локальными ресурсами. В этом случае проблема может быть решена использованием локального веб-сервера. См. раздел <a class="reference internal" href="developers.html#browser-for-local-loading"><span class="std std-ref">Загрузка локальных ресурсов</span></a>.</p>
 </li>
 </ul>
 </div></blockquote>
@@ -248,16 +241,14 @@
 <span id="webgl-not-working"></span><h2><a class="toc-backref" href="#id6">Ошибка инициализации WebGL</a><a class="headerlink" href="#webgl-failed-to-initialize" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Сайт <a class="reference external" href="http://get.webgl.org/">http://get.webgl.org/</a> при просмотре в браузерах Chrome или Firefox последней версии сообщает о проблемах. Что делать?</p>
 <ol class="arabic simple">
-<li><p class="first">Установить доступные обновления для системы (для Windows см. <a class="reference external" href="http://support.microsoft.com/kb/311047">инструкцию</a>). В случае Windows установить последнюю версию <a class="reference external" href="http://www.microsoft.com/ru-ru/download/details.aspx?id=35">DirectX</a>. Перезагрузить систему.</p>
-</li>
-<li><p class="first">Рекомендуется проводить своевременное обновление драйверов для графических карт. Чтобы определить тип и производителя карты, можно ввести <strong>about:gpu</strong> (или <strong>chrome://gpu</strong>) в адресную строку браузера Chrome...</p>
-</li>
+<li>Установить доступные обновления для системы (для Windows см. <a class="reference external" href="http://support.microsoft.com/kb/311047">инструкцию</a>). В случае Windows установить последнюю версию <a class="reference external" href="http://www.microsoft.com/ru-ru/download/details.aspx?id=35">DirectX</a>. Перезагрузить систему.</li>
+<li>Рекомендуется проводить своевременное обновление драйверов для графических карт. Чтобы определить тип и производителя карты, можно ввести <strong>about:gpu</strong> (или <strong>chrome://gpu</strong>) в адресную строку браузера Chrome…</li>
 </ol>
 <a class="reference internal image-reference" href="_images/chrome_gpu.png"><img alt="_images/chrome_gpu.png" class="align-center" src="_images/chrome_gpu.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p>или Firefox...</p>
+<p>или Firefox…</p>
 <a class="reference internal image-reference" href="_images/firefox_gpu.png"><img alt="_images/firefox_gpu.png" class="align-center" src="_images/firefox_gpu.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -266,12 +257,9 @@
 <p>Для этого выполните следующие действия:</p>
 <blockquote>
 <div><ol class="arabic simple">
-<li><p class="first">Выберете команду <code class="docutils literal"><span class="pre">Run</span></code> из стартового меню</p>
-</li>
-<li><p class="first">В окне <code class="docutils literal"><span class="pre">Open</span></code> введите <em>dxdiag</em> и нажмите <code class="docutils literal"><span class="pre">Enter</span></code> чтобы вызвать утилиту диагностики DirectX</p>
-</li>
-<li><p class="first">Откройте панель <code class="docutils literal"><span class="pre">Display</span></code>. Там вы можете найти информацию о производителе, модели и других параметрах вашей видеокарты.</p>
-</li>
+<li>Выберете команду <code class="docutils literal"><span class="pre">Run</span></code> из стартового меню</li>
+<li>В окне <code class="docutils literal"><span class="pre">Open</span></code> введите <em>dxdiag</em> и нажмите <code class="docutils literal"><span class="pre">Enter</span></code> чтобы вызвать утилиту диагностики DirectX</li>
+<li>Откройте панель <code class="docutils literal"><span class="pre">Display</span></code>. Там вы можете найти информацию о производителе, модели и других параметрах вашей видеокарты.</li>
 </ol>
 </div></blockquote>
 <a class="reference internal image-reference" href="_images/problems_dxdiag.png"><img alt="_images/problems_dxdiag.png" class="align-center" src="_images/problems_dxdiag.png" style="width: 100%;" /></a>
@@ -282,12 +270,9 @@
 <p>Для этого выполните следующие действия:</p>
 <blockquote>
 <div><ol class="arabic simple">
-<li><p class="first">Выберете <code class="docutils literal"><span class="pre">About</span> <span class="pre">This</span> <span class="pre">Mac</span></code> из меню <code class="docutils literal"><span class="pre">Apple</span></code>.</p>
-</li>
-<li><p class="first">Нажмите кнопку <code class="docutils literal"><span class="pre">System</span> <span class="pre">Report</span></code>.</p>
-</li>
-<li><p class="first">Выберете пункт <code class="docutils literal"><span class="pre">Graphics/Displays</span></code> из раздела <code class="docutils literal"><span class="pre">Hardware</span></code>.</p>
-</li>
+<li>Выберете <code class="docutils literal"><span class="pre">About</span> <span class="pre">This</span> <span class="pre">Mac</span></code> из меню <code class="docutils literal"><span class="pre">Apple</span></code>.</li>
+<li>Нажмите кнопку <code class="docutils literal"><span class="pre">System</span> <span class="pre">Report</span></code>.</li>
+<li>Выберете пункт <code class="docutils literal"><span class="pre">Graphics/Displays</span></code> из раздела <code class="docutils literal"><span class="pre">Hardware</span></code>.</li>
 </ol>
 </div></blockquote>
 <a class="reference internal image-reference" href="_images/problems_osx.png"><img alt="_images/problems_osx.png" class="align-center" src="_images/problems_osx.png" style="width: 100%;" /></a>
@@ -296,8 +281,7 @@
 </div>
 <p>Необходимо загрузить драйверы с соответствующего центра поддержки (например, <a class="reference external" href="http://downloadcenter.intel.com/Default.aspx?lang=rus">Intel</a>, <a class="reference external" href="http://www.nvidia.com/Download/index.aspx?lang=ru">Nvidia</a>, <a class="reference external" href="http://support.amd.com/ru-ru/download">AMD/ATI</a>). После установки драйверов перезагрузить систему.</p>
 <ol class="arabic simple" start="3">
-<li><p class="first">Если в результате вышеперечисленных действий инициализировать рендеринг не удается (или нет возможности обновить систему), можно попробовать изменить настройки браузера.</p>
-</li>
+<li>Если в результате вышеперечисленных действий инициализировать рендеринг не удается (или нет возможности обновить систему), можно попробовать изменить настройки браузера.</li>
 </ol>
 <p><em>В Chrome</em>:</p>
 <p>Ввести <strong>about:flags</strong> (или <strong>chrome://flags</strong>) в адресную строку браузера, нажать <code class="file docutils literal"><span class="pre">Включить</span></code> (<code class="file docutils literal"><span class="pre">Enable</span></code>) под опцией <code class="file docutils literal"><span class="pre">Переопределение</span> <span class="pre">списка</span> <span class="pre">программного</span> <span class="pre">рендеринга</span></code> (<code class="file docutils literal"><span class="pre">Override</span> <span class="pre">software</span> <span class="pre">rendering</span> <span class="pre">list</span></code>) и перезапустить браузер.</p>
@@ -316,8 +300,8 @@
 <a class="reference internal image-reference" href="_images/safari_force_webgl.png"><img alt="_images/safari_force_webgl.png" class="align-center" src="_images/safari_force_webgl.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="more-in-depth-troubleshooting">
-<h2><a class="toc-backref" href="#id7">Если ничего не помогло...</a><a class="headerlink" href="#more-in-depth-troubleshooting" title="Ссылка на этот заголовок">¶</a></h2>
-<p>Если ни один из перечисленных выше способов не помог вам устранить проблемы, посетите <a class="reference external" href="https://www.blend4web.com/ru/forums/">форум сообщества</a> Blend4Web и оставьте сообщение в разделе <a class="reference external" href="https://www.blend4web.com/ru/forums/forum/8/">&#8220;Ошибки&#8221;</a>. Наша команда сделает всё возможное, чтобы помочь вам.</p>
+<h2><a class="toc-backref" href="#id7">Если ничего не помогло…</a><a class="headerlink" href="#more-in-depth-troubleshooting" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Если ни один из перечисленных выше способов не помог вам устранить проблемы, посетите <a class="reference external" href="https://www.blend4web.com/ru/forums/">форум сообщества</a> Blend4Web и оставьте сообщение в разделе <a class="reference external" href="https://www.blend4web.com/ru/forums/forum/8/">«Ошибки»</a>. Наша команда сделает всё возможное, чтобы помочь вам.</p>
 </div>
 <div class="section" id="known-issues">
 <span id="known-problems"></span><h2><a class="toc-backref" href="#id8">Известные проблемы</a><a class="headerlink" href="#known-issues" title="Ссылка на этот заголовок">¶</a></h2>
@@ -342,7 +326,7 @@
 </li>
 <li><p class="first">В браузерах IE11 и Microsoft Edge, а также на iPad могут некорректно рендериться текстуры с прозрачностью.</p>
 <blockquote>
-<div><p>Проблема актуальна для <a class="reference internal" href="materials.html#alpha-blend"><span>прозрачных материалов</span></a>. Артефакты заметны на тех участках, где значение альфа-канала равно нулю или отличается от него незначительно. Для исправления рекомендуется поднимать значение альфа-канала пока артефакты не исчезнут (как правило, бывает достаточно величин в диапазоне от 0.01 до 0.05).</p>
+<div><p>Проблема актуальна для <a class="reference internal" href="materials.html#alpha-blend"><span class="std std-ref">прозрачных материалов</span></a>. Артефакты заметны на тех участках, где значение альфа-канала равно нулю или отличается от него незначительно. Для исправления рекомендуется поднимать значение альфа-канала пока артефакты не исчезнут (как правило, бывает достаточно величин в диапазоне от 0.01 до 0.05).</p>
 </div></blockquote>
 </li>
 <li><p class="first">Сбой работы WebGL в браузере Chromium под Linux на GPU Nvidia GeForce серий 400/500 с драйверами версии выше 355.</p>
@@ -352,8 +336,8 @@
 </li>
 <li><p class="first">Проблемы со звуком.</p>
 <blockquote>
-<div><p>В некоторых версиях Google Chrome звук не воспроизводится для источников звука с типом &#8220;Background Music&#8221;, если используется экспорт в HTML. В качестве решения в настоящий момент тип источника звука автоматически меняется на &#8220;Background Sound&#8221;.</p>
-<p>Ошибка аудиоконтекста проявляется, если запущено много (больше 6) копий движка Blend4Web (например, на нескольких вкладках браузера или в нескольких iframe&#8217;ах на одной странице). Ошибка предотвращена путем отключением звука в приложении, если для него не может быть создан аудиоконтекст.</p>
+<div><p>В некоторых версиях Google Chrome звук не воспроизводится для источников звука с типом «Background Music», если используется экспорт в HTML. В качестве решения в настоящий момент тип источника звука автоматически меняется на «Background Sound».</p>
+<p>Ошибка аудиоконтекста проявляется, если запущено много (больше 6) копий движка Blend4Web (например, на нескольких вкладках браузера или в нескольких iframe’ах на одной странице). Ошибка предотвращена путем отключением звука в приложении, если для него не может быть создан аудиоконтекст.</p>
 <p>На некоторых мобильных устройствах (в частности, Nexus 6 и Nexus 9) в браузере Google Chrome версий 50-52 может не работать пауза. В версиях Chrome начиная с 53 проблем быть не должно. Более подробная информация: <a class="reference external" href="https://bugs.chromium.org/p/chromium/issues/detail?id=616772">https://bugs.chromium.org/p/chromium/issues/detail?id=616772</a>.</p>
 </div></blockquote>
 </li>
@@ -366,7 +350,7 @@
 <div><p>Samsung Internet Browser не регистрирует события, связанные с движением пальцев на тач-сенсоре в режиме VR.</p>
 </div></blockquote>
 </li>
-<li><p class="first">Частицы, испускаемые системами частиц, находящимися на неактивных (скрытых) слоях, могут иметь нулевые координаты, т.к. неактивные слои не обновляются Blender&#8217;ом.</p>
+<li><p class="first">Частицы, испускаемые системами частиц, находящимися на неактивных (скрытых) слоях, могут иметь нулевые координаты, т.к. неактивные слои не обновляются Blender’ом.</p>
 <blockquote>
 <div><p>Проблема может быть решена с помощью активации слоёв перед экспортом или выбора необходимых слоёв вручную (в этом случае Blender их обновит).</p>
 </div></blockquote>
@@ -399,7 +383,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Триумф.
-      Обновлено: 2017-11-21.
+      Обновлено: 2017-12-29.
 
     </p>
   </div>
@@ -455,11 +439,11 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

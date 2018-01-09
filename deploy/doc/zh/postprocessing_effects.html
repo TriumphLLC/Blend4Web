@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>后期处理效果 &mdash; Blend4Web 17.10.1 用户手册</title>
+  <title>后期处理效果 &mdash; Blend4Web 17.12.0 用户手册</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.10.1 用户手册" href="index.html"/>
+        <link rel="index" title="索引"
+              href="genindex.html"/>
+        <link rel="search" title="搜索" href="search.html"/>
+    <link rel="top" title="Blend4Web 17.12.0 用户手册" href="index.html"/>
         <link rel="next" title="VR and AR" href="vr_and_ar.html"/>
         <link rel="prev" title="照明、 阴影和背景" href="lighting.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -102,7 +105,7 @@
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">节点材质</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logic_editor.html">逻辑编辑器</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">照明、 阴影和背景</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">后期处理效果</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">后期处理效果</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#motion-blur">运动模糊</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#activation">激活</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#additional-settings">其他设置</a></li>
@@ -203,7 +206,7 @@
   <div class="section" id="postprocessing-effects">
 <span id="id1"></span><h1><a class="toc-backref" href="#id20">后期处理效果</a><a class="headerlink" href="#postprocessing-effects" title="永久链接至标题">¶</a></h1>
 <div class="contents topic" id="table-of-contents">
-<p class="topic-title first">目录</p>
+<p class="topic-title first">Table of Contents</p>
 <ul class="simple">
 <li><a class="reference internal" href="#postprocessing-effects" id="id20">后期处理效果</a><ul>
 <li><a class="reference internal" href="#motion-blur" id="id21">运动模糊</a></li>
@@ -230,11 +233,9 @@
 <h3>其他设置<a class="headerlink" href="#additional-settings" title="永久链接至标题">¶</a></h3>
 <dl class="docutils">
 <dt><em>因子</em></dt>
-<dd><p class="first last">外观的影响比例。此值越高越强的运动模糊。</p>
-</dd>
+<dd>外观的影响比例。此值越高越强的运动模糊。</dd>
 <dt><em>衰减阈值</em></dt>
-<dd><p class="first last">模糊淡出率。较高的这个值有更鲜明的效果。默认值是0.01。</p>
-</dd>
+<dd>模糊淡出率。较高的这个值有更鲜明的效果。默认值是0.01。</dd>
 </dl>
 </div>
 </div>
@@ -250,10 +251,8 @@
 <li><p class="first">然后有两种选择：</p>
 <blockquote>
 <div><ul class="simple">
-<li><p class="first">在  <code class="docutils literal"><span class="pre">Depth</span> <span class="pre">of</span> <span class="pre">Field</span></code>  面板的 <code class="docutils literal"><span class="pre">Focus</span></code>  选项选择一个物体作为相机的对焦点。在这种情况下移动或接近这个物体，会导致相机的焦点相应的修正。</p>
-</li>
-<li><p class="first">同一面板上为 <code class="docutils literal"><span class="pre">Distance</span></code> 设置一个非零值（Blender中单位=米）。在这种情况下，相机焦点在相机的这个距离值，并与相机一起移动。</p>
-</li>
+<li>在  <code class="docutils literal"><span class="pre">Depth</span> <span class="pre">of</span> <span class="pre">Field</span></code>  面板的 <code class="docutils literal"><span class="pre">Focus</span></code>  选项选择一个物体作为相机的对焦点。在这种情况下移动或接近这个物体，会导致相机的焦点相应的修正。</li>
+<li>同一面板上为 <code class="docutils literal"><span class="pre">Distance</span></code> 设置一个非零值（Blender中单位=米）。在这种情况下，相机焦点在相机的这个距离值，并与相机一起移动。</li>
 </ul>
 </div></blockquote>
 </li>
@@ -264,46 +263,36 @@
 <a class="reference internal image-reference" href="_images/effects_dof_settings.png"><img alt="_images/effects_dof_settings.png" class="align-center" src="_images/effects_dof_settings.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>焦点</em></dt>
-<dd><p class="first last">设置的重点对象。默认情况下，此字段为空。</p>
-</dd>
+<dd>设置的重点对象。默认情况下，此字段为空。</dd>
 <dt><em>距离</em></dt>
-<dd><p class="first last">此参数定义焦距。仅当 <code class="docutils literal"><span class="pre">Focus</span></code> 参数没有预先设置（如果相应的字段为空）有用。默认设置为零。</p>
-</dd>
+<dd>此参数定义焦距。仅当 <code class="docutils literal"><span class="pre">Focus</span></code> 参数没有预先设置（如果相应的字段为空）有用。默认设置为零。</dd>
 <dt><em>前端起始</em></dt>
 <dd><p class="first">此选项设置（以米为单位） 焦点到最近的平面到模糊效应开始出现前的距离（相对于相机） 。默认值是 1.0。</p>
 <p class="last">只有启用了 <code class="docutils literal"><span class="pre">High</span> <span class="pre">Quality</span> <span class="pre">(Bokeh)</span></code> 参数，此参数才可用。</p>
 </dd>
 <dt><em>前端结束</em></dt>
-<dd><p class="first last">这个设置从相机和最近平面 （相对于相机） 背后的模糊效果达到最大强度 （由  <code class="docutils literal"><span class="pre">Power</span></code> 的值定义） 的距离。默认值为 5.0。</p>
-</dd>
+<dd>这个设置从相机和最近平面 （相对于相机） 背后的模糊效果达到最大强度 （由  <code class="docutils literal"><span class="pre">Power</span></code> 的值定义） 的距离。默认值为 5.0。</dd>
 <dt><em>后方开始</em></dt>
 <dd><p class="first">这设置从焦点到最远的平面（相对于相机）的距离，模糊效果开始发生。默认值为1.0.</p>
 <p class="last">只有启用了 <code class="docutils literal"><span class="pre">High</span> <span class="pre">Quality</span> <span class="pre">(Bokeh)</span></code> 参数，此参数才可用。</p>
 </dd>
 <dt><em>后方结束</em></dt>
-<dd><p class="first last">这设置从相机到最远的平面（相对于相机）的距离，模糊达到最大强度（由  <code class="docutils literal"><span class="pre">Power</span></code> 的值定义）。默认值为5.0。</p>
-</dd>
+<dd>这设置从相机到最远的平面（相对于相机）的距离，模糊达到最大强度（由  <code class="docutils literal"><span class="pre">Power</span></code> 的值定义）。默认值为5.0。</dd>
 <dt><em>指数</em></dt>
-<dd><p class="first last">模糊的比率。此参数的值可从 0.1 至 10。默认值为 2.0。</p>
-</dd>
+<dd>模糊的比率。此参数的值可从 0.1 至 10。默认值为 2.0。</dd>
 <dt><em>高品质（背景虚化）</em></dt>
 <dd><p class="first">这使得高质量渲染景深效果。激活此选项︰</p>
 <ul class="simple">
-<li><p class="first">启用的散景效果，并使 <code class="docutils literal"><span class="pre">Bokeh</span> <span class="pre">Intensity</span></code> 参数可用来调整影响强度。</p>
-</li>
-<li><p class="first">启用 <code class="docutils literal"><span class="pre">Front</span> <span class="pre">Start</span></code> 和 <code class="docutils literal"><span class="pre">Rear</span> <span class="pre">Start</span></code> 参数设置从相机里的影响开始发生软过渡之间的距离，它达到其全部的力量的距离。</p>
-</li>
-<li><p class="first">启用 <code class="docutils literal"><span class="pre">Foreground</span> <span class="pre">Blur</span></code> 的参数，如下所述。</p>
-</li>
+<li>启用的散景效果，并使 <code class="docutils literal"><span class="pre">Bokeh</span> <span class="pre">Intensity</span></code> 参数可用来调整影响强度。</li>
+<li>启用 <code class="docutils literal"><span class="pre">Front</span> <span class="pre">Start</span></code> 和 <code class="docutils literal"><span class="pre">Rear</span> <span class="pre">Start</span></code> 参数设置从相机里的影响开始发生软过渡之间的距离，它达到其全部的力量的距离。</li>
+<li>启用 <code class="docutils literal"><span class="pre">Foreground</span> <span class="pre">Blur</span></code> 的参数，如下所述。</li>
 </ul>
 <p class="last">参数默认被禁用的。</p>
 </dd>
 <dt><em>散景强度</em></dt>
-<dd><p class="first last">此值设置的散景效果的强度。它可以从 0 到 1.0 会发生变化。默认设置为 0.3。</p>
-</dd>
+<dd>此值设置的散景效果的强度。它可以从 0 到 1.0 会发生变化。默认设置为 0.3。</dd>
 <dt><em>前景模糊</em></dt>
-<dd><p class="first last">启用此选项使引擎模糊前景物体的轮廓，提高质量的代价是性能略有降低作用。默认为禁用。</p>
-</dd>
+<dd>启用此选项使引擎模糊前景物体的轮廓，提高质量的代价是性能略有降低作用。默认为禁用。</dd>
 </dl>
 </div>
 </div>
@@ -319,26 +308,19 @@
 <h3>其他设置<a class="headerlink" href="#id6" title="永久链接至标题">¶</a></h3>
 <dl class="docutils">
 <dt><em>半径增加</em></dt>
-<dd><p class="first last">从内部采样环到外部采样环的球形采样半径的乘法系数。默认值是3.0。</p>
-</dd>
+<dd>从内部采样环到外部采样环的球形采样半径的乘法系数。默认值是3.0。</dd>
 <dt><em>使用半球</em></dt>
-<dd><p class="first last">使用半球形采样着色，而不是球形。它使用不同的着色方法。</p>
-</dd>
+<dd>使用半球形采样着色，而不是球形。它使用不同的着色方法。</dd>
 <dt><em>使用模糊深度测试</em></dt>
-<dd><p class="first last">使用边缘保持模糊到SSAO如果标志将被打开。否则，它采用模糊平均为每个像素周围的4×4的矩形。</p>
-</dd>
+<dd>使用边缘保持模糊到SSAO如果标志将被打开。否则，它采用模糊平均为每个像素周围的4×4的矩形。</dd>
 <dt><em>模糊深度测试丢弃值</em></dt>
-<dd><p class="first last">对模糊量的采样之间的深度差异的影响。它采用 <code class="docutils literal"><span class="pre">Use</span> <span class="pre">Blur</span> <span class="pre">Depth</span> <span class="pre">Test</span></code> 启动标志。缺省值为1.0。</p>
-</dd>
+<dd>对模糊量的采样之间的深度差异的影响。它采用 <code class="docutils literal"><span class="pre">Use</span> <span class="pre">Blur</span> <span class="pre">Depth</span> <span class="pre">Test</span></code> 启动标志。缺省值为1.0。</dd>
 <dt><em>影响</em></dt>
-<dd><p class="first last">SSAO外观系数。默认值是0.7。</p>
-</dd>
+<dd>SSAO外观系数。默认值是0.7。</dd>
 <dt><em>距离系数</em></dt>
-<dd><p class="first last">SSAO衰减的距离系数。默认值是0.0（即没有衰减）。</p>
-</dd>
+<dd>SSAO衰减的距离系数。默认值是0.0（即没有衰减）。</dd>
 <dt><em>采样</em></dt>
-<dd><p class="first last">采样数（越多采样有更好的是质量，但较差是性能）。默认值是16。</p>
-</dd>
+<dd>采样数（越多采样有更好的是质量，但较差是性能）。默认值是16。</dd>
 </dl>
 </div>
 </div>
@@ -354,14 +336,11 @@
 <h3>其他设置<a class="headerlink" href="#id9" title="永久链接至标题">¶</a></h3>
 <dl class="docutils">
 <dt><em>强度</em></dt>
-<dd><p class="first last">影响外观的系数。默认值是0.7。</p>
-</dd>
+<dd>影响外观的系数。默认值是0.7。</dd>
 <dt><em>最大长度光线</em></dt>
-<dd><p class="first last">光线长度的系数。限定径向模糊的样本之间的步长。缺省值为1.0。</p>
-</dd>
+<dd>光线长度的系数。限定径向模糊的样本之间的步长。缺省值为1.0。</dd>
 <dt><em>每通道步值</em></dt>
-<dd><p class="first last">每个单个样本步长。默认值是10.0。</p>
-</dd>
+<dd>每个单个样本步长。默认值是10.0。</dd>
 </dl>
 </div>
 </div>
@@ -377,17 +356,13 @@
 <h3>其他设置<a class="headerlink" href="#id12" title="永久链接至标题">¶</a></h3>
 <dl class="docutils">
 <dt><em>使用自适应</em></dt>
-<dd><p class="first last">使用自适应平均亮度的计算。默认启用。</p>
-</dd>
+<dd>使用自适应平均亮度的计算。默认启用。</dd>
 <dt><em>强度</em></dt>
-<dd><p class="first last">泛光强度。默认设置为1.0。</p>
-</dd>
+<dd>泛光强度。默认设置为1.0。</dd>
 <dt><em>模糊</em></dt>
-<dd><p class="first last">泛光模糊的系数，默认设置为4.0。</p>
-</dd>
+<dd>泛光模糊的系数，默认设置为4.0。</dd>
 <dt><em>边缘亮度</em></dt>
-<dd><p class="first last">元素的相对亮度的边界值，高于其的亮度时泛光效果出现。默认设置为1.0。</p>
-</dd>
+<dd>元素的相对亮度的边界值，高于其的亮度时泛光效果出现。默认设置为1.0。</dd>
 </dl>
 </div>
 </div>
@@ -404,26 +379,20 @@
 <p>在  <code class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Selection</span> <span class="pre">and</span> <span class="pre">Outlining</span></code> 面板：</p>
 <dl class="docutils">
 <dt><em>启用外轮廓</em></dt>
-<dd><p class="first last">允许使用此物体的轮廓发光效果。</p>
-</dd>
+<dd>允许使用此物体的轮廓发光效果。</dd>
 <dt><em>持续</em></dt>
-<dd><p class="first last">辉光动画的持续时间，单位为秒。默认值是1。</p>
-</dd>
+<dd>辉光动画的持续时间，单位为秒。默认值是1。</dd>
 <dt><em>周期</em></dt>
-<dd><p class="first last">辉光动画的重复周期，单位为秒。默认值是1。</p>
-</dd>
+<dd>辉光动画的重复周期，单位为秒。默认值是1。</dd>
 <dt><em>重复</em></dt>
-<dd><p class="first last">辉光动画迭代次数。如果为零，动画将永远重复。缺省值是0。</p>
-</dd>
+<dd>辉光动画迭代次数。如果为零，动画将永远重复。缺省值是0。</dd>
 <dt><em>选择时外轮廓</em></dt>
-<dd><p class="first last">在选择物体时激活辉光动画。在这种情况下，<code class="docutils literal"><span class="pre">Selectable</span></code> 选项必须启用。在用户定义的辉光动画模型的情况下，以避免冲突此选项必须被禁用。</p>
-</dd>
+<dd>在选择物体时激活辉光动画。在这种情况下，<code class="docutils literal"><span class="pre">Selectable</span></code> 选项必须启用。在用户定义的辉光动画模型的情况下，以避免冲突此选项必须被禁用。</dd>
 </dl>
 <p>在  <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Object</span> <span class="pre">Outlining</span></code> 面板：</p>
 <dl class="docutils">
 <dt><em>因子</em></dt>
-<dd><p class="first last">当这个参数减小围绕物体的辉光的厚度亮度也减小。默认值是1。</p>
-</dd>
+<dd>当这个参数减小围绕物体的辉光的厚度亮度也减小。默认值是1。</dd>
 </dl>
 <p>当通过API初始化辉光效果时 <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Object</span> <span class="pre">Outlining</span></code> 被作为默认值。</p>
 </div>
@@ -434,26 +403,21 @@
 <a class="reference internal image-reference" href="_images/effects_glow.png"><img alt="_images/effects_glow.png" class="align-center" src="_images/effects_glow.png" style="width: 100%;" /></a>
 <div class="section" id="id16">
 <h3>激活<a class="headerlink" href="#id16" title="永久链接至标题">¶</a></h3>
-<p>添加 <a class="reference internal" href="node_materials.html#glow-output"><span>B4W_GLOW_OUTPUT</span></a> 节点到节点材质。在  <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Glow</span> <span class="pre">Materials</span></code> 面板的 <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">Glow</span> <span class="pre">Materials</span></code> 选项应设置为 <code class="docutils literal"><span class="pre">ON</span></code> 或 <code class="docutils literal"><span class="pre">AUTO</span></code> 。</p>
+<p>添加 <a class="reference internal" href="node_materials.html#glow-output"><span class="std std-ref">B4W_GLOW_OUTPUT</span></a> 节点到节点材质。在  <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Glow</span> <span class="pre">Materials</span></code> 面板的 <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">Glow</span> <span class="pre">Materials</span></code> 选项应设置为 <code class="docutils literal"><span class="pre">ON</span></code> 或 <code class="docutils literal"><span class="pre">AUTO</span></code> 。</p>
 </div>
 <div class="section" id="id17">
 <h3>其他设置<a class="headerlink" href="#id17" title="永久链接至标题">¶</a></h3>
 <dl class="docutils">
 <dt><em>小遮罩：强度</em></dt>
-<dd><p class="first last">通过较小的遮罩晕光获得的强度。默认值是2.0。</p>
-</dd>
+<dd>通过较小的遮罩晕光获得的强度。默认值是2.0。</dd>
 <dt><em>小遮罩：宽</em></dt>
-<dd><p class="first last">通过较小的遮罩晕光获得的宽度。默认值是2.0。</p>
-</dd>
+<dd>通过较小的遮罩晕光获得的宽度。默认值是2.0。</dd>
 <dt><em>大遮罩：强度</em></dt>
-<dd><p class="first last">通过较大遮罩晕光获得的强度。默认值是2.0。</p>
-</dd>
+<dd>通过较大遮罩晕光获得的强度。默认值是2.0。</dd>
 <dt><em>大遮罩：宽</em></dt>
-<dd><p class="first last">通过较大遮罩晕光获得的宽度。默认值是6.0。</p>
-</dd>
+<dd>通过较大遮罩晕光获得的宽度。默认值是6.0。</dd>
 <dt><em>在透明的物体渲染辉光</em></dt>
-<dd><p class="first last">渲染透明物体的辉光效果。</p>
-</dd>
+<dd>渲染透明物体的辉光效果。</dd>
 </dl>
 </div>
 </div>
@@ -466,10 +430,8 @@
 <p>使用位于 <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Anti-Aliasing</span></code> 面板上的 <code class="docutils literal"><span class="pre">AA</span> <span class="pre">Quality</span></code> 菜单中选择质量配置文件。</p>
 <blockquote>
 <div><ul class="simple">
-<li><p class="first"><em>无</em>  - 关闭抗锯齿，</p>
-</li>
-<li><p class="first"><em>低</em>，<em>中</em>，<em>高</em>  - 用给定质量配置文件启用抗锯齿。</p>
-</li>
+<li><em>无</em>  - 关闭抗锯齿，</li>
+<li><em>低</em>，<em>中</em>，<em>高</em>  - 用给定质量配置文件启用抗锯齿。</li>
 </ul>
 </div></blockquote>
 <p><em>中</em> 配置文件默认情况下使用。</p>
@@ -479,10 +441,8 @@
 <p>抗锯齿方法是在引擎性能配置文件选择时同时匹配的：</p>
 <blockquote>
 <div><ul class="simple">
-<li><p class="first"><em>低质量</em>  - 无抗锯齿，</p>
-</li>
-<li><p class="first"><em>高品质*和*超高品质</em>  - 使用FXAA 3.11算法（Nvidia公司的快速近似抗锯齿）。</p>
-</li>
+<li><em>低质量</em>  - 无抗锯齿，</li>
+<li><em>高品质*和*超高品质</em>  - 使用FXAA 3.11算法（Nvidia公司的快速近似抗锯齿）。</li>
 </ul>
 </div></blockquote>
 </div>
@@ -508,8 +468,8 @@
 
   <div role="contentinfo">
     <p>
-        &copy; 版权所有 2014-2017, Triumph.
-      最后更新于 2017-11-21.
+        &copy; Copyright 2014-2017, Triumph.
+      最后更新于 2017-12-29.
 
     </p>
   </div>
@@ -565,11 +525,11 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

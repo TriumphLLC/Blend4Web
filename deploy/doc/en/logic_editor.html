@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Logic Editor &mdash; Blend4Web 17.10.1 User Manual</title>
+  <title>Logic Editor &mdash; Blend4Web 17.12.0 User Manual</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.10.1 User Manual" href="index.html"/>
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Blend4Web 17.12.0 User Manual" href="index.html"/>
         <link rel="next" title="Lighting, Shadows and Background" href="lighting.html"/>
         <link rel="prev" title="Node Materials" href="node_materials.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -100,7 +103,7 @@
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="material_library.html">Material Library</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Logic Editor</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Logic Editor</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#basics">Basics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#control-flow">Control Flow</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#entry-point">Entry Point</a><ul>
@@ -555,7 +558,7 @@
 <dd>First operand of the logical condition. Contains a numeric value or a string (if the <code class="docutils literal"><span class="pre">String</span> <span class="pre">Operators</span></code> parameter is enabled). Can be specified in the node or can be a link to one of the variables (if the <code class="docutils literal"><span class="pre">Variable</span></code> parameter at the right of it is enabled).</dd>
 <dt><em>Operand2</em></dt>
 <dd>Second operand of the logical condition. Works the same way as the first.</dd>
-<dt><em>Operand&#8217;s Type</em></dt>
+<dt><em>Operand’s Type</em></dt>
 <dd>The type of the operands. Available values are <code class="docutils literal"><span class="pre">Number</span></code> (the default option), <code class="docutils literal"><span class="pre">String</span></code> and <code class="docutils literal"><span class="pre">Object</span></code>.</dd>
 </dl>
 </div>
@@ -651,9 +654,9 @@
 <dt><em>Function</em></dt>
 <dd>The name of the function.</dd>
 <dt><em>In Params</em></dt>
-<dd>The list of the function&#8217;s input parameters. This list is empty by default, but you can add and remove variables using <code class="docutils literal"><span class="pre">+</span></code> and <code class="docutils literal"><span class="pre">-</span></code> buttons. Each variable can also be named.</dd>
+<dd>The list of the function’s input parameters. This list is empty by default, but you can add and remove variables using <code class="docutils literal"><span class="pre">+</span></code> and <code class="docutils literal"><span class="pre">-</span></code> buttons. Each variable can also be named.</dd>
 <dt><em>Out Params</em></dt>
-<dd>The list of the function&#8217;s output parameters. Works in the same way as the <code class="docutils literal"><span class="pre">In</span> <span class="pre">Params</span></code> list.</dd>
+<dd>The list of the function’s output parameters. Works in the same way as the <code class="docutils literal"><span class="pre">In</span> <span class="pre">Params</span></code> list.</dd>
 </dl>
 </div>
 </div>
@@ -717,14 +720,14 @@
 <dd><p class="first">First frame of the animation.</p>
 <div class="last admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">If this parameter is not specified, the animation plays from the current frame, i.e. if animation hasn&#8217;t been played yet, playback will start from the first frame of the timeline. If playback has been stopped with the <code class="docutils literal"><span class="pre">Stop</span> <span class="pre">Timeline</span></code> node and then started again, it will continue from the last played frame.</p>
+<p class="last">If this parameter is not specified, the animation plays from the current frame, i.e. if animation hasn’t been played yet, playback will start from the first frame of the timeline. If playback has been stopped with the <code class="docutils literal"><span class="pre">Stop</span> <span class="pre">Timeline</span></code> node and then started again, it will continue from the last played frame.</p>
 </div>
 </dd>
 <dt><em>End Marker</em></dt>
 <dd><p class="first">Last frame of the animation.</p>
 <div class="last admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">If this parameter is not specified, an animation plays to the next marker (or to the end of the timeline, if there isn&#8217;t any).</p>
+<p class="last">If this parameter is not specified, an animation plays to the next marker (or to the end of the timeline, if there isn’t any).</p>
 </div>
 </dd>
 <dt><em>Do Not Wait</em></dt>
@@ -924,16 +927,16 @@
 <p>The following parameters are used to specify a target or a pivot point of the camera and are available only if the <code class="docutils literal"><span class="pre">New</span> <span class="pre">Camera</span> <span class="pre">Move</span> <span class="pre">Style</span></code> parameter is set to either <code class="docutils literal"><span class="pre">Hover</span></code> or <code class="docutils literal"><span class="pre">Target</span></code>:</p>
 <dl class="docutils">
 <dt><em>Use Object</em></dt>
-<dd>This parameter enables and disables using a scene object as camera&#8217;s target or pivot point (depending on the camera type). If it is activated, a text field will appear to specify the object. This parameter is disabled by default.</dd>
+<dd>This parameter enables and disables using a scene object as camera’s target or pivot point (depending on the camera type). If it is activated, a text field will appear to specify the object. This parameter is disabled by default.</dd>
 </dl>
 <p>If the <code class="docutils literal"><span class="pre">Use</span> <span class="pre">Object</span></code> parameter is disabled, the following three options become available:</p>
 <dl class="docutils">
 <dt><em>x</em></dt>
-<dd>The <code class="docutils literal"><span class="pre">X</span></code> component of the camera&#8217;s target/pivot pint.</dd>
+<dd>The <code class="docutils literal"><span class="pre">X</span></code> component of the camera’s target/pivot pint.</dd>
 <dt><em>y</em></dt>
-<dd>The <code class="docutils literal"><span class="pre">Y</span></code> component of the camera&#8217;s target/pivot point.</dd>
+<dd>The <code class="docutils literal"><span class="pre">Y</span></code> component of the camera’s target/pivot point.</dd>
 <dt><em>z</em></dt>
-<dd>The <code class="docutils literal"><span class="pre">Z</span></code> component of the camera&#8217;s target/pivot point.</dd>
+<dd>The <code class="docutils literal"><span class="pre">Z</span></code> component of the camera’s target/pivot point.</dd>
 </dl>
 </div>
 </div>
@@ -963,17 +966,17 @@
 <p class="last">This parameter can be set directly or using an Object-type variable (if the <code class="docutils literal"><span class="pre">Variable</span></code> option is enabled).</p>
 </dd>
 <dt><em>Distance Limits</em></dt>
-<dd>Sets the <code class="docutils literal"><span class="pre">Distance</span> <span class="pre">Limits</span></code> parameter native to the <a class="reference internal" href="camera.html#camera-target-type"><span>Target</span></a> and <a class="reference internal" href="camera.html#camera-hover-type"><span>Hover</span></a> camera types.</dd>
+<dd>Sets the <code class="docutils literal"><span class="pre">Distance</span> <span class="pre">Limits</span></code> parameter native to the <a class="reference internal" href="camera.html#camera-target-type"><span class="std std-ref">Target</span></a> and <a class="reference internal" href="camera.html#camera-hover-type"><span class="std std-ref">Hover</span></a> camera types.</dd>
 <dt><em>Hor. Rotation Limits</em></dt>
-<dd>Sets <code class="docutils literal"><span class="pre">Horizontal</span> <span class="pre">Rotation</span> <span class="pre">Limits</span></code> parameter native to <a class="reference internal" href="camera.html#camera-target-type"><span>Target</span></a> and <a class="reference internal" href="camera.html#camera-eye-type"><span>Eye</span></a> camera types.</dd>
+<dd>Sets <code class="docutils literal"><span class="pre">Horizontal</span> <span class="pre">Rotation</span> <span class="pre">Limits</span></code> parameter native to <a class="reference internal" href="camera.html#camera-target-type"><span class="std std-ref">Target</span></a> and <a class="reference internal" href="camera.html#camera-eye-type"><span class="std std-ref">Eye</span></a> camera types.</dd>
 <dt><em>Vert. Rotation Limits</em></dt>
-<dd>Sets <code class="docutils literal"><span class="pre">Vertical</span> <span class="pre">Rotation</span> <span class="pre">Limits</span></code> parameter native to <a class="reference internal" href="camera.html#camera-target-type"><span>Target</span></a>, <a class="reference internal" href="camera.html#camera-hover-type"><span>Hover</span></a> and <a class="reference internal" href="camera.html#camera-eye-type"><span>Eye</span></a> camera types.</dd>
+<dd>Sets <code class="docutils literal"><span class="pre">Vertical</span> <span class="pre">Rotation</span> <span class="pre">Limits</span></code> parameter native to <a class="reference internal" href="camera.html#camera-target-type"><span class="std std-ref">Target</span></a>, <a class="reference internal" href="camera.html#camera-hover-type"><span class="std std-ref">Hover</span></a> and <a class="reference internal" href="camera.html#camera-eye-type"><span class="std std-ref">Eye</span></a> camera types.</dd>
 <dt><em>Pivot Translation Limits</em></dt>
-<dd>Sets <code class="docutils literal"><span class="pre">Pivot</span> <span class="pre">Translation</span> <span class="pre">Limits</span></code> parameter native to <a class="reference internal" href="camera.html#camera-target-type"><span>Target</span></a> camera type.</dd>
+<dd>Sets <code class="docutils literal"><span class="pre">Pivot</span> <span class="pre">Translation</span> <span class="pre">Limits</span></code> parameter native to <a class="reference internal" href="camera.html#camera-target-type"><span class="std std-ref">Target</span></a> camera type.</dd>
 <dt><em>Hor. Translation Limits</em></dt>
-<dd>Sets <code class="docutils literal"><span class="pre">Horizontal</span> <span class="pre">Translation</span> <span class="pre">Limits</span></code> parameter native to <a class="reference internal" href="camera.html#camera-hover-type"><span>Hover</span></a> camera type.</dd>
+<dd>Sets <code class="docutils literal"><span class="pre">Horizontal</span> <span class="pre">Translation</span> <span class="pre">Limits</span></code> parameter native to <a class="reference internal" href="camera.html#camera-hover-type"><span class="std std-ref">Hover</span></a> camera type.</dd>
 <dt><em>Vert. Translation Limits</em></dt>
-<dd>Sets <code class="docutils literal"><span class="pre">Vertical</span> <span class="pre">Translation</span> <span class="pre">Limits</span></code> parameter native to <a class="reference internal" href="camera.html#camera-hover-type"><span>Hover</span></a> camera type.</dd>
+<dd>Sets <code class="docutils literal"><span class="pre">Vertical</span> <span class="pre">Translation</span> <span class="pre">Limits</span></code> parameter native to <a class="reference internal" href="camera.html#camera-hover-type"><span class="std std-ref">Hover</span></a> camera type.</dd>
 </dl>
 </div>
 </div>
@@ -1069,7 +1072,7 @@
 <dd><p class="first">This parameter defines the coordinate space that will be used to transform the object. It can have one of the following values:</p>
 <ul class="simple">
 <li><code class="docutils literal"><span class="pre">World</span></code> - global coordinate space.</li>
-<li><code class="docutils literal"><span class="pre">Parent</span></code> - local coordinate system of the parent of the object specified by the <code class="docutils literal"><span class="pre">Object</span></code> parameter. Parent object&#8217;s origin point is used as the center of coordinates, while its angles of rotation define the directions of the coordinate axes.</li>
+<li><code class="docutils literal"><span class="pre">Parent</span></code> - local coordinate system of the parent of the object specified by the <code class="docutils literal"><span class="pre">Object</span></code> parameter. Parent object’s origin point is used as the center of coordinates, while its angles of rotation define the directions of the coordinate axes.</li>
 <li><code class="docutils literal"><span class="pre">Local</span></code> - local coordinate space of the selected object. Similar to the <code class="docutils literal"><span class="pre">Parent</span></code> coordinate space, but in this case, the origin point of the object itself is used as the origin of coordinates.</li>
 </ul>
 <p class="last">Set to <code class="docutils literal"><span class="pre">World</span></code> by default.</p>
@@ -1487,7 +1490,7 @@
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p>The data received from the server should be in the JSON format:</p>
-<div class="last highlight-json"><div class="highlight"><pre><span class="p">{</span>
+<div class="last highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
     <span class="nt">&quot;var0&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
     <span class="nt">&quot;var1&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
     <span class="nt">&quot;var2&quot;</span><span class="p">:</span> <span class="mi">144</span>
@@ -1538,7 +1541,7 @@
 <h4>Using JSON logic node to encode JSON object<a class="headerlink" href="#using-json-logic-node-to-encode-json-object" title="Permalink to this headline">¶</a></h4>
 <a class="reference internal image-reference" href="_images/logic_editor_json_encode_example.png"><img alt="_images/logic_editor_json_encode_example.png" class="align-center" src="_images/logic_editor_json_encode_example.png" style="width: 100%;" /></a>
 <p>The logic node setup at the picture above encodes a JSON object and stores it in the <code class="docutils literal"><span class="pre">R1</span></code> variable. Such a JSON object looks like this:</p>
-<div class="highlight-json"><div class="highlight"><pre><span class="p">{</span>
+<div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
     <span class="nt">&quot;main&quot;</span><span class="p">:{</span>
         <span class="nt">&quot;part1&quot;</span><span class="p">:</span><span class="mi">7</span><span class="p">,</span>
         <span class="nt">&quot;part2&quot;</span><span class="p">:</span><span class="mi">12</span><span class="p">,</span>
@@ -1552,7 +1555,7 @@
 <h4>Using JSON logic node to decode JSON object<a class="headerlink" href="#using-json-logic-node-to-decode-json-object" title="Permalink to this headline">¶</a></h4>
 <a class="reference internal image-reference" href="_images/logic_editor_json_decode_example.png"><img alt="_images/logic_editor_json_decode_example.png" class="align-center" src="_images/logic_editor_json_decode_example.png" style="width: 100%;" /></a>
 <p>The picture above shows a logic node setup that receives a JSON object from the server, stores it in the <code class="docutils literal"><span class="pre">R1</span></code> variable and then decodes it. Such a JSON object looks like this:</p>
-<div class="highlight-json"><div class="highlight"><pre><span class="p">{</span>
+<div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
     <span class="nt">&quot;a&quot;</span><span class="p">:</span> <span class="p">{</span>
         <span class="nt">&quot;b&quot;</span><span class="p">:</span> <span class="mi">17</span><span class="p">,</span>
         <span class="nt">&quot;c&quot;</span><span class="p">:</span> <span class="s2">&quot;abc&quot;</span>
@@ -1560,8 +1563,8 @@
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>Decoding this JSON object with the <code class="docutils literal"><span class="pre">JSON</span></code> logic node results in three variables named <code class="docutils literal"><span class="pre">var0</span></code>, <code class="docutils literal"><span class="pre">var1</span></code> and <code class="docutils literal"><span class="pre">var2</span></code> (you don&#8217;t have to create the variables beforehand) that will contain various parts of the JSON object. In this example, the <code class="docutils literal"><span class="pre">var1</span></code> variable has the value of 17, the <code class="docutils literal"><span class="pre">var2</span></code> variable has the value &#8220;abc&#8221;, while the <code class="docutils literal"><span class="pre">var0</span></code> variable contains the following fragment of the JSON object:</p>
-<div class="highlight-json"><div class="highlight"><pre><span class="p">{</span>
+<p>Decoding this JSON object with the <code class="docutils literal"><span class="pre">JSON</span></code> logic node results in three variables named <code class="docutils literal"><span class="pre">var0</span></code>, <code class="docutils literal"><span class="pre">var1</span></code> and <code class="docutils literal"><span class="pre">var2</span></code> (you don’t have to create the variables beforehand) that will contain various parts of the JSON object. In this example, the <code class="docutils literal"><span class="pre">var1</span></code> variable has the value of 17, the <code class="docutils literal"><span class="pre">var2</span></code> variable has the value “abc”, while the <code class="docutils literal"><span class="pre">var0</span></code> variable contains the following fragment of the JSON object:</p>
+<div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
     <span class="nt">&quot;b&quot;</span><span class="p">:</span> <span class="mi">17</span><span class="p">,</span>
     <span class="nt">&quot;c&quot;</span><span class="p">:</span> <span class="s2">&quot;abc&quot;</span>
 <span class="p">}</span>
@@ -1599,7 +1602,7 @@
 <dt><em>Param type</em></dt>
 <dd>The type of the web page parameter. Available values are <code class="docutils literal"><span class="pre">Number</span></code>, <code class="docutils literal"><span class="pre">String</span></code> and <code class="docutils literal"><span class="pre">Object</span></code>.</dd>
 <dt><em>Hash param</em></dt>
-<dd>If this option is enabled, the <code class="docutils literal"><span class="pre">Page</span> <span class="pre">Param</span></code> node will process hash parameters; if it isn&#8217;t, the node will process regular URL parameters.</dd>
+<dd>If this option is enabled, the <code class="docutils literal"><span class="pre">Page</span> <span class="pre">Param</span></code> node will process hash parameters; if it isn’t, the node will process regular URL parameters.</dd>
 </dl>
 </div>
 </div>
@@ -1864,7 +1867,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Triumph.
-      Last updated on 2017-11-21.
+      Last updated on 2017-12-29.
 
     </p>
   </div>
@@ -1920,11 +1923,11 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

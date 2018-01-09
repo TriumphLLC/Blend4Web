@@ -14,7 +14,22 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-"use strict";
+import register from "../util/register.js";
+
+import m_cam_fact from "../extern/camera.js";
+import m_ctl_fact from "../extern/controls.js";
+import m_phy_fact from "../extern/physics.js";
+import m_scs_fact from "../extern/scenes.js";
+import m_util_fact from "../extern/util.js";
+import m_main_fact from "../extern/main.js";
+import m_cont_fact from "../extern/container.js";
+import m_input_fact from "../extern/input.js";
+import m_screen_fact from "../extern/screen.js";
+import m_trans_fact from "../extern/transform.js";
+import m_const_fact from "../extern/constraints.js";
+import * as m_vec3 from "../libs/gl_matrix/vec3.js";
+import m_hmd_fact from "./hmd.js";
+import m_print_fact from "../intern/print.js";
 
 /**
  * Add-on for first person applications.
@@ -26,7 +41,7 @@
  * @local CharMotionCallback
  */
 
-b4w.module["fps"] = function(exports, require) {
+function FPS(ns, exports) {
 
 /**
  * Function which is called when the given ID state is changed.
@@ -56,20 +71,19 @@ b4w.module["fps"] = function(exports, require) {
  * @param {number} y rotation around Y-axis in radians
  */
 
-var m_cam   = require("camera");
-var m_ctl   = require("controls");
-var m_phy   = require("physics");
-var m_scs   = require("scenes");
-var m_util  = require("util");
-var m_main  = require("main");
-var m_cont  = require("container");
-var m_input = require("input");
-var m_screen = require("screen");
-var m_trans = require("transform");
-var m_const = require("constraints");
-var m_vec3  = require("vec3");
-var m_hmd   = require("hmd");
-var m_print = require("print");
+var m_cam    = m_cam_fact(ns);
+var m_ctl    = m_ctl_fact(ns);
+var m_phy    = m_phy_fact(ns);
+var m_scs    = m_scs_fact(ns);
+var m_util   = m_util_fact(ns);
+var m_main   = m_main_fact(ns);
+var m_cont   = m_cont_fact(ns);
+var m_input  = m_input_fact(ns);
+var m_screen = m_screen_fact(ns);
+var m_trans  = m_trans_fact(ns);
+var m_const  = m_const_fact(ns);
+var m_hmd    = m_hmd_fact(ns);
+var m_print  = m_print_fact(ns);
 
 var AT_PRESSED = 1;
 var AT_RELEASED = 2;
@@ -1209,3 +1223,7 @@ exports.unfreeze_movements = function() {
 }
 
 };
+
+var fps_factory = register("fps", FPS);
+
+export default fps_factory;

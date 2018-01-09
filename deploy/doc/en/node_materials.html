@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Node Materials &mdash; Blend4Web 17.10.1 User Manual</title>
+  <title>Node Materials &mdash; Blend4Web 17.12.0 User Manual</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.10.1 User Manual" href="index.html"/>
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Blend4Web 17.12.0 User Manual" href="index.html"/>
         <link rel="next" title="Logic Editor" href="logic_editor.html"/>
         <link rel="prev" title="Material Library" href="material_library.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -99,7 +102,7 @@
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="material_library.html">Material Library</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Node Materials</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Node Materials</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#standard-nodes">Standard Nodes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#engine-specific-nodes">Engine-Specific Nodes</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#clamp-b4w-clamp">Clamp (B4W_CLAMP)</a><ul>
@@ -253,7 +256,7 @@
 <div class="section" id="standard-nodes">
 <span id="generic-node-materials"></span><h2><a class="toc-backref" href="#id24">Standard Nodes</a><a class="headerlink" href="#standard-nodes" title="Permalink to this headline">¶</a></h2>
 <p id="index-1">Blend4Web supports all standard Blender nodes, but some of them do not work fast enough and are not recommended to use in real time applications. Creating very complex materials, especially using large numbers of <code class="docutils literal"><span class="pre">Geometry</span></code> and <code class="docutils literal"><span class="pre">Texture</span></code> nodes, is also not recommended.</p>
-<p>The engine also has partial support for some of the Cycles nodes. This subject is more thoroughly described in the <a class="reference internal" href="#cycles-nodes"><span>corresponding chapter</span></a>.</p>
+<p>The engine also has partial support for some of the Cycles nodes. This subject is more thoroughly described in the <a class="reference internal" href="#cycles-nodes"><span class="std std-ref">corresponding chapter</span></a>.</p>
 <p id="node-performance">Standard node performance and degree of support is described in the table.</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -263,7 +266,7 @@
 <col width="23%" />
 </colgroup>
 <thead valign="bottom">
-<tr class="row-odd"><th class="head">Node&#8217;s Name</th>
+<tr class="row-odd"><th class="head">Node’s Name</th>
 <th class="head">Function</th>
 <th class="head">Support</th>
 <th class="head">Performance</th>
@@ -321,7 +324,7 @@ of a given color</td>
 <tr class="row-even"><td>Geometry</td>
 <td>Used to obtain
 information about
-object&#8217;s geometry</td>
+object’s geometry</td>
 <td><code class="docutils literal"><span class="pre">Vertex</span> <span class="pre">Alpha</span></code> output
 is not supported</td>
 <td>Using large numbers
@@ -485,19 +488,19 @@ Object coordinate spaces</td>
 <table class="docutils footnote" frame="void" id="f1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id2">[1]</a></td><td>The <code class="docutils literal"><span class="pre">Color</span> <span class="pre">Space</span></code> parameter of a normal map used with this node should be set to <code class="docutils literal"><span class="pre">Non-Color</span></code>. Not doing so may lead to unpredictable results (although it won&#8217;t crash the engine).</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id2">[1]</a></td><td>The <code class="docutils literal"><span class="pre">Color</span> <span class="pre">Space</span></code> parameter of a normal map used with this node should be set to <code class="docutils literal"><span class="pre">Non-Color</span></code>. Not doing so may lead to unpredictable results (although it won’t crash the engine).</td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="f2" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id3">[2]</a></td><td>If at least one of the internal parameters, <code class="docutils literal"><span class="pre">Space</span> <span class="pre">to</span> <span class="pre">convert</span> <span class="pre">from...</span></code> or <code class="docutils literal"><span class="pre">Space</span> <span class="pre">to</span> <span class="pre">convert</span> <span class="pre">to...</span></code> is set to <code class="docutils literal"><span class="pre">Object</span></code>, then any object that uses the material will be considered <a class="reference internal" href="objects.html#static-dynamic-objects"><span>dynamic</span></a>.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id3">[2]</a></td><td>If at least one of the internal parameters, <code class="docutils literal"><span class="pre">Space</span> <span class="pre">to</span> <span class="pre">convert</span> <span class="pre">from...</span></code> or <code class="docutils literal"><span class="pre">Space</span> <span class="pre">to</span> <span class="pre">convert</span> <span class="pre">to...</span></code> is set to <code class="docutils literal"><span class="pre">Object</span></code>, then any object that uses the material will be considered <a class="reference internal" href="objects.html#static-dynamic-objects"><span class="std std-ref">dynamic</span></a>.</td></tr>
 </tbody>
 </table>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p>Please keep in mind that node materials have certain limitations concerning the number of specific nodes in the material. These limitations are described <a class="reference internal" href="#node-material-limits"><span>here</span></a>.</p>
+<p>Please keep in mind that node materials have certain limitations concerning the number of specific nodes in the material. These limitations are described <a class="reference internal" href="#node-material-limits"><span class="std std-ref">here</span></a>.</p>
 </div>
 <div class="section" id="engine-specific-nodes">
 <span id="custom-node-materials"></span><h2><a class="toc-backref" href="#id25">Engine-Specific Nodes</a><a class="headerlink" href="#engine-specific-nodes" title="Permalink to this headline">¶</a></h2>
@@ -524,7 +527,7 @@ Object coordinate spaces</td>
 </div>
 <div class="section" id="glow-output-b4w-glow-output">
 <span id="glow-output"></span><h3><a class="toc-backref" href="#id27">Glow Output (B4W_GLOW_OUTPUT)</a><a class="headerlink" href="#glow-output-b4w-glow-output" title="Permalink to this headline">¶</a></h3>
-<p>Applies the <a class="reference internal" href="postprocessing_effects.html#glow"><span>Glow effect</span></a> to the node material. Besides the <em>B4W_GLOW_OUTPUT</em> node, the node material should have the <em>Output</em> node.</p>
+<p>Applies the <a class="reference internal" href="postprocessing_effects.html#glow"><span class="std std-ref">Glow effect</span></a> to the node material. Besides the <em>B4W_GLOW_OUTPUT</em> node, the node material should have the <em>Output</em> node.</p>
 <a class="reference internal image-reference" href="_images/node_materials_glow_output.png"><img alt="_images/node_materials_glow_output.png" class="align-center" src="_images/node_materials_glow_output.png" style="width: 100%;" /></a>
 <div class="section" id="id4">
 <h4>Input Parameters<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h4>
@@ -547,7 +550,7 @@ Object coordinate spaces</td>
 <a class="reference internal image-reference" href="_images/node_materials_levels_of_quality.png"><img alt="_images/node_materials_levels_of_quality.png" class="align-center" src="_images/node_materials_levels_of_quality.png" style="width: 100%;" /></a>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="developers.html#quality-settings"><span>Quality Profiles</span></a></p>
+<p class="last"><a class="reference internal" href="developers.html#quality-settings"><span class="std std-ref">Quality Profiles</span></a></p>
 </div>
 <div class="section" id="id5">
 <h4>Input Parameters<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h4>
@@ -636,7 +639,7 @@ Object coordinate spaces</td>
 </div>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="materials.html#alpha-blend"><span>Transparency</span></a></p>
+<p class="last"><a class="reference internal" href="materials.html#alpha-blend"><span class="std std-ref">Transparency</span></a></p>
 </div>
 </div>
 </div>
@@ -705,7 +708,7 @@ Object coordinate spaces</td>
 </dl>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="animation.html#node-anim"><span>Animation of Value and RGB Nodes</span></a></p>
+<p class="last"><a class="reference internal" href="animation.html#node-anim"><span class="std std-ref">Animation of Value and RGB Nodes</span></a></p>
 </div>
 </div>
 </div>
@@ -749,7 +752,7 @@ Object coordinate spaces</td>
 </dl>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">This node can work incorrectly, if the <a class="reference internal" href="normal_editor.html#normals-editor"><span>mesh normals were edited</span></a>.</p>
+<p class="last">This node can work incorrectly, if the <a class="reference internal" href="normal_editor.html#normals-editor"><span class="std std-ref">mesh normals were edited</span></a>.</p>
 </div>
 </div>
 </div>
@@ -778,7 +781,7 @@ Object coordinate spaces</td>
 <img alt="_images/node_materials_gamma.png" class="align-center" src="_images/node_materials_gamma.png" />
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="colors.html#gamma-node-materials"><span>Gamma in Node Materials</span></a></p>
+<p class="last"><a class="reference internal" href="colors.html#gamma-node-materials"><span class="std std-ref">Gamma in Node Materials</span></a></p>
 </div>
 </div>
 </div>
@@ -804,20 +807,31 @@ Object coordinate spaces</td>
 <li><code class="docutils literal"><span class="pre">Bump</span></code>.</li>
 </ul>
 <p>The following nodes are partially supported:</p>
-<ul class="simple">
-<li><code class="docutils literal"><span class="pre">Texture</span> <span class="pre">Coordinates</span></code> (<code class="docutils literal"><span class="pre">From</span> <span class="pre">Dupli</span></code> parameter is not supported);</li>
-<li><code class="docutils literal"><span class="pre">UV</span> <span class="pre">Map</span></code> (<code class="docutils literal"><span class="pre">From</span> <span class="pre">Dupli</span></code> parameter is not supported);</li>
-<li><code class="docutils literal"><span class="pre">Geometry</span></code> (the <code class="docutils literal"><span class="pre">Pointness</span></code> and <code class="docutils literal"><span class="pre">Parametric</span></code> parameters are not supported).</li>
-<li><code class="docutils literal"><span class="pre">Emission</span></code> (does not influence the lighting of the scene).</li>
+<ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">Principled</span> <span class="pre">BSDF</span></code></p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">Roughness</span></code>, <code class="docutils literal"><span class="pre">Metallic</span></code>, <code class="docutils literal"><span class="pre">Specular</span></code> and <code class="docutils literal"><span class="pre">Normal</span></code> inputs are supported;</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">Texture</span> <span class="pre">Coordinates</span></code> (<code class="docutils literal"><span class="pre">From</span> <span class="pre">Dupli</span></code> parameter is not supported);</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">UV</span> <span class="pre">Map</span></code> (<code class="docutils literal"><span class="pre">From</span> <span class="pre">Dupli</span></code> parameter is not supported);</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">Geometry</span></code> (the <code class="docutils literal"><span class="pre">Pointness</span></code> and <code class="docutils literal"><span class="pre">Parametric</span></code> parameters are not supported).</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">Emission</span></code> (does not influence the lighting of the scene).</p>
+</li>
 </ul>
 <p><code class="docutils literal"><span class="pre">Cycles</span></code> nodes are also supported for <code class="docutils literal"><span class="pre">World</span></code> object. However, at the moment node material does not affect the colors of the environment.</p>
 <p>Other <code class="docutils literal"><span class="pre">Cycles</span></code> nodes will not, in most cases, work in Blend4Web the same way they do in Blender. They also might not work at all or even cause material in which they are used to work incorrectly. However, using these nodes will not cause instabilities in the application workflow.</p>
 </div>
 <div class="section" id="limitations">
 <span id="node-material-limits"></span><h2><a class="toc-backref" href="#id39">Limitations</a><a class="headerlink" href="#limitations" title="Permalink to this headline">¶</a></h2>
-<p>Node materials can be complex, but their complexity is limited by the capabilities of the hardware you use. It might not be noticeable most of the time, but if you are making a very complex material, you might exceed the number of textures and varying vectors (vectors that are used by a vertex shader to hand over data to a fragment shader) that your system allows to use in one shader. And even if you won&#8217;t, some users of your application might not have devices as powerful as yours, so they can experience problems where you will not.</p>
-<p>If you want to know how your scene would behave on a low-end device but don&#8217;t have one in your possession, there is also a very useful option called <code class="docutils literal"><span class="pre">Min</span> <span class="pre">Capabilities</span> <span class="pre">Mode</span></code>. It is native to <a class="reference internal" href="viewer.html#viewer"><span>Scene Viewer</span></a> and can be found on the <a class="reference internal" href="viewer.html#viewer-tools-and-debug"><span>Tools &amp; Debug</span></a> panel.</p>
-<p>The number of textures and varying vectors supported by your device can be viewed on the WebGL Report web page accessible from the <a class="reference internal" href="addon.html#getting-started-launching-viewer"><span>SDK Index</span></a> page.</p>
+<p>Node materials can be complex, but their complexity is limited by the capabilities of the hardware you use. It might not be noticeable most of the time, but if you are making a very complex material, you might exceed the number of textures and varying vectors (vectors that are used by a vertex shader to hand over data to a fragment shader) that your system allows to use in one shader. And even if you won’t, some users of your application might not have devices as powerful as yours, so they can experience problems where you will not.</p>
+<p>If you want to know how your scene would behave on a low-end device but don’t have one in your possession, there is also a very useful option called <code class="docutils literal"><span class="pre">Min</span> <span class="pre">Capabilities</span> <span class="pre">Mode</span></code>. It is native to <a class="reference internal" href="viewer.html#viewer"><span class="std std-ref">Scene Viewer</span></a> and can be found on the <a class="reference internal" href="viewer.html#viewer-tools-and-debug"><span class="std std-ref">Tools &amp; Debug</span></a> panel.</p>
+<p>The number of textures and varying vectors supported by your device can be viewed on the WebGL Report web page accessible from the <a class="reference internal" href="addon.html#getting-started-launching-viewer"><span class="std std-ref">SDK Index</span></a> page.</p>
 <p>The two following tables list various material nodes along with the numbers of textures and varying vectors the engine allocates to them.</p>
 <p><strong>Varying Vectors</strong></p>
 <table border="1" class="docutils">
@@ -905,7 +919,7 @@ shadow cascades or shadow casters)</p>
 </td>
 <td><p class="first">1</p>
 <p class="last">(the number of the nodes in the material
-doesn&#8217;t matter)</p>
+doesn’t matter)</p>
 </td>
 </tr>
 <tr class="row-even"><td>Shadows on an object with the <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Blend</span></code>
@@ -953,7 +967,7 @@ enabled for a World</td>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Triumph.
-      Last updated on 2017-11-21.
+      Last updated on 2017-12-29.
 
     </p>
   </div>
@@ -1009,11 +1023,11 @@ enabled for a World</td>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Source: extern/data.js | Blend4Web API Reference</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: extern/data.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import register from "../util/register.js";
+
+import m_data_fact from "../intern/data.js";
+import m_loader_fact from "../intern/loader.js";
+
+/**
+ * Data API. Used to load/unload exported JSON data files.
+ * @module data
+ * @local StageloadCallback
+ * @local LoadedCallback
+ */
+function Data(ns, exports) {
+
+/**
+ * Data loaded callback.
+ * Executed when the data loading process has been completed.
+ * @callback LoadedCallback
+ * @param {number} data_id Data ID
+ * @param {boolean} success Load success
+ */
+
+/**
+ * Loading stage callback.
+ * Used to implement loading progress indicators (preloaders).
+ * @callback StageloadCallback
+ * @param {number} percentage Loading progress (0-100).
+ * @param {number} load_time Loading time in ms.
+ * @param {number} data_id Data ID
+ */
+
+var m_data   = m_data_fact(ns);
+var m_loader = m_loader_fact(ns);
+
+/**
+ * Load data from the json file exported from Blender.
+ * @method module:data.load
+ * @param {string} path Path to JSON file
+ * @param {LoadedCallback} [loaded_cb=null] Callback to be executed right after load
+ * @param {StageloadCallback} [stageload_cb=null] Callback to report about the loading progress
+ * @param {boolean} [wait_complete_loading=false] Wait until all resources are loaded
+ * @param {boolean} [load_hidden=false] Hide loaded and disable physics objects
+ * @returns {number} ID of loaded data.
+ */
+exports.load = m_data.load;
+
+/**
+ * Unload the previously loaded data.
+ * @method module:data.unload
+ * @param {number} [data_id=0] ID of unloaded data. Unload all data if data_id is zero.
+ */
+exports.unload = function(data_id) {
+    data_id = data_id | 0;
+    m_data.unload(data_id);
+}
+
+
+/**
+ * Set the root which contains the resources, for debug purposes. 
+ * Enables the checking of loading paths, so if the resources are not loaded from 
+ * the app root, there will be a warning in m_print.
+ * @method module:data.set_debug_resources_root
+ * @param {string} debug_resources_root App root directory.
+ */
+exports.set_debug_resources_root = m_data.set_debug_resources_root;
+
+/**
+ * Check if the engine primary data (main scene) is loaded (detect the last loading stage).
+ * @method module:data.is_primary_loaded
+ * @returns {boolean} Check result
+ */
+exports.is_primary_loaded = m_data.is_primary_loaded;
+
+/**
+ * Check if the engine has finished all of the scheduled loading actions.
+ * @method module:data.is_idle
+ * @returns {boolean} Check result
+ */
+exports.is_idle = m_loader.is_finished;
+
+exports.load_and_add_new = m_data.load;
+
+exports.cleanup = exports.unload;
+/**
+ * Activate media data context.
+ * Activation of audio/video contexts is required for mobile platforms which
+ * disable media playback without explicit user interaction. This method
+ * should be executed inside some input event listener.
+ * @method module:data.activate_media
+ */
+exports.activate_media = m_data.activate_media;
+/**
+ * Preload scene's resources and put them into cache.
+ * @param {string} path Path to JSON file
+ * @param {LoadedCallback} [loaded_cb=null] Callback to be executed right after load
+ * @param {StageloadCallback} [stageload_cb=null] Callback to report about the loading progress
+ * @method module:data.prefetch
+ */
+exports.prefetch = m_data.prefetch;
+/**
+ * Clear loading cache.
+ * @method module:data.unfetch
+ */
+exports.unfetch = m_data.unfetch;
+
+}
+
+var data_factory = register("data", Data);
+
+export default data_factory;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-armature.html">armature</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-fps.html">fps</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gp_conf.html">gp_conf</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hmd.html">hmd</a></li><li><a href="module-hmd_conf.html">hmd_conf</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-input.html">input</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-logic_nodes.html">logic_nodes</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-math.html">math</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screen.html">screen</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Blend4Web API Reference (generated by JSDoc 3.5.5 on Fri Dec 29 2017 16:28:37 GMT+0300 (MSK))
+    <a href="https://www.blend4web.com">www.blend4web.com</a>
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+  (function() {
+    if (window.document.domain != "www.blend4web.com")
+      return;
+
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter24512171 = new Ya.Metrika({
+                    id:24512171,
+                    clickmap:false,
+                    trackLinks:true,
+                    accurateTrackBounce:true
+                });
+            } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+  })();
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/24512171" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

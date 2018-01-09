@@ -1,10 +1,9 @@
-
 项目管理
 ********
 
 
-目录
-^^^^
+Table of Contents
+^^^^^^^^^^^^^^^^^
 
 * 项目管理
 
@@ -248,7 +247,17 @@ New Project]" 按钮执行。
 
     * “背景透明” 启用渲染区域的透明度。
 
-    * "使用压缩纹理" 使精缩和压缩纹理加载（以DDS格式）。
+    * "Use compressed textures" enables loading of minified and
+      compressed textures (in DDS format).
+
+    * "Use compressed textures pvr" enables loading of minified and
+      compressed textures (in PVR format).
+
+    * "Use min capabilities" makes Web Player run application as if
+      it was running on a low-end system (on a mobile device, for
+      example).
+
+    * "Use gzip compression" enables using gzip compression.
 
 
 创建一个 Web 播放器应用程序

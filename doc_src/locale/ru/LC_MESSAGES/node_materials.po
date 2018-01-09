@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2017-06-22 16:20+0300\n"
+"POT-Creation-Date: 2017-12-20 10:48+0300\n"
 "PO-Revision-Date: 2015-08-28 10:55+0300\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Russian <info [at] blend4web.com>\n"
@@ -896,6 +896,15 @@ msgstr "``Bump``."
 msgid "The following nodes are partially supported:"
 msgstr "Следующие ноды поддерживаются частично:"
 
+msgid "``Principled BSDF``"
+msgstr ""
+
+msgid ""
+"``Roughness``, ``Metallic``, ``Specular`` and ``Normal`` inputs are "
+"supported;"
+msgstr ""
+"Поддерживаются входы ``Roughness``, ``Metallic``, ``Specular`` и ``Normal``;"
+
 msgid "``Texture Coordinates`` (``From Dupli`` parameter is not supported);"
 msgstr "``Texture Coordinates`` (параметр ``From Dupli`` не поддерживается);"
 
@@ -1194,12 +1203,5 @@ msgstr "ноды"
 #~ msgstr ""
 
 #~ msgid "Reflections"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Node materials for ``World`` object are"
-#~ " also supported. However, at the "
-#~ "moment material nodes have no influence"
-#~ " on the color of the environment."
 #~ msgstr ""
 

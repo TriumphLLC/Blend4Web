@@ -18,10 +18,6 @@
  * @see http://www.myersdaily.org/joseph/javascript/md5-text.html
  */
 
-"use strict";
-
-b4w.module["__md5"] = function(exports, require) {
-
 function md5cycle(x, k) {
     var a = x[0], b = x[1], c = x[2], d = x[3];
 
@@ -196,9 +192,6 @@ function add32(a, b) {
 //    }
 //}
 
-exports.hexdigest = function(msg) {
+export function hexdigest(msg) {
     return hex(md51(msg));
-}
-
-
 }

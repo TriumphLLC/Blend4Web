@@ -1,6 +1,101 @@
-
 发布说明
 ********
+
+
+v17.12
+======
+
+
+新功能
+------
+
+* Support for ES6 modules
+
+     Now Blend4Web modules can be imported using *import* keyword
+
+     The old modules import which use *b4w.require* also work and old
+     applications will work without modifications
+
+     Webpack is used in build system for ES6 modules support
+
+* Support for NPM
+
+     *Blend4Web* SDK now has intergated node.js. You can run it using
+     *scripts/node.sh*
+
+     *Blend4Web* SDK now supports modules installed from *NPM*, use
+     *scripts/npm.sh install packag-name* to install the package you
+     need
+
+     Also, you can find *Blend4Web* engine in *NPM* repository!!! "npm
+     install blend4web"
+
+* Fast Preview in standalone addon is now available
+
+* New functions in "physics" module for controlling collision shape
+
+     "sync_bounding" - synchronize collision boundings of the mesh
+     after shapekey change
+
+     "sync_mesh" - synchronize collision mesh after shapekey change
+
+* Further support for Cycles materials
+
+     Basic "Principled BSDF" node support has been added. Supported
+     inputs include "Base Color", "Metallic", "Roughness", "Normal".
+     This node allows to create PBR materials accordindg to
+     Roughness/Metallic pipeline
+
+     "Transparent BSDF" support has been improved and extended. This
+     node now has custom option "Use Alpha", which allows to mimic
+     behavior of Blend4Web transparent materials with "Alpha Sort"
+     blend mode
+
+     Added vertex colors support via "Attribute" node. The "Color"
+     output of this node is similiar to the "Vertex Color" output of
+     the "Blender Internal" "Geometry" node
+
+
+变更
+----
+
+* Now background_color parameter of the config affects only canvas
+  while internal framebuffers retain default color (black).
+
+
+修复
+----
+
+* Fixed camera movement in case of vertical axis is not Z-axis.
+
+* Fixed Material/Material_ext node of the node materials, now
+  diffuse and specular inputs are not clamped.
+
+* Fixed the set_nodemat_rgb, get_nodemat_rgb, set_nodemat_value and
+  get_nodemat_value methods.
+
+* Fixed shader crash in case of using in Google Chrome.
+
+* Fixed incorrect recursion detection in Logic Editor.
+
+* Fixed bug in *sphinx_rtd_theme*, which caused non-working search
+  function in documentation.
+
+* Fixed passing and modificating global variables in Logic Editor.
+
+* Fixed export to different drives on Windows.
+
+* Fixed properties repetitions in Logic nodes.
+
+* Fixed logic nodes: now maximum number of nodes is processed per
+  frame to prevent blinking when using "Show" and "Hide" nodes.
+
+
+Known Issues
+------------
+
+   The issue with SDK unpacking occurs on the Windows when using
+   standard archiver. Workaround is to use other archiver e.g. "7zip".
 
 
 v17.10

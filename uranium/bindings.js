@@ -73,6 +73,15 @@ function append_static_mesh_body(id, positions, indices, trans, friction,
     body.num_triangles = calc_num_triangles(positions, indices);
 }
 
+function update_static_mesh_body(id, positions, indices, trans, friction,
+    restitution, collision_id, collision_margin, collision_group,
+    collision_mask) {
+    remove_body_only(id);
+    append_static_mesh_body(id, positions, indices, trans, friction,
+        restitution, collision_id, collision_margin, collision_group,
+        collision_mask);
+}
+
 function calc_num_triangles(positions, indices) {
     if (indices)
         return indices.length / 3;
@@ -264,6 +273,21 @@ function append_bounding_body(id, trans, quat, physics_type, is_ghost,
         append_body(id, du_body, false, collision_group, collision_mask);
 }
 
+function update_bounding_body(id, trans, quat, physics_type, is_ghost,
+    disable_sleeping, mass, velocity_min, velocity_max, damping,
+    rotation_damping, collision_id, collision_margin, collision_group,
+    collision_mask, bounding_type, bounding_object, size,
+    friction, restitution, comp_children_params, correct_bound_offset) {
+
+    // keep actions
+    remove_body_only(id);
+    append_bounding_body(id, trans, quat, physics_type, is_ghost,
+        disable_sleeping, mass, velocity_min, velocity_max, damping,
+        rotation_damping, collision_id, collision_margin, collision_group,
+        collision_mask, bounding_type, bounding_object, size,
+        friction, restitution, comp_children_params, correct_bound_offset);
+}
+
 function create_bounding_shape(bounding_type, bounding_object, consider_compound) {
 
     if (bounding_type == "BOX") {
@@ -386,6 +410,19 @@ function remove_body(body_id) {
     if (du_action_id)
         _du_free(du_action_id);
 
+    var du_body_id = body.du_id;
+    _du_delete_body(du_body_id);
+
+    delete _world.bodies[body_id];
+    _world.bodies_arr.splice(_world.bodies_arr.indexOf(body), 1);
+}
+
+function remove_body_only(body_id) {
+    var body = _world.bodies[body_id];
+    if (!body)
+        throw "Wrong body id";
+
+    disable_simulation(body_id);
     var du_body_id = body.du_id;
     _du_delete_body(du_body_id);
 
@@ -1262,6 +1299,7 @@ function set_character_rotation_quat(body_id, quat) {
 
     // vertical plane
     var cos_v = proj[0]*my_dir[0] + proj[1]*my_dir[1];
+    cos_v = Math.max(Math.min(cos_v, 1), -1);
     var sign_v = my_dir[2] < 0 ? 1: -1;
 
     // MY axis is positive direction
@@ -2096,11 +2134,17 @@ function process_message(worker, msg_id, msg) {
     case m_ipc.OUT_APPEND_STATIC_MESH_BODY:
         append_static_mesh_body.apply(this, msg.slice(1));
         break;
+    case m_ipc.OUT_UPDATE_STATIC_MESH_BODY:
+        update_static_mesh_body.apply(this, msg.slice(1));
+        break;
     case m_ipc.OUT_APPEND_GHOST_MESH_BODY:
         append_ghost_mesh_body.apply(this, msg.slice(1));
         break;
     case m_ipc.OUT_APPEND_BOUNDING_BODY:
         append_bounding_body.apply(this, msg.slice(1));
+        break;
+    case m_ipc.OUT_UPDATE_BOUNDING_BODY:
+        update_bounding_body.apply(this, msg.slice(1));
         break;
     case m_ipc.OUT_REMOVE_BODY:
         remove_body(msg[1]);

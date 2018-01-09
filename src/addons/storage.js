@@ -14,7 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-"use strict";
+import register from "../util/register.js";
+
+import m_print_fact from "../intern/print.js";
 
 /**
  * Local storage add-on.
@@ -23,9 +25,9 @@
  * @namespace
  * @exports exports as storage
  */
-b4w.module["storage"] = function(exports, require) {
+function Storage(ns, exports) {
 
-var m_print = require("print");
+var m_print = m_print_fact(ns);
 
 var _prefix = "b4w";
 var _storage = null;
@@ -125,3 +127,7 @@ exports.debug = function(prefix) {
 init_storage();
 
 }
+
+var storage_factory = register("storage", Storage);
+
+export default storage_factory;

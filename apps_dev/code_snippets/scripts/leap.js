@@ -1,27 +1,27 @@
 "use strict"
 
-b4w.register("leap", function(exports, require) {
+import b4w from "blend4web";
 
-var m_anim      = require("animation");
-var m_app       = require("app");
-var m_arm       = require("armature");
-var m_camera    = require("camera");
-var m_cfg       = require("config");
-var m_cons      = require("constraints");
-var m_cont      = require("container");
-var m_ctl       = require("controls");
-var m_data      = require("data");
-var m_mat3      = require("mat3");
-var m_mat4      = require("mat4");
-var m_phys      = require("physics");
-var m_preloader = require("preloader");
-var m_quat      = require("quat");
-var m_scenes    = require("scenes");
-var m_trans     = require("transform");
-var m_tsr       = require("tsr");
-var m_util      = require("util");
-var m_vec3      = require("vec3");
-var m_ver       = require("version");
+var m_anim      = b4w.animation;
+var m_app       = b4w.app;
+var m_arm       = b4w.armature;
+var m_camera    = b4w.camera;
+var m_cfg       = b4w.config;
+var m_cons      = b4w.constraints;
+var m_cont      = b4w.container;
+var m_ctl       = b4w.controls;
+var m_data      = b4w.data;
+var m_mat3      = b4w.mat3;
+var m_mat4      = b4w.mat4;
+var m_phys      = b4w.physics;
+var m_preloader = b4w.preloader;
+var m_quat      = b4w.quat;
+var m_scenes    = b4w.scenes;
+var m_trans     = b4w.transform;
+var m_tsr       = b4w.tsr;
+var m_util      = b4w.util;
+var m_vec3      = b4w.vec3;
+var m_ver       = b4w.version;
 
 var _mat3_tmp = m_mat3.create();
 var _mat4_tmp = m_mat4.create();
@@ -67,7 +67,7 @@ var DEBUG = (m_ver.type() === "DEBUG");
 
 var APP_ASSETS_PATH = m_cfg.get_std_assets_path() + "code_snippets/leap";
 
-exports.init = function() {
+export function init() {
     m_app.init({
         canvas_container_id: "main_canvas_container",
         callback: init_cb,
@@ -524,6 +524,4 @@ function update_hands_position(hands) {
         m_phys.sync_transform(h_index_l);
     }
 }
-
-});
 

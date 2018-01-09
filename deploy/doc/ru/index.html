@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Содержание &mdash; Руководство пользователя Blend4Web 17.10.1</title>
+  <title>Содержание &mdash; Руководство пользователя Blend4Web 17.12.0</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 17.10.1" href="#"/>
+        <link rel="index" title="Алфавитный указатель"
+              href="genindex.html"/>
+        <link rel="search" title="Поиск" href="search.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 17.12.0" href="#"/>
         <link rel="next" title="Общие сведения" href="about.html"/> 
 
   
@@ -60,7 +63,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -163,7 +166,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="about.html">Общие сведения</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="about.html#what-s-blend4web">Что такое Blend4Web</a></li>
-<li class="toctree-l2"><a class="reference internal" href="about.html#about-engines">&#8220;Движок&#8221;</a></li>
+<li class="toctree-l2"><a class="reference internal" href="about.html#about-engines">«Движок»</a></li>
 <li class="toctree-l2"><a class="reference internal" href="about.html#graphics-engine-game-engine">Графический движок, трехмерный движок</a></li>
 <li class="toctree-l2"><a class="reference internal" href="about.html#what-s-webgl">Что такое WebGL</a></li>
 <li class="toctree-l2"><a class="reference internal" href="about.html#webgl-browsers-support">Поддержка WebGL в браузерах</a></li>
@@ -204,7 +207,7 @@
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Рабочий процесс</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="workflow.html#creating-a-new-project">Создание нового проекта</a></li>
 <li class="toctree-l2"><a class="reference internal" href="workflow.html#creating-scenes">Создание сцен</a></li>
-<li class="toctree-l2"><a class="reference internal" href="workflow.html#preparing-a-scene-to-use-in-blend4web">Подготовка трёхмерных сцен в программе Blender.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="workflow.html#preparing-a-scene-to-use-in-blend4web">Подготовка трёхмерных сцен в программе Blender</a></li>
 <li class="toctree-l2"><a class="reference internal" href="workflow.html#exporting-scenes">Экспорт сцен</a></li>
 <li class="toctree-l2"><a class="reference internal" href="workflow.html#application-development">Разработка приложения</a></li>
 <li class="toctree-l2"><a class="reference internal" href="workflow.html#project-building">Сборка проекта</a></li>
@@ -476,11 +479,12 @@
 <li class="toctree-l2"><a class="reference internal" href="problems_and_solutions.html#webgl-support">Поддержка WebGL</a></li>
 <li class="toctree-l2"><a class="reference internal" href="problems_and_solutions.html#problems-upon-startup">Проблемы при запуске движка</a></li>
 <li class="toctree-l2"><a class="reference internal" href="problems_and_solutions.html#webgl-failed-to-initialize">Ошибка инициализации WebGL</a></li>
-<li class="toctree-l2"><a class="reference internal" href="problems_and_solutions.html#more-in-depth-troubleshooting">Если ничего не помогло...</a></li>
+<li class="toctree-l2"><a class="reference internal" href="problems_and_solutions.html#more-in-depth-troubleshooting">Если ничего не помогло…</a></li>
 <li class="toctree-l2"><a class="reference internal" href="problems_and_solutions.html#known-issues">Известные проблемы</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Замечания к релизам</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#v17-12">v17.12</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v17-10">v17.10</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v17-08">v17.08</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v17-06">v17.06</a></li>
@@ -519,8 +523,8 @@
 </ul>
 </div>
 <ul class="simple">
-<li><a class="reference internal" href="genindex.html"><span>Алфавитный указатель</span></a></li>
-<li><a class="reference internal" href="search.html"><span>Поиск</span></a></li>
+<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Алфавитный указатель</span></a></li>
+<li><a class="reference internal" href="search.html"><span class="std std-ref">Поиск</span></a></li>
 </ul>
 </div>
 
@@ -542,7 +546,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Триумф.
-      Обновлено: 2017-11-21.
+      Обновлено: 2017-12-29.
 
     </p>
   </div>
@@ -598,11 +602,11 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

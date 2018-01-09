@@ -34,6 +34,7 @@ b4w_modules = [
     "ui_texture",
     "ui_particle",
     "ui_physics",
+    "ui_node",
     "ui_view3d_ht_header",
     "translator"
 ]

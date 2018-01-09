@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>对应用程序开发人员 &mdash; Blend4Web 17.10.1 用户手册</title>
+  <title>对应用程序开发人员 &mdash; Blend4Web 17.12.0 用户手册</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.10.1 用户手册" href="index.html"/>
+        <link rel="index" title="索引"
+              href="genindex.html"/>
+        <link rel="search" title="搜索" href="search.html"/>
+    <link rel="top" title="Blend4Web 17.12.0 用户手册" href="index.html"/>
         <link rel="next" title="对于引擎开发者" href="developers_advanced.html"/>
         <link rel="prev" title="物理" href="physics.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -112,7 +115,7 @@
 <li class="toctree-l1"><a class="reference internal" href="colors.html">色彩管理</a></li>
 <li class="toctree-l1"><a class="reference internal" href="audio.html">音频</a></li>
 <li class="toctree-l1"><a class="reference internal" href="physics.html">物理</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">对应用程序开发人员</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">对应用程序开发人员</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#application-development">应用程序开发</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#application-code-structure">应用程序代码结构</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#writing-application-logic">编写应用程序逻辑</a></li>
@@ -197,7 +200,7 @@
   <div class="section" id="for-application-developers">
 <span id="developers"></span><h1><a class="toc-backref" href="#id2">对应用程序开发人员</a><a class="headerlink" href="#for-application-developers" title="永久链接至标题">¶</a></h1>
 <div class="contents topic" id="table-of-contents">
-<p class="topic-title first">目录</p>
+<p class="topic-title first">Table of Contents</p>
 <ul class="simple">
 <li><a class="reference internal" href="#for-application-developers" id="id2">对应用程序开发人员</a><ul>
 <li><a class="reference internal" href="#application-development" id="id3">应用程序开发</a><ul>
@@ -231,12 +234,12 @@
 </div>
 <div class="section" id="application-development">
 <span id="app-building"></span><h2><a class="toc-backref" href="#id3">应用程序开发</a><a class="headerlink" href="#application-development" title="永久链接至标题">¶</a></h2>
-<p>为了简化开发过程，我们建议使用 <a class="reference internal" href="project_manager.html#project-management"><span>项目管理器</span></a>. 它可以用于快速  <a class="reference internal" href="project_manager.html#create-new-project"><span>创建</span></a>  一个简单的应用程序，其通用代码足以加载简单的场景并启用基本的相机控件。</p>
+<p>为了简化开发过程，我们建议使用 <a class="reference internal" href="project_manager.html#project-management"><span class="std std-ref">项目管理器</span></a>. 它可以用于快速  <a class="reference internal" href="project_manager.html#create-new-project"><span class="std std-ref">创建</span></a>  一个简单的应用程序，其通用代码足以加载简单的场景并启用基本的相机控件。</p>
 <div class="section" id="application-code-structure">
 <span id="app-init-loading"></span><h3><a class="toc-backref" href="#id4">应用程序代码结构</a><a class="headerlink" href="#application-code-structure" title="永久链接至标题">¶</a></h3>
 <p>初始化和加载应用程序的过程分为几个阶段，这反映在应用程序的代码中。如果您正在使用项目管理器，新创建的 <code class="docutils literal"><span class="pre">Copy</span></code> 或 <code class="docutils literal"><span class="pre">Compile</span></code> 类型项目将包含一个主要的JS文件，它将放在SDK中。该文件的路径如下所示：<code class="docutils literal"><span class="pre">./projects/PROJECT_NAME/PROJECT_NAME.js</span></code>.</p>
 <p>此文件包含通用代码作为模块。该模块可以使用一定的结构进行注册：</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">b4w</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">exports</span><span class="p">,</span> <span class="nx">require</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">b4w</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">exports</span><span class="p">,</span> <span class="nx">require</span><span class="p">)</span> <span class="p">{</span>
 
     <span class="c1">// module code</span>
     <span class="c1">//...</span>
@@ -257,7 +260,7 @@
 </li>
 <li><p class="first"><code class="docutils literal"><span class="pre">exports</span></code> 是用于从外部访问模块函数的对象（例如，从其他模块）。在这种情况下，只有 <code class="docutils literal"><span class="pre">init</span></code> 函数是外部的：</p>
 <blockquote>
-<div><div class="highlight-javascript"><div class="highlight"><pre><span class="nx">b4w</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">exports</span><span class="p">,</span> <span class="nx">require</span><span class="p">)</span> <span class="p">{</span>
+<div><div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">b4w</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">exports</span><span class="p">,</span> <span class="nx">require</span><span class="p">)</span> <span class="p">{</span>
 
     <span class="p">...</span>
 
@@ -279,7 +282,7 @@
 </li>
 </ol>
 <p>应用程序初始化从此函数开始，它在模块外调用：</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">b4w</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">exports</span><span class="p">,</span> <span class="nx">require</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">b4w</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">exports</span><span class="p">,</span> <span class="nx">require</span><span class="p">)</span> <span class="p">{</span>
 
     <span class="p">...</span>
 
@@ -302,13 +305,11 @@
 </div>
 <p>之后，调用 <a class="reference external" href="https://www.blend4web.com/api_doc/module-app.html#.init">app.init</a> 方法。它创建画布 HTML元素，并执行用于初始化WebGL的所有必要操作。这种方法有很多不同的属性，其中最重要的是：</p>
 <ul class="simple">
-<li><p class="first"><code class="docutils literal"><span class="pre">canvas_container_id</span></code> 设置作为画布元素容器的HTML元素的id。默认情况下，使用具有 <code class="docutils literal"><span class="pre">main_canvas_container</span></code> ID的元素（该元素位于应用程序的主HTML文件中）。</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">callback</span></code> 是完成初始化后调用的函数。</p>
-</li>
+<li><code class="docutils literal"><span class="pre">canvas_container_id</span></code> 设置作为画布元素容器的HTML元素的id。默认情况下，使用具有 <code class="docutils literal"><span class="pre">main_canvas_container</span></code> ID的元素（该元素位于应用程序的主HTML文件中）。</li>
+<li><code class="docutils literal"><span class="pre">callback</span></code> 是完成初始化后调用的函数。</li>
 </ul>
 <p>当应用程序初始化完成后，调用由 <code class="docutils literal"><span class="pre">callback</span></code> 参数设置的  <a class="reference external" href="https://www.blend4web.com/api_doc/module-app.html#~AppInitCallback">init_cb</a> 函数：</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">init_cb</span><span class="p">(</span><span class="nx">canvas_elem</span><span class="p">,</span> <span class="nx">success</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">function</span> <span class="nx">init_cb</span><span class="p">(</span><span class="nx">canvas_elem</span><span class="p">,</span> <span class="nx">success</span><span class="p">)</span> <span class="p">{</span>
 
     <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">success</span><span class="p">)</span> <span class="p">{</span>
         <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;b4w init failure&quot;</span><span class="p">);</span>
@@ -330,17 +331,15 @@
 </div>
 <p>它具有以下参数：</p>
 <ul class="simple">
-<li><p class="first">canvas_elem 是用于渲染3D内容的创建的画布 HTML元素</p>
-</li>
-<li><p class="first">成功是表示初始化成功的标志。<code class="docutils literal"><span class="pre">false</span></code> 值意味着应用程序由于初始化错误而无法工作（例如，设备不支持WebGL）。</p>
-</li>
+<li>canvas_elem 是用于渲染3D内容的创建的画布 HTML元素</li>
+<li>成功是表示初始化成功的标志。<code class="docutils literal"><span class="pre">false</span></code> 值意味着应用程序由于初始化错误而无法工作（例如，设备不支持WebGL）。</li>
 </ul>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
 <p class="last"><a class="reference external" href="https://www.blend4web.com/api_doc/module-app.html#.init">app.init</a>  方法将初始化设置为 <code class="docutils literal"><span class="pre">window.onload</span></code> 事件，所以 <code class="docutils literal"><span class="pre">init_cb</span></code> 函数可以访问HTML文档的整个DOM树。</p>
 </div>
 <p>现在我们可以开始加载3D场景了。这个是在 <code class="docutils literal"><span class="pre">init_cb</span></code> 中调用 <code class="docutils literal"><span class="pre">load</span></code> 来完成。</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">APP_ASSETS_PATH</span> <span class="o">=</span> <span class="nx">m_cfg</span><span class="p">.</span><span class="nx">get_assets_path</span><span class="p">(</span><span class="s2">&quot;my_project&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">APP_ASSETS_PATH</span> <span class="o">=</span> <span class="nx">m_cfg</span><span class="p">.</span><span class="nx">get_assets_path</span><span class="p">(</span><span class="s2">&quot;my_project&quot;</span><span class="p">);</span>
 
 <span class="p">...</span>
 
@@ -351,7 +350,7 @@
 </div>
 <p><a class="reference external" href="https://www.blend4web.com/api_doc/module-data.html#.load">data.load</a> 方法用于加载。该方法的第一个参数是3D场景文件的路径。 JSON文件的路径应该是相对于主要的HTML应用程序文件。在项目管理器中创建的项目具有专用的资产文件夹，您可以轻松获取其路径。这通过引入 <code class="docutils literal"><span class="pre">APP_ASSETS_PATH</span></code> 全局变量在通用示例代码中完成，该变量稍后用于 <a class="reference external" href="https://www.blend4web.com/api_doc/module-data.html#.load">data.load</a>.</p>
 <p>该方法的第二个参数是 <a class="reference external" href="https://www.blend4web.com/api_doc/module-data.html#~LoadedCallback">load_cb</a> 函数，在3D场景加载调用后并准备渲染。</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">load</span><span class="p">()</span> <span class="p">{</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">function</span> <span class="nx">load</span><span class="p">()</span> <span class="p">{</span>
     <span class="nx">m_data</span><span class="p">.</span><span class="nx">load</span><span class="p">(</span><span class="nx">APP_ASSETS_PATH</span> <span class="o">+</span> <span class="s2">&quot;my_project.json&quot;</span><span class="p">,</span> <span class="nx">load_cb</span><span class="p">,</span> <span class="nx">preloader_cb</span><span class="p">);</span>
 <span class="p">}</span>
 
@@ -373,11 +372,11 @@
 <div class="section" id="writing-application-logic">
 <h4>编写应用程序逻辑<a class="headerlink" href="#writing-application-logic" title="永久链接至标题">¶</a></h4>
 <p>在初始化和加载3D场景后，应用程序将根据程序员设置的逻辑进行工作，例如与输入设备交互，操纵场景物体，控制摄像机行为等。</p>
-<p>通过观察  <a class="reference internal" href="#app-init-loading"><span>应用程序加载过程</span></a>, 我们可以确定几个适合执行各种任务的地方。</p>
+<p>通过观察  <a class="reference internal" href="#app-init-loading"><span class="std std-ref">应用程序加载过程</span></a>, 我们可以确定几个适合执行各种任务的地方。</p>
 <ol class="arabic">
 <li><p class="first">用于启动初始化的 <a class="reference external" href="https://www.blend4web.com/api_doc/module-app.html#.init">app.init</a> 方法接受引擎配置参数。因此，您可以在使用URL属性作为基础调用此方​​法之前配置引擎：</p>
 <blockquote>
-<div><div class="highlight-javascript"><div class="highlight"><pre><span class="nx">b4w</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">exports</span><span class="p">,</span> <span class="nx">require</span><span class="p">)</span> <span class="p">{</span>
+<div><div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">b4w</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">exports</span><span class="p">,</span> <span class="nx">require</span><span class="p">)</span> <span class="p">{</span>
 
 <span class="p">...</span>
 
@@ -405,28 +404,24 @@
 </li>
 <li><p class="first">初始化由 <code class="docutils literal"><span class="pre">window.onload</span></code> 操作启动，这意味着完成之后 <a class="reference external" href="https://www.blend4web.com/api_doc/module-app.html#~AppInitCallback">init_cb</a>  函数将可以访问整个DOM树。此时，您可以执行一些准备工作，例如创建和设置界面元素。然而，3D场景本身尚未加载，并且它的物体也没有加载。</p>
 </li>
-<li><p class="first">加载3D场景后，将调用 <a class="reference external" href="https://www.blend4web.com/api_doc/module-data.html#~LoadedCallback">load_cb</a> 函数。此时，所有场景物体变得可用，因此可以在此功能中实现与之相关的任何操作。一些例子可以在 <a class="reference internal" href="#code-snippets"><span>代码片段</span></a> 应用程序中找到。</p>
+<li><p class="first">加载3D场景后，将调用 <a class="reference external" href="https://www.blend4web.com/api_doc/module-data.html#~LoadedCallback">load_cb</a> 函数。此时，所有场景物体变得可用，因此可以在此功能中实现与之相关的任何操作。一些例子可以在 <a class="reference internal" href="#code-snippets"><span class="std std-ref">代码片段</span></a> 应用程序中找到。</p>
 </li>
 </ol>
 <p>可以使用浏览器或引擎API将逻辑添加到应用程序中：</p>
 <ol class="arabic simple">
-<li><p class="first">基本的键盘/鼠标/游戏键盘输入可以通过使用 <code class="docutils literal"><span class="pre">addEventListener</span></code> 方法用标准的事件处理程序来实现。在更复杂的情况下，您可以使用 <a class="reference external" href="https://www.blend4web.com/api_doc/module-input.html">input</a> API模块。引擎还具有以下功能 <a class="reference external" href="https://www.blend4web.com/api_doc/module-input.html#.add_click_listener">add_click_listener</a> 方法，注册鼠标点击和触摸屏幕事件，这使得它有助于编写与桌面和移动设备兼容的应用程序。</p>
-</li>
-<li><p class="first">必须在每个帧执行时间延长的事件（例如程序动画）可以使用以下方法来实现 <a class="reference external" href="https://www.blend4web.com/api_doc/module-main.html#.set_render_callback">set_render_callback</a>，<a class="reference external" href="https://www.blend4web.com/api_doc/module-main.html#.append_loop_cb">append_loop_cb</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-time.html#.animate">animate</a> 和 <a class="reference external" href="https://www.blend4web.com/api_doc/module-time.html#.set_timeout">set_timeout</a>. 也可以使用标准的 <code class="docutils literal"><span class="pre">setTimeout</span></code> 和 <code class="docutils literal"><span class="pre">setInterval</span></code> 方法。</p>
-</li>
-<li><p class="first">对于考虑用户操作和3D场景状态的复杂逻辑，可以使用引擎的 <a class="reference internal" href="#event-model"><span>事件驱动模型</span></a> ，这是基于传感器系统。</p>
-</li>
+<li>基本的键盘/鼠标/游戏键盘输入可以通过使用 <code class="docutils literal"><span class="pre">addEventListener</span></code> 方法用标准的事件处理程序来实现。在更复杂的情况下，您可以使用 <a class="reference external" href="https://www.blend4web.com/api_doc/module-input.html">input</a> API模块。引擎还具有以下功能 <a class="reference external" href="https://www.blend4web.com/api_doc/module-input.html#.add_click_listener">add_click_listener</a> 方法，注册鼠标点击和触摸屏幕事件，这使得它有助于编写与桌面和移动设备兼容的应用程序。</li>
+<li>必须在每个帧执行时间延长的事件（例如程序动画）可以使用以下方法来实现 <a class="reference external" href="https://www.blend4web.com/api_doc/module-main.html#.set_render_callback">set_render_callback</a>，<a class="reference external" href="https://www.blend4web.com/api_doc/module-main.html#.append_loop_cb">append_loop_cb</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-time.html#.animate">animate</a> 和 <a class="reference external" href="https://www.blend4web.com/api_doc/module-time.html#.set_timeout">set_timeout</a>. 也可以使用标准的 <code class="docutils literal"><span class="pre">setTimeout</span></code> 和 <code class="docutils literal"><span class="pre">setInterval</span></code> 方法。</li>
+<li>对于考虑用户操作和3D场景状态的复杂逻辑，可以使用引擎的 <a class="reference internal" href="#event-model"><span class="std std-ref">事件驱动模型</span></a> ，这是基于传感器系统。</li>
 </ol>
 </div>
 <div class="section" id="module-system">
 <h4>模块系统<a class="headerlink" href="#module-system" title="永久链接至标题">¶</a></h4>
 <p>Blend4Web引擎基于模块化结构：所有引擎API方法都分为多个模块。如果需要，可以使用 <code class="docutils literal"><span class="pre">require</span></code>  方法将模块插入应用程序。我们建议也将实际应用程序的代码结构化为模块。</p>
 <ol class="arabic simple">
-<li><p class="first">注册模块</p>
-</li>
+<li>注册模块</li>
 </ol>
 <p>一个模块基本上是一个由特定结构包装的代码块，用于注册它：</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">b4w</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s2">&quot;my_module1&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">exports</span><span class="p">,</span> <span class="nx">require</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">b4w</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s2">&quot;my_module1&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">exports</span><span class="p">,</span> <span class="nx">require</span><span class="p">)</span> <span class="p">{</span>
 
     <span class="c1">// module code</span>
     <span class="p">...</span>
@@ -442,7 +437,7 @@
 </pre></div>
 </div>
 <p><a class="reference external" href="https://www.blend4web.com/api_doc/b4w.html#.register">register</a> 方法用于注册模块。如果名称与常规API模块不符，则只能注册自定义模块。如果需要，可以使用 <a class="reference external" href="https://www.blend4web.com/api_doc/b4w.html#.module_check">module_check</a> 方法检查是否存在具有给定名称的模块：</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="nx">b4w</span><span class="p">.</span><span class="nx">module_check</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">))</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="p">(</span><span class="nx">b4w</span><span class="p">.</span><span class="nx">module_check</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">))</span>
     <span class="k">throw</span> <span class="s2">&quot;Failed to register module: my_module&quot;</span><span class="p">;</span>
 
 <span class="nx">b4w</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">exports</span><span class="p">,</span> <span class="nx">require</span><span class="p">)</span> <span class="p">{</span>
@@ -454,11 +449,10 @@
 </pre></div>
 </div>
 <ol class="arabic simple" start="2">
-<li><p class="first">加载模块</p>
-</li>
+<li>加载模块</li>
 </ol>
 <p>自定义模块，就像常规模块一样，可以使用 <code class="docutils literal"><span class="pre">require</span></code> 方法插入：</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">b4w</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s2">&quot;my_module1&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">exports</span><span class="p">,</span> <span class="nx">require</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">b4w</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s2">&quot;my_module1&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">exports</span><span class="p">,</span> <span class="nx">require</span><span class="p">)</span> <span class="p">{</span>
 
     <span class="kd">var</span> <span class="nx">mod2</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;my_module2&quot;</span><span class="p">)</span>
 
@@ -467,11 +461,10 @@
 </pre></div>
 </div>
 <ol class="arabic simple" start="3">
-<li><p class="first">应用程序初始化</p>
-</li>
+<li>应用程序初始化</li>
 </ol>
 <p>Blend4Web中的应用程序初始化通常使用以下调用：</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">).</span><span class="nx">init</span><span class="p">();</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">).</span><span class="nx">init</span><span class="p">();</span>
 </pre></div>
 </div>
 <p>这里， <code class="docutils literal"><span class="pre">my_module</span></code> 定制模块及其 <code class="docutils literal"><span class="pre">init</span></code>  外部函数在某种意义上作为应用程序的入口点。</p>
@@ -480,10 +473,9 @@
 <p class="last">在全局可视范围内，可以使用相同的模块加载模块  <a class="reference external" href="https://www.blend4web.com/api_doc/b4w.html#.require">require</a> 方法作为全局 <code class="docutils literal"><span class="pre">b4w</span></code> 对象的方法：<code class="docutils literal"><span class="pre">b4w.require(&quot;MODULE_NAME&quot;)</span></code>.</p>
 </div>
 <ol class="arabic simple" start="4">
-<li><p class="first">使用多个模块</p>
-</li>
+<li>使用多个模块</li>
 </ol>
-<p>当一个项目在  <a class="reference internal" href="project_manager.html#project-management"><span>项目管理器</span></a> 中被创建, 其通用应用程序JS文件只包含一个模块。但是，在开发应用程序时，您可能需要将代码分成几个逻辑部分。在这种情况下，您可以在一个文件中创建多个模块，也可以创建多个文件，每个文件包含一个模块。</p>
+<p>当一个项目在  <a class="reference internal" href="project_manager.html#project-management"><span class="std std-ref">项目管理器</span></a> 中被创建, 其通用应用程序JS文件只包含一个模块。但是，在开发应用程序时，您可能需要将代码分成几个逻辑部分。在这种情况下，您可以在一个文件中创建多个模块，也可以创建多个文件，每个文件包含一个模块。</p>
 <p>如果您的应用程序使用多个模块，请记住，在初始化开始之前，应该正确注册每个模块，否则，如果您尝试调用尚未注册的模块，您将收到引擎报告错误。如果您使用的是几个JS文件，那么启动初始化的脚本（包含应用程序入口点）最后一个要插入到主应用程序文件中。</p>
 </div>
 </div>
@@ -491,7 +483,7 @@
 <div class="section" id="background-transparency">
 <h2><a class="toc-backref" href="#id5">背景透明</a><a class="headerlink" href="#background-transparency" title="永久链接至标题">¶</a></h2>
 <p><code class="docutils literal"><span class="pre">background_color</span></code> 和 <code class="docutils literal"><span class="pre">alpha</span></code> 参数传递到  <a class="reference external" href="https://www.blend4web.com/api_doc/module-m_app.html#.init">init</a> 方法放在加载回调函数中（场景加载后调用的函数），像这样︰</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">m_app</span><span class="p">.</span><span class="nx">init</span> <span class="p">({</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">m_app</span><span class="p">.</span><span class="nx">init</span> <span class="p">({</span>
     <span class="nx">alpha</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
     <span class="nx">background_color</span><span class="o">:</span> <span class="p">[</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
    <span class="c1">//this method sets the background to an opaque light gray color</span>
@@ -499,11 +491,10 @@
 </pre></div>
 </div>
 <p>参数传递给该方法的组合定义了 Blend4Web 应用如何和 HTML 应用程序的背景融合在一起。可用的选项包括︰</p>
-<ol class="arabic">
+<ol class="arabic simple">
 <li><dl class="first docutils">
 <dt><code class="docutils literal"><span class="pre">alpha</span></code> = false</dt>
-<dd><p class="first last">背景的颜色由Blend4Web 应用程序的 <code class="docutils literal"><span class="pre">background_color</span></code> 定义，不考虑 HTML 应用程序的背景。</p>
-</dd>
+<dd>背景的颜色由Blend4Web 应用程序的 <code class="docutils literal"><span class="pre">background_color</span></code> 定义，不考虑 HTML 应用程序的背景。</dd>
 </dl>
 </li>
 </ol>
@@ -511,7 +502,7 @@
 <ol class="arabic" start="2">
 <li><dl class="first docutils">
 <dt><code class="docutils literal"><span class="pre">alpha</span></code> = true</dt>
-<dd><p class="first">HTML 应用程序的背景可能会影响基于其透明度由 Blend4Web 应用的 &#8216;background_color&#8217; 参数定义的四个分量的背景 (<code class="docutils literal"><span class="pre">alpha</span></code> = <code class="docutils literal"><span class="pre">background_color[3]</span></code> ，不能混同于上面提到的 <code class="docutils literal"><span class="pre">alpha</span></code> 参数)。</p>
+<dd><p class="first">HTML 应用程序的背景可能会影响基于其透明度由 Blend4Web 应用的 'background_color' 参数定义的四个分量的背景 (<code class="docutils literal"><span class="pre">alpha</span></code> = <code class="docutils literal"><span class="pre">background_color[3]</span></code> ，不能混同于上面提到的 <code class="docutils literal"><span class="pre">alpha</span></code> 参数)。</p>
 <dl class="last docutils">
 <dt>background_color[3] = 1</dt>
 <dd><p class="first last">这产生相同的结果，如同 alpha 参数已关闭 (<code class="docutils literal"><span class="pre">alpha</span></code>  = 假)</p>
@@ -519,7 +510,7 @@
 <dt>background_color[3] = 0</dt>
 <dd><p class="first">使用额外的混合</p>
 <a class="reference internal image-reference" href="_images/developers_background_add.png"><img alt="_images/developers_background_add.png" class="align-center" src="_images/developers_background_add.png" style="width: 100%;" /></a>
-<p class="last">上面图片显示一个包含与页面的红色 （&#8217; 红 &#8216;） 颜色生产了紫色基调 [0，0，1] 的蓝色背景的 Blend4Web 应用程序的 HTML 页面。</p>
+<p class="last">上面图片显示一个包含与页面的红色 （' 红 '） 颜色生产了紫色基调 [0，0，1] 的蓝色背景的 Blend4Web 应用程序的 HTML 页面。</p>
 </dd>
 <dt>background_color[3] &gt; 0</dt>
 <dd><p class="first">额外的混合用  <code class="docutils literal"><span class="pre">background_color</span></code> 有更大的影响。</p>
@@ -531,13 +522,13 @@
 </dl>
 </li>
 </ol>
-<p>在 <a class="reference internal" href="colors.html#alpha-compositing"><span>颜色管理</span></a> 章节更详细地介绍了 alpha 混合机制。</p>
+<p>在 <a class="reference internal" href="colors.html#alpha-compositing"><span class="std std-ref">颜色管理</span></a> 章节更详细地介绍了 alpha 混合机制。</p>
 <p>默认情况下，<code class="docutils literal"><span class="pre">alpha</span></code> 参数设置为 true， <code class="docutils literal"><span class="pre">background_color</span></code> 设置为透明黑色 [0，0，0，0]，这意味着应用程序将具有 HTML 背景并没有影响到的 Blend4Web 应用程序的背景。</p>
-<p>背景透明度还可以利用在 <a class="reference internal" href="project_manager.html#web-player-app"><span>网页播放应用</span></a> 利用 <code class="docutils literal"><span class="pre">alpha</span></code> <a class="reference internal" href="web_player.html#webplayer-attributes"><span>URL 熟悉</span></a> 。若要使用此功能，您首先需要创建应用程序时在  <a class="reference internal" href="project_manager.html#web-player-params"><span>网页播放器参数</span></a> 组中启用 <code class="docutils literal"><span class="pre">Background</span> <span class="pre">transparency</span> <span class="pre">(alpha)</span></code>  参数 。</p>
+<p>背景透明度还可以利用在 <a class="reference internal" href="project_manager.html#web-player-app"><span class="std std-ref">网页播放应用</span></a> 利用 <code class="docutils literal"><span class="pre">alpha</span></code> <a class="reference internal" href="web_player.html#webplayer-attributes"><span class="std std-ref">URL 熟悉</span></a> 。若要使用此功能，您首先需要创建应用程序时在  <a class="reference internal" href="project_manager.html#web-player-params"><span class="std std-ref">网页播放器参数</span></a> 组中启用 <code class="docutils literal"><span class="pre">Background</span> <span class="pre">transparency</span> <span class="pre">(alpha)</span></code>  参数 。</p>
 <p>如果 Blend4Web 应用程序使用天空渲染，物体 （包括天空），将完全覆盖在应用画布上，背景将是完全不透明的不受 alpha 设置影响。</p>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
-<p class="last">默认情况下，在 <a class="reference internal" href="project_manager.html#project-management"><span>项目管理器</span></a> 中创建 Blend4Web 场景中启用天空渲染。别忘了，为了使用透明的背景，您将需要手动禁用天空渲染。</p>
+<p class="last">默认情况下，在 <a class="reference internal" href="project_manager.html#project-management"><span class="std std-ref">项目管理器</span></a> 中创建 Blend4Web 场景中启用天空渲染。别忘了，为了使用透明的背景，您将需要手动禁用天空渲染。</p>
 </div>
 </div>
 <div class="section" id="resource-conversion">
@@ -545,15 +536,15 @@
 <p>目前，浏览器不完全支持所有可能的媒体格式，所以为了创建跨浏览器应用程序（也为优化的目的），我们建议您使用的资源转换器。</p>
 <p>支持更广泛的平台，一个 Python 脚本 (<em>scripts/converter.py</em>) 为将源代码文件转换成其他格式后发布。</p>
 <p>有两种方式来运行此脚本。</p>
-<p>首先，您可以使用的项目管理系统自动运行它。 <code class="docutils literal"><span class="pre">Convert</span> <span class="pre">Resources</span></code> 按钮可以在 <a class="reference internal" href="project_manager.html#project-management"><span>Project Manager</span></a> 主页面中的发现，在操作选项卡中在屏幕的右侧。</p>
+<p>首先，您可以使用的项目管理系统自动运行它。 <code class="docutils literal"><span class="pre">Convert</span> <span class="pre">Resources</span></code> 按钮可以在 <a class="reference internal" href="project_manager.html#project-management"><span class="std std-ref">Project Manager</span></a> 主页面中的发现，在操作选项卡中在屏幕的右侧。</p>
 <a class="reference internal image-reference" href="_images/developers_convert_resources.png"><img alt="_images/developers_convert_resources.png" class="align-center" src="_images/developers_convert_resources.png" style="width: 100%;" /></a>
 <p>其次，您可以手动运行该脚本 ︰</p>
-<div class="highlight-bash"><div class="highlight"><pre>&gt; <span class="nb">cd</span> &lt;path_to_sdk&gt;/scripts
+<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; <span class="nb">cd</span> &lt;path_to_sdk&gt;/scripts
 &gt; python3 converter.py <span class="o">[</span>options<span class="o">]</span> resize_textures <span class="p">|</span> convert_dds <span class="p">|</span> convert_media
 </pre></div>
 </div>
 <p>对于MS Windows用户：</p>
-<div class="highlight-console"><div class="highlight"><pre><span class="go">cd &lt;path_to_sdk&gt;\scripts</span>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">cd &lt;path_to_sdk&gt;\scripts</span>
 <span class="go">python converter.py [options] resize_textures | convert_dds | convert_media</span>
 </pre></div>
 </div>
@@ -568,56 +559,41 @@
 <span id="converter-commands"></span><h3><a class="toc-backref" href="#id7">命令</a><a class="headerlink" href="#commands" title="永久链接至标题">¶</a></h3>
 <p>转换的命令︰</p>
 <ul class="simple">
-<li><p class="first"><code class="docutils literal"><span class="pre">resize_textures</span></code>  将纹理转换到低分辨率。</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">convert_dds</span></code> 将纹理转换到 <a class="reference internal" href="#dds"><span>DDS 格式</span></a>.</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">convert_pvr</span></code> 将纹理转换到 <a class="reference internal" href="#dds"><span>PVR 格式</span></a>.</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">convert_media</span></code> 将音频和视频文件转换为 <a class="reference internal" href="#converter-data-format"><span>替换格式</span></a>.</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">convert_gzip</span></code> 生成GZIP压缩版本的 &#8221;.json&#8221; 和 &#8221;.bin&#8221; 场景文件和  &#8221;.dds&#8221; 和 &#8221;.pvr&#8221; 纹理。</p>
-</li>
+<li><code class="docutils literal"><span class="pre">resize_textures</span></code>  将纹理转换到低分辨率。</li>
+<li><code class="docutils literal"><span class="pre">convert_dds</span></code> 将纹理转换到 <a class="reference internal" href="#dds"><span class="std std-ref">DDS 格式</span></a>.</li>
+<li><code class="docutils literal"><span class="pre">convert_pvr</span></code> 将纹理转换到 <a class="reference internal" href="#dds"><span class="std std-ref">PVR 格式</span></a>.</li>
+<li><code class="docutils literal"><span class="pre">convert_media</span></code> 将音频和视频文件转换为 <a class="reference internal" href="#converter-data-format"><span class="std std-ref">替换格式</span></a>.</li>
+<li><code class="docutils literal"><span class="pre">convert_gzip</span></code> 生成GZIP压缩版本的 &quot;.json&quot; 和 &quot;.bin&quot; 场景文件和  &quot;.dds&quot; 和 &quot;.pvr&quot; 纹理。</li>
 </ul>
 <p>资源清理命令：</p>
 <ul class="simple">
-<li><p class="first"><code class="docutils literal"><span class="pre">cleanup_textures</span></code> 删除由 <code class="docutils literal"><span class="pre">resize_textures</span></code> 命令生成的低分辨率纹理。</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">cleanup_dds</span></code> 删除由 <code class="docutils literal"><span class="pre">convert_dds</span></code> 命令生成的DDS纹理文件。</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">cleanup_pvr</span></code> 删除由 <code class="docutils literal"><span class="pre">convert_pvr</span></code> 命令生成的DDS纹理文件。</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">cleanup_media</span></code> 删除由 <code class="docutils literal"><span class="pre">convert_media</span></code> 命令生成的替换格式的音频和视频文件。</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">cleanup_gzip</span></code> 删除 <code class="docutils literal"><span class="pre">convert_gzip</span></code> 命令生成的GZIP压缩文件。</p>
-</li>
+<li><code class="docutils literal"><span class="pre">cleanup_textures</span></code> 删除由 <code class="docutils literal"><span class="pre">resize_textures</span></code> 命令生成的低分辨率纹理。</li>
+<li><code class="docutils literal"><span class="pre">cleanup_dds</span></code> 删除由 <code class="docutils literal"><span class="pre">convert_dds</span></code> 命令生成的DDS纹理文件。</li>
+<li><code class="docutils literal"><span class="pre">cleanup_pvr</span></code> 删除由 <code class="docutils literal"><span class="pre">convert_pvr</span></code> 命令生成的DDS纹理文件。</li>
+<li><code class="docutils literal"><span class="pre">cleanup_media</span></code> 删除由 <code class="docutils literal"><span class="pre">convert_media</span></code> 命令生成的替换格式的音频和视频文件。</li>
+<li><code class="docutils literal"><span class="pre">cleanup_gzip</span></code> 删除 <code class="docutils literal"><span class="pre">convert_gzip</span></code> 命令生成的GZIP压缩文件。</li>
 </ul>
 <p>图像压缩命令:</p>
 <ul class="simple">
-<li><p class="first"><code class="docutils literal"><span class="pre">compress_png</span></code> 压缩PNG文件，以减少它们的大小。此选项需要 OptiPNG工具已经安装并在 <code class="docutils literal"><span class="pre">PATH</span></code> 环境变量完成设置。</p>
-</li>
+<li><code class="docutils literal"><span class="pre">compress_png</span></code> 压缩PNG文件，以减少它们的大小。此选项需要 OptiPNG工具已经安装并在 <code class="docutils literal"><span class="pre">PATH</span></code> 环境变量完成设置。</li>
 </ul>
 <p>其它命令：</p>
 <ul class="simple">
-<li><p class="first"><code class="docutils literal"><span class="pre">check_dependencies</span></code> 检查 <a class="reference internal" href="#converter-deps"><span>转换依赖</span></a></p>
-</li>
+<li><code class="docutils literal"><span class="pre">check_dependencies</span></code> 检查 <a class="reference internal" href="#converter-deps"><span class="std std-ref">转换依赖</span></a></li>
 </ul>
 </div>
 <div class="section" id="arguments">
 <span id="converter-arguments"></span><h3><a class="toc-backref" href="#id8">参数</a><a class="headerlink" href="#arguments" title="永久链接至标题">¶</a></h3>
 <ul class="simple">
-<li><p class="first"><code class="docutils literal"><span class="pre">-d</span></code>, <code class="docutils literal"><span class="pre">--dir</span> <span class="pre">&lt;dir_path&gt;</span></code> 允许使用其他目录来存储转换后的文件。该 &lt;dir_path&gt; 值指定到此目录的路径。</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">-j</span></code>, <code class="docutils literal"><span class="pre">--jobs</span> <span class="pre">&lt;jobs&gt;</span></code> 指定要同时运行的作业（线程）的数量。如果该参数被设置为零或者未指定，数字会自动根据CPU的数量来计算。</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">-v</span></code>, <code class="docutils literal"><span class="pre">--verbose</span></code> 能够输出更多在转换文件时的详细信息。例如，转换成纹理DDS格式时，该脚本将显示每个要转换的文件进度百分比。</p>
-</li>
+<li><code class="docutils literal"><span class="pre">-d</span></code>, <code class="docutils literal"><span class="pre">--dir</span> <span class="pre">&lt;dir_path&gt;</span></code> 允许使用其他目录来存储转换后的文件。该 &lt;dir_path&gt; 值指定到此目录的路径。</li>
+<li><code class="docutils literal"><span class="pre">-j</span></code>, <code class="docutils literal"><span class="pre">--jobs</span> <span class="pre">&lt;jobs&gt;</span></code> 指定要同时运行的作业（线程）的数量。如果该参数被设置为零或者未指定，数字会自动根据CPU的数量来计算。</li>
+<li><code class="docutils literal"><span class="pre">-v</span></code>, <code class="docutils literal"><span class="pre">--verbose</span></code> 能够输出更多在转换文件时的详细信息。例如，转换成纹理DDS格式时，该脚本将显示每个要转换的文件进度百分比。</li>
 </ul>
 </div>
 <div class="section" id="dependencies">
 <span id="converter-deps"></span><h3><a class="toc-backref" href="#id9">依赖</a><a class="headerlink" href="#dependencies" title="永久链接至标题">¶</a></h3>
 <p>请确保你已经安装了所有的依赖转换器。你可以用下面的命令做到这一点：</p>
-<div class="highlight-bash"><div class="highlight"><pre>&gt; python3 &lt;path_to_sdk&gt;/scripts/converter.py check_dependencies
+<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; python3 &lt;path_to_sdk&gt;/scripts/converter.py check_dependencies
 </pre></div>
 </div>
 <p>如果未安装某些程序，将显示以下信息：</p>
@@ -630,30 +606,25 @@
 <col width="50%" />
 </colgroup>
 <thead valign="bottom">
-<tr class="row-odd"><th class="head"><p class="first last">名称</p>
-</th>
-<th class="head"><p class="first last">Ubuntu 16.04 的包</p>
-</th>
+<tr class="row-odd"><th class="head">名称</th>
+<th class="head">Ubuntu 16.04 的包</th>
 </tr>
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td>ImageMagick</td>
 <td>imagemagick</td>
 </tr>
-<tr class="row-odd"><td><p class="first last">NVIDIA纹理工具</p>
-</td>
+<tr class="row-odd"><td>NVIDIA纹理工具</td>
 <td>libnvtt-bin</td>
 </tr>
 <tr class="row-even"><td>Libav</td>
 <td>libav-tools</td>
 </tr>
 <tr class="row-odd"><td>FFmpeg</td>
-<td><p class="first last">FFmpeg</p>
-</td>
+<td>FFmpeg</td>
 </tr>
 <tr class="row-even"><td>PVRTC</td>
-<td><p class="first last">手动安装</p>
-</td>
+<td>手动安装</td>
 </tr>
 </tbody>
 </table>
@@ -666,21 +637,21 @@
 <p><strong>macOS</strong></p>
 <p>macOS 用户可以安装  <a class="reference external" href="http://www.brew.sh/">brew</a> 包管理器，然后再安装任何缺失的软件包。</p>
 <p>在安装软件包之前，使用这些命令安装的libpng和libjpeg的库：</p>
-<div class="highlight-bash"><div class="highlight"><pre>&gt; brew install libpng
+<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; brew install libpng
 &gt; brew install libjpeg
 </pre></div>
 </div>
 <p>现在，您可以安装需要的依赖着手：</p>
-<div class="highlight-bash"><div class="highlight"><pre>&gt; brew install imagemagick
+<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; brew install imagemagick
 &gt; brew install --with-theora --with-libvpx --with-fdk-aac ffmpeg
 </pre></div>
 </div>
 <p>为了安装NVIDIA纹理工具，克隆使用以下命令库：</p>
-<div class="highlight-bash"><div class="highlight"><pre>&gt; git clone https://github.com/TriumphLLC/NvidiaTextureTools.git
+<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; git clone https://github.com/TriumphLLC/NvidiaTextureTools.git
 </pre></div>
 </div>
 <p>现在你可以编译和安装包：</p>
-<div class="highlight-bash"><div class="highlight"><pre>&gt; <span class="nb">cd</span> NvidiaTextureTools
+<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; <span class="nb">cd</span> NvidiaTextureTools
 &gt; ./configure
 &gt; make
 &gt; make install
@@ -718,14 +689,13 @@
 <li>png -&gt; dds/pvr</li>
 <li>jpg -&gt; dds/pvr</li>
 <li>bmp -&gt; dds/pvr</li>
-<li><p class="first">png -&gt; dds</p>
-</li>
+<li>png -&gt; dds</li>
 </ul>
 </dd>
 </dl>
 <p>输入文件的实例：<code class="docutils literal"><span class="pre">file_name.jpg</span></code>，例如一个输出文件：<code class="docutils literal"><span class="pre">file_name.altconv.jpg.dds</span></code>。</p>
 <p>为了优化应用性能的目的，有可能使用 <code class="docutils literal"><span class="pre">min50</span></code> （减半）和 <code class="docutils literal"><span class="pre">DDS</span></code> 或者 <code class="docutils literal"><span class="pre">PVRTC</span></code> (压缩) 纹理。为了做到这一点，我们需要在应用程序的初始化期间传递下列参数：</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">exports</span><span class="p">.</span><span class="nx">init</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">exports</span><span class="p">.</span><span class="nx">init</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
     <span class="nx">m_app</span><span class="p">.</span><span class="nx">init</span><span class="p">({</span>
         <span class="c1">// . . .</span>
         <span class="nx">assets_dds_available</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
@@ -738,15 +708,15 @@
 </div>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
-<p>如果您打算将使用的纹理压缩成  <a class="reference internal" href="#pvrtc"><span>PVRTC</span></a> 格式，然后替换下面这行代码</p>
+<p>如果您打算将使用的纹理压缩成  <a class="reference internal" href="#pvrtc"><span class="std std-ref">PVRTC</span></a> 格式，然后替换下面这行代码</p>
 <blockquote>
-<div><div class="highlight-javascript"><div class="highlight"><pre><span class="nx">assets_dds_available</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+<div><div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">assets_dds_available</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
 </pre></div>
 </div>
 </div></blockquote>
 <p>跟着下列：</p>
 <blockquote>
-<div><div class="highlight-javascript"><div class="highlight"><pre><span class="nx">assets_pvr_available</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+<div><div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">assets_pvr_available</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
 </pre></div>
 </div>
 </div></blockquote>
@@ -757,16 +727,14 @@
 <p><code class="docutils literal"><span class="pre">DDS</span></code> 纹理需要较少的内存 （4 倍少 <code class="docutils literal"><span class="pre">RGBA</span></code> 数据，6 倍 RGB 数据），但使用它们具有以下缺点 ︰</p>
 <blockquote>
 <div><ul class="simple">
-<li><p class="first"><code class="docutils literal"><span class="pre">DDS</span></code> 纹理可能无法工作在一些设备上，尤其是移动的并不是所有支持 <code class="docutils literal"><span class="pre">WEBGL_compressed_texture_s3tc</span></code> 延伸;</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">DDS</span></code> 是一种有损压缩格式，压缩文物可能是可见的尤其是在 ︰ <a class="reference internal" href="textures.html#normal-map"><span>正常</span></a> 和 ︰ <a class="reference internal" href="textures.html#stencil-map"><span>模具</span></a> 图; 它建议 ︰ <a class="reference internal" href="textures.html#texture-disable-compression"><span>禁用压缩</span></a> 对于这种纹理。</p>
-</li>
+<li><code class="docutils literal"><span class="pre">DDS</span></code> 纹理可能无法工作在一些设备上，尤其是移动的并不是所有支持 <code class="docutils literal"><span class="pre">WEBGL_compressed_texture_s3tc</span></code> 延伸;</li>
+<li><code class="docutils literal"><span class="pre">DDS</span></code> 是一种有损压缩格式，压缩文物可能是可见的尤其是在 ︰ <a class="reference internal" href="textures.html#normal-map"><span class="std std-ref">正常</span></a> 和 ︰ <a class="reference internal" href="textures.html#stencil-map"><span class="std std-ref">模具</span></a> 图; 它建议 ︰ <a class="reference internal" href="textures.html#texture-disable-compression"><span class="std std-ref">禁用压缩</span></a> 对于这种纹理。</li>
 </ul>
 <a class="reference internal image-reference" href="_images/compression_artifacts.png"><img alt="_images/compression_artifacts.png" class="align-center" src="_images/compression_artifacts.png" style="width: 100%;" /></a>
 <p><code class="docutils literal"><span class="pre">DDS</span></code> 压缩失真，特别是可见的阴影边缘上的一个例子。</p>
 </div></blockquote>
 <p><code class="docutils literal"><span class="pre">JSON</span></code> 格式 （而不是 HTML 格式），从Blender导出场景，<code class="docutils literal"><span class="pre">DDS</span></code>  纹理将自动插入，如果它们存在。</p>
-<p>纹理可以转换为 <code class="docutils literal"><span class="pre">DDS</span></code> 格式，使用  <a class="reference internal" href="project_manager.html#project-management"><span>项目管理器</span></a> 或上文所述的 <em>scripts/converter.py</em>  脚本。</p>
+<p>纹理可以转换为 <code class="docutils literal"><span class="pre">DDS</span></code> 格式，使用  <a class="reference internal" href="project_manager.html#project-management"><span class="std std-ref">项目管理器</span></a> 或上文所述的 <em>scripts/converter.py</em>  脚本。</p>
 </div>
 <div class="section" id="pvrtc-texture-compression">
 <span id="pvrtc"></span><h4>PVRTC 纹理压缩<a class="headerlink" href="#pvrtc-texture-compression" title="永久链接至标题">¶</a></h4>
@@ -775,14 +743,14 @@
 <p>因为是 <code class="docutils literal"><span class="pre">DDS</span></code> 格式，纹理压缩算法 <code class="docutils literal"><span class="pre">PVRTC</span></code> 可能会在某些平台上不工作，特别是移动设备，因为使用这种压缩格式需要支持 <code class="docutils literal"><span class="pre">IMG_texture_compression_pvrtc</span></code>  WebGL 扩展。</p>
 <p>PVRTC 库和 SDK，在 Windows、 Linux 和 macOS 系统相似。可以从 <a class="reference external" href="https://community.imgtec.com/developers/powervr/">Power VR Insider</a>  网页下载安装包。</p>
 <p>Blend4Web 引擎使用控制台 PVRTC 工具。若要使用它，你需要的路径添加到路径环境变量，类似于以下内容︰</p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="nb">export</span> <span class="nv">PATH</span> <span class="o">=</span> &lt;InstallDir&gt;<span class="se">\P</span>VRTexTool<span class="se">\C</span>LI<span class="se">\&lt;</span>PLATFORM&gt;<span class="se">\</span>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">PATH</span> <span class="o">=</span> &lt;InstallDir&gt;<span class="se">\P</span>VRTexTool<span class="se">\C</span>LI<span class="se">\&lt;</span>PLATFORM&gt;<span class="se">\</span>
 </pre></div>
 </div>
 <p>哪里 &lt;InstallDir&gt; 是PVRTexTool安装目录， &lt;PLATFORM&gt; 是包含对应于您的操作系统，例如，<code class="docutils literal"><span class="pre">\</span> <span class="pre">Windows_x86_64</span> <span class="pre">\</span></code> 64位Windows操作系统的工具的版本的文件夹。</p>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
-<p>在 Windows 系统中，环境变量可以设置 &#8216;系统&#8217; （在 Windows 10 和 8） 或属性 （在 Windows 7 和 Vista） 对话窗口中，通过选择高级系统设置-&gt; 环境变量，或使用控制台命令︰</p>
-<div class="last highlight-bash"><div class="highlight"><pre>SET <span class="nv">PATH</span> <span class="o">=</span> &lt;InstallDir&gt;<span class="se">\P</span>VRTexTool<span class="se">\C</span>LI<span class="se">\&lt;</span>PLATFORM&gt;<span class="se">\</span>
+<p>在 Windows 系统中，环境变量可以设置 '系统' （在 Windows 10 和 8） 或属性 （在 Windows 7 和 Vista） 对话窗口中，通过选择高级系统设置-&gt; 环境变量，或使用控制台命令︰</p>
+<div class="last highlight-bash"><div class="highlight"><pre><span></span>SET <span class="nv">PATH</span> <span class="o">=</span> &lt;InstallDir&gt;<span class="se">\P</span>VRTexTool<span class="se">\C</span>LI<span class="se">\&lt;</span>PLATFORM&gt;<span class="se">\</span>
 </pre></div>
 </div>
 </div>
@@ -804,7 +772,7 @@
 <p>但是，如果由于某种原因GZIP压缩无法在服务器上设置，则可以在应用程序中启用它。</p>
 <p>引擎可以以 <code class="docutils literal"><span class="pre">.gz</span></code> 文件的形式加载压缩资源。要在 <code class="docutils literal"><span class="pre">WebPlayer</span> <span class="pre">JSON</span></code> 类型的项目中使用此功能，您需要传递 <code class="docutils literal"><span class="pre">compressed_gzip</span></code> 的URL参数。如果您正在开发自己的应用程序，则需要在初始化期间传递 <code class="docutils literal"><span class="pre">assets_gzip_available</span></code> 配置参数。</p>
 <blockquote>
-<div><div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_app</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;app&quot;</span><span class="p">);</span>
+<div><div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_app</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;app&quot;</span><span class="p">);</span>
 
 <span class="nx">m_app</span><span class="p">.</span><span class="nx">init</span><span class="p">({</span>
     <span class="nx">canvas_container_id</span><span class="o">:</span> <span class="s2">&quot;main_canvas_container&quot;</span><span class="p">,</span>
@@ -819,7 +787,7 @@
 </div></blockquote>
 <p>压缩的 <code class="docutils literal"><span class="pre">.gz</span></code> 文件应该放在原来的文件旁边，例如：</p>
 <blockquote>
-<div><div class="highlight-javascript"><div class="highlight"><pre><span class="nx">my_project</span><span class="o">/</span>
+<div><div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">my_project</span><span class="o">/</span>
     <span class="nx">assets</span><span class="o">/</span>
         <span class="nx">my_scene</span><span class="p">.</span><span class="nx">json</span>
         <span class="nx">my_scene</span><span class="p">.</span><span class="nx">json</span><span class="p">.</span><span class="nx">gz</span>
@@ -833,7 +801,7 @@
 <p class="first admonition-title">注解</p>
 <p class="last">如果压缩的 <code class="docutils literal"><span class="pre">.gz</span></code>  不存在，引擎将加载原始文件并将相应的消息输出到控制台。</p>
 </div>
-<p>GZIP 压缩文件可以使用 <code class="docutils literal"><span class="pre">convert</span> <span class="pre">resources</span></code> 来生成 <a class="reference internal" href="project_manager.html#project-manager"><span>command</span></a> ，可以在项目管理器界面中找到。这也可以通过在控制台中运行 <a class="reference internal" href="#converter"><span>./scripts/converter.py</span></a> 使用 <code class="docutils literal"><span class="pre">compress_gzip</span></code> （用于压缩资源）或 <code class="docutils literal"><span class="pre">cleanup_gzip</span></code> 用于删除压缩文件）命令来完成。</p>
+<p>GZIP 压缩文件可以使用 <code class="docutils literal"><span class="pre">convert</span> <span class="pre">resources</span></code> 来生成 <a class="reference internal" href="project_manager.html#project-manager"><span class="std std-ref">command</span></a> ，可以在项目管理器界面中找到。这也可以通过在控制台中运行 <a class="reference internal" href="#converter"><span class="std std-ref">./scripts/converter.py</span></a> 使用 <code class="docutils literal"><span class="pre">compress_gzip</span></code> （用于压缩资源）或 <code class="docutils literal"><span class="pre">cleanup_gzip</span></code> 用于删除压缩文件）命令来完成。</p>
 </div>
 <div class="section" id="code-examples">
 <span id="code-snippets"></span><h2><a class="toc-backref" href="#id12">示例代码</a><a class="headerlink" href="#code-examples" title="永久链接至标题">¶</a></h2>
@@ -841,44 +809,25 @@
 <p>目前，这款应用程序包含以下例子：</p>
 <blockquote>
 <div><ul class="simple">
-<li><p class="first">Bone API - 个体的骨骼位置控制的一个例子</p>
-</li>
-<li><p class="first">Camera Animation -  程序相机动画</p>
-</li>
-<li><p class="first">Camera Move Styles -  相机改变控制方式</p>
-</li>
-<li><p class="first">Canvas Texture -  用帆布质地的工作</p>
-</li>
-<li><p class="first">更改图像 - 即时更改纹理图像</p>
-</li>
-<li><p class="first">Custom Anchors -创建自定义的注解</p>
-</li>
-<li><p class="first">Dynamic Geometry -程序几何修改</p>
-</li>
-<li><p class="first">手柄 - 经由手柄控制角色的一个例子</p>
-</li>
-<li><p class="first">Gyro (Mobile Only) -  与移动设备的陀螺仪工作</p>
-</li>
-<li><p class="first">Instancing - 复制现场运行时对象</p>
-</li>
-<li><p class="first">Leap Motion - 使用Leap Motion控制器的示例</p>
-</li>
-<li><p class="first">线 - 程序线渲染</p>
-</li>
-<li><p class="first">Material API - 调整材质的性能和替换对象的材质</p>
-</li>
-<li><p class="first">Morphing - 利用形状键</p>
-</li>
-<li><p class="first">多点触控（仅限移动设备） - 使用移动设备的多点触控传感器</p>
-</li>
-<li><p class="first">寻路 - 计算路径，并使用导航网格的例子</p>
-</li>
-<li><p class="first">Ray Test - 光线投射的障碍物检测使用</p>
-</li>
-<li><p class="first">VR  -  VR应用示例</p>
-</li>
-<li><p class="first">网络摄像头 - 利用来自Web摄像头的媒体流</p>
-</li>
+<li>Bone API - 个体的骨骼位置控制的一个例子</li>
+<li>Camera Animation -  程序相机动画</li>
+<li>Camera Move Styles -  相机改变控制方式</li>
+<li>Canvas Texture -  用帆布质地的工作</li>
+<li>更改图像 - 即时更改纹理图像</li>
+<li>Custom Anchors -创建自定义的注解</li>
+<li>Dynamic Geometry -程序几何修改</li>
+<li>手柄 - 经由手柄控制角色的一个例子</li>
+<li>Gyro (Mobile Only) -  与移动设备的陀螺仪工作</li>
+<li>Instancing - 复制现场运行时对象</li>
+<li>Leap Motion - 使用Leap Motion控制器的示例</li>
+<li>线 - 程序线渲染</li>
+<li>Material API - 调整材质的性能和替换对象的材质</li>
+<li>Morphing - 利用形状键</li>
+<li>多点触控（仅限移动设备） - 使用移动设备的多点触控传感器</li>
+<li>寻路 - 计算路径，并使用导航网格的例子</li>
+<li>Ray Test - 光线投射的障碍物检测使用</li>
+<li>VR  -  VR应用示例</li>
+<li>网络摄像头 - 利用来自Web摄像头的媒体流</li>
 </ul>
 </div></blockquote>
 <p>代码片段的应用在 <code class="docutils literal"><span class="pre">./apps_dev/code_snippets/code_snippets_dev.html</span></code>. 它可以通过使用位于SDK根的 <code class="docutils literal"><span class="pre">index.html</span></code> 文件的链接也可以运行。</p>
@@ -887,7 +836,7 @@
 <h2><a class="toc-backref" href="#id13">加载应用程序资产</a><a class="headerlink" href="#loading-application-assets" title="永久链接至标题">¶</a></h2>
 <p>为了简化项目维护和服务器部署总是将你的项目文件（的JavaScript，CSS，HTML等）和您的应用程序资源文件（导出的场景，纹理，声音等）分开。你的SDK这里面的资产目录位于 <code class="docutils literal"><span class="pre">projects/my_project/assets</span></code>.</p>
 <p>要（通过使用如 <a class="reference external" href="https://www.blend4web.com/api_doc/module-data.html#.load">load()</a>)从该目录中加载文件使用 <a class="reference external" href="https://www.blend4web.com/api_doc/module-config.html#.get_assets_path">get_assets_path()</a> 方法：</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">m_data</span><span class="p">.</span><span class="nx">load</span><span class="p">(</span><span class="nx">m_config</span><span class="p">.</span><span class="nx">get_assets_path</span><span class="p">(</span><span class="s2">&quot;my_project&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;loaded_scene.json&quot;</span><span class="p">,</span> <span class="nx">load_cb</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">m_data</span><span class="p">.</span><span class="nx">load</span><span class="p">(</span><span class="nx">m_config</span><span class="p">.</span><span class="nx">get_assets_path</span><span class="p">(</span><span class="s2">&quot;my_project&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;loaded_scene.json&quot;</span><span class="p">,</span> <span class="nx">load_cb</span><span class="p">);</span>
 </pre></div>
 </div>
 <p>这样可以确保您的应用程序将独立于目前的开发阶段寻找资产（开发，构建或部署）。</p>
@@ -898,30 +847,23 @@
 <div class="section" id="sensors">
 <span id="index-0"></span><h3><a class="toc-backref" href="#id15">传感器</a><a class="headerlink" href="#sensors" title="永久链接至标题">¶</a></h3>
 <p>事件驱动模型的基本单元是一个传感器。传感器是一种编程实体和只能是活动的（1，一种）或无效（0，零）。一些传感器可以携带可以在歧管的回调函数与对应的API接收一个有效载荷。例如，光线跟踪传感器（线传感器）提供的交点射线的相对长度。</p>
-<p id="index-1">用户不能直接通过外部 API控制传感器。相反，所有的传感器都必须存在于一个或多个集合-所谓的传感器流形。一个流形是与场景对象相关联的逻辑容器。它通过执行一个回调函数生成一组定义的传感器事件响应。要定义的流形，它须有以下信息 （请参见的 &#8216;controls.create_sensor_manifold&#8217; 功能描述 API 文档） ︰</p>
+<p id="index-1">用户不能直接通过外部 API控制传感器。相反，所有的传感器都必须存在于一个或多个集合-所谓的传感器流形。一个流形是与场景对象相关联的逻辑容器。它通过执行一个回调函数生成一组定义的传感器事件响应。要定义的流形，它须有以下信息 （请参见的 'controls.create_sensor_manifold' 功能描述 API 文档） ︰</p>
 <ul class="simple">
-<li><p class="first">一个对象带流行（如抛出的对象）。</p>
-</li>
-<li><p class="first">流形 （如&#8221;冲击&#8221;） 的唯一 id。</p>
-</li>
-<li><p class="first">回调的执行模式（选项有：<code class="docutils literal"><span class="pre">CT_POSITIVE</span></code>  - 逻辑功能正结果，<code class="docutils literal"><span class="pre">CT_CONTINUOUS</span></code>  - 以正逻辑功能的结果，并用一次结果为零每一帧，<code class="docutils literal"><span class="pre">CT_LEVEL</span></code>  - 任何逻辑，函数结果改变，<code class="docutils literal"><span class="pre">CT_SHOT</span></code>  - 一期逻辑函数结果的变化，<code class="docutils literal"><span class="pre">CT_TRIGGER</span></code>  - 逻辑函数的结果开关，<code class="docutils literal"><span class="pre">CT_CHANGE</span></code>  - 任何传感器值变化）。</p>
-</li>
-<li><p class="first">传感器阵列。</p>
-</li>
-<li><p class="first">逻辑函数来定义其中执行回调函数传感器状态的组合。</p>
-</li>
-<li><p class="first">一个回调函数。</p>
-</li>
-<li><p class="first">一个可选参数传递到回调函数。</p>
-</li>
+<li>一个对象带流行（如抛出的对象）。</li>
+<li>流形 （如&quot;冲击&quot;） 的唯一 id。</li>
+<li>回调的执行模式（选项有：<code class="docutils literal"><span class="pre">CT_POSITIVE</span></code>  - 逻辑功能正结果，<code class="docutils literal"><span class="pre">CT_CONTINUOUS</span></code>  - 以正逻辑功能的结果，并用一次结果为零每一帧，<code class="docutils literal"><span class="pre">CT_LEVEL</span></code>  - 任何逻辑，函数结果改变，<code class="docutils literal"><span class="pre">CT_SHOT</span></code>  - 一期逻辑函数结果的变化，<code class="docutils literal"><span class="pre">CT_TRIGGER</span></code>  - 逻辑函数的结果开关，<code class="docutils literal"><span class="pre">CT_CHANGE</span></code>  - 任何传感器值变化）。</li>
+<li>传感器阵列。</li>
+<li>逻辑函数来定义其中执行回调函数传感器状态的组合。</li>
+<li>一个回调函数。</li>
+<li>一个可选参数传递到回调函数。</li>
 </ul>
 <p>你可以阅读更多有关在  <a class="reference external" href="https://www.blend4web.com/api_doc/module-controls.html">controls</a> 模块文档引擎API。</p>
 </div>
 <div class="section" id="example">
 <h3><a class="toc-backref" href="#id16">示例</a><a class="headerlink" href="#example" title="永久链接至标题">¶</a></h3>
-<p>让我们考虑到 insonify 任务被投掷的石头的影响。不同的媒体 （例如地形和墙）应产生独特的声音影响。有碰撞网格与Blender场景中的物理材质，材质的 id 是&#8221;地形&#8221;和&#8221;墙&#8221;。也是被抛在场景中的物理对象，该对象被命名为&#8221;石头&#8221;。</p>
+<p>让我们考虑到 insonify 任务被投掷的石头的影响。不同的媒体 （例如地形和墙）应产生独特的声音影响。有碰撞网格与Blender场景中的物理材质，材质的 id 是&quot;地形&quot;和&quot;墙&quot;。也是被抛在场景中的物理对象，该对象被命名为&quot;石头&quot;。</p>
 <p>让我们定义碰撞传感器的每个介质类型的声音产生。</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// import the modules</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// import the modules</span>
 <span class="kd">var</span> <span class="nx">m_scenes</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_controls</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;controls&quot;</span><span class="p">);</span>
 
@@ -934,7 +876,7 @@
 </pre></div>
 </div>
 <p>传感器添加到阵列。使用 <code class="docutils literal"><span class="pre">OR</span></code> 逻辑的逻辑功能。放置在回调函数的声音处理的代码。创建传感器歧管的“影响”id和 <code class="docutils literal"><span class="pre">CT_SHOT</span></code> 类型。</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// array of the sensors</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// array of the sensors</span>
 <span class="kd">var</span> <span class="nx">impact_sens_array</span> <span class="o">=</span> <span class="p">[</span><span class="nx">sensor_impact_terrain</span><span class="p">,</span> <span class="nx">sensor_impact_wall</span><span class="p">];</span>
 
 <span class="c1">// manifold logic function</span>
@@ -970,8 +912,7 @@
 <dt><strong>addons</strong></dt>
 <dd><dl class="first last docutils">
 <dt><strong>blend4web</strong></dt>
-<dd><p class="first last">Blender插件</p>
-</dd>
+<dd>Blender插件</dd>
 </dl>
 </dd>
 <dt><strong>apps_dev</strong></dt>
@@ -981,244 +922,178 @@
 <dd><p class="first">Code Snippets应用程序的源文件</p>
 <dl class="last docutils">
 <dt><strong>scripts</strong></dt>
-<dd><p class="first last">Blend4Web API用法示例的源文件</p>
-</dd>
+<dd>Blend4Web API用法示例的源文件</dd>
 </dl>
 </dd>
 <dt><strong>dairy_plant</strong></dt>
-<dd><p class="first last">乳品厂演示源文件（仅适用于SDK专业版）</p>
-</dd>
+<dd>乳品厂演示源文件（仅适用于SDK专业版）</dd>
 <dt><strong>demos_animation</strong></dt>
-<dd><p class="first last">基本的动画演示的项目文件</p>
-</dd>
+<dd>基本的动画演示的项目文件</dd>
 <dt><strong>demos_environment</strong></dt>
-<dd><p class="first last">基本的环境演示项目文件</p>
-</dd>
+<dd>基本的环境演示项目文件</dd>
 <dt><strong>demos_interactivity</strong></dt>
-<dd><p class="first last">基本交互演示的项目文件</p>
-</dd>
+<dd>基本交互演示的项目文件</dd>
 <dt><strong>demos_materials</strong></dt>
-<dd><p class="first last">基础材质演示项目文件</p>
-</dd>
+<dd>基础材质演示项目文件</dd>
 <dt><strong>demos_media</strong></dt>
-<dd><p class="first last">基本的媒体演示项目文件</p>
-</dd>
+<dd>基本的媒体演示项目文件</dd>
 <dt><strong>demos_particles</strong></dt>
-<dd><p class="first last">基本粒子演示项目文件</p>
-</dd>
+<dd>基本粒子演示项目文件</dd>
 <dt><strong>demos_physics</strong></dt>
-<dd><p class="first last">基本的物理演示项目文件</p>
-</dd>
+<dd>基本的物理演示项目文件</dd>
 <dt><strong>demos_postprocessing</strong></dt>
-<dd><p class="first last">基本的后处理演示项目文件</p>
-</dd>
+<dd>基本的后处理演示项目文件</dd>
 <dt><strong>farm</strong></dt>
-<dd><p class="first last">农场演示源文件（仅适用于SDK专业版）</p>
-</dd>
+<dd>农场演示源文件（仅适用于SDK专业版）</dd>
 <dt><strong>fashion</strong></dt>
-<dd><p class="first last">时装秀演示源文件（仅适用于SDK专业版）</p>
-</dd>
+<dd>时装秀演示源文件（仅适用于SDK专业版）</dd>
 <dt><strong>flight</strong></dt>
-<dd><p class="first last">岛演示的源文件</p>
-</dd>
+<dd>岛演示的源文件</dd>
 <dt><strong>new_year</strong></dt>
-<dd><p class="first last">在2015年新年贺卡的源文件</p>
-</dd>
+<dd>在2015年新年贺卡的源文件</dd>
 <dt><strong>project.py</strong></dt>
-<dd><p class="first last">脚本的应用程序开发人员</p>
-</dd>
+<dd>脚本的应用程序开发人员</dd>
 <dt><strong>space_disaster</strong></dt>
-<dd><p class="first last">空间灾害应用程序的源文件</p>
-</dd>
+<dd>空间灾害应用程序的源文件</dd>
 <dt><strong>tutorials</strong></dt>
-<dd><p class="first last">Blend4Web 教程的源文件</p>
-</dd>
+<dd>Blend4Web 教程的源文件</dd>
 <dt><strong>victory_day_2015</strong></dt>
-<dd><p class="first last">胜利日70周年贺卡的源文件</p>
-</dd>
+<dd>胜利日70周年贺卡的源文件</dd>
 <dt><strong>viewer</strong></dt>
-<dd><p class="first last">浏览器应用程序的源文件</p>
-</dd>
+<dd>浏览器应用程序的源文件</dd>
 <dt><strong>webplayer</strong></dt>
-<dd><p class="first last">在Web应用程序播放器的源文件</p>
-</dd>
+<dd>在Web应用程序播放器的源文件</dd>
 <dt><strong>website</strong></dt>
-<dd><p class="first last">从Blend4Web官方网站上的应用程序的源文件</p>
-</dd>
+<dd>从Blend4Web官方网站上的应用程序的源文件</dd>
 </dl>
 </dd>
 <dt><strong>blender</strong></dt>
-<dd><p class="first last">Blender的场景源文件</p>
-</dd>
+<dd>Blender的场景源文件</dd>
 <dt><strong>csrc</strong></dt>
-<dd><p class="first last">源代码（C语言）引擎出口的二进制部分和其他公用设施</p>
-</dd>
+<dd>源代码（C语言）引擎出口的二进制部分和其他公用设施</dd>
 <dt><strong>deploy</strong></dt>
 <dd><p class="first">在服务器上部署（场景源文件编译的应用程序和文档）的资源目录</p>
 <dl class="last docutils">
 <dt><strong>api_doc</strong></dt>
-<dd><p class="first last">为开发人员API文档（自动构建，基于引擎的源代码）</p>
-</dd>
+<dd>为开发人员API文档（自动构建，基于引擎的源代码）</dd>
 <dt><strong>apps</strong></dt>
 <dd><p class="first">用于部署3D应用;目录重复 <em>apps_dev</em></p>
 <dl class="last docutils">
 <dt><strong>common</strong></dt>
-<dd><p class="first last">已编译引擎文件。从 SDK 的所有应用程序共享的 (因此名称)。</p>
-</dd>
+<dd>已编译引擎文件。从 SDK 的所有应用程序共享的 (因此名称)。</dd>
 </dl>
 </dd>
 <dt><strong>assets</strong></dt>
-<dd><p class="first last">应用程序资产︰ 场景、 纹理和声音</p>
-</dd>
+<dd>应用程序资产︰ 场景、 纹理和声音</dd>
 <dt><strong>doc</strong></dt>
-<dd><p class="first last">从自动生成的 HTML 格式的当前用户手册 <em>doc_src</em></p>
-</dd>
+<dd>从自动生成的 HTML 格式的当前用户手册 <em>doc_src</em></dd>
 <dt><strong>webglreport</strong></dt>
-<dd><p class="first last">WebGL 报告应用程序</p>
-</dd>
+<dd>WebGL 报告应用程序</dd>
 </dl>
 </dd>
 <dt><strong>distfiles</strong></dt>
-<dd><p class="first last">构建发布文件列表</p>
-</dd>
+<dd>构建发布文件列表</dd>
 <dt><strong>doc_src</strong></dt>
-<dd><p class="first last">当前手册的源文件用reST格式书写</p>
-</dd>
+<dd>当前手册的源文件用reST格式书写</dd>
 <dt><strong>index.html</strong> and <strong>index_assets</strong></dt>
-<dd><p class="first last">主要SDK网页文件</p>
-</dd>
+<dd>主要SDK网页文件</dd>
 <dt><strong>license</strong></dt>
-<dd><p class="first last">许可证的文本文件</p>
-</dd>
+<dd>许可证的文本文件</dd>
 <dt><strong>Makefile</strong></dt>
-<dd><p class="first last">建立引擎，应用程序和文档的makefile文件</p>
-</dd>
+<dd>建立引擎，应用程序和文档的makefile文件</dd>
 <dt><strong>projects</strong></dt>
-<dd><p class="first last">用户项目目录</p>
-</dd>
+<dd>用户项目目录</dd>
 <dt><strong>README.rst</strong></dt>
-<dd><p class="first last">README文件</p>
-</dd>
+<dd>README文件</dd>
 <dt><strong>scripts</strong></dt>
 <dd><p class="first">脚本</p>
 <dl class="last docutils">
 <dt><strong>check_resources.py</strong></dt>
-<dd><p class="first last">脚本的检查和未使用的资源报告（图像和声音通过导出的文件中引用）</p>
-</dd>
+<dd>脚本的检查和未使用的资源报告（图像和声音通过导出的文件中引用）</dd>
 <dt><strong>compile_b4w.py</strong></dt>
-<dd><p class="first last">构建引擎代码和应用程序的脚本</p>
-</dd>
+<dd>构建引擎代码和应用程序的脚本</dd>
 <dt><strong>converter.py</strong></dt>
-<dd><p class="first last">脚本减半纹理尺寸，压缩纹理成DDS格式，声音文件转换成MP4和Ogg格式</p>
-</dd>
+<dd>脚本减半纹理尺寸，压缩纹理成DDS格式，声音文件转换成MP4和Ogg格式</dd>
 <dt><strong>custom_json_encoder.py</strong></dt>
-<dd><p class="first last">JSON的Python模块的分支，排序顺序相反的键</p>
-</dd>
+<dd>JSON的Python模块的分支，排序顺序相反的键</dd>
 <dt><strong>gen_glmatrix.sh</strong></dt>
-<dd><p class="first last">脚本基于glMatrix 2的源代码生成所述数学模块</p>
-</dd>
+<dd>脚本基于glMatrix 2的源代码生成所述数学模块</dd>
 <dt><strong>graph.sh</strong></dt>
-<dd><p class="first last">为当前场景图SVG生成器，用于调试渲染</p>
-</dd>
+<dd>为当前场景图SVG生成器，用于调试渲染</dd>
 <dt><strong>make_dist.py</strong></dt>
-<dd><p class="first last">发行构建脚本</p>
-</dd>
+<dd>发行构建脚本</dd>
 <dt><strong>memory.sh</strong></dt>
-<dd><p class="first last">脚本，用于检查存储器（RAM）和视频存储器（VRAM）</p>
-</dd>
+<dd>脚本，用于检查存储器（RAM）和视频存储器（VRAM）</dd>
 <dt><strong>mod_list.py</strong></dt>
-<dd><p class="first last">脚本用于生成的模块列表在新的应用程序使用</p>
-</dd>
+<dd>脚本用于生成的模块列表在新的应用程序使用</dd>
 <dt><strong>plot.sh</strong></dt>
-<dd><p class="first last">调试信息图形生成器</p>
-</dd>
+<dd>调试信息图形生成器</dd>
 <dt><strong>process_blend.py</strong></dt>
-<dd><p class="first last">从SDK所有场景自动再导出脚本</p>
-</dd>
+<dd>从SDK所有场景自动再导出脚本</dd>
 <dt><strong>remove_alpha_channel.sh</strong></dt>
-<dd><p class="first last">去除图像的 alpha 通道的脚本</p>
-</dd>
+<dd>去除图像的 alpha 通道的脚本</dd>
 <dt><strong>screencast.sh</strong></dt>
-<dd><p class="first last">屏幕录像脚本</p>
-</dd>
+<dd>屏幕录像脚本</dd>
 <dt><strong>shader_analyzer.py</strong></dt>
-<dd><p class="first last">开始其计算着色器的复杂度的本地Web服务器脚本</p>
-</dd>
+<dd>开始其计算着色器的复杂度的本地Web服务器脚本</dd>
 <dt><strong>translator.py</strong></dt>
-<dd><p class="first last">构建插件翻译脚本</p>
-</dd>
+<dd>构建插件翻译脚本</dd>
 </dl>
 </dd>
 <dt><strong>shaders</strong></dt>
-<dd><p class="first last">引擎GLSL着色</p>
-</dd>
+<dd>引擎GLSL着色</dd>
 <dt><strong>src</strong></dt>
 <dd><p class="first">引擎的内核的主要源代码</p>
 <dl class="last docutils">
 <dt><strong>addons</strong></dt>
-<dd><p class="first last">引擎插件的源代码</p>
-</dd>
+<dd>引擎插件的源代码</dd>
 <dt><strong>ext</strong></dt>
-<dd><p class="first last">形成了引擎的API外部声明的源代码</p>
-</dd>
+<dd>形成了引擎的API外部声明的源代码</dd>
 <dt><strong>libs</strong></dt>
-<dd><p class="first last">库的源代码</p>
-</dd>
+<dd>库的源代码</dd>
 </dl>
 </dd>
 <dt><strong>tmp</strong></dt>
-<dd><p class="first last">临时文件 （例如快速预览） 目录</p>
-</dd>
+<dd>临时文件 （例如快速预览） 目录</dd>
 <dt><strong>tools</strong></dt>
 <dd><p class="first">用于构建引擎、 应用程序或转换资源的各种工具</p>
 <dl class="last docutils">
 <dt><strong>converter_utils</strong></dt>
-<dd><p class="first last">二进制构建的工具，资源转换</p>
-</dd>
+<dd>二进制构建的工具，资源转换</dd>
 <dt><strong>closure-compiler</strong></dt>
-<dd><p class="first last">谷歌闭包编译器，它的扩展和他们的生成器</p>
-</dd>
+<dd>谷歌闭包编译器，它的扩展和他们的生成器</dd>
 <dt><strong>glsl</strong></dt>
 <dd><dl class="first last docutils">
 <dt><strong>compiler</strong></dt>
-<dd><p class="first last">编译器为引擎的GLSL着色</p>
-</dd>
+<dd>编译器为引擎的GLSL着色</dd>
 <dt><strong>pegjs</strong></dt>
-<dd><p class="first last">在PEG.js解析器生成的语法实现了GLSL预处理器，也是脚本从这些生成语法解析器模块</p>
-</dd>
+<dd>在PEG.js解析器生成的语法实现了GLSL预处理器，也是脚本从这些生成语法解析器模块</dd>
 </dl>
 </dd>
 <dt><strong>yuicompressor</strong></dt>
-<dd><p class="first last">实用压缩CSS文件</p>
-</dd>
+<dd>实用压缩CSS文件</dd>
 </dl>
 </dd>
 <dt><strong>uranium</strong></dt>
-<dd><p class="first last">Uranium 物理引擎的源代码和脚本建筑（Bullet的分支）</p>
-</dd>
+<dd>Uranium 物理引擎的源代码和脚本建筑（Bullet的分支）</dd>
 <dt><strong>VERSION</strong></dt>
-<dd><p class="first last">包含引擎的当前版本</p>
-</dd>
+<dd>包含引擎的当前版本</dd>
 </dl>
 </div>
 <div class="section" id="loading-local-resources">
 <span id="browser-for-local-loading"></span><h2><a class="toc-backref" href="#id18">加载本地资源</a><a class="headerlink" href="#loading-local-resources" title="永久链接至标题">¶</a></h2>
 <p>该引擎的渲染器是一个Web应用程序，当你在浏览器中查看HTML文件它就工作。初始化之后，资源（场景，纹理）加载。这个过程是受 <a class="reference external" href="http://en.wikipedia.org/wiki/Same-origin_policy">同源策略</a> 规则。这条规则特别规定从本地目录加载禁止。</p>
-<p>自15.02版，Blend4Web SDK包括  <a class="reference internal" href="addon.html#local-development-server"><span>开发服务器</span></a> 解决加载本地资源的问题。</p>
+<p>自15.02版，Blend4Web SDK包括  <a class="reference internal" href="addon.html#local-development-server"><span class="std std-ref">开发服务器</span></a> 解决加载本地资源的问题。</p>
 </div>
 <div class="section" id="quality-profiles">
 <span id="quality-settings"></span><h2><a class="toc-backref" href="#id19">品质配置</a><a class="headerlink" href="#quality-profiles" title="永久链接至标题">¶</a></h2>
 <p>几个质量配置文件，以支持具有不同功能的平台上实现。</p>
 <blockquote>
 <div><ul class="simple">
-<li><p class="first">低质量（<code class="docutils literal"><span class="pre">P_LOW</span></code>） - 功能的范围被关闭（如阴影，动态反映，后处理），纹理的大小采用发行版本时减半，抗锯齿被禁用</p>
-</li>
-<li><p class="first">高品质（<code class="docutils literal"><span class="pre">P_HIGH</span></code>）- 由现场所要求的所有功能的使用，抗锯齿的方法是FXAA</p>
-</li>
-<li><p class="first">最高的质量（<code class="docutils literal"><span class="pre">P_ULTRA</span></code>） - 渲染分辨率加倍，阴影贴图分辨率的增加，抗锯齿的方法是FXAA（使用更高质量的设置和工作速度较慢）。</p>
-</li>
-<li><p class="first">自定义质量（<code class="docutils literal"><span class="pre">P_CUSTOM</span></code>） - 任何质量参数可以设置为任何可能值。当你需要手动设置一定的质量参数，使用此选项。默认情况下，它使用相同的设置``High``质量配置文件。</p>
-</li>
+<li>低质量（<code class="docutils literal"><span class="pre">P_LOW</span></code>） - 功能的范围被关闭（如阴影，动态反映，后处理），纹理的大小采用发行版本时减半，抗锯齿被禁用</li>
+<li>高品质（<code class="docutils literal"><span class="pre">P_HIGH</span></code>）- 由现场所要求的所有功能的使用，抗锯齿的方法是FXAA</li>
+<li>最高的质量（<code class="docutils literal"><span class="pre">P_ULTRA</span></code>） - 渲染分辨率加倍，阴影贴图分辨率的增加，抗锯齿的方法是FXAA（使用更高质量的设置和工作速度较慢）。</li>
+<li>自定义质量（<code class="docutils literal"><span class="pre">P_CUSTOM</span></code>） - 任何质量参数可以设置为任何可能值。当你需要手动设置一定的质量参数，使用此选项。默认情况下，它使用相同的设置``High``质量配置文件。</li>
 </ul>
 </div></blockquote>
 <a class="reference internal image-reference" href="_images/developers_quality.png"><img alt="_images/developers_quality.png" class="align-center" src="_images/developers_quality.png" style="width: 100%;" /></a>
@@ -1226,7 +1101,7 @@
 <div class="line"><br /></div>
 </div>
 <p>切换品质配置可在运行时的WebGL上下文的初始化之前进行。默认的配置文件是``P_HIGH``。</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_main</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;main&quot;</span><span class="p">);</span>
 
 <span class="nx">m_cfg</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;quality&quot;</span><span class="p">,</span> <span class="nx">m_cfg</span><span class="p">.</span><span class="nx">P_LOW</span><span class="p">);</span>
@@ -1234,7 +1109,7 @@
 </pre></div>
 </div>
 <p>应用程序开发人员还可以在引擎初始化参数的 <code class="docutils literal"><span class="pre">app.js</span></code> 附加插件时设置 <strong>quality</strong> ：</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_app</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;app&quot;</span><span class="p">);</span>
 
 <span class="nx">m_app</span><span class="p">.</span><span class="nx">init</span><span class="p">({</span>
@@ -1249,10 +1124,9 @@
 <p>画布元件，开始执行渲染时，可改变相对于浏览器窗口的位置。这可能是由于一些操作在DOM树，或者作为页面滚动的结果，特别是用于非全屏web应用。</p>
 <p>在大多数情况下，这将不会影响该应用的任何的性能。然而，涉及到鼠标或触摸位置某些DOM事件可以携带不正确的信息。这是因为从相应的事件中获得的坐标是相对于浏览器窗口的原点测量，同时引擎的工作与Canvas元素本身（它的坐标原点位于左上角）的坐标空间。</p>
 <ol class="arabic simple">
-<li><p class="first">如果画布元素的左上角与浏览器窗口左上角匹配并且固定在它的位置 （不能移动），那么就足以使用 event.clientX 和 event.clientY 输入事件的坐标或 <a class="reference external" href="https://www.blend4web.com/api_doc/module-mouse.html#.get_coords_x">get_coords_x()</a> 和 <a class="reference external" href="https://www.blend4web.com/api_doc/module-mouse.html#.get_coords_y">get_coords_y()</a> 方法.</p>
-</li>
+<li>如果画布元素的左上角与浏览器窗口左上角匹配并且固定在它的位置 （不能移动），那么就足以使用 event.clientX 和 event.clientY 输入事件的坐标或 <a class="reference external" href="https://www.blend4web.com/api_doc/module-mouse.html#.get_coords_x">get_coords_x()</a> 和 <a class="reference external" href="https://www.blend4web.com/api_doc/module-mouse.html#.get_coords_y">get_coords_y()</a> 方法.</li>
 </ol>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_mouse</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;mouse&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_mouse</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;mouse&quot;</span><span class="p">);</span>
 
 <span class="c1">// . . .</span>
 <span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">clientX</span><span class="p">;</span>
@@ -1267,10 +1141,9 @@
 <div class="line"><br /></div>
 </div>
 <ol class="arabic simple" start="2">
-<li><p class="first">在更多复杂的画布元素操作中（滚动的页面元素，从浏览器窗口顶层角移动，在 DOM 树中的更改）这就需要获得正确计算的坐标。可以通过使用上述:b4wref:<cite>mouse.get_coords_x()</cite> and <a class="reference external" href="https://www.blend4web.com/api_doc/module-mouse.html#.get_coords_y">get_coords_y()</a> 并将 <code class="docutils literal"><span class="pre">true</span></code> 作为第三个参数值的方法︰</p>
-</li>
+<li>在更多复杂的画布元素操作中（滚动的页面元素，从浏览器窗口顶层角移动，在 DOM 树中的更改）这就需要获得正确计算的坐标。可以通过使用上述:b4wref:<cite>mouse.get_coords_x()</cite> and <a class="reference external" href="https://www.blend4web.com/api_doc/module-mouse.html#.get_coords_y">get_coords_y()</a> 并将 <code class="docutils literal"><span class="pre">true</span></code> 作为第三个参数值的方法︰</li>
 </ol>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_mouse</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;mouse&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_mouse</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;mouse&quot;</span><span class="p">);</span>
 
 <span class="c1">// . . .</span>
 <span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">m_mouse</span><span class="p">.</span><span class="nx">get_coords_x</span><span class="p">(</span><span class="nx">event</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
@@ -1282,7 +1155,7 @@
 <div class="line"><br /></div>
 </div>
 <p>在这种情况下，另一个选择是使用 <a class="reference external" href="https://www.blend4web.com/api_doc/module-container.html#.client_to_canvas_coords">client_to_canvas_coords()</a> 方法，如下所示︰</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_cont</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;container&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_cont</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;container&quot;</span><span class="p">);</span>
 
 <span class="kd">var</span> <span class="nx">_vec2_tmp</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
 
@@ -1295,28 +1168,28 @@
 <div class="section" id="mobile-web-apps">
 <span id="id1"></span><h2><a class="toc-backref" href="#id21">移动 Web 应用程序</a><a class="headerlink" href="#mobile-web-apps" title="永久链接至标题">¶</a></h2>
 <p>创建一个 web 应用程序的用户界面时，应考虑缩放整个网页和更改移动设备方向的选项。在这里建议，阻止缩放和保持网页的纵横比不变以避免可能出现的问题。通过将以下 meta-tag 添加到页标题得以实现︰</p>
-<div class="highlight-html"><div class="highlight"><pre><span class="p">&lt;</span><span class="nt">meta</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;viewport&quot;</span> <span class="na">content</span><span class="o">=</span><span class="s">&quot;width=device-width, initial-scale=1.0, user-scalable=no&quot;</span><span class="p">&gt;</span>
+<div class="highlight-html"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">meta</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;viewport&quot;</span> <span class="na">content</span><span class="o">=</span><span class="s">&quot;width=device-width, initial-scale=1.0, user-scalable=no&quot;</span><span class="p">&gt;</span>
 </pre></div>
 </div>
 <p>有时你可能需要锁定移动设备到某一种方向，尤其是当你不想要使用横向和纵向的接口类型。由于本机屏幕锁定 API 是试验性的并不普遍，可能使用 CSS 规则来实现更容易。</p>
 <p>若要保持方向仅有横向模式，可以设置纵向模式中的元素旋转 &lt;html&gt; 90 度︰</p>
-<div class="highlight-css"><div class="highlight"><pre><span class="k">@media</span> <span class="o">(</span><span class="nt">orientation</span> <span class="o">:</span> <span class="nt">portrait</span><span class="o">)</span> <span class="p">{</span>
+<div class="highlight-css"><div class="highlight"><pre><span></span><span class="p">@</span><span class="k">media</span> <span class="o">(</span><span class="nt">orientation</span> <span class="o">:</span> <span class="nt">portrait</span><span class="o">)</span> <span class="p">{</span>
     <span class="nt">html</span> <span class="p">{</span>
-        <span class="nb">position</span><span class="o">:</span> <span class="nb">absolute</span><span class="p">;</span>
-        <span class="nb">width</span><span class="o">:</span> <span class="m">100</span><span class="n">vh</span><span class="p">;</span>
-        <span class="nb">height</span><span class="o">:</span> <span class="m">100</span><span class="n">vw</span><span class="p">;</span>
-        <span class="nb">overflow</span><span class="o">:</span> <span class="nb">hidden</span><span class="p">;</span>
+        <span class="k">position</span><span class="p">:</span> <span class="kc">absolute</span><span class="p">;</span>
+        <span class="k">width</span><span class="p">:</span> <span class="mi">100</span><span class="kt">vh</span><span class="p">;</span>
+        <span class="k">height</span><span class="p">:</span> <span class="mi">100</span><span class="kt">vw</span><span class="p">;</span>
+        <span class="k">overflow</span><span class="p">:</span> <span class="kc">hidden</span><span class="p">;</span>
 
-        <span class="o">-</span><span class="n">moz</span><span class="o">-</span><span class="n">transform</span><span class="o">:</span> <span class="n">rotate</span><span class="p">(</span><span class="m">90</span><span class="n">deg</span><span class="p">);</span>
-        <span class="o">-</span><span class="n">ms</span><span class="o">-</span><span class="n">transform</span><span class="o">:</span> <span class="n">rotate</span><span class="p">(</span><span class="m">90</span><span class="n">deg</span><span class="p">);</span>
-        <span class="o">-</span><span class="n">webkit</span><span class="o">-</span><span class="n">transform</span><span class="o">:</span> <span class="n">rotate</span><span class="p">(</span><span class="m">90</span><span class="n">deg</span><span class="p">);</span>
-        <span class="n">transform</span><span class="o">:</span> <span class="n">rotate</span><span class="p">(</span><span class="m">90</span><span class="n">deg</span><span class="p">);</span>
-        <span class="o">-</span><span class="n">moz</span><span class="o">-</span><span class="n">transform</span><span class="o">-</span><span class="n">origin</span><span class="o">:</span> <span class="nb">top</span> <span class="nb">left</span><span class="p">;</span>
-        <span class="o">-</span><span class="n">ms</span><span class="o">-</span><span class="n">transform</span><span class="o">-</span><span class="n">origin</span><span class="o">:</span> <span class="nb">top</span> <span class="nb">left</span><span class="p">;</span>
-        <span class="o">-</span><span class="n">webkit</span><span class="o">-</span><span class="n">transform</span><span class="o">-</span><span class="n">origin</span><span class="o">:</span> <span class="nb">top</span> <span class="nb">left</span><span class="p">;</span>
-        <span class="n">transform</span><span class="o">-</span><span class="n">origin</span><span class="o">:</span> <span class="nb">top</span> <span class="nb">left</span><span class="p">;</span>
+        <span class="kp">-moz-</span><span class="k">transform</span><span class="p">:</span> <span class="nb">rotate</span><span class="p">(</span><span class="mi">90</span><span class="kt">deg</span><span class="p">);</span>
+        <span class="kp">-ms-</span><span class="k">transform</span><span class="p">:</span> <span class="nb">rotate</span><span class="p">(</span><span class="mi">90</span><span class="kt">deg</span><span class="p">);</span>
+        <span class="kp">-webkit-</span><span class="k">transform</span><span class="p">:</span> <span class="nb">rotate</span><span class="p">(</span><span class="mi">90</span><span class="kt">deg</span><span class="p">);</span>
+        <span class="k">transform</span><span class="p">:</span> <span class="nb">rotate</span><span class="p">(</span><span class="mi">90</span><span class="kt">deg</span><span class="p">);</span>
+        <span class="kp">-moz-</span><span class="k">transform-origin</span><span class="p">:</span> <span class="kc">top</span> <span class="kc">left</span><span class="p">;</span>
+        <span class="kp">-ms-</span><span class="k">transform-origin</span><span class="p">:</span> <span class="kc">top</span> <span class="kc">left</span><span class="p">;</span>
+        <span class="kp">-webkit-</span><span class="k">transform-origin</span><span class="p">:</span> <span class="kc">top</span> <span class="kc">left</span><span class="p">;</span>
+        <span class="k">transform-origin</span><span class="p">:</span> <span class="kc">top</span> <span class="kc">left</span><span class="p">;</span>
 
-        <span class="nb">left</span><span class="o">:</span> <span class="m">100%</span><span class="p">;</span>
+        <span class="k">left</span><span class="p">:</span> <span class="mi">100</span><span class="kt">%</span><span class="p">;</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
@@ -1325,23 +1198,23 @@
 <div class="line"><br /></div>
 </div>
 <p>同样，纵向模式下的 CSS 规则只应该如下所示︰</p>
-<div class="highlight-css"><div class="highlight"><pre><span class="k">@media</span> <span class="o">(</span><span class="nt">orientation</span> <span class="o">:</span> <span class="nt">landscape</span><span class="o">)</span> <span class="p">{</span>
+<div class="highlight-css"><div class="highlight"><pre><span></span><span class="p">@</span><span class="k">media</span> <span class="o">(</span><span class="nt">orientation</span> <span class="o">:</span> <span class="nt">landscape</span><span class="o">)</span> <span class="p">{</span>
     <span class="nt">html</span> <span class="p">{</span>
-        <span class="nb">position</span><span class="o">:</span> <span class="nb">absolute</span><span class="p">;</span>
-        <span class="nb">width</span><span class="o">:</span> <span class="m">100</span><span class="n">vh</span><span class="p">;</span>
-        <span class="nb">height</span><span class="o">:</span> <span class="m">100</span><span class="n">vw</span><span class="p">;</span>
-        <span class="nb">overflow</span><span class="o">:</span> <span class="nb">hidden</span><span class="p">;</span>
+        <span class="k">position</span><span class="p">:</span> <span class="kc">absolute</span><span class="p">;</span>
+        <span class="k">width</span><span class="p">:</span> <span class="mi">100</span><span class="kt">vh</span><span class="p">;</span>
+        <span class="k">height</span><span class="p">:</span> <span class="mi">100</span><span class="kt">vw</span><span class="p">;</span>
+        <span class="k">overflow</span><span class="p">:</span> <span class="kc">hidden</span><span class="p">;</span>
 
-        <span class="o">-</span><span class="n">moz</span><span class="o">-</span><span class="n">transform</span><span class="o">:</span> <span class="n">rotate</span><span class="p">(</span><span class="m">-90</span><span class="n">deg</span><span class="p">);</span>
-        <span class="o">-</span><span class="n">ms</span><span class="o">-</span><span class="n">transform</span><span class="o">:</span> <span class="n">rotate</span><span class="p">(</span><span class="m">-90</span><span class="n">deg</span><span class="p">);</span>
-        <span class="o">-</span><span class="n">webkit</span><span class="o">-</span><span class="n">transform</span><span class="o">:</span> <span class="n">rotate</span><span class="p">(</span><span class="m">-90</span><span class="n">deg</span><span class="p">);</span>
-        <span class="n">transform</span><span class="o">:</span> <span class="n">rotate</span><span class="p">(</span><span class="m">-90</span><span class="n">deg</span><span class="p">);</span>
-        <span class="o">-</span><span class="n">moz</span><span class="o">-</span><span class="n">transform</span><span class="o">-</span><span class="n">origin</span><span class="o">:</span> <span class="nb">top</span> <span class="nb">left</span><span class="p">;</span>
-        <span class="o">-</span><span class="n">ms</span><span class="o">-</span><span class="n">transform</span><span class="o">-</span><span class="n">origin</span><span class="o">:</span> <span class="nb">top</span> <span class="nb">left</span><span class="p">;</span>
-        <span class="o">-</span><span class="n">webkit</span><span class="o">-</span><span class="n">transform</span><span class="o">-</span><span class="n">origin</span><span class="o">:</span> <span class="nb">top</span> <span class="nb">left</span><span class="p">;</span>
-        <span class="n">transform</span><span class="o">-</span><span class="n">origin</span><span class="o">:</span> <span class="nb">top</span> <span class="nb">left</span><span class="p">;</span>
+        <span class="kp">-moz-</span><span class="k">transform</span><span class="p">:</span> <span class="nb">rotate</span><span class="p">(</span><span class="mi">-90</span><span class="kt">deg</span><span class="p">);</span>
+        <span class="kp">-ms-</span><span class="k">transform</span><span class="p">:</span> <span class="nb">rotate</span><span class="p">(</span><span class="mi">-90</span><span class="kt">deg</span><span class="p">);</span>
+        <span class="kp">-webkit-</span><span class="k">transform</span><span class="p">:</span> <span class="nb">rotate</span><span class="p">(</span><span class="mi">-90</span><span class="kt">deg</span><span class="p">);</span>
+        <span class="k">transform</span><span class="p">:</span> <span class="nb">rotate</span><span class="p">(</span><span class="mi">-90</span><span class="kt">deg</span><span class="p">);</span>
+        <span class="kp">-moz-</span><span class="k">transform-origin</span><span class="p">:</span> <span class="kc">top</span> <span class="kc">left</span><span class="p">;</span>
+        <span class="kp">-ms-</span><span class="k">transform-origin</span><span class="p">:</span> <span class="kc">top</span> <span class="kc">left</span><span class="p">;</span>
+        <span class="kp">-webkit-</span><span class="k">transform-origin</span><span class="p">:</span> <span class="kc">top</span> <span class="kc">left</span><span class="p">;</span>
+        <span class="k">transform-origin</span><span class="p">:</span> <span class="kc">top</span> <span class="kc">left</span><span class="p">;</span>
 
-        <span class="nb">top</span><span class="o">:</span> <span class="m">100%</span><span class="p">;</span>
+        <span class="k">top</span><span class="p">:</span> <span class="mi">100</span><span class="kt">%</span><span class="p">;</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
@@ -1368,8 +1241,8 @@
 
   <div role="contentinfo">
     <p>
-        &copy; 版权所有 2014-2017, Triumph.
-      最后更新于 2017-11-21.
+        &copy; Copyright 2014-2017, Triumph.
+      最后更新于 2017-12-29.
 
     </p>
   </div>
@@ -1425,11 +1298,11 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

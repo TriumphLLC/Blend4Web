@@ -19,6 +19,35 @@
 
 <script type="text/javascript">
 
+var add_update_modules_button = (function() {
+    var is_update_modules_button_added = false;
+    return function(proj_location) {
+        if (is_update_modules_button_added)
+            return;
+        is_update_modules_button_added = true;
+
+        var request = document.querySelector(".request");
+
+        var new_btn = request.cloneNode();
+        new_btn.className = "btns_cont row"
+
+        var wrap = request.cloneNode();
+        wrap.className = "btn_wrapper";
+
+        var link = document.createElement("a");
+        link.className = "btn active";
+        link.href = proj_location || "${update_link}";
+
+        var span = document.createElement("span");
+        span.appendChild(document.createTextNode("Update Modules"));
+
+        link.appendChild(span);
+        wrap.appendChild(link);
+        new_btn.appendChild(wrap)
+        request.parentElement.appendChild(new_btn);
+    }
+})();
+
 var ws = new WebSocket("ws://" + location.host + "/console");
 
 var _data_received = false;
@@ -30,17 +59,27 @@ ws.onopen = function() {
     c.innerHTML = "Operation Pending...";
 };
 
-ws.onmessage = function(event) {
-    var c = document.getElementById("console");
+ws.onmessage = (function() {
+    var proj_location;
+    return function(event) {
+        var c = document.getElementById("console");
 
-    if (!_data_received) {
-        _data_received = true;
-        c.innerHTML = "";
+        if (!_data_received) {
+            _data_received = true;
+            c.innerHTML = "";
+        }
+
+        c.innerHTML += event.data;
+
+        var proj_location_expr = /Copy project directory (.*)/;
+        var proj_location_data = proj_location_expr.exec(event.data);
+        proj_location = proj_location || proj_location_data && proj_location_data[1];
+        if (event.data.indexOf('Update Modules') !== -1 && proj_location) {
+            add_update_modules_button("/project/-p/" + encodeURIComponent(proj_location) + "/update_modules");
+        }
+        window.scrollTo(0, document.body.scrollHeight);
     }
-
-    c.innerHTML += event.data;
-    window.scrollTo(0, document.body.scrollHeight);
-};
+})();
 
 ws.onclose = function() {
     if ("${download_link}") {
@@ -64,25 +103,8 @@ ws.onclose = function() {
         new_btn.appendChild(wrap)
         request.parentElement.appendChild(new_btn);
     } else if ("${update_link}") {
-        var request = document.querySelector(".request");
-
-        var new_btn = request.cloneNode();
-        new_btn.className = "btns_cont row"
-
-        var wrap = request.cloneNode();
-        wrap.className = "btn_wrapper";
-
-        var link = document.createElement("a");
-        link.className = "btn active";
-        link.href = "${update_link}";
-
-        var span = document.createElement("span");
-        span.appendChild(document.createTextNode("Update Modules"));
-
-        link.appendChild(span);
-        wrap.appendChild(link);
-        new_btn.appendChild(wrap)
-        request.parentElement.appendChild(new_btn);
+        // CHECK: if we have to call add_update_modules_button() here
+        add_update_modules_button();
     }
 };
 

@@ -49,7 +49,7 @@ def gen_module_list(prefix, src_dir):
 
                 if relpath(path, src_dir).startswith("addons/"):
                     addons.append(file_path)
-                elif relpath(path, src_dir).startswith("ext/"):
+                elif relpath(path, src_dir).startswith("extern/"):
                     exts.append(file_path)
                 elif relpath(path, src_dir).startswith("libs/"):
                     libs.append(file_path)

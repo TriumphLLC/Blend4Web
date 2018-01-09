@@ -1,18 +1,16 @@
-"use strict";
+import b4w from "blend4web";
 
-b4w.register("camera_animation", function(exports, require) {
-
-var m_app     = require("app");
-var m_cam     = require("camera");
-var m_cfg     = require("config");
-var m_cont    = require("container");
-var m_ctl     = require("controls");
-var m_data    = require("data");
-var m_scenes  = require("scenes");
-var m_time    = require("time");
-var m_trans   = require("transform");
-var m_vec3    = require("vec3");
-var m_version = require("version");
+var m_app     = b4w.app;
+var m_cam     = b4w.camera;
+var m_cfg     = b4w.config;
+var m_cont    = b4w.container;
+var m_ctl     = b4w.controls;
+var m_data    = b4w.data;
+var m_scenes  = b4w.scenes;
+var m_time    = b4w.time;
+var m_trans   = b4w.transform;
+var m_vec3    = b4w.vec3;
+var m_version = b4w.version;
 
 var DEBUG = (m_version.type() === "DEBUG");
 
@@ -33,7 +31,7 @@ var _cam_anim = {
 
 var _vec3_tmp = new Float32Array(3);
 
-exports.init = function() {
+export function init() {
     m_app.init({
         canvas_container_id: "main_canvas_container",
         callback: init_cb,
@@ -181,6 +179,3 @@ function init_camera_animation(camobj) {
     m_ctl.create_sensor_manifold(camobj, "CAMERA_MOVE", m_ctl.CT_CONTINUOUS,
             [t_sensor, e_sensor], logic_func, cam_move_cb);
 }
-
-
-});

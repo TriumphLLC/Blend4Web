@@ -71,7 +71,7 @@ class B4WPreferences(AddonPreferences):
     b4w_reexport_paths = bpy.props.CollectionProperty(
         type=B4WReexportPath)
     b4w_reexport_path_index = IntProperty(default=-1, min=-1)
-    b4w_sync_with_browser = BoolProperty(name=_("Syncronize With Viewer"),
+    b4w_sync_with_browser = BoolProperty(name=_("Synchronize With Viewer"),
             default = True, description=_("Enable Data Syncronization between Viewer and Blender"))
 
     def draw(self, context):
@@ -83,17 +83,17 @@ class B4WPreferences(AddonPreferences):
             update_available = bpy.app.translations.pgettext_tip(_("Update is available: %s"), "Operator")
             layout.operator("wm.url_open", text=(update_available % \
             (self.b4w_available_for_update_version)), icon='URL').url = DOWNLOADS
-        if has_valid_sdk_path():
-            layout.label(text = _("Development Server:"))
+        # if has_valid_sdk_path():
+        layout.label(text = _("Development Server:"))
+        row = layout.row()
+        row.prop(self, "b4w_server_auto_start", text=_("Run on Startup"))
+        row.prop(self, "b4w_port_number")
+        row.prop(self, "b4w_enable_ext_requests")
+        for m in blend4web.init_mess:
             row = layout.row()
-            row.prop(self, "b4w_server_auto_start", text=_("Run on Startup"))
-            row.prop(self, "b4w_port_number")
-            row.prop(self, "b4w_enable_ext_requests")
-            for m in blend4web.init_mess:
-                row = layout.row()
-                row.label(m, icon="ERROR")
-            row = layout.row()
-            row.prop(self, "b4w_sync_with_browser", text="Syncronize With Viewer By Default")
+            row.label(m, icon="ERROR")
+        row = layout.row()
+        row.prop(self, "b4w_sync_with_browser", text="Synchronize With Viewer By Default")
 
 def get_prefs():
     return bpy.context.user_preferences.addons[__package__].preferences

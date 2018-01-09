@@ -14,7 +14,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-"use strict";
+import register from "../util/register.js";
+
+import m_ctl_fact from "../extern/controls.js";
+import m_print_fact from "../intern/print.js";
+import m_scenes_fact from "../extern/scenes.js";
+import m_screen_fact from "../extern/screen.js";
+import m_sfx_fact from "../extern/sfx.js";
+import m_util_fact from "../extern/util.js";
 
 /**
  * Audio mixer add-on.
@@ -22,14 +29,14 @@
  * channel and volume fader and compressor to the master section.
  * @module mixer
  */
-b4w.module["mixer"] = function(exports, require) {
+function Mixer(ns, exports) {
 
-var m_ctl    = require("controls");
-var m_print  = require("print");
-var m_scenes = require("scenes");
-var m_screen = require("screen");
-var m_sfx    = require("sfx");
-var m_util   = require("util");
+var m_ctl    = m_ctl_fact(ns);
+var m_print = m_print_fact(ns);
+var m_scenes = m_scenes_fact(ns);
+var m_screen = m_screen_fact(ns);
+var m_sfx    = m_sfx_fact(ns);
+var m_util   = m_util_fact(ns);
 
 var TIMER_SLOW_PERIOD = 0.15;
 var TIMER_FAST_PERIOD = 0.05;
@@ -555,3 +562,7 @@ function active_strip_range() {
 
 
 }
+
+var mixer_factory = register("mixer", Mixer);
+
+export default mixer_factory;

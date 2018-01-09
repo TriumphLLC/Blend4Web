@@ -1,10 +1,9 @@
-
 Аддон
 *****
 
 
-Содержание
-^^^^^^^^^^
+Table of Content
+^^^^^^^^^^^^^^^^
 
 * Аддон
 
@@ -78,10 +77,23 @@ Blend4Web SDK, доступной по адресу http://localhost:6687.
 При этом будет автоматически запущен браузер, используемой в
 операционной системе по умолчанию.
 
-Кнопка Project Manager открывает менеджер проектов.
+Кнопка "Project Manager" открывает менеджер проектов.
 
 Кнопка "Fast Preview" вызывает просмотрщик сцен и загружает в него
 сцену, открытую в Blender на данный момент.
+
+Эта кнопка также присутствует на панели "Info" окна 3D View.
+
+   [рисунок]Кнопка "Fast Preview" на панели "Info"
+
+Кнопка справа от неё усправляет синхронизацией данных между Blender и
+Просмотрщиком сцен. Если эта опция включена, то при повторном экспорте
+сцены Просмотрщик (если он открыт) перезагрузит запущенную сцену.
+Таким образом устраняется необходимость запускать изменённую вручную,
+чтобы увидеть изменения. Эта опция включена по умолчанию.
+
+Примечание: Кнопка "Fast Preview" также присутствует на панели
+  "Info" в режиме рендеринга "Cycles".
 
 Сервер может быть остановлен по нажатию на кнопку "Stop Server".
 Сервер также прекращает работу при закрытии программы Blender.
@@ -110,7 +122,7 @@ Blend4Web SDK, доступной по адресу http://localhost:6687.
 
 * Уроки
 
-* Страница "Вопрос-Ответ", на которой вы можете найти ответы на
+* Страница «Вопрос-Ответ», на которой вы можете найти ответы на
   некоторые общие вопросы, связанные с использованием движка;
 
 * Форумы сообщества;
@@ -271,7 +283,7 @@ HTML-файлы не могут применяться для дальнейше
 +---------------------------------------+---------------------------------------------+
 | Warning: Blender version mismatch.    | Предупреждение о возможной несовместимости  |
 | Blender VER_REQUIRED is recommended   | с текущей версией Blender. Для работы       |
-| for the Blend4Web add-on. Current     | рекомендуется версия Blender'а              |
+| for the Blend4Web add-on. Current     | рекомендуется версия Blender’а              |
 | version is VER_CURRENT.               | VER_REQUIRED. Текущая версия - VER_CURRENT. |
 +---------------------------------------+---------------------------------------------+
 | Incorrect add-on directory name.      | Некорректное имя директории аддона.         |
@@ -311,7 +323,7 @@ HTML-файлы не могут применяться для дальнейше
 |                                       | использовать последнюю версию движка.       |
 +---------------------------------------+---------------------------------------------+
 | B4W engine version is too old         | Версия движка сильно устарела по сравнению  |
-| relative to JSON. Can't load the      | с версией аддона, которым был произведен    |
+| relative to JSON. Can’t load the      | с версией аддона, которым был произведен    |
 | scene. Update your engine version to  | экспорт сцены. Сцена не будет загружена.    |
 | fix it.                               | Рекомендуется использовать последнюю версию |
 |                                       | движка и аддона.                            |
@@ -325,7 +337,7 @@ HTML-файлы не могут применяться для дальнейше
 +---------------------------------------+---------------------------------------------+
 | BIN version does not match to JSON    | Версия загружаемого .bin-файла сильно       |
 | version: VER_BIN, required: VER_JSON. | устарела по сравнению с .json-файлом:       |
-| Couldn't load the scene. Reexport     | VER_BIN, версия .json-файла: VER_JSON.      |
+| Couldn’t load the scene. Reexport     | VER_BIN, версия .json-файла: VER_JSON.      |
 | scene to fix it.                      | Сцена не будет загружена. Рекомендуется     |
 |                                       | переэкспортировать сцену.                   |
 +---------------------------------------+---------------------------------------------+
@@ -377,7 +389,7 @@ HTML-файлы не могут применяться для дальнейше
 | disk is forbidden                     | находящейся на другом диске.                |
 +---------------------------------------+---------------------------------------------+
 | The material has a normal map but     | Нодовый материал использует "Normal         |
-| doesn't have any material nodes       | Mapping", но не имеет ноды "Material".      |
+| doesn’t have any material nodes       | Mapping", но не имеет ноды "Material".      |
 +---------------------------------------+---------------------------------------------+
 | The mesh has a UV map but has no      | Меш имеет текстурную развертку, но не имеет |
 | exported material                     | материала, который бы экспортировался.      |
@@ -391,12 +403,12 @@ HTML-файлы не могут применяться для дальнейше
 | Permission denied                     | Нет прав доступа к текущей директории.      |
 +---------------------------------------+---------------------------------------------+
 | Wrong edited normals count; It        | Число редактируемых нормалей не совпадает с |
-| doesn't match with the mesh vertices  | числом вершин меша. Требуется сделать       |
+| doesn’t match with the mesh vertices  | числом вершин меша. Требуется сделать       |
 | count                                 | "Clean Up" либо "Save" в панели "B4W Vertex |
 |                                       | Normals Editor".                            |
 +---------------------------------------+---------------------------------------------+
 | Wrong overridden bounding box; Check  | Указаны неверные размеры при                |
-| the mesh's bounding box values        | переопределении "BoundingBox" для меша:     |
+| the mesh’s bounding box values        | переопределении "BoundingBox" для меша:     |
 |                                       | минимальное значение больше максимального   |
 |                                       | для хотя бы одного из измерений.            |
 +---------------------------------------+---------------------------------------------+
@@ -432,10 +444,10 @@ HTML-файлы не могут применяться для дальнейше
 | Empty canvas texture ID for texture   | Пустое поле идентификатора для объекта типа |
 | NAME.                                 | "Canvas".                                   |
 +---------------------------------------+---------------------------------------------+
-| Empty material slot in node "NAME".   | Не задан материал в ноде: "NAME"            |
-| Material: "NAME".                     |                                             |
+| Empty material slot in node «NAME».   | Не задан материал в ноде: «NAME»            |
+| Material: «NAME».                     |                                             |
 +---------------------------------------+---------------------------------------------+
-| Environment map in the "NAME" world   | Карта окружения не может быть видео.        |
+| Environment map in the «NAME» world   | Карта окружения не может быть видео.        |
 | texture slot cannot be a movie.       |                                             |
 +---------------------------------------+---------------------------------------------+
 | Ignoring LODs after empty LOD for the | Все LOD-объекты, следующие за пустым        |
@@ -459,7 +471,7 @@ HTML-файлы не могут применяться для дальнейше
 | NAME. Object has no vertex animation. | объекта, но ни одной анимации не имеется.   |
 +---------------------------------------+---------------------------------------------+
 | Incorrect vertex animation for mesh   | Включен экспорт вертексной анимации для     |
-| NAME. Unbaked "ANIM_NAME" vertex      | меша, но анимация ANIM_NAME не содержит ни  |
+| NAME. Unbaked «ANIM_NAME» vertex      | меша, но анимация ANIM_NAME не содержит ни  |
 | animation.                            | одного кадра.                               |
 +---------------------------------------+---------------------------------------------+
 | Incorrect mesh NAME; Wrong group      | Меш содержит вершины, привязанные к         |
@@ -483,7 +495,7 @@ HTML-файлы не могут применяться для дальнейше
 
 +---------------------------------------+---------------------------------------------+
 | Incomplete vehicle. The NAME vehicle  | Моделируемое средство передвижения NAME     |
-| doesn't have any chassis or hull      | является незавершенным: оно должно          |
+| doesn’t have any chassis or hull      | является незавершенным: оно должно          |
 |                                       | содержать один элемент "Chassis" или        |
 |                                       | "Hull".                                     |
 +---------------------------------------+---------------------------------------------+
@@ -495,8 +507,8 @@ HTML-файлы не могут применяться для дальнейше
 | requires at least one wheel           | является незавершенным: оно должно          |
 |                                       | содержать хотя бы один элемент "wheel".     |
 +---------------------------------------+---------------------------------------------+
-| Invalid link found in node material.  | Нодовый материал с именем "NAME" содержит   |
-| Material: "NAME".                     | некорректные связи между нодами.            |
+| Invalid link found in node material.  | Нодовый материал с именем «NAME» содержит   |
+| Material: «NAME».                     | некорректные связи между нодами.            |
 +---------------------------------------+---------------------------------------------+
 | No image in the NAME texture.         | У текстуры отсутствует изображение.         |
 | [Material: NAME.]                     |                                             |
@@ -510,92 +522,92 @@ HTML-файлы не могут применяться для дальнейше
 | No texture in the texture slot.       | В текстурном слоте материала отсутствует    |
 | Material: NAME.                       | текстура.                                   |
 +---------------------------------------+---------------------------------------------+
-| Node material invalid: "NAME". Check  | Ошибка нодового материала. Типы входа и     |
-| sockets compatibility: "FROM_NODE"    | выхода связи между нодами "FROM_NODE" и     |
-| with "TO_NODE".                       | "TO_NODE" не соответствуют друг другу.      |
+| Node material invalid: «NAME». Check  | Ошибка нодового материала. Типы входа и     |
+| sockets compatibility: «FROM_NODE»    | выхода связи между нодами "FROM_NODE" и     |
+| with «TO_NODE».                       | "TO_NODE" не соответствуют друг другу.      |
 +---------------------------------------+---------------------------------------------+
-| Object "NAME" hasn't renderable data. | Объект с именем "NAME" является             |
+| Object «NAME» hasn’t renderable data. | Объект с именем «NAME» является             |
 | Converted to EMPTY.                   | вырожденным, например, не имеет полигонов,  |
 |                                       | поэтому его тип изменён на EMPTY.           |
 +---------------------------------------+---------------------------------------------+
-| Object: "NAME" > Constraint:          | Ограничитель типа "CONSTRAINT_TYPE",        |
-| "CONSTRAINT_TYPE". Check constraint   | назначенный объекту "NAME", не настроен     |
+| Object: «NAME» > Constraint:          | Ограничитель типа «CONSTRAINT_TYPE»,        |
+| «CONSTRAINT_TYPE». Check constraint   | назначенный объекту «NAME», не настроен     |
 | settings.                             | должным образом.                            |
 +---------------------------------------+---------------------------------------------+
-| Object "NAME" has the mesh with shape | Объект с именем "NAME" имеет меш с опорными |
-| keys. The property "Relative" of mesh | фигурами. На меше было включено свойство    |
-| has been enabled.                     | "Relative".                                 |
+| Object «NAME» has the mesh with shape | Объект с именем «NAME» имеет меш с опорными |
+| keys. The property «Relative» of mesh | фигурами. На меше было включено свойство    |
+| has been enabled.                     | «Relative».                                 |
 +---------------------------------------+---------------------------------------------+
-| Object "NAME" has no data or data is  | Объект с именем "NAME" не имеет меша, либо  |
+| Object «NAME» has no data or data is  | Объект с именем «NAME» не имеет меша, либо  |
 | broken. Change object type to EMPTY.  | меш повреждён. Тип объекта изменён на       |
 |                                       | EMPTY.                                      |
 +---------------------------------------+---------------------------------------------+
-| Packed media "FILE_NAME" has not been | Запакованный медиа файл "FILE_NAME" не      |
-| exported to "CONVERTED_FILE_PATH"     | может быть конвертирован в                  |
-|                                       | "CONVERTED_FILE_PATH". Требуется            |
+| Packed media «FILE_NAME» has not been | Запакованный медиа файл «FILE_NAME» не      |
+| exported to «CONVERTED_FILE_PATH»     | может быть конвертирован в                  |
+|                                       | «CONVERTED_FILE_PATH». Требуется            |
 |                                       | распаковать файл и произвести конвертацию.  |
 +---------------------------------------+---------------------------------------------+
 
 +---------------------------------------+---------------------------------------------+
-| Particle system error for "NAME"; The | Ошибка системы частиц. Вертексный цвет NAME |
-| "NAME" vertex color specified in the  | указанный в поле "from", отсутствует в      |
+| Particle system error for «NAME»; The | Ошибка системы частиц. Вертексный цвет NAME |
+| «NAME» vertex color specified in the  | указанный в поле "from", отсутствует в      |
 | "from" field is missing in the last   | эмиттере OBJECT_NAME.                       |
-| of the "OBJECT_NAME" object's vertex  |                                             |
+| of the «OBJECT_NAME» object’s vertex  |                                             |
 | colors                                |                                             |
 +---------------------------------------+---------------------------------------------+
-| Particle system error for "NAME"; The | Ошибка системы частиц. Вертексный цвет NAME |
-| "NAME" vertex color specified in the  | указанный в поле "to", отсутствует в        |
+| Particle system error for «NAME»; The | Ошибка системы частиц. Вертексный цвет NAME |
+| «NAME» vertex color specified in the  | указанный в поле "to", отсутствует в        |
 | "to" field is missing in the list of  | объекте OBJECT_NAME, выбранном в качестве   |
-| the "OBJECT_NAME" object's vertex     | частицы.                                    |
+| the «OBJECT_NAME» object’s vertex     | частицы.                                    |
 | colors                                |                                             |
 +---------------------------------------+---------------------------------------------+
-| Particle system error for "NAME"; The | Ошибка системы частиц. Вертексный цвет NAME |
-| "NAME" vertex color specified in the  | указанный в поле "to", не присутствует в    |
-| ""to" field is missing in the         | объекте OBJECT_NAME группы GROUP_NAME,      |
-| "OBJECT_NAME" object ("GROUP_NAME"    | выбранной в качестве частицы.               |
+| Particle system error for «NAME»; The | Ошибка системы частиц. Вертексный цвет NAME |
+| «NAME» vertex color specified in the  | указанный в поле "to", не присутствует в    |
+| «"to" field is missing in the         | объекте OBJECT_NAME группы GROUP_NAME,      |
+| «OBJECT_NAME» object («GROUP_NAME»    | выбранной в качестве частицы.               |
 | dupli group)                          |                                             |
 +---------------------------------------+---------------------------------------------+
 | Particle system error for object      | Ошибка системы частиц для объекта NAME.     |
-| "NAME". Invalid dupli object          | Неверный дупли объект OBJECT_NAME.          |
-| "OBJECT_NAME".                        |                                             |
+| «NAME». Invalid dupli object          | Неверный дупли объект OBJECT_NAME.          |
+| «OBJECT_NAME».                        |                                             |
 +---------------------------------------+---------------------------------------------+
 | Particle system error. Unsupported    | Ошибка системы частиц. Неподдерживаемый тип |
-| render type "TYPE" for the HAIR       | рендера TYPE для EMITTER/HAIR системы       |
-| particles "NAME" on object            | частиц с именем PSYS_NAME, находящейся на   |
-| "OBJECT_NAME". Particle system        | объекте NAME. Система частиц удалена.       |
+| render type «TYPE» for the HAIR       | рендера TYPE для EMITTER/HAIR системы       |
+| particles «NAME» on object            | частиц с именем PSYS_NAME, находящейся на   |
+| «OBJECT_NAME». Particle system        | объекте NAME. Система частиц удалена.       |
 | removed.                              |                                             |
 +---------------------------------------+---------------------------------------------+
 | Particle system error. Unsupported    | Ошибка системы частиц. Неподдерживаемый тип |
-| render type "TYPE" for the EMITTER    | рендера TYPE для EMITTER/HAIR системы       |
-| particles "NAME" on object            | частиц с именем PSYS_NAME, находящейся на   |
-| "OBJECT_NAME". Particle system        | объекте NAME. Система частиц удалена.       |
+| render type «TYPE» for the EMITTER    | рендера TYPE для EMITTER/HAIR системы       |
+| particles «NAME» on object            | частиц с именем PSYS_NAME, находящейся на   |
+| «OBJECT_NAME». Particle system        | объекте NAME. Система частиц удалена.       |
 | removed.                              |                                             |
 +---------------------------------------+---------------------------------------------+
-| Particle system error for "NAME".     | Ошибка системы частиц. Не выбран объект,    |
-| Dupli object isn't specified.         | используемый в качестве частицы.            |
+| Particle system error for «NAME».     | Ошибка системы частиц. Не выбран объект,    |
+| Dupli object isn’t specified.         | используемый в качестве частицы.            |
 +---------------------------------------+---------------------------------------------+
-| Particle system error for "NAME".     | Ошибка системы частиц: не указана группа,   |
-| Dupli group isn't specified.          | использующаяся для генерации частиц.        |
+| Particle system error for «NAME».     | Ошибка системы частиц: не указана группа,   |
+| Dupli group isn’t specified.          | использующаяся для генерации частиц.        |
 +---------------------------------------+---------------------------------------------+
-| Particle system error for "NAME".     | Ошибка системы частиц. В качестве частицы   |
-| Wrong dupli object type "TYPE".       | выбран объект неподходящего типа.           |
+| Particle system error for «NAME».     | Ошибка системы частиц. В качестве частицы   |
+| Wrong dupli object type «TYPE».       | выбран объект неподходящего типа.           |
 |                                       | Поддерживаемые типы: "MESH".                |
 +---------------------------------------+---------------------------------------------+
-| Particle system error for "NAME".     | Объект NAME, выбранный в качестве частицы,  |
-| Dupli object "NAME" has not been      | не экспортируется (на нем выбрана опция "Do |
+| Particle system error for «NAME».     | Объект NAME, выбранный в качестве частицы,  |
+| Dupli object «NAME» has not been      | не экспортируется (на нем выбрана опция "Do |
 | exported.                             | not export").                               |
 +---------------------------------------+---------------------------------------------+
-| Particle system error for "NAME". The | Ошибка системы частиц. Ни один подходящий   |
-| "GROUP_NAME" dupli group contains no  | объект из группы GROUP_NAME, выбранной в    |
+| Particle system error for «NAME». The | Ошибка системы частиц. Ни один подходящий   |
+| «GROUP_NAME» dupli group contains no  | объект из группы GROUP_NAME, выбранной в    |
 | valid object for export.              | качестве частицы, не экспортируется. Либо   |
 |                                       | на таких объектах выбрана опция "Do not     |
 |                                       | export", либо объекты имеют неподходящий    |
 |                                       | тип. Поддерживаемые типы: "MESH".           |
 +---------------------------------------+---------------------------------------------+
 | Sound file is missing in the SPEAKER  | У объекта типа SPEAKER отсутствует звуковой |
-| object "NAME". Converted to EMPTY.    | файл. Тип объекта изменён на EMPTY.         |
+| object «NAME». Converted to EMPTY.    | файл. Тип объекта изменён на EMPTY.         |
 +---------------------------------------+---------------------------------------------+
-| The lamp object "NAME" has            | Источник света "NAME" имеет                 |
+| The lamp object «NAME» has            | Источник света «NAME» имеет                 |
 | unsupported AREA type. Changed to     | неподдерживаемый тип AREA. Тип источника    |
 | SUN.                                  | изменён на SUN.                             |
 +---------------------------------------+---------------------------------------------+
@@ -645,30 +657,30 @@ HTML-файлы не могут применяться для дальнейше
 | modifier which references the wrong   | что и арматура или оба объекта должны явно  |
 | group. Modifier removed.              | присутствовать на сцене.                    |
 +---------------------------------------+---------------------------------------------+
-| "TEXTURE_TYPE" texture type is not    | TEXTURE_TYPE тип текстуры не поддерживается |
-| supported for world "NAME".           | для мира, WORLD_NAME                        |
+| «TEXTURE_TYPE» texture type is not    | TEXTURE_TYPE тип текстуры не поддерживается |
+| supported for world «NAME».           | для мира, WORLD_NAME                        |
 +---------------------------------------+---------------------------------------------+
 | Using B4W_REFRACTION node NODE_NAME   | Используется нодовый материал с неправильно |
 | with incorrect type of Alpha Blend.   | заданным свойством Alpha Blend. Допускается |
 | Material: NAME.                       | значение "Alpha sort", "Alpha blend" и      |
-|                                       | "Add" при использовании ноды "REFRACTION".  |
+|                                       | "Add" при использовании ноды «REFRACTION».  |
 +---------------------------------------+---------------------------------------------+
 | Wind bending: not all vertex colors   | Настройки процедурной анимации деревьев:    |
-| exist for "NAME". Properties were set | должны существовать все указанные слои      |
+| exist for «NAME». Properties were set | должны существовать все указанные слои      |
 | to default values.                    | вертексных цветов.                          |
 +---------------------------------------+---------------------------------------------+
 
 +---------------------------------------+---------------------------------------------+
-| Wind bending: vertex colors weren't   | Настройки процедурной анимации деревьев;    |
-| properly assigned for "NAME".         | должны быть указаны названия всех слоев     |
+| Wind bending: vertex colors weren’t   | Настройки процедурной анимации деревьев;    |
+| properly assigned for «NAME».         | должны быть указаны названия всех слоев     |
 | Properties were set to default        | вертексных цветов ("Main stiffness (A)",    |
 | values.                               | "Leaves stiffness (R)", "Leaves phase (G)", |
 |                                       | "Overall stiffness (B)"), либо только       |
 |                                       | главного ("Main stiffness (A)"), либо ни    |
 |                                       | одного из них.                              |
 +---------------------------------------+---------------------------------------------+
-| Wrong "Height Map" input for the      | На вход "Height Map" ноды NAME типа         |
-| "NAME" B4W_PARALLAX node. Only link   | "B4W_PARALLAX" подаются некорректные        |
+| Wrong «Height Map» input for the      | На вход «Height Map» ноды NAME типа         |
+| «NAME» B4W_PARALLAX node. Only link   | "B4W_PARALLAX" подаются некорректные        |
 | from the TEXTURE node with a non-     | данные. Разрешено подавать только выход из  |
 | empty texture is allowed.             | ноды типа "TEXTURE" с непустой текстурой.   |
 +---------------------------------------+---------------------------------------------+
@@ -682,9 +694,9 @@ HTML-файлы не могут применяться для дальнейше
 | interpolation. Switch to BEZIER.      |                                             |
 +---------------------------------------+---------------------------------------------+
 | Wrong vertex animation vertices count | Включен экспорт вертексной анимации, но     |
-| for mesh NAME. It doesn't match with  | число вершин покадрово в анимации ANIM_NAME |
+| for mesh NAME. It doesn’t match with  | число вершин покадрово в анимации ANIM_NAME |
 | the mesh vertices count for           | не совпадает с числом вершин меша.          |
-| "ANIM_NAME".                          | Возможное решение - "перезапекание"         |
+| «ANIM_NAME».                          | Возможное решение - «перезапекание»         |
 |                                       | анимации.                                   |
 +---------------------------------------+---------------------------------------------+
 
@@ -705,8 +717,8 @@ HTML-файлы не могут применяться для дальнейше
 +---------------------------------------+---------------------------------------------+
 | Сообщение об ошибке                   | Причина                                     |
 +=======================================+=============================================+
-| Material tangent shading is enabled,  | Для материала выставлена опция "Tangent     |
-| but object's mesh has no UV map.      | Shading", которая требует наличия           |
+| Material tangent shading is enabled,  | Для материала выставлена опция «Tangent     |
+| but object’s mesh has no UV map.      | Shading», которая требует наличия           |
 |                                       | UV-развёртки.                               |
 +---------------------------------------+---------------------------------------------+
 | Missing active camera or wrong active | На сцене отсутствует активная камера        |
@@ -716,8 +728,8 @@ HTML-файлы не могут применяться для дальнейше
 | object                                |                                             |
 +---------------------------------------+---------------------------------------------+
 | Multiple constraints added on an      | Объекту NAME назначено несколько            |
-| object "Cube", but it supports only   | ограничителей, в то время как               |
-| one. Others won't be used.            | поддерживается только один. Остальные       |
+| object «Cube», but it supports only   | ограничителей, в то время как               |
+| one. Others won’t be used.            | поддерживается только один. Остальные       |
 |                                       | ограничители не будут использоваться (на    |
 |                                       | данный момент движок поддерживает только    |
 |                                       | один ограничитель на объекте).              |
@@ -726,16 +738,16 @@ HTML-файлы не могут применяться для дальнейше
 | texture rendering a scene. It has     | которая отображает сцену. Эта текстура была |
 | been replaced by the default texture. | заменена на стандартную.                    |
 +---------------------------------------+---------------------------------------------+
-| The action NAME has no fcurves.       | В анимации с именем "NAME" нет ни одного    |
+| The action NAME has no fcurves.       | В анимации с именем «NAME» нет ни одного    |
 |                                       | канала.                                     |
 +---------------------------------------+---------------------------------------------+
-| The "NAME" camera has unsupported     | Панорамная камера не поддерживается. Будет  |
+| The «NAME» camera has unsupported     | Панорамная камера не поддерживается. Будет  |
 | PANORAMIC type. Changed to            | использована перспективная камера.          |
-| PERSPECTIVE type."                    |                                             |
+| PERSPECTIVE type.»                    |                                             |
 +---------------------------------------+---------------------------------------------+
 | Unsupported texture type or texture   | Текстура для материала Lens Flare с именем  |
-| is missing for Lens Flare material    | "NAME" отсутствует или имеет                |
-| "NAME"                                | неподдерживаемый формат.                    |
+| is missing for Lens Flare material    | «NAME» отсутствует или имеет                |
+| «NAME»                                | неподдерживаемый формат.                    |
 +---------------------------------------+---------------------------------------------+
 | Use of ENVIRONMENT_MAP as diffuse     | Текстура типа ENVIRONMENT MAP не может быть |
 | color is not supported. Use as mirror | использована как источник диффузного цвета. |
@@ -750,8 +762,8 @@ HTML-файлы не могут применяться для дальнейше
 Перевод аддона
 ==============
 
-Имеется возможность перевести аддон на язык, доступный в Blender'e.
-Для этого необходимо переименовать файл "empty.po", находящийся в
+Имеется возможность перевести аддон на язык, доступный в Blender’e.
+Для этого необходимо переименовать файл «empty.po», находящийся в
 директории: SDK/blender_scripts/addons/blend4web/locales, на одно из
 имен, соответствующих таблице:
 

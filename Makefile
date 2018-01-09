@@ -46,7 +46,13 @@ DISTS_SDK_FORCE = dist_force_ce dist_force_pro dist_force_ce_lite dist_force_pro
 
 # exec "VERPREFIX=_new_prefix make -e" to override
 VERPREFIX=
-VERSION=`sed -e 's/\./_/' -e 's/ *[^ ]\+ *//' -e 's/ \+.*/'$(VERPREFIX)'/' VERSION`
+VERSION:=$(shell sed -e 's/\./_/g' -e 's/ *[^ ]\+ *//' -e 's/ \+.*/'$(VERPREFIX)'/' VERSION)
+ADDON_VERSION:=$(shell awk -F '[(,)]' '/"version":/{ printf "%d_%d_%d",$$2,$$3,$$4 }' addons/blend4web/__init__.py)$(VERPREFIX)
+
+# check version
+ifneq ("$(VERSION)", "$(ADDON_VERSION)")
+$(error VERSION and ADDON_VERSION are not equal each other: "$(VERSION)" != "$(ADDON_VERSION)")
+endif
 
 .PHONY: all
 all: build
@@ -56,7 +62,7 @@ build: convert_resources compile reexport doc_clean doc
 
 
 .PHONY: compile
-compile: compile_shaders compile_b4w build_projects
+compile: compile_shaders compile_b4w compile_uranium build_projects
 
 .PHONY: compile_shaders
 compile_shaders:
@@ -71,10 +77,15 @@ verify_shaders:
 .PHONY: compile_b4w
 compile_b4w:
 	@echo "Compiling b4w javascript"
+	@$(SH) ./scripts/node.sh ./node_modules/webpack/bin/webpack.js
 	@$(SH) ./scripts/compile_b4w.py -o whitespace -b -w
 	@$(SH) ./scripts/compile_b4w.py -o simple -b -w
 	@$(SH) ./scripts/compile_b4w.py -o advanced -b -w
 
+compile_uranium:
+	@echo "Compiling Uranium physics engine"
+	@$(SH) ./uranium/build.sh
+	@$(SH) ./uranium/store.sh
 
 .PHONY: build_projects $(PROJECTS_APPS_DEV) $(PROJECTS)
 
@@ -112,7 +123,7 @@ doc_clean:
 
 .PHONY: api_doc
 api_doc:
-	jsdoc --destination $(APIDOCDIR) src/b4w.js src/ext src/addons src/libs/gl-matrix2.js doc_src/api_doc/API_REF.md -c $(APIDOCRESDIR)/conf.json -t $(APIDOCRESDIR)/b4w_default
+	jsdoc --destination $(APIDOCDIR) src/util/b4w.js src/extern src/addons src/libs/gl-matrix2.js doc_src/api_doc/API_REF.md -c $(APIDOCRESDIR)/conf.json -t $(APIDOCRESDIR)/b4w_default
 
 .PHONY: api_doc_pdf
 api_doc_pdf:
@@ -147,9 +158,15 @@ report_broken_exports:
 
 dist: dist_addon $(DISTS_SDK) $(ASSET_PACKS)
 
+define cp_addon_to_dist
+@$(SH) rm -f ./$(SCRIPTSDIR)/../dist/addons/blend4web_addon*
+@$(SH) cp ./$(SCRIPTSDIR)/../deploy/pub/blend4web_addon_$(VERSION).zip ./$(SCRIPTSDIR)/../dist/addons
+endef
+
 dist_addon:
 	@echo "Creating blend4web $(subst dist_,,$@) $(VERSION) distribution"
 	@$(SH) ./$(SCRIPTSDIR)/make_dist.py -r blend4web -v $(VERSION) $(DISTFILESDIR)/blend4web_addon.lst
+	$(call cp_addon_to_dist)
 
 $(DISTS_SDK):
 	@echo "Creating blend4web $(subst dist_,,$@) $(VERSION) distribution"
@@ -167,6 +184,7 @@ dist_force: dist_force_addon $(DISTS_SDK_FORCE) $(ASSET_PACKS)
 dist_force_addon:
 	@echo "Creating blend4web $(subst dist_force_,,$@) $(VERSION) distribution (overwrite mode)"
 	@$(SH) ./$(SCRIPTSDIR)/make_dist.py -f -r blend4web -v $(VERSION) $(DISTFILESDIR)/blend4web_addon.lst
+	$(call cp_addon_to_dist)
 
 $(DISTS_SDK_FORCE):
 	@echo "Creating blend4web $(subst dist_force_,,$@) $(VERSION) distribution (overwrite mode)"

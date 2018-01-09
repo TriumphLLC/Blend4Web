@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>纹理 &mdash; Blend4Web 17.10.1 用户手册</title>
+  <title>纹理 &mdash; Blend4Web 17.12.0 用户手册</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.10.1 用户手册" href="index.html"/>
+        <link rel="index" title="索引"
+              href="genindex.html"/>
+        <link rel="search" title="搜索" href="search.html"/>
+    <link rel="top" title="Blend4Web 17.12.0 用户手册" href="index.html"/>
         <link rel="next" title="粒子系统,流体" href="particles.html"/>
         <link rel="prev" title="VR and AR" href="vr_and_ar.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -104,7 +107,7 @@
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">照明、 阴影和背景</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">后期处理效果</a></li>
 <li class="toctree-l1"><a class="reference internal" href="vr_and_ar.html">VR and AR</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">纹理</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">纹理</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#texture-types">纹理类型</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#generic-settings">通用设置</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#index-4">漫射贴图</a><ul>
@@ -217,7 +220,7 @@
   <span class="target" id="textures"></span><div class="section" id="index-0">
 <span id="id1"></span><h1><a class="toc-backref" href="#id20">纹理</a><a class="headerlink" href="#index-0" title="永久链接至标题">¶</a></h1>
 <div class="contents topic" id="table-of-contents">
-<p class="topic-title first">目录</p>
+<p class="topic-title first">Table of Contents</p>
 <ul class="simple">
 <li><a class="reference internal" href="#index-0" id="id20">纹理</a><ul>
 <li><a class="reference internal" href="#texture-types" id="id21">纹理类型</a></li>
@@ -237,7 +240,7 @@
 </ul>
 </div>
 <p>纹理是手工制作的或程序上生成的图像，可应用于模型表面，以添加更多的细节。依据规则，图像像素使用纹理映射的方法被分配到三维表面上。有时它们统称为贴图。</p>
-<p>通常的纹理被放入  <a class="reference internal" href="materials.html#materials"><span>材质</span></a>  纹理插槽。他们可以也被用于  <a class="reference internal" href="particles.html#particles-textures"><span>粒子系统</span></a> 参数化和用于创建  <a class="reference internal" href="#skydome-texture"><span>天空纹理</span></a>.</p>
+<p>通常的纹理被放入  <a class="reference internal" href="materials.html#materials"><span class="std std-ref">材质</span></a>  纹理插槽。他们可以也被用于  <a class="reference internal" href="particles.html#particles-textures"><span class="std std-ref">粒子系统</span></a> 参数化和用于创建  <a class="reference internal" href="#skydome-texture"><span class="std std-ref">天空纹理</span></a>.</p>
 <div class="section" id="texture-types">
 <span id="index-1"></span><h2><a class="toc-backref" href="#id21">纹理类型</a><a class="headerlink" href="#texture-types" title="永久链接至标题">¶</a></h2>
 <p><code class="docutils literal"><span class="pre">类型</span></code> 下拉菜单 （用于选择纹理类型） 位于 <code class="docutils literal"><span class="pre">纹理</span></code> 选项卡下。引擎支持以下的纹理类型 ︰</p>
@@ -253,30 +256,21 @@
 </div></blockquote>
 <p>它可用于以下目的：</p>
 <ul class="simple">
-<li><p class="first"><a class="reference internal" href="#diffuse-map"><span>漫射贴图</span></a></p>
-</li>
-<li><p class="first"><a class="reference internal" href="#specular-map"><span>高光贴图</span></a>, 这个也可以打包进漫射纹理的alpha通道</p>
-</li>
-<li><p class="first"><a class="reference internal" href="#normal-map"><span>法线</span></a></p>
-</li>
-<li><p class="first">高度图;这必须打包进法线贴图的 alpha 通道;它用于可视化的浮雕表面  (<a class="reference internal" href="#parallax-mapping"><span>视差贴图</span></a>).</p>
-</li>
-<li><p class="first"><a class="reference internal" href="#stencil-map"><span>蒙版贴图</span></a></p>
-</li>
-<li><p class="first"><a class="reference internal" href="#video-texture"><span>视频纹理</span></a></p>
-</li>
+<li><a class="reference internal" href="#diffuse-map"><span class="std std-ref">漫射贴图</span></a></li>
+<li><a class="reference internal" href="#specular-map"><span class="std std-ref">高光贴图</span></a>, 这个也可以打包进漫射纹理的alpha通道</li>
+<li><a class="reference internal" href="#normal-map"><span class="std std-ref">法线</span></a></li>
+<li>高度图;这必须打包进法线贴图的 alpha 通道;它用于可视化的浮雕表面  (<a class="reference internal" href="#parallax-mapping"><span class="std std-ref">视差贴图</span></a>).</li>
+<li><a class="reference internal" href="#stencil-map"><span class="std std-ref">蒙版贴图</span></a></li>
+<li><a class="reference internal" href="#video-texture"><span class="std std-ref">视频纹理</span></a></li>
 </ul>
 </div></blockquote>
 </li>
 <li><dl class="first docutils">
 <dt><code class="docutils literal"><span class="pre">环境贴图</span></code></dt>
 <dd><ul class="first last simple">
-<li><p class="first"><a class="reference internal" href="#mirror-map"><span>镜面贴图</span></a></p>
-</li>
-<li><p class="first"><a class="reference internal" href="#skydome-texture"><span>天空纹理</span></a></p>
-</li>
-<li><p class="first">用于实现  <a class="reference internal" href="lighting.html#environment-lighting"><span>环境照明</span></a>  方法</p>
-</li>
+<li><a class="reference internal" href="#mirror-map"><span class="std std-ref">镜面贴图</span></a></li>
+<li><a class="reference internal" href="#skydome-texture"><span class="std std-ref">天空纹理</span></a></li>
+<li>用于实现  <a class="reference internal" href="lighting.html#environment-lighting"><span class="std std-ref">环境照明</span></a>  方法</li>
 </ul>
 </dd>
 </dl>
@@ -284,8 +278,7 @@
 <li><dl class="first docutils">
 <dt><code class="docutils literal"><span class="pre">无</span></code></dt>
 <dd><ul class="first last simple">
-<li><p class="first">适用于Blender的默认场景的立方体。它也用于  <a class="reference internal" href="#render-to-texture-scene"><span>渲染场景到纹理</span></a>  和   <a class="reference internal" href="#render-to-texture-canvas"><span>渲染画布纹理</span></a>.</p>
-</li>
+<li>适用于Blender的默认场景的立方体。它也用于  <a class="reference internal" href="#render-to-texture-scene"><span class="std std-ref">渲染场景到纹理</span></a>  和   <a class="reference internal" href="#render-to-texture-canvas"><span class="std std-ref">渲染画布纹理</span></a>.</li>
 </ul>
 </dd>
 </dl>
@@ -293,8 +286,7 @@
 <li><dl class="first docutils">
 <dt><code class="docutils literal"><span class="pre">混合</span></code>， 梯度</dt>
 <dd><ul class="first last simple">
-<li><p class="first">使用在  <a class="reference internal" href="particles.html#particles-textures"><span>粒子系统</span></a></p>
-</li>
+<li>使用在  <a class="reference internal" href="particles.html#particles-textures"><span class="std std-ref">粒子系统</span></a></li>
 </ul>
 </dd>
 </dl>
@@ -305,38 +297,29 @@
 <span id="main-conf"></span><span id="index-2"></span><h2><a class="toc-backref" href="#id22">通用设置</a><a class="headerlink" href="#generic-settings" title="永久链接至标题">¶</a></h2>
 <dl class="docutils">
 <dt><em>尺寸</em></dt>
-<dd><p class="first last">图像纹理的位图尺寸 （图像宽度和高度，以像素为单位） 应为 2<sup>N</sup>，即 4、 8、 16、 32、 64、 128、 256、 512、 1024，2048、 4096 px。与其他尺寸的 (所谓 NPOT) 纹理是支持但不是建议使用。为纹理压缩图像至少 4 像素。通常使用方形图像 (例如 512 x 512 px)，但是也可以使用矩形的 (如 4 x 128 px)。不推荐使用图像大于 2048 像素的图。</p>
-</dd>
+<dd>图像纹理的位图尺寸 （图像宽度和高度，以像素为单位） 应为 2<sup>N</sup>，即 4、 8、 16、 32、 64、 128、 256、 512、 1024，2048、 4096 px。与其他尺寸的 (所谓 NPOT) 纹理是支持但不是建议使用。为纹理压缩图像至少 4 像素。通常使用方形图像 (例如 512 x 512 px)，但是也可以使用矩形的 (如 4 x 128 px)。不推荐使用图像大于 2048 像素的图。</dd>
 </dl>
 <dl class="docutils" id="texture-extension">
 <dt><em>图像贴图 &gt; 扩展</em></dt>
-<dd><p class="first last">纹理坐标解释模式 （在 WebGL 交换模式）。这是可用于 <code class="docutils literal"><span class="pre">图像或电影</span></code> 纹理类型。在 <code class="docutils literal"><span class="pre">重复</span></code> 值设定的情况下由引擎设置纹理的 <code class="docutils literal"><span class="pre">重复</span></code> 模式。在这种情况下纹理坐标的整数部分被忽略、小数部分被使用。在所有其他情况下 （例如 <code class="docutils literal"><span class="pre">扩展</span></code>） 引擎设置 <code class="docutils literal"><span class="pre">CLAMP_TO_EDGE</span></code>  模式。在这种情况下纹理坐标限制到 [0，1] 段。默认值是 <code class="docutils literal"><span class="pre">重复</span></code>.</p>
-</dd>
+<dd>纹理坐标解释模式 （在 WebGL 交换模式）。这是可用于 <code class="docutils literal"><span class="pre">图像或电影</span></code> 纹理类型。在 <code class="docutils literal"><span class="pre">重复</span></code> 值设定的情况下由引擎设置纹理的 <code class="docutils literal"><span class="pre">重复</span></code> 模式。在这种情况下纹理坐标的整数部分被忽略、小数部分被使用。在所有其他情况下 （例如 <code class="docutils literal"><span class="pre">扩展</span></code>） 引擎设置 <code class="docutils literal"><span class="pre">CLAMP_TO_EDGE</span></code>  模式。在这种情况下纹理坐标限制到 [0，1] 段。默认值是 <code class="docutils literal"><span class="pre">重复</span></code>.</dd>
 </dl>
 <dl class="docutils" id="index-3">
 <dt><em>贴图 &gt; 坐标</em></dt>
-<dd><p class="first last">纹理坐标类型。支持的类型是 <code class="docutils literal"><span class="pre">UV</span></code> （使用 UV 映射），<code class="docutils literal"><span class="pre">法线</span></code> (直对相机，只供的漫反射贴图，用于创造 <strong>材质捕捉</strong>, <strong>matcap</strong>) 和  <code class="docutils literal"><span class="pre">生成</span></code> 。默认值是 <code class="docutils literal"><span class="pre">生成</span></code> 。</p>
-</dd>
+<dd>纹理坐标类型。支持的类型是 <code class="docutils literal"><span class="pre">UV</span></code> （使用 UV 映射），<code class="docutils literal"><span class="pre">法线</span></code> (直对相机，只供的漫反射贴图，用于创造 <strong>材质捕捉</strong>, <strong>matcap</strong>) 和  <code class="docutils literal"><span class="pre">生成</span></code> 。默认值是 <code class="docutils literal"><span class="pre">生成</span></code> 。</dd>
 <dt><em>贴图 &gt; 大小</em></dt>
-<dd><p class="first last">沿着各自的轴缩放 UV 贴图。默认值是 1.0。</p>
-</dd>
+<dd>沿着各自的轴缩放 UV 贴图。默认值是 1.0。</dd>
 <dt><em>导出选项 &gt; 不导出</em></dt>
-<dd><p class="first last">不导出纹理。</p>
-</dd>
+<dd>不导出纹理。</dd>
 </dl>
 <dl class="docutils" id="texture-disable-compression">
 <dt><em>导出选项 &gt; 禁用压缩</em></dt>
-<dd><p class="first last">禁用这个纹理的纹理压缩。在 <a class="reference internal" href="developers.html#dds"><span>纹理压缩</span></a> 恶化图像质量情况下使用。例如用于混合材质的不同部分建议禁用压缩遮罩纹理。</p>
-</dd>
+<dd>禁用这个纹理的纹理压缩。在 <a class="reference internal" href="developers.html#dds"><span class="std std-ref">纹理压缩</span></a> 恶化图像质量情况下使用。例如用于混合材质的不同部分建议禁用压缩遮罩纹理。</dd>
 <dt><em>导出选项 &gt; 海岸距离贴图</em></dt>
-<dd><p class="first last">使用在  <a class="reference internal" href="outdoor_rendering.html#outdoor-rendering"><span>室外渲染</span></a>.</p>
-</dd>
+<dd>使用在  <a class="reference internal" href="outdoor_rendering.html#outdoor-rendering"><span class="std std-ref">室外渲染</span></a>.</dd>
 <dt><em>导出选项 &gt; 各向异性过滤</em></dt>
-<dd><p class="first last">各向异性过滤单独对纹理进行影响。对场景其他类似的参数有更高优先级别。默认值是 <code class="docutils literal"><span class="pre">默认</span></code> （即使用场景设置）。</p>
-</dd>
+<dd>各向异性过滤单独对纹理进行影响。对场景其他类似的参数有更高优先级别。默认值是 <code class="docutils literal"><span class="pre">默认</span></code> （即使用场景设置）。</dd>
 <dt><em>水泡沫</em></dt>
-<dd><p class="first last">泡沫的纹理。在水的材质中使用。</p>
-</dd>
+<dd>泡沫的纹理。在水的材质中使用。</dd>
 </dl>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
@@ -354,11 +337,9 @@
 <h3>附加设置<a class="headerlink" href="#additional-settings" title="永久链接至标题">¶</a></h3>
 <dl class="docutils">
 <dt><em>影响 &gt; 漫射 &gt; 颜色</em></dt>
-<dd><p class="first last">对漫反射颜色上的纹理的影响。默认值是 1.0。</p>
-</dd>
+<dd>对漫反射颜色上的纹理的影响。默认值是 1.0。</dd>
 <dt><em>影响 &gt; 混合</em></dt>
-<dd><p class="first last">与材质颜色相互作用的类型 (<code class="docutils literal"><span class="pre">材质</span> <span class="pre">&gt;</span> <span class="pre">漫反射</span> <span class="pre">&gt;</span> <span class="pre">颜色</span></code>)，或与顶点颜色如果启用了 <code class="docutils literal"><span class="pre">顶点颜色绘制</span></code> 选框。支持以下类型: <code class="docutils literal"><span class="pre">混合</span></code> （混合的颜色），<code class="docutils literal"><span class="pre">相乘</span></code> （乘以颜色）。默认值是 <code class="docutils literal"><span class="pre">混合</span></code> 。</p>
-</dd>
+<dd>与材质颜色相互作用的类型 (<code class="docutils literal"><span class="pre">材质</span> <span class="pre">&gt;</span> <span class="pre">漫反射</span> <span class="pre">&gt;</span> <span class="pre">颜色</span></code>)，或与顶点颜色如果启用了 <code class="docutils literal"><span class="pre">顶点颜色绘制</span></code> 选框。支持以下类型: <code class="docutils literal"><span class="pre">混合</span></code> （混合的颜色），<code class="docutils literal"><span class="pre">相乘</span></code> （乘以颜色）。默认值是 <code class="docutils literal"><span class="pre">混合</span></code> 。</dd>
 </dl>
 <span class="target" id="specular-map"></span></div>
 </div>
@@ -373,11 +354,9 @@
 <h3>附加设置<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h3>
 <dl class="docutils">
 <dt><em>影响 &gt; 镜面 &gt; 颜色</em></dt>
-<dd><p class="first last">对反射光颜色纹理的影响。默认值是 1.0。</p>
-</dd>
+<dd>对反射光颜色纹理的影响。默认值是 1.0。</dd>
 <dt><em>影响 &gt; 混合</em></dt>
-<dd><p class="first last">反射光的颜色与材质的交互作用的类型 (<code class="docutils literal"><span class="pre">材质</span> <span class="pre">&gt;</span> <span class="pre">镜面</span> <span class="pre">&gt;</span> <span class="pre">颜色</span></code>)。<code class="docutils literal"><span class="pre">混合</span></code> （用颜色混合） 是唯一受支持的类型。默认值是 <code class="docutils literal"><span class="pre">混合</span></code> 。</p>
-</dd>
+<dd>反射光的颜色与材质的交互作用的类型 (<code class="docutils literal"><span class="pre">材质</span> <span class="pre">&gt;</span> <span class="pre">镜面</span> <span class="pre">&gt;</span> <span class="pre">颜色</span></code>)。<code class="docutils literal"><span class="pre">混合</span></code> （用颜色混合） 是唯一受支持的类型。默认值是 <code class="docutils literal"><span class="pre">混合</span></code> 。</dd>
 </dl>
 <p>出于优化的目的高光贴图可以打包到的漫射纹理的 alpha 通道中。在这种情况下是纹理同时启用  <code class="docutils literal"><span class="pre">漫射</span> <span class="pre">&gt;</span> <span class="pre">颜色</span></code>  和 <code class="docutils literal"><span class="pre">镜面</span> <span class="pre">&gt;</span> <span class="pre">颜色</span></code> 复选框。颜色范围被限制在灰色色调。</p>
 <span class="target" id="normal-map"></span></div>
@@ -394,8 +373,7 @@
 <h3>附加设置<a class="headerlink" href="#id8" title="永久链接至标题">¶</a></h3>
 <dl class="docutils">
 <dt><em>影响 &gt; 几何 &gt; 法线</em></dt>
-<dd><p class="first last">法线贴图影响产生的法线计算。默认值是 1.0。</p>
-</dd>
+<dd>法线贴图影响产生的法线计算。默认值是 1.0。</dd>
 </dl>
 <span class="target" id="parallax-mapping"></span></div>
 </div>
@@ -411,14 +389,11 @@
 <h3>附加设置<a class="headerlink" href="#id10" title="永久链接至标题">¶</a></h3>
 <dl class="docutils">
 <dt><em>视差 &gt; 视差缩放</em></dt>
-<dd><p class="first last">表面立体效果的影响因素。默认值为 0.03。</p>
-</dd>
+<dd>表面立体效果的影响因素。默认值为 0.03。</dd>
 <dt><em>视差 &gt; 视差步</em></dt>
-<dd><p class="first last">为立体表面计算的迭代次数。更大的值导致更好的质量但更多更昂贵的计算。</p>
-</dd>
+<dd>为立体表面计算的迭代次数。更大的值导致更好的质量但更多更昂贵的计算。</dd>
 <dt><em>视差 &gt; 视差 LOD 距离</em></dt>
-<dd><p class="first last">观察者的距离视差效应。</p>
-</dd>
+<dd>观察者的距离视差效应。</dd>
 </dl>
 <a class="reference internal image-reference" href="_images/textures_parallax.png"><img alt="_images/textures_parallax.png" class="align-center" src="_images/textures_parallax.png" style="width: 100%;" /></a>
 <div class="line-block">
@@ -432,15 +407,13 @@
 <div class="section" id="id12">
 <h3>激活<a class="headerlink" href="#id12" title="永久链接至标题">¶</a></h3>
 <ol class="arabic simple">
-<li><p class="first">如果节点材质蒙版贴图应该用于相应的节点结构。</p>
-</li>
-<li><p class="first">在通用材质的情况下蒙版贴图应位于两个混合弥漫纹理之间的纹理插槽。蒙版贴图要求同时启用 <code class="docutils literal"><span class="pre">纹理</span> <span class="pre">&gt;</span> <span class="pre">影响</span></code> 面板上设置  <code class="docutils literal"><span class="pre">RGB到强度</span></code> 和 <code class="docutils literal"><span class="pre">蒙版</span></code> 复选框。</p>
-</li>
+<li>如果节点材质蒙版贴图应该用于相应的节点结构。</li>
+<li>在通用材质的情况下蒙版贴图应位于两个混合弥漫纹理之间的纹理插槽。蒙版贴图要求同时启用 <code class="docutils literal"><span class="pre">纹理</span> <span class="pre">&gt;</span> <span class="pre">影响</span></code> 面板上设置  <code class="docutils literal"><span class="pre">RGB到强度</span></code> 和 <code class="docutils literal"><span class="pre">蒙版</span></code> 复选框。</li>
 </ol>
 </div>
 <div class="section" id="id13">
 <h3>附加设置<a class="headerlink" href="#id13" title="永久链接至标题">¶</a></h3>
-<p>有一个混合的漫射纹理的通用的材质可以有 <code class="docutils literal"><span class="pre">法线</span></code> (&#8220;matcap&#8221;) 纹理坐标类型。</p>
+<p>有一个混合的漫射纹理的通用的材质可以有 <code class="docutils literal"><span class="pre">法线</span></code> (&quot;matcap&quot;) 纹理坐标类型。</p>
 </div>
 <div class="section" id="limitations">
 <h3>限制条件<a class="headerlink" href="#limitations" title="永久链接至标题">¶</a></h3>
@@ -448,7 +421,7 @@
 </div>
 <div class="section" id="example">
 <h3>示例<a class="headerlink" href="#example" title="永久链接至标题">¶</a></h3>
-<p>苹果模型材质具有以下的纹理 ︰ 法线贴图， alpha 通道有反射贴图的漫射贴图，蒙版贴图、 漫射 &#8220;matcap&#8221; 贴图，环境贴图纹理。</p>
+<p>苹果模型材质具有以下的纹理 ︰ 法线贴图， alpha 通道有反射贴图的漫射贴图，蒙版贴图、 漫射 &quot;matcap&quot; 贴图，环境贴图纹理。</p>
 <a class="reference internal image-reference" href="_images/textures_stencil_apple.png"><img alt="_images/textures_stencil_apple.png" class="align-center" src="_images/textures_stencil_apple.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -469,48 +442,39 @@
 <div class="section" id="supported-formats-containers">
 <h3>支持的格式 （容器） ︰<a class="headerlink" href="#supported-formats-containers" title="永久链接至标题">¶</a></h3>
 <ul class="simple">
-<li><p class="first">webm VP8 编解码器 （Chrome、 火狐浏览器）</p>
-</li>
-<li><p class="first">m4v，H.264 编解码器 (Chrome，Safari，IE)</p>
-</li>
-<li><p class="first">ogv，Theora 编解码器 （Chrome、 火狐浏览器）</p>
-</li>
+<li>webm VP8 编解码器 （Chrome、 火狐浏览器）</li>
+<li>m4v，H.264 编解码器 (Chrome，Safari，IE)</li>
+<li>ogv，Theora 编解码器 （Chrome、 火狐浏览器）</li>
 </ul>
 <p>我们推荐使用 <em>WebM</em> 作为基本的格式。它是绝大多数浏览器所支持的开放标准，并提供不错的画质。</p>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
 <p class="last">保存为 mp4 和 ogg 格式的文件有不同的音频和视频数据的扩展: <em>.mp4</em> 和 <em>.ogg</em> 扩展用于声音，<em>.m4v</em> 和 <em>.ogv</em> - 是视频。</p>
 </div>
-<p>不同格式之间的资源转换的描述在  <a class="reference internal" href="developers.html#converter"><span>相应章节</span></a>.</p>
+<p>不同格式之间的资源转换的描述在  <a class="reference internal" href="developers.html#converter"><span class="std std-ref">相应章节</span></a>.</p>
 </div>
 <div class="section" id="setting-up-the-texture">
 <h3>设置纹理<a class="headerlink" href="#setting-up-the-texture" title="永久链接至标题">¶</a></h3>
 <p>下面是  <code class="docutils literal"><span class="pre">纹理</span> <span class="pre">&gt;</span> <span class="pre">图像</span></code> 面板上的视频纹理可设置项 :</p>
 <dl class="docutils">
 <dt><em>图像 &gt; 帧数</em></dt>
-<dd><p class="first last">在帧中播放片段的长度。</p>
-</dd>
+<dd>在帧中播放片段的长度。</dd>
 <dt><em>图像 &gt; 偏移</em></dt>
-<dd><p class="first last">开始播放视频的帧数。</p>
-</dd>
+<dd>开始播放视频的帧数。</dd>
 <dt><em>图像 &gt; 循环</em></dt>
-<dd><p class="first last">完成每次重新启动视频播放。</p>
-</dd>
+<dd>完成每次重新启动视频播放。</dd>
 <dt><em>图像 &gt; 允许 NLA</em></dt>
-<dd><p class="first last">作为 NLA 轨道部分的播放出来的纹理。此外，在通过激活 <code class="docutils literal"><span class="pre">场景</span> <span class="pre">&gt;</span> <span class="pre">NLA</span></code> 全局场景设置中启用 NLA。默认情况下启用。</p>
-</dd>
+<dd>作为 NLA 轨道部分的播放出来的纹理。此外，在通过激活 <code class="docutils literal"><span class="pre">场景</span> <span class="pre">&gt;</span> <span class="pre">NLA</span></code> 全局场景设置中启用 NLA。默认情况下启用。</dd>
 </dl>
 <p>NLA 控制纹理以下选项也是适用的 ︰</p>
 <dl class="docutils">
 <dt><em>图像 &gt; 开始</em></dt>
-<dd><p class="first last">视频播放延迟 （帧） 时使用的非线性动画。</p>
-</dd>
+<dd>视频播放延迟 （帧） 时使用的非线性动画。</dd>
 </dl>
 <p>对于非 NLA 控制纹理以下选项也是适用的 ︰</p>
 <dl class="docutils">
 <dt><em>图像 &gt; 自动刷新</em></dt>
-<dd><p class="first last">场景加载后立即播放视频。</p>
-</dd>
+<dd>场景加载后立即播放视频。</dd>
 </dl>
 <img alt="_images/video_tex.png" class="align-center" src="_images/video_tex.png" />
 <div class="line-block">
@@ -527,22 +491,17 @@
 <h3>移动设备的细节<a class="headerlink" href="#specifics-of-mobile-devices" title="永久链接至标题">¶</a></h3>
 <p>移动设备特点如下 ︰</p>
 <ol class="arabic simple">
-<li><p class="first">视频纹理在 Iphone 上的正常运行是不可能的，因为这些设备播放视频通过标准 iOS 视频播放器。你需要将你的视频转换为特殊的 &#8216;.seq &#8216; 格式在这些设备上用，通过使用我们  <a class="reference internal" href="developers.html#converter"><span>转换器</span></a>.</p>
-</li>
-<li><p class="first">有些设备只支持播放一种视频文件。</p>
-</li>
-<li><p class="first">如果 <code class="docutils literal"><span class="pre">偏移值</span></code> 不为零不能保证稳定运行。</p>
-</li>
-<li><p class="first">不是所有设备都支持更改视频播放速率。</p>
-</li>
-<li><p class="first">iPad 和 iPhone 不能控制视频的音频音量，在将文件添加到Blender前，音频轨道应从视频中删除。</p>
-</li>
+<li>视频纹理在 Iphone 上的正常运行是不可能的，因为这些设备播放视频通过标准 iOS 视频播放器。你需要将你的视频转换为特殊的 '.seq ' 格式在这些设备上用，通过使用我们  <a class="reference internal" href="developers.html#converter"><span class="std std-ref">转换器</span></a>.</li>
+<li>有些设备只支持播放一种视频文件。</li>
+<li>如果 <code class="docutils literal"><span class="pre">偏移值</span></code> 不为零不能保证稳定运行。</li>
+<li>不是所有设备都支持更改视频播放速率。</li>
+<li>iPad 和 iPhone 不能控制视频的音频音量，在将文件添加到Blender前，音频轨道应从视频中删除。</li>
 </ol>
 <span class="target" id="environment-map"></span></div>
 </div>
 <div class="section" id="index-9">
 <span id="id14"></span><h2><a class="toc-backref" href="#id29">环境贴图</a><a class="headerlink" href="#index-9" title="永久链接至标题">¶</a></h2>
-<p>环境贴图可以用作 <a class="reference internal" href="#mirror-map"><span>镜面贴图</span></a>, 作为一个静态 <a class="reference internal" href="#skydome-texture"><span>天空纹理 (天穹)</span></a> 也可以实现  <a class="reference internal" href="lighting.html#environment-lighting"><span>环境照明</span></a> 方法。</p>
+<p>环境贴图可以用作 <a class="reference internal" href="#mirror-map"><span class="std std-ref">镜面贴图</span></a>, 作为一个静态 <a class="reference internal" href="#skydome-texture"><span class="std std-ref">天空纹理 (天穹)</span></a> 也可以实现  <a class="reference internal" href="lighting.html#environment-lighting"><span class="std std-ref">环境照明</span></a> 方法。</p>
 <p>引擎就默认作为立方体的纹理。环境贴图的位图应该包含环境图像6个方向投影，封装在 2 行 每行3 件 Blender格式）。为每个图像的位图大小应遵循 2<sup>N</sup> 规则 (512、 1024 等)。</p>
 <p>为了避免接缝，建议使用无损格式 (PNG) 。</p>
 <a class="reference internal image-reference" href="_images/environment_map.png"><img alt="_images/environment_map.png" class="align-center" src="_images/environment_map.png" style="width: 100%;" /></a>
@@ -550,18 +509,12 @@
 <h3>制作环境贴图<a class="headerlink" href="#making-environment-maps" title="永久链接至标题">¶</a></h3>
 <p>Blender有烘焙场景到环境映射选项。要此操作 ︰</p>
 <ol class="arabic simple">
-<li><p class="first">创建一个场景进行烘焙。</p>
-</li>
-<li><p class="first">在视图默认点中添加一个空对象  (<code class="docutils literal"><span class="pre">添加</span> <span class="pre">&gt;</span> <span class="pre">空物体</span></code>).</p>
-</li>
-<li><p class="first">转到 <code class="docutils literal"><span class="pre">世界</span></code> 选项卡，然后到 <code class="docutils literal"><span class="pre">纹理</span></code> 选项卡，用 <code class="docutils literal"><span class="pre">环境贴图</span></code> 类型创建一个新的纹理。</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">环境贴图</span></code> 面板上选择 <code class="docutils literal"><span class="pre">静态</span></code> 的源，然后在 <code class="docutils literal"><span class="pre">视口物体</span></code> 栏选择空物体，然后设置 2<sup>N</sup>  维度 (512、 1024等)。</p>
-</li>
-<li><p class="first">按 &#8216;f12 键 &#8216; （相机是必需有的） 渲染场景。</p>
-</li>
-<li><p class="first">将环境映射保存到一个文件。</p>
-</li>
+<li>创建一个场景进行烘焙。</li>
+<li>在视图默认点中添加一个空对象  (<code class="docutils literal"><span class="pre">添加</span> <span class="pre">&gt;</span> <span class="pre">空物体</span></code>).</li>
+<li>转到 <code class="docutils literal"><span class="pre">世界</span></code> 选项卡，然后到 <code class="docutils literal"><span class="pre">纹理</span></code> 选项卡，用 <code class="docutils literal"><span class="pre">环境贴图</span></code> 类型创建一个新的纹理。</li>
+<li><code class="docutils literal"><span class="pre">环境贴图</span></code> 面板上选择 <code class="docutils literal"><span class="pre">静态</span></code> 的源，然后在 <code class="docutils literal"><span class="pre">视口物体</span></code> 栏选择空物体，然后设置 2<sup>N</sup>  维度 (512、 1024等)。</li>
+<li>按 'f12 键 ' （相机是必需有的） 渲染场景。</li>
+<li>将环境映射保存到一个文件。</li>
 </ol>
 <a class="reference internal image-reference" href="_images/textures_environment_map_baking_scene.png"><img alt="_images/textures_environment_map_baking_scene.png" class="align-center" src="_images/textures_environment_map_baking_scene.png" style="width: 100%;" /></a>
 <div class="line-block">
@@ -572,28 +525,27 @@
 </div>
 <div class="section" id="mirror-map">
 <span id="index-10"></span><span id="id15"></span><h2><a class="toc-backref" href="#id30">镜面贴图</a><a class="headerlink" href="#mirror-map" title="永久链接至标题">¶</a></h2>
-<p>镜子贴图用于表面反射可视化。这是一个 <a class="reference internal" href="#environment-map"><span>环境贴图</span></a>.</p>
+<p>镜子贴图用于表面反射可视化。这是一个 <a class="reference internal" href="#environment-map"><span class="std std-ref">环境贴图</span></a>.</p>
 <div class="section" id="id16">
 <h3>激活<a class="headerlink" href="#id16" title="永久链接至标题">¶</a></h3>
-<p>选择 <code class="docutils literal"><span class="pre">环境贴图</span></code> 纹理类型 （类型）。启用 <code class="docutils literal"><span class="pre">纹理</span> <span class="pre">&gt;</span> <span class="pre">影响</span></code> 面板上的 <code class="docutils literal"><span class="pre">光影</span>&nbsp; <span class="pre">&gt;</span> <span class="pre">镜子</span></code> 复选框。</p>
+<p>选择 <code class="docutils literal"><span class="pre">环境贴图</span></code> 纹理类型 （类型）。启用 <code class="docutils literal"><span class="pre">纹理</span> <span class="pre">&gt;</span> <span class="pre">影响</span></code> 面板上的 <code class="docutils literal"><span class="pre">光影</span>&#160; <span class="pre">&gt;</span> <span class="pre">镜子</span></code> 复选框。</p>
 </div>
 <div class="section" id="id17">
 <h3>附加设置<a class="headerlink" href="#id17" title="永久链接至标题">¶</a></h3>
 <dl class="docutils">
 <dt><em>影响 &gt; 光影 &gt; 镜子</em></dt>
-<dd><p class="first last">镜面贴图影响反射程度。默认值是 1.0。</p>
-</dd>
+<dd>镜面贴图影响反射程度。默认值是 1.0。</dd>
 </dl>
 <div class="admonition seealso">
 <p class="first admonition-title">参见</p>
-<p class="last"><a class="reference internal" href="materials.html#reflection-static"><span>静态反射</span></a>.</p>
+<p class="last"><a class="reference internal" href="materials.html#reflection-static"><span class="std std-ref">静态反射</span></a>.</p>
 </div>
 </div>
 </div>
 <div class="section" id="skydome">
 <span id="skydome-texture"></span><span id="index-11"></span><h2><a class="toc-backref" href="#id31">天穹</a><a class="headerlink" href="#skydome" title="永久链接至标题">¶</a></h2>
-<p>天穹用于无穷远的环境可视化（例如天空）。这是  <a class="reference internal" href="#environment-map"><span>环境贴图</span></a>.</p>
-<p>也可用来实现  <a class="reference internal" href="lighting.html#environment-lighting"><span>环境照明</span></a>  方法。</p>
+<p>天穹用于无穷远的环境可视化（例如天空）。这是  <a class="reference internal" href="#environment-map"><span class="std std-ref">环境贴图</span></a>.</p>
+<p>也可用来实现  <a class="reference internal" href="lighting.html#environment-lighting"><span class="std std-ref">环境照明</span></a>  方法。</p>
 <div class="section" id="id18">
 <h3>激活<a class="headerlink" href="#id18" title="永久链接至标题">¶</a></h3>
 <p>用 <code class="docutils literal"><span class="pre">环境贴图</span></code> 类型创建世界纹理。选择 <code class="docutils literal"><span class="pre">导出选项</span> <span class="pre">&gt;</span> <span class="pre">天空纹理使用</span> <span class="pre">&gt;</span> <span class="pre">天穹</span></code> 选项。启用 <code class="docutils literal"><span class="pre">世界</span></code> 选项卡下 <code class="docutils literal"><span class="pre">世界</span> <span class="pre">&gt;</span> <span class="pre">渲染天空</span></code> 。</p>
@@ -603,7 +555,7 @@
 </div>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
-<p>模仿  <a class="reference internal" href="lighting.html#environment-lighting"><span>环境光照</span></a> 你可以选择 <code class="docutils literal"><span class="pre">导出选项</span> <span class="pre">&gt;</span> <span class="pre">天空纹理使用</span> <span class="pre">&gt;</span> <span class="pre">环境光照</span></code> 选项。此外，你应该在世界设置选中相应的选项 <code class="docutils literal"><span class="pre">环境照明</span> <span class="pre">&gt;</span> <span class="pre">天空纹理</span></code>.</p>
+<p>模仿  <a class="reference internal" href="lighting.html#environment-lighting"><span class="std std-ref">环境光照</span></a> 你可以选择 <code class="docutils literal"><span class="pre">导出选项</span> <span class="pre">&gt;</span> <span class="pre">天空纹理使用</span> <span class="pre">&gt;</span> <span class="pre">环境光照</span></code> 选项。此外，你应该在世界设置选中相应的选项 <code class="docutils literal"><span class="pre">环境照明</span> <span class="pre">&gt;</span> <span class="pre">天空纹理</span></code>.</p>
 <p class="last">为天穹和环境照明都使用世界纹理，请选择 <code class="docutils literal"><span class="pre">导出选项</span> <span class="pre">&gt;</span> <span class="pre">天空纹理使用</span> <span class="pre">&gt;</span> <span class="pre">同时</span></code> 。</p>
 </div>
 <a class="reference internal image-reference" href="_images/skydome.png"><img alt="_images/skydome.png" class="align-center" src="_images/skydome.png" style="width: 100%;" /></a>
@@ -614,7 +566,7 @@
 <a class="reference internal image-reference" href="_images/skydome.png"><img alt="_images/skydome.png" class="align-center" src="_images/skydome.png" style="width: 100%;" /></a>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
-<p class="last"><code class="docutils literal"><span class="pre">影响</span></code> 面板参数只影响天空渲染。他们不会以任何方式影响  <a class="reference internal" href="lighting.html#environment-lighting"><span>环境照明</span></a></p>
+<p class="last"><code class="docutils literal"><span class="pre">影响</span></code> 面板参数只影响天空渲染。他们不会以任何方式影响  <a class="reference internal" href="lighting.html#environment-lighting"><span class="std std-ref">环境照明</span></a></p>
 </div>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -631,52 +583,34 @@
 <p>在 <code class="docutils literal"><span class="pre">纹理</span> <span class="pre">&gt;</span> <span class="pre">导出选项</span></code> 面板上，您可以对这些纹理设置属性 ︰</p>
 <dl class="docutils">
 <dt><em>导出选项 &gt; 源类型</em></dt>
-<dd><p class="first last">选择纹理类型: <code class="docutils literal"><span class="pre">场景</span></code> - 用于渲染 3D 场景成为纹理，<code class="docutils literal"><span class="pre">画布</span></code> -使用&lt;canvas&gt;HTML 元素和``无`` - 用于指明没有类型。</p>
-</dd>
+<dd>选择纹理类型: <code class="docutils literal"><span class="pre">场景</span></code> - 用于渲染 3D 场景成为纹理，<code class="docutils literal"><span class="pre">画布</span></code> -使用&lt;canvas&gt;HTML 元素和``无`` - 用于指明没有类型。</dd>
 <dt><em>导出选项 &gt; 源 ID</em></dt>
-<dd><p class="first last">要渲染到纹理的场景名称 （为 <code class="docutils literal"><span class="pre">场景</span></code>） 或 &lt;canvas&gt; 的 HTML 元素ID 的名称（为 <code class="docutils literal"><span class="pre">画布</span></code>）。</p>
-</dd>
+<dd>要渲染到纹理的场景名称 （为 <code class="docutils literal"><span class="pre">场景</span></code>） 或 &lt;canvas&gt; 的 HTML 元素ID 的名称（为 <code class="docutils literal"><span class="pre">画布</span></code>）。</dd>
 <dt><em>导出选项 &gt; 源大小</em></dt>
-<dd><p class="first last">纹理分辨率。</p>
-</dd>
+<dd>纹理分辨率。</dd>
 <dt><em>导出选项 &gt; 扩展</em></dt>
-<dd><p class="first last"><a class="reference internal" href="#texture-extension"><span>纹理坐标解释模式</span></a>. 默认值是重复。</p>
-</dd>
+<dd><a class="reference internal" href="#texture-extension"><span class="std std-ref">纹理坐标解释模式</span></a>. 默认值是重复。</dd>
 <dt><em>导出选项 &gt; 启用纹理多级映射（Mipmap）</em></dt>
-<dd><p class="first last">为画布纹理启用纹理多级映射。默认情况下启用。</p>
-</dd>
+<dd>为画布纹理启用纹理多级映射。默认情况下启用。</dd>
 </dl>
 <img alt="_images/canvas_tex.png" class="align-center" src="_images/canvas_tex.png" />
 <div class="section" id="render-to-texture">
 <span id="render-to-texture-scene"></span><h3>渲染到纹理<a class="headerlink" href="#render-to-texture" title="永久链接至标题">¶</a></h3>
-<p>三维场景实时渲染的图像可以用作其他场景（&#8221;主&#8221; 场景）的物体纹理。这种技术被称为渲染到纹理 (RTT)，可以通过以下步骤激活︰</p>
+<p>三维场景实时渲染的图像可以用作其他场景（&quot;主&quot; 场景）的物体纹理。这种技术被称为渲染到纹理 (RTT)，可以通过以下步骤激活︰</p>
 <ol class="arabic simple">
-<li><p class="first">创建将被渲染到纹理的附加场景。</p>
-</li>
-<li><p class="first">为方便起见，给这一场景的唯一名称。</p>
-</li>
-<li><p class="first">场景中设置摄像机和光源</p>
-</li>
-<li><p class="first">在3D场景添加你需要的物体：</p>
-</li>
-<li><p class="first">场景中设置摄像机并设置</p>
-</li>
-<li><p class="first">然后，切换到主场景。</p>
-</li>
-<li><p class="first">选择目标物体，并为它创建一个UV贴图。</p>
-</li>
-<li><p class="first">创建一个纹理将作为渲染目标。</p>
-</li>
-<li><p class="first">设置纹理类型为 <code class="docutils literal"><span class="pre">None</span></code></p>
-</li>
-<li><p class="first">对于 <code class="docutils literal"><span class="pre">Mapping</span></code> 选项卡下的 <code class="docutils literal"><span class="pre">Coordinates</span></code> 参数设置 <code class="docutils literal"><span class="pre">UV</span></code> 值。</p>
-</li>
-<li><p class="first">在 <code class="docutils literal"><span class="pre">导出选项</span> <span class="pre">&gt;</span> <span class="pre">源类型</span></code> 菜单中选择 <code class="docutils literal"><span class="pre">场景</span></code> 类型。</p>
-</li>
-<li><p class="first">在 <code class="docutils literal"><span class="pre">导出选项</span> <span class="pre">&gt;</span> <span class="pre">源</span> <span class="pre">ID</span></code> 字段中指定源场景的名称。</p>
-</li>
-<li><p class="first">在 <code class="docutils literal"><span class="pre">导出选项</span> <span class="pre">&gt;</span> <span class="pre">源大小</span></code> 字段 （以像素为单位） 设置纹理的大小。</p>
-</li>
+<li>创建将被渲染到纹理的附加场景。</li>
+<li>为方便起见，给这一场景的唯一名称。</li>
+<li>场景中设置摄像机和光源</li>
+<li>在3D场景添加你需要的物体：</li>
+<li>场景中设置摄像机并设置</li>
+<li>然后，切换到主场景。</li>
+<li>选择目标物体，并为它创建一个UV贴图。</li>
+<li>创建一个纹理将作为渲染目标。</li>
+<li>设置纹理类型为 <code class="docutils literal"><span class="pre">None</span></code></li>
+<li>对于 <code class="docutils literal"><span class="pre">Mapping</span></code> 选项卡下的 <code class="docutils literal"><span class="pre">Coordinates</span></code> 参数设置 <code class="docutils literal"><span class="pre">UV</span></code> 值。</li>
+<li>在 <code class="docutils literal"><span class="pre">导出选项</span> <span class="pre">&gt;</span> <span class="pre">源类型</span></code> 菜单中选择 <code class="docutils literal"><span class="pre">场景</span></code> 类型。</li>
+<li>在 <code class="docutils literal"><span class="pre">导出选项</span> <span class="pre">&gt;</span> <span class="pre">源</span> <span class="pre">ID</span></code> 字段中指定源场景的名称。</li>
+<li>在 <code class="docutils literal"><span class="pre">导出选项</span> <span class="pre">&gt;</span> <span class="pre">源大小</span></code> 字段 （以像素为单位） 设置纹理的大小。</li>
 </ol>
 <a class="reference internal image-reference" href="_images/textures_render_to_texture.png"><img alt="_images/textures_render_to_texture.png" class="align-center" src="_images/textures_render_to_texture.png" style="width: 100%;" /></a>
 <div class="line-block">
@@ -695,7 +629,7 @@
 <p>一个 &lt;canvas&gt;HTML 元素可以用作纹理。它可以通过 API 修改。</p>
 <p>设置主场景目标物体为 <code class="docutils literal"><span class="pre">无</span></code> 类型的纹理，在 <code class="docutils literal"><span class="pre">导出选项</span> <span class="pre">&gt;</span> <span class="pre">源类型</span></code> 菜单中选择 <code class="docutils literal"><span class="pre">画布</span></code> 类型。在 <code class="docutils literal"><span class="pre">导出选项</span> <span class="pre">&gt;</span> <span class="pre">源字号</span></code> 字段 （以像素为单位） 设置纹理的大小。</p>
 <p>使用 <code class="docutils literal"><span class="pre">纹理</span></code> 模块来处理这种纹理。请参阅下面的示例。</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_tex</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;textures&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_tex</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;textures&quot;</span><span class="p">);</span>
 <span class="p">...</span>
 <span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_object_by_name</span><span class="p">(</span><span class="s2">&quot;NAME&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">ctx</span> <span class="o">=</span> <span class="nx">m_tex</span><span class="p">.</span><span class="nx">get_canvas_ctx</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="s2">&quot;TEXTURE_NAME&quot;</span><span class="p">);</span>
@@ -705,11 +639,11 @@
 <span class="nx">m_tex</span><span class="p">.</span><span class="nx">update_canvas_ctx</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="s2">&quot;TEXTURE_NAME&quot;</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>使用 <code class="docutils literal"><span class="pre">get_canvas_texture_context()</span></code>  来获取上下文-此方法需要的 &#8220;canvas_id&#8221; 标识符应在Blender中定义。当 <a class="reference external" href="http://www.w3.org/TR/2014/CR-2dcontext-20140821/">与上下文操作</a>,  <code class="docutils literal"><span class="pre">update_canvas_ctx()</span></code>  功能被调用，渲染  &#8220;canvas_id&#8221; 元素的修改。</p>
+<p>使用 <code class="docutils literal"><span class="pre">get_canvas_texture_context()</span></code>  来获取上下文-此方法需要的 &quot;canvas_id&quot; 标识符应在Blender中定义。当 <a class="reference external" href="http://www.w3.org/TR/2014/CR-2dcontext-20140821/">与上下文操作</a>,  <code class="docutils literal"><span class="pre">update_canvas_ctx()</span></code>  功能被调用，渲染  &quot;canvas_id&quot; 元素的修改。</p>
 <blockquote>
 <div><div class="admonition note">
 <p class="first admonition-title">注解</p>
-<p class="last">如果在Blender中画布类型材质分配给了几个不同的物体，待引擎加载后它仍然将一个纹理而不是几个不同的。应用于它的任何更改将应用于所有使用此纹理的物体，可用于优化的目的。万一不需要这种效果，你在Blender中应指派不同的纹理，或在引擎启动后使用  <a class="reference internal" href="objects.html#mesh-copy"><span>深度复制</span></a> 。</p>
+<p class="last">如果在Blender中画布类型材质分配给了几个不同的物体，待引擎加载后它仍然将一个纹理而不是几个不同的。应用于它的任何更改将应用于所有使用此纹理的物体，可用于优化的目的。万一不需要这种效果，你在Blender中应指派不同的纹理，或在引擎启动后使用  <a class="reference internal" href="objects.html#mesh-copy"><span class="std std-ref">深度复制</span></a> 。</p>
 </div>
 </div></blockquote>
 </div>
@@ -735,8 +669,8 @@
 
   <div role="contentinfo">
     <p>
-        &copy; 版权所有 2014-2017, Triumph.
-      最后更新于 2017-11-21.
+        &copy; Copyright 2014-2017, Triumph.
+      最后更新于 2017-12-29.
 
     </p>
   </div>
@@ -792,11 +726,11 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

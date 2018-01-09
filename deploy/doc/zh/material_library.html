@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>材质库 &mdash; Blend4Web 17.10.1 用户手册</title>
+  <title>材质库 &mdash; Blend4Web 17.12.0 用户手册</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.10.1 用户手册" href="index.html"/>
+        <link rel="index" title="索引"
+              href="genindex.html"/>
+        <link rel="search" title="搜索" href="search.html"/>
+    <link rel="top" title="Blend4Web 17.12.0 用户手册" href="index.html"/>
         <link rel="next" title="节点材质" href="node_materials.html"/>
         <link rel="prev" title="材质" href="materials.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -98,7 +101,7 @@
 <li class="toctree-l1"><a class="reference internal" href="normal_editor.html">法线编辑器</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">相机</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">材质</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">材质库</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">材质库</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#library-structure">库结构</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#material-structure">材质结构</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#material-core">核心材质</a></li>
@@ -174,7 +177,7 @@
   <div class="section" id="material-library">
 <span id="id1"></span><h1><a class="toc-backref" href="#id4">材质库</a><a class="headerlink" href="#material-library" title="永久链接至标题">¶</a></h1>
 <div class="contents topic" id="table-of-contents">
-<p class="topic-title first">目录</p>
+<p class="topic-title first">Table of Contents</p>
 <ul class="simple">
 <li><a class="reference internal" href="#material-library" id="id4">材质库</a><ul>
 <li><a class="reference internal" href="#library-structure" id="id5">库结构</a></li>
@@ -195,14 +198,14 @@
 <p>材质库是用户可以在其中找到基本和最常用的材质，在他或她的项目中使用或创建他或她自己的基于这些材质的材质库。</p>
 <p>当创建一个新的项目，你可以插入材质库进去，然后直接从那里插入材质。</p>
 <a class="reference internal image-reference" href="_images/material_library_use.png"><img alt="_images/material_library_use.png" class="align-center" src="_images/material_library_use.png" style="width: 100%;" /></a>
-<p>要做到这一点，使用创建项目时使用  <a class="reference internal" href="project_manager.html#project-management"><span>Project Manager</span></a> 勾选上 <code class="docutils literal"><span class="pre">Use</span> <span class="pre">Material</span> <span class="pre">Library</span></code> ，然后，整个材质库将被自动复制到新的项目文件夹下面的 <code class="docutils literal"><span class="pre">/assets/material_library/</span></code> 文件夹中。</p>
+<p>要做到这一点，使用创建项目时使用  <a class="reference internal" href="project_manager.html#project-management"><span class="std std-ref">Project Manager</span></a> 勾选上 <code class="docutils literal"><span class="pre">Use</span> <span class="pre">Material</span> <span class="pre">Library</span></code> ，然后，整个材质库将被自动复制到新的项目文件夹下面的 <code class="docutils literal"><span class="pre">/assets/material_library/</span></code> 文件夹中。</p>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
 <p class="last">也可以在已经存在的项目中使用材质库。你需要做的是将文件从 <code class="docutils literal"><span class="pre">/blender/material_library/</span></code> 文件夹复制到项目目录中的 <code class="docutils literal"><span class="pre">/assets/</span></code> 文件夹中。然后，您可以将包含所需材质的文件链接到场景文件，并在场景中使用这些材质。</p>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
-<p class="last">材质（或任何其他物体）可以 <em>链接</em> 或者  <em>附加</em> 到场景。这两种方法的区别描述如下  <a class="reference internal" href="#material-add"><span>here</span></a>.</p>
+<p class="last">材质（或任何其他物体）可以 <em>链接</em> 或者  <em>附加</em> 到场景。这两种方法的区别描述如下  <a class="reference internal" href="#material-add"><span class="std std-ref">here</span></a>.</p>
 </div>
 <div class="section" id="library-structure">
 <span id="id2"></span><h2><a class="toc-backref" href="#id5">库结构</a><a class="headerlink" href="#library-structure" title="永久链接至标题">¶</a></h2>
@@ -222,14 +225,10 @@
 <li><p class="first">纹理包含额外的遮罩信息给材质给予物体正确显示。大多数材质使用下面的遮罩：</p>
 <blockquote>
 <div><ul class="simple">
-<li><p class="first">环境闭塞贴图</p>
-</li>
-<li><p class="first">污垢贴图</p>
-</li>
-<li><p class="first">磨损图</p>
-</li>
-<li><p class="first">绿锈贴图</p>
-</li>
+<li>环境闭塞贴图</li>
+<li>污垢贴图</li>
+<li>磨损图</li>
+<li>绿锈贴图</li>
 </ul>
 <p>这些遮罩不是在每个材质中使用，需要时，才为着色器显示一种特定的方式。</p>
 </div></blockquote>
@@ -255,26 +254,18 @@
 <p>在这里，可以看到，设置塑料材质为一种特殊的演示物体的一个例子，而无需使用被插入核心材质中的纹理。</p>
 <a class="reference internal image-reference" href="_images/material_library_example_demo.png"><img alt="_images/material_library_example_demo.png" class="align-center" src="_images/material_library_example_demo.png" style="width: 100%;" /></a>
 <ol class="arabic simple">
-<li><p class="first">基色用一个简单的``RGB``颜色节点创建并插入到核心材质输入。</p>
-</li>
-<li><p class="first">材质实现不使用任何法线贴图，所以几何数据插入到 <code class="docutils literal"><span class="pre">Normal</span></code> 输入。</p>
-</li>
-<li><p class="first">该核心材质具有控制光泽的材质上的量的某些参数。在这种情况下，这个参数的值设置为最大。</p>
-</li>
-<li><p class="first">该材质还采用了烘焙的环境闭塞贴图。</p>
-</li>
+<li>基色用一个简单的``RGB``颜色节点创建并插入到核心材质输入。</li>
+<li>材质实现不使用任何法线贴图，所以几何数据插入到 <code class="docutils literal"><span class="pre">Normal</span></code> 输入。</li>
+<li>该核心材质具有控制光泽的材质上的量的某些参数。在这种情况下，这个参数的值设置为最大。</li>
+<li>该材质还采用了烘焙的环境闭塞贴图。</li>
 </ol>
 <p>现在，让我们来看看使用相同材质在不同物体的情况  - 一个塑料手柄。</p>
 <a class="reference internal image-reference" href="_images/material_library_example_gamepad.png"><img alt="_images/material_library_example_gamepad.png" class="align-center" src="_images/material_library_example_gamepad.png" style="width: 100%;" /></a>
 <ol class="arabic simple">
-<li><p class="first">物体的几何形状的顶点的颜色被用作这里的基本颜色。</p>
-</li>
-<li><p class="first">手柄的几何形状烘焙到了一张法线贴图上，并连接到核心材质的 <code class="docutils literal"><span class="pre">Normal</span></code> 输入。</p>
-</li>
-<li><p class="first">光泽的程度较低。</p>
-</li>
-<li><p class="first">替代演示物体的遮罩，专为游戏手柄模型烘焙的遮罩（环境光遮蔽和污垢）被使用。</p>
-</li>
+<li>物体的几何形状的顶点的颜色被用作这里的基本颜色。</li>
+<li>手柄的几何形状烘焙到了一张法线贴图上，并连接到核心材质的 <code class="docutils literal"><span class="pre">Normal</span></code> 输入。</li>
+<li>光泽的程度较低。</li>
+<li>替代演示物体的遮罩，专为游戏手柄模型烘焙的遮罩（环境光遮蔽和污垢）被使用。</li>
 </ol>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
@@ -326,8 +317,8 @@
 
   <div role="contentinfo">
     <p>
-        &copy; 版权所有 2014-2017, Triumph.
-      最后更新于 2017-11-21.
+        &copy; Copyright 2014-2017, Triumph.
+      最后更新于 2017-12-29.
 
     </p>
   </div>
@@ -383,11 +374,11 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

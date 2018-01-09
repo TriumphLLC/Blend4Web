@@ -1,7 +1,3 @@
-"use strict";
-
-b4w.register("new_year_language", function(exports, require) {
-
 var _language = "en";
 
 var TRANSLATIONS = {
@@ -16,17 +12,17 @@ var TRANSLATIONS = {
     }
 };
 
-exports.set_language = function(language) {
+export function set_language(language) {
 
     _language = language;
 }
 
-exports.get_language = function() {
+export function get_language() {
 
     return _language;
 }
 
-exports.get_translation = function(key) {
+export function get_translation(key) {
 
     var translation = TRANSLATIONS[key];
 
@@ -40,5 +36,3 @@ exports.get_translation = function(key) {
 
     return localized_str;
 }
-
-});

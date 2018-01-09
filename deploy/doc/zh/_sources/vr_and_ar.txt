@@ -1,10 +1,9 @@
-
 VR and AR
 *********
 
 
-目录
-^^^^
+Table of Contents
+^^^^^^^^^^^^^^^^^
 
 * VR and AR
 
@@ -35,14 +34,17 @@ specific changes made to the application itself.
 
 立体渲染模式适用于使用特殊眼镜观看的内容。它是应用程序通过API来激活。
 
-Blend4Web支持立体图像渲染的两种技术 -  立体图像（红/蓝）和HMD（头戴式
-显示器）。
+Blend4Web supports several techniques of stereo image rendering:
 
-HMD：
+HMD (head-mounted display):
 
 [图片]
 
 HMD是一个实验性的功能，现在它只能用于 "Eye" 类型摄像机。
+
+Side-to-side rendering:
+
+[图片]
 
 立体图（红/蓝）
 
@@ -174,10 +176,6 @@ System requirements are:
           available.
 
    * A web browser with the AR support.
-
-        警告: At the moment, AR application won't work in Safari
-          browser, desktop and iOS version alike. AR support is
-          expected to arrive Fall 2017.
 
 
 Setting Up

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Спецэффекты &mdash; Руководство пользователя Blend4Web 17.10.1</title>
+  <title>Спецэффекты &mdash; Руководство пользователя Blend4Web 17.12.0</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 17.10.1" href="index.html"/>
+        <link rel="index" title="Алфавитный указатель"
+              href="genindex.html"/>
+        <link rel="search" title="Поиск" href="search.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 17.12.0" href="index.html"/>
         <link rel="next" title="VR и AR" href="vr_and_ar.html"/>
         <link rel="prev" title="Освещение, тени и фон" href="lighting.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -102,7 +105,7 @@
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Редактор логики</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Освещение, тени и фон</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Спецэффекты</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Спецэффекты</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#motion-blur">Размытие при движении</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#activation">Активация</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#additional-settings">Дополнительные настройки</a></li>
@@ -203,7 +206,7 @@
   <div class="section" id="postprocessing-effects">
 <span id="id1"></span><h1><a class="toc-backref" href="#id20">Спецэффекты</a><a class="headerlink" href="#postprocessing-effects" title="Ссылка на этот заголовок">¶</a></h1>
 <div class="contents topic" id="table-of-contents">
-<p class="topic-title first">Содержание</p>
+<p class="topic-title first">Table of Contents</p>
 <ul class="simple">
 <li><a class="reference internal" href="#postprocessing-effects" id="id20">Спецэффекты</a><ul>
 <li><a class="reference internal" href="#motion-blur" id="id21">Размытие при движении</a></li>
@@ -220,7 +223,7 @@
 </div>
 <div class="section" id="motion-blur">
 <span id="index-0"></span><span id="id2"></span><h2><a class="toc-backref" href="#id21">Размытие при движении</a><a class="headerlink" href="#motion-blur" title="Ссылка на этот заголовок">¶</a></h2>
-<p>Эффект размытия при движении (motion blur) служит целям увеличения реализма интерактивной сцены. Он проявляется при движении камеры или объектов в виде &#8220;смазывания&#8221; изображения.</p>
+<p>Эффект размытия при движении (motion blur) служит целям увеличения реализма интерактивной сцены. Он проявляется при движении камеры или объектов в виде «смазывания» изображения.</p>
 <a class="reference internal image-reference" href="_images/effects_motion_blur.png"><img alt="_images/effects_motion_blur.png" class="align-center" src="_images/effects_motion_blur.png" style="width: 100%;" /></a>
 <div class="section" id="activation">
 <h3>Активация<a class="headerlink" href="#activation" title="Ссылка на этот заголовок">¶</a></h3>
@@ -230,11 +233,9 @@
 <h3>Дополнительные настройки<a class="headerlink" href="#additional-settings" title="Ссылка на этот заголовок">¶</a></h3>
 <dl class="docutils">
 <dt><em>Factor</em></dt>
-<dd><p class="first last">Степень проявления эффекта. Чем выше значение, тем сильнее эффект размытия. Значение по умолчанию 0.01.</p>
-</dd>
+<dd>Степень проявления эффекта. Чем выше значение, тем сильнее эффект размытия. Значение по умолчанию 0.01.</dd>
 <dt><em>Decay Threshold</em></dt>
-<dd><p class="first last">Степень плавности размытия. Чем выше значение, тем более резким будет эффект. Значение по умолчанию 0.01.</p>
-</dd>
+<dd>Степень плавности размытия. Чем выше значение, тем более резким будет эффект. Значение по умолчанию 0.01.</dd>
 </dl>
 </div>
 </div>
@@ -250,10 +251,8 @@
 <li><p class="first">Далее возможны два варианта:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p class="first">На панели <code class="docutils literal"><span class="pre">Depth</span> <span class="pre">of</span> <span class="pre">Field</span></code> в опции <code class="docutils literal"><span class="pre">Focus</span></code> выбрать объект, на котором будет сфокусирована камера. В этом случае при удалении или приближении к этому объекту будет происходит соответствующая коррекция фокуса камеры.</p>
-</li>
-<li><p class="first">На той же панели установить ненулевое значение <code class="docutils literal"><span class="pre">Distance</span></code> (в метрах). В этом случае фокус камеры будет располагаться на заданном расстоянии от камеры и перемещаться вместе с ней.</p>
-</li>
+<li>На панели <code class="docutils literal"><span class="pre">Depth</span> <span class="pre">of</span> <span class="pre">Field</span></code> в опции <code class="docutils literal"><span class="pre">Focus</span></code> выбрать объект, на котором будет сфокусирована камера. В этом случае при удалении или приближении к этому объекту будет происходит соответствующая коррекция фокуса камеры.</li>
+<li>На той же панели установить ненулевое значение <code class="docutils literal"><span class="pre">Distance</span></code> (в метрах). В этом случае фокус камеры будет располагаться на заданном расстоянии от камеры и перемещаться вместе с ней.</li>
 </ul>
 </div></blockquote>
 </li>
@@ -264,46 +263,36 @@
 <a class="reference internal image-reference" href="_images/effects_dof_settings.png"><img alt="_images/effects_dof_settings.png" class="align-center" src="_images/effects_dof_settings.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>Focus</em></dt>
-<dd><p class="first last">Задаёт объект, на котором фокусируется камера. Это поле пусто по умолчанию.</p>
-</dd>
+<dd>Задаёт объект, на котором фокусируется камера. Это поле пусто по умолчанию.</dd>
 <dt><em>Distance</em></dt>
-<dd><p class="first last">Задаёт расстояние фокусировки. Этот параметр доступен только в том случае, если не установлен параметр <code class="docutils literal"><span class="pre">Focus</span></code> (соответствующее поле пусто). По умолчанию расстояние до точки фокуса равно нулю.</p>
-</dd>
+<dd>Задаёт расстояние фокусировки. Этот параметр доступен только в том случае, если не установлен параметр <code class="docutils literal"><span class="pre">Focus</span></code> (соответствующее поле пусто). По умолчанию расстояние до точки фокуса равно нулю.</dd>
 <dt><em>Front Start</em></dt>
 <dd><p class="first">Задаёт расстояние (в метрах) от фокуса до ближней к камере плоскости, за которой начинает проявляться эффект размытия. Значение по умолчанию 1.0.</p>
 <p class="last">Этот параметр доступен только при включённой опции <code class="docutils literal"><span class="pre">High</span> <span class="pre">Quality</span> <span class="pre">(Bokeh)</span></code>.</p>
 </dd>
 <dt><em>Front End</em></dt>
-<dd><p class="first last">Задаёт расстояние (в метрах) от фокуса до ближней к камере плоскости, за которой происходит полное размытие (сила размытия задаётся параметром <code class="docutils literal"><span class="pre">Power</span></code>). Значение по умолчанию 5.0.</p>
-</dd>
+<dd>Задаёт расстояние (в метрах) от фокуса до ближней к камере плоскости, за которой происходит полное размытие (сила размытия задаётся параметром <code class="docutils literal"><span class="pre">Power</span></code>). Значение по умолчанию 5.0.</dd>
 <dt><em>Rear Start</em></dt>
 <dd><p class="first">Задаёт расстояние (в метрах) от фокуса до дальней от камеры плоскости, за которой начинает проявляться эффект размытия. Значение по умолчанию 1.0.</p>
 <p class="last">Этот параметр доступен только при включённой опции <code class="docutils literal"><span class="pre">High</span> <span class="pre">Quality</span> <span class="pre">(Bokeh)</span></code>.</p>
 </dd>
 <dt><em>Rear End</em></dt>
-<dd><p class="first last">Задаёт расстояние (в метрах) от фокуса до дальней от камеры плоскости, за которой происходит полное размытие (сила размытия задаётся параметром <code class="docutils literal"><span class="pre">Power</span></code>). Значение по умолчанию 5.0.</p>
-</dd>
+<dd>Задаёт расстояние (в метрах) от фокуса до дальней от камеры плоскости, за которой происходит полное размытие (сила размытия задаётся параметром <code class="docutils literal"><span class="pre">Power</span></code>). Значение по умолчанию 5.0.</dd>
 <dt><em>Power</em></dt>
-<dd><p class="first last">Сила размытия. Этот параметр может принимать значения от 0.1 до 10. Значение по умолчанию - 2.0.</p>
-</dd>
+<dd>Сила размытия. Этот параметр может принимать значения от 0.1 до 10. Значение по умолчанию - 2.0.</dd>
 <dt><em>High Quality (Bokeh)</em></dt>
 <dd><p class="first">Включает высококачественный рендеринг эффекта глубины резкости. Активация этого параметра:</p>
 <ul class="simple">
-<li><p class="first">Включает эффект боке и опцию <code class="docutils literal"><span class="pre">Bokeh</span> <span class="pre">Intensity</span></code>, которая может применяться для настройки силы этого эффекта.</p>
-</li>
-<li><p class="first">Включает параметры <code class="docutils literal"><span class="pre">Front</span> <span class="pre">Start</span></code> и <code class="docutils literal"><span class="pre">Rear</span> <span class="pre">Start</span></code>, предназначенные для установки мягкого перехода между расстоянием от камеры, за которым эффект размытия начинает проявляться, и расстоянием, за которым он достигает максимальной силы.</p>
-</li>
-<li><p class="first">Включает параметр <code class="docutils literal"><span class="pre">Foreground</span> <span class="pre">Blur</span></code>, описанный ниже.</p>
-</li>
+<li>Включает эффект боке и опцию <code class="docutils literal"><span class="pre">Bokeh</span> <span class="pre">Intensity</span></code>, которая может применяться для настройки силы этого эффекта.</li>
+<li>Включает параметры <code class="docutils literal"><span class="pre">Front</span> <span class="pre">Start</span></code> и <code class="docutils literal"><span class="pre">Rear</span> <span class="pre">Start</span></code>, предназначенные для установки мягкого перехода между расстоянием от камеры, за которым эффект размытия начинает проявляться, и расстоянием, за которым он достигает максимальной силы.</li>
+<li>Включает параметр <code class="docutils literal"><span class="pre">Foreground</span> <span class="pre">Blur</span></code>, описанный ниже.</li>
 </ul>
 <p class="last">По умолчанию этот параметр деактивирован.</p>
 </dd>
 <dt><em>Bokeh Intensity</em></dt>
-<dd><p class="first last">Устанавливает силу эффекта боке. Значение может меняться от 0 до 1, значение по умолчанию - 0.3.</p>
-</dd>
+<dd>Устанавливает силу эффекта боке. Значение может меняться от 0 до 1, значение по умолчанию - 0.3.</dd>
 <dt><em>Foreground Blur</em></dt>
-<dd><p class="first last">При включении этого параметра движок размывает границы объектов, находящихся на переднем плане, увеличивая качество эффекта размытия за счёт некоторого снижения производительности. По умолчанию отключен.</p>
-</dd>
+<dd>При включении этого параметра движок размывает границы объектов, находящихся на переднем плане, увеличивая качество эффекта размытия за счёт некоторого снижения производительности. По умолчанию отключен.</dd>
 </dl>
 </div>
 </div>
@@ -319,32 +308,25 @@
 <h3>Дополнительные настройки<a class="headerlink" href="#id6" title="Ссылка на этот заголовок">¶</a></h3>
 <dl class="docutils">
 <dt><em>Radius Increase</em></dt>
-<dd><p class="first last">Фактор умножения радиуса сферического сэмплинга при переходе от внутреннего кольца к внешнему. Значение по умолчанию 3.0.</p>
-</dd>
+<dd>Фактор умножения радиуса сферического сэмплинга при переходе от внутреннего кольца к внешнему. Значение по умолчанию 3.0.</dd>
 <dt><em>Use Hemisphere</em></dt>
-<dd><p class="first last">Использовать для расчёта затенения полусферический сэмплинг вместо сферического. Помимо этого используется другой закон затенения.</p>
-</dd>
+<dd>Использовать для расчёта затенения полусферический сэмплинг вместо сферического. Помимо этого используется другой закон затенения.</dd>
 <dt><em>Use Blur Depth Test</em></dt>
-<dd><p class="first last">Если активировано - используется размытие SSAO на основе буфера глубины. Иначе - размытие по квадрату 4х4 по соседним пикселям.</p>
-</dd>
+<dd>Если активировано - используется размытие SSAO на основе буфера глубины. Иначе - размытие по квадрату 4х4 по соседним пикселям.</dd>
 <dt><em>Blur Depth Test Discard Value</em></dt>
-<dd><p class="first last">Влияние разницы глубины сэмплов на их вес в размытии. Используется при активированном параметре <code class="docutils literal"><span class="pre">Use</span> <span class="pre">Blur</span> <span class="pre">Depth</span> <span class="pre">Test</span></code>. Значение по умолчанию 1.0.</p>
-</dd>
+<dd>Влияние разницы глубины сэмплов на их вес в размытии. Используется при активированном параметре <code class="docutils literal"><span class="pre">Use</span> <span class="pre">Blur</span> <span class="pre">Depth</span> <span class="pre">Test</span></code>. Значение по умолчанию 1.0.</dd>
 <dt><em>Influence</em></dt>
-<dd><p class="first last">Степень проявленности эффекта взаимного затенения. Значение по умолчанию 0.7.</p>
-</dd>
+<dd>Степень проявленности эффекта взаимного затенения. Значение по умолчанию 0.7.</dd>
 <dt><em>Distance Factor</em></dt>
-<dd><p class="first last">Фактор уменьшения проявленности эффекта взаимного затенения с расстоянием. Значение по умолчанию 0.0 (т.е. уменьшения нет).</p>
-</dd>
+<dd>Фактор уменьшения проявленности эффекта взаимного затенения с расстоянием. Значение по умолчанию 0.0 (т.е. уменьшения нет).</dd>
 <dt><em>Samples</em></dt>
-<dd><p class="first last">Количество сэмплов (чем больше, тем лучше качество, но меньше производительность). Значение по умолчанию 16.</p>
-</dd>
+<dd>Количество сэмплов (чем больше, тем лучше качество, но меньше производительность). Значение по умолчанию 16.</dd>
 </dl>
 </div>
 </div>
 <div class="section" id="god-rays">
 <span id="index-3"></span><span id="id7"></span><h2><a class="toc-backref" href="#id24">Сумеречные лучи</a><a class="headerlink" href="#god-rays" title="Ссылка на этот заголовок">¶</a></h2>
-<p>Эффект сумеречных лучей (crepuscular rays, &#8220;god rays&#8221;) симулирует известное природное явление - свечение освещенных областей воздуха.</p>
+<p>Эффект сумеречных лучей (crepuscular rays, «god rays») симулирует известное природное явление - свечение освещенных областей воздуха.</p>
 <a class="reference internal image-reference" href="_images/effects_god_rays.png"><img alt="_images/effects_god_rays.png" class="align-center" src="_images/effects_god_rays.png" style="width: 100%;" /></a>
 <div class="section" id="id8">
 <h3>Активация<a class="headerlink" href="#id8" title="Ссылка на этот заголовок">¶</a></h3>
@@ -354,14 +336,11 @@
 <h3>Дополнительные настройки<a class="headerlink" href="#id9" title="Ссылка на этот заголовок">¶</a></h3>
 <dl class="docutils">
 <dt><em>Intensity</em></dt>
-<dd><p class="first last">Степень проявленности эффекта. Значение по умолчанию 0.7.</p>
-</dd>
+<dd>Степень проявленности эффекта. Значение по умолчанию 0.7.</dd>
 <dt><em>Maximum Ray Length</em></dt>
-<dd><p class="first last">Фактор длины лучей. Определяет шаг сэмплов радиального размытия. Значение по умолчанию 1.0.</p>
-</dd>
+<dd>Фактор длины лучей. Определяет шаг сэмплов радиального размытия. Значение по умолчанию 1.0.</dd>
 <dt><em>Steps Per Pass</em></dt>
-<dd><p class="first last">Количество шагов на один сэмпл. Значение по умолчанию 10.0.</p>
-</dd>
+<dd>Количество шагов на один сэмпл. Значение по умолчанию 10.0.</dd>
 </dl>
 </div>
 </div>
@@ -377,17 +356,13 @@
 <h3>Дополнительные настройки<a class="headerlink" href="#id12" title="Ссылка на этот заголовок">¶</a></h3>
 <dl class="docutils">
 <dt><em>Use Adaptive</em></dt>
-<dd><p class="first last">Включает расчёт адаптивной средней яркости. По умолчанию включено.</p>
-</dd>
+<dd>Включает расчёт адаптивной средней яркости. По умолчанию включено.</dd>
 <dt><em>Intensity</em></dt>
-<dd><p class="first last">Интенсивность засветки. По умолчанию равна 1.0.</p>
-</dd>
+<dd>Интенсивность засветки. По умолчанию равна 1.0.</dd>
 <dt><em>Blur</em></dt>
-<dd><p class="first last">Степень размытия засветки. По умолчанию равна 4.0.</p>
-</dd>
+<dd>Степень размытия засветки. По умолчанию равна 4.0.</dd>
 <dt><em>Edge Luminance</em></dt>
-<dd><p class="first last">Граничное значение относительной яркости элемента, выше которого начинает проявляться эффект засветки. По умолчанию равно 1.0.</p>
-</dd>
+<dd>Граничное значение относительной яркости элемента, выше которого начинает проявляться эффект засветки. По умолчанию равно 1.0.</dd>
 </dl>
 </div>
 </div>
@@ -404,26 +379,20 @@
 <p>На панели <code class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Selection</span> <span class="pre">and</span> <span class="pre">Outlining</span></code>:</p>
 <dl class="docutils">
 <dt><em>Enable Outlining</em></dt>
-<dd><p class="first last">Разрешить использование эффекта подсветки контура на конкретном объекте.</p>
-</dd>
+<dd>Разрешить использование эффекта подсветки контура на конкретном объекте.</dd>
 <dt><em>Duration</em></dt>
-<dd><p class="first last">Длительность анимации подсветки, сек. Значение по умолчанию 1.</p>
-</dd>
+<dd>Длительность анимации подсветки, сек. Значение по умолчанию 1.</dd>
 <dt><em>Period</em></dt>
-<dd><p class="first last">Период повторения анимации подсветки, сек. Значение по умолчанию 1.</p>
-</dd>
+<dd>Период повторения анимации подсветки, сек. Значение по умолчанию 1.</dd>
 <dt><em>Relapses</em></dt>
-<dd><p class="first last">Количество итераций анимации подсветки. В случае 0 анимация будет повторяться бесконечно. Значение по умолчанию 0.</p>
-</dd>
+<dd>Количество итераций анимации подсветки. В случае 0 анимация будет повторяться бесконечно. Значение по умолчанию 0.</dd>
 <dt><em>Outline on Select</em></dt>
-<dd><p class="first last">Активация анимации подсветки при выделении объекта. Для данного случая необходимо включить опцию <code class="docutils literal"><span class="pre">Selectable</span></code>. При необходимости реализации собственной модели подсветки объекта следует отключить эту опцию во избежание конфликта.</p>
-</dd>
+<dd>Активация анимации подсветки при выделении объекта. Для данного случая необходимо включить опцию <code class="docutils literal"><span class="pre">Selectable</span></code>. При необходимости реализации собственной модели подсветки объекта следует отключить эту опцию во избежание конфликта.</dd>
 </dl>
 <p>На панели <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Object</span> <span class="pre">Outlining</span></code>:</p>
 <dl class="docutils">
 <dt><em>Factor</em></dt>
-<dd><p class="first last">Толщина и яркость ореола, окружающего объект. Падает с уменьшением параметра. Значение по умолчанию 1.</p>
-</dd>
+<dd>Толщина и яркость ореола, окружающего объект. Падает с уменьшением параметра. Значение по умолчанию 1.</dd>
 </dl>
 <p>При управлении через API настройки на панели <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Object</span> <span class="pre">Outlining</span></code> воспринимаются как настройки по умолчанию.</p>
 </div>
@@ -434,42 +403,35 @@
 <a class="reference internal image-reference" href="_images/effects_glow.png"><img alt="_images/effects_glow.png" class="align-center" src="_images/effects_glow.png" style="width: 100%;" /></a>
 <div class="section" id="id16">
 <h3>Активация<a class="headerlink" href="#id16" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Добавить в нодовый материал ноду <a class="reference internal" href="node_materials.html#glow-output"><span>B4W_GLOW_OUTPUT</span></a>. Для включения возможности свечения в панели <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Glow</span> <span class="pre">Materials</span></code> опция <code class="docutils literal"><span class="pre">Enable</span></code> должна быть установлена в состояние <code class="docutils literal"><span class="pre">ON</span></code> или <code class="docutils literal"><span class="pre">AUTO</span></code>.</p>
+<p>Добавить в нодовый материал ноду <a class="reference internal" href="node_materials.html#glow-output"><span class="std std-ref">B4W_GLOW_OUTPUT</span></a>. Для включения возможности свечения в панели <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Glow</span> <span class="pre">Materials</span></code> опция <code class="docutils literal"><span class="pre">Enable</span></code> должна быть установлена в состояние <code class="docutils literal"><span class="pre">ON</span></code> или <code class="docutils literal"><span class="pre">AUTO</span></code>.</p>
 </div>
 <div class="section" id="id17">
 <h3>Дополнительные настройки<a class="headerlink" href="#id17" title="Ссылка на этот заголовок">¶</a></h3>
 <dl class="docutils">
 <dt><em>Small Mask: Intensity</em></dt>
-<dd><p class="first last">Интенсивность свечения по малой маске. Значение по умолчанию 2.0.</p>
-</dd>
+<dd>Интенсивность свечения по малой маске. Значение по умолчанию 2.0.</dd>
 <dt><em>Small Mask: Width</em></dt>
-<dd><p class="first last">Ширина свечения по малой маске. Значение по умолчанию 2.0.</p>
-</dd>
+<dd>Ширина свечения по малой маске. Значение по умолчанию 2.0.</dd>
 <dt><em>Large Mask: Intensity</em></dt>
-<dd><p class="first last">Интенсивность свечения по большой маске. Значение по умолчанию 2.0.</p>
-</dd>
+<dd>Интенсивность свечения по большой маске. Значение по умолчанию 2.0.</dd>
 <dt><em>Large Mask: Width</em></dt>
-<dd><p class="first last">Ширина свечения по большой маске. Значение по умолчанию 6.0.</p>
-</dd>
+<dd>Ширина свечения по большой маске. Значение по умолчанию 6.0.</dd>
 <dt><em>Render Glow Over Transparent Objects</em></dt>
-<dd><p class="first last">Отрисовывание эффекта свечения поверх прозрачных объектов. По умолчанию выключено.</p>
-</dd>
+<dd>Отрисовывание эффекта свечения поверх прозрачных объектов. По умолчанию выключено.</dd>
 </dl>
 </div>
 </div>
 <div class="section" id="anti-aliasing">
 <span id="antialiasing"></span><span id="index-5"></span><h2><a class="toc-backref" href="#id28">Сглаживание</a><a class="headerlink" href="#anti-aliasing" title="Ссылка на этот заголовок">¶</a></h2>
-<p>Сглаживание (anti-aliasing) необходимо для уменьшения влияния нежелательных артефактов рендеринга (&#8220;зубчатости&#8221;).</p>
+<p>Сглаживание (anti-aliasing) необходимо для уменьшения влияния нежелательных артефактов рендеринга («зубчатости»).</p>
 <a class="reference internal image-reference" href="_images/effects_antialiasing.png"><img alt="_images/effects_antialiasing.png" class="align-center" src="_images/effects_antialiasing.png" style="width: 100%;" /></a>
 <div class="section" id="id18">
 <h3>Активация<a class="headerlink" href="#id18" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Выбрать один из профилей качества в поле <code class="docutils literal"><span class="pre">AA</span> <span class="pre">Quality</span></code> на панели <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Anti-Aliasing</span></code>:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p class="first"><em>None</em> - антиалиасинг отключен,</p>
-</li>
-<li><p class="first"><em>Low</em>, <em>Medium</em>, <em>High</em> - применяется антиалиасинг с низкими, средними и высокими параметрами качества соответственно.</p>
-</li>
+<li><em>None</em> - антиалиасинг отключен,</li>
+<li><em>Low</em>, <em>Medium</em>, <em>High</em> - применяется антиалиасинг с низкими, средними и высокими параметрами качества соответственно.</li>
 </ul>
 </div></blockquote>
 <p>Значение по умолчанию: <em>Medium</em>.</p>
@@ -479,10 +441,8 @@
 <p>Итоговые настройки сглаживания назначаются композицией выбора профиля качества антиалиасинга и выбора профиля работы движка. При выборе профиля работы движка действуют следующие настройки:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p class="first"><em>низкое качество</em> - антиалиасинг отключен,</p>
-</li>
-<li><p class="first"><em>высокое качество</em> и <em>максимальное качество</em> - использовать алгоритм FXAA 3.11 (Fast Approximate Anti-Aliasing, Nvidia).</p>
-</li>
+<li><em>низкое качество</em> - антиалиасинг отключен,</li>
+<li><em>высокое качество</em> и <em>максимальное качество</em> - использовать алгоритм FXAA 3.11 (Fast Approximate Anti-Aliasing, Nvidia).</li>
 </ul>
 </div></blockquote>
 </div>
@@ -509,7 +469,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Триумф.
-      Обновлено: 2017-11-21.
+      Обновлено: 2017-12-29.
 
     </p>
   </div>
@@ -565,11 +525,11 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

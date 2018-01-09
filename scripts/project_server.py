@@ -16,6 +16,7 @@ import tempfile
 import threading
 import http
 import time
+import platform
 
 from os.path import basename, exists, join, normpath, relpath, abspath, sep
 from collections import OrderedDict
@@ -32,6 +33,9 @@ import tornado.queues
 # default encoding resets in subprocess on OSX due to unknown reasons to ascii
 # force UTF-8
 os.environ["PYTHONIOENCODING"] = "UTF-8"
+
+# Supress python warnings
+os.environ.pop('PYTHONWARNINGS', None)
 
 # NOTE: should match same enums in addon's server.py
 SUB_THREAD_START_SERV_OK    = 0
@@ -76,6 +80,84 @@ _python_path = None
 _blender_path = None
 _use_comp_player = False
 
+_find_nodejs = None
+
+class B4WAppBuilder():
+    # states: {"not_exist", "ok", "pending"}
+    cache = {}
+    def get_state(self, html_path):
+        state = "not_exist", ""
+        if html_path:
+            html_path = get_proj_util_mod(_root).unix_path(os.path.normpath(html_path))
+        if html_path in self.cache:
+            entry = self.cache[html_path]
+            if entry["proc"].poll() == None:
+                state = entry["state"], entry["description"]
+        return state
+
+
+    def spawn_builder(self, html_path):
+        global _port
+        _node_exec = find_nodejs(_root).node_path()
+        if html_path:
+            output_dir = os.path.basename(os.path.dirname(html_path))
+            output_dir = os.path.join("tmp", output_dir)
+            cmd = [_node_exec, os.path.join(_root, "scripts", "app_builder", "run_webpack.js"), "--watch", "--only-es6","--websocket=ws://localhost:%s/app_builder/"%_port, "--output", output_dir, "--root", _root, html_path]
+        else: # building engine
+            cmd = [_node_exec, os.path.join(_root, "scripts", "app_builder", "run_webpack.js"), "--watch", "--websocket=ws://localhost:%s/app_builder/"%_port]
+        # print(" ".join(cmd))
+        print("creating builder process: ", html_path)
+        proc = subprocess.Popen(cmd, stderr=subprocess.STDOUT)
+        if html_path:
+            html_path = get_proj_util_mod(_root).unix_path(os.path.normpath(html_path))
+        self.cache[html_path] = {
+            "proc": proc,
+            "cmd": " ".join(cmd),
+            "state": "pending",
+            "description": None,
+            "sock": None
+        }
+
+    def update_socket(self, msg, socket):
+        key = None
+        if "id" in msg:
+            key = msg["id"]
+        if key in self.cache:
+            entry = self.cache[key]
+            entry["sock"] = socket
+            entry["state"] = msg["state"]
+            entry["description"] = msg["description"]
+
+    def spawn_html_builder(self, html_path):
+        self.spawn_builder(html_path)
+        
+    def spawn_engine_builder(self):
+        self.spawn_builder(None)
+
+    def kill_proc(self, html):
+        if html in self.cache:
+            entry = self.cache[html]
+            print("killing builder process: ", html)
+            entry["proc"].kill()
+            del self.cache[html]
+
+_app_builder = B4WAppBuilder()
+
+def find_nodejs(root):
+    global _find_nodejs
+    # Find nodejs
+    # Using imp to avoid issues with import when run from Blender
+    if _find_nodejs == None:
+        scripts_path = join(root, "scripts")
+        find_nodejs_tup = imp.find_module("find_nodejs", [scripts_path])
+        _find_nodejs = imp.load_module("find_nodejs", find_nodejs_tup[0],
+                find_nodejs_tup[1], find_nodejs_tup[2])
+    return _find_nodejs
+
+def switch_player_version(use_compiled_player):
+    global _use_comp_player
+    _use_comp_player = use_compiled_player
+
 def check_server_existance(port):
     tornado_is_started = False
     try:
@@ -88,6 +170,14 @@ def check_server_existance(port):
         if res.getheader("B4W.LocalServer") == "1":
             tornado_is_started = True
     return tornado_is_started
+
+def find_file(name, dir):
+    dirs = set()
+    for root, dirnames, filenames in os.walk(dir):
+        for filename in filenames:
+            if filename == name:
+                dirs.add(root)
+    return dirs
 
 def create_server(root, port, allow_ext_requests, python_path, blender_path, B4WLocalServer):
     global _root, _port, _python_path, _blender_path
@@ -109,6 +199,7 @@ def create_server(root, port, allow_ext_requests, python_path, blender_path, B4W
 
             application = tornado.web.Application([
                 (r"/viewer/?$", ViewerHandler),
+                (r"/app_builder/?$", AppBulderHandler),
                 (r"/viewer/instances/?$", ViewerInstancesHandler),
                 (r"/console/?$", ConsoleHandler),
                 (r"/project/?$", ProjectRootHandler),
@@ -138,8 +229,10 @@ def create_server(root, port, allow_ext_requests, python_path, blender_path, B4W
                 (r"/create_file/(.*)$", CreateFileHandler),
                 (r"/tests/send_req/?$", TestSendReq),
                 (r"/tests/time_of_day/?$", TestTimeOfDay),
+                (r"/(projects/.*)$", ProjectRunHandler, {"path": root}),
+                (r"/(apps_dev/.*)$", ProjectRunHandler, {"path": root}),
                 (r"/(.*)$", StaticFileHandlerNoCache,
-                    { "path": root, "default_filename": DEFAULT_FILENAME}),
+                    { "path": root, "default_filename": DEFAULT_FILENAME})
             ])
 
             try:
@@ -519,6 +612,84 @@ class ProjectManagerCli():
             queue.put(line)
         out.close()
 
+class ProjectRunHandler(StaticFileHandlerNoCache, ProjectManagerCli):
+    def pending_page(self, build_html, build_engine):
+        # create pending page
+        with open(join(_root, "scripts", "app_builder", "templates",
+        "pending.html"), "r", encoding="utf-8") as tpl_elem_file:
+            tpl_elem_str = tpl_elem_file.read()
+            elem_ins = {"build_html": build_html, "build_engine": build_engine, "reload_on_update": True}
+            html = string.Template(tpl_elem_str).substitute(elem_ins)
+            self.write(html)
+
+    def get(self, path):
+        
+        # disable cache
+        self.path = self.parse_url_path(path)
+        del path  # make sure we don't refer to path instead of self.path again
+        absolute_path = self.get_absolute_path(self.root, self.path)
+        self.absolute_path = self.validate_absolute_path(self.root, absolute_path)
+        if self.absolute_path is None:
+            return
+        self.modified = self.get_modified_time()
+        self.set_headers()
+        #
+        
+        _node_exec = find_nodejs(_root).node_path()
+        RET_FALSE = 0
+        RET_ERROR = 255
+        RET_TRUE = 1
+        RET_ES5_ENGINE = 1 << 2
+
+        path = self.path
+        if path.endswith(".html"):
+            path_par = os.path.dirname(os.path.join(_root, path))
+            output_dir = os.path.basename(path_par)
+            output_dir = os.path.join("tmp", output_dir)
+            html = os.path.normpath(os.path.join(_root, path))
+            
+            # detect the type of webpack build
+            cmd = [_node_exec, os.path.join(_root, "scripts", "app_builder", "need_webpack.js"), html]
+            # print("RUN: " + " ".join(cmd))
+            ret = self.exec_proc_sync(cmd, _root)
+            build_engine = (ret[0] & RET_ES5_ENGINE) != 0
+            build_html = (ret[0] & RET_TRUE) != 0
+            if ret[0] == RET_ERROR:
+                self.write(ret[1])
+                return
+            if build_engine or build_html:
+                # check cache
+                state = "ok", ""
+                if build_engine:
+                    state = _app_builder.get_state(None)
+                if build_html:
+                    s = _app_builder.get_state(path)
+                    if not s[0] == "ok":
+                        state = s[0], "%s\n\n%s" % (state[1], s[1])
+                if state[0] == "ok":
+                    # replace path only if processing html
+                    if build_html:
+                        basename = os.path.basename(path)
+                        path = os.path.join(output_dir, basename)
+                        self.request.uri = path
+
+                    # inject websocket
+                    with open(os.path.join(_root, path), "r", encoding="utf-8") as page:
+                        text = page.read()
+                        pattern = "(<[\s]*?head[\s]*?>)"
+                        replace = "\\1\n<script type=\"text/javascript\" src=\"/scripts/app_builder/templates/app_builder_ws.js\" b4w-build-html=\"" + str(build_html) + "\" b4w-build-engine=\""+ str(build_engine) + "\"></script>"
+                        modified = re.sub(pattern, replace, text)
+                        self.write(modified)
+                    return
+                elif state[0] == "error":
+                    self.write(state[1])
+                else: # state in ["pending", "not_exist"]
+                    self.pending_page(build_html, build_engine)
+                    return
+            elif ret[0] == RET_FALSE: # webpack is not needed at all
+                return StaticFileHandlerNoCache.get(self, path)
+        return StaticFileHandlerNoCache.get(self, path)
+
 class ProjectRootHandler(tornado.web.RequestHandler, ProjectManagerCli):
     def get(self):
         root = get_sdk_root()
@@ -697,7 +868,6 @@ class ProjectRootHandler(tornado.web.RequestHandler, ProjectManagerCli):
 
                 elem_ins["apps"] += self.app_link(basename(app), link, "build")
 
-
             path_insert = proj_util.unix_path(path)
             elem_ins["path"] = path_insert
             elem_ins["proj"] = self.shorten(path_insert, 50)
@@ -858,14 +1028,17 @@ class ProjectRootHandler(tornado.web.RequestHandler, ProjectManagerCli):
 
         return string.Template(tpl_html_str).substitute(html_insertions)
 
+_proj_util = None
 def get_proj_util_mod(root):
-    scripts_path = join(root, "scripts")
+    global _proj_util
+    if not _proj_util:
+        scripts_path = join(root, "scripts")
 
-    pmod = imp.find_module("project_util",
-            [join(scripts_path, "lib")])
-    proj_util = imp.load_module("project_util", pmod[0], pmod[1], pmod[2])
+        pmod = imp.find_module("project_util",
+                [join(scripts_path, "lib")])
+        _proj_util = imp.load_module("project_util", pmod[0], pmod[1], pmod[2])
 
-    return proj_util
+    return _proj_util
 
 class ProjectSortUpHandler(tornado.web.RequestHandler):
     def get(self):
@@ -1335,6 +1508,74 @@ class RunBlenderHandler(tornado.web.RequestHandler):
 
         self.write(html_str)
 
+
+class AppBulderHandler(tornado.websocket.WebSocketHandler):
+    all_connections = []
+    b4w_html = None
+    b4w_engine = None
+    b4w_type = None
+    def on_message(self, message):
+        build_html = False
+        build_engine = False
+
+        msg = json.loads(message)
+        if msg["type"] == "app":
+            # check builder cache
+            html = msg["id"]
+            description = ""
+            if msg["cmd"] == "get_state":
+                engine_state = html_state = "pending", None
+                build_html = msg["build_html"] == "True"
+                build_engine = msg["build_engine"] == "True"
+                if build_html:
+                    html_state = _app_builder.get_state(html)
+                    description += html_state[1] if html_state[1] else ""
+                    if html_state[0] == "not_exist":
+                        _app_builder.spawn_html_builder(html)
+                        self.b4w_html = html
+                if build_engine:
+                    engine_state = _app_builder.get_state(None)
+                    description += engine_state[1] if engine_state[1] else ""
+                    if engine_state[0] == "not_exist":
+                        _app_builder.spawn_engine_builder()
+                        self.b4w_engine = True
+                
+                state = "ok"
+                if build_html and not html_state[0] == "ok":
+                    state = "pending"
+                if build_engine and not engine_state[0] == "ok":
+                    state = "pending"
+                self.write_message(json.dumps({"type": "server", "state": state, "description": description}))
+        elif msg["type"] == "builder":
+            _app_builder.update_socket(msg, self)
+
+        if "type" in msg:
+            self.b4w_type = msg["type"]
+        if build_html:
+            self.b4w_html = msg["id"]
+        if build_engine:
+            self.b4w_engine = True
+        
+
+    def on_close(self):
+        html = self.b4w_html
+        AppBulderHandler.all_connections.remove(self)
+        def deferred_kill():
+            for c in AppBulderHandler.all_connections:
+                if (html and c.b4w_html == html) \
+                or (not html and c.b4w_engine):
+                    if c.b4w_type == "app":
+                        return
+            _app_builder.kill_proc(html)
+
+        if self.b4w_type == "app":
+            # currently we have no watch for html, so using delay=2
+            # to make most conveniet builder reloading
+            tornado.ioloop.IOLoop.instance().call_later(2, deferred_kill)
+
+    def open(self):
+        AppBulderHandler.all_connections.append(self)
+
 class ViewerHandler(tornado.websocket.WebSocketHandler):
     instances = []
     id = -1
@@ -1513,13 +1754,12 @@ def run():
         elif o == "--daemonize" or o == "-d":
             daemonize()
         elif o == "--compiled-webplayer" or o == "-w":
-            global _use_comp_player
-            _use_comp_player = True
+            switch_player_version(True)
         elif o == "--help" or o == "-h":
             help()
             exit(0)
 
-    root = join(os.path.abspath(os.path.dirname(__file__)), "..")
+    root = os.path.normpath(join(os.path.abspath(os.path.dirname(__file__)), ".."))
 
     class B4WLocalServer():
         pass

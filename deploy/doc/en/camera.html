@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Camera &mdash; Blend4Web 17.10.1 User Manual</title>
+  <title>Camera &mdash; Blend4Web 17.12.0 User Manual</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.10.1 User Manual" href="index.html"/>
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Blend4Web 17.12.0 User Manual" href="index.html"/>
         <link rel="next" title="Materials" href="materials.html"/>
         <link rel="prev" title="Normal Editor" href="normal_editor.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -96,7 +99,7 @@
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">Meshes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="normal_editor.html">Normal Editor</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Camera</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Camera</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#move-styles-and-general-settings">Move Styles and General Settings</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#limiting-the-camera-movement">Limiting the Camera Movement</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#target-type-camera"><strong>Target Type Camera</strong></a></li>
@@ -213,29 +216,25 @@
 <dl class="docutils" id="camera-move-style">
 <dt><em>Camera Move Style &gt; Move Style</em></dt>
 <dd><p class="first">Camera control mode:</p>
-<ul class="last">
+<ul class="last simple">
 <li><dl class="first docutils">
 <dt><em>Target</em></dt>
-<dd><p class="first last">By default the camera is rotating around a fixed point (target). The pivot&#8217;s position can be changed (see <a class="reference internal" href="#panning-mode"><span>camera panning</span></a>).</p>
-</dd>
+<dd>By default the camera is rotating around a fixed point (target). The pivot’s position can be changed (see <a class="reference internal" href="#panning-mode"><span class="std std-ref">camera panning</span></a>).</dd>
 </dl>
 </li>
 <li><dl class="first docutils">
 <dt><em>Eye</em></dt>
-<dd><p class="first last">The <code class="docutils literal"><span class="pre">Eye</span></code> mode allows rotation and translation as in first person view.</p>
-</dd>
+<dd>The <code class="docutils literal"><span class="pre">Eye</span></code> mode allows rotation and translation as in first person view.</dd>
 </dl>
 </li>
 <li><dl class="first docutils">
 <dt><em>Hover</em></dt>
-<dd><p class="first last">In <code class="docutils literal"><span class="pre">Hover</span></code> mode, camera moves parallel to the horizontal plane. By using additional limits, a smooth movement path toward the pivot point for the camera can be created.</p>
-</dd>
+<dd>In <code class="docutils literal"><span class="pre">Hover</span></code> mode, camera moves parallel to the horizontal plane. By using additional limits, a smooth movement path toward the pivot point for the camera can be created.</dd>
 </dl>
 </li>
 <li><dl class="first docutils">
 <dt><em>Static</em></dt>
-<dd><p class="first last">In the <code class="docutils literal"><span class="pre">Static</span></code> mode the camera can be moved via animation or through API calls.</p>
-</dd>
+<dd>In the <code class="docutils literal"><span class="pre">Static</span></code> mode the camera can be moved via animation or through API calls.</dd>
 </dl>
 </li>
 </ul>
@@ -243,7 +242,7 @@
 <dt><em>Look At Cursor &gt; Target Location</em></dt>
 <dd>Available for the <code class="docutils literal"><span class="pre">Target</span></code> mode. This is the position of the camera pivot point. The <code class="docutils literal"><span class="pre">Look</span> <span class="pre">At</span> <span class="pre">Cursor</span></code> button copies the current 3D cursor position into this value.</dd>
 <dt><em>Depth of Field</em></dt>
-<dd>Described in the <a class="reference internal" href="postprocessing_effects.html#dof"><span>Depth of Field</span></a> section.</dd>
+<dd>Described in the <a class="reference internal" href="postprocessing_effects.html#dof"><span class="std std-ref">Depth of Field</span></a> section.</dd>
 </dl>
 <p id="camera-velocity">Velocity settings are available for camera movement.</p>
 <dl class="docutils">
@@ -273,23 +272,23 @@
 <dt><em>Camera Move Style &gt; Camera Limits &gt; Distance Limits</em></dt>
 <dd>Set minimum and maximum distances from the camera to the pivot point. Allowable values: <em>Min</em> <span class="math">\(\le\)</span> <em>Max</em>. Default values: <em>Min = 1</em>, <em>Max = 10</em>. Disabled by default.</dd>
 </dl>
-<a class="reference internal image-reference" href="_images/distance_limits.svg"><div align="center" class="align-center"><img src="_images/distance_limits.svg" width="100%" /></div>
+<a class="reference internal image-reference" href="_images/distance_limits.svg"><div align="center" class="align-center"><img alt="_images/distance_limits.svg" src="_images/distance_limits.svg" width="100%" /></div>
 </a>
 <dl class="docutils">
 <dt><em>Camera Move Style &gt; Camera Limits &gt; Horizontal Rotation Limits</em></dt>
 <dd>Limit the horizontal (around the Z world axis in Blender) camera rotation around the corresponding point. Rotation is performed along the arc of a circle between <code class="docutils literal"><span class="pre">Left</span> <span class="pre">Angle</span></code> and <code class="docutils literal"><span class="pre">Right</span> <span class="pre">Angle</span></code> values. The rotation arc corresponds to movement from <code class="docutils literal"><span class="pre">Left</span> <span class="pre">Angle</span></code> to <code class="docutils literal"><span class="pre">Right</span> <span class="pre">Angle</span></code> anticlockwise. Default values: <em>Left Angle = -45°</em>, <em>Right Angle = 45°</em>. Disabled by default.</dd>
 </dl>
-<a class="reference internal image-reference" href="_images/horizontal_limits_target.svg"><div align="center" class="align-center"><img src="_images/horizontal_limits_target.svg" width="100%" /></div>
+<a class="reference internal image-reference" href="_images/horizontal_limits_target.svg"><div align="center" class="align-center"><img alt="_images/horizontal_limits_target.svg" src="_images/horizontal_limits_target.svg" width="100%" /></div>
 </a>
 <dl class="docutils">
 <dt><em>Camera Move Style &gt; Camera Limits &gt; Vertical Rotation Limits</em></dt>
 <dd>Limit the horizontal (around the Z world axis in Blender) camera rotation around the corresponding point. Rotation is performed along the arc of a circle between <code class="docutils literal"><span class="pre">Left</span> <span class="pre">Angle</span></code> and <code class="docutils literal"><span class="pre">Right</span> <span class="pre">Angle</span></code> values. The rotation arc corresponds to movement from <code class="docutils literal"><span class="pre">Left</span> <span class="pre">Angle</span></code> to <code class="docutils literal"><span class="pre">Right</span> <span class="pre">Angle</span></code> anticlockwise. Default values: <em>Left Angle = -45°</em>, <em>Right Angle = 45°</em>. Disabled by default.</dd>
 </dl>
-<a class="reference internal image-reference" href="_images/vertical_limits_target.svg"><div align="center" class="align-center"><img src="_images/vertical_limits_target.svg" width="100%" /></div>
+<a class="reference internal image-reference" href="_images/vertical_limits_target.svg"><div align="center" class="align-center"><img alt="_images/vertical_limits_target.svg" src="_images/vertical_limits_target.svg" width="100%" /></div>
 </a>
 <dl class="docutils">
 <dt><em>Camera Move Style &gt; Camera Limits &gt; Pivot Translation Limits</em></dt>
-<dd>Limit the translation of the camera&#8217;s pivot point. Default values: <em>MinZ = 0</em>, <em>MaxZ = 10</em>. Not rendered in the viewport.</dd>
+<dd>Limit the translation of the camera’s pivot point. Default values: <em>MinZ = 0</em>, <em>MaxZ = 10</em>. Not rendered in the viewport.</dd>
 </dl>
 <dl class="docutils" id="panning-mode">
 <dt><em>Camera Move Style &gt; Camera Limits &gt; Use Panning Mode</em></dt>
@@ -306,13 +305,13 @@
 <dt><em>Blend4Web &gt; Horizontal Rotation Limits</em></dt>
 <dd>Limit the horizontal (around the Z world axis in Blender) camera rotation around the corresponding point. Rotation is performed along the arc of a circle between <code class="docutils literal"><span class="pre">Left</span> <span class="pre">Angle</span></code> and <code class="docutils literal"><span class="pre">Right</span> <span class="pre">Angle</span></code> values. The rotation arc corresponds to movement from <code class="docutils literal"><span class="pre">Left</span> <span class="pre">Angle</span></code> to <code class="docutils literal"><span class="pre">Right</span> <span class="pre">Angle</span></code> anticlockwise. Default values: <em>Left Angle = -45°</em>, <em>Right Angle = 45°</em>. Disabled by default.</dd>
 </dl>
-<a class="reference internal image-reference" href="_images/horizontal_limits_eye.svg"><div align="center" class="align-center"><img src="_images/horizontal_limits_eye.svg" width="100%" /></div>
+<a class="reference internal image-reference" href="_images/horizontal_limits_eye.svg"><div align="center" class="align-center"><img alt="_images/horizontal_limits_eye.svg" src="_images/horizontal_limits_eye.svg" width="100%" /></div>
 </a>
 <dl class="docutils">
 <dt><em>Camera Move Style &gt; Camera Limits &gt; Vertical Rotation Limits</em></dt>
 <dd>Limit the vertical (around the local X axis in Blender) camera rotation around the corresponding point. Rotation is performed along the arc of a circle between <code class="docutils literal"><span class="pre">Down</span> <span class="pre">Angle</span></code> and <code class="docutils literal"><span class="pre">Up</span> <span class="pre">Angle</span></code> values. The rotation arc corresponds to movement from <code class="docutils literal"><span class="pre">Down</span> <span class="pre">Angle</span></code> to <code class="docutils literal"><span class="pre">Up</span> <span class="pre">Angle</span></code> anticlockwise. Default values: <em>Down Angle = -45°</em>, <em>Up Angle = 45°</em>. Disabled by default.</dd>
 </dl>
-<a class="reference internal image-reference" href="_images/vertical_limits_eye.svg"><div align="center" class="align-center"><img src="_images/vertical_limits_eye.svg" width="100%" /></div>
+<a class="reference internal image-reference" href="_images/vertical_limits_eye.svg"><div align="center" class="align-center"><img alt="_images/vertical_limits_eye.svg" src="_images/vertical_limits_eye.svg" width="100%" /></div>
 </a>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -323,38 +322,38 @@
 <a class="reference internal image-reference" href="_images/camera_limits_hover.png"><img alt="_images/camera_limits_hover.png" class="align-center" src="_images/camera_limits_hover.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>Camera Move Style &gt; Camera Limits &gt; Horizontal Translation Limits</em></dt>
-<dd>Limit movement of the pivot point along the Blender&#8217;s world X axis. Allowable values: <em>Min</em> <span class="math">\(\le\)</span> <em>Max</em>. Default values: <em>MinX = -10</em>, <em>MaxX = 10</em>. Disabled by default.</dd>
+<dd>Limit movement of the pivot point along the Blender’s world X axis. Allowable values: <em>Min</em> <span class="math">\(\le\)</span> <em>Max</em>. Default values: <em>MinX = -10</em>, <em>MaxX = 10</em>. Disabled by default.</dd>
 <dt><em>Camera Move Style &gt; Camera Limits &gt; Vertical Translation Limits</em></dt>
-<dd>Limit movement of the pivot point along the Blender&#8217;s world X axis. Allowable values: <em>Min</em> <span class="math">\(\le\)</span> <em>Max</em>. Default values: <em>MinY = -10</em>, <em>MaxY = 10</em>. Disabled by default.</dd>
+<dd>Limit movement of the pivot point along the Blender’s world X axis. Allowable values: <em>Min</em> <span class="math">\(\le\)</span> <em>Max</em>. Default values: <em>MinY = -10</em>, <em>MaxY = 10</em>. Disabled by default.</dd>
 </dl>
-<a class="reference internal image-reference" href="_images/hover_camera_trans_limits.svg"><div align="center" class="align-center"><img src="_images/hover_camera_trans_limits.svg" width="100%" /></div>
+<a class="reference internal image-reference" href="_images/hover_camera_trans_limits.svg"><div align="center" class="align-center"><img alt="_images/hover_camera_trans_limits.svg" src="_images/hover_camera_trans_limits.svg" width="100%" /></div>
 </a>
 <dl class="docutils">
 <dt><em>Camera Move Style &gt; Camera Limits &gt; Use Zooming</em></dt>
 <dd>Allows user to zoom the camera in and out from the pivot point. If this parameter is disabled, the camera will always remain at a fixed distance from the pivot point. Disable by default.</dd>
 <dt><em>Camera Move Style &gt; Camera Limits &gt; Distance Limits</em></dt>
-<dd>Set minimum and maximum distances from the camera to the point of intersection between the camera&#8217;s view direction and the horizontal reference plane (Blender&#8217;s world XOY plane by default). Allowable values: <em>Min</em> <span class="math">\(\le\)</span> <em>Max</em>. Default values: <em>Min = 1</em>, <em>Max = 10</em>. Disabled by default.</dd>
+<dd>Set minimum and maximum distances from the camera to the point of intersection between the camera’s view direction and the horizontal reference plane (Blender’s world XOY plane by default). Allowable values: <em>Min</em> <span class="math">\(\le\)</span> <em>Max</em>. Default values: <em>Min = 1</em>, <em>Max = 10</em>. Disabled by default.</dd>
 <dt><em>Camera Move Style &gt; Camera Limits &gt; Vertical Rotation Limits</em></dt>
-<dd>Limits the camera&#8217;s angle of elevation (an angle between the camera&#8217;s sight line and a horizontal plane. Possible value interval: <em>0°</em> <span class="math">\(\le\)</span> <em>Down</em> <span class="math">\(\le\)</span> <em>Up</em> <span class="math">\(\le\)</span> <em>90°</em>. Default values: <em>Down = 0°, Up = 90°</em>.</dd>
+<dd>Limits the camera’s angle of elevation (an angle between the camera’s sight line and a horizontal plane. Possible value interval: <em>0°</em> <span class="math">\(\le\)</span> <em>Down</em> <span class="math">\(\le\)</span> <em>Up</em> <span class="math">\(\le\)</span> <em>90°</em>. Default values: <em>Down = 0°, Up = 90°</em>.</dd>
 <dt><em>Camera Move Style &gt; Camera Limits &gt; Zero Level</em></dt>
 <dd>A distance between reference plane and the coordinates origin. Set to zero by default.</dd>
 </dl>
 <p id="hover-trajectory-figure">If the <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Use</span> <span class="pre">Zooming</span></code> setting is turned on, the limits for distance and inclination angle will be applied simultaneously, to define the camera movement path in the vertical plane.</p>
-<a class="reference internal image-reference" href="_images/hover_camera_rot_limits.svg"><div align="center" class="align-center"><img src="_images/hover_camera_rot_limits.svg" width="100%" /></div>
+<a class="reference internal image-reference" href="_images/hover_camera_rot_limits.svg"><div align="center" class="align-center"><img alt="_images/hover_camera_rot_limits.svg" src="_images/hover_camera_rot_limits.svg" width="100%" /></div>
 </a>
 <p>Setting incorrect distance or elevation angle limits will disable this parameter.</p>
 <dl class="docutils">
 <dt><em>Camera Move Style &gt; Camera Limits &gt; Use Horizontal Rotation</em></dt>
-<dd>Allow camera rotation in Blender&#8217;s XOY plane around to the pivot point. Enabled by default.</dd>
+<dd>Allow camera rotation in Blender’s XOY plane around to the pivot point. Enabled by default.</dd>
 </dl>
-<a class="reference internal image-reference" href="_images/hover_camera_horiz_rotation.svg"><div align="center" class="align-center"><img src="_images/hover_camera_horiz_rotation.svg" width="100%" /></div>
+<a class="reference internal image-reference" href="_images/hover_camera_horiz_rotation.svg"><div align="center" class="align-center"><img alt="_images/hover_camera_horiz_rotation.svg" src="_images/hover_camera_horiz_rotation.svg" width="100%" /></div>
 </a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p id="camera-static-type"><strong>Static Camera</strong></p>
 <a class="reference internal image-reference" href="_images/camera_limits_static.png"><img alt="_images/camera_limits_static.png" class="align-center" src="_images/camera_limits_static.png" style="width: 100%;" /></a>
-<p>This type of camera does not have limits, as it can&#8217;t be directly controlled by the user.</p>
+<p>This type of camera does not have limits, as it can’t be directly controlled by the user.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -362,23 +361,23 @@
 <ul class="simple">
 <li>For EYE/TARGET cameras, interchanging <em>Left/Right</em> or <em>Down/Up</em> values results in movement along the opposite arc of a circle.</li>
 </ul>
-<a class="reference internal image-reference" href="_images/limits_inversion.svg"><div align="center" class="align-center"><img src="_images/limits_inversion.svg" width="100%" /></div>
+<a class="reference internal image-reference" href="_images/limits_inversion.svg"><div align="center" class="align-center"><img alt="_images/limits_inversion.svg" src="_images/limits_inversion.svg" width="100%" /></div>
 </a>
 <ul class="simple">
-<li>When limiting the camera&#8217;s horizontal and vertical rotation, it is possible to choose between the following coordinate spaces:</li>
+<li>When limiting the camera’s horizontal and vertical rotation, it is possible to choose between the following coordinate spaces:</li>
 </ul>
 <dl class="docutils">
 <dt><em>Camera Space</em></dt>
 <dd>All angles are measured relative to the initial camera position and orientation.</dd>
 <dt><em>World Space</em></dt>
-<dd>Horizontal angles are measured relative to the Y axis in world space; vertical angles are measured relative to the Blender&#8217;s XOY plane in world space.</dd>
+<dd>Horizontal angles are measured relative to the Y axis in world space; vertical angles are measured relative to the Blender’s XOY plane in world space.</dd>
 </dl>
 <p>Default value: <code class="docutils literal"><span class="pre">Camera</span> <span class="pre">Space</span></code>.</p>
 <p>Horizontal limits by the example of the TARGET camera:</p>
-<a class="reference internal image-reference" href="_images/camera_space_world_space_h.svg"><div align="center" class="align-center"><img src="_images/camera_space_world_space_h.svg" width="100%" /></div>
+<a class="reference internal image-reference" href="_images/camera_space_world_space_h.svg"><div align="center" class="align-center"><img alt="_images/camera_space_world_space_h.svg" src="_images/camera_space_world_space_h.svg" width="100%" /></div>
 </a>
 <p>Vertical limits by the example of the TARGET camera:</p>
-<a class="reference internal image-reference" href="_images/camera_space_world_space_v.svg"><div align="center" class="align-center"><img src="_images/camera_space_world_space_v.svg" width="100%" /></div>
+<a class="reference internal image-reference" href="_images/camera_space_world_space_v.svg"><div align="center" class="align-center"><img alt="_images/camera_space_world_space_v.svg" src="_images/camera_space_world_space_v.svg" width="100%" /></div>
 </a>
 </div>
 </div>
@@ -418,12 +417,12 @@
 <div class="section" id="camera-controls-api">
 <span id="camera-api-notes"></span><h2><a class="toc-backref" href="#id12">Camera Controls API</a><a class="headerlink" href="#camera-controls-api" title="Permalink to this headline">¶</a></h2>
 <p>Detailed API module documentation: <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html">link</a>.</p>
-<p>A camera&#8217;s position and its spatial orientation are defined by the control mode. In the <code class="docutils literal"><span class="pre">EYE</span></code>, <code class="docutils literal"><span class="pre">TARGET</span></code> and <code class="docutils literal"><span class="pre">HOVER</span></code> modes, control mode has several limitations: for example, the camera&#8217;s vertical axis is always aligned along the world&#8217;s Z-axis and the camera is constantly focused on the pivot point. The <code class="docutils literal"><span class="pre">STATIC</span></code> mode camera has no such limitations, which makes it more suitable for cases when you need more complete control, such as procedural animation.</p>
+<p>A camera’s position and its spatial orientation are defined by the control mode. In the <code class="docutils literal"><span class="pre">EYE</span></code>, <code class="docutils literal"><span class="pre">TARGET</span></code> and <code class="docutils literal"><span class="pre">HOVER</span></code> modes, control mode has several limitations: for example, the camera’s vertical axis is always aligned along the world’s Z-axis and the camera is constantly focused on the pivot point. The <code class="docutils literal"><span class="pre">STATIC</span></code> mode camera has no such limitations, which makes it more suitable for cases when you need more complete control, such as procedural animation.</p>
 <p>Main functions for camera control are located in the <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html">camera</a> module. Some of them (intended for a specific control mode) have names which start with an appropriate prefix: <code class="docutils literal"><span class="pre">static_</span></code>, <code class="docutils literal"><span class="pre">eye_</span></code>, <code class="docutils literal"><span class="pre">target_</span></code> and <code class="docutils literal"><span class="pre">hover_</span></code>. Other functions can be used in any mode.</p>
 <div class="section" id="control-mode-setup">
 <span id="camera-move-style-change"></span><h3><a class="toc-backref" href="#id13">Control Mode Setup</a><a class="headerlink" href="#control-mode-setup" title="Permalink to this headline">¶</a></h3>
-<p>To change the control mode and to completely define a camera&#8217;s behavior, the following methods can be used: <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.static_setup">static_setup()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.eye_setup">eye_setup()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.target_setup">target_setup()</a> and <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.hover_setup">hover_setup()</a>. These methods receive an object that contains a set of optional parameters, which can be used to set the camera&#8217;s position, rotation, available limits and so on.</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">camera</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_active_camera</span><span class="p">();</span>
+<p>To change the control mode and to completely define a camera’s behavior, the following methods can be used: <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.static_setup">static_setup()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.eye_setup">eye_setup()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.target_setup">target_setup()</a> and <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.hover_setup">hover_setup()</a>. These methods receive an object that contains a set of optional parameters, which can be used to set the camera’s position, rotation, available limits and so on.</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">camera</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_active_camera</span><span class="p">();</span>
 <span class="kd">var</span> <span class="nx">POS</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]);</span>
 <span class="kd">var</span> <span class="nx">LOOK_AT</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]);</span>
 <span class="kd">var</span> <span class="nx">EYE_HORIZ_LIMITS</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">left</span><span class="o">:</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="o">/</span><span class="mi">4</span><span class="p">,</span> <span class="nx">right</span><span class="o">:</span> <span class="o">-</span><span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="o">/</span><span class="mi">4</span> <span class="p">};</span>
@@ -473,8 +472,8 @@
 <span class="nx">m_cam</span><span class="p">.</span><span class="nx">hover_setup</span><span class="p">(</span><span class="nx">camera</span><span class="p">,</span> <span class="p">{</span> <span class="nx">pos</span><span class="o">:</span> <span class="nx">POS</span><span class="p">,</span> <span class="nx">pivot</span><span class="o">:</span> <span class="nx">LOOK_AT</span><span class="p">,</span> <span class="nx">enable_horiz_rot</span><span class="o">:</span> <span class="kc">true</span> <span class="p">});</span>
 </pre></div>
 </div>
-<p>The main characteristic of the <code class="docutils literal"><span class="pre">HOVER</span></code> type camera is the fact that the distance and elevation angle limits define a certain <a class="reference internal" href="#hover-trajectory-figure"><span>path</span></a> of movement toward the pivot point. The camera will always be located on this path, so its final position can be different from the one returned by the <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.hover_setup">hover_setup()</a> method (basically, it is projected onto the path). If you need to set the camera&#8217;s position on some path, you can use the <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.hover_setup_rel">hover_setup_rel()</a> method to set the relative limits.</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">camera</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_active_camera</span><span class="p">();</span>
+<p>The main characteristic of the <code class="docutils literal"><span class="pre">HOVER</span></code> type camera is the fact that the distance and elevation angle limits define a certain <a class="reference internal" href="#hover-trajectory-figure"><span class="std std-ref">path</span></a> of movement toward the pivot point. The camera will always be located on this path, so its final position can be different from the one returned by the <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.hover_setup">hover_setup()</a> method (basically, it is projected onto the path). If you need to set the camera’s position on some path, you can use the <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.hover_setup_rel">hover_setup_rel()</a> method to set the relative limits.</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">camera</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_active_camera</span><span class="p">();</span>
 <span class="kd">var</span> <span class="nx">POS</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]);</span>
 <span class="kd">var</span> <span class="nx">PIVOT</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]);</span>
 
@@ -487,7 +486,7 @@
 </pre></div>
 </div>
 <p>The current camera mode can be checked with the <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.is_static_camera">is_static_camera()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.is_eye_camera">is_eye_camera()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.is_target_camera">is_target_camera()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.is_hover_camera">is_hover_camera()</a> or <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.get_move_style">get_move_style()</a> methods:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">camera</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_active_camera</span><span class="p">();</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">camera</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_active_camera</span><span class="p">();</span>
 
 <span class="p">...</span>
 
@@ -500,13 +499,13 @@
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">If you need to change only some aspects of the camera&#8217;s behavior, you can use the methods described below.</p>
+<p class="last">If you need to change only some aspects of the camera’s behavior, you can use the methods described below.</p>
 </div>
 </div>
 <div class="section" id="translation-and-rotation">
 <h3><a class="toc-backref" href="#id14">Translation and Rotation</a><a class="headerlink" href="#translation-and-rotation" title="Permalink to this headline">¶</a></h3>
 <p>To rotate a <code class="docutils literal"><span class="pre">STATIC</span></code> type camera, you need to use the <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.static_get_rotation">static_get_rotation()</a> and <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.static_set_rotation">static_set_rotation()</a> methods. In these methods, rotation is defined by a quaternion.</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">camera</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_active_camera</span><span class="p">();</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">camera</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_active_camera</span><span class="p">();</span>
 
 <span class="p">...</span>
 
@@ -517,8 +516,8 @@
 <span class="nx">m_cam</span><span class="p">.</span><span class="nx">static_set_rotation</span><span class="p">(</span><span class="nx">camera</span><span class="p">,</span> <span class="nx">new_quat</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>For the <code class="docutils literal"><span class="pre">EYE</span></code>, <code class="docutils literal"><span class="pre">TARGET</span></code> and <code class="docutils literal"><span class="pre">HOVER</span></code> type cameras, rotation is performed in <a class="reference internal" href="#camera-spherical-coordinates"><span>spherical coordinates</span></a> by using the <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.eye_rotate">eye_rotate()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.target_rotate">target_rotate()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.hover_rotate">hover_rotate()</a> and <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.rotate_camera">rotate_camera()</a> methods:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">camera</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_active_camera</span><span class="p">();</span>
+<p>For the <code class="docutils literal"><span class="pre">EYE</span></code>, <code class="docutils literal"><span class="pre">TARGET</span></code> and <code class="docutils literal"><span class="pre">HOVER</span></code> type cameras, rotation is performed in <a class="reference internal" href="#camera-spherical-coordinates"><span class="std std-ref">spherical coordinates</span></a> by using the <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.eye_rotate">eye_rotate()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.target_rotate">target_rotate()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.hover_rotate">hover_rotate()</a> and <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.rotate_camera">rotate_camera()</a> methods:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">camera</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_active_camera</span><span class="p">();</span>
 
 <span class="p">...</span>
 
@@ -530,7 +529,7 @@
 </pre></div>
 </div>
 <p>Current spherical coordinates of the camera can be obtained by using the <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.get_camera_angles">get_camera_angles()</a> method:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">camera</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_active_camera</span><span class="p">();</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">camera</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_active_camera</span><span class="p">();</span>
 <span class="kd">var</span> <span class="nx">_vec2_tmp</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
 
 <span class="p">...</span>
@@ -542,7 +541,7 @@
 </pre></div>
 </div>
 <p>Access to the position of the camera can be obtained by using the <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.get_translation">get_translation()</a> and <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.set_translation">set_translation()</a> methods. For the <code class="docutils literal"><span class="pre">TARGET</span></code> and <code class="docutils literal"><span class="pre">HOVER</span></code> modes this means simultaneous translation of an entire model, including camera position and pivot point.</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">camera</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_active_camera</span><span class="p">();</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">camera</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_active_camera</span><span class="p">();</span>
 <span class="kd">var</span> <span class="nx">_vec3_tmp</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
 
 <span class="p">...</span>
@@ -559,7 +558,7 @@
 <ul class="simple">
 <li><a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.target_set_trans_pivot">target_set_trans_pivot()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.target_set_pivot_translation">target_set_pivot_translation()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.hover_set_pivot_translation">hover_set_pivot_translation()</a> - sets the position and the pivot point of the camera at the same time;</li>
 <li><a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.target_get_distance">target_get_distance()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.target_set_distance">target_set_distance()</a> - translation based on the distance to the pivot point;</li>
-<li><a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.static_set_look_at">static_set_look_at()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.eye_set_look_at">eye_set_look_at()</a> - sets the camera&#8217;s position and point of sight simultaneously;</li>
+<li><a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.static_set_look_at">static_set_look_at()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.eye_set_look_at">eye_set_look_at()</a> - sets the camera’s position and point of sight simultaneously;</li>
 </ul>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -605,7 +604,7 @@
 </tr>
 </tbody>
 </table>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">camera</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_active_camera</span><span class="p">();</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">camera</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_active_camera</span><span class="p">();</span>
 <span class="kd">var</span> <span class="nx">_limits_tmp</span> <span class="o">=</span> <span class="p">{};</span>
 <span class="kd">var</span> <span class="nx">EYE_HORIZ_LIMITS</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">left</span><span class="o">:</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="o">/</span><span class="mi">4</span><span class="p">,</span> <span class="nx">right</span><span class="o">:</span> <span class="o">-</span><span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="o">/</span><span class="mi">4</span> <span class="p">};</span>
 
@@ -631,13 +630,13 @@
 <div class="section" id="angular-coordinates-count">
 <span id="camera-spherical-coordinates"></span><h3><a class="toc-backref" href="#id16">Angular Coordinates Count</a><a class="headerlink" href="#angular-coordinates-count" title="Permalink to this headline">¶</a></h3>
 <blockquote>
-<div><p>When working with the camera&#8217;s APIs (rotation, setting limits), all angles are defined as follows:</p>
+<div><p>When working with the camera’s APIs (rotation, setting limits), all angles are defined as follows:</p>
 <p>For the <code class="docutils literal"><span class="pre">TARGET/HOVER</span></code> camera:</p>
 </div></blockquote>
-<a class="reference internal image-reference" href="_images/b4w_target_hover_cam_angles.svg"><div align="center" class="align-center"><img src="_images/b4w_target_hover_cam_angles.svg" width="100%" /></div>
+<a class="reference internal image-reference" href="_images/b4w_target_hover_cam_angles.svg"><div align="center" class="align-center"><img alt="_images/b4w_target_hover_cam_angles.svg" src="_images/b4w_target_hover_cam_angles.svg" width="100%" /></div>
 </a>
 <p>For the <code class="docutils literal"><span class="pre">EYE</span></code> camera:</p>
-<a class="reference internal image-reference" href="_images/b4w_eye_cam_angles.svg"><div align="center" class="align-center"><img src="_images/b4w_eye_cam_angles.svg" width="100%" /></div>
+<a class="reference internal image-reference" href="_images/b4w_eye_cam_angles.svg"><div align="center" class="align-center"><img alt="_images/b4w_eye_cam_angles.svg" src="_images/b4w_eye_cam_angles.svg" width="100%" /></div>
 </a>
 </div>
 </div>
@@ -663,7 +662,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Triumph.
-      Last updated on 2017-11-21.
+      Last updated on 2017-12-29.
 
     </p>
   </div>
@@ -719,11 +718,11 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

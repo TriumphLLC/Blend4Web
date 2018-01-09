@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Source: util/b4w.js | Blend4Web API Reference</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: util/b4w.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Object in 3D space.
+ * You should always use the engine's API in order to manipulate your 3D object.
+ * Never access it directly by it's properties.
+ * @typedef {Object} Object3D
+ */
+
+/**
+ * Sensor object.
+ * @typedef {Object} Sensor
+ * @see {@link module:controls}
+ */
+
+/**
+ * Typed two-dimensional vector.
+ * @typedef {Float32Array} Vec2
+ */
+
+/**
+ * Typed three-dimensional vector. Can be created with {@link module:vec3.create}.
+ * @typedef {Float32Array} Vec3
+ */
+
+/**
+ * Constant value matching character state (flying, walking etc).
+ * @typedef {number} CharacterState
+ */
+
+/**
+ * Line set in parametric form
+ * @typedef {Float32Array(6)} ParametricLine
+ */
+
+/**
+ * Typed four-dimensional vector. Can be created with {@link module:vec4.create}.
+ * @typedef {Float32Array} Vec4
+ */
+
+/**
+ * Quaternion vector representing rotation.
+ * Quaternion is a four-dimensional vector which has the following format:
+ * [X, Y, Z, W]. Can be created with {@link module:quat.create}.
+ * @typedef {Float32Array} Quat
+ */
+
+/**
+ * Euler vector representing rotation (in radians).
+ * &lt;!--
+ * &lt;p>The euler angles specified in intrinsic form (rotating space) and have the following meaning:
+ * &lt;ul>
+ * TODO: check it!!!
+ * &lt;li>euler[0]: heading, around Y
+ * &lt;li>euler[1]: attitude, around new Z
+ * &lt;li>euler[2]: bank, around new X
+ * &lt;/ul>
+ * -->
+ * &lt;p>Using euler angles is discouraged, use quaternions instead.
+ * @typedef {Float32Array} Euler
+ */
+
+/**
+ * TSR vector representing 3D object's transformations (Translation, Scale, Rotation).
+ * TSR is an eight-dimensional vector which has the following format:
+ * [X, Y, Z, SCALE, QUAT_X, QUAT_Y, QUAT_Z, QUAT_W].
+ * Can be created with {@link module:tsr.create}.
+ * @typedef {Float32Array} TSR
+ */
+
+/**
+ * 3x3 matrix.
+ * The elements of matrix are placed in typed array in column-major order.
+ * Can be created with {@link module:mat3.create}.
+ * @typedef {Float32Array} Mat3
+ */
+
+/**
+ * 4x4 matrix.
+ * The elements of matrix are placed in typed array in column-major order.
+ * Can be created with {@link module:mat4.create}.
+ * @typedef {Float32Array} Mat4
+ */
+
+/**
+ * Typed three-dimensional vector representing color.
+ * Each component must be in range 0-1.
+ * Can be created with {@link module:rgb.create}.
+ * @typedef {Float32Array} RGB
+ */
+
+/**
+ * Typed four-dimensional vector representing color and alpha.
+ * Each component must be in range 0-1.
+ * Can be created with {@link module:rgba.create}.
+ * @typedef {Float32Array} RGBA
+ */
+
+/**
+ * The JavaScript Date object.
+ * @typedef {Object} Date
+ */
+
+/**
+ * Camera movement style enum. One of MS_*.
+ * @typedef {number} CameraMoveStyle
+ * @see {@link module:camera}
+ */
+
+/**
+ * Generic callback function with no parameters.
+ * @callback GenericCallback
+ */
+
+/**
+ * Blend4Web global object.
+ * @namespace
+ * @suppress {duplicate}
+ */
+
+// HACK: get b4w from global object
+var b4w;
+var is_worker = false;
+try {
+    b4w = window.b4w;
+} catch (e) {
+    b4w = self.b4w;
+    is_worker = true
+}
+
+if (!b4w) {
+
+    var b4w = {};
+    // TODO elaborate b4w access from the console
+    var DEBUG = true;
+    if (DEBUG) {
+        if (is_worker) {
+            self.b4w = b4w;
+        } else {
+            window.b4w = b4w;
+        }
+    }
+
+    var _module = {};
+    var _n_module = {};
+
+    b4w.module = _module;
+    b4w._n_module = _n_module;
+
+    // require functions per namespace
+    var _ns_requires = {};
+
+    b4w.cleanup = function (module_id, ns) {
+        ns = ns || "__b4w_default";
+        var mod = _module[module_id];
+        if (mod)
+            mod._compiled = null;
+        _ns_requires[ns] = null;
+    }
+    /**
+     * Local (module internal) require function.
+     * This function is passed to the module implementation function and can be used
+     * to import additional modules from the same namespace. If you need to import
+     * a module from the different namespace use {@link b4w.require}.
+     * @typedef {Function} b4w~RequireFunction
+     * @param {string} module_id Module ID
+     */
+
+    /**
+     * Module implementation function.
+     * @callback b4w~ModuleFunction
+     * @param {Object} exports Object with exported symbols
+     * @param {b4w~RequireFunction} require Local (module internal) require function
+     */
+
+    /**
+     * Register the module.
+     * @method b4w.register
+     * @param {string} module_id Module ID
+     * @param {b4w~ModuleFunction} fun Function implementing the module
+     */
+    b4w.register = function (module_id, fun) {
+        if (_module[module_id])
+            return;
+        //throw new Error("Module \"" + module_id + "\" already registered");
+
+        _module[module_id] = fun;
+    }
+
+    /**
+     * Prepare and return the registered module.
+     * @method b4w.require
+     * @param {string} module_id Module ID
+     * @param {string} [ns="__b4w_default"] Namespace for processed modules
+     * @returns {Object3D} Module object
+     */
+    b4w.require = function (module_id, ns) {
+        if (!_module[module_id] &amp;&amp; !_n_module[module_id])
+            throw new Error("Module \"" + module_id + "\" not found");
+
+        ns = ns || "__b4w_default";
+        if (_n_module[module_id] !== undefined) {
+            return _n_module[module_id](ns);
+        } else if (!_ns_requires[ns]) {
+            _ns_requires[ns] = (function (ns) {
+                return function (module_id) {
+                    if (!_module[module_id] &amp;&amp; !_n_module[module_id]) {
+                        throw new Error("Module \"" + module_id + "\" not found");
+                    }
+
+                    if (_n_module[module_id] !== undefined) {
+                        return _n_module[module_id](ns);
+                    }
+
+                    var mod = _module[module_id];
+
+                    if (!mod._compiled)
+                        mod._compiled = {};
+
+                    if (!mod._compiled[ns]) {
+                        mod._compiled[ns] = {};
+                        mod(mod._compiled[ns], _ns_requires[ns]);
+                    }
+                    return mod._compiled[ns];
+                }
+            })(ns);
+        }
+
+        return _ns_requires[ns](module_id);
+    }
+
+    /**
+     * Check if the module was registered.
+     * @method b4w.module_check
+     * @param {string} module_id Module ID
+     * @returns {boolean} Check result
+     */
+    b4w.module_check = function (module_id) {
+        return _module[module_id] !== undefined ||
+            _n_module[module_id] !== undefined;
+    }
+
+    /**
+     * Get a namespace of the current module by it's require function.
+     * @method b4w.get_namespace
+     * @param {b4w~RequireFunction} mod_ns_require Local require function
+     * @returns {string} Namespace.
+     */
+    b4w.get_namespace = function (mod_ns_require) {
+        // TODO: fix for ES6 modules
+        for (var ns in _ns_requires)
+            if (_ns_requires[ns] == mod_ns_require)
+                return ns;
+        return "";
+    }
+
+    /**
+     * Global vars for proper worker fallback operations.
+     * @ignore
+     */
+    b4w.worker_listeners = [];
+    b4w.worker_namespaces = [];
+}
+
+export default b4w;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-armature.html">armature</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-fps.html">fps</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gp_conf.html">gp_conf</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hmd.html">hmd</a></li><li><a href="module-hmd_conf.html">hmd_conf</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-input.html">input</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-logic_nodes.html">logic_nodes</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-math.html">math</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screen.html">screen</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Blend4Web API Reference (generated by JSDoc 3.5.5 on Fri Dec 29 2017 16:28:37 GMT+0300 (MSK))
+    <a href="https://www.blend4web.com">www.blend4web.com</a>
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+  (function() {
+    if (window.document.domain != "www.blend4web.com")
+      return;
+
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter24512171 = new Ya.Metrika({
+                    id:24512171,
+                    clickmap:false,
+                    trackLinks:true,
+                    accurateTrackBounce:true
+                });
+            } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+  })();
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/24512171" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

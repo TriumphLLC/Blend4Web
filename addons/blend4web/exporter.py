@@ -96,7 +96,8 @@ SUPPORTED_NODES = ["NodeFrame", "ShaderNodeMaterial", "ShaderNodeCameraData", \
         "ShaderNodeTangent", "ShaderNodeLayerWeight", "ShaderNodeLightPath", \
         "ShaderNodeAttribute", "ShaderNodeOutputLamp", "ShaderNodeScript", \
         "ShaderNodeMixShader", "ShaderNodeAddShader", "ShaderNodeNewGeometry", \
-        "ShaderNodeFresnel", "ShaderNodeOutputWorld", "ShaderNodeBackground"]
+        "ShaderNodeFresnel", "ShaderNodeOutputWorld", "ShaderNodeBackground", \
+        "ShaderNodeBsdfPrincipled"]
 
 PARALLAX_HEIGHT_MAP_INPUT_NAME = "Height Map"
 PARALLAX_HEIGHT_MAP_INPUT_NODE = "ShaderNodeTexture"
@@ -3024,6 +3025,7 @@ def process_mesh(mesh, obj_user):
         current_active_obj = bpy.context.scene.objects.active
         bpy.context.scene.objects.active = obj_copy
         obj_user["b4w_shape_keys_normals"] = []
+        obj_copy.hide = False
         bpy.ops.object.mode_set(mode="EDIT")
         for i in range(0, len(mesh.shape_keys.key_blocks)):
             # update normals coords
@@ -3350,7 +3352,7 @@ def vc_channel_nodes_usage(mat):
 
 def vc_node_usage_iter(node_tree, vc_nodes_usage):
     separate_rgb_out = {}
-    geometry_vcols = {}
+    used_vcol_names = {}
 
     for link in node_tree.links:
         if link.from_node.bl_idname == "ShaderNodeGeometry" \
@@ -3360,10 +3362,22 @@ def vc_node_usage_iter(node_tree, vc_nodes_usage):
                     or mesh_get_active_vc_name(_curr_stack["data"][-1]))
             if vcol_name:
                 to_name = link.to_node.name
-                if vcol_name not in geometry_vcols:
-                    geometry_vcols[vcol_name] = []
-                if to_name not in geometry_vcols[vcol_name]:
-                    geometry_vcols[vcol_name].append(to_name)
+                if vcol_name not in used_vcol_names:
+                    used_vcol_names[vcol_name] = []
+                if to_name not in used_vcol_names[vcol_name]:
+                    used_vcol_names[vcol_name].append(to_name)
+
+        elif link.from_node.bl_idname == "ShaderNodeAttribute" \
+                and link.from_socket.identifier == "Color":
+
+            vcol_name = (link.from_node.attribute_name
+                    or mesh_get_active_vc_name(_curr_stack["data"][-1]))
+            if vcol_name:
+                to_name = link.to_node.name
+                if vcol_name not in used_vcol_names:
+                    used_vcol_names[vcol_name] = []
+                if to_name not in used_vcol_names[vcol_name]:
+                    used_vcol_names[vcol_name].append(to_name)
 
         elif link.from_node.bl_idname == "ShaderNodeSeparateRGB" \
                 and link.from_socket.identifier in "RGB":
@@ -3377,8 +3391,8 @@ def vc_node_usage_iter(node_tree, vc_nodes_usage):
                 and link.from_node.node_tree is not None:
             vc_node_usage_iter(link.from_node.node_tree, vc_nodes_usage)
 
-    for vcol_name in geometry_vcols:
-        for to_name in geometry_vcols[vcol_name]:
+    for vcol_name in used_vcol_names:
+        for to_name in used_vcol_names[vcol_name]:
             if to_name in separate_rgb_out:
                 mask = separate_rgb_out[to_name]
             else:
@@ -4557,6 +4571,11 @@ def process_node_tree(data, tree_source, is_group = False):
             node_data["uv_layer"] =  node.uv_map
             data["uv_vc_key"] += node.uv_map or active_uv_name
 
+        elif node.type == "ATTRIBUTE":
+            # currently only vertex colors
+            node_data["color_layer"] = node.attribute_name
+            data["uv_vc_key"] += node.attribute_name or active_uv_name
+
         elif node.type == "TEX_COORD":
             node_data["uv_layer"] = ""
             data["uv_vc_key"] += active_uv_name
@@ -4713,6 +4732,9 @@ def process_node_tree(data, tree_source, is_group = False):
 
         elif node.type == "BUMP":
             node_data["invert"] = node.invert
+
+        elif node.type == "BSDF_TRANSPARENT":
+            node_data["b4w_use_alpha"] = node.b4w_use_alpha
 
         process_node_sockets(node_data, "inputs", node.inputs, cut_inputs)
         process_node_sockets(node_data, "outputs", node.outputs, False)
@@ -5328,6 +5350,8 @@ class B4W_ExportProcessor(bpy.types.Operator):
         global _performed_cleanup
         _performed_cleanup = False
 
+        global PATH_TO_VIEWER
+
         # escape from edit mode
         if bpy.context.mode == "EDIT_MESH":
             bpy.ops.object.mode_set(mode="OBJECT")
@@ -5444,22 +5468,26 @@ class B4W_ExportProcessor(bpy.types.Operator):
                         fb.write(_bpy_bindata_ushort)
                         fb.write(_bpy_bindata_uchar)
                         fb.close()
-
-                    path_to_sdk = bpy.context.user_preferences.addons[__package__].preferences.b4w_src_path
-                    path_to_viewer = os.path.join(path_to_sdk, os.path.dirname(PATH_TO_VIEWER))
                     if self.run_in_viewer:
+                        if addon_prefs.has_valid_sdk_path():
+                            path_to_sdk = bpy.context.user_preferences.addons[__package__].preferences.b4w_src_path
+                            path_to_viewer = os.path.join(path_to_sdk, os.path.dirname(PATH_TO_VIEWER))
+                        else:
+                            path_to_viewer = os.path.join(bpy.app.tempdir, "blend4web", "viewer")
+                            PATH_TO_VIEWER = "viewer/viewer.html"
+
                         relpath_to_viewer = os.path.relpath(export_filepath, path_to_viewer)
                         relpath_to_viewer = guard_slashes(os.path.normpath(relpath_to_viewer))
+
                         sync_option = bpy.context.user_preferences.addons[__package__].preferences.b4w_sync_with_browser
                         is_sync_instance = False
                         if not bpy.app.background:
                             is_sync_instance = server.is_synchronized(relpath_to_viewer)
-                        if ((sync_option and not is_sync_instance) or not sync_option):
+                        if (sync_option and not is_sync_instance) or not sync_option:
                             sync = "&sync=true" if sync_option else "&sync=false"
                             port = bpy.context.user_preferences.addons[__package__].preferences.b4w_port_number
                             url = "http://localhost:" + str(port) + "/" + PATH_TO_VIEWER + "?load=" + relpath_to_viewer + sync
                             server.open_browser(url)
-
                     print("EXPORT OK")
         else:
             bpy.ops.b4w.export_messages_dialog('INVOKE_DEFAULT')

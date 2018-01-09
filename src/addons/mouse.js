@@ -14,7 +14,16 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-"use strict";
+import register from "../util/register.js";
+
+import m_cam_fact from "../extern/camera.js";
+import m_cont_fact from "../extern/container.js";
+import m_ctl_fact from "../extern/controls.js";
+import m_phy_fact from "../extern/physics.js";
+import m_print_fact from "../intern/print.js";
+import m_scs_fact from "../extern/scenes.js";
+import m_util_fact from "../extern/util.js";
+import m_main_fact from "../extern/main.js";
 
 /**
  * Pointer lock and mouse actions add-on.
@@ -28,16 +37,16 @@
  * @local PointerlockMouseMoveCallback
  * @local RotationCallback
  */
-b4w.module["mouse"] = function(exports, require) {
+function Mouse(ns, exports) {
 
-var m_cam   = require("camera");
-var m_cont  = require("container");
-var m_ctl   = require("controls");
-var m_phy   = require("physics");
-var m_print = require("print");
-var m_scs   = require("scenes");
-var m_util  = require("util");
-var m_main  = require("main");
+var m_cam   = m_cam_fact(ns);
+var m_cont  = m_cont_fact(ns);
+var m_ctl   = m_ctl_fact(ns);
+var m_phy   = m_phy_fact(ns);
+var m_print = m_print_fact(ns);
+var m_scs   = m_scs_fact(ns);
+var m_util  = m_util_fact(ns);
+var m_main  = m_main_fact(ns);
 
 var FPS_MOUSE_MULT = 0.0004;
 var DRAG_MOUSE_DELTA_MULT = 2;
@@ -490,3 +499,7 @@ exports.get_plock_smooth_factor = function() {
 }
 
 };
+
+var mouse_factory = register("mouse", Mouse);
+
+export default mouse_factory;

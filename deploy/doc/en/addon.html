@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Add-on &mdash; Blend4Web 17.10.1 User Manual</title>
+  <title>Add-on &mdash; Blend4Web 17.12.0 User Manual</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 17.10.1 User Manual" href="index.html"/>
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Blend4Web 17.12.0 User Manual" href="index.html"/>
         <link rel="next" title="Scene Settings" href="scene_settings.html"/>
         <link rel="prev" title="Web Player" href="web_player.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -91,7 +94,7 @@
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">Project Management</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Add-on</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Add-on</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#local-development-server">Local Development Server</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#running-viewer-and-demos">Running Viewer and Demos</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#export-formats">Export Formats</a><ul>
@@ -175,31 +178,31 @@
            <div itemprop="articleBody">
             
   <span class="target" id="addon"></span><div class="section" id="add-on">
-<span id="index-0"></span><h1><a class="toc-backref" href="#id4">Add-on</a><a class="headerlink" href="#add-on" title="Permalink to this headline">¶</a></h1>
+<span id="index-0"></span><h1><a class="toc-backref" href="#id5">Add-on</a><a class="headerlink" href="#add-on" title="Permalink to this headline">¶</a></h1>
 <div class="contents topic" id="table-of-content">
 <p class="topic-title first">Table of Content</p>
 <ul class="simple">
-<li><a class="reference internal" href="#add-on" id="id4">Add-on</a><ul>
-<li><a class="reference internal" href="#local-development-server" id="id5">Local Development Server</a></li>
-<li><a class="reference internal" href="#running-viewer-and-demos" id="id6">Running Viewer and Demos</a></li>
-<li><a class="reference internal" href="#export-formats" id="id7">Export Formats</a><ul>
-<li><a class="reference internal" href="#json" id="id8">JSON</a></li>
-<li><a class="reference internal" href="#html" id="id9">HTML</a></li>
+<li><a class="reference internal" href="#add-on" id="id5">Add-on</a><ul>
+<li><a class="reference internal" href="#local-development-server" id="id6">Local Development Server</a></li>
+<li><a class="reference internal" href="#running-viewer-and-demos" id="id7">Running Viewer and Demos</a></li>
+<li><a class="reference internal" href="#export-formats" id="id8">Export Formats</a><ul>
+<li><a class="reference internal" href="#json" id="id9">JSON</a></li>
+<li><a class="reference internal" href="#html" id="id10">HTML</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#export-options" id="id10">Export Options</a></li>
-<li><a class="reference internal" href="#index-2" id="id11">Initialization Errors</a></li>
-<li><a class="reference internal" href="#compatibility-errors" id="id12">Compatibility Errors</a></li>
-<li><a class="reference internal" href="#critical-export-errors" id="id13">Critical Export Errors</a></li>
-<li><a class="reference internal" href="#non-critical-export-errors" id="id14">Non-Critical Export Errors</a></li>
-<li><a class="reference internal" href="#other-messages" id="id15">Other Messages</a></li>
-<li><a class="reference internal" href="#add-on-translations" id="id16">Add-on Translations</a></li>
+<li><a class="reference internal" href="#export-options" id="id11">Export Options</a></li>
+<li><a class="reference internal" href="#index-2" id="id12">Initialization Errors</a></li>
+<li><a class="reference internal" href="#compatibility-errors" id="id13">Compatibility Errors</a></li>
+<li><a class="reference internal" href="#critical-export-errors" id="id14">Critical Export Errors</a></li>
+<li><a class="reference internal" href="#non-critical-export-errors" id="id15">Non-Critical Export Errors</a></li>
+<li><a class="reference internal" href="#other-messages" id="id16">Other Messages</a></li>
+<li><a class="reference internal" href="#add-on-translations" id="id17">Add-on Translations</a></li>
 </ul>
 </li>
 </ul>
 </div>
 <div class="section" id="local-development-server">
-<span id="id1"></span><h2><a class="toc-backref" href="#id5">Local Development Server</a><a class="headerlink" href="#local-development-server" title="Permalink to this headline">¶</a></h2>
+<span id="id1"></span><h2><a class="toc-backref" href="#id6">Local Development Server</a><a class="headerlink" href="#local-development-server" title="Permalink to this headline">¶</a></h2>
 <p>Settings for the local development server can be found in <code class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">User</span> <span class="pre">Preferences...</span></code> (hot keys <code class="file docutils literal"><span class="pre">Ctrl-Alt-U</span></code>). Here you can change the port number to be used to run the development server (6687 by default), and also enable its launching upon Blender startup. To do this, enable <code class="docutils literal"><span class="pre">Run</span> <span class="pre">on</span> <span class="pre">Startup</span></code> option in the add-on settings.</p>
 <a class="reference internal image-reference" href="_images/addon_server_setup.png"><img alt="_images/addon_server_setup.png" class="align-center" src="_images/addon_server_setup.png" style="width: 100%;" /></a>
 <div class="line-block">
@@ -220,24 +223,34 @@
 <p class="last">This error can arise if the server port is already used by some other application.</p>
 </div>
 <p>Press the <code class="docutils literal"><span class="pre">SDK</span> <span class="pre">Index</span></code> button to open the index web page of the Blend4Web SDK in the browser. This page is available at <a class="reference external" href="http://localhost:6687">http://localhost:6687</a>.</p>
-<a class="reference internal image-reference" href="_images/server_open.png"><img alt="_images/server_open.png" class="align-center" src="_images/server_open.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/addon_dev_tools.png"><img alt="_images/addon_dev_tools.png" class="align-center" src="_images/addon_dev_tools.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p>As a result, the default browser for your operating system will be launched.</p>
-<p>The <code class="docutils literal"><span class="pre">Project</span> <span class="pre">Manager</span></code> button can be used to open <a class="reference internal" href="project_manager.html#project-management"><span>project manager</span></a>.</p>
-<p>The <code class="docutils literal"><span class="pre">Fast</span> <span class="pre">Preview</span></code> button loads the scene that is currently open in Blender, into the <a class="reference internal" href="viewer.html#viewer"><span>viewer</span></a>.</p>
+<p>The <code class="docutils literal"><span class="pre">Project</span> <span class="pre">Manager</span></code> button can be used to open <a class="reference internal" href="project_manager.html#project-management"><span class="std std-ref">project manager</span></a>.</p>
+<p>The <code class="docutils literal"><span class="pre">Fast</span> <span class="pre">Preview</span></code> button loads the scene that is currently open in Blender, into the <a class="reference internal" href="viewer.html#viewer"><span class="std std-ref">viewer</span></a>.</p>
+<p>This button is duplicated in the <code class="docutils literal"><span class="pre">Info</span></code> panel of the <a class="reference internal" href="interface.html#ui-3dview"><span class="std std-ref">3D View window</span></a>.</p>
+<div class="figure align-center" id="id4">
+<a class="reference internal image-reference" href="_images/addon_fast_preview.png"><img alt="_images/addon_fast_preview.png" src="_images/addon_fast_preview.png" style="width: 100%;" /></a>
+<p class="caption"><span class="caption-text"><code class="docutils literal"><span class="pre">Fast</span> <span class="pre">Preview</span></code> button on the <code class="docutils literal"><span class="pre">Info</span></code> panel</span></p>
+</div>
+<p>The button at the right side of it controls data syncronization between Blender and <a class="reference internal" href="viewer.html#viewer"><span class="std std-ref">Scene Viewer</span></a>. If this option is enabled, re-exporting a scene will cause Scene Viewer application (if it is open) to reload and update the scene in accordance to the changes made to it. This option eliminates the need to open preview scene manually after exporting it. It is enabled by default.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The <code class="docutils literal"><span class="pre">Fast</span> <span class="pre">Preview</span></code> button in the <code class="docutils literal"><span class="pre">Info</span></code> panel is available in <code class="docutils literal"><span class="pre">Cycles</span></code> render engine as well.</p>
+</div>
 <p>The server can be stopped by pressing the <code class="docutils literal"><span class="pre">Stop</span> <span class="pre">Server</span></code> button. It also stops when Blender is closed.</p>
 </div>
 <div class="section" id="running-viewer-and-demos">
-<span id="getting-started-launching-viewer"></span><span id="index-1"></span><h2><a class="toc-backref" href="#id6">Running Viewer and Demos</a><a class="headerlink" href="#running-viewer-and-demos" title="Permalink to this headline">¶</a></h2>
+<span id="getting-started-launching-viewer"></span><span id="index-1"></span><h2><a class="toc-backref" href="#id7">Running Viewer and Demos</a><a class="headerlink" href="#running-viewer-and-demos" title="Permalink to this headline">¶</a></h2>
 <a class="reference internal image-reference" href="_images/addon_sdk_index.png"><img alt="_images/addon_sdk_index.png" class="align-center" src="_images/addon_sdk_index.png" style="width: 100%;" /></a>
 <p>The index page contains the following links:</p>
 <ul class="simple">
-<li><a class="reference internal" href="project_manager.html#project-management"><span>Project Manager</span></a>;</li>
-<li><a class="reference internal" href="developers.html#code-snippets"><span>Code Snippets</span></a>, a list of demo applications. A <a class="reference internal" href="about.html#browser-webgl-support"><span>WebGL-capable browser</span></a> is required to run these apps;</li>
+<li><a class="reference internal" href="project_manager.html#project-management"><span class="std std-ref">Project Manager</span></a>;</li>
+<li><a class="reference internal" href="developers.html#code-snippets"><span class="std std-ref">Code Snippets</span></a>, a list of demo applications. A <a class="reference internal" href="about.html#browser-webgl-support"><span class="std std-ref">WebGL-capable browser</span></a> is required to run these apps;</li>
 <li>WebGL Report page for checking the level of WebGL support provided by the web browser;</li>
-<li><a class="reference internal" href="about.html#about"><span>User Manual</span></a>, available in both HTML and PDF form in three languages;</li>
+<li><a class="reference internal" href="about.html#about"><span class="std std-ref">User Manual</span></a>, available in both HTML and PDF form in three languages;</li>
 <li>API Reference that contains descriptions for every API module and method provided with the Blend4Web engine;</li>
 <li>Tutorials;</li>
 <li>FAQ page where you can find answers to some of the most basic questions regarding using the engine;</li>
@@ -249,41 +262,41 @@
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">If the SDK apps are not displayed correctly, or error messages are shown, follow the instructions in the <a class="reference internal" href="problems_and_solutions.html#renderer-not-working"><span>Problems Upon Startup</span></a> section.</p>
+<p class="last">If the SDK apps are not displayed correctly, or error messages are shown, follow the instructions in the <a class="reference internal" href="problems_and_solutions.html#renderer-not-working"><span class="std std-ref">Problems Upon Startup</span></a> section.</p>
 </div>
 </div>
 <div class="section" id="export-formats">
-<span id="id2"></span><h2><a class="toc-backref" href="#id7">Export Formats</a><a class="headerlink" href="#export-formats" title="Permalink to this headline">¶</a></h2>
+<span id="id2"></span><h2><a class="toc-backref" href="#id8">Export Formats</a><a class="headerlink" href="#export-formats" title="Permalink to this headline">¶</a></h2>
 <p>After the scene is finished, you need to convert it into a format supported by the Blend4Web engine.</p>
 <p>For now, two formats are supported: JSON and HTML.</p>
 <div class="section" id="json">
-<h3><a class="toc-backref" href="#id8">JSON</a><a class="headerlink" href="#json" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id9">JSON</a><a class="headerlink" href="#json" title="Permalink to this headline">¶</a></h3>
 <p>Exporting the scene to this format creates a <code class="docutils literal"><span class="pre">.json</span></code> (JavaScript Object Notation) file that contains all exported data structures and links to external resources (images, sounds and such), and also a <code class="docutils literal"><span class="pre">.bin</span></code> file that contains model data arrays in binary format.</p>
-<p>If media resources are <a class="reference external" href="https://www.blender.org/manual/data_system/introduction.html#pack-and-unpack-data">packed into the .blend file</a>, they will be unpacked during the export and placed in the project&#8217;s directory (inside the SDK directory). It should be noted that the names of such files will be automatically changed, which can complicate working with them.</p>
+<p>If media resources are <a class="reference external" href="https://www.blender.org/manual/data_system/introduction.html#pack-and-unpack-data">packed into the .blend file</a>, they will be unpacked during the export and placed in the project’s directory (inside the SDK directory). It should be noted that the names of such files will be automatically changed, which can complicate working with them.</p>
 <p>It is recommended to store all the resources in a dedicated folder inside the SDK directory, it can be called <code class="docutils literal"><span class="pre">projects/project_name/assets</span></code> for example.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">In accordance with the security measures, the development server can only access the SDK folder. If media data is placed in another folder, the server won&#8217;t be able to deploy it during the export (even if it is working correctly in Blender itself).</p>
+<p class="last">In accordance with the security measures, the development server can only access the SDK folder. If media data is placed in another folder, the server won’t be able to deploy it during the export (even if it is working correctly in Blender itself).</p>
 </div>
 <p>Paths to the external resources should be relative. If this is not the case,  execute the <code class="docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">External</span> <span class="pre">Data</span> <span class="pre">&gt;</span> <span class="pre">Make</span> <span class="pre">All</span> <span class="pre">Paths</span> <span class="pre">Relative</span></code> command, or  else problems with opening the file on other computers may occur.</p>
-<p>This is the main format for complex projects that include multiple scenes and require JavaScript programming. Project development is further described in the  <a class="reference internal" href="developers.html#developers"><span>corresponding section</span></a>.</p>
+<p>This is the main format for complex projects that include multiple scenes and require JavaScript programming. Project development is further described in the  <a class="reference internal" href="developers.html#developers"><span class="std std-ref">corresponding section</span></a>.</p>
 </div>
 <div class="section" id="html">
-<h3><a class="toc-backref" href="#id9">HTML</a><a class="headerlink" href="#html" title="Permalink to this headline">¶</a></h3>
-<p>Exporting the scene to this format pack all scene resources into one file with the HTML extension. This HTML file contains not only the scene itself, but also textures, sounds, Blend4Web engine and standard <a class="reference internal" href="web_player.html#web-player"><span>web player</span></a>. A file like this can be executed on any computer and any mobile device that have a web browser with WebGL support.</p>
-<p>You can&#8217;t use HTML files for further development, but you also don&#8217;t need any additional actions to run them. This format is useful for developing relatively simple applications of moderate size.</p>
+<h3><a class="toc-backref" href="#id10">HTML</a><a class="headerlink" href="#html" title="Permalink to this headline">¶</a></h3>
+<p>Exporting the scene to this format pack all scene resources into one file with the HTML extension. This HTML file contains not only the scene itself, but also textures, sounds, Blend4Web engine and standard <a class="reference internal" href="web_player.html#web-player"><span class="std std-ref">web player</span></a>. A file like this can be executed on any computer and any mobile device that have a web browser with WebGL support.</p>
+<p>You can’t use HTML files for further development, but you also don’t need any additional actions to run them. This format is useful for developing relatively simple applications of moderate size.</p>
 <p>It should be noted, however, that HTML applications do not support following features:</p>
 <blockquote>
 <div><ul class="simple">
-<li><a class="reference internal" href="physics.html#physics"><span>Physics</span></a></li>
-<li><a class="reference internal" href="developers.html#converter-data-format"><span>DDS textures</span></a></li>
-<li><a class="reference internal" href="developers.html#converter"><span>min50 textures</span></a></li>
+<li><a class="reference internal" href="physics.html#physics"><span class="std std-ref">Physics</span></a></li>
+<li><a class="reference internal" href="developers.html#converter-data-format"><span class="std std-ref">DDS textures</span></a></li>
+<li><a class="reference internal" href="developers.html#converter"><span class="std std-ref">min50 textures</span></a></li>
 </ul>
 </div></blockquote>
 </div>
 </div>
 <div class="section" id="export-options">
-<span id="export-opts"></span><h2><a class="toc-backref" href="#id10">Export Options</a><a class="headerlink" href="#export-options" title="Permalink to this headline">¶</a></h2>
+<span id="export-opts"></span><h2><a class="toc-backref" href="#id11">Export Options</a><a class="headerlink" href="#export-options" title="Permalink to this headline">¶</a></h2>
 <dl class="docutils">
 <dt><em>Autosave blend File</em></dt>
 <dd>Autosaving the file from which export occurs. <strong>Enabled by default</strong>. Autosaving is performed right after the export to guarantee conformity between the current blend file and the exported file contents. In addition, the relative path to the exported file is saved for convenience.</dd>
@@ -294,21 +307,21 @@
 </div>
 <dl class="docutils">
 <dt><em>Strict Mode</em></dt>
-<dd>This mode prevents export if there are any errors or messages for users&#8217; attention. This mode is enabled with the <code class="docutils literal"><span class="pre">Strict</span> <span class="pre">Mode</span></code> setting in the export menu:</dd>
+<dd>This mode prevents export if there are any errors or messages for users’ attention. This mode is enabled with the <code class="docutils literal"><span class="pre">Strict</span> <span class="pre">Mode</span></code> setting in the export menu:</dd>
 </dl>
 <a class="reference internal image-reference" href="_images/addon_strict_mode.png"><img alt="_images/addon_strict_mode.png" class="align-center" src="_images/addon_strict_mode.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <blockquote>
-<div>If there are any non-critical errors or messages for users&#8217; attention, a dialog window will be show like this:</div></blockquote>
+<div>If there are any non-critical errors or messages for users’ attention, a dialog window will be show like this:</div></blockquote>
 <a class="reference internal image-reference" href="_images/addon_messages.png"><img alt="_images/addon_messages.png" class="align-center" src="_images/addon_messages.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <dl class="docutils">
 <dt><em>Export Converted Media</em></dt>
-<dd>This option is available for HTML export. When this option is enabled, the converted media files of different formats are written in the HTML file. Using different media files is essential to create cross-browser and cross-platform applications while using HTML export. These files can be created by the <a class="reference internal" href="developers.html#converter"><span>converter</span></a>.</dd>
+<dd>This option is available for HTML export. When this option is enabled, the converted media files of different formats are written in the HTML file. Using different media files is essential to create cross-browser and cross-platform applications while using HTML export. These files can be created by the <a class="reference internal" href="developers.html#converter"><span class="std std-ref">converter</span></a>.</dd>
 </dl>
 <a class="reference internal image-reference" href="_images/addon_media_data.png"><img alt="_images/addon_media_data.png" class="align-center" src="_images/addon_media_data.png" style="width: 100%;" /></a>
 <div class="line-block">
@@ -317,7 +330,7 @@
 <dl class="docutils" id="run-in-viewer">
 <dt><em>Run in Viewer</em></dt>
 <dd><p class="first">Automatically launch the Scene Viewer and add the exported scene to it.</p>
-<p>When using the <a class="reference internal" href="#local-development-server"><span>local development server</span></a>, there is a possibility to open the exported <code class="docutils literal"><span class="pre">.json</span></code> scene in the Scene Viewer. To do this, select any path inside the Blend4Web SDK file structure upon export.</p>
+<p>When using the <a class="reference internal" href="#local-development-server"><span class="std std-ref">local development server</span></a>, there is a possibility to open the exported <code class="docutils literal"><span class="pre">.json</span></code> scene in the Scene Viewer. To do this, select any path inside the Blend4Web SDK file structure upon export.</p>
 <p class="last">A directory inside the SDK should be used for export. If not, this option will not be displayed in the menu. Also, it will not be displayed if the local development server is down.</p>
 </dd>
 </dl>
@@ -327,7 +340,7 @@
 </div>
 <span class="target" id="initialization-errors"></span></div>
 <div class="section" id="index-2">
-<span id="id3"></span><h2><a class="toc-backref" href="#id11">Initialization Errors</a><a class="headerlink" href="#index-2" title="Permalink to this headline">¶</a></h2>
+<span id="id3"></span><h2><a class="toc-backref" href="#id12">Initialization Errors</a><a class="headerlink" href="#index-2" title="Permalink to this headline">¶</a></h2>
 <p>Initialization errors can arise upon installation of the add-on or when a scene is opened in Blender. In this case a dialog window with the error description is showed.</p>
 <a class="reference internal image-reference" href="_images/addon_init_error_message.png"><img alt="_images/addon_init_error_message.png" class="align-center" src="_images/addon_init_error_message.png" style="width: 100%;" /></a>
 <div class="line-block">
@@ -370,7 +383,7 @@ been disrupted.</td>
 </table>
 </div>
 <div class="section" id="compatibility-errors">
-<span id="version-errors"></span><span id="index-3"></span><h2><a class="toc-backref" href="#id12">Compatibility Errors</a><a class="headerlink" href="#compatibility-errors" title="Permalink to this headline">¶</a></h2>
+<span id="version-errors"></span><span id="index-3"></span><h2><a class="toc-backref" href="#id13">Compatibility Errors</a><a class="headerlink" href="#compatibility-errors" title="Permalink to this headline">¶</a></h2>
 <p>Compatibility errors may arise when trying to view a scene in a browser, in the following cases: if version of the add-on used to export the scene differs from version of the Blend4Web engine which tries to load the scene, or if .bin file does not correspond to the .json file.</p>
 <p>Engine version is too old as compared to version of the add-on with which the scene was exported. The scene will not be loaded. We recommend you to use the latest versions of the engine and the add-on.</p>
 <table border="1" class="docutils">
@@ -413,7 +426,7 @@ recommend to use the latest version of
 the engine.</td>
 </tr>
 <tr class="row-even"><td>B4W engine version is too old
-relative to JSON. Can&#8217;t load the
+relative to JSON. Can’t load the
 scene. Update your engine version
 to fix it.</td>
 <td>Engine version is too old as compared to
@@ -437,7 +450,7 @@ versions of the engine and the add-on.</td>
 </tr>
 <tr class="row-even"><td>BIN version does not match to
 JSON version: VER_BIN, required:
-VER_JSON. Couldn&#8217;t load the scene.
+VER_JSON. Couldn’t load the scene.
 Reexport scene to fix it.</td>
 <td>Version of the .bin file is too old
 relative to .json file: VER_BIN, .json
@@ -459,7 +472,7 @@ recommend you to reexport your scene.</td>
 </table>
 </div>
 <div class="section" id="critical-export-errors">
-<span id="export-errors"></span><span id="index-4"></span><h2><a class="toc-backref" href="#id13">Critical Export Errors</a><a class="headerlink" href="#critical-export-errors" title="Permalink to this headline">¶</a></h2>
+<span id="export-errors"></span><span id="index-4"></span><h2><a class="toc-backref" href="#id14">Critical Export Errors</a><a class="headerlink" href="#critical-export-errors" title="Permalink to this headline">¶</a></h2>
 <p>In case of export errors a <code class="docutils literal"><span class="pre">BLEND4WEB</span> <span class="pre">EXPORT</span> <span class="pre">ERROR</span></code> dialog box describing of the problem appears:</p>
 <blockquote>
 <div><p><code class="docutils literal"><span class="pre">COMPONENT</span></code> - type of component (object, mesh, material, texture etc) that has caused the export error.</p>
@@ -513,7 +526,7 @@ disk is forbidden</td>
 is forbidden.</td>
 </tr>
 <tr class="row-even"><td>The material has a normal map but
-doesn&#8217;t have any material nodes</td>
+doesn’t have any material nodes</td>
 <td>The node material uses <code class="docutils literal"><span class="pre">Normal</span> <span class="pre">Mapping</span></code>,
 but has no <code class="docutils literal"><span class="pre">Material</span></code> node.</td>
 </tr>
@@ -534,7 +547,7 @@ no material for export.</td>
 <td>No access rights to the current directory.</td>
 </tr>
 <tr class="row-odd"><td>Wrong edited normals count; It
-doesn&#8217;t match with the mesh
+doesn’t match with the mesh
 vertices count</td>
 <td>The number of edited normals does not
 match the number of the mesh vertices.
@@ -542,10 +555,10 @@ Execute <code class="docutils literal"><span class="pre">Clean</span> <span clas
 <code class="docutils literal"><span class="pre">B4W</span> <span class="pre">Vertex</span> <span class="pre">Normals</span> <span class="pre">Editor</span></code> panel.</td>
 </tr>
 <tr class="row-even"><td>Wrong overridden bounding box;
-Check the mesh&#8217;s bounding box
+Check the mesh’s bounding box
 values</td>
 <td>Wrong dimensions are specified when
-overriding the mesh&#8217;s <code class="docutils literal"><span class="pre">BoundingBox</span></code>:
+overriding the mesh’s <code class="docutils literal"><span class="pre">BoundingBox</span></code>:
 minimum value is greater than maximum
 value for at least one of the dimensions.</td>
 </tr>
@@ -553,7 +566,7 @@ value for at least one of the dimensions.</td>
 </table>
 <span class="target" id="export-errors-warnings"></span></div>
 <div class="section" id="non-critical-export-errors">
-<span id="index-5"></span><h2><a class="toc-backref" href="#id14">Non-Critical Export Errors</a><a class="headerlink" href="#non-critical-export-errors" title="Permalink to this headline">¶</a></h2>
+<span id="index-5"></span><h2><a class="toc-backref" href="#id15">Non-Critical Export Errors</a><a class="headerlink" href="#non-critical-export-errors" title="Permalink to this headline">¶</a></h2>
 <p>In contrast to the above-listed critical export errors, these errors do not prohibit the export, but can make scenes displayed incorrectly. These messages can be viewed in the browser console (opens with <code class="docutils literal"><span class="pre">F12</span></code>) when a scene is loaded. The message looks like this:</p>
 <blockquote>
 <div><code class="docutils literal"><span class="pre">B4W</span> <span class="pre">EXPORT</span> <span class="pre">ERROR:</span> <span class="pre">Error</span> <span class="pre">message</span></code></div></blockquote>
@@ -593,10 +606,10 @@ NAME.</td>
 <td><code class="docutils literal"><span class="pre">Canvas</span></code> ID is empty.</td>
 </tr>
 <tr class="row-odd"><td>Empty material slot in node
-&#8220;NAME&#8221;. Material: &#8220;NAME&#8221;.</td>
-<td>Empty material slot in &#8220;NAME&#8221; node.</td>
+“NAME”. Material: “NAME”.</td>
+<td>Empty material slot in “NAME” node.</td>
 </tr>
-<tr class="row-even"><td>Environment map in the &#8220;NAME&#8221;
+<tr class="row-even"><td>Environment map in the “NAME”
 world texture slot cannot be
 a movie.</td>
 <td>Environment map can not be presented with
@@ -631,16 +644,16 @@ simple sequential NLA.</td>
 <tr class="row-odd"><td>Incorrect vertex animation for mesh
 NAME. Object has no vertex
 animation.</td>
-<td>The object&#8217;s vertex animation export
+<td>The object’s vertex animation export
 option is on, but there is no vertex
 animation.</td>
 </tr>
 <tr class="row-even"><td>Incorrect vertex animation for mesh
-NAME. Unbaked &#8220;ANIM_NAME&#8221; vertex
+NAME. Unbaked “ANIM_NAME” vertex
 animation.</td>
 <td>Vertex animation export is turned on for
 the mesh, but the ANIM_NAME animation
-doesn&#8217;t have any frames.</td>
+doesn’t have any frames.</td>
 </tr>
 <tr class="row-odd"><td>Incorrect mesh NAME;
 Wrong group indices</td>
@@ -679,7 +692,7 @@ weight value.</td>
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td>Incomplete vehicle. The NAME
-vehicle doesn&#8217;t have any chassis
+vehicle doesn’t have any chassis
 or hull</td>
 <td>The modelled NAME vehicle is not complete
 as it should contain a <code class="docutils literal"><span class="pre">Chassis</span></code> or a
@@ -698,8 +711,8 @@ complete as it should contain at least
 one <code class="docutils literal"><span class="pre">Wheel</span></code> element.</td>
 </tr>
 <tr class="row-even"><td>Invalid link found in node
-material. Material: &#8220;NAME&#8221;.</td>
-<td>The &#8220;NAME&#8221; node material contains an
+material. Material: “NAME”.</td>
+<td>The “NAME” node material contains an
 incorrect link between nodes.</td>
 </tr>
 <tr class="row-odd"><td>No image in the NAME texture.
@@ -708,12 +721,12 @@ incorrect link between nodes.</td>
 </tr>
 <tr class="row-even"><td>No texture for the NAME particle
 settings texture slot.</td>
-<td>No texture in the particle settings&#8217;
+<td>No texture in the particle settings’
 texture slot.</td>
 </tr>
 <tr class="row-odd"><td>No texture in the NAME world
 texture slot.</td>
-<td>No texture in the NAME world&#8217;s texture
+<td>No texture in the NAME world’s texture
 slot.</td>
 </tr>
 <tr class="row-even"><td>No texture in the texture slot.
@@ -721,49 +734,49 @@ Material: NAME.</td>
 <td>There is no texture in the material
 texture slot.</td>
 </tr>
-<tr class="row-odd"><td>Node material invalid: &#8220;NAME&#8221;.
+<tr class="row-odd"><td>Node material invalid: “NAME”.
 Check sockets compatibility:
-&#8220;FROM_NODE&#8221; with &#8220;TO_NODE&#8221;.</td>
+“FROM_NODE” with “TO_NODE”.</td>
 <td>Node material error: the input and output
 types of the link between the
 <code class="docutils literal"><span class="pre">FROM_NODE</span></code> and <code class="docutils literal"><span class="pre">TO_NODE</span></code> nodes
 should match.</td>
 </tr>
-<tr class="row-even"><td>Object &#8220;NAME&#8221; hasn&#8217;t renderable
+<tr class="row-even"><td>Object “NAME” hasn’t renderable
 data. Converted to EMPTY.</td>
-<td>An object named &#8220;NAME&#8221; is degenerate,
-e.g. has no polygons. The object&#8217;s type
+<td>An object named “NAME” is degenerate,
+e.g. has no polygons. The object’s type
 has been changed to EMPTY.</td>
 </tr>
-<tr class="row-odd"><td>Object: &#8220;NAME&#8221; &gt; Constraint:
-&#8220;CONSTRAINT_TYPE&#8221;. Check
+<tr class="row-odd"><td>Object: “NAME” &gt; Constraint:
+“CONSTRAINT_TYPE”. Check
 constraint settings.</td>
-<td>The object &#8220;NAME&#8221; has a constraint of
-type &#8220;CONSTRAINT_TYPE&#8221;, which isn&#8217;t
+<td>The object “NAME” has a constraint of
+type “CONSTRAINT_TYPE”, which isn’t
 configured properly.</td>
 </tr>
-<tr class="row-even"><td>Object &#8220;NAME&#8221; has the mesh with
+<tr class="row-even"><td>Object “NAME” has the mesh with
 shape keys. The property
-&#8220;Relative&#8221; of mesh has been
+“Relative” of mesh has been
 enabled.</td>
-<td>An object named &#8220;NAME&#8221; has a mesh with
+<td>An object named “NAME” has a mesh with
 shape keys. This mesh has the
-&#8220;Relative&#8221; property enabled which is
+“Relative” property enabled which is
 forbidden.</td>
 </tr>
-<tr class="row-odd"><td>Object &#8220;NAME&#8221; has no data or
+<tr class="row-odd"><td>Object “NAME” has no data or
 data is broken. Change object type
 to EMPTY.</td>
-<td>An object named &#8220;NAME&#8221; has no mesh or
-mesh is broken. The object&#8217;s type
+<td>An object named “NAME” has no mesh or
+mesh is broken. The object’s type
 has been changed to EMPTY.</td>
 </tr>
-<tr class="row-even"><td>Packed media &#8220;FILE_NAME&#8221; has not
+<tr class="row-even"><td>Packed media “FILE_NAME” has not
 been exported to
-&#8220;CONVERTED_FILE_PATH&#8221;</td>
-<td>The packed media file &#8220;FILE_NAME&#8221;
+“CONVERTED_FILE_PATH”</td>
+<td>The packed media file “FILE_NAME”
 cannot be converted to
-&#8220;CONVERTED_FILE_PATH&#8221;. Please unpack
+“CONVERTED_FILE_PATH”. Please unpack
 this file and convert it.</td>
 </tr>
 </tbody>
@@ -774,45 +787,45 @@ this file and convert it.</td>
 <col width="54%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td>Particle system error for &#8220;NAME&#8221;;
-The &#8220;NAME&#8221; vertex color specified
+<tr class="row-odd"><td>Particle system error for “NAME”;
+The “NAME” vertex color specified
 in the <code class="docutils literal"><span class="pre">from</span></code> field is missing in
-the last of the &#8220;OBJECT_NAME&#8221;
-object&#8217;s vertex colors</td>
+the last of the “OBJECT_NAME”
+object’s vertex colors</td>
 <td>The NAME vertex color is specified in
-the <code class="docutils literal"><span class="pre">from</span></code> field but it&#8217;s not presented
+the <code class="docutils literal"><span class="pre">from</span></code> field but it’s not presented
 in the OBJECT_NAME emitter.</td>
 </tr>
-<tr class="row-even"><td>Particle system error for &#8220;NAME&#8221;;
-The &#8220;NAME&#8221; vertex color specified
+<tr class="row-even"><td>Particle system error for “NAME”;
+The “NAME” vertex color specified
 in the <code class="docutils literal"><span class="pre">to</span></code> field is missing in
-the list of the &#8220;OBJECT_NAME&#8221;
-object&#8217;s vertex colors</td>
+the list of the “OBJECT_NAME”
+object’s vertex colors</td>
 <td>The NAME vertex color is specified in the
 <code class="docutils literal"><span class="pre">to</span></code> field but it is not present in the
 OBJECT_NAME object which is selected as a
 particle.</td>
 </tr>
-<tr class="row-odd"><td>Particle system error for &#8220;NAME&#8221;;
-The &#8220;NAME&#8221; vertex color specified
-in the &#8220;<code class="docutils literal"><span class="pre">to</span></code> field is missing in
-the &#8220;OBJECT_NAME&#8221; object
-(&#8220;GROUP_NAME&#8221; dupli group)</td>
+<tr class="row-odd"><td>Particle system error for “NAME”;
+The “NAME” vertex color specified
+in the “<code class="docutils literal"><span class="pre">to</span></code> field is missing in
+the “OBJECT_NAME” object
+(“GROUP_NAME” dupli group)</td>
 <td>The NAME vertex color is specified in the
 <code class="docutils literal"><span class="pre">to</span></code> field but it is not present in
 the OBJECT_NAME object of the GROUP_NAME
 group which is selected as a particle.</td>
 </tr>
 <tr class="row-even"><td>Particle system error for object
-&#8220;NAME&#8221;. Invalid dupli object
-&#8220;OBJECT_NAME&#8221;.</td>
+“NAME”. Invalid dupli object
+“OBJECT_NAME”.</td>
 <td>Particle system error for the object
 NAME. Invalid dupli-object OBJECT_NAME.</td>
 </tr>
 <tr class="row-odd"><td>Particle system error. Unsupported
-render type &#8220;TYPE&#8221; for the HAIR
-particles &#8220;NAME&#8221; on object
-&#8220;OBJECT_NAME&#8221;. Particle system
+render type “TYPE” for the HAIR
+particles “NAME” on object
+“OBJECT_NAME”. Particle system
 removed.</td>
 <td>Particle system error. Unsupported
 render type TYPE for the HAIR
@@ -820,40 +833,40 @@ particles PSYS_NAME on object NAME. The
 particle system has removed.</td>
 </tr>
 <tr class="row-even"><td>Particle system error. Unsupported
-render type &#8220;TYPE&#8221; for the EMITTER
-particles &#8220;NAME&#8221; on object
-&#8220;OBJECT_NAME&#8221;. Particle system
+render type “TYPE” for the EMITTER
+particles “NAME” on object
+“OBJECT_NAME”. Particle system
 removed.</td>
 <td>Particle system error. Unsupported
 render type TYPE for the EMITTER
 particles PSYS_NAME on object NAME. The
 particle system has removed.</td>
 </tr>
-<tr class="row-odd"><td>Particle system error for &#8220;NAME&#8221;.
-Dupli object isn&#8217;t specified.</td>
+<tr class="row-odd"><td>Particle system error for “NAME”.
+Dupli object isn’t specified.</td>
 <td>Particle system error: no object is
 selected as a particle.</td>
 </tr>
-<tr class="row-even"><td>Particle system error for &#8220;NAME&#8221;.
-Dupli group isn&#8217;t specified.</td>
+<tr class="row-even"><td>Particle system error for “NAME”.
+Dupli group isn’t specified.</td>
 <td>Particle system error: no group is
 selected as a particle.</td>
 </tr>
-<tr class="row-odd"><td>Particle system error for &#8220;NAME&#8221;.
-Wrong dupli object type &#8220;TYPE&#8221;.</td>
+<tr class="row-odd"><td>Particle system error for “NAME”.
+Wrong dupli object type “TYPE”.</td>
 <td>An object of unsuitable type is selected
 for the particle. Supported types:
 <code class="docutils literal"><span class="pre">MESH</span></code>.</td>
 </tr>
-<tr class="row-even"><td>Particle system error for &#8220;NAME&#8221;.
-Dupli object &#8220;NAME&#8221; has not been
+<tr class="row-even"><td>Particle system error for “NAME”.
+Dupli object “NAME” has not been
 exported.</td>
 <td>The NAME object which is selected
 as a particle can not be exported (the
 <code class="docutils literal"><span class="pre">Do</span> <span class="pre">not</span> <span class="pre">export</span></code> checkbox is set).</td>
 </tr>
-<tr class="row-odd"><td>Particle system error for &#8220;NAME&#8221;.
-The &#8220;GROUP_NAME&#8221; dupli group
+<tr class="row-odd"><td>Particle system error for “NAME”.
+The “GROUP_NAME” dupli group
 contains no valid object for export.</td>
 <td>The GROUP_NAME dupli group which is
 selected as a particle contains no valid
@@ -864,15 +877,15 @@ unsuitable. Supported object types:
 <code class="docutils literal"><span class="pre">MESH</span></code>.</td>
 </tr>
 <tr class="row-even"><td>Sound file is missing in the
-SPEAKER object &#8220;NAME&#8221;. Converted
+SPEAKER object “NAME”. Converted
 to EMPTY.</td>
 <td>The speaker has no sound attached. The
-object&#8217;s type has been changed to EMPTY.</td>
+object’s type has been changed to EMPTY.</td>
 </tr>
-<tr class="row-odd"><td>The lamp object &#8220;NAME&#8221; has
+<tr class="row-odd"><td>The lamp object “NAME” has
 unsupported AREA type. Changed to
 SUN.</td>
-<td>The lamp object &#8220;NAME&#8221; has unsupported
+<td>The lamp object “NAME” has unsupported
 AREA type. Lamp type has been changed
 to SUN.</td>
 </tr>
@@ -894,7 +907,7 @@ been deleted.</td>
 <tr class="row-even"><td>The NAME action has decimal frames.
 Converted to integer.</td>
 <td>The NAME action has decimal frames, which
-isn&#8217;t supported. Converted to integer.</td>
+isn’t supported. Converted to integer.</td>
 </tr>
 <tr class="row-odd"><td>The NAME armature modifier has a
 proxy object as an armature.
@@ -934,7 +947,7 @@ not exported scene. Modifier
 removed.</td>
 <td>The NAME object has the NAME
 armature modifier. The armature object in
-this modifier isn&#8217;t specified or belongs
+this modifier isn’t specified or belongs
 to a not exported scene. Modifier
 removed.</td>
 </tr>
@@ -958,9 +971,9 @@ group. Modifier removed.</td>
 an armature, or both these objects should
 be explicitly present in the scene.</td>
 </tr>
-<tr class="row-even"><td>&#8220;TEXTURE_TYPE&#8221; texture type is not
-supported for world &#8220;NAME&#8221;.</td>
-<td>TEXTURE_TYPE texture type isn&#8217;t supported
+<tr class="row-even"><td>“TEXTURE_TYPE” texture type is not
+supported for world “NAME”.</td>
+<td>TEXTURE_TYPE texture type isn’t supported
 for world WORLD_NAME</td>
 </tr>
 <tr class="row-odd"><td>Using B4W_REFRACTION node NODE_NAME
@@ -969,10 +982,10 @@ Material: NAME.</td>
 <td>A node material with incorrect Alpha
 Blend property is used. <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">sort</span></code>,
 <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">blend</span></code> and <code class="docutils literal"><span class="pre">Add</span></code> are allowed
-when using a &#8220;REFRACTION&#8221; node.</td>
+when using a “REFRACTION” node.</td>
 </tr>
 <tr class="row-even"><td>Wind bending: not all
-vertex colors exist for &#8220;NAME&#8221;.
+vertex colors exist for “NAME”.
 Properties were set to default
 values.</td>
 <td>Wind bending parameters setup: all
@@ -987,11 +1000,11 @@ exist.</td>
 <col width="54%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td>Wind bending: vertex colors weren&#8217;t
-properly assigned for &#8220;NAME&#8221;.
+<tr class="row-odd"><td>Wind bending: vertex colors weren’t
+properly assigned for “NAME”.
 Properties were set to default
 values.</td>
-<td>Wind bending parameters setup: it&#8217;s
+<td>Wind bending parameters setup: it’s
 required to specify the names of either
 all vertex color layers
 (<code class="docutils literal"><span class="pre">Main</span> <span class="pre">stiffness</span> <span class="pre">(A)</span></code>,
@@ -1002,12 +1015,12 @@ or of the main one only
 (<code class="docutils literal"><span class="pre">Main</span> <span class="pre">stiffness</span> <span class="pre">(A)</span></code>),
 or of none of them.</td>
 </tr>
-<tr class="row-even"><td>Wrong &#8220;Height Map&#8221; input for the
-&#8220;NAME&#8221; B4W_PARALLAX node. Only link
+<tr class="row-even"><td>Wrong “Height Map” input for the
+“NAME” B4W_PARALLAX node. Only link
 from the TEXTURE node with a
 non-empty texture is allowed.</td>
-<td>Wrong data were passed to the &#8220;Height
-Map&#8221; input of the NAME <code class="docutils literal"><span class="pre">B4W_PARALLAX</span></code>
+<td>Wrong data were passed to the “Height
+Map” input of the NAME <code class="docutils literal"><span class="pre">B4W_PARALLAX</span></code>
 node. Only the output from a non-empty
 <code class="docutils literal"><span class="pre">TEXTURE</span></code> node is allowed.</td>
 </tr>
@@ -1026,20 +1039,20 @@ action interpolation mode: <code class="docutils literal"><span class="pre">BEZI
 <code class="docutils literal"><span class="pre">LINEAR</span></code> and <code class="docutils literal"><span class="pre">CONSTANT</span></code>.</td>
 </tr>
 <tr class="row-odd"><td>Wrong vertex animation vertices
-count for mesh NAME. It doesn&#8217;t
+count for mesh NAME. It doesn’t
 match with the mesh vertices count
-for &#8220;ANIM_NAME&#8221;.</td>
+for “ANIM_NAME”.</td>
 <td>Vertex animation export is enabled but
 the number of vertices in the baked
 ANIM_NAME animation frames does not match
 the mesh vertices number. Possible
-solution is to &#8220;re-bake&#8221; the animation.</td>
+solution is to “re-bake” the animation.</td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="section" id="other-messages">
-<span id="export-errors-other"></span><h2><a class="toc-backref" href="#id15">Other Messages</a><a class="headerlink" href="#other-messages" title="Permalink to this headline">¶</a></h2>
+<span id="export-errors-other"></span><h2><a class="toc-backref" href="#id16">Other Messages</a><a class="headerlink" href="#other-messages" title="Permalink to this headline">¶</a></h2>
 <p>These messages can be viewed in the browser console (opens with <code class="docutils literal"><span class="pre">F12</span></code>) when a scene is loaded. The message looks like this:</p>
 <blockquote>
 <div><code class="docutils literal"><span class="pre">B4W</span> <span class="pre">EXPORT</span> <span class="pre">WARNING:</span> <span class="pre">Export</span> <span class="pre">message</span> <span class="pre">which</span> <span class="pre">requires</span> <span class="pre">the</span> <span class="pre">user's</span> <span class="pre">attention</span></code></div></blockquote>
@@ -1059,10 +1072,10 @@ solution is to &#8220;re-bake&#8221; the animation.</td>
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td>Material tangent shading is
-enabled, but object&#8217;s mesh has no
+enabled, but object’s mesh has no
 UV map.</td>
-<td>The material has the option &#8220;Tangent
-Shading&#8221; enabled, which always requires
+<td>The material has the option “Tangent
+Shading” enabled, which always requires
 a UV map.</td>
 </tr>
 <tr class="row-odd"><td>Missing active camera or wrong
@@ -1077,12 +1090,12 @@ object</td>
 datablock in the scene.</td>
 </tr>
 <tr class="row-odd"><td>Multiple constraints added on an
-object &#8220;Cube&#8221;, but it supports only
-one. Others won&#8217;t be used.</td>
+object “Cube”, but it supports only
+one. Others won’t be used.</td>
 <td>Multiple constraints added on an object
 NAME, but it supports only one. Others
-won&#8217;t be used. The engine currently
-doesn&#8217;t support multiple constraints on
+won’t be used. The engine currently
+doesn’t support multiple constraints on
 an object.</td>
 </tr>
 <tr class="row-even"><td>NAME particle settings has the NAME
@@ -1095,21 +1108,21 @@ rendering a scene into. This texture has
 been replaced by a default texture.</td>
 </tr>
 <tr class="row-odd"><td>The action NAME has no fcurves.</td>
-<td>The action with the name &#8220;NAME&#8221; has no
+<td>The action with the name “NAME” has no
 fcurves.</td>
 </tr>
-<tr class="row-even"><td>The &#8220;NAME&#8221; camera has unsupported
+<tr class="row-even"><td>The “NAME” camera has unsupported
 PANORAMIC type. Changed to
-PERSPECTIVE type.&#8221;</td>
+PERSPECTIVE type.”</td>
 <td>Panoramic cameras are not supported.
 Perspective mode is used instead.</td>
 </tr>
 <tr class="row-odd"><td>Unsupported texture type or texture
 is missing for Lens Flare material
-&#8220;NAME&#8221;</td>
+“NAME”</td>
 <td>There are no textures on the material
 or unsupported texture type is used
-for material &#8220;NAME&#8221;.</td>
+for material “NAME”.</td>
 </tr>
 <tr class="row-even"><td>Use of ENVIRONMENT_MAP as diffuse
 color is not supported. Use as
@@ -1125,8 +1138,8 @@ texture as mirror map.</td>
 </table>
 </div>
 <div class="section" id="add-on-translations">
-<span id="translator"></span><h2><a class="toc-backref" href="#id16">Add-on Translations</a><a class="headerlink" href="#add-on-translations" title="Permalink to this headline">¶</a></h2>
-<p>There is the possibility to translate the add-on to a language supported by Blender. In order to do this, rename the file &#8220;empty.po&#8221;, which located in the directory SDK/blender_scripts/addons/blend4web/locales, to one of the names in the following table:</p>
+<span id="translator"></span><h2><a class="toc-backref" href="#id17">Add-on Translations</a><a class="headerlink" href="#add-on-translations" title="Permalink to this headline">¶</a></h2>
+<p>There is the possibility to translate the add-on to a language supported by Blender. In order to do this, rename the file “empty.po”, which located in the directory SDK/blender_scripts/addons/blend4web/locales, to one of the names in the following table:</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -1291,7 +1304,7 @@ texture as mirror map.</td>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Triumph.
-      Last updated on 2017-11-21.
+      Last updated on 2017-12-29.
 
     </p>
   </div>
@@ -1347,11 +1360,11 @@ texture as mirror map.</td>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

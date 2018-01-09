@@ -1,0 +1,54 @@
+{
+  "name": "blend4web",
+  "version": "17.12.0-rc.0",
+  "description": "Blend4Web is a framework for creating interactive web-based 3D, VR and AR content using webgl. The framework can be used for showcasing products, e-learning, game development, advertising and web design.",
+  "keywords": [
+     "3D",
+     "html5",
+     "webgl",
+     "webgl2",
+     "webvr",
+     "vr",
+     "ar",
+     "blender"
+  ],
+  "files": [
+    "package.json",
+    "VERSION",
+    "src",
+    "shaders",
+    "dist",
+    "index.js",
+    "projects/my_project"
+  ],
+  "dependencies": {
+  },
+  "devDependencies": {
+    "command-line-args": "^4.0.7",
+    "html-string-replace-webpack-plugin": "^1.0.5",
+    "html-webpack-plugin": "^2.30.1",
+    "htmlparser2": "^3.9.2",
+    "ini-parser": "0.0.2",
+    "webpack": "^3.9.1",
+    "string-replace-webpack-plugin": "^0.1.3",
+    "websocket": "^1.0.25"
+  },
+  "scripts": {
+      "prepack": "mv README.rst _README.rst",
+      "postpack": "mv _README.rst README.rst"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TriumphLLC/Blend4Web.git"
+  },
+  "main": "index.js",
+  "author": {
+     "name": "Triumph LLC",
+     "email": "info@blend4web.com"
+  },
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/TriumphLLC/Blend4Web/issues"
+  },
+  "homepage": "https://github.com/TriumphLLC/Blend4Web#readme"
+}

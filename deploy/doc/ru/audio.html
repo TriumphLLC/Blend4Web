@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Звук &mdash; Руководство пользователя Blend4Web 17.10.1</title>
+  <title>Звук &mdash; Руководство пользователя Blend4Web 17.12.0</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 17.10.1" href="index.html"/>
+        <link rel="index" title="Алфавитный указатель"
+              href="genindex.html"/>
+        <link rel="search" title="Поиск" href="search.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 17.12.0" href="index.html"/>
         <link rel="next" title="Физика" href="physics.html"/>
         <link rel="prev" title="Работа с цветом" href="colors.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -110,7 +113,7 @@
 <li class="toctree-l1"><a class="reference internal" href="animation.html">Анимация</a></li>
 <li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Природные эффекты</a></li>
 <li class="toctree-l1"><a class="reference internal" href="colors.html">Работа с цветом</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Звук</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Звук</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#audio-source-settings">Настройка звуковых источников</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#sound-tab">Вкладка Sound</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#distance-tab">Вкладка Distance</a></li>
@@ -174,7 +177,7 @@
   <div class="section" id="audio">
 <span id="id1"></span><h1><a class="toc-backref" href="#id2">Звук</a><a class="headerlink" href="#audio" title="Ссылка на этот заголовок">¶</a></h1>
 <div class="contents topic" id="table-of-contents">
-<p class="topic-title first">Содержание</p>
+<p class="topic-title first">Table of Contents</p>
 <ul class="simple">
 <li><a class="reference internal" href="#audio" id="id2">Звук</a><ul>
 <li><a class="reference internal" href="#audio-source-settings" id="id3">Настройка звуковых источников</a><ul>
@@ -192,7 +195,7 @@
 </li>
 </ul>
 </div>
-<p>Создание звуковых источников осуществляется в Blender&#8217;e. Используется стандартный объект <code class="docutils literal"><span class="pre">Speaker</span></code>.</p>
+<p>Создание звуковых источников осуществляется в Blender’e. Используется стандартный объект <code class="docutils literal"><span class="pre">Speaker</span></code>.</p>
 <a class="reference internal image-reference" href="_images/speaker.png"><img alt="_images/speaker.png" class="align-center" src="_images/speaker.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -206,87 +209,69 @@
 <h3><a class="toc-backref" href="#id4">Вкладка Sound</a><a class="headerlink" href="#sound-tab" title="Ссылка на этот заголовок">¶</a></h3>
 <p><em>Mute</em></p>
 <blockquote>
-<div><p>Отключает воспроизведение звука.</p>
-</div></blockquote>
+<div>Отключает воспроизведение звука.</div></blockquote>
 <p><em>Speaker Behavior</em>:</p>
 <blockquote>
 <div><p>Поведение звукового источника.</p>
-<p><code class="docutils literal"><span class="pre">Positional</span></code> &#8212; высококачественный звук, допускающий позиционирование и имеющий направленность (конусность). Для рендеринга используется Web Audio API. Воспроизведение подобных звуков обладает наименьшей производительностью, поэтому их использовать целесообразно только для коротких сэмплов. Это значение выбрано по умолчанию.</p>
-<p><code class="docutils literal"><span class="pre">Background</span> <span class="pre">Sound</span></code> &#8212; высококачественный всенаправленный звук без возможности позиционирования в пространстве. Для рендеринга используется Web Audio API. Более производителен, однако нецелесообразен для музыки.</p>
-<p><code class="docutils literal"><span class="pre">Background</span> <span class="pre">Music</span></code> &#8212; используется для воспроизведения музыки. Максимальная производительность вследствие использования тега Audio, минимальная гибкость.</p>
+<p><code class="docutils literal"><span class="pre">Positional</span></code> — высококачественный звук, допускающий позиционирование и имеющий направленность (конусность). Для рендеринга используется Web Audio API. Воспроизведение подобных звуков обладает наименьшей производительностью, поэтому их использовать целесообразно только для коротких сэмплов. Это значение выбрано по умолчанию.</p>
+<p><code class="docutils literal"><span class="pre">Background</span> <span class="pre">Sound</span></code> — высококачественный всенаправленный звук без возможности позиционирования в пространстве. Для рендеринга используется Web Audio API. Более производителен, однако нецелесообразен для музыки.</p>
+<p><code class="docutils literal"><span class="pre">Background</span> <span class="pre">Music</span></code> — используется для воспроизведения музыки. Максимальная производительность вследствие использования тега Audio, минимальная гибкость.</p>
 </div></blockquote>
 <p>На панели <code class="docutils literal"><span class="pre">Sound</span></code> доступны следующие настройки:</p>
 <p><em>Volume</em></p>
 <blockquote>
-<div><p>Громкость источника.</p>
-</div></blockquote>
+<div>Громкость источника.</div></blockquote>
 <p><em>Random Volume</em></p>
 <blockquote>
-<div><p>Дополнительная рандомизация громкости. Результирующее значение определяется аналогично задержке.</p>
-</div></blockquote>
+<div>Дополнительная рандомизация громкости. Результирующее значение определяется аналогично задержке.</div></blockquote>
 <p><em>Pitch</em></p>
 <blockquote>
-<div><p>Скорость проигрывания (высота) звука.</p>
-</div></blockquote>
+<div>Скорость проигрывания (высота) звука.</div></blockquote>
 <p><em>Random Pitch</em></p>
 <blockquote>
-<div><p>Дополнительная рандомизация скорости проигрывания звука. Результирующее значение определяется аналогично задержке.</p>
-</div></blockquote>
+<div>Дополнительная рандомизация скорости проигрывания звука. Результирующее значение определяется аналогично задержке.</div></blockquote>
 <p><em>Fade-In</em></p>
 <blockquote>
-<div><p>Интервал плавного включения звука.</p>
-</div></blockquote>
+<div>Интервал плавного включения звука.</div></blockquote>
 <p><em>Fade-Out</em></p>
 <blockquote>
-<div><p>Интервал плавного выключения звука.</p>
-</div></blockquote>
+<div>Интервал плавного выключения звука.</div></blockquote>
 <p><em>Enable Doppler</em></p>
 <blockquote>
-<div><p>Включает смещение частоты источника при его перемещении.</p>
-</div></blockquote>
+<div>Включает смещение частоты источника при его перемещении.</div></blockquote>
 <p><em>Auto-play</em></p>
 <blockquote>
-<div><p>Включает воспроизведение по умолчанию.</p>
-</div></blockquote>
+<div>Включает воспроизведение по умолчанию.</div></blockquote>
 <p><em>Cyclic Play</em></p>
 <blockquote>
-<div><p>Зацикливать воспроизведение звука.</p>
-</div></blockquote>
+<div>Зацикливать воспроизведение звука.</div></blockquote>
 <p><em>Loop</em></p>
 <blockquote>
-<div><p>Зацикливать воспроизведение звука. Отличается от <code class="docutils literal"><span class="pre">Cyclic</span> <span class="pre">Play</span></code>, тем, что способен обеспечить нулевую задержку при повторении. Опция доступна только для звуковых источников с поведением <code class="docutils literal"><span class="pre">Positional</span></code> или <code class="docutils literal"><span class="pre">Background</span> <span class="pre">Sound</span></code>.</p>
-</div></blockquote>
+<div>Зацикливать воспроизведение звука. Отличается от <code class="docutils literal"><span class="pre">Cyclic</span> <span class="pre">Play</span></code>, тем, что способен обеспечить нулевую задержку при повторении. Опция доступна только для звуковых источников с поведением <code class="docutils literal"><span class="pre">Positional</span></code> или <code class="docutils literal"><span class="pre">Background</span> <span class="pre">Sound</span></code>.</div></blockquote>
 <p><em>Loop Start</em></p>
 <blockquote>
-<div><p>Задаёт начальную точку фрагмента звукового файла, который будет зациклен. Измеряется в секундах, отсчитываемых от начала звукового файла.</p>
-</div></blockquote>
+<div>Задаёт начальную точку фрагмента звукового файла, который будет зациклен. Измеряется в секундах, отсчитываемых от начала звукового файла.</div></blockquote>
 <p><em>Loop End</em></p>
 <blockquote>
-<div><p>Задаёт начальную точку фрагмента звукового файла, который будет зациклен. Также измеряется в секундах.</p>
-</div></blockquote>
+<div>Задаёт начальную точку фрагмента звукового файла, который будет зациклен. Также измеряется в секундах.</div></blockquote>
 <p><em>Delay</em></p>
 <blockquote>
-<div><p>Задержка в секундах перед началом проигрывания звука.</p>
-</div></blockquote>
+<div>Задержка в секундах перед началом проигрывания звука.</div></blockquote>
 <p><em>Random Delay</em></p>
 <blockquote>
-<div><p>Дополнительная рандомизация задержки, результирующее значение определяется по формуле <span class="math">\(Delay_{result} = Delay + Delay_{random} * Random_{[0-1]}\)</span>.</p>
-</div></blockquote>
+<div>Дополнительная рандомизация задержки, результирующее значение определяется по формуле <span class="math">\(Delay_{result} = Delay + Delay_{random} * Random_{[0-1]}\)</span>.</div></blockquote>
 </div>
 <div class="section" id="distance-tab">
 <h3><a class="toc-backref" href="#id5">Вкладка Distance</a><a class="headerlink" href="#distance-tab" title="Ссылка на этот заголовок">¶</a></h3>
 <p><em>Attenuation</em></p>
 <blockquote>
-<div><p>Задаёт силу, с которой расстояние влияет на громкость. По умолчанию это значение равно 1.0.</p>
-</div></blockquote>
+<div>Задаёт силу, с которой расстояние влияет на громкость. По умолчанию это значение равно 1.0.</div></blockquote>
 <p><em>Maximum</em></p>
 <blockquote>
-<div><p>Максимальная дистанция для расчёта громкости.</p>
-</div></blockquote>
+<div>Максимальная дистанция для расчёта громкости.</div></blockquote>
 <p><em>Reference</em></p>
 <blockquote>
-<div><p>Задаёт эталонное расстояние, на котором громкость звука равна 100% от общего значения.</p>
-</div></blockquote>
+<div>Задаёт эталонное расстояние, на котором громкость звука равна 100% от общего значения.</div></blockquote>
 </div>
 <div class="section" id="cone-tab">
 <h3><a class="toc-backref" href="#id6">Вкладка Cone</a><a class="headerlink" href="#cone-tab" title="Ссылка на этот заголовок">¶</a></h3>
@@ -294,19 +279,16 @@
 <blockquote>
 <div><p><em>Outer</em></p>
 <blockquote>
-<div><p>Угол внешнего конуса (в градусах). За пределами этого конуса громкость определяется параметром <code class="docutils literal"><span class="pre">Outer</span></code> группы <code class="docutils literal"><span class="pre">Volume</span></code>. Между границами внешнего и внутреннего конусов значение громкости интерполируется.</p>
-</div></blockquote>
+<div>Угол внешнего конуса (в градусах). За пределами этого конуса громкость определяется параметром <code class="docutils literal"><span class="pre">Outer</span></code> группы <code class="docutils literal"><span class="pre">Volume</span></code>. Между границами внешнего и внутреннего конусов значение громкости интерполируется.</div></blockquote>
 <p><em>Inner</em></p>
 <blockquote>
-<div><p>Угол внутреннего конуса (в градусах). Внутри этого конуса громкость составляет 100%.</p>
-</div></blockquote>
+<div>Угол внутреннего конуса (в градусах). Внутри этого конуса громкость составляет 100%.</div></blockquote>
 </div></blockquote>
 <p>Группа параметров Volume:</p>
 <blockquote>
 <div><p><em>Outer</em></p>
 <blockquote>
-<div><p>Задаёт значение громкости за пределами внешнего конуса.</p>
-</div></blockquote>
+<div>Задаёт значение громкости за пределами внешнего конуса.</div></blockquote>
 </div></blockquote>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -315,46 +297,35 @@
 </div>
 <div class="section" id="audio-mixer">
 <span id="mixer"></span><h2><a class="toc-backref" href="#id7">Микшер</a><a class="headerlink" href="#audio-mixer" title="Ссылка на этот заголовок">¶</a></h2>
-<p>Этот инструмент - часть интерфейса <a class="reference internal" href="viewer.html#viewer"><span>Просмотрщика сцен</span></a>.</p>
+<p>Этот инструмент - часть интерфейса <a class="reference internal" href="viewer.html#viewer"><span class="std std-ref">Просмотрщика сцен</span></a>.</p>
 <a class="reference internal image-reference" href="_images/audio_mixer.png"><img alt="_images/audio_mixer.png" class="align-center" src="_images/audio_mixer.png" style="width: 100%;" /></a>
 <p>Его включение вызывает интерфейс эквалайзера, содержащий различные параметры источников звука, присутствующих в сцене.</p>
 <a class="reference internal image-reference" href="_images/audio_mixer_parameters.png"><img alt="_images/audio_mixer_parameters.png" class="align-center" src="_images/audio_mixer_parameters.png" style="width: 100%;" /></a>
 <p>Доступные параметры:</p>
 <dl class="docutils">
 <dt><em>DIST_REF</em></dt>
-<dd><p class="first last">Этот параметр задаёт эталонную дистанцию для выбранного источника звука. Доступен только для источников типа <code class="docutils literal"><span class="pre">Positional</span> <span class="pre">Sound</span></code>.</p>
-</dd>
+<dd>Этот параметр задаёт эталонную дистанцию для выбранного источника звука. Доступен только для источников типа <code class="docutils literal"><span class="pre">Positional</span> <span class="pre">Sound</span></code>.</dd>
 <dt><em>ATTENUATION</em></dt>
-<dd><p class="first last">Этот параметр задаёт степень затухания звука, издаваемого выбранным спикером. Доступен только для источников типа <code class="docutils literal"><span class="pre">Positional</span> <span class="pre">Sound</span></code>.</p>
-</dd>
+<dd>Этот параметр задаёт степень затухания звука, издаваемого выбранным спикером. Доступен только для источников типа <code class="docutils literal"><span class="pre">Positional</span> <span class="pre">Sound</span></code>.</dd>
 <dt><em>DIST_MAX</em></dt>
-<dd><p class="first last">Это значение задаёт максимальную дистанцию для выбранного спикера. Если расстояние от камеры до спикера превышает это расстояние, спикер не будет издавать звука. Доступно только для источников типа <code class="docutils literal"><span class="pre">Positional</span> <span class="pre">Sound</span></code>.</p>
-</dd>
+<dd>Это значение задаёт максимальную дистанцию для выбранного спикера. Если расстояние от камеры до спикера превышает это расстояние, спикер не будет издавать звука. Доступно только для источников типа <code class="docutils literal"><span class="pre">Positional</span> <span class="pre">Sound</span></code>.</dd>
 <dt><em>EQ_FREQ</em></dt>
-<dd><p class="first last">Центральная частота, к которой применяется усиление.</p>
-</dd>
+<dd>Центральная частота, к которой применяется усиление.</dd>
 <dt><em>EQ_Q</em></dt>
-<dd><p class="first last">Фактор Q. Это значение управляет шириной полосы усиливаемых частот. Увеличение значения сужает полосу.</p>
-</dd>
+<dd>Фактор Q. Это значение управляет шириной полосы усиливаемых частот. Увеличение значения сужает полосу.</dd>
 <dt><em>EQ_GAIN</em></dt>
-<dd><p class="first last">Это значение задаёт усиление (измеряемое в дБ), которое применяется к звуку, издаваемому спикером.</p>
-</dd>
+<dd>Это значение задаёт усиление (измеряемое в дБ), которое применяется к звуку, издаваемому спикером.</dd>
 <dt><em>VOLUME</em></dt>
-<dd><p class="first last">Громкость звука, издаваемого спикером.</p>
-</dd>
+<dd>Громкость звука, издаваемого спикером.</dd>
 </dl>
 <p>Ниже этого списка параметров демонстрируется частотная характеристика параметрического эквалайзера.</p>
 <p>Микшер управляется с помощью дополнительной цифровой клавиатуры.</p>
 <blockquote>
 <div><ul class="simple">
-<li><p class="first">Клавиши <code class="docutils literal"><span class="pre">8</span></code>, <code class="docutils literal"><span class="pre">4</span></code>, <code class="docutils literal"><span class="pre">6</span></code> и <code class="docutils literal"><span class="pre">2</span></code> работают так же, как клавиши-стрелки, и используются для переключения между источниками звука и выбора их параметров.</p>
-</li>
-<li><p class="first">Клавиши <code class="docutils literal"><span class="pre">+</span></code> и <code class="docutils literal"><span class="pre">-</span></code> увеличивают и уменьшают значение выбранного параметра.</p>
-</li>
-<li><p class="first">Клавиша <code class="docutils literal"><span class="pre">7</span></code> выключает выбранный спикер.</p>
-</li>
-<li><p class="first">Клавиша <code class="docutils literal"><span class="pre">9</span></code> выключает все спикеры, кроме выбранного.</p>
-</li>
+<li>Клавиши <code class="docutils literal"><span class="pre">8</span></code>, <code class="docutils literal"><span class="pre">4</span></code>, <code class="docutils literal"><span class="pre">6</span></code> и <code class="docutils literal"><span class="pre">2</span></code> работают так же, как клавиши-стрелки, и используются для переключения между источниками звука и выбора их параметров.</li>
+<li>Клавиши <code class="docutils literal"><span class="pre">+</span></code> и <code class="docutils literal"><span class="pre">-</span></code> увеличивают и уменьшают значение выбранного параметра.</li>
+<li>Клавиша <code class="docutils literal"><span class="pre">7</span></code> выключает выбранный спикер.</li>
+<li>Клавиша <code class="docutils literal"><span class="pre">9</span></code> выключает все спикеры, кроме выбранного.</li>
 </ul>
 </div></blockquote>
 </div>
@@ -363,14 +334,12 @@
 <div class="section" id="supported-formats-containers">
 <h3><a class="toc-backref" href="#id9">Поддерживаемые форматы (контейнеры):</a><a class="headerlink" href="#supported-formats-containers" title="Ссылка на этот заголовок">¶</a></h3>
 <ul class="simple">
-<li><p class="first">ogg, кодек Vorbis (Chrome, Firefox)</p>
-</li>
+<li>ogg, кодек Vorbis (Chrome, Firefox)</li>
 <li>mp3 (Chrome, Safari)</li>
-<li><p class="first">mp4, кодек AAC (Chrome, Safari)</p>
-</li>
+<li>mp4, кодек AAC (Chrome, Safari)</li>
 </ul>
 <p>Рекомендуется использовать <em>Ogg</em>, который является открытым стандартом, поддерживается многими браузерами, обеспечивает хорошее качество звука. Оптимальным с точки зрения качества и совместимости является формат 48кГц/16бит. Одноканальный звук (моно) используется для хранения коротких сэмплов, двухканальный звук (стерео) - для музыкального сопровождения.</p>
-<p>Конвертация ресурсов в различные форматы описывается в <a class="reference internal" href="developers.html#converter"><span>соответствующем разделе</span></a>.</p>
+<p>Конвертация ресурсов в различные форматы описывается в <a class="reference internal" href="developers.html#converter"><span class="std std-ref">соответствующем разделе</span></a>.</p>
 </div>
 </div>
 </div>
@@ -395,7 +364,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Триумф.
-      Обновлено: 2017-11-21.
+      Обновлено: 2017-12-29.
 
     </p>
   </div>
@@ -451,11 +420,11 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

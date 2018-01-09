@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Физика &mdash; Руководство пользователя Blend4Web 17.10.1</title>
+  <title>Физика &mdash; Руководство пользователя Blend4Web 17.12.0</title>
   
 
   
@@ -32,7 +32,10 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 17.10.1" href="index.html"/>
+        <link rel="index" title="Алфавитный указатель"
+              href="genindex.html"/>
+        <link rel="search" title="Поиск" href="search.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 17.12.0" href="index.html"/>
         <link rel="next" title="Разработчикам приложений" href="developers.html"/>
         <link rel="prev" title="Звук" href="audio.html"/> 
 
@@ -61,7 +64,7 @@
           
           
             <div class="version">
-              v17.10.1
+              v17.12.0
             </div>
           
         
@@ -111,7 +114,7 @@
 <li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Природные эффекты</a></li>
 <li class="toctree-l1"><a class="reference internal" href="colors.html">Работа с цветом</a></li>
 <li class="toctree-l1"><a class="reference internal" href="audio.html">Звук</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Физика</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Физика</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#preparing-for-use">Подготовка к использованию</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#static-physics-type">Статический тип физики</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#dynamic-physics-type">Динамический тип физики</a></li>
@@ -195,7 +198,7 @@
   <div class="section" id="physics">
 <span id="id1"></span><h1><a class="toc-backref" href="#id5">Физика</a><a class="headerlink" href="#physics" title="Ссылка на этот заголовок">¶</a></h1>
 <div class="contents topic" id="table-of-contents">
-<p class="topic-title first">Содержание</p>
+<p class="topic-title first">Table of Contents</p>
 <ul class="simple">
 <li><a class="reference internal" href="#physics" id="id5">Физика</a><ul>
 <li><a class="reference internal" href="#preparing-for-use" id="id6">Подготовка к использованию</a></li>
@@ -304,29 +307,21 @@
 <h3><a class="toc-backref" href="#id11">Параметры настройки для шасси</a><a class="headerlink" href="#chassis-settings" title="Ссылка на этот заголовок">¶</a></h3>
 <dl class="docutils">
 <dt><em>Force Max</em></dt>
-<dd><p class="first last">Максимальная движущая сила транспортного средства.</p>
-</dd>
+<dd>Максимальная движущая сила транспортного средства.</dd>
 <dt><em>Brake Max</em></dt>
-<dd><p class="first last">Максимальный коэффициент торможения.</p>
-</dd>
+<dd>Максимальный коэффициент торможения.</dd>
 <dt><em>Suspension Compression</em></dt>
-<dd><p class="first last">Коэффициент демпфирования при растяжении подвески.</p>
-</dd>
+<dd>Коэффициент демпфирования при растяжении подвески.</dd>
 <dt><em>Suspension Stiffness</em></dt>
-<dd><p class="first last">Коэффициент жесткости подвески.</p>
-</dd>
+<dd>Коэффициент жесткости подвески.</dd>
 <dt><em>Suspension Damping</em></dt>
-<dd><p class="first last">Коэффициент амортизации подвески.</p>
-</dd>
+<dd>Коэффициент амортизации подвески.</dd>
 <dt><em>Wheel Friction</em></dt>
-<dd><p class="first last">Константа трения колес о поверхность. Для реалистичных Т.С. должен быть в районе 0.8. Но может быть значительно увеличен, для улучшения управляемости (1000 и более)</p>
-</dd>
+<dd>Константа трения колес о поверхность. Для реалистичных Т.С. должен быть в районе 0.8. Но может быть значительно увеличен, для улучшения управляемости (1000 и более)</dd>
 <dt><em>Roll Influence</em></dt>
-<dd><p class="first last">Снижает вращающий момент от колес, уменьшая вероятность переворота транспортного средства (0 - нет вращающего момента, 1 - реальное физическое поведение).</p>
-</dd>
+<dd>Снижает вращающий момент от колес, уменьшая вероятность переворота транспортного средства (0 - нет вращающего момента, 1 - реальное физическое поведение).</dd>
 <dt><em>Max Suspension Travel Cm</em></dt>
-<dd><p class="first last">Максимальный ход подвески в сантиметрах.</p>
-</dd>
+<dd>Максимальный ход подвески в сантиметрах.</dd>
 </dl>
 <p>Для рулевого колеса(<code class="docutils literal"><span class="pre">Steering</span> <span class="pre">Wheel</span></code>) необходимо указать максимальный угол поворота(<code class="docutils literal"><span class="pre">Steering</span> <span class="pre">Max</span></code>) и передаточное отношение угла поворота руля к передним колесам (<code class="docutils literal"><span class="pre">Steering</span> <span class="pre">Ratio</span></code>). Максимальное значение угла поворота указывается в оборотах. Один оборот равен 360 градусам. Таким образом, поставив <code class="docutils literal"><span class="pre">Steering</span> <span class="pre">Max</span></code> равным единице, а <code class="docutils literal"><span class="pre">Steering</span> <span class="pre">Ratio</span></code> равным 10, максимальный поворот руля получится равным 360 градусам, а максимальный поворот передних колес 36 градусов.</p>
 <p>На этом этапе можно произвести экспорт и загрузить сцену в движок. Рекомендуется создать дорожную поверхность с физическим материалом. В просмотрщике нажать клавишу <code class="docutils literal"><span class="pre">Q</span></code> для выбора контролируемого объекта, и выбрать шасси. Использовать <code class="docutils literal"><span class="pre">W</span></code>, <code class="docutils literal"><span class="pre">A</span></code>, <code class="docutils literal"><span class="pre">S</span></code>, <code class="docutils literal"><span class="pre">D</span></code> для управления.</p>
@@ -346,14 +341,11 @@
 <h3><a class="toc-backref" href="#id13">Параметры настройки плавающего объекта</a><a class="headerlink" href="#floating-object-settings" title="Ссылка на этот заголовок">¶</a></h3>
 <dl class="docutils">
 <dt><em>Floating Factor</em></dt>
-<dd><p class="first last">Коэффициент выталкивания объекта из воды.</p>
-</dd>
+<dd>Коэффициент выталкивания объекта из воды.</dd>
 <dt><em>Water Linear Damping</em></dt>
-<dd><p class="first last">Демпфирование линейной скорости при нахождении объекта на поверхности воды (или под водой). Когда объект находится вне воды, используется значение из настроек физики.</p>
-</dd>
+<dd>Демпфирование линейной скорости при нахождении объекта на поверхности воды (или под водой). Когда объект находится вне воды, используется значение из настроек физики.</dd>
 <dt><em>Water Rotation Damping</em></dt>
-<dd><p class="first last">Демпфирование вращения при нахождении объекта на поверхности воды (или под водой). Когда объект находится вне воды, используется значение из настроек физики.</p>
-</dd>
+<dd>Демпфирование вращения при нахождении объекта на поверхности воды (или под водой). Когда объект находится вне воды, используется значение из настроек физики.</dd>
 </dl>
 </div>
 </div>
@@ -368,20 +360,15 @@
 <h3><a class="toc-backref" href="#id15">Параметры настройки плавающего транспортного средства</a><a class="headerlink" href="#watercraft-settings" title="Ссылка на этот заголовок">¶</a></h3>
 <dl class="docutils">
 <dt><em>Force Max</em></dt>
-<dd><p class="first last">Максимальная движущая сила транспортного средства.</p>
-</dd>
+<dd>Максимальная движущая сила транспортного средства.</dd>
 <dt><em>Brake Max</em></dt>
-<dd><p class="first last">Максимальный коэффициент торможения.</p>
-</dd>
+<dd>Максимальный коэффициент торможения.</dd>
 <dt><em>Floating Factor</em></dt>
-<dd><p class="first last">Коэффициент выталкивания объекта из воды.</p>
-</dd>
+<dd>Коэффициент выталкивания объекта из воды.</dd>
 <dt><em>Water Linear Damping</em></dt>
-<dd><p class="first last">Демпфирование линейной скорости при нахождении объекта на поверхности воды (или под водой). Когда объект находится вне воды, используется значение из настроек физики.</p>
-</dd>
+<dd>Демпфирование линейной скорости при нахождении объекта на поверхности воды (или под водой). Когда объект находится вне воды, используется значение из настроек физики.</dd>
 <dt><em>Water Rotation Damping</em></dt>
-<dd><p class="first last">Демпфирование вращения при нахождении объекта на поверхности воды (или под водой). Когда объект находится вне воды, используется значение из настроек физики.</p>
-</dd>
+<dd>Демпфирование вращения при нахождении объекта на поверхности воды (или под водой). Когда объект находится вне воды, используется значение из настроек физики.</dd>
 </dl>
 </div>
 </div>
@@ -423,24 +410,17 @@
 <p>Движок Blend4Web также предоставляет возможность быстрой настройки персонажа, управляемого пользователем от первого лица. Такой персонаж обладает только самыми основными функциями, но его создание не требует программирования.</p>
 <p>Для создания базового персонажа следуйте инструкции:</p>
 <ol class="arabic simple">
-<li><p class="first">Выберите объект, который вы хотите использовать в качестве персонажа.</p>
-</li>
-<li><p class="first">Включите физику для выбранного объекта и установите тип физики на <code class="docutils literal"><span class="pre">Dynamic</span></code> или <code class="docutils literal"><span class="pre">Rigid</span> <span class="pre">Body</span></code>.</p>
-</li>
-<li><p class="first">Включите для объекта опцию Character.</p>
-</li>
-<li><p class="first">Создайте новую камеру или выберите уже имеющуюся, и установите тип камеры <code class="docutils literal"><span class="pre">Eye</span></code>.</p>
-</li>
+<li>Выберите объект, который вы хотите использовать в качестве персонажа.</li>
+<li>Включите физику для выбранного объекта и установите тип физики на <code class="docutils literal"><span class="pre">Dynamic</span></code> или <code class="docutils literal"><span class="pre">Rigid</span> <span class="pre">Body</span></code>.</li>
+<li>Включите для объекта опцию Character.</li>
+<li>Создайте новую камеру или выберите уже имеющуюся, и установите тип камеры <code class="docutils literal"><span class="pre">Eye</span></code>.</li>
 </ol>
 <p>Теперь в сцене будет присутствовать базовый персонаж с прикреплённой камерой.</p>
 <p>Такой персонаж управляется практически так же, как обычная камера типа <code class="docutils literal"><span class="pre">Eye</span></code>:</p>
 <ul class="simple">
-<li><p class="first">Клавиши WASD перемещают персонажа.</p>
-</li>
-<li><p class="first">Направление взгляда управляется с помощью клавиш-стрелок или перемещения мыши с зажатой левой кнопкой.</p>
-</li>
-<li><p class="first">Нажатие клавиши C включает и выключает режим полёта (включён по умолчанию).</p>
-</li>
+<li>Клавиши WASD перемещают персонажа.</li>
+<li>Направление взгляда управляется с помощью клавиш-стрелок или перемещения мыши с зажатой левой кнопкой.</li>
+<li>Нажатие клавиши C включает и выключает режим полёта (включён по умолчанию).</li>
 </ul>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
@@ -451,7 +431,7 @@
 <h3><a class="toc-backref" href="#id19">Управление персонажем с помощью API</a><a class="headerlink" href="#controlling-characters-with-api" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Базовые персонажи обладают только стандартным набором возможностей. Если вам требуется более тонкая настройка поведения персонажа, следует использовать методы модуля <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html">fps</a>.</p>
 <p>Наиболее важный из них - метод <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.enable_fps_controls">enable_fps_controls()</a>, который, как понятно из его названия, используется для инициализации персонажей в сцене. Он может быть использован следующим образом:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_fps</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;fps&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_fps</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;fps&quot;</span><span class="p">);</span>
 
 <span class="nx">m_fps</span><span class="p">.</span><span class="nx">enable_fps_controls</span><span class="p">();</span>
 </pre></div>
@@ -484,7 +464,7 @@
 <p><a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.CS_WALK">CS_WALK</a> - персонаж идёт.</p>
 </div></blockquote>
 <p>Текущее состояние персонажа можно получить при помощи метода <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.get_character_state">get_character_state()</a>. С помощью метода <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.switch_state">switch_state()</a> персонажу может быть присвоено то или иное состояние. Пример ниже демонстрирует использование этих двух методов:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_fps</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;fps&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_fps</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;fps&quot;</span><span class="p">);</span>
 
 <span class="kd">var</span> <span class="nx">current_state</span> <span class="o">=</span> <span class="nx">m_fps</span><span class="p">.</span><span class="nx">get_character_state</span><span class="p">();</span>
 
@@ -496,7 +476,7 @@
 <div class="section" id="action-binding">
 <h4>Привязка действий<a class="headerlink" href="#action-binding" title="Ссылка на этот заголовок">¶</a></h4>
 <p>В модуле <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html">fps</a> также есть средства для привязки различных действий к событиям персонажа. Для этого используется метод <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.bind_action">bind_action()</a>:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_fps</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;fps&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_fps</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;fps&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_ctl</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;controls&quot;</span><span class="p">);</span>
 
 <span class="kd">var</span> <span class="nx">action_cb</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
@@ -544,35 +524,27 @@
 <p>Группа параметров <code class="docutils literal"><span class="pre">Rasterization</span></code>:</p>
 <dl class="docutils">
 <dt><em>Cell Size</em></dt>
-<dd><p class="first last">Растеризованный размер клетки. Повышение значения увеличивает размер полигонов навмеша. Максимальное значение - 1.0. Значение по умолчанию - 0.3.</p>
-</dd>
+<dd>Растеризованный размер клетки. Повышение значения увеличивает размер полигонов навмеша. Максимальное значение - 1.0. Значение по умолчанию - 0.3.</dd>
 <dt><em>Cell Height</em></dt>
-<dd><p class="first last">Растеризованная высота клетки (расстояние между навмешем, и объектом, на котором он основан). Значение по умолчанию - 0.2.</p>
-</dd>
+<dd>Растеризованная высота клетки (расстояние между навмешем, и объектом, на котором он основан). Значение по умолчанию - 0.2.</dd>
 </dl>
 <p>Группа параметров <code class="docutils literal"><span class="pre">Agent</span></code>:</p>
 <dl class="docutils">
 <dt><em>Height</em></dt>
-<dd><p class="first last">Минимальная высота, необходимая агенту для перемещения. Значение по умолчанию - 2.0.</p>
-</dd>
+<dd>Минимальная высота, необходимая агенту для перемещения. Значение по умолчанию - 2.0.</dd>
 <dt><em>Radius</em></dt>
-<dd><p class="first last">Радиус агента. Значение по умолчанию - 0.6.</p>
-</dd>
+<dd>Радиус агента. Значение по умолчанию - 0.6.</dd>
 <dt><em>Max Slope</em></dt>
-<dd><p class="first last">Максимальный проходимый угол наклона. Измеряется в градусах, значение по умолчанию - 45.</p>
-</dd>
+<dd>Максимальный проходимый угол наклона. Измеряется в градусах, значение по умолчанию - 45.</dd>
 <dt><em>Max Climb</em></dt>
-<dd><p class="first last">Максимальная высота между клетками сетки, на которую может взобраться агент. Значение по умолчанию - 0.9.</p>
-</dd>
+<dd>Максимальная высота между клетками сетки, на которую может взобраться агент. Значение по умолчанию - 0.9.</dd>
 </dl>
 <p>Группа параметров <code class="docutils literal"><span class="pre">Region</span></code>:</p>
 <dl class="docutils">
 <dt><em>Min Region Size</em></dt>
-<dd><p class="first last">Минимальный размер региона (регионы меньшего размера удаляются). Значение по умолчанию - 8.0.</p>
-</dd>
+<dd>Минимальный размер региона (регионы меньшего размера удаляются). Значение по умолчанию - 8.0.</dd>
 <dt><em>Merged Region Size</em></dt>
-<dd><p class="first last">Минимальный размер региона для объединения (регионы меньшего размера объединяются). Значение по умолчанию - 20.0.</p>
-</dd>
+<dd>Минимальный размер региона для объединения (регионы меньшего размера объединяются). Значение по умолчанию - 20.0.</dd>
 <dt><em>Partitioning</em></dt>
 <dd><p class="first">Метод разбиения навигационного меша. Поддерживаемые методы:</p>
 <p><code class="docutils literal"><span class="pre">Monotone</span></code> — наиболее быстрый метод. Может генерировать длинные узкие полигоны.</p>
@@ -583,49 +555,44 @@
 <p>Группа параметров <code class="docutils literal"><span class="pre">Polygonization</span></code>:</p>
 <dl class="docutils">
 <dt><em>Max Edge Length</em></dt>
-<dd><p class="first last">Максимальная длинна ребра контура. Значение по умолчанию - 12.0.</p>
-</dd>
+<dd>Максимальная длинна ребра контура. Значение по умолчанию - 12.0.</dd>
 <dt><em>Max Edge Error</em></dt>
-<dd><p class="first last">Максимальное отклонение от контуров клеток. Значение по умолчанию - 1.3.</p>
-</dd>
+<dd>Максимальное отклонение от контуров клеток. Значение по умолчанию - 1.3.</dd>
 <dt><em>Verts Per Poly</em></dt>
-<dd><p class="first last">Максимальное количество вершин на полигон. Значение по умолчанию - 6.</p>
-</dd>
+<dd>Максимальное количество вершин на полигон. Значение по умолчанию - 6.</dd>
 </dl>
 <p>Группа параметров <code class="docutils literal"><span class="pre">Detail</span> <span class="pre">Mesh</span></code>:</p>
 <dl class="docutils">
 <dt><em>Sample Distance</em></dt>
-<dd><p class="first last">Интервал сэмплирования детализированной полисетки. Значение по умолчанию - 6.0.</p>
-</dd>
+<dd>Интервал сэмплирования детализированной полисетки. Значение по умолчанию - 6.0.</dd>
 <dt><em>Max Sample Error</em></dt>
-<dd><p class="first last">Максимальное отклонение сэмплирования при упрощении детализированной полисетки. Значение по умолчанию - 1.0.</p>
-</dd>
+<dd>Максимальное отклонение сэмплирования при упрощении детализированной полисетки. Значение по умолчанию - 1.0.</dd>
 </dl>
 </div>
 <div class="section" id="using-navigation-meshes">
 <h3><a class="toc-backref" href="#id22">Использование навигационных мешей</a><a class="headerlink" href="#using-navigation-meshes" title="Ссылка на этот заголовок">¶</a></h3>
 <p>После создания навмеша его можно использовать для расчёта траекторий между двумя точками. Для этого используются два метода из модуля <a class="reference external" href="https://www.blend4web.com/api_doc/module-physics.html">physics</a>: <a class="reference external" href="https://www.blend4web.com/api_doc/module-physics.html#.navmesh_get_island">navmesh_get_island()</a> и <a class="reference external" href="https://www.blend4web.com/api_doc/module-physics.html#.navmesh_find_path">navmesh_find_path()</a>. Первый из них применяется для получения ссылки на текущий остров (ближайший независимый сегмент навмеша), а второй — для получения самой траектории (в виде массива координат).</p>
-<p>С примером использования навигационного меша для построения траекторий можно ознакомиться в приложении <a class="reference internal" href="developers.html#code-snippets"><span>Code Snippets</span></a> (образец <code class="docutils literal"><span class="pre">Pathfinding</span></code>).</p>
+<p>С примером использования навигационного меша для построения траекторий можно ознакомиться в приложении <a class="reference internal" href="developers.html#code-snippets"><span class="std std-ref">Code Snippets</span></a> (образец <code class="docutils literal"><span class="pre">Pathfinding</span></code>).</p>
 </div>
 </div>
 <div class="section" id="use-in-applications">
 <span id="using-physics"></span><h2><a class="toc-backref" href="#id23">Особенности использования в приложениях</a><a class="headerlink" href="#use-in-applications" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Физическая подсистема реализована в модуле <strong>uranium.js</strong> и загружается отдельно от основного кода движка. Модуль <strong>uranium.js</strong> представляет собой модификацию физического движка <a class="reference external" href="http://bulletphysics.org/">Bullet</a>, портированную для работы в браузерах. Быстрое подключение физической подсистемы можно осуществить, разместив файлы <strong>uranium.js</strong> и <strong>uranium.js.mem</strong> в той же директории, где расположен исходный код движка, используемого в приложении.</p>
 <p>В противном случае необходимо указать путь к модулю, используя конструкцию вида:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">m_config</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;physics_uranium_path&quot;</span><span class="p">,</span> <span class="s2">&quot;.../uranium.js&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">m_config</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;physics_uranium_path&quot;</span><span class="p">,</span> <span class="s2">&quot;.../uranium.js&quot;</span><span class="p">);</span>
 </pre></div>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
-<p class="last">При разработке приложения <a class="reference internal" href="project_manager.html#project-management"><span>в составе SDK</span></a> путь к физическому движку определяется автоматически.</p>
+<p class="last">При разработке приложения <a class="reference internal" href="project_manager.html#project-management"><span class="std std-ref">в составе SDK</span></a> путь к физическому движку определяется автоматически.</p>
 </div>
-<p>Если использование физики не требуется, рекомендуется отключить флаг <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">Physics</span></code> в панели <code class="docutils literal"><span class="pre">Physics</span></code> на вкладкe сцены в Blender&#8217;е. Также можно принудительно отключить загрузку модуля <strong>uranium.js</strong>, если до начала инициализации движка вызывать следующий метод:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">m_config</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;physics_enabled&quot;</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+<p>Если использование физики не требуется, рекомендуется отключить флаг <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">Physics</span></code> в панели <code class="docutils literal"><span class="pre">Physics</span></code> на вкладкe сцены в Blender’е. Также можно принудительно отключить загрузку модуля <strong>uranium.js</strong>, если до начала инициализации движка вызывать следующий метод:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">m_config</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;physics_enabled&quot;</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
 </pre></div>
 </div>
 <p>Физическая подсистема реализована в модуле <code class="docutils literal"><span class="pre">uranium</span></code> и загружается отдельно от основного кода движка. Модуль <code class="docutils literal"><span class="pre">uranium</span></code> представляет собой модификацию <a class="reference external" href="https://ru.wikipedia.org/wiki/Bullet_Physics_Library">физического движка Bullet</a>, портированную для работы в браузерах.</p>
 <p>В Blend4Web физический движок существует в 2 вариантах: по умолчанию используется версия, скомпилированная для использования с WebAssembly - файлы <code class="docutils literal"><span class="pre">uranium_wasm.js</span></code> и <code class="docutils literal"><span class="pre">uranium_wasm.wasm</span></code>, а в качестве резерва, скомпилированная в <code class="docutils literal"><span class="pre">asm.js</span></code> - файлы <code class="docutils literal"><span class="pre">uranium.js</span></code> и <code class="docutils literal"><span class="pre">uranium.js.mem</span></code>. WebAssembly-версия имеет меньший размер, быстрее инициализируется, а также может повысить стабильность и FPS приложения. Однако WebAssembly на текущий момент поддерживается не всеми браузерами, поэтому там, где эта технология недоступна, используется asm.js-версия физического движка в качестве резерва.</p>
-<p>По умолчанию физический движок подключается, если в сцене присутствуют объекты, на которых настроена физика. Принудительно отключить физику можно, выставив опцию <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">Physics</span></code> на панели <code class="docutils literal"><span class="pre">Scene</span> <span class="pre">-&gt;</span> <span class="pre">Physics</span></code> в положение <code class="docutils literal"><span class="pre">OFF</span></code>. Также в <a class="reference internal" href="project_manager.html#project-config"><span>настройках конфигурации проекта</span></a> в <a class="reference internal" href="project_manager.html#project-manager"><span>Менеджере проектов</span></a> можно отключить флаг <code class="docutils literal"><span class="pre">Use</span> <span class="pre">Physics</span></code>, чтобы исключить файлы физического движка из build-версии проекта.</p>
+<p>По умолчанию физический движок подключается, если в сцене присутствуют объекты, на которых настроена физика. Принудительно отключить физику можно, выставив опцию <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">Physics</span></code> на панели <code class="docutils literal"><span class="pre">Scene</span> <span class="pre">-&gt;</span> <span class="pre">Physics</span></code> в положение <code class="docutils literal"><span class="pre">OFF</span></code>. Также в <a class="reference internal" href="project_manager.html#project-config"><span class="std std-ref">настройках конфигурации проекта</span></a> в <a class="reference internal" href="project_manager.html#project-manager"><span class="std std-ref">Менеджере проектов</span></a> можно отключить флаг <code class="docutils literal"><span class="pre">Use</span> <span class="pre">Physics</span></code>, чтобы исключить файлы физического движка из build-версии проекта.</p>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
 <p class="last">Физика не поддерживается при HTML-экспорте и в проектах типа WebPlayer HTML.</p>
@@ -635,7 +602,7 @@
 <div><p><strong>physics_enabled</strong> - использовать ли физику в приложении, подгружая физический движок, по умолчанию <code class="docutils literal"><span class="pre">true</span></code>.</p>
 <p><strong>physics_uranium_path</strong> - путь к директории с файлами физического движка относительно главного HTML-файла приложения; стоит указывать, если требуется их нестандартное расположение, по данному пути должны быть доступны файлы <code class="docutils literal"><span class="pre">uranium_wasm.js</span></code>, <code class="docutils literal"><span class="pre">uranium_wasm.wasm</span></code>, <code class="docutils literal"><span class="pre">uranium.js</span></code> и <code class="docutils literal"><span class="pre">uranium.js.mem</span></code>.</p>
 <p><strong>physics_use_wasm</strong> - использовать WebAssembly-версию (<code class="docutils literal"><span class="pre">true</span></code>) или версию, скомпилированную в asm.js (<code class="docutils literal"><span class="pre">false</span></code>). Значение по умолчанию - <code class="docutils literal"><span class="pre">true</span></code>.</p>
-<p><strong>physics_use_workers</strong> - обсчитывать физику в отдельном потоке с использованием Worker&#8217;а (<code class="docutils literal"><span class="pre">true</span></code>) или в одном совместно с рендерингом графики (<code class="docutils literal"><span class="pre">false</span></code>). Значение по умолчанию - <code class="docutils literal"><span class="pre">true</span></code>.</p>
+<p><strong>physics_use_workers</strong> - обсчитывать физику в отдельном потоке с использованием Worker’а (<code class="docutils literal"><span class="pre">true</span></code>) или в одном совместно с рендерингом графики (<code class="docutils literal"><span class="pre">false</span></code>). Значение по умолчанию - <code class="docutils literal"><span class="pre">true</span></code>.</p>
 </div></blockquote>
 </div>
 </div>
@@ -660,7 +627,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Триумф.
-      Обновлено: 2017-11-21.
+      Обновлено: 2017-12-29.
 
     </p>
   </div>
@@ -716,11 +683,11 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.10.1',
+            VERSION:'v17.12.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: ''
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>
