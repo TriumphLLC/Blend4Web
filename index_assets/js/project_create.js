@@ -200,6 +200,17 @@ function change_inputs(e) {
         change_wp_params();
 
         break;
+    case "proj_custom":
+        sim_lev.disabled = true;
+        sim_lev.checked = false;
+        adv_lev.disabled = true;
+        adv_lev.checked = false;
+        white_lev.disabled = true;
+        white_lev.checked = false;
+
+        change_wp_params();
+
+        break;
     }
 }
 

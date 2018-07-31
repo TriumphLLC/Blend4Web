@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Нодовые материалы &mdash; Руководство пользователя Blend4Web 17.12.0</title>
+  <title>Нодовые материалы &mdash; Руководство пользователя Blend4Web 18.05.0</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Алфавитный указатель"
               href="genindex.html"/>
         <link rel="search" title="Поиск" href="search.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 17.12.0" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 18.05.0" href="index.html"/>
         <link rel="next" title="Редактор логики" href="logic_editor.html"/>
         <link rel="prev" title="Библиотека материалов" href="material_library.html"/> 
 
@@ -64,7 +64,7 @@
           
           
             <div class="version">
-              v17.12.0
+              v18.05.0
             </div>
           
         
@@ -747,8 +747,9 @@ Transform <a class="footnote-reference" href="#f2" id="id3">[2]</a></td>
 <ul>
 <li><p class="first"><code class="docutils literal"><span class="pre">Principled</span> <span class="pre">BSDF</span></code></p>
 <blockquote>
-<div><ul class="simple">
-<li>Поддерживаются входы <code class="docutils literal"><span class="pre">Roughness</span></code>, <code class="docutils literal"><span class="pre">Metallic</span></code>, <code class="docutils literal"><span class="pre">Specular</span></code> и <code class="docutils literal"><span class="pre">Normal</span></code>;</li>
+<div><img alt="_images/node_materials_principled_bsdf.png" class="align-center" src="_images/node_materials_principled_bsdf.png" />
+<ul class="simple">
+<li>Поддерживаются входы <code class="docutils literal"><span class="pre">Roughness</span></code>, <code class="docutils literal"><span class="pre">Metallic</span></code>, <code class="docutils literal"><span class="pre">Specular</span></code>,  <code class="docutils literal"><span class="pre">Normal</span></code>, <code class="docutils literal"><span class="pre">Transmission</span></code> и <code class="docutils literal"><span class="pre">IOR</span></code>;</li>
 </ul>
 </div></blockquote>
 </li>
@@ -766,7 +767,7 @@ Transform <a class="footnote-reference" href="#f2" id="id3">[2]</a></td>
 </div>
 <div class="section" id="limitations">
 <span id="node-material-limits"></span><h2><a class="toc-backref" href="#id39">Ограничения</a><a class="headerlink" href="#limitations" title="Ссылка на этот заголовок">¶</a></h2>
-<p>Нодовые материалы могут быть устроены сложно, но их сложность ограничена возможностями системы, которую вы используете. Эти ограничения могут быть незаметны в большинстве случаев, однако если вы создаёте очень сложный материал, вы можете превысить количество текстур и переменных векторов (т.е., векторов, которые используются вершинным шейдером для передачи данных фрагментному шейдеру), которое ваша система позволяет использовать в одном шейдере. И даже если этого не произойдёт, некоторые пользователи могут запускать ваше приложение на менее мощных системах, чем ваша. В таких случаях чрезмерно сложные материалы могут вызывать проблемы.</p>
+<p>Нодовые материалы могут быть сложными, но их сложность ограничена возможностями системы, которую вы используете. Эти ограничения могут быть незаметны в большинстве случаев, однако если вы создаёте очень сложный материал, вы можете превысить количество текстур и переменных векторов (т.е., векторов, которые используются вершинным шейдером для передачи данных фрагментному шейдеру), которое система позволяет использовать в одном шейдере. Но даже если этого не произойдёт, некоторые пользователи могут запускать ваше приложение на менее мощных системах, чем ваша. В таких случаях чрезмерно сложные материалы могут вызывать проблемы в работе приложения.</p>
 <p>Если вы хотите узнать, как ваша сцена поведёт себя на низкопроизводительном устройстве, но не располагаете таковым, вы можете использовать очень полезную опцию <code class="docutils literal"><span class="pre">Min</span> <span class="pre">Capabilities</span> <span class="pre">Mode</span></code>. Она находится в <a class="reference internal" href="viewer.html#viewer"><span class="std std-ref">Просмотрщике сцен</span></a> на панели <a class="reference internal" href="viewer.html#viewer-tools-and-debug"><span class="std std-ref">Tools &amp; Debug</span></a>.</p>
 <p>Количество текстур и переменных векторов, поддерживаемое вашей системой, можно узнать на веб-странице WebGL Report, перейти на которую можно с <a class="reference internal" href="addon.html#getting-started-launching-viewer"><span class="std std-ref">обзорной страницы SDK</span></a>.</p>
 <p>Ниже приводятся две таблицы, содержащие количество текстур и переменных векторов, выделяемых движком для различных нод материалов.</p>
@@ -892,7 +893,7 @@ Transform <a class="footnote-reference" href="#f2" id="id3">[2]</a></td>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Триумф.
-      Обновлено: 2017-12-29.
+      Обновлено: 2018-06-06.
 
     </p>
   </div>
@@ -948,7 +949,7 @@ Transform <a class="footnote-reference" href="#f2" id="id3">[2]</a></td>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.12.0',
+            VERSION:'v18.05.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

@@ -158,7 +158,7 @@ function main_canvas_clicked(x, y) {
     hide_element("object_warning");
     var prev_obj = get_selected_object();
 
-    if (prev_obj && m_scenes.outlining_is_enabled(prev_obj))
+    if (prev_obj && m_scenes.outlining_is_enabled(prev_obj) && m_storage.get("outlining_overview_mode") === "true")
         m_scenes.clear_outline_anim(prev_obj);
 
     if (m_cfg.get("stereo") == "HMD" && m_hmd.check_browser_support())

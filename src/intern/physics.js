@@ -417,16 +417,20 @@ function find_body_id_by_obj(obj) {
     return -1;
 }
 
-function update_interpolation_data(obj, time, trans, quat, linvel, angvel) {
-    var phy = obj.physics;
+var update_interpolation_data = (function() {
+    var _vec3_tmp = m_vec3.create();
 
-    phy.curr_time = time;
-    var scale = m_tsr.get_scale(obj.render.world_tsr);
-    m_tsr.set_sep(trans, scale, quat, phy.curr_tsr);
+    return function update_interpolation_data(obj, time, trans, quat, linvel, angvel) {
+        var phy = obj.physics;
 
-    m_vec3.copy(linvel, phy.linvel);
-    m_vec3.copy(angvel, phy.angvel);
-}
+        phy.curr_time = time;
+        var scale = m_tsr.get_scale(obj.render.world_tsr, _vec3_tmp);
+        m_tsr.set_sep(trans, scale, quat, phy.curr_tsr);
+
+        m_vec3.copy(linvel, phy.linvel);
+        m_vec3.copy(angvel, phy.angvel);
+    }
+})();
 
 function update_prop_offset(obj_chassis_hull, prop_num, trans, quat) {
     var prop_offset = obj_chassis_hull.vehicle.prop_offsets[prop_num];
@@ -682,7 +686,7 @@ function prepare_static_mesh_physics(obj, batch, update) {
         submesh: submesh,
         positions: submesh.va_frames[0]["a_position"],
         indices: submesh.indices || null,
-        trans: m_tsr.get_trans_view(obj.render.world_tsr),
+        trans: m_tsr.get_trans(obj.render.world_tsr, _vec3_tmp),
         friction: batch.friction,
         restitution: batch.elasticity,
         collision_id: batch.collision_id,
@@ -740,7 +744,7 @@ function init_physics(body_id, type) {
         col_imp_test_cb: null,
 
         curr_time: 0,
-        curr_tsr: new Float32Array([0,0,0,1,0,0,0,1]),
+        curr_tsr: m_tsr.create(),
 
         linvel: new Float32Array(3),
         angvel: new Float32Array(3),
@@ -756,101 +760,112 @@ function init_physics(body_id, type) {
 /**
  * E.g for water ray casting
  */
-function init_ghost_mesh_physics(obj, batch, worker) {
+var init_ghost_mesh_physics = (function() {
+    var _vec3_tmp = m_vec3.create();
 
-    var body_id = get_unique_body_id();
+    return function init_ghost_mesh_physics(obj, batch, worker) {
 
-    var submesh = batch.submesh;
-    var positions = submesh.va_frames[0]["a_position"];
-    var indices = submesh.indices || null;
-    var collision_id = batch.collision_id;
-    var collision_id_num = col_id_num(collision_id);
-    var collision_margin = batch.collision_margin;
-    var collision_group = batch.collision_group;
-    var collision_mask = batch.collision_mask;
+        var body_id = get_unique_body_id();
 
-    var trans = m_tsr.get_trans_view(obj.render.world_tsr);
+        var submesh = batch.submesh;
+        var positions = submesh.va_frames[0]["a_position"];
+        var indices = submesh.indices || null;
+        var collision_id = batch.collision_id;
+        var collision_id_num = col_id_num(collision_id);
+        var collision_margin = batch.collision_margin;
+        var collision_group = batch.collision_group;
+        var collision_mask = batch.collision_mask;
 
-    m_ipc.post_msg(worker, m_ipc.OUT_APPEND_GHOST_MESH_BODY, body_id, positions,
+        var trans = m_tsr.get_trans(obj.render.world_tsr, _vec3_tmp);
+
+        m_ipc.post_msg(worker, m_ipc.OUT_APPEND_GHOST_MESH_BODY, body_id, positions,
             indices, trans, collision_id_num, collision_margin, collision_group,
             collision_mask);
 
-    var phy = init_physics(body_id, "STATIC_MESH");
-    phy.is_ghost = true;
-    phy.collision_id = collision_id;
-    phy.collision_id_num = collision_id_num;
+        var phy = init_physics(body_id, "STATIC_MESH");
+        phy.is_ghost = true;
+        phy.collision_id = collision_id;
+        phy.collision_id_num = collision_id_num;
 
-    return phy;
-}
+        return phy;
+    };
+})();
 
-function prepare_bounding_physics_props(obj, compound_children, update) {
-    var render = obj.render;
-    var phy_set = obj.physics_settings;
+// CHECK: may be it is better to create new abstraction "physics_props" or something like that
+var prepare_bounding_physics_props = (function() {
+    var _quat_tmp = m_quat.create();
+    var _vec3_tmp = m_vec3.create();
 
-    var physics_type = phy_set.physics_type;
+    return function prepare_bounding_physics_props(obj, compound_children, update) {
+        var render = obj.render;
+        var phy_set = obj.physics_settings;
 
-    if (update)
-        var body_id = find_body_id_by_obj(obj);
-    else
-        var body_id = get_unique_body_id();
+        var physics_type = phy_set.physics_type;
 
-    if (body_id <= 0)
-        return;
+        if (update)
+            var body_id = find_body_id_by_obj(obj);
+        else
+            var body_id = get_unique_body_id();
 
-    if (obj.type == "CAMERA") {
-        var bounding_type = phy_set.use_collision_bounds ?
+        if (body_id <= 0)
+            return;
+
+        if (obj.type == "CAMERA") {
+            var bounding_type = phy_set.use_collision_bounds ?
                 phy_set.collision_bounds_type : "BOX";
-        var bounding_object = find_bounding_type(bounding_type, render);
+            var bounding_object = find_bounding_type(bounding_type, render);
 
-        // NOTE: some default values
-        var friction = 0.5;
-        var restitution = 0.0;
-    } else if (obj.type == "EMPTY") {
-        var bounding_type = "EMPTY";
-        var bounding_object = null;
+            // NOTE: some default values
+            var friction = 0.5;
+            var restitution = 0.0;
+        } else if (obj.type == "EMPTY") {
+            var bounding_type = "EMPTY";
+            var bounding_object = null;
 
-        var friction = 0;
-        var restitution = 0;
-    } else {
-        var bounding_type = phy_set.use_collision_bounds ?
+            var friction = 0;
+            var restitution = 0;
+        } else {
+            var bounding_type = phy_set.use_collision_bounds ?
                 phy_set.collision_bounds_type : "BOX";
-        var bounding_object = find_bounding_type(bounding_type, render);
-        var scale = m_tsr.get_scale(render.world_tsr);
-        if (scale != 1)
-            scale_bounding(bounding_object, bounding_type, scale);
-        var friction = render.friction;
-        var restitution = render.elasticity;
-    }
-    var worker_bounding = create_worker_bounding(bounding_object);
-    return {
-        body_id:                body_id,
-        trans:                  m_tsr.get_trans_view(render.world_tsr),
-        quat:                   m_tsr.get_quat_view(render.world_tsr),
-        is_ghost:               phy_set.use_ghost,
-        // use_sleep=true - no sleeping
-        disable_sleeping:       phy_set.use_sleep,
-        mass:                   phy_set.mass,
-        velocity_min:           phy_set.velocity_min,
-        velocity_max:           phy_set.velocity_max,
-        damping:                phy_set.damping,
-        rotation_damping:       phy_set.rotation_damping,
-        collision_id:           obj.collision_id,
-        collision_id_num:       col_id_num(obj.collision_id),
-        collision_margin:       phy_set.collision_margin,
-        collision_group:        phy_set.collision_group,
-        collision_mask:         phy_set.collision_mask,
-        size:                   render.bs_local.radius,
-        worker_bounding:        worker_bounding,
-        correct_bound_offset:   obj.correct_bounding_offset,
-        restitution:            restitution,
-        friction:               friction,
-        bounding_type:          bounding_type,
-        physics_type:           physics_type,
+            var bounding_object = find_bounding_type(bounding_type, render);
+            var scale = m_tsr.get_scale(render.world_tsr, _vec3_tmp);
+            if (scale[0] != 1 || scale[1] != 1 || scale[2] != 1) {
+                scale_bounding(bounding_object, bounding_type, scale);
+            }
+            var friction = render.friction;
+            var restitution = render.elasticity;
+        }
+        var worker_bounding = create_worker_bounding(bounding_object);
+        return {
+            body_id: body_id,
+            trans: m_tsr.get_trans(render.world_tsr, _vec3_tmp),
+            quat: m_tsr.get_quat(render.world_tsr, _quat_tmp),
+            is_ghost: phy_set.use_ghost,
+            // use_sleep=true - no sleeping
+            disable_sleeping: phy_set.use_sleep,
+            mass: phy_set.mass,
+            velocity_min: phy_set.velocity_min,
+            velocity_max: phy_set.velocity_max,
+            damping: phy_set.damping,
+            rotation_damping: phy_set.rotation_damping,
+            collision_id: obj.collision_id,
+            collision_id_num: col_id_num(obj.collision_id),
+            collision_margin: phy_set.collision_margin,
+            collision_group: phy_set.collision_group,
+            collision_mask: phy_set.collision_mask,
+            size: render.bs_local.radius,
+            worker_bounding: worker_bounding,
+            correct_bound_offset: obj.correct_bounding_offset,
+            restitution: restitution,
+            friction: friction,
+            bounding_type: bounding_type,
+            physics_type: physics_type,
 
-        comp_children_params: get_children_params(render,
-                        compound_children, bounding_type, worker_bounding)
-    }
-}
+            comp_children_params: get_children_params(render,
+                compound_children, bounding_type, worker_bounding)
+        }
+    };
+})();
 
 function init_bounding_physics(obj, compound_children, worker) {
     var p = prepare_bounding_physics_props(obj, compound_children, false);
@@ -900,51 +915,58 @@ function init_navigation_mesh_physics(obj, scene) {
     return phy;
 }
 
+var get_children_params = (function() {
+    var _quat_tmp = m_quat.create();
+    var _quat_tmp2 = m_quat.create();
 
-function get_children_params(render, children, bt, wb) {
+    var _tsr_tmp = m_tsr.create();
 
-    if (!children.length)
-        return [];
+    var _vec3_tmp = m_vec3.create();
 
-    var comp_children_params = [];
+    return function get_children_params(render, children, bt, wb) {
 
-    // parent object is the first child compound
-    var parent_params = {};
-    parent_params["quat"] = new Float32Array([0, 0, 0, 1]);
-    parent_params["trans"] = new Float32Array(3);
-    parent_params["worker_bounding"] = wb;
-    parent_params["bounding_type"] = bt;
+        if (!children.length)
+            return [];
 
-    comp_children_params.push(parent_params);
+        var comp_children_params = [];
 
-    var wtsr_inv = m_tsr.invert(render.world_tsr, _tsr_tmp);
-    var quat_inv = _quat_tmp;
-    var quat = m_tsr.get_quat_view(render.world_tsr);
-    m_quat.invert(quat, quat_inv);
+        // parent object is the first child compound
+        var parent_params = {};
+        parent_params["quat"] = new Float32Array([0, 0, 0, 1]);
+        parent_params["trans"] = new Float32Array(3);
+        parent_params["worker_bounding"] = wb;
+        parent_params["bounding_type"] = bt;
 
-    for (var i = 0; i < children.length; i++) {
-        var child_params = {};
-        var child        = children[i];
-        var child_bt     = child.physics_settings.collision_bounds_type;
-        var loc_quat     = new Float32Array(4);
-        var loc_trans    = new Float32Array(3);
+        comp_children_params.push(parent_params);
 
-        var ch_trans = m_tsr.get_trans_view(child.render.world_tsr);
-        var ch_quat = m_tsr.get_quat_view(child.render.world_tsr);
-        m_tsr.transform_vec3(ch_trans, wtsr_inv, loc_trans);
-        m_quat.multiply(quat_inv, ch_quat, loc_quat);
+        var wtsr_inv = m_tsr.invert(render.world_tsr, _tsr_tmp);
+        var quat = m_tsr.get_quat(render.world_tsr, _quat_tmp);
+        var quat_inv = m_quat.invert(quat, _quat_tmp);
 
-        child_params["trans"] = loc_trans;
-        child_params["quat"] = loc_quat;
-        child_params["bounding_type"] = child_bt;
-        child_params["worker_bounding"] = create_worker_bounding(
-                           find_bounding_type(child_bt, child.render));
+        for (var i = 0; i < children.length; i++) {
+            var child_params = {};
+            var child = children[i];
+            var child_bt = child.physics_settings.collision_bounds_type;
+            var loc_quat = new Float32Array(4);
+            var loc_trans = new Float32Array(3);
 
-        comp_children_params.push(child_params);
-    }
+            var ch_trans = m_tsr.get_trans(child.render.world_tsr, _vec3_tmp);
+            var ch_quat = m_tsr.get_quat(child.render.world_tsr, _quat_tmp2);
+            m_tsr.transform_vec3(ch_trans, wtsr_inv, loc_trans);
+            m_quat.multiply(quat_inv, ch_quat, loc_quat);
 
-    return comp_children_params;
-}
+            child_params["trans"] = loc_trans;
+            child_params["quat"] = loc_quat;
+            child_params["bounding_type"] = child_bt;
+            child_params["worker_bounding"] = create_worker_bounding(
+                find_bounding_type(child_bt, child.render));
+
+            comp_children_params.push(child_params);
+        }
+
+        return comp_children_params;
+    };
+})();
 
 function find_bounding_type(bounding_type, render) {
 
@@ -972,21 +994,21 @@ function find_bounding_type(bounding_type, render) {
 function scale_bounding(bound, bounding_type, scale) {
     switch (bounding_type) {
     case "BOX":
-        bound.min_x *= scale;
-        bound.max_x *= scale;
-        bound.min_y *= scale;
-        bound.max_y *= scale;
-        bound.min_z *= scale;
-        bound.max_z *= scale;
+        bound.min_x *= scale[0];
+        bound.max_x *= scale[0];
+        bound.min_y *= scale[1];
+        bound.max_y *= scale[1];
+        bound.min_z *= scale[2];
+        bound.max_z *= scale[2];
         break;
     case "CYLINDER":
     case "CONE":
     case "CAPSULE":
-        bound.height *= scale;
-        bound.radius *= scale;
+        bound.height *= scale[2];
+        bound.radius *= Math.max(scale[0], scale[1]);
         break;
     case "SPHERE":
-        bound.radius *= scale;
+        bound.radius *= Math.max(scale[0], scale[1]);
         break;
     }
 }
@@ -1058,38 +1080,43 @@ function init_vehicle(obj, worker) {
     }
 }
 
-function add_vehicle_prop(obj_prop, obj_chassis_hull, chassis_body_id,
+var add_vehicle_prop = (function() {
+    var _tsr_tmp = m_tsr.create();
+    var _vec3_tmp = m_vec3.create();
+
+    return function add_vehicle_prop(obj_prop, obj_chassis_hull, chassis_body_id,
         is_front, worker) {
 
-    // calculate connection point
-    // NOTE: initial wheel (bob) and vehicle coords may change
+        // calculate connection point
+        // NOTE: initial wheel (bob) and vehicle coords may change
 
-    var prop_trans = m_tsr.get_trans_view(obj_prop.render.world_tsr);
+        var prop_trans = m_tsr.get_trans(obj_prop.render.world_tsr, _vec3_tmp);
 
-    var chassis_hull_tsr_inv = m_tsr.invert(obj_chassis_hull.render.world_tsr, _tsr_tmp);
+        var chassis_hull_tsr_inv = m_tsr.invert(obj_chassis_hull.render.world_tsr, _tsr_tmp);
 
-    var conn_point = new Float32Array(3);
-    m_tsr.transform_vec3(prop_trans, chassis_hull_tsr_inv, conn_point);
+        var conn_point = new Float32Array(3);
+        m_tsr.transform_vec3(prop_trans, chassis_hull_tsr_inv, conn_point);
 
-    switch (obj_chassis_hull.vehicle.type) {
-    case VT_CHASSIS:
-        var v_set = obj_chassis_hull.vehicle_settings;
-        var suspension_rest_length = v_set.suspension_rest_length;
-        var roll_influence = v_set.roll_influence;
+        switch (obj_chassis_hull.vehicle.type) {
+            case VT_CHASSIS:
+                var v_set = obj_chassis_hull.vehicle_settings;
+                var suspension_rest_length = v_set.suspension_rest_length;
+                var roll_influence = v_set.roll_influence;
 
-        // NOTE: using bounding box, not cylinder
-        var bb = obj_prop.render.bb_local;
-        var radius = (bb.max_z - bb.min_z) / 2;
+                // NOTE: using bounding box, not cylinder
+                var bb = obj_prop.render.bb_local;
+                var radius = (bb.max_z - bb.min_z) / 2;
 
-        m_ipc.post_msg(worker, m_ipc.OUT_ADD_CAR_WHEEL, chassis_body_id, conn_point,
-                suspension_rest_length, roll_influence, radius, is_front);
-        break;
-    case VT_HULL:
-        m_ipc.post_msg(worker, m_ipc.OUT_ADD_BOAT_BOB, chassis_body_id, 
-                conn_point, obj_prop.bob_synchronize_pos);
-        break;
-    }
-}
+                m_ipc.post_msg(worker, m_ipc.OUT_ADD_CAR_WHEEL, chassis_body_id, conn_point,
+                    suspension_rest_length, roll_influence, radius, is_front);
+                break;
+            case VT_HULL:
+                m_ipc.post_msg(worker, m_ipc.OUT_ADD_BOAT_BOB, chassis_body_id,
+                    conn_point, obj_prop.bob_synchronize_pos);
+                break;
+        }
+    };
+})();
 
 function init_character(obj, worker) {
 
@@ -1119,88 +1146,100 @@ function init_character(obj, worker) {
  * Returns angle (in radians) between obj direction ground projection
  * and default obj direction (depends on object type)
  */
-function dir_ground_proj_angle(obj) {
+var dir_ground_proj_angle = (function() {
+    var _quat_tmp = m_quat.create();
 
-    var render = obj.render;
-    var quat = m_tsr.get_quat_view(render.world_tsr);
+    var _vec3_tmp = m_vec3.create();
+    var _vec3_tmp2 = m_vec3.create();
 
-    var proj   = _vec3_tmp;
-    var defdir = _vec3_tmp2;
+    return function dir_ground_proj_angle(obj) {
 
-    switch (obj.type) {
-    case "CAMERA":
-        proj[0] =  0;
-        proj[1] = -1;
-        proj[2] =  0;
-        m_vec3.transformQuat(proj, quat, proj);
-        // -Z axis is positive direction
-        defdir[0] =  0;
-        defdir[1] =  0;
-        defdir[2] = -1;
-        break;
-    case "MESH":
-        proj[0] = 0;
-        proj[1] = 0;
-        proj[2] = 1;
-        m_vec3.transformQuat(proj, quat, proj);
-        // Y axis is positive direction
-        defdir[0] = 0;
-        defdir[1] = 0;
-        defdir[2] = 1;
-        break;
-    case "EMPTY":
-        proj[0] = 0;
-        proj[1] = 1;
-        proj[2] = 0;
-        m_vec3.transformQuat(proj, quat, proj);
-        // Z axis is positive direction
-        defdir[0] = 0;
-        defdir[1] = 1;
-        defdir[2] = 0;
-        break;
-    }
+        var render = obj.render;
+        var quat = m_tsr.get_quat(render.world_tsr, _quat_tmp);
 
-    // project to XZ plane
-    proj[1] = 0;
-    m_vec3.normalize(proj, proj);
+        var proj = _vec3_tmp;
+        var defdir = _vec3_tmp2;
 
-    var cos = m_vec3.dot(proj, defdir);
-
-    // angle sign is a vertical part of cross cross(proj, defdir)
-    var sign = (-proj[0] * defdir[2]) > 0? -1: 1;
-
-    var angle  = Math.acos(cos) * sign;
-    return angle;
-}
-
-function init_floater(obj, worker) {
-    var floating_factor = obj.floater.floating_factor;
-    var water_lin_damp = obj.floater.water_lin_damp;
-    var water_rot_damp = obj.floater.water_rot_damp;
-    var body_id = obj.physics.body_id;
-
-    m_ipc.post_msg(worker, m_ipc.OUT_APPEND_FLOATER, body_id, floating_factor,
-              water_lin_damp, water_rot_damp);
-
-    if (obj.floater.bobs) {
-        var bob_objs = obj.floater.bobs;
-        for (var i = 0; i < bob_objs.length; i++) {
-
-            // calculate connection point
-            var obj_bob = bob_objs[i];
-
-            var bob_trans = m_tsr.get_trans_view(obj_bob.render.world_tsr);
-
-            var wtsr_inv = m_tsr.invert(obj.render.world_tsr, _tsr_tmp);
-
-            var conn_point = new Float32Array(3);
-            m_tsr.transform_vec3(bob_trans, wtsr_inv, conn_point);
-
-            m_ipc.post_msg(worker, m_ipc.OUT_ADD_FLOATER_BOB, body_id, conn_point, obj_bob.bob_synchronize_pos);
+        switch (obj.type) {
+            case "CAMERA":
+                proj[0] = 0;
+                proj[1] = -1;
+                proj[2] = 0;
+                m_vec3.transformQuat(proj, quat, proj);
+                // -Z axis is positive direction
+                defdir[0] = 0;
+                defdir[1] = 0;
+                defdir[2] = -1;
+                break;
+            case "MESH":
+                proj[0] = 0;
+                proj[1] = 0;
+                proj[2] = 1;
+                m_vec3.transformQuat(proj, quat, proj);
+                // Y axis is positive direction
+                defdir[0] = 0;
+                defdir[1] = 0;
+                defdir[2] = 1;
+                break;
+            case "EMPTY":
+                proj[0] = 0;
+                proj[1] = 1;
+                proj[2] = 0;
+                m_vec3.transformQuat(proj, quat, proj);
+                // Z axis is positive direction
+                defdir[0] = 0;
+                defdir[1] = 1;
+                defdir[2] = 0;
+                break;
         }
-    }
-    obj.physics.is_floater = true;
-}
+
+        // project to XZ plane
+        proj[1] = 0;
+        m_vec3.normalize(proj, proj);
+
+        var cos = m_vec3.dot(proj, defdir);
+
+        // angle sign is a vertical part of cross cross(proj, defdir)
+        var sign = (-proj[0] * defdir[2]) > 0 ? -1 : 1;
+
+        var angle = Math.acos(cos) * sign;
+        return angle;
+    };
+})();
+
+var init_floater = (function() {
+    var _vec3_tmp = m_vec3.create();
+    var _tsr_tmp = m_tsr.create();
+
+    return function init_floater(obj, worker) {
+        var floating_factor = obj.floater.floating_factor;
+        var water_lin_damp = obj.floater.water_lin_damp;
+        var water_rot_damp = obj.floater.water_rot_damp;
+        var body_id = obj.physics.body_id;
+
+        m_ipc.post_msg(worker, m_ipc.OUT_APPEND_FLOATER, body_id, floating_factor,
+            water_lin_damp, water_rot_damp);
+
+        if (obj.floater.bobs) {
+            var bob_objs = obj.floater.bobs;
+            for (var i = 0; i < bob_objs.length; i++) {
+
+                // calculate connection point
+                var obj_bob = bob_objs[i];
+
+                var bob_trans = m_tsr.get_trans(obj_bob.render.world_tsr, _vec3_tmp);
+
+                var wtsr_inv = m_tsr.invert(obj.render.world_tsr, _tsr_tmp);
+
+                var conn_point = new Float32Array(3);
+                m_tsr.transform_vec3(bob_trans, wtsr_inv, conn_point);
+
+                m_ipc.post_msg(worker, m_ipc.OUT_ADD_FLOATER_BOB, body_id, conn_point, obj_bob.bob_synchronize_pos);
+            }
+        }
+        obj.physics.is_floater = true;
+    };
+})();
 
 exports.enable_simulation = function(obj) {
     var phy = obj.physics;
@@ -1282,47 +1321,56 @@ exports.set_gravity = function(obj, grav_x, grav_y, grav_z) {
 /**
  * Process rigid body joints constraints
  */
-function process_rigid_body_joints(obj) {
+var process_rigid_body_joints = (function () {
+    var _quat_tmp = m_quat.create();
 
-    // already processed
-    if (has_constraint(obj))
-        return;
+    var _tsr_tmp = m_tsr.create();
+    var _tsr_tmp2 = m_tsr.create();
 
-    for (var i = 0; i < obj.physics_constraints.length; i++) {
-        var cons = obj.physics_constraints[i];
-        var targ = cons.target;
-        var pivot_type = cons.pivot_type;
+    var _vec3_tmp = m_vec3.create();
 
-        if (!targ.physics)
-            continue;
+    return function process_rigid_body_joints(obj) {
 
-        var trans = get_rbj_trans(cons);
-        var quat = get_rbj_quat(cons);
+        // already processed
+        if (has_constraint(obj))
+            return;
 
-        // bullet's initial HINGE axis is Z, need to convert to Blender's X-axis
-        if (pivot_type == "HINGE")
-            m_quat.rotateY(quat, Math.PI / 2, quat);
+        for (var i = 0; i < obj.physics_constraints.length; i++) {
+            var cons = obj.physics_constraints[i];
+            var targ = cons.target;
+            var pivot_type = cons.pivot_type;
 
-        var local = m_tsr.identity(_tsr_tmp);
+            if (!targ.physics)
+                continue;
 
-        local = m_tsr.set_trans(trans, local);
-        local = m_tsr.set_quat(quat, local);
+            var trans = get_rbj_trans(cons);
+            var quat = get_rbj_quat(cons);
 
-        var world_a = m_tsr.multiply(obj.render.world_tsr, local, _tsr_tmp);
+            // bullet's initial HINGE axis is Z, need to convert to Blender's X-axis
+            if (pivot_type == "HINGE")
+                m_quat.rotateY(quat, Math.PI / 2, quat);
 
-        var world_b_inv = m_tsr.invert(targ.render.world_tsr, _tsr_tmp2);
+            var local = m_tsr.identity(_tsr_tmp);
 
-        var local_b = m_tsr.multiply(world_b_inv, world_a, world_b_inv);
+            local = m_tsr.set_trans(trans, local);
+            local = m_tsr.set_quat(quat, local);
 
-        var local_b_tra = m_tsr.get_trans_view(local_b);
-        var local_b_qua = m_tsr.get_quat_view(local_b);
+            var world_a = m_tsr.multiply(obj.render.world_tsr, local, _tsr_tmp);
 
-        var limits = prepare_limits(cons);
+            var world_b_inv = m_tsr.invert(targ.render.world_tsr, _tsr_tmp2);
 
-        apply_constraint(pivot_type, obj, trans, quat, targ, local_b_tra,
+            var local_b = m_tsr.multiply(world_b_inv, world_a, world_b_inv);
+
+            var local_b_tra = m_tsr.get_trans(local_b, _vec3_tmp);
+            var local_b_qua = m_tsr.get_quat(local_b, _quat_tmp);
+
+            var limits = prepare_limits(cons);
+
+            apply_constraint(pivot_type, obj, trans, quat, targ, local_b_tra,
                 local_b_qua, limits, null, null);
+        }
     }
-}
+})();
 
 exports.has_constraint = has_constraint;
 function has_constraint(obj) {
@@ -1418,30 +1466,39 @@ exports.clear_constraint = function(obj_a) {
     phy.cons_id = null;
 }
 
-exports.pull_to_constraint_pivot = function(obj_a, trans_a, quat_a,
+exports.pull_to_constraint_pivot = (function() {
+    var _quat_tmp = m_quat.create();
+
+    var _tsr_tmp = m_tsr.create();
+    var _tsr_tmp2 = m_tsr.create();
+
+    var _vec3_tmp = m_tsr.create();
+
+    return function (obj_a, trans_a, quat_a,
         obj_b, trans_b, quat_b) {
 
-    var tsr_a = m_tsr.set_sep(trans_a, 1, quat_a, _tsr_tmp);
-    var tsr_b = m_tsr.set_sep(trans_b, 1, quat_b, _tsr_tmp2);
+        var tsr_a = m_tsr.set_sep(trans_a, 1, quat_a, _tsr_tmp);
+        var tsr_b = m_tsr.set_sep(trans_b, 1, quat_b, _tsr_tmp2);
 
-    // A -> PIVOT
-    m_tsr.invert(tsr_a, tsr_a);
+        // A -> PIVOT
+        m_tsr.invert(tsr_a, tsr_a);
 
-    // (A -> PIVOT) -> B
-    m_tsr.multiply(tsr_b, tsr_a, tsr_a);
+        // (A -> PIVOT) -> B
+        m_tsr.multiply(tsr_b, tsr_a, tsr_a);
 
-    m_trans.get_tsr(obj_b, tsr_b);
+        m_trans.get_tsr(obj_b, tsr_b);
 
-    // A -> WORLD
-    m_tsr.multiply(tsr_b, tsr_a, tsr_a);
+        // A -> WORLD
+        m_tsr.multiply(tsr_b, tsr_a, tsr_a);
 
-    m_trans.set_tsr(obj_a, tsr_a);
-    m_trans.update_transform(obj_a);
+        m_trans.set_tsr(obj_a, tsr_a);
+        m_trans.update_transform(obj_a);
 
-    var trans = m_tsr.get_trans_view(obj_a.render.world_tsr);
-    var quat = m_tsr.get_quat_view(obj_a.render.world_tsr);
-    exports.set_transform(obj_a, trans, quat);
-}
+        var trans = m_tsr.get_trans(obj_a.render.world_tsr, _vec3_tmp);
+        var quat = m_tsr.get_quat(obj_a.render.world_tsr, _quat_tmp);
+        exports.set_transform(obj_a, trans, quat);
+    };
+})();
 
 exports.set_transform = function(obj, trans, quat) {
 
@@ -1631,19 +1688,23 @@ exports.apply_velocity_world = function(obj, vx, vy, vz) {
     m_ipc.post_msg(worker, m_ipc.OUT_SET_LINEAR_VELOCITY, body_id, vx, vy, vz);
 }
 
-function vector_to_world(obj, vx_local, vy_local, vz_local, dest) {
+var vector_to_world = (function() {
+    var _quat_tmp = m_quat.create();
 
-    var v = dest || new Float32Array(3);
+    return function vector_to_world(obj, vx_local, vy_local, vz_local, dest) {
 
-    var quat = m_tsr.get_quat_view(obj.render.world_tsr);
+        var v = dest || new Float32Array(3);
 
-    v[0] = vx_local;
-    v[1] = vy_local;
-    v[2] = vz_local;
-    var v_world = m_vec3.transformQuat(v, quat, v);
+        var quat = m_tsr.get_quat(obj.render.world_tsr, _quat_tmp);
 
-    return v_world;
-}
+        v[0] = vx_local;
+        v[1] = vy_local;
+        v[2] = vz_local;
+        var v_world = m_vec3.transformQuat(v, quat, v);
+
+        return v_world;
+    };
+})();
 
 /**
  * Move the object by applying the force in the world space.
@@ -2205,90 +2266,114 @@ exports.vehicle_brake = function(obj, brake_force) {
     update_vehicle_controls(obj, vehicle, worker);
 }
 
-function update_steering_wheel_coords(obj_chassis) {
+var update_steering_wheel_coords = (function() {
+    var _quat_tmp = m_quat.create();
+    var _quat_tmp2 = m_quat.create();
 
-    var vehicle = obj_chassis.vehicle;
-    var stw_obj = vehicle.steering_wheel;
-    if (!stw_obj)
-        return;
+    var _vec3_tmp = m_vec3.create();
 
-    var stw_tsr = obj_chassis.vehicle.steering_wheel_tsr;
-    var stw_axis = obj_chassis.vehicle.steering_wheel_axis;
+    return function update_steering_wheel_coords(obj_chassis) {
 
-    m_tsr.multiply(obj_chassis.render.world_tsr, stw_tsr, stw_obj.render.world_tsr);
+        var vehicle = obj_chassis.vehicle;
+        var stw_obj = vehicle.steering_wheel;
+        if (!stw_obj)
+            return;
 
-    var stw_axis_world = _vec3_tmp;
-    m_tsr.transform_dir_vec3(stw_axis, obj_chassis.render.world_tsr, stw_axis_world);
+        var stw_tsr = obj_chassis.vehicle.steering_wheel_tsr;
+        var stw_axis = obj_chassis.vehicle.steering_wheel_axis;
 
-    var rotation = _quat_tmp;
-    m_quat.setAxisAngle(stw_axis_world, -vehicle.steering *
-            vehicle.steering_max * 2 * Math.PI, rotation);
+        m_tsr.multiply(obj_chassis.render.world_tsr, stw_tsr, stw_obj.render.world_tsr);
 
-    var stw_obj_quat = m_tsr.get_quat_view(stw_obj.render.world_tsr);
-    m_quat.multiply(rotation, stw_obj_quat, stw_obj_quat);
+        var stw_axis_world = m_tsr.transform_dir_vec3(stw_axis,
+                obj_chassis.render.world_tsr, _vec3_tmp);
 
-    m_trans.update_transform(stw_obj);
-}
+        var rotation = m_quat.setAxisAngle(stw_axis_world, -vehicle.steering *
+                vehicle.steering_max * 2 * Math.PI, _quat_tmp);
 
+        var stw_obj_quat = m_tsr.get_quat(stw_obj.render.world_tsr, _quat_tmp2);
+        m_quat.multiply(rotation, stw_obj_quat, stw_obj_quat);
+        m_quat.normalize(stw_obj_quat, stw_obj_quat);
+        m_tsr.set_quat(stw_obj_quat, stw_obj.render.world_tsr);
 
-function update_speedometer(obj_chassis) {
+        m_trans.update_transform(stw_obj);
+    };
+})();
 
-    var vehicle = obj_chassis.vehicle;
-    var sp_obj = vehicle.speedometer;
+// CHECK: it looks like copy/paste of the update_steering_wheel_coords
+var update_speedometer = (function() {
+    var _quat_tmp = m_quat.create();
+    var _quat_tmp2 = m_quat.create();
 
-    if (!sp_obj)
-        return;
+    var _vec3_tmp = m_vec3.create();
 
-    var sp_tsr = obj_chassis.vehicle.speedometer_tsr;
-    var sp_axis = obj_chassis.vehicle.speedometer_axis;
+    return function update_speedometer(obj_chassis) {
 
-    m_tsr.multiply(obj_chassis.render.world_tsr, sp_tsr, sp_obj.render.world_tsr);
+        var vehicle = obj_chassis.vehicle;
+        var sp_obj = vehicle.speedometer;
 
-    var sp_axis_world = _vec3_tmp;
-    m_tsr.transform_dir_vec3(sp_axis, obj_chassis.render.world_tsr, sp_axis_world);
+        if (!sp_obj)
+            return;
 
-    var rotation = _quat_tmp;
-    var angle = Math.abs(vehicle.speed) * vehicle.speed_ratio;
+        var sp_tsr = obj_chassis.vehicle.speedometer_tsr;
+        var sp_axis = obj_chassis.vehicle.speedometer_axis;
 
-    if (angle > vehicle.max_speed_angle)
-        angle = vehicle.max_speed_angle;
+        m_tsr.multiply(obj_chassis.render.world_tsr, sp_tsr, sp_obj.render.world_tsr);
 
-    m_quat.setAxisAngle(sp_axis_world, -angle, rotation);
+        var sp_axis_world = _vec3_tmp;
+        m_tsr.transform_dir_vec3(sp_axis, obj_chassis.render.world_tsr, sp_axis_world);
 
-    var sp_obj_quat = m_tsr.get_quat_view(sp_obj.render.world_tsr);
-    m_quat.multiply(rotation, sp_obj_quat, sp_obj_quat);
-    m_quat.normalize(sp_obj_quat, sp_obj_quat);
+        var angle = Math.abs(vehicle.speed) * vehicle.speed_ratio;
 
-    m_trans.update_transform(sp_obj);
-}
+        if (angle > vehicle.max_speed_angle)
+            angle = vehicle.max_speed_angle;
 
-function update_tachometer(obj_chassis) {
+        var rotation = m_quat.setAxisAngle(sp_axis_world, -angle, _quat_tmp);
 
-    var vehicle = obj_chassis.vehicle;
-    var tach_obj = vehicle.tachometer;
+        var sp_obj_quat = m_tsr.get_quat(sp_obj.render.world_tsr, _quat_tmp2);
+        m_quat.multiply(rotation, sp_obj_quat, sp_obj_quat);
+        m_quat.normalize(sp_obj_quat, sp_obj_quat);
+        m_tsr.set_quat(sp_obj_quat, sp_obj.render.world_tsr);
 
-    if (!tach_obj)
-        return;
+        m_trans.update_transform(sp_obj);
+    };
+})();
 
-    var tach_tsr = obj_chassis.vehicle.tachometer_tsr;
-    var tach_axis = obj_chassis.vehicle.tachometer_axis;
+// CHECK: it looks like copy/paste of the update_steering_wheel_coords
+var update_tachometer = (function () {
+    var _quat_tmp = m_quat.create();
+    var _quat_tmp2 = m_quat.create();
 
-    m_tsr.multiply(obj_chassis.render.world_tsr, tach_tsr, tach_obj.render.world_tsr);
+    var _vec3_tmp = m_vec3.create();
 
-    var tach_axis_world = _vec3_tmp;
-    m_tsr.transform_dir_vec3(tach_axis, obj_chassis.render.world_tsr, tach_axis_world);
+    return function update_tachometer(obj_chassis) {
 
-    var rotation = _quat_tmp;
+        var vehicle = obj_chassis.vehicle;
+        var tach_obj = vehicle.tachometer;
 
-    m_quat.setAxisAngle(tach_axis_world, -Math.abs(vehicle.engine_force) *
-            vehicle.delta_tach_angle, rotation);
+        if (!tach_obj)
+            return;
 
-    var tach_obj_quat = m_tsr.get_quat_view(tach_obj.render.world_tsr);
-    m_quat.multiply(rotation, tach_obj_quat, tach_obj_quat);
-    m_quat.normalize(tach_obj_quat, tach_obj_quat);
+        var tach_tsr = obj_chassis.vehicle.tachometer_tsr;
+        var tach_axis = obj_chassis.vehicle.tachometer_axis;
 
-    m_trans.update_transform(tach_obj);
-}
+        m_tsr.multiply(obj_chassis.render.world_tsr, tach_tsr, tach_obj.render.world_tsr);
+
+        var tach_axis_world = _vec3_tmp;
+        m_tsr.transform_dir_vec3(tach_axis, obj_chassis.render.world_tsr, tach_axis_world);
+
+        var rotation = _quat_tmp;
+
+        m_quat.setAxisAngle(tach_axis_world, -Math.abs(vehicle.engine_force) *
+                vehicle.delta_tach_angle, rotation);
+
+        var tach_obj_quat = m_tsr.get_quat(tach_obj.render.world_tsr, _quat_tmp2);
+        m_quat.multiply(rotation, tach_obj_quat, tach_obj_quat);
+        m_quat.normalize(tach_obj_quat, tach_obj_quat);
+        m_tsr.set_quat(tach_obj_quat, tach_obj.render.world_tsr);
+
+        m_trans.update_transform(tach_obj);
+    };
+})();
 
 exports.is_vehicle_chassis = is_vehicle_chassis;
 function is_vehicle_chassis(obj) {

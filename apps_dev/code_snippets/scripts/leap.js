@@ -27,6 +27,7 @@ var _mat3_tmp = m_mat3.create();
 var _mat4_tmp = m_mat4.create();
 var _quat_tmp = m_quat.create();
 var _quat_tmp2 = m_quat.create();
+var _quat_tmp3 = m_quat.create();
 var _tsr_tmp = m_tsr.create();
 var _tsr_tmp2 = m_tsr.create();
 var _tsr_tmp3 = m_tsr.create();
@@ -304,11 +305,11 @@ function pickup_objs() {
                 if (m_ctl.get_sensor_value(obj, id, 0)) {
                     var coll_obj = m_ctl.get_sensor_payload(obj, id, 0).coll_obj;
                     m_phys.disable_simulation(coll_obj);
-                    console.log(coll_obj, obj, _tsr_tmp)
+
                     var local_tsr = get_tsr_rel(coll_obj, obj, _tsr_tmp);
                     m_cons.append_stiff(coll_obj, obj,
-                            m_tsr.get_trans_view(local_tsr),
-                            m_tsr.get_quat_view(local_tsr),
+                            m_tsr.get_trans(local_tsr, _vec3_tmp),
+                            m_tsr.get_quat(local_tsr, _quat_tmp),
                             1 / _hands_dimension_scale_factor);
 
                     var data = get_pick_data_by_picker(obj);
@@ -475,9 +476,7 @@ function update_hands_position(hands) {
 
                 var bone_mat4 = bone.matrix();
                 var mat3 = m_mat3.fromMat4(bone_mat4, _mat3_tmp);
-                var bone_tsr = _tsr_tmp;
-                var bone_trans = m_tsr.get_trans_view(bone_tsr);
-                var bone_quat = m_tsr.get_quat_view(bone_tsr);
+                var bone_tsr = m_tsr.identity(_tsr_tmp);
 
                 var quat;
                 if (_is_rigged_hand) {
@@ -485,6 +484,8 @@ function update_hands_position(hands) {
                        continue;
 
                     m_arm.get_bone_tsr(rig, full_name + bone_name_suff, bone_tsr);
+                    var bone_trans = m_tsr.get_trans(bone_tsr, _vec3_tmp);
+                    var bone_quat = m_tsr.get_quat(bone_tsr, _quat_tmp3);
 
                     m_quat.fromMat3(mat3, bone_quat);
                     quat = m_quat.setAxisAngle(m_util.AXIS_X, -Math.PI / 2, _quat_tmp2);
@@ -493,6 +494,8 @@ function update_hands_position(hands) {
                     m_quat.multiply(quat, bone_quat, bone_quat);
 
                     m_quat.multiply(arm_inv_quat, bone_quat, bone_quat);
+                    m_tsr.set_quat(bone_quat, bone_tsr);
+                    m_tsr.set_trans(bone_trans, bone_tsr);
 
                     m_arm.set_bone_tsr(rig, full_name + bone_name_suff, bone_tsr);
                 } else {

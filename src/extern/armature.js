@@ -20,6 +20,7 @@ import * as m_armat from "../intern/armature.js";
 import m_obj_util_fact from "../intern/obj_util.js";
 import m_trans_fact from "../intern/transform.js";
 import m_print_fact from "../intern/print.js";
+import * as m_tsr from "../intern/tsr.js";
 
 /**
  * API methods to control armature objects.
@@ -50,7 +51,7 @@ exports.get_bone_tsr = function(armobj, bone_name, dest) {
     }
 
     if (!dest)
-        dest = new Float32Array(8);
+        dest = m_tsr.create();
 
     m_armat.get_bone_tsr(armobj, bone_name, false, false, dest);
     return dest;
@@ -75,7 +76,7 @@ exports.get_bone_tsr_rel = function(armobj, bone_name, dest) {
     }
 
     if (!dest)
-        dest = new Float32Array(8);
+        dest = m_tsr.create();
 
     m_armat.get_bone_tsr(armobj, bone_name, false, true, dest);
     return dest;

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2017-12-29 14:09+0300\n"
+"POT-Creation-Date: 2018-06-01 14:48+0300\n"
 "PO-Revision-Date: 2017-09-04 00:35+0800\n"
 "Last-Translator: kidux <yuzukyo@gmail.com>\n"
 "Language-Team: Chinese <info [at] blend4web.com>\n"
@@ -19,11 +19,190 @@ msgstr ""
 msgid "Release Notes"
 msgstr "发布说明"
 
-msgid "v17.12"
+msgid "v18.05"
 msgstr ""
 
 msgid "New Features"
 msgstr "新功能"
+
+msgid "New Webplayer version 3.0 is now can be used in your projects."
+msgstr ""
+
+msgid "New contemporary style design with flat UI and smooth animations."
+msgstr ""
+
+msgid ""
+"Smart UI that adds elements depending on the content: for scenes with NLA"
+" animation and without logic nodes the new WebPlayer adds a ``Timeline`` "
+"control; for mobile devices, the content of the help page depends on the "
+"current camera type."
+msgstr ""
+
+msgid "Multi-language UI - currently English and Russian versions are available."
+msgstr ""
+
+#, fuzzy
+msgid "Further support for Cycles materials."
+msgstr "对于 ``Cycles`` 材质的进一步支持。"
+
+msgid ""
+"Basic support for refraction in ``Principled BSDF`` has been added. "
+"``IOR`` and ``Transmission`` sockets can now be used to configure "
+"transparent materials. ``Transmission`` controls transparency, while "
+"``IOR`` (index of refraction) sets the intensity of refraction. "
+"``Roughness`` impacts turbidity of the material."
+msgstr ""
+
+msgid ""
+"Axis-aligned non-uniform scale has been supported. ``Apply Scale`` "
+"operation is not needed anymore (in most cases)!"
+msgstr ""
+
+msgid "Scaling can now be applied independently along axes."
+msgstr ""
+
+msgid "For child objects, scale is aligned to their local axes."
+msgstr ""
+
+#, fuzzy
+msgid "Improvements in Project Manager and build system."
+msgstr "提高项目管理器的可用性。"
+
+msgid ""
+"``Custom Build Type`` has been added to Application Types. It allows for "
+"setting a user-defined build command. This command can contain "
+"environment variables (``$NODE`` and ``$NPM`` will be resolved as "
+"integrated into SDK ``node`` and ``npm`` utilities)."
+msgstr ""
+
+msgid ""
+"Added script for generating externs based on the engine source code using"
+" ``google closure compiler``. This script can be used in custom build "
+"configurations that utilize ``google closure compiler`` (see build "
+"scripts of the new webplayer)."
+msgstr ""
+
+msgid ""
+"Added ``Editor Ignore List`` field to exclude unwanted files from the "
+"file list in the ``Text Editor``."
+msgstr ""
+
+msgid "Dynamic loading using ``m_data.load`` method now supports reflections."
+msgstr ""
+
+msgid "Real-time planar and cube reflections are supported."
+msgstr ""
+
+msgid "Loading both reflexible and reflective objects is supported."
+msgstr ""
+
+msgid "Changes"
+msgstr "变更"
+
+msgid ""
+"Deep internal refactoring of the engine code for non-uniform scale "
+"support."
+msgstr ""
+
+#, fuzzy
+msgid ""
+"The :b4wref:`tsr.get_quat_view` method from the :b4wmod:`tsr` module has "
+"been declared deprecated."
+msgstr ":b4wref:`camera.set_hmd_fov` 方法已被宣布弃用。"
+
+#, fuzzy
+msgid "Added :b4wref:`tsr.get_quat` method to the b4wmod:`tsr` module."
+msgstr "在 :b4wmod:`lights` 模块中新的 API 方法。"
+
+msgid "Lighting calculations in ``PBR`` shaders have been optimized."
+msgstr ""
+
+msgid "``Empty`` type objects can now be created dynamically."
+msgstr ""
+
+msgid "``Empty`` type objects can now be copied dynamically."
+msgstr ""
+
+msgid "Synchronization with WebVR API 1.1."
+msgstr ""
+
+msgid ""
+"``AR`` application has been moved to the *projects* folder. "
+"*webpack.config.js* is added to the project for debugging https "
+"connection required by mobile devices."
+msgstr ""
+
+msgid ""
+"``google closure compiler`` has been removed from the tools directory. "
+"The version from node_modules is used instead."
+msgstr ""
+
+msgid "``NodeJS`` and ``Java`` are updated to newer versions."
+msgstr ""
+
+msgid ""
+"NodeJS for different operating systems is now stored in the SDK in its "
+"original form (as compressed archive) and can be unpacked on request to "
+"the build system."
+msgstr ""
+
+msgid "Fixes"
+msgstr "修复"
+
+msgid ""
+"Fixed incorrect behavior of the ``rotate_camera`` method in case of using"
+" negative angles."
+msgstr ""
+
+msgid "Fixed crashes in applications that use physics."
+msgstr ""
+
+#, fuzzy
+msgid "Fixed crash in ``Transform Object`` node."
+msgstr "修复了移动物体在 `法线编辑器` 中的法线旋转问题。"
+
+msgid ""
+"Fixed ``change_image`` callback function call and corresponding code "
+"snippet."
+msgstr ""
+
+msgid "Fixed internals: shaders debug and build issues."
+msgstr ""
+
+msgid ""
+"Fixed crash when running ``Entry Point`` node with JavaScript functions "
+"multiple times."
+msgstr ""
+
+msgid "Fixed ``Page Param`` node."
+msgstr ""
+
+msgid "Fixed the error with ``long names`` when unpacking ``SDK`` on Windows."
+msgstr ""
+
+msgid "Fixed engine auto build for ES5 b4w-projects."
+msgstr ""
+
+msgid "Fixed crash that occured when building ``Compile`` type project."
+msgstr ""
+
+msgid "Fixed using externs during build on windows."
+msgstr ""
+
+msgid "Fixed on-the-fly compilation: using wss when protocol is https."
+msgstr ""
+
+msgid "Known Issues"
+msgstr ""
+
+msgid ""
+"To build WebPlayer on Windows, you should install Oracle Java "
+"(https://java.com/download/). If you have any other issues, open "
+"**projects/webplayer** folder and run ``npm install``."
+msgstr ""
+
+msgid "v17.12"
+msgstr ""
 
 msgid "Support for ES6 modules"
 msgstr ""
@@ -95,16 +274,10 @@ msgid ""
 "Internal`` ``Geometry`` node"
 msgstr ""
 
-msgid "Changes"
-msgstr "变更"
-
 msgid ""
 "Now background_color parameter of the :b4wmod:`config` affects only "
 "canvas while internal framebuffers retain default color (black)."
 msgstr ""
-
-msgid "Fixes"
-msgstr "修复"
 
 msgid "Fixed camera movement in case of vertical axis is not Z-axis."
 msgstr ""
@@ -143,9 +316,6 @@ msgstr ""
 msgid ""
 "Fixed logic nodes: now maximum number of nodes is processed per frame to "
 "prevent blinking when using ``Show`` and ``Hide`` nodes."
-msgstr ""
-
-msgid "Known Issues"
 msgstr ""
 
 msgid ""
@@ -8287,16 +8457,35 @@ msgstr ""
 #~ msgid "Fixed Material/Material_ext node of the node materials."
 #~ msgstr ""
 
-#~ msgid ""
-#~ "Fixed logic nodes: processing maximum "
-#~ "nodes amount to prevent blinking when"
-#~ " using `Show` and `Hide` ndoes."
+#~ msgid "Scale along axes now can be applied independently."
+#~ msgstr ""
+
+#~ msgid "For child objects, scale is aligned to local axes."
+#~ msgstr ""
+
+#~ msgid "Dynamic loading using ``m_data.load`` now supports reflections."
+#~ msgstr ""
+
+#~ msgid "Deep internal refactoring for non-uniform scale support."
+#~ msgstr ""
+
+#~ msgid "Fixed crash when building ``Compile`` type project."
+#~ msgstr ""
+
+#~ msgid "Added ``get_quat`` method to the ``tsr`` module."
+#~ msgstr ""
+
+#~ msgid "Fixed crash in transform object node."
+#~ msgstr ""
+
+#~ msgid "Fixed crash tha occured when building ``Compile`` type project."
 #~ msgstr ""
 
 #~ msgid ""
-#~ "The issue with sdk unpacking on "
-#~ "the Windows occurs when using standard"
-#~ " archiver. Workaround is to use other"
-#~ " archiver e.g. `7zip`."
+#~ "To build WebPlayer on Windows, you "
+#~ "should install Oracle Java "
+#~ "(https://java.com/download/). If you have any"
+#~ " other issues, open **projects/webplayer** "
+#~ "folder and run : npm install."
 #~ msgstr ""
 

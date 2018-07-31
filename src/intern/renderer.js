@@ -789,6 +789,7 @@ function assign_uniform_setters(shader) {
         switch (uni) {
         // from camera
         case "u_proj_matrix":
+        case "u_proj_matrix_frag":
             scene_fun = function(gl, loc, subscene, camera) {
                 gl.uniformMatrix4fv(loc, false, camera.proj_matrix);
             }

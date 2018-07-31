@@ -302,8 +302,8 @@ function setup_pickup(ray_caster, gamepad_id) {
                 var local_tsr = get_tsr_rel(picked_obj.obj, obj, _tsr_tmp);
 
                 m_cons.append_stiff(picked_obj.obj, obj,
-                        m_tsr.get_trans_view(local_tsr),
-                        m_tsr.get_quat_view(local_tsr));
+                        m_tsr.get_trans(local_tsr, _vec3_tmp),
+                        m_tsr.get_quat(local_tsr, _quat_tmp));
 
                 m_scenes.set_outline_intensity(picked_obj.obj, 1);
             }
@@ -354,13 +354,13 @@ function setup_pickup(ray_caster, gamepad_id) {
 
             if (Math.abs(axis_v) > ACTIVATE_SCROLL) {
                 var tsr_rel = get_tsr_rel(picked_obj.obj, obj, _tsr_tmp);
-                var pos_rel = m_tsr.get_trans_view(tsr_rel, _vec3_tmp);
+                var pos_rel = m_tsr.get_trans(tsr_rel, _vec3_tmp);
                 var move_dist = get_trans_dist(m_vec3.length(pos_rel), axis_v, elapsed);
                 var dir_rel = m_vec3.scale(m_util.AXIS_MZ, move_dist, _vec3_tmp2);
                 var new_pos_rel = m_vec3.add(pos_rel, dir_rel, _vec3_tmp);
 
                 m_cons.append_stiff(picked_obj.obj, obj,
-                        new_pos_rel, m_tsr.get_quat_view(tsr_rel));
+                        new_pos_rel, m_tsr.get_quat(tsr_rel, _quat_tmp));
             }
         }
     }

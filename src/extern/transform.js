@@ -24,6 +24,7 @@ import * as m_quat from "../libs/gl_matrix/quat.js";
 import m_trans_fact from "../intern/transform.js";
 import * as m_tsr from "../intern/tsr.js";
 import * as m_util from "../intern/util.js";
+import * as m_vec3 from "../libs/gl_matrix/vec3.js";
 
 /**
  * Object transformations API.
@@ -38,8 +39,10 @@ var m_print    = m_print_fact(ns);
 var m_trans    = m_trans_fact(ns);
 
 var _tsr_tmp = m_tsr.create();
-var _vec3_tmp = new Float32Array(3);
+var _vec3_tmp = m_vec3.create();
+var _vec3_tmp2 = m_vec3.create();
 var _quat4_tmp = new Float32Array(4);
+var _quat_tmp = m_quat.create();
 
 /**
  * Set the object translation.
@@ -128,8 +131,8 @@ exports.set_translation_obj_rel = function(obj, x, y, z, obj_ref) {
         _vec3_tmp[1] = y;
         _vec3_tmp[2] = z;
 
-        var trans = m_tsr.get_trans_view(obj_ref.render.world_tsr);
-        var quat = m_tsr.get_quat_view(obj_ref.render.world_tsr);
+        var trans = m_tsr.get_trans(obj_ref.render.world_tsr, _vec3_tmp2);
+        var quat = m_tsr.get_quat(obj_ref.render.world_tsr, _quat_tmp);
 
         m_util.transform_vec3(_vec3_tmp, 1, quat, trans, _vec3_tmp);
 
@@ -434,7 +437,7 @@ exports.set_rotation_euler_rel_v = function(obj, euler) {
  * Set the object scale.
  * @method module:transform.set_scale
  * @param {Object3D} obj Object 3D
- * @param {number} scale Object scale
+ * @param {Vec3|number} scale Object scale
  */
 exports.set_scale = function(obj, scale) {
     if (m_obj_util.is_dynamic(obj)) {
@@ -449,7 +452,7 @@ exports.set_scale = function(obj, scale) {
  * (in the coordinate space of its parent).
  * @method module:transform.set_scale_rel
  * @param {Object3D} obj Object 3D
- * @param {number} scale Object scale
+ * @param {Vec3|number} scale Object scale
  */
 exports.set_scale_rel = function(obj, scale) {
     if (m_obj_util.is_dynamic(obj)) {
@@ -460,24 +463,30 @@ exports.set_scale_rel = function(obj, scale) {
 }
 
 /**
- * Get the object scale.
+ * Get the object scale. If the dest parameter is presented,
+ * then a non-uniform scale of the object is returned,
+ * else the first component of scale is returned.
  * @method module:transform.get_scale
  * @param {Object3D} obj Object 3D
- * @returns {number} scale
+ * @param {Vec3} [dest] Destination vector
+ * @returns {Vec3|number} scale
  */
-exports.get_scale = function(obj) {
-    return m_trans.get_scale(obj);
+exports.get_scale = function (obj, dest) {
+    return m_trans.get_scale(obj, dest);
 }
 
 /**
  * Get the object scale
- * (in the coordinate space of its parent).
+ * (in the coordinate space of its parent). If the dest parameter is presented,
+ * then a non-uniform scale of the object is returned,
+ * else the first component of scale is returned.
  * @method module:transform.get_scale_rel
  * @param {Object3D} obj Object 3D
- * @returns {number} scale
+ * @param {Vec3} [dest] Destination vector
+ * @returns {Vec3|number} scale
  */
-exports.get_scale_rel = function(obj) {
-    return m_trans.get_scale_rel(obj);
+exports.get_scale_rel = function (obj, dest) {
+    return m_trans.get_scale_rel(obj, dest);
 }
 
 /**
@@ -659,7 +668,7 @@ exports.set_tsr_rel = function(obj, tsr) {
  */
 exports.get_tsr = function(obj, dest) {
     if (!dest)
-        dest = new Float32Array(8);
+        dest = m_tsr.create();
 
     m_trans.get_tsr(obj, dest);
 
@@ -676,7 +685,7 @@ exports.get_tsr = function(obj, dest) {
  */
 exports.get_tsr_rel = function(obj, dest) {
     if (!dest)
-        dest = new Float32Array(8);
+        dest = m_tsr.create();
 
     m_trans.get_tsr_rel(obj, dest);
 

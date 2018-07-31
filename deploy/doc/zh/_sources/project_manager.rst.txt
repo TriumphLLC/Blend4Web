@@ -153,6 +153,12 @@ The ``[Back to Projects]`` button can be used to return to the Project Manager's
     * ``Compile`` - engine sources are compiled with application scripts.
 
         This option can be used to modify the code of the engine itself;
+    * ``Command`` - this project type is similar to ``Compile``, but it also gives you an option to set command for compiling the application. Environment variables are also supported.
+
+        .. note::
+
+            Variables like ``NODE``, ``NPM`` or ``PYTHON`` refer to the corresponding files in the Blend4Web SDK.
+
     * ``None`` - Project Manager will not copy the engine files to the application folder, nor will it perform any operations upon building the application. Application developers will have to manually perform everything they need;
     * ``Web Player JSON`` - json-file placed inside the project is run with the help of web-player inside SDK;
     * ``Web Player HTML`` - project is packed into single html-file, containing all required resources.

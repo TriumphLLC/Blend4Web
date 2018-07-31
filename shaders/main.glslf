@@ -15,6 +15,7 @@
 #var USE_VIEW_TSR_INVERSE 0
 #var USE_MODEL_TSR 0
 #var USE_MODEL_TSR_INVERSE 0
+#var USE_PROJ_MATRIX_FRAG 0
 #var WATER_EFFECTS 0
 #var USE_FOG 0
 #var CALC_TBN_SPACE 0
@@ -83,7 +84,7 @@
 # endif
 #endif
 
-#if RGBA_SHADOWS
+#if RGBA_SHADOWS || USE_REFRACTION_CORRECTION
 #include <pack.glslf>
 #endif
 
@@ -143,6 +144,9 @@ uniform mat3 u_model_tsr;
 #endif
 #if USE_MODEL_TSR_INVERSE
 uniform mat3 u_model_tsr_inverse;
+#endif
+#if USE_PROJ_MATRIX_FRAG
+uniform mat4 u_proj_matrix_frag;
 #endif
 
 #if !DISABLE_FOG
@@ -205,7 +209,7 @@ uniform PRECISION GLSL_SMPLR2D_SHDW u_shadow_map3;
 uniform sampler2D u_refractmap;
 #endif
 
-#if USE_NODE_B4W_REFRACTION && USE_REFRACTION && REFRACTIVE && USE_REFRACTION_CORRECTION
+#if (USE_NODE_B4W_REFRACTION || USE_NODE_BSDF_PRINCIPLED) && USE_REFRACTION && REFRACTIVE && USE_REFRACTION_CORRECTION
 uniform PRECISION sampler2D u_scene_depth;
 #endif
 

@@ -27,7 +27,7 @@ var z_dir = new Float32Array([0, 0, 1]);
 var _vec3_tmp   = new Float32Array(3);
 var _vec3_tmp_2 = new Float32Array(3);
 var _quat4_tmp  = new Float32Array(4);
-var _tsr8_tmp   = new Float32Array(8);
+var _tsr8_tmp = m_tsr.create();
 var _controlled_bone = null;
 
 var _prev_mouse_x = 0;

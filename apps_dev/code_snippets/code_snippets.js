@@ -37,7 +37,7 @@ var snippets = [
     wrap(multitouch, "./scripts/multitouch.js", "Multitouch", "multitouch"),
     wrap(pathfinding, "./scripts/pathfinding.js", "Pathfinding", "pathfinding"),
     wrap(raytest, "./scripts/raytest.js", "Ray Test", "raytest"),
-    wrap(vr, "./scripts/vr.js", "VR", "vr"),
+    wrap(vr, "./scripts/vr.js", "VR", "vr", true),
     wrap(webcam, "./scripts/webcam.js", "Webcam", "webcam")
     
 ];

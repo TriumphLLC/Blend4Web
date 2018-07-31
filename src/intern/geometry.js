@@ -26,6 +26,7 @@ import * as m_tbn from "./tbn.js";
 import * as m_tsr from "./tsr.js";
 import * as m_util from "./util.js";
 import * as m_vec3 from "../libs/gl_matrix/vec3.js";
+import * as m_vec4 from "../libs/gl_matrix/vec4.js";
 
 /**
  * Geometry internal API.
@@ -49,7 +50,7 @@ var _vec3_tmp2 = new Float32Array(3);
 var _vec3_tmp3 = new Float32Array(3);
 var _quat_tmp = m_quat.create();
 
-var _tsr_tmp = new Float32Array(8);
+var _tsr_tmp = m_tsr.create();
 
 var MAX_SUBMESH_LENGTH = 256*256;
 
@@ -545,58 +546,67 @@ function generate_bufs_data_arrays(bufs_data, indices, va_frames, va_common,
     bufs_data.pointers  = pointers;
 }
 
-function append_inst_array_data(inst_ar_data, pointers, vbo_source_data, offsets) {
-    var tsr_array = inst_ar_data.tsr_array;
-    var em_tsr = inst_ar_data.stat_part_em_tsr;
-    var part_inh_attrs = inst_ar_data.part_inh_attrs;
-    var submesh_params = inst_ar_data.submesh_params;
-    var static_hair = inst_ar_data.static_hair;
+var append_inst_array_data = (function() {
+    var _vec4_tmp = m_vec4.create();
+    var _quat_tmp = m_quat.create();
 
-    var attrs_data = {
-        "a_part_ts": { data: [], num_comp: 4 },
-        "a_part_r": { data: [], num_comp: 4 }
-    };
-    for (var name in part_inh_attrs)
-        attrs_data[name] = { data: [], num_comp: part_inh_attrs[name].num_comp };
-    for (var name in submesh_params)
-        attrs_data[name] = { data: [], num_comp: 1 };
+    return function append_inst_array_data(inst_ar_data, pointers, vbo_source_data, offsets) {
+        var tsr_array = inst_ar_data.tsr_array;
+        var em_tsr = inst_ar_data.stat_part_em_tsr;
+        var part_inh_attrs = inst_ar_data.part_inh_attrs;
+        var submesh_params = inst_ar_data.submesh_params;
+        var static_hair = inst_ar_data.static_hair;
 
-    for (var i = 0; i < tsr_array.length; i++) {
-        var tsr = tsr_array[i];
-        if (static_hair && em_tsr && !inst_ar_data.dyn_grass)
-            tsr = m_tsr.multiply(em_tsr, tsr_array[i], _tsr_tmp);
+        var attrs_data = {
+            "a_part_ts": { data: [], num_comp: 4 },
+            "a_part_r": { data: [], num_comp: 4 }
+        };
+        for (var name in part_inh_attrs)
+            attrs_data[name] = { data: [], num_comp: part_inh_attrs[name].num_comp };
+        for (var name in submesh_params)
+            attrs_data[name] = { data: [], num_comp: 1 };
 
-        if (!static_hair && inst_ar_data.dyn_grass)
-            m_vec3.subtract(tsr_array[i], em_tsr, tsr_array[i]);
+        for (var i = 0; i < tsr_array.length; i++) {
+            var tsr = tsr_array[i];
+            if (static_hair && em_tsr && !inst_ar_data.dyn_grass)
+                tsr = m_tsr.multiply(em_tsr, tsr_array[i], _tsr_tmp);
 
-        attrs_data["a_part_ts"].data.push(tsr[0], tsr[1], tsr[2], tsr[3]);
-        attrs_data["a_part_r"].data.push(tsr[4], tsr[5], tsr[6], tsr[7]);
+            if (!static_hair && inst_ar_data.dyn_grass)
+                m_vec3.subtract(tsr_array[i], em_tsr, tsr_array[i]);
 
-        for (var name in part_inh_attrs) {
-            var len = part_inh_attrs[name].num_comp;
-            for (var j = 0; j < len; j++)
-                attrs_data[name].data.push(part_inh_attrs[name].data[i * len + j]);
+            var trans_scale = m_tsr.get_transcale(tsr, _vec4_tmp);
+            var quat = m_tsr.get_quat(tsr, _quat_tmp);
+            var ts_data = attrs_data["a_part_ts"].data;
+            var r_data = attrs_data["a_part_r"].data;
+            ts_data.push.apply(ts_data, trans_scale);
+            r_data.push.apply(r_data, quat);
+
+            for (var name in part_inh_attrs) {
+                var len = part_inh_attrs[name].num_comp;
+                for (var j = 0; j < len; j++)
+                    attrs_data[name].data.push(part_inh_attrs[name].data[i * len + j]);
+            }
+
+            for (var name in submesh_params)
+                attrs_data[name].data.push(submesh_params[name][0]);
         }
 
-        for (var name in submesh_params)
-            attrs_data[name].data.push(submesh_params[name][0]);
-    }
-
-    for (var name in attrs_data) {
-        var type = get_vbo_type_by_attr_name(name);
-        vbo_source_data_set_attr(vbo_source_data, name, attrs_data[name].data, 
+        for (var name in attrs_data) {
+            var type = get_vbo_type_by_attr_name(name);
+            vbo_source_data_set_attr(vbo_source_data, name, attrs_data[name].data,
                 offsets[type]);
 
-        var pointer = init_attr_pointer();
-        pointer.num_comp = attrs_data[name].num_comp;
-        pointer.offset = offsets[type];
-        pointer.divisor = 1;
-        pointer.length = attrs_data[name].data.length;
+            var pointer = init_attr_pointer();
+            pointer.num_comp = attrs_data[name].num_comp;
+            pointer.offset = offsets[type];
+            pointer.divisor = 1;
+            pointer.length = attrs_data[name].data.length;
 
-        pointers[name] = pointer;
-        offsets[type] += pointer.length;
-    }
-}
+            pointers[name] = pointer;
+            offsets[type] += pointer.length;
+        }
+    };
+})();
 
 /**
  * Calculate vbo length (in elements) needed to store vertex arrays

@@ -39,7 +39,8 @@ def proj_cfg_value(cfg_parser, section, option, fallback=None):
         option == "apps" or
         option == "ignore" or
         option == "js_ignore" or
-        option == "css_ignore"):
+        option == "css_ignore" or
+        option == "editor_ignore"):
 
         return cfg_extract_list(val)
     elif (option == "override" or

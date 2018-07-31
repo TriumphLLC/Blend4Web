@@ -245,6 +245,13 @@ Manager и вызывается по ссылке "[Create New Project]" на г
            Этот вариант применяется, если необходимо внести изменения
            в исходный код самого движка;
 
+      * "Command" - this project type is similar to "Compile", but
+        it also gives you an option to set command for compiling the
+        application. Environment variables are also supported.
+
+           Примечание: Variables like "NODE", "NPM" or "PYTHON"
+             refer to the corresponding files in the Blend4Web SDK.
+
       * "None" - движок не копируется в директорию проекта, также
         менеджер проектов не производит никаких действий при сборке
         проекта. Разработчик приложения должен самостоятельно

@@ -19,6 +19,7 @@ import register from "../util/register.js";
 import m_cam_fact from "../extern/camera.js";
 import m_ctl_fact from "../extern/controls.js";
 import m_print_fact from "../intern/print.js";
+import * as m_quat from "../libs/gl_matrix/quat.js";
 import m_scs_fact from "../extern/scenes.js";
 import m_time_fact from "../extern/time.js";
 import m_trans_fact from "../extern/transform.js";
@@ -62,6 +63,8 @@ var _vec3_tmp3          = new Float32Array(3);
 var _tsr_tmp            = m_tsr.create();
 var _tsr_tmp2           = m_tsr.create();
 var _tsr_tmp3           = m_tsr.create();
+
+var _quat_tmp           = m_quat.create();
 
 var _limits_tmp = {};
 
@@ -447,13 +450,13 @@ exports.move_camera_to_point = function(cam_obj, point_obj, cam_lin_speed, cam_a
     else
         var point_tsr = m_trans.get_tsr(point_obj, _tsr_tmp2);
 
-    var distance  = m_vec3.distance(m_tsr.get_trans_view(cam_tsr),
-                                    m_tsr.get_trans_view(point_tsr));
+    var distance  = m_vec3.distance(m_tsr.get_trans(cam_tsr, _vec3_tmp),
+                                    m_tsr.get_trans(point_tsr, _vec3_tmp2));
     var move_time = distance / cam_lin_speed;
 
-    var current_cam_dir = m_util.quat_to_dir(m_tsr.get_quat_view(cam_tsr),
+    var current_cam_dir = m_util.quat_to_dir(m_tsr.get_quat(cam_tsr, _quat_tmp),
                                              m_util.AXIS_MZ, _vec3_tmp);
-    var target_cam_dir  = m_util.quat_to_dir(m_tsr.get_quat_view(point_tsr),
+    var target_cam_dir = m_util.quat_to_dir(m_tsr.get_quat(point_tsr, _quat_tmp),
                                              m_util.AXIS_MZ, _vec3_tmp2);
 
     var vec_dot     = Math.min(Math.abs(m_vec3.dot(current_cam_dir,
@@ -538,7 +541,7 @@ exports.rotate_camera = function(cam_obj, angle_phi, angle_theta, time, cb) {
 
     var delta_phi   = 0;
     var cur_animator_phi = m_time.animate(0, angle_phi, time, function(e) {
-        if (_is_camera_stop_rotating || e >= angle_phi) {
+        if (_is_camera_stop_rotating || Math.abs(e) >= Math.abs(angle_phi)) {
             _is_camera_stop_rotating = false;
             m_time.clear_animation(cur_animator_phi);
             fin_cb();
@@ -551,7 +554,7 @@ exports.rotate_camera = function(cam_obj, angle_phi, angle_theta, time, cb) {
 
     var delta_theta = 0;
     var cur_animator_theta = m_time.animate(0, angle_theta, time, function(e) {
-        if (_is_camera_stop_rotating || e >= angle_theta) {
+        if (_is_camera_stop_rotating ||  Math.abs(e) >= Math.abs(angle_theta)) {
             _is_camera_stop_rotating = false;
             m_time.clear_animation(cur_animator_theta);
             fin_cb();

@@ -20,9 +20,11 @@ To simplify development process, we recommend to use :ref:`Project Manager <proj
 Application Code Structure
 --------------------------
 
+Starting with version 17.12, Blend4Web engine supports a new coding standard that uses ES6 modules. The old standard that uses modified CommonJS modules is still supported as well. The following chapter describes the structure of the program code in a generic Blend4Web aplication and the differences between these two programming approaches.
+
 The process of initializing and loading an application is separated into several stages, which is reflected in the code of the application. If you are using Project Manager, a newly created ``Copy`` or ``Compile`` type project will include a main JS file, which will be placed in the SDK. The path to the file will look like this: ``./projects/PROJECT_NAME/PROJECT_NAME.js``.
 
-This file contains generic code shaped as a module. This module can be registered using the certain structure:
+This file contains generic code shaped as a module. Using the old CommonJS notation, this module can be registered using the certain structure:
 
 .. code-block:: javascript
 
@@ -32,6 +34,11 @@ This file contains generic code shaped as a module. This module can be registere
         //...
 
     });
+
+.. note::
+
+    If you are using ES6 notation, you don't have to register your modules and can use them without any preparations.
+    
 
 So, the code of a module is contained within a function that accepts ``exports`` and ``require`` parameters.
 
@@ -44,6 +51,8 @@ So, the code of a module is contained within a function that accepts ``exports``
         To make module naming more convenient, ``m_`` prefix is often used (``m_app``, ``m_data`` etc.) to show that the variable is an engine module.
 
 #. ``exports`` is an object used for gaining access to module’s functions from outside (for example, from other modules). In this case, only the ``init`` function has been made external:
+
+    **Old notation:**
 
     .. code-block:: javascript
 
@@ -64,7 +73,23 @@ So, the code of a module is contained within a function that accepts ``exports``
         ...
         });
 
+    **ES6 module:**
+
+    .. code-block:: javascript
+   
+        export function init() {
+            m_app.init({
+                canvas_container_id: "main_canvas_container",
+                callback: init_cb,
+                show_fps: DEBUG,
+                console_verbose: DEBUG,
+                autoresize: true
+            });
+        }
+
 Application initialization begins with this function, and it is called outside of the module:
+
+**Old notation:**
 
 .. code-block:: javascript
 
@@ -88,6 +113,28 @@ Application initialization begins with this function, and it is called outside o
      // import the app module and start the app by calling the init method
      b4w.require("my_module").init();
 
+**ES6 notation:**
+
+.. code-block:: javascript
+
+    import b4w from "blend4web";
+
+    ...
+
+    export function init() {
+        m_app.init({
+            canvas_container_id: "main_canvas_container",
+            callback: init_cb,
+            show_fps: DEBUG,
+            console_verbose: DEBUG,
+            autoresize: true
+        });
+    }
+
+    ...
+
+    init();
+
 After this, the :b4wref:`app.init app.init` method is called. It creates Canvas HTML element and performs all necessary action for initializing WebGL. This method has many different attributes, the most important ones of which are:
 
 * ``canvas_container_id`` set the id of the HTML element that acts as a container for the Canvas element. By default, an element with the ``main_canvas_container`` ID is used (this element is located in the main HTML file of the application).
@@ -95,6 +142,8 @@ After this, the :b4wref:`app.init app.init` method is called. It creates Canvas 
 * ``callback`` is the function that is called after finishing initialization.
 
 When application initialization is completed, the :b4wref:`init_cb app.~AppInitCallback` function set by the ``callback`` parameter is called:
+
+**Old notation:**
 
 .. code-block:: javascript
 
@@ -117,11 +166,34 @@ When application initialization is completed, the :b4wref:`init_cb app.~AppInitC
        load();
     }
 
-It has following parameters:
+**New notation:**
 
-* canvas_elem is the created Canvas HTML element that will be used for rendering 3D content
+.. code-block:: javascript
 
-* success it the flag that indicates the success of the initialization. The ``false`` value meant that the application is unable to work due to initialization errors (for example, WebGL is not supported by the device).
+    function init_cb(canvas_elem, success) {
+
+        if (!success) {
+            console.log("b4w init failure");
+            return;
+        }
+
+        m_preloader.create_preloader();
+
+        // ignore right-click on the canvas element
+        canvas_elem.oncontextmenu = function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        };
+
+        load();
+    }
+
+The function has following parameters:
+
+* *canvas_elem* is the created Canvas HTML element that will be used for rendering 3D content
+
+* *success* it the flag that indicates the success of the initialization. The ``false`` value meant that the application is unable to work due to initialization errors (for example, WebGL is not supported by the device).
 
 .. note::
 
@@ -164,6 +236,8 @@ The second parameter of the method is the :b4wref:`load_cb data.~LoadedCallback`
 
 Calling this function means that the application has finished loading and now starts scene rendering. As this is the very first moment when the 3D scene data will be available, it is a suitable moment for initializing and preparing everything related to the scene, its object, animations and other things. For example, standard camera controls can be enabled here with the :b4wref:`app.enable_camera_controls` method.
 
+This.
+
 Writing Application Logic
 .........................
 
@@ -172,6 +246,8 @@ After initializing and loading 3D scene the application will proceed to work acc
 By observing the :ref:`application loading process <app_init_loading>`, we can determine several places suitable for performing various tasks.
 
 #. The :b4wref:`app.init app.init` method used for starting the initialization accepts engine configuration parameters. So you can configure the engine right before calling this method using URL attributes as a base:
+
+    **Old notation:**
 
     .. code-block:: javascript
 
@@ -197,6 +273,30 @@ By observing the :ref:`application loading process <app_init_loading>`, we can d
             ...
         });
         b4w.require("my_module").init();
+
+    **New notation:**
+
+    .. code-block:: javascript
+
+        export function init() {
+
+            var url_params = m_app.get_url_params();
+            if (url_params && "show_fps" in url_params)
+                var show_fps = true;
+            else
+                var show_fps = false;
+
+            m_app.init({
+                canvas_container_id: "main_canvas_container",
+                callback: init_cb,
+                console_verbose: DEBUG,
+                autoresize: true
+            });
+        }
+
+        ...
+
+        init();
 
 #. Initialization is started by the ``window.onload`` action, which means that after it is completed, the :b4wref:`init_cb app.~AppInitCallback` function will have access to the whole DOM tree. At this moment, you already can perform some preparations such as creating and setting up interface elements. However, the 3D scene itself is not yet loaded, and its objects are not yet available.
 
@@ -235,6 +335,8 @@ A module is essentially a code block wrapped by a specific structure that is use
 
     ...
 
+This only applies to the old CommonJS notation. If you are using ES6, modules can be simply plugged into your main application file using **import** method.
+
 The :b4wref:`b4w.register` method is used for registering modules. You can only register custom modules if their names do not coincide with the regular API modules. If necessary, the :b4wref:`b4w.module_check` method to check if a module with a given name is present:
 
 .. code-block:: javascript
@@ -249,9 +351,13 @@ The :b4wref:`b4w.register` method is used for registering modules. You can only 
 
     });
 
+As mentioned above, modules don't have to be registered in **ES6 notation**. However, any custom module plugged ito your application should still have a name distinct from the names of the regular API modules.
+
 2) Loading Modules
 
 Custom modules, just like regular ones, can be plugged in with the ``require`` method:
+
+**Old notation:**
 
 .. code-block:: javascript
 
@@ -262,13 +368,29 @@ Custom modules, just like regular ones, can be plugged in with the ``require`` m
         ...
     });
 
+**New notation:**
+
+.. code-block:: javascript
+
+    import {one, two} as my_mod from "./my_module.js";
+
+Here, **one** and **two** are the variables that are marked with the word **export** in the ``my_module.js`` file.
+
 3) Application Initialization
 
 Application initialization in Blend4Web is usually done with a call like this:
 
+**Old notation:**
+
 .. code-block:: javascript
 
     b4w.require("my_module").init();
+
+**New notation:**
+
+.. code-block:: javascript
+
+    my_module.init();
 
 Here, the ``my_module`` custom module and its ``init`` external function do, in a certain sense, act as the entry point to the application.
 
@@ -1064,6 +1186,9 @@ Switching the quality profiles can be performed in runtime before initialization
     m_main.init(...);
 
 
+Additional Quality Settings
+---------------------------
+
 Application developers can also set the **quality** parameter upon engine initialization using the ``app.js`` add-on:
 
 .. code-block:: javascript
@@ -1075,7 +1200,198 @@ Application developers can also set the **quality** parameter upon engine initia
         canvas_container_id: "body_id",
         quality: m_cfg.P_HIGH
     });
-    
+
+All rendering parameters affected by quality settings are listed in the following sheet:
+
++--------------------------------+---------------+---------------+---------------+
+| *Parameter*                    | **Ultra**     | **High**      | **Low**       |
++--------------------------------+---------------+---------------+---------------+
+| cfg_def.shadows                | true          | true          | false         |
++--------------------------------+---------------+---------------+---------------+
+| cfg_def.shore_smoothing        | true          | true          | false         |
++--------------------------------+---------------+---------------+---------------+
+| cfg_def.ssao                   | true          | true          | false         |
++--------------------------------+---------------+---------------+---------------+
+| cfg_def.dof                    | true          | true          | false         |
++--------------------------------+---------------+---------------+---------------+
+| cfg_def.god_rays               | true          | true          | false         |
++--------------------------------+---------------+---------------+---------------+
+| cfg_def.bloom                  | true          | true          | false         |
++--------------------------------+---------------+---------------+---------------+
+| cfg_def.reflections            | true          | true          | false         |
++--------------------------------+---------------+---------------+---------------+
+| cfg_def.refractions            | true          | true          | false         |
++--------------------------------+---------------+---------------+---------------+
+| cfg_def.foam                   | true          | true          | false         |
++--------------------------------+---------------+---------------+---------------+
+| cfg_def.parallax               | true          | true          | false         |
++--------------------------------+---------------+---------------+---------------+
+| cfg_def.dynamic_grass          | true          | true          | false         |
++--------------------------------+---------------+---------------+---------------+
+| cfg_scs.grass_tex_size         | 4.0*512       | 2*512         | 1*512         |
++--------------------------------+---------------+---------------+---------------+
+| cfg_scs.cubemap_tex_size       | 512           | 256           | 256           |
++--------------------------------+---------------+---------------+---------------+
+| cfg_def.texture_min_filter     | 3             | 3             | 2             |
++--------------------------------+---------------+---------------+---------------+
+| cfg_def.anisotropic_filtering  | true          | true          | false         |
++--------------------------------+---------------+---------------+---------------+
+| cfg_def.use_min50              | false         | false         | true          |
++--------------------------------+---------------+---------------+---------------+
+| cfg_def.water_dynamic          | true          | true          | false         |
++--------------------------------+---------------+---------------+---------------+
+| cfg_def.shore_distance         | true          | true          | false         |
++--------------------------------+---------------+---------------+---------------+
+| cfg_def.antialiasing           | true          | true          | false         |
++--------------------------------+---------------+---------------+---------------+
+| cfg_def.smaa                   | false         | false         | false         |
++--------------------------------+---------------+---------------+---------------+
+| cfg_def.compositing            | true          | true          | false         |
++--------------------------------+---------------+---------------+---------------+
+| cfg_def.motion_blur            | true          | true          | false         |
++--------------------------------+---------------+---------------+---------------+
+| cfg_def.allow_hidpi            | true          | false         | false         |
++--------------------------------+---------------+---------------+---------------+
+| cfg_def.enable_outlining       | true          | true          | false         |
++--------------------------------+---------------+---------------+---------------+
+| cfg_def.glow_materials         | true          | true          | false         |
++--------------------------------+---------------+---------------+---------------+
+| cfg_def.msaa_samples           | 16            | 4             | 1             |
++--------------------------------+---------------+---------------+---------------+
+| cfg_def.srgb_type              | "SRGB_PROPER" | "SRGB_SIMPLE" | "SRGB_SIMPLE" |
++--------------------------------+---------------+---------------+---------------+
+| cfg_phy.max_fps                | 120           | 60            | 60            |
++--------------------------------+---------------+---------------+---------------+
+| cfg_def.lod_smooth_transitions | true          | true          | false         |
++--------------------------------+---------------+---------------+---------------+
+
+Other rendering parameters are not affected by setting the quality profile, but can be accessed via API methods or, in many cases, from Blend4Web add-on UI in Blender. These parameters are listed below:
+
+
+Shadow settings
+...............
+
+- ``b4w.shadow_settings.soft_shadows`` `- enables and disables shadow blurring`
+- ``b4w.shadow_settings.blur_samples`` `- sets the number of samples used to blur shadows`
+- ``b4w.shadow_settings.csm_resolution`` `- sets shadow cascade resolution`
+- ``b4w.shadow_settings.self_shadow_polygon_offset`` `- sets self-shadow polygon offset`
+- ``b4w.shadow_settings.self_shadow_normal_offset`` `- sets shadow normal offset`
+- ``b4w.shadow_settings.enable_csm`` `- enables and disables shadow cascades`
+- ``b4w.shadow_settings.first_cascade_blur_radius`` `- sets the radius of blurring between shadow cascades`
+
+These settings are also available in Blend4Web Add-on interface and are described in greater detail in a :ref:`dedicated chapter <shadows>`.
+
+
+Reflection settings
+...................
+
+* ``b4w.reflection_quality`` `- controls the overall quality of the rendered reflections`
+
+This parameter, along with other reflection settings, is also available in Blend4Web Add-on interface and are described in greater detail in a :ref:`dedicated chapter <render_reflections>`.
+
+
+Outlining settings
+..................
+
+* ``b4w.outline_color`` `- sets the color of the object outline`
+
+* ``b4w.outline_factor`` `- sets the thickness and the brightness of the object outline`
+
+These parameters are also available in Blend4Web Add-on interface and are described in greater detail in a :ref:`dedicated chapter <render_object_outlining>`.
+
+
+Glow settings
+.............
+
+* ``b4w.glow_settings.small_glow_mask_coeff`` `- sets the intensity of glow obtained through the smaller mask`
+
+* ``b4w.glow_settings.small_glow_mask_width`` `- sets the width of glow obtained through the smaller mask`
+
+* ``b4w.glow_settings.large_glow_mask_coeff`` `- sets the intensity of glow obtained through the larger mask`
+
+* ``b4w.glow_settings.large_glow_mask_width`` `- sets the width of glow obtained through the larger mask`
+
+* ``b4w.glow_settings.render_glow_over_blend`` `- enables and disables rendering the glow effect over transparent objects`
+
+These settings are also available in Blend4Web Add-on interface and are described in greater detail in a :ref:`dedicated chapter <render_glow_materials>`.
+
+
+Anti-Aliasing settings
+......................
+
+* ``b4w.antialiasing_quality`` `- this parameter controls the overall quality of the anti-aliasing effect`
+
+These settings are also available in Blend4Web Add-on interface and are described in greater detail in a :ref:`dedicated chapter <render_anti_aliasing>`.
+
+
+Bloom settings
+..............
+
+* ``b4w.bloom_settings.adaptive`` `- enables and disables using adaptive average luminance`
+
+* ``b4w.bloom_settings.key`` `- controls the intesity of the Bloom effect`
+
+* ``b4w.bloom_settings.blur`` `- sets the blur factor of the effect`
+
+* ``b4w.bloom_settings.edge_lum`` `- sets the boundary value of an element’s relative brightness above which the bloom effect appears`
+
+These settings are also available in Blend4Web Add-on interface and are described in greater detail in a :ref:`dedicated chapter <render_bloom>`.
+
+
+Moton Blur settings
+...................
+
+* ``b4w.motion_blur_settings.motion_blur_factor`` `- controls the strength of the motion blur effect`
+
+* ``b4w.motion_blur_settings.motion_blur_decay_threshold`` `- sets the fade-out ratio of the motion blur effect`
+
+These settings are also available in Blend4Web Add-on interface and are described in greater detail in a :ref:`dedicated chapter <render_motion_blur>`.
+
+
+SSAO settings
+.............
+
+* ``b4w.ssao_settings.radius_increase`` `- sets the spherical sampling radius multiply factor when transferring from the internal sampling ring to the external one`
+
+* ``b4w.ssao_settings.hemisphere`` `- enables and disables using hemispherical sampling for shading`
+
+* ``b4w.ssao_settings.blur_depth`` `- enables and disables blur depth test`
+
+* ``b4w.ssao_settings.blur_discard_value`` `- sets the discard value for the blur depth test`
+
+* ``b4w.ssao_settings.influence`` `- sets the appearance factor for the SSAO effect`
+
+* ``b4w.ssao_settings.dist_factor`` `- sets the distant factor for the SSAO effect`
+
+* ``b4w.ssao_settings.samples`` `- sets the number of samples used to compute the SSAO effect`
+
+These settings are also available in Blend4Web Add-on interface and are described in greater detail in a :ref:`dedicated chapter <render_ssao>`.
+
+
+God Rays settings
+.................
+
+* ``b4w.god_rays_settings.intensity`` `- sets the intesity of the god rays effect`
+
+* ``b4w.god_rays_settings.max_ray_length`` `- sets the maximum length of the rays`
+
+* ``b4w.god_rays_settings.steps_per_pass`` `- sets the number of steps used to calculate the god rays effect`
+
+These settings are also available in Blend4Web Add-on interface and are described in greater detail in a :ref:`dedicated chapter <render_god_rays>`.
+
+
+Color Correction settings
+.........................
+
+* ``b4w.color_correction_settings.brightness`` `- sets the brightness of the image`
+
+* ``b4w.color_correction_settings.contrast`` `- sets the contrast of the image`
+
+* ``b4w.color_correction_settings.exposure`` `- sets the exposure of the image`
+
+* ``b4w.color_correction_settings.saturation`` `- sets the satuartion of the image`
+
+These settings are also available in Blend4Web Add-on interface and are described in greater detail in a :ref:`dedicated chapter <render_color_correction>`.
 
 .. _non_standard_canvas_pos:
 

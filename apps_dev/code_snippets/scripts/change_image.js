@@ -11,18 +11,10 @@ var m_version = b4w.version;
 
 var DEBUG = (m_version.type() === "DEBUG");
 
-var APP_ASSETS_PATH = m_cfg.get_std_assets_path() + "code_snippets/change_image/";
+var APP_ASSETS_PATH = m_cfg.get_assets_path() + "code_snippets/change_image/";
 var TEX_ASSETS_PATH = APP_ASSETS_PATH + "textures/";
 
-var PATH_TO_IMG_CUBE_1b = TEX_ASSETS_PATH + "1_b.png";
-var PATH_TO_IMG_CUBE_2b = TEX_ASSETS_PATH + "2_b.png";
-
-var PATH_TO_IMG_PLANE_1 = TEX_ASSETS_PATH + "table_napkin_1.png";
-var PATH_TO_IMG_PLANE_2 = TEX_ASSETS_PATH + "table_napkin_2.png";
-
-var PATH_TO_NORMAL_PLANE_1 = TEX_ASSETS_PATH + "table_napkin_1_normal.png";
-var PATH_TO_NORMAL_PLANE_2 = TEX_ASSETS_PATH + "table_napkin_2_normal.png";
-
+var _textures = [];
 var _world = null;
 var _wait_for_image_loading = false;
 var _napkin_flag = false;
@@ -63,10 +55,19 @@ function load_cb(data_id) {
     _stand_1 = m_scenes.get_object_by_name("stand");
     _stand_2 = m_scenes.get_object_by_name("stand_2");
     container.addEventListener("mousedown", main_canvas_clicked_cb, false);
-}
-
-function change_img_cb() {
-    _wait_for_image_loading = false;
+    
+    // Create images
+    var tex_names = ["1_b.png",
+                     "2_b.png",
+                     "table_napkin_1.png",
+                     "table_napkin_1_normal.png",
+                     "table_napkin_2.png",
+                     "table_napkin_2_normal.png"];
+    for (var i = 0; i < tex_names.length; i++) {
+        var tex = new Image();
+        tex.src = TEX_ASSETS_PATH + tex_names[i];
+        _textures.push(tex)
+    }
 }
 
 function main_canvas_clicked_cb(e) {
@@ -75,26 +76,23 @@ function main_canvas_clicked_cb(e) {
     var y = m_mouse.get_coords_y(e);
 
     var obj = m_scenes.pick_object(x, y);
-    if (obj && !_wait_for_image_loading) {
+    if (obj) {
         switch(m_scenes.get_object_name(obj)) {
-        case "Sphere_button_2":
-            _wait_for_image_loading = true;
-            m_tex.change_image(_world, "lightmap", PATH_TO_IMG_CUBE_2b, change_img_cb);
-            m_tex.change_image(_stand_1, "cubemap_slot", PATH_TO_IMG_CUBE_2b, change_img_cb);
-            break;
         case "Sphere_button_1":
-            _wait_for_image_loading = true;
-            m_tex.change_image(_world, "lightmap", PATH_TO_IMG_CUBE_1b, change_img_cb);
-            m_tex.change_image(_stand_2, "cubemap_slot", PATH_TO_IMG_CUBE_1b, change_img_cb);
+            m_tex.replace_image(_world, "lightmap", _textures[0])
+            m_tex.replace_image(_stand_1, "cubemap_slot", _textures[0]);
+            break;
+        case "Sphere_button_2":
+            m_tex.replace_image(_world, "lightmap", _textures[1])
+            m_tex.replace_image(_stand_1, "cubemap_slot", _textures[1]);
             break;
         case "table_napkin":
-            _wait_for_image_loading = true;
             if (_napkin_flag) {
-                m_tex.change_image(obj, "table_napkin", PATH_TO_IMG_PLANE_1, change_img_cb);
-                m_tex.change_image(obj, "table_napkin_normal", PATH_TO_NORMAL_PLANE_1, change_img_cb);
+                m_tex.replace_image(obj, "table_napkin", _textures[2]);
+                m_tex.replace_image(obj, "table_napkin_normal", _textures[3]);
             } else {
-                m_tex.change_image(obj, "table_napkin", PATH_TO_IMG_PLANE_2, change_img_cb);
-                m_tex.change_image(obj, "table_napkin_normal", PATH_TO_NORMAL_PLANE_2, change_img_cb);
+                m_tex.replace_image(obj, "table_napkin", _textures[4]);
+                m_tex.replace_image(obj, "table_napkin_normal", _textures[5]);
             }
             _napkin_flag = !_napkin_flag;
             break;

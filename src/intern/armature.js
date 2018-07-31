@@ -19,6 +19,7 @@ import * as m_tsr from "./tsr.js";
 import * as m_quat from "../libs/gl_matrix/quat.js";
 import * as m_mat4 from "../libs/gl_matrix/mat4.js";
 import * as m_vec3 from "../libs/gl_matrix/vec3.js";
+import * as m_vec4 from "../libs/gl_matrix/vec4.js";
 
 /**
  * Armature utility functions
@@ -261,53 +262,63 @@ export function update_skinned_renders(armobj) {
     }
 }
 
-export function update_bone_tsr_r(bone_pointer, use_bone_space, trans, quats) {
+export var update_bone_tsr_r = (function() {
+    // TODO: use m_vec4
+    var _quat_tmp = m_quat.create();
+    var _tsr_tmp = m_tsr.create();
+    var _tsr_tmp2 = m_tsr.create();
+    var _vec4_tmp = m_vec4.create();
 
-    var tsr_bone_pose = bone_pointer.tsr_bone_pose;
-    var tsr_local_rest = bone_pointer.tsr_local_rest;
-    var tsr_local_pose = bone_pointer.tsr_local_pose;
+    return function update_bone_tsr_r(bone_pointer, use_bone_space, trans, quats) {
 
-    var parent_bone_ptr = bone_pointer.parent_bone_ptr;
-    if (parent_bone_ptr) {
-        var tsr_par_local = parent_bone_ptr.tsr_local_pose;
+        var tsr_bone_pose = bone_pointer.tsr_bone_pose;
+        var tsr_local_rest = bone_pointer.tsr_local_rest;
+        var tsr_local_pose = bone_pointer.tsr_local_pose;
 
-        if (use_bone_space)
-            m_tsr.multiply(tsr_par_local, tsr_bone_pose, tsr_local_pose);
-        else {
-            var inv_tsr_par_local = _tsr_tmp2;
-            m_tsr.invert(tsr_par_local, inv_tsr_par_local);
-            m_tsr.multiply(inv_tsr_par_local, tsr_local_pose, tsr_bone_pose);
+        var parent_bone_ptr = bone_pointer.parent_bone_ptr;
+        if (parent_bone_ptr) {
+            var tsr_par_local = parent_bone_ptr.tsr_local_pose;
+            if (use_bone_space)
+                m_tsr.multiply(tsr_par_local, tsr_bone_pose, tsr_local_pose);
+            else {
+                var inv_tsr_par_local = _tsr_tmp2;
+                m_tsr.invert(tsr_par_local, inv_tsr_par_local);
+                m_tsr.multiply(inv_tsr_par_local, tsr_local_pose, tsr_bone_pose);
+            }
+        } else {
+            if (use_bone_space)
+                m_tsr.copy(tsr_bone_pose, tsr_local_pose);
+            else
+                m_tsr.copy(tsr_local_pose, tsr_bone_pose);
         }
-    } else
-        if (use_bone_space)
-            m_tsr.copy(tsr_bone_pose, tsr_local_pose);
-        else
-            m_tsr.copy(tsr_local_pose, tsr_bone_pose);
 
-    var dest_tsr = _tsr_tmp;
-    m_tsr.invert(tsr_local_rest, dest_tsr);
-    m_tsr.multiply(tsr_local_pose, dest_tsr, dest_tsr);
+        var dest_tsr = _tsr_tmp;
+        m_tsr.invert(tsr_local_rest, dest_tsr);
+        m_tsr.multiply(tsr_local_pose, dest_tsr, dest_tsr);
 
-    var index = bone_pointer.bone_index;
+        var index = bone_pointer.bone_index;
+        m_tsr.get_transcale(dest_tsr, _vec4_tmp);
+        trans[4 * index] = _vec4_tmp[0];
+        trans[4 * index + 1] = _vec4_tmp[1];
+        trans[4 * index + 2] = _vec4_tmp[2];
+        trans[4 * index + 3] = _vec4_tmp[3];
 
-    trans[4*index]   = dest_tsr[0];
-    trans[4*index+1] = dest_tsr[1];
-    trans[4*index+2] = dest_tsr[2];
-    trans[4*index+3] = dest_tsr[3];
-    quats[4*index]   = dest_tsr[4];
-    quats[4*index+1] = dest_tsr[5];
-    quats[4*index+2] = dest_tsr[6];
-    quats[4*index+3] = dest_tsr[7];
+        m_tsr.get_quat(dest_tsr, _quat_tmp);
+        quats[4 * index] = _quat_tmp[0];
+        quats[4 * index + 1] = _quat_tmp[1];
+        quats[4 * index + 2] = _quat_tmp[2];
+        quats[4 * index + 3] = _quat_tmp[3];
 
-    var descend_ptrs = bone_pointer.descend_bones_ptrs;
-    for (var i = 0; i < descend_ptrs.length; i++) {
-        var desc_bone_ptr = descend_ptrs[i];
-        // NOTE: temporary do not update child bones with constraints
-        if (desc_bone_ptr.constraint)
-            continue;
-        update_bone_tsr_r(desc_bone_ptr, true, trans, quats)
-    }
-}
+        var descend_ptrs = bone_pointer.descend_bones_ptrs;
+        for (var i = 0; i < descend_ptrs.length; i++) {
+            var desc_bone_ptr = descend_ptrs[i];
+            // NOTE: temporary do not update child bones with constraints
+            if (desc_bone_ptr.constraint)
+                continue;
+            update_bone_tsr_r(desc_bone_ptr, true, trans, quats)
+        }
+    };
+})();
 
 export function check_bone(armobj, bone_name) {
     return bone_name in armobj.render.bone_pointers;

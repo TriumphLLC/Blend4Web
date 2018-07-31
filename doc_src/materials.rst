@@ -164,7 +164,7 @@ Dynamic Reflection
 A surface reflects the selected objects in their current position. The engine supports planar and spherical reflections.
 
 .. note::
-    If you are using :ref:`node materials <node_materials>`, dynamic reflection will only work if a ``Material`` or ``Extended Material`` node is present in the node tree.
+    If you are using :ref:`node materials <node_materials>`, dynamic reflection will only work if an ``Extended Material`` node is present in the node tree.
 
 Activation
 ..........

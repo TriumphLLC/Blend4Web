@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="256px" height="295px" viewBox="0 0 256 295" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 40.3 (33839) - http://www.bohemiancoding.com/sketch -->
+    <title>logo</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <radialGradient cx="50%" cy="50%" fx="50%" fy="50%" r="49.3602519%" id="radialGradient-1">
+            <stop stop-color="#46CB79" offset="0%"></stop>
+            <stop stop-color="#47CF7B" offset="59.2733578%"></stop>
+            <stop stop-color="#43CA77" offset="100%"></stop>
+        </radialGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="logo">
+            <polygon id="Shape" fill="url(#radialGradient-1)" points="0 74 0 222 128.032342 295 256 222 256 74 128 0"></polygon>
+            <polygon id="Shape" fill="#FD6300" points="0 222 128 295 256 222 128 153.508897"></polygon>
+            <polygon id="Shape" fill="#FEC502" points="128.033708 75.2626335 64.6901068 111.834192 64.6901068 184.977765 128.033708 221.549779 191.378221 184.977765 191.378221 111.834192"></polygon>
+            <polygon id="Shape" fill-opacity="0.501132246" fill="#0166CF" points="0 74 128 143.94306 256 74 128 0"></polygon>
+        </g>
+    </g>
+</svg>

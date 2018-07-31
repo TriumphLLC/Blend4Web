@@ -111,13 +111,11 @@ GLSL_OUT vec3 v_shade_tang;
 
 #if STATIC_BATCH
 // NOTE:  mat3(0.0, 0.0, 0.0, --- trans
-//             1.0, --- scale
-//             0.0, 0.0, 0.0, 1.0, --- quat
-//             0.0);
+//             1.0, 1.0, 1.0 --- scale
+//             0.0, 0.0, 0.0 --- quat);
 const mat3 u_model_tsr = mat3(0.0, 0.0, 0.0,
-                              1.0,
-                              0.0, 0.0, 0.0, 1.0,
-                              0.0);
+                              1.0, 1.0, 1.0,
+                              0.0, 0.0, 0.0);
 #else
 uniform mat3 u_model_tsr;
 #endif

@@ -11,6 +11,7 @@ import os
 import platform
 import re
 import shutil
+import shlex
 import string
 import subprocess
 import sys
@@ -61,7 +62,7 @@ ENGINE_SIM_FILE_NAME = "b4w.simple.min.js"
 ENGINE_BUILD_NAME = "b4w.js"
 
 # ignore these files during compilation/deployment
-COMP_DEPL_IGNORE = ['project.py', '.b4w_project', '.b4w_icon.*', '.map']
+COMP_DEPL_IGNORE = ['project.py', '.b4w_project', '.b4w_icon.*', '.map', '*webpack.log', '*.map']
 
 MAT_DIR_NAME = "material_library"
 MAT_LIB_DIR_IGNORE = ["*.blend1", "promo", "material_library.blend",
@@ -106,12 +107,14 @@ ENGINE_TYPE_LIST = [
     "compile",
     "webplayer_json",
     "webplyer_html",
-    "none"
+    "none",
+    "custom"
 ]
 
 BUILDED_TYPE_LIST = [
     "copy",
-    "compile"
+    "compile",
+    "custom"
 ]
 
 DEPRECATED_ENGINE_TYPE_LIST = {"update": "none", "external": "copy"}
@@ -341,12 +344,12 @@ def fill_global_paths(base_dir):
 
     if platform.system() == "Windows":
         _java_exec = normpath(join(base_dir, "tools", "java", "win",
-                                   "openjdk-1.7.0", "bin", "java.exe"))
+                                   "openjdk-1.8.0.161-1.b14", "bin", "java.exe"))
     elif not check_dependencies(["java"], False):
         _java_exec = ""
 
     # path to closure compiler directory
-    _cc_dir = join(base_dir, "tools", "closure-compiler")
+    _cc_dir = join(base_dir, "node_modules", "google-closure-compiler")
 
     # engine build directory
     _engine_dir = join(base_dir, "dist")
@@ -367,8 +370,16 @@ def fill_global_paths(base_dir):
     # standard developer directory
     _std_dev_dir = join(base_dir, "apps_dev")
 
-    from find_nodejs import node_path
+    from find_nodejs import (node_path, npm_path, ensure_node, node_bin_dir)
+    ensure_node()
     _node_exec = node_path()
+    _npm_exec = npm_path()
+
+    # init environment to use it in custom build command
+    os.environ["NODE"] = _node_exec
+    os.environ["NPM"] = _npm_exec
+    os.environ["PYTHON"] = sys.executable
+    os.environ["PATH"] += os.pathsep + node_bin_dir()
 
 def run_help(cmd=""):
     """Run console help."""
@@ -1252,6 +1263,8 @@ def run_build(args, dev_proj_path):
     conf_engine_type = proj_cfg_value(proj_cfg, "compile", "engine_type", "none")
     engine_type = conf_engine_type
 
+    build_cmd = proj_cfg_value(proj_cfg, "compile", "build_cmd", "")
+
     conf_opt_level = proj_cfg_value(proj_cfg, "compile", "optimization", DEFAULT_JS_OPTIMIZATION_OPT)
     opt_level = conf_opt_level
 
@@ -1267,7 +1280,7 @@ def run_build(args, dev_proj_path):
 
     try:
         opts, args = getopt.getopt(args,
-                            "ht:o:a:v:j:c:i:fbw",
+                            "ht:o:a:v:j:c:i:x:fbw",
                            ["help",
                             "engine-type=",
                             "engine_type=",
@@ -1279,6 +1292,8 @@ def run_build(args, dev_proj_path):
                             "css-ignore=",
                             "css_ignore=",
                             "ignore=",
+                            "build-cmd",
+                            "build_cmd",
                             "use-physics",
                             "use_physics",
                             "use-source-map",
@@ -1316,6 +1331,8 @@ def run_build(args, dev_proj_path):
             use_source_map = True
         elif o == "--show-warn" or o == "-w":
             show_warn = True
+        elif o == "--build-cmd" or o == "-x":
+            build_cmd = a
         elif o == "--help" or o == "-h":
             help_build()
             sys.exit(0)
@@ -1338,6 +1355,27 @@ def run_build(args, dev_proj_path):
     ignore.extend(COMP_DEPL_IGNORE)
 
     print(GREEN + "Building project" + ENDCOL + ": " + BLUE + proj_name + ENDCOL)
+
+    if engine_type == "custom":
+        print("Run custom build command" + ": " + build_cmd)
+
+        cmd = shlex.split(build_cmd)
+        for i in range(len(cmd)):
+            cmd[i] = os.path.expandvars(cmd[i])
+
+        print("Expanded command" + ": " + " ".join(cmd))
+
+        proc = subprocess.Popen(cmd, cwd=dev_proj_path, stdout=subprocess.PIPE,
+                    stderr=subprocess.STDOUT, universal_newlines=True)
+
+        print_flush()
+        print(proc.communicate()[0].strip("\n"))
+        
+        print("-"*(len("Project building completed.")))
+        print(GREEN + "Project building completed." + ENDCOL)
+        print("-"*(len("Project building completed.")))
+
+        return
 
     if engine_type == "none":
         if exists(build_proj_path):
@@ -1665,7 +1703,7 @@ def build_app(app, **kwargs):
     cur_js_dict = list(filter(lambda x: not is_abs(x["src"]) and not dirname(normpath(join(str(app.parent), unix_path(x["src"])))).startswith(_src_dir), parser.js))
 
     for js in filter(lambda x: not "no_compile" in x, cur_js_dict):
-        js_dir = normpath(dirname(js["src"]))
+        js_dir = normpath(dirname(unix_path(js["src"])))
 
         if not js_dir in js_pos or js_pos[js_dir][0] > js["start_pos"][0]:
             js_pos[js_dir] = [js["start_pos"][0], js["start_pos"][1]]
@@ -1678,6 +1716,8 @@ def build_app(app, **kwargs):
 
     if len(css_paths):
         compile_css(css_paths, app.stem)
+
+    print_flush()
 
     js_files = list(build_proj_path_obj.rglob('*.js'))
     js_paths = exist_js(parser.js, js_files, normpath(join(html_file, "..")))
@@ -1808,6 +1848,7 @@ def build_html(**kwargs):
             ['<link type="text/css" rel="stylesheet" href="' + \
             unix_path(normpath(join(rel, app.stem))) + \
             '.min.css' + suffix + '">', css_pos[rel][1]]
+    engine_str = ""
     if engine_src:
         engine_str =\
             '<script type="text/javascript" src="' +\
@@ -1851,7 +1892,7 @@ def build_html(**kwargs):
     html_file.close()
 
     html_file = open(out_html_file_path, 'w', encoding="utf-8", newline="\n")
-    html_file.write(re.sub(r'>\s+<', '> <', html_text))
+    html_file.write(re.sub(r'>\s+<', '><', html_text))
     html_file.close()
 
 def copy_phys_to_proj_path(proj_path):
@@ -2025,13 +2066,14 @@ def compile_js(js_paths, file_name, opt_level, engine_type, use_source_map, dev_
             normpath(join(_base_dir, "scripts", "compile_b4w.py"))]
 
     # closure compiler externs
+    externs_dir = join(_base_dir, "tools", "closure-compiler")
     if opt_level == "advanced" or opt_level == "simple":
-        EXTERNS = [normpath(join(_cc_dir, "extern_modules.js")),
-                   normpath(join(_cc_dir, "extern_jquery-1.9.js")),
-                   normpath(join(_cc_dir, "extern_fullscreen.js")),
-                   normpath(join(_cc_dir, "extern_gl-matrix.js")),
-                   normpath(join(_cc_dir, "extern_pointerlock.js")),
-                   normpath(join(_cc_dir, "extern_webassembly.js"))]
+        EXTERNS = [normpath(join(externs_dir, "extern_modules.js")),
+                   normpath(join(externs_dir, "extern_jquery-1.9.js")),
+                   normpath(join(externs_dir, "extern_fullscreen.js")),
+                   normpath(join(externs_dir, "extern_gl-matrix.js")),
+                   normpath(join(externs_dir, "extern_pointerlock.js")),
+                   normpath(join(externs_dir, "extern_webassembly.js"))]
 
     for parent in js_paths:
         if engine_type in ["compile", "bundle"]:
@@ -2095,6 +2137,8 @@ def compile_js(js_paths, file_name, opt_level, engine_type, use_source_map, dev_
             print("    " + "-"*(len(relpath(output_js_path, _base_dir)) + len("Processing: ")))
             print_wrapper(relpath(output_js_path, _base_dir))
             print("    " + "-"*(len(relpath(output_js_path, _base_dir)) + len("Processing: ")))
+
+            print_flush()
 
             # NOTE: fixes deadlocks on windows
             proc = subprocess.Popen(js_adv_params, stdout=subprocess.PIPE,
@@ -2506,8 +2550,7 @@ def run_deploy(args, proj_path):
                            basename(proj_path)))))
 
     assets_dirs = []
-
-    ignore = ["*webpack.log", "*.map"]
+    ignore = []
 
     for o, a in opts:
         if o == "--assets-dest" or o == "-e":
@@ -2961,6 +3004,12 @@ def run_export(args):
     print(GREEN + "Export complete" + ENDCOL)
 
 def compress_dir(archive, directory, root_arc=None):
+    if not os.path.exists(os.path.dirname(archive)):
+        try:
+            os.makedirs(os.path.dirname(archive))
+        except OSError as exc:
+            if exc.errno != errno.EEXIST:
+                raise
     z = zipfile.ZipFile(archive, "w", compression=zipfile.ZIP_DEFLATED)
 
     # calc archive root directory based on archive name

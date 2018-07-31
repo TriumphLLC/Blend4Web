@@ -102,7 +102,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="extern_tsr.js.html">extern/tsr.js</a>, <a href="extern_tsr.js.html#line6">line 6</a>
+        <a href="extern_tsr.js.html">extern/tsr.js</a>, <a href="extern_tsr.js.html#line8">line 8</a>
     </li></ul></dd>
     
 
@@ -160,11 +160,19 @@
 
         
             
-<li> <a href="#.get_quat_view">get_quat_view<span class="signature">()</span><span class="type-signature"> &rarr; {Quat}</span></a></li>
+<li> <a href="#.get_quat">get_quat<span class="signature">(tsr, dest)</span><span class="type-signature"> &rarr; {Quat}</span></a></li>
 
         
             
-<li> <a href="#.get_scale">get_scale<span class="signature">()</span><span class="type-signature"> &rarr; {number}</span></a></li>
+<li> <a href="#.get_quat_view">get_quat_view<span class="signature">(tsr)</span><span class="type-signature"> &rarr; {Quat}</span></a></li>
+
+        
+            
+<li> <a href="#.get_scale">get_scale<span class="signature">(tsr, dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Vec3|number}</span></a></li>
+
+        
+            
+<li> <a href="#.get_trans">get_trans<span class="signature">(tsr, dest)</span><span class="type-signature"> &rarr; {Vec3}</span></a></li>
 
         
             
@@ -390,7 +398,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="extern_tsr.js.html">extern/tsr.js</a>, <a href="extern_tsr.js.html#line35">line 35</a>
+        <a href="extern_tsr.js.html">extern/tsr.js</a>, <a href="extern_tsr.js.html#line38">line 38</a>
     </li></ul></dd>
     
 
@@ -498,7 +506,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="extern_tsr.js.html">extern/tsr.js</a>, <a href="extern_tsr.js.html#line13">line 13</a>
+        <a href="extern_tsr.js.html">extern/tsr.js</a>, <a href="extern_tsr.js.html#line16">line 16</a>
     </li></ul></dd>
     
 
@@ -679,7 +687,7 @@ Not optimized.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="extern_tsr.js.html">extern/tsr.js</a>, <a href="extern_tsr.js.html#line144">line 144</a>
+        <a href="extern_tsr.js.html">extern/tsr.js</a>, <a href="extern_tsr.js.html#line186">line 186</a>
     </li></ul></dd>
     
 
@@ -997,7 +1005,7 @@ Not optimized.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="extern_tsr.js.html">extern/tsr.js</a>, <a href="extern_tsr.js.html#line20">line 20</a>
+        <a href="extern_tsr.js.html">extern/tsr.js</a>, <a href="extern_tsr.js.html#line23">line 23</a>
     </li></ul></dd>
     
 
@@ -1019,7 +1027,7 @@ Not optimized.
 
     
 
-    <h4 class="name" id=".get_quat_view">get_quat_view<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="global.html#Quat">Quat</a>}</span></h4>
+    <h4 class="name" id=".get_quat">get_quat<span class="signature">(tsr, dest)</span><span class="type-signature"> &rarr; {<a href="global.html#Quat">Quat</a>}</span></h4>
 
     
 
@@ -1027,7 +1035,7 @@ Not optimized.
 <div class="item_description">
 
 <div class="description">
-    Get ArrayBufferView from quaternion part of TSR.
+    Get quaternion part of TSR.
 </div>
 
 
@@ -1036,6 +1044,78 @@ Not optimized.
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>tsr</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#TSR">TSR</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">TSR vector</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>dest</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Destination quaternion vector</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -1105,7 +1185,7 @@ Not optimized.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="extern_tsr.js.html">extern/tsr.js</a>, <a href="extern_tsr.js.html#line111">line 111</a>
+        <a href="extern_tsr.js.html">extern/tsr.js</a>, <a href="extern_tsr.js.html#line151">line 151</a>
     </li></ul></dd>
     
 
@@ -1127,7 +1207,7 @@ Not optimized.
 
     
 
-    <h4 class="name" id=".get_scale">get_scale<span class="signature">()</span><span class="type-signature"> &rarr; {number}</span></h4>
+    <h4 class="name" id=".get_quat_view">get_quat_view<span class="signature">(tsr)</span><span class="type-signature"> &rarr; {<a href="global.html#Quat">Quat</a>}</span></h4>
 
     
 
@@ -1135,7 +1215,7 @@ Not optimized.
 <div class="item_description">
 
 <div class="description">
-    Get TSR scale.
+    Get ArrayBufferView from quaternion part of TSR.
 </div>
 
 
@@ -1144,6 +1224,259 @@ Not optimized.
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>tsr</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#TSR">TSR</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">TSR vector</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Quaternion part of TSR
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="global.html#Quat">Quat</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <dt class="important tag-deprecated">Deprecated <dd><ul class="dummy"><li>Use <a href="module-tsr.html#.get_quat">module:tsr.get_quat</a> instead</li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="extern_tsr.js.html">extern/tsr.js</a>, <a href="extern_tsr.js.html#line138">line 138</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".get_scale">get_scale<span class="signature">(tsr, dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="global.html#Vec3">Vec3</a>|number}</span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Get TSR scale. If the dest parameter is presented,
+then a non-uniform scale of the TSR is returned,
+else the first component of scale is returned.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>tsr</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#TSR">TSR</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">TSR vector</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>dest</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Destination scale vector</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -1173,6 +1506,9 @@ Not optimized.
     </dt>
     <dd>
         
+<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
+|
+
 <span class="param-type">number</span>
 
 
@@ -1213,7 +1549,187 @@ Not optimized.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="extern_tsr.js.html">extern/tsr.js</a>, <a href="extern_tsr.js.html#line105">line 105</a>
+        <a href="extern_tsr.js.html">extern/tsr.js</a>, <a href="extern_tsr.js.html#line128">line 128</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".get_trans">get_trans<span class="signature">(tsr, dest)</span><span class="type-signature"> &rarr; {<a href="global.html#Vec3">Vec3</a>}</span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Get translation part of TSR.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>tsr</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#TSR">TSR</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">TSR vector</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>dest</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Destination translation vector</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Translation part of TSR
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="extern_tsr.js.html">extern/tsr.js</a>, <a href="extern_tsr.js.html#line119">line 119</a>
     </li></ul></dd>
     
 
@@ -1358,6 +1874,8 @@ Not optimized.
     
 
     
+        <dt class="important tag-deprecated">Deprecated <dd><ul class="dummy"><li>Use <a href="module-tsr.html#.get_trans">module:tsr.get_trans</a> instead</li></ul></dd>
+    
 
     
 
@@ -1370,7 +1888,7 @@ Not optimized.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="extern_tsr.js.html">extern/tsr.js</a>, <a href="extern_tsr.js.html#line98">line 98</a>
+        <a href="extern_tsr.js.html">extern/tsr.js</a>, <a href="extern_tsr.js.html#line106">line 106</a>
     </li></ul></dd>
     
 
@@ -1505,7 +2023,7 @@ Not optimized.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="extern_tsr.js.html">extern/tsr.js</a>, <a href="extern_tsr.js.html#line43">line 43</a>
+        <a href="extern_tsr.js.html">extern/tsr.js</a>, <a href="extern_tsr.js.html#line46">line 46</a>
     </li></ul></dd>
     
 
@@ -1731,7 +2249,7 @@ Not optimized.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="extern_tsr.js.html">extern/tsr.js</a>, <a href="extern_tsr.js.html#line235">line 235</a>
+        <a href="extern_tsr.js.html">extern/tsr.js</a>, <a href="extern_tsr.js.html#line277">line 277</a>
     </li></ul></dd>
     
 
@@ -1911,7 +2429,7 @@ Not optimized.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="extern_tsr.js.html">extern/tsr.js</a>, <a href="extern_tsr.js.html#line118">line 118</a>
+        <a href="extern_tsr.js.html">extern/tsr.js</a>, <a href="extern_tsr.js.html#line160">line 160</a>
     </li></ul></dd>
     
 
@@ -2114,7 +2632,7 @@ Not optimized.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="extern_tsr.js.html">extern/tsr.js</a>, <a href="extern_tsr.js.html#line154">line 154</a>
+        <a href="extern_tsr.js.html">extern/tsr.js</a>, <a href="extern_tsr.js.html#line196">line 196</a>
     </li></ul></dd>
     
 
@@ -2272,7 +2790,7 @@ Not optimized.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="extern_tsr.js.html">extern/tsr.js</a>, <a href="extern_tsr.js.html#line90">line 90</a>
+        <a href="extern_tsr.js.html">extern/tsr.js</a>, <a href="extern_tsr.js.html#line98">line 98</a>
     </li></ul></dd>
     
 
@@ -2345,6 +2863,9 @@ Not optimized.
             
                 
 <span class="param-type">number</span>
+|
+
+<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
 
 
             
@@ -2430,7 +2951,7 @@ Not optimized.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="extern_tsr.js.html">extern/tsr.js</a>, <a href="extern_tsr.js.html#line76">line 76</a>
+        <a href="extern_tsr.js.html">extern/tsr.js</a>, <a href="extern_tsr.js.html#line79">line 79</a>
     </li></ul></dd>
     
 
@@ -2536,6 +3057,9 @@ Not optimized.
             
                 
 <span class="param-type">number</span>
+|
+
+<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
 
 
             
@@ -2692,7 +3216,7 @@ Not optimized.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="extern_tsr.js.html">extern/tsr.js</a>, <a href="extern_tsr.js.html#line50">line 50</a>
+        <a href="extern_tsr.js.html">extern/tsr.js</a>, <a href="extern_tsr.js.html#line53">line 53</a>
     </li></ul></dd>
     
 
@@ -2850,7 +3374,7 @@ Not optimized.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="extern_tsr.js.html">extern/tsr.js</a>, <a href="extern_tsr.js.html#line69">line 69</a>
+        <a href="extern_tsr.js.html">extern/tsr.js</a>, <a href="extern_tsr.js.html#line72">line 72</a>
     </li></ul></dd>
     
 
@@ -2996,6 +3520,8 @@ Not optimized.
     
 
     
+        <dt class="important tag-deprecated">Deprecated <dd><ul class="dummy"><li>Use <a href="module-tsr.html#.set_trans">module:tsr.set_trans</a> and <a href="module-tsr.html#.set_scale">module:tsr.set_scale</a> instead</li></ul></dd>
+    
 
     
 
@@ -3008,7 +3534,7 @@ Not optimized.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="extern_tsr.js.html">extern/tsr.js</a>, <a href="extern_tsr.js.html#line83">line 83</a>
+        <a href="extern_tsr.js.html">extern/tsr.js</a>, <a href="extern_tsr.js.html#line86">line 86</a>
     </li></ul></dd>
     
 
@@ -3223,7 +3749,7 @@ Not optimized.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="extern_tsr.js.html">extern/tsr.js</a>, <a href="extern_tsr.js.html#line128">line 128</a>
+        <a href="extern_tsr.js.html">extern/tsr.js</a>, <a href="extern_tsr.js.html#line170">line 170</a>
     </li></ul></dd>
     
 
@@ -3404,7 +3930,7 @@ Not optimized.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="extern_tsr.js.html">extern/tsr.js</a>, <a href="extern_tsr.js.html#line204">line 204</a>
+        <a href="extern_tsr.js.html">extern/tsr.js</a>, <a href="extern_tsr.js.html#line246">line 246</a>
     </li></ul></dd>
     
 
@@ -3687,7 +4213,7 @@ optional destination offset in values (not vectors, not bytes)
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="extern_tsr.js.html">extern/tsr.js</a>, <a href="extern_tsr.js.html#line193">line 193</a>
+        <a href="extern_tsr.js.html">extern/tsr.js</a>, <a href="extern_tsr.js.html#line235">line 235</a>
     </li></ul></dd>
     
 
@@ -3970,7 +4496,7 @@ optional destination offset in values (not vectors, not bytes)
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="extern_tsr.js.html">extern/tsr.js</a>, <a href="extern_tsr.js.html#line213">line 213</a>
+        <a href="extern_tsr.js.html">extern/tsr.js</a>, <a href="extern_tsr.js.html#line255">line 255</a>
     </li></ul></dd>
     
 
@@ -4151,7 +4677,7 @@ optional destination offset in values (not vectors, not bytes)
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="extern_tsr.js.html">extern/tsr.js</a>, <a href="extern_tsr.js.html#line164">line 164</a>
+        <a href="extern_tsr.js.html">extern/tsr.js</a>, <a href="extern_tsr.js.html#line206">line 206</a>
     </li></ul></dd>
     
 
@@ -4332,7 +4858,7 @@ optional destination offset in values (not vectors, not bytes)
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="extern_tsr.js.html">extern/tsr.js</a>, <a href="extern_tsr.js.html#line173">line 173</a>
+        <a href="extern_tsr.js.html">extern/tsr.js</a>, <a href="extern_tsr.js.html#line215">line 215</a>
     </li></ul></dd>
     
 
@@ -4615,7 +5141,7 @@ optional destination offset in values (not vectors, not bytes)
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="extern_tsr.js.html">extern/tsr.js</a>, <a href="extern_tsr.js.html#line182">line 182</a>
+        <a href="extern_tsr.js.html">extern/tsr.js</a>, <a href="extern_tsr.js.html#line224">line 224</a>
     </li></ul></dd>
     
 
@@ -4818,7 +5344,7 @@ optional destination offset in values (not vectors, not bytes)
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="extern_tsr.js.html">extern/tsr.js</a>, <a href="extern_tsr.js.html#line225">line 225</a>
+        <a href="extern_tsr.js.html">extern/tsr.js</a>, <a href="extern_tsr.js.html#line267">line 267</a>
     </li></ul></dd>
     
 
@@ -4855,7 +5381,7 @@ optional destination offset in values (not vectors, not bytes)
 <br class="clear">
 
 <footer>
-    Blend4Web API Reference (generated by JSDoc 3.5.5 on Fri Dec 29 2017 16:28:38 GMT+0300 (MSK))
+    Blend4Web API Reference (generated by JSDoc 3.5.5 on Wed Jun 06 2018 11:49:10 GMT+0300 (MSK))
     <a href="https://www.blend4web.com">www.blend4web.com</a>
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">

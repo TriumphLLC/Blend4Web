@@ -549,7 +549,10 @@ The following nodes are partially supported:
 
 * ``Principled BSDF``
 
-    - ``Roughness``, ``Metallic``, ``Specular`` and ``Normal`` inputs are supported;
+    .. image:: src_images/node_materials/node_materials_principled_bsdf.png
+       :align: center    
+
+    - ``Roughness``, ``Metallic``, ``Specular``, ``Normal``, ``Transmission`` and ``IOR`` inputs are supported;
 
 * ``Texture Coordinates`` (``From Dupli`` parameter is not supported);
 

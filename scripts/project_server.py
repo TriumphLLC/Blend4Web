@@ -17,6 +17,7 @@ import threading
 import http
 import time
 import platform
+from pathlib import Path
 
 from os.path import basename, exists, join, normpath, relpath, abspath, sep
 from collections import OrderedDict
@@ -78,9 +79,10 @@ _root = None
 _port = None
 _python_path = None
 _blender_path = None
-_use_comp_player = False
+_use_comp_player = True
 
 _find_nodejs = None
+_node_exec = None
 
 class B4WAppBuilder():
     # states: {"not_exist", "ok", "pending"}
@@ -105,7 +107,7 @@ class B4WAppBuilder():
             cmd = [_node_exec, os.path.join(_root, "scripts", "app_builder", "run_webpack.js"), "--watch", "--only-es6","--websocket=ws://localhost:%s/app_builder/"%_port, "--output", output_dir, "--root", _root, html_path]
         else: # building engine
             cmd = [_node_exec, os.path.join(_root, "scripts", "app_builder", "run_webpack.js"), "--watch", "--websocket=ws://localhost:%s/app_builder/"%_port]
-        # print(" ".join(cmd))
+        print(" ".join(cmd))
         print("creating builder process: ", html_path)
         proc = subprocess.Popen(cmd, stderr=subprocess.STDOUT)
         if html_path:
@@ -143,15 +145,24 @@ class B4WAppBuilder():
 
 _app_builder = B4WAppBuilder()
 
+class find_nodejs_dummy:
+    def node_path():
+        return "node"
+    def npm_path():
+        return "npm"
+
 def find_nodejs(root):
     global _find_nodejs
     # Find nodejs
     # Using imp to avoid issues with import when run from Blender
     if _find_nodejs == None:
         scripts_path = join(root, "scripts")
-        find_nodejs_tup = imp.find_module("find_nodejs", [scripts_path])
-        _find_nodejs = imp.load_module("find_nodejs", find_nodejs_tup[0],
-                find_nodejs_tup[1], find_nodejs_tup[2])
+        if not os.path.exists(scripts_path):
+            _find_nodejs = find_nodejs_dummy
+        else:
+            find_nodejs_tup = imp.find_module("find_nodejs", [scripts_path])
+            _find_nodejs = imp.load_module("find_nodejs", find_nodejs_tup[0],
+                    find_nodejs_tup[1], find_nodejs_tup[2])
     return _find_nodejs
 
 def switch_player_version(use_compiled_player):
@@ -181,6 +192,9 @@ def find_file(name, dir):
 
 def create_server(root, port, allow_ext_requests, python_path, blender_path, B4WLocalServer):
     global _root, _port, _python_path, _blender_path
+    global _node_exec
+
+    _node_exec = find_nodejs(root).node_path()
 
     while True:
         if check_server_existance(port):
@@ -624,6 +638,8 @@ class ProjectRunHandler(StaticFileHandlerNoCache, ProjectManagerCli):
 
     def get(self, path):
         
+        find_nodejs(_root).ensure_node()
+
         # disable cache
         self.path = self.parse_url_path(path)
         del path  # make sure we don't refer to path instead of self.path again
@@ -635,7 +651,6 @@ class ProjectRunHandler(StaticFileHandlerNoCache, ProjectManagerCli):
         self.set_headers()
         #
         
-        _node_exec = find_nodejs(_root).node_path()
         RET_FALSE = 0
         RET_ERROR = 255
         RET_TRUE = 1
@@ -650,7 +665,7 @@ class ProjectRunHandler(StaticFileHandlerNoCache, ProjectManagerCli):
             
             # detect the type of webpack build
             cmd = [_node_exec, os.path.join(_root, "scripts", "app_builder", "need_webpack.js"), html]
-            # print("RUN: " + " ".join(cmd))
+            print("RUN: " + " ".join(cmd))
             ret = self.exec_proc_sync(cmd, _root)
             build_engine = (ret[0] & RET_ES5_ENGINE) != 0
             build_html = (ret[0] & RET_TRUE) != 0
@@ -821,7 +836,7 @@ class ProjectRootHandler(tornado.web.RequestHandler, ProjectManagerCli):
             for app in player_apps:
                 if engine_type == "webplayer_json":
                     if _use_comp_player:
-                        player = proj_util.unix_path(join("deploy", "apps", "webplayer",
+                        player = proj_util.unix_path(join("projects", "webplayer", "build",
                                 "webplayer.html"))
                         link = player + "?load=" + proj_util.unix_path(join("..", "..", "..", app))
                     else:
@@ -924,7 +939,7 @@ class ProjectRootHandler(tornado.web.RequestHandler, ProjectManagerCli):
             elem_ins["ops"] = ""
 
             if (proj_util.proj_cfg_value(proj_cfg, "compile", "engine_type", None) in
-                    ["external", "copy", "compile"]) and build_dir:
+                    ["external", "copy", "compile", "custom"]) and build_dir:
                 elem_ins["ops"] += ('<a href=/project/-p/' +
                         quote(normpath(path), safe="") +
                         '/build/ title="Compile project app(s)">build project</a>')
@@ -1156,21 +1171,48 @@ class ProjectCloneSnippetHandler(tornado.web.RequestHandler):
                       "/clone_snippet/-n/" + quote(new_project_name, safe="") +
                       "/-b/" + quote(_blender_path, safe=""))
 
+
+def listdir(src, ignore=None):
+    paths = []
+    names = os.listdir(src)
+    if ignore is not None:
+        ignored_names = ignore(src, names)
+    else:
+        ignored_names = set()
+
+    errors = []
+    for name in names:
+        if name in ignored_names:
+            continue
+        srcname = os.path.join(src, name)
+        if os.path.isdir(srcname):
+            paths.extend(listdir(srcname, ignore))
+        elif os.path.isfile(srcname):
+            paths.append(Path(srcname))
+    return paths
+
+
 class ProjectEditHandler(tornado.web.RequestHandler):
     def get(self):
         root = get_sdk_root()
         path = self.request.uri.replace("/project/edit/", "").strip("/? ")
         path = join(root, unquote(path))
         proj_util = get_proj_util_mod(root)
+        proj_cfg = proj_util.get_proj_cfg(join(root, path))
+        editor_ignore = proj_util.proj_cfg_value(proj_cfg, "editor", "editor_ignore", "")
 
         config_file = []
-        css_file_list = list(pathlib.Path(path).rglob("*.css"))
-        js_file_list = list(pathlib.Path(path).rglob("*.js"))
-        html_file_list = list(pathlib.Path(path).rglob("*.html"))
 
-        config_file.extend(css_file_list)
-        config_file.extend(js_file_list)
-        config_file.extend(html_file_list)
+        if len(editor_ignore):
+             config_file = listdir(path, shutil.ignore_patterns(*editor_ignore))
+        else:
+            css_file_list = list(pathlib.Path(path).rglob("*.css"))
+            js_file_list = list(pathlib.Path(path).rglob("*.js"))
+            html_file_list = list(pathlib.Path(path).rglob("*.html"))
+
+            config_file.extend(css_file_list)
+            config_file.extend(js_file_list)
+            config_file.extend(html_file_list)
 
         if path.startswith(join(root, "projects")):
             ignore_build = pathlib.Path(join(path, "build")).rglob("*")
@@ -1217,6 +1259,9 @@ class ProjectConfigHandler(tornado.web.RequestHandler):
         engine_type = proj_util.proj_cfg_value(proj_cfg, "compile", "engine_type", "")
         opt_level = proj_util.proj_cfg_value(proj_cfg, "compile", "optimization", "simple")
         js_ignore = proj_util.proj_cfg_value(proj_cfg, "compile", "js_ignore", "")
+        build_cmd = proj_util.proj_cfg_value(proj_cfg, "compile", "build_cmd", "")
+
+        editor_ignore = proj_util.proj_cfg_value(proj_cfg, "editor", "editor_ignore", "")
 
         use_physics = proj_util.proj_cfg_value(proj_cfg, "compile", "use_physics", True)
 
@@ -1273,7 +1318,9 @@ class ProjectConfigHandler(tornado.web.RequestHandler):
                            "icon": icon_path,
                            "build_dir": build_dir,
                            "js_ignore": ";".join(js_ignore),
-                           "css_ignore": ";".join(css_ignore)}
+                           "css_ignore": ";".join(css_ignore),
+                           "build_cmd": build_cmd,
+                           "editor_ignore": ";".join(editor_ignore)}
 
         html_str = string.Template(tpl_html_str).substitute(html_insertions)
 
@@ -1294,6 +1341,9 @@ class ProjectSaveConfigHandler(tornado.web.RequestHandler):
         js_ignore = self.get_argument("js_ignore", strip=False)
         use_physics = self.get_argument("use_physics", strip=False)
         blender_exec = self.get_argument("blender_exec", strip=False)
+        build_cmd = self.get_argument("build_cmd", strip=False)
+
+        editor_ignore = self.get_argument("editor_ignore", strip=False)
 
         author = self.get_argument("author", strip=False)
         title = self.get_argument("title", strip=False)
@@ -1320,6 +1370,11 @@ class ProjectSaveConfigHandler(tornado.web.RequestHandler):
         proj_cfg["compile"]["css_ignore"] = css_ignore
         proj_cfg["compile"]["js_ignore"] = js_ignore
         proj_cfg["compile"]["ignore"] = build_ignore
+        proj_cfg["compile"]["build_cmd"] = build_cmd
+
+        if not "editor" in proj_cfg:
+             proj_cfg["editor"] = {}
+        proj_cfg["editor"]["editor_ignore"] = editor_ignore
 
         if use_physics:
             proj_cfg["compile"]["use_physics"] = "True"
@@ -1363,6 +1418,8 @@ class ProjectInfoHandler(tornado.web.RequestHandler):
         assets_path_dest = proj_util.proj_cfg_value(proj_cfg, "deploy", "assets_path_dest", "")
         assets_path_prefix = proj_util.proj_cfg_value(proj_cfg, "deploy", "assets_path_prefix", "")
         deployment_ignore = proj_util.proj_cfg_value(proj_cfg, "deploy", "ignore", "")
+        editor_ignore = proj_util.proj_cfg_value(proj_cfg, "editor", "editor_ignore", "")
+        build_cmd = proj_util.proj_cfg_value(proj_cfg, "compile", "build_cmd", "")
 
         # size of all project directories
         dirs = [path]
@@ -1391,7 +1448,8 @@ class ProjectInfoHandler(tornado.web.RequestHandler):
             "update": "none",
             "copy": "Copy",
             "compile": "Compile",
-            "external": "Copy"
+            "external": "Copy",
+            "custom": "Custom"
         }
 
         html_insertions = {
@@ -1415,7 +1473,9 @@ class ProjectInfoHandler(tornado.web.RequestHandler):
             "assets_path_dest": assets_path_dest,
             "config_link": config_link,
             "assets_path_prefix": assets_path_prefix,
-            "deployment_ignore": deployment_ignore
+            "deployment_ignore": deployment_ignore,
+            "editor_ignore" : editor_ignore,
+            "build_cmd": build_cmd
         }
 
         html_str = string.Template(tpl_html_str).substitute(html_insertions)

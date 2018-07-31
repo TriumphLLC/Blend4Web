@@ -100,7 +100,7 @@ function need_webpack(html_desc, project, verbose) {
         ret |= consts.RET_TRUE;
     }
     for (var i in html_desc.scripts) {
-        if (html_desc.scripts[i].indexOf("dist/b4w.js") >= 0) {
+        if (html_desc.scripts[i].replace(/\\/g,"/").indexOf("dist/b4w.js") >= 0) {
             if (verbose)
                 console.log("-html uses es5-compiled blend4web");
             ret |= consts.RET_ES5_ENGINE;

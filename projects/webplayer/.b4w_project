@@ -1,0 +1,36 @@
+[info]
+name = webplayer
+author = Blend4Web
+title = Web Player
+icon = .b4w_icon.jpg
+
+[paths]
+assets_dirs = 
+blend_dirs = 
+blender_exec = blender
+build_dir = projects/webplayer/build
+deploy_dir = 
+
+[compile]
+apps = webplayer.html
+css_ignore = 
+engine_type = custom
+js_ignore = 
+optimization = advanced
+use_physics = True
+use_smaa_textures = False
+version = 
+ignore = 
+build_cmd = $NODE ../../node_modules/webpack/bin/webpack.js --env.production
+
+[deploy]
+assets_path_prefix = 
+override = 
+assets_path_dest = 
+ignore = *template*;externs.js
+
+[url_params]
+
+[editor]
+editor_ignore = node_modules;*.svg;*.jpg;*.woff;*.woff2;*.pug;package-lock.json;.b4w_project
+

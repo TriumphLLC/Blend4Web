@@ -404,7 +404,7 @@ exports.update = function(force_update) {
 
         // update always because the anchor may change it's depth
         if (anchor.detect_visibility) {
-            var trans = m_tsr.get_trans_view(anchor.obj.render.world_tsr);
+            var trans = m_tsr.get_trans(anchor.obj.render.world_tsr, _vec3_tmp);
             _anchor_batch_pos.set(trans, 3 * det_vis_cnt++);
         }
 
@@ -486,13 +486,18 @@ function transform_anchor_el(anchor, left, top) {
     }
 }
 
-function anchor_project(anchor, dest) {
-    var camobj = m_scenes.get_camera(m_scenes.get_main());
-    var trans = m_tsr.get_trans_view(anchor.obj.render.world_tsr);
-    m_cam.project_point(camobj, trans, dest);
+var anchor_project = (function() {
+    var _vec3_tmp = m_vec3.create();
 
-    return dest;
-}
+    return function anchor_project(anchor, dest) {
+        var camobj = m_scenes.get_camera(m_scenes.get_main());
+        var trans = m_tsr.get_trans(anchor.obj.render.world_tsr, _vec3_tmp);
+        m_cam.project_point(camobj, trans, dest);
+        m_tsr.set_trans(trans, anchor.obj.render.world_tsr);
+
+        return dest;
+    };
+})();
 
 exports.update_visibility = function() {
     var canvas_cont = m_cont.get_container();

@@ -295,7 +295,7 @@ msgid ""
 "This node compares several variables with a given value and executes a "
 "conditional jump depending on the outcome."
 msgstr ""
-"Эта нода стравнивает несколько переменных с заданным значением и выполняет "
+"Эта нода сравнивает несколько переменных с заданным значением и выполняет "
 "условный переход в зависимости от результатов сравнения."
 
 msgid "*<variable name>*"
@@ -2009,7 +2009,7 @@ msgstr ""
 "может и не иметь ни одного параметра этого типа)."
 
 msgid "Other Features"
-msgstr ""
+msgstr "Другие возможности"
 
 msgid ""
 "For debugging purposes some nodes inside logic tree can be muted. To do "

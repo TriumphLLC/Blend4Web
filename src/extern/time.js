@@ -69,6 +69,15 @@ exports.animate = m_time.animate;
  */
 exports.clear_animation = m_time.clear_animation;
 
+/**
+ * Get current FPS.
+ * @method module:time.get_framerate
+ * @param {number} id Animator ID
+ */
+exports.get_framerate = get_framerate;
+function get_framerate() {
+    return m_time.get_framerate();
+}
 
 }
 

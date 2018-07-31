@@ -19,6 +19,9 @@ var m_util    = b4w.util;
 var m_vec3    = b4w.vec3;
 var m_version = b4w.version;
 
+var _vec3_tmp = m_vec3.create();
+var _quat_tmp = m_quat.create();
+
 var DEBUG = (m_version.type() === "DEBUG");
 
 var APP_ASSETS_PATH = m_cfg.get_std_assets_path() + "code_snippets/raytest/";
@@ -83,8 +86,8 @@ function init_logic() {
             m_tsr.invert(obj_tsr, obj_tsr);
             m_tsr.multiply(obj_tsr, decal_tsr, decal_tsr);
 
-            var offset = m_tsr.get_trans_view(decal_tsr);
-            var rot_offset = m_tsr.get_quat_view(decal_tsr);
+            var offset = m_tsr.get_trans(decal_tsr, _vec3_tmp);
+            var rot_offset = m_tsr.get_quat(decal_tsr, _quat_tmp);
             m_cons.append_stiff(decal, obj_hit, offset, rot_offset);
         }
 

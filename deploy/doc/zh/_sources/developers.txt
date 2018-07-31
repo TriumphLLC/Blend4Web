@@ -41,6 +41,8 @@ Table of Contents
 
   * 品质配置
 
+    * Additional Quality Settings
+
   * 非标准画布位置和方向
 
   * 移动 Web 应用程序
@@ -56,12 +58,21 @@ Table of Contents
 应用程序代码结构
 ----------------
 
+Starting with version 17.12, Blend4Web engine supports a new coding
+standard that uses ES6 modules. The old standard that uses modified
+CommonJS modules is still supported as well. The following chapter
+describes the structure of the program code in a generic Blend4Web
+aplication and the differences between these two programming
+approaches.
+
 初始化和加载应用程序的过程分为几个阶段，这反映在应用程序的代码中。如果
 您正在使用项目管理器，新创建的 "Copy" 或 "Compile" 类型项目将包含一个
 主要的JS文件，它将放在SDK中。该文件的路径如下所示：
 "./projects/PROJECT_NAME/PROJECT_NAME.js".
 
-此文件包含通用代码作为模块。该模块可以使用一定的结构进行注册：
+This file contains generic code shaped as a module. Using the old
+CommonJS notation, this module can be registered using the certain
+structure:
 
    b4w.register("my_module", function(exports, require) {
 
@@ -69,6 +80,9 @@ Table of Contents
        //...
 
    });
+
+注解: If you are using ES6 notation, you don't have to register your
+  modules and can use them without any preparations.
 
 因此，模块的代码包含在接受 "exports" 和 "require"  参数的函数中。
 
@@ -83,6 +97,8 @@ Table of Contents
 
 2. "exports" 是用于从外部访问模块函数的对象（例如，从其他模块）。在
    这 种情况下，只有 "init" 函数是外部的：
+
+      **Old notation:**
 
          b4w.register("my_module", function(exports, require) {
 
@@ -101,7 +117,21 @@ Table of Contents
          ...
          });
 
+      **ES6 module:**
+
+         export function init() {
+             m_app.init({
+                 canvas_container_id: "main_canvas_container",
+                 callback: init_cb,
+                 show_fps: DEBUG,
+                 console_verbose: DEBUG,
+                 autoresize: true
+             });
+         }
+
 应用程序初始化从此函数开始，它在模块外调用：
+
+**Old notation:**
 
    b4w.register("my_module", function(exports, require) {
 
@@ -123,6 +153,26 @@ Table of Contents
    // import the app module and start the app by calling the init method
    b4w.require("my_module").init();
 
+**ES6 notation:**
+
+   import b4w from "blend4web";
+
+   ...
+
+   export function init() {
+       m_app.init({
+           canvas_container_id: "main_canvas_container",
+           callback: init_cb,
+           show_fps: DEBUG,
+           console_verbose: DEBUG,
+           autoresize: true
+       });
+   }
+
+   ...
+
+   init();
+
 之后，调用 app.init 方法。它创建画布 HTML元素，并执行用于初始化WebGL的
 所有必要操作。这种方法有很多不同的属性，其中最重要的是：
 
@@ -133,6 +183,8 @@ Table of Contents
 * "callback" 是完成初始化后调用的函数。
 
 当应用程序初始化完成后，调用由 "callback" 参数设置的  init_cb 函数：
+
+**Old notation:**
 
    function init_cb(canvas_elem, success) {
 
@@ -153,12 +205,36 @@ Table of Contents
       load();
    }
 
-它具有以下参数：
+**New notation:**
 
-* canvas_elem 是用于渲染3D内容的创建的画布 HTML元素
+   function init_cb(canvas_elem, success) {
 
-* 成功是表示初始化成功的标志。"false" 值意味着应用程序由于初始化错误
-  而 无法工作（例如，设备不支持WebGL）。
+       if (!success) {
+           console.log("b4w init failure");
+           return;
+       }
+
+       m_preloader.create_preloader();
+
+       // ignore right-click on the canvas element
+       canvas_elem.oncontextmenu = function(e) {
+           e.preventDefault();
+           e.stopPropagation();
+           return false;
+       };
+
+       load();
+   }
+
+The function has following parameters:
+
+* *canvas_elem* is the created Canvas HTML element that will be used
+  for rendering 3D content
+
+* *success* it the flag that indicates the success of the
+  initialization. The "false" value meant that the application is
+  unable to work due to initialization errors (for example, WebGL is
+  not supported by the device).
 
 注解: app.init  方法将初始化设置为 "window.onload" 事件，所以
   "init_cb" 函 数可以访问HTML文档的整个DOM树。
@@ -203,6 +279,8 @@ data.load 方法用于加载。该方法的第一个参数是3D场景文件的�
 的所有内容的适当时刻。例如，可以使用以下命令启用标准摄像头控件
 enable_camera_controls  方法。
 
+This.
+
 
 编写应用程序逻辑
 ~~~~~~~~~~~~~~~~
@@ -214,6 +292,8 @@ enable_camera_controls  方法。
 
 1. 用于启动初始化的 app.init 方法接受引擎配置参数。因此，您可以在使
    用 URL属性作为基础调用此方​​法之前配置引擎：
+
+      **Old notation:**
 
          b4w.register("my_module", function(exports, require) {
 
@@ -237,6 +317,28 @@ enable_camera_controls  方法。
              ...
          });
          b4w.require("my_module").init();
+
+      **New notation:**
+
+         export function init() {
+
+             var url_params = m_app.get_url_params();
+             if (url_params && "show_fps" in url_params)
+                 var show_fps = true;
+             else
+                 var show_fps = false;
+
+             m_app.init({
+                 canvas_container_id: "main_canvas_container",
+                 callback: init_cb,
+                 console_verbose: DEBUG,
+                 autoresize: true
+             });
+         }
+
+         ...
+
+         init();
 
 2. 初始化由 "window.onload" 操作启动，这意味着完成之后 init_cb  函
    数将 可以访问整个DOM树。此时，您可以执行一些准备工作，例如创建和设
@@ -286,6 +388,10 @@ Blend4Web引擎基于模块化结构：所有引擎API方法都分为多个模�
 
    ...
 
+This only applies to the old CommonJS notation. If you are using ES6,
+modules can be simply plugged into your main application file using
+**import** method.
+
 register 方法用于注册模块。如果名称与常规API模块不符，则只能注册自定义
 模块。如果需要，可以使用 module_check 方法检查是否存在具有给定名称的模
 块：
@@ -300,9 +406,16 @@ register 方法用于注册模块。如果名称与常规API模块不符，则�
 
    });
 
+As mentioned above, modules don't have to be registered in **ES6
+notation**. However, any custom module plugged ito your application
+should still have a name distinct from the names of the regular API
+modules.
+
 2. 加载模块
 
 自定义模块，就像常规模块一样，可以使用 "require" 方法插入：
+
+**Old notation:**
 
    b4w.register("my_module1", function(exports, require) {
 
@@ -311,11 +424,24 @@ register 方法用于注册模块。如果名称与常规API模块不符，则�
        ...
    });
 
+**New notation:**
+
+   import {one, two} as my_mod from "./my_module.js";
+
+Here, **one** and **two** are the variables that are marked with the
+word **export** in the "my_module.js" file.
+
 3. 应用程序初始化
 
 Blend4Web中的应用程序初始化通常使用以下调用：
 
+**Old notation:**
+
    b4w.require("my_module").init();
+
+**New notation:**
+
+   my_module.init();
 
 这里， "my_module" 定制模块及其 "init"  外部函数在某种意义上作为应用程
 序的入口点。
@@ -1164,6 +1290,10 @@ SDK文件结构
    m_cfg.set("quality", m_cfg.P_LOW);
    m_main.init(...);
 
+
+Additional Quality Settings
+---------------------------
+
 应用程序开发人员还可以在引擎初始化参数的 "app.js" 附加插件时设置
 **quality** ：
 
@@ -1174,6 +1304,253 @@ SDK文件结构
        canvas_container_id: "body_id",
        quality: m_cfg.P_HIGH
    });
+
+All rendering parameters affected by quality settings are listed in
+the following sheet:
+
++----------------------------------+-----------------+-----------------+-----------------+
+| *Parameter*                      | **Ultra**       | **High**        | **Low**         |
++----------------------------------+-----------------+-----------------+-----------------+
+| cfg_def.shadows                  | true            | true            | false           |
++----------------------------------+-----------------+-----------------+-----------------+
+| cfg_def.shore_smoothing          | true            | true            | false           |
++----------------------------------+-----------------+-----------------+-----------------+
+| cfg_def.ssao                     | true            | true            | false           |
++----------------------------------+-----------------+-----------------+-----------------+
+| cfg_def.dof                      | true            | true            | false           |
++----------------------------------+-----------------+-----------------+-----------------+
+| cfg_def.god_rays                 | true            | true            | false           |
++----------------------------------+-----------------+-----------------+-----------------+
+| cfg_def.bloom                    | true            | true            | false           |
++----------------------------------+-----------------+-----------------+-----------------+
+| cfg_def.reflections              | true            | true            | false           |
++----------------------------------+-----------------+-----------------+-----------------+
+| cfg_def.refractions              | true            | true            | false           |
++----------------------------------+-----------------+-----------------+-----------------+
+| cfg_def.foam                     | true            | true            | false           |
++----------------------------------+-----------------+-----------------+-----------------+
+| cfg_def.parallax                 | true            | true            | false           |
++----------------------------------+-----------------+-----------------+-----------------+
+| cfg_def.dynamic_grass            | true            | true            | false           |
++----------------------------------+-----------------+-----------------+-----------------+
+| cfg_scs.grass_tex_size           | 4.0*512         | 2*512           | 1*512           |
++----------------------------------+-----------------+-----------------+-----------------+
+| cfg_scs.cubemap_tex_size         | 512             | 256             | 256             |
++----------------------------------+-----------------+-----------------+-----------------+
+| cfg_def.texture_min_filter       | 3               | 3               | 2               |
++----------------------------------+-----------------+-----------------+-----------------+
+| cfg_def.anisotropic_filtering    | true            | true            | false           |
++----------------------------------+-----------------+-----------------+-----------------+
+| cfg_def.use_min50                | false           | false           | true            |
++----------------------------------+-----------------+-----------------+-----------------+
+| cfg_def.water_dynamic            | true            | true            | false           |
++----------------------------------+-----------------+-----------------+-----------------+
+| cfg_def.shore_distance           | true            | true            | false           |
++----------------------------------+-----------------+-----------------+-----------------+
+| cfg_def.antialiasing             | true            | true            | false           |
++----------------------------------+-----------------+-----------------+-----------------+
+| cfg_def.smaa                     | false           | false           | false           |
++----------------------------------+-----------------+-----------------+-----------------+
+| cfg_def.compositing              | true            | true            | false           |
++----------------------------------+-----------------+-----------------+-----------------+
+| cfg_def.motion_blur              | true            | true            | false           |
++----------------------------------+-----------------+-----------------+-----------------+
+| cfg_def.allow_hidpi              | true            | false           | false           |
++----------------------------------+-----------------+-----------------+-----------------+
+| cfg_def.enable_outlining         | true            | true            | false           |
++----------------------------------+-----------------+-----------------+-----------------+
+| cfg_def.glow_materials           | true            | true            | false           |
++----------------------------------+-----------------+-----------------+-----------------+
+| cfg_def.msaa_samples             | 16              | 4               | 1               |
++----------------------------------+-----------------+-----------------+-----------------+
+| cfg_def.srgb_type                | "SRGB_PROPER"   | "SRGB_SIMPLE"   | "SRGB_SIMPLE"   |
++----------------------------------+-----------------+-----------------+-----------------+
+| cfg_phy.max_fps                  | 120             | 60              | 60              |
++----------------------------------+-----------------+-----------------+-----------------+
+| cfg_def.lod_smooth_transitions   | true            | true            | false           |
++----------------------------------+-----------------+-----------------+-----------------+
+
+Other rendering parameters are not affected by setting the quality
+profile, but can be accessed via API methods or, in many cases, from
+Blend4Web add-on UI in Blender. These parameters are listed below:
+
+
+Shadow settings
+~~~~~~~~~~~~~~~
+
+* "b4w.shadow_settings.soft_shadows" *- enables and disables shadow
+  blurring*
+
+* "b4w.shadow_settings.blur_samples" *- sets the number of samples
+  used to blur shadows*
+
+* "b4w.shadow_settings.csm_resolution" *- sets shadow cascade
+  resolution*
+
+* "b4w.shadow_settings.self_shadow_polygon_offset" *- sets self-
+  shadow polygon offset*
+
+* "b4w.shadow_settings.self_shadow_normal_offset" *- sets shadow
+  normal offset*
+
+* "b4w.shadow_settings.enable_csm" *- enables and disables shadow
+  cascades*
+
+* "b4w.shadow_settings.first_cascade_blur_radius" *- sets the radius
+  of blurring between shadow cascades*
+
+These settings are also available in Blend4Web Add-on interface and
+are described in greater detail in a dedicated chapter.
+
+
+Reflection settings
+~~~~~~~~~~~~~~~~~~~
+
+* "b4w.reflection_quality" *- controls the overall quality of the
+  rendered reflections*
+
+This parameter, along with other reflection settings, is also
+available in Blend4Web Add-on interface and are described in greater
+detail in a dedicated chapter.
+
+
+Outlining settings
+~~~~~~~~~~~~~~~~~~
+
+* "b4w.outline_color" *- sets the color of the object outline*
+
+* "b4w.outline_factor" *- sets the thickness and the brightness of
+  the object outline*
+
+These parameters are also available in Blend4Web Add-on interface and
+are described in greater detail in a dedicated chapter.
+
+
+Glow settings
+~~~~~~~~~~~~~
+
+* "b4w.glow_settings.small_glow_mask_coeff" *- sets the intensity of
+  glow obtained through the smaller mask*
+
+* "b4w.glow_settings.small_glow_mask_width" *- sets the width of
+  glow obtained through the smaller mask*
+
+* "b4w.glow_settings.large_glow_mask_coeff" *- sets the intensity of
+  glow obtained through the larger mask*
+
+* "b4w.glow_settings.large_glow_mask_width" *- sets the width of
+  glow obtained through the larger mask*
+
+* "b4w.glow_settings.render_glow_over_blend" *- enables and disables
+  rendering the glow effect over transparent objects*
+
+These settings are also available in Blend4Web Add-on interface and
+are described in greater detail in a dedicated chapter.
+
+
+Anti-Aliasing settings
+~~~~~~~~~~~~~~~~~~~~~~
+
+* "b4w.antialiasing_quality" *- this parameter controls the overall
+  quality of the anti-aliasing effect*
+
+These settings are also available in Blend4Web Add-on interface and
+are described in greater detail in a dedicated chapter.
+
+
+Bloom settings
+~~~~~~~~~~~~~~
+
+* "b4w.bloom_settings.adaptive" *- enables and disables using
+  adaptive average luminance*
+
+* "b4w.bloom_settings.key" *- controls the intesity of the Bloom
+  effect*
+
+* "b4w.bloom_settings.blur" *- sets the blur factor of the effect*
+
+* "b4w.bloom_settings.edge_lum" *- sets the boundary value of an
+  element’s relative brightness above which the bloom effect appears*
+
+These settings are also available in Blend4Web Add-on interface and
+are described in greater detail in a dedicated chapter.
+
+
+Moton Blur settings
+~~~~~~~~~~~~~~~~~~~
+
+* "b4w.motion_blur_settings.motion_blur_factor" *- controls the
+  strength of the motion blur effect*
+
+* "b4w.motion_blur_settings.motion_blur_decay_threshold" *- sets the
+  fade-out ratio of the motion blur effect*
+
+These settings are also available in Blend4Web Add-on interface and
+are described in greater detail in a dedicated chapter.
+
+
+SSAO settings
+~~~~~~~~~~~~~
+
+* "b4w.ssao_settings.radius_increase" *- sets the spherical sampling
+  radius multiply factor when transferring from the internal sampling
+  ring to the external one*
+
+* "b4w.ssao_settings.hemisphere" *- enables and disables using
+  hemispherical sampling for shading*
+
+* "b4w.ssao_settings.blur_depth" *- enables and disables blur depth
+  test*
+
+* "b4w.ssao_settings.blur_discard_value" *- sets the discard value
+  for the blur depth test*
+
+* "b4w.ssao_settings.influence" *- sets the appearance factor for
+  the SSAO effect*
+
+* "b4w.ssao_settings.dist_factor" *- sets the distant factor for the
+  SSAO effect*
+
+* "b4w.ssao_settings.samples" *- sets the number of samples used to
+  compute the SSAO effect*
+
+These settings are also available in Blend4Web Add-on interface and
+are described in greater detail in a dedicated chapter.
+
+
+God Rays settings
+~~~~~~~~~~~~~~~~~
+
+* "b4w.god_rays_settings.intensity" *- sets the intesity of the god
+  rays effect*
+
+* "b4w.god_rays_settings.max_ray_length" *- sets the maximum length
+  of the rays*
+
+* "b4w.god_rays_settings.steps_per_pass" *- sets the number of steps
+  used to calculate the god rays effect*
+
+These settings are also available in Blend4Web Add-on interface and
+are described in greater detail in a dedicated chapter.
+
+
+Color Correction settings
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* "b4w.color_correction_settings.brightness" *- sets the brightness
+  of the image*
+
+* "b4w.color_correction_settings.contrast" *- sets the contrast of
+  the image*
+
+* "b4w.color_correction_settings.exposure" *- sets the exposure of
+  the image*
+
+* "b4w.color_correction_settings.saturation" *- sets the satuartion
+  of the image*
+
+These settings are also available in Blend4Web Add-on interface and
+are described in greater detail in a dedicated chapter.
 
 
 非标准画布位置和方向

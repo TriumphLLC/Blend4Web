@@ -90,6 +90,8 @@ var _vec3_tmp2 = new Float32Array(3);
 var _vec3_tmp3 = new Float32Array(3);
 var _vec4_tmp = new Float32Array(4);
 
+var _quat_tmp = m_quat.create();
+
 var _tsr_tmp = m_tsr.create();
 var _mat3_tmp = m_mat3.create();
 
@@ -1365,8 +1367,10 @@ function merge_metabatches(metabatches) {
                 // NOTE: use obj_render (that is emitter render for particles) to
                 // get the tsr
                 if (obj_render.billboard && !obj_render.billboard_pres_glob_orientation) {
-                    var obj_transcale = m_tsr.get_transcale(obj_render.world_tsr, _vec4_tmp);
-                    m_tsr.set_transcale(obj_transcale, tsr);
+                    var obj_trans = m_tsr.get_trans(obj_render.world_tsr, _vec3_tmp);
+                    m_tsr.set_trans(obj_trans, tsr);
+                    var obj_scale = m_tsr.get_scale(obj_render.world_tsr, _vec3_tmp);
+                    m_tsr.set_scale(obj_scale, tsr);
                 } else
                     m_tsr.copy(obj_render.world_tsr, tsr);
 
@@ -1388,7 +1392,7 @@ function merge_metabatches(metabatches) {
                 } else if (unique_data[i].rel_bpy_objects.length > 1) {
                     var params = {};
                     if (batch_render.wind_bending || batch_render.billboard)
-                        params["au_center_pos"] = [tsr[0], tsr[1], tsr[2]];
+                        params["au_center_pos"] = m_tsr.get_trans(tsr, m_vec3.create());
                     if (batch_render.wind_bending) {
                         params["au_wind_bending_amp"] = [batch_render.wind_bending_amp];
                         params["au_wind_bending_freq"] = [batch_render.wind_bending_freq];
@@ -2507,10 +2511,23 @@ function update_batch_material_nodes(batch, material, mesh, shader_type) {
             break;
         case "BSDF_GLOSSY":
         case "BSDF_DIFFUSE":
+            set_batch_directive(batch, "USE_BSDF_SKY_DIM", 1);
+            if (m_extensions.get_texture_lod())
+                set_batch_directive(batch, "USE_TEXTURE_LOD_EXT", 1);
+            break;
         case "BSDF_PRINCIPLED":
             set_batch_directive(batch, "USE_BSDF_SKY_DIM", 1);
             if (m_extensions.get_texture_lod())
                 set_batch_directive(batch, "USE_TEXTURE_LOD_EXT", 1);
+
+            if (attr.data.value.use_refract) {
+                batch.blend = true;
+                batch.refractive = true;
+                set_batch_directive(batch, "USE_BSDF_PRINCIPLED_REFRACT", 1);
+                set_batch_directive(batch, "USE_VIEW_TSR", 1);
+                set_batch_directive(batch, "USE_PROJ_MATRIX_FRAG", 1);
+            }
+            break;
         }
     });
 
@@ -3388,16 +3405,19 @@ function update_batch_lights(batch, lamps, scene) {
     }
 }
 
+var set_lamp_data = (function() {
+    var _vec3_tmp = m_vec3.create();
+    return function set_lamp_data(batch, lamp) {
+        if (lamp.uuid in batch.lamp_uuid_indexes) {
+            var data_lamp_index = batch.lamp_uuid_indexes[lamp.uuid];
+            var lamp_trans = m_tsr.get_trans(lamp.render.world_tsr, _vec3_tmp);
+            batch.lamp_light_positions.set(lamp_trans, data_lamp_index * 3);
+            batch.lamp_light_directions.set(lamp.light.direction, data_lamp_index * 3);
+            batch.lamp_light_color_intensities.set(lamp.light.color_intensity, data_lamp_index * 3);
+        }
+    };
+})();
 exports.set_lamp_data = set_lamp_data;
-function set_lamp_data(batch, lamp) {
-    if (lamp.uuid in batch.lamp_uuid_indexes) {
-        var data_lamp_index = batch.lamp_uuid_indexes[lamp.uuid];
-        var lamp_trans = m_tsr.get_trans_view(lamp.render.world_tsr);
-        batch.lamp_light_positions.set(lamp_trans, data_lamp_index * 3);
-        batch.lamp_light_directions.set(lamp.light.direction, data_lamp_index * 3);
-        batch.lamp_light_color_intensities.set(lamp.light.color_intensity, data_lamp_index * 3);
-    }
-}
 
 function update_batch_particle_systems(batch, psystems) {
     for (var i = 0; i < psystems.length; i++) {
@@ -3721,7 +3741,7 @@ function make_hair_particles_metabatches(bpy_em_obj, render, emitter_vc,
 
                 if (!pset["use_whole_group"])
                     if (pset["use_rotation_dupli"]) {
-                        var part_quat = m_tsr.get_quat_view(part_render.world_tsr);
+                        var part_quat = m_tsr.get_quat(part_render.world_tsr, _quat_tmp);
                         m_quat.multiply(quat, part_quat, quat);
                     } else
                         m_quat.multiply(quat, DEFAULT_PART_SYS_QUAT, quat);
@@ -4304,42 +4324,48 @@ function distribute_ptrans_equally(ptrans, dupli_objects, seed, use_particles_ro
     return ptrans_dist;
 }
 
-function distribute_ptrans_group(ptrans, dupli_objects, use_particles_rotation, data_len) {
-    var ptrans_dist = {};
-    var quat = new Float32Array([0, 0, 0, 1]);
+var distribute_ptrans_group = (function() {
+    var _vec3_tmp = m_vec3.create();
 
-    for (var i = 0; i < ptrans.length; i+=data_len) {
-        for (var j = 0; j < dupli_objects.length; j++) {
+    return function distribute_ptrans_group(ptrans, dupli_objects, use_particles_rotation, data_len) {
+        var ptrans_dist = {};
+        // CHECK: use tmp variable
+        var quat = new Float32Array([0, 0, 0, 1]);
 
-            var obj_trans = m_vec3.create();
-            var dupli_scale = m_tsr.get_scale(dupli_objects[j].render.world_tsr);
-            var dupli_trans = m_tsr.get_trans_view(dupli_objects[j].render.world_tsr);
-            m_vec3.scale(dupli_trans, dupli_scale, obj_trans);
-            var res_trans = m_vec3.clone([ptrans[i], ptrans[i+1], ptrans[i+2]]);
+        for (var i = 0; i < ptrans.length; i += data_len) {
+            for (var j = 0; j < dupli_objects.length; j++) {
 
-            if (!ptrans_dist[j])
-                ptrans_dist[j] = new Float32Array(ptrans.length);
+                // CHECK: use tmp variable
+                var obj_trans = m_vec3.create();
+                var dupli_scale = m_tsr.get_scale(dupli_objects[j].render.world_tsr);
+                var dupli_trans = m_tsr.get_trans(dupli_objects[j].render.world_tsr, _vec3_tmp);
+                m_vec3.scale(dupli_trans, dupli_scale, obj_trans);
+                var res_trans = m_vec3.clone([ptrans[i], ptrans[i + 1], ptrans[i + 2]]);
 
-            if (use_particles_rotation) {
-                ptrans_dist[j][i + 4] = quat[0] = ptrans[i + 4];
-                ptrans_dist[j][i + 5] = quat[1] = ptrans[i + 5];
-                ptrans_dist[j][i + 6] = quat[2] = ptrans[i + 6];
-                ptrans_dist[j][i + 7] = quat[3] = ptrans[i + 7];
-                m_util.quat_bpy_b4w(quat, quat);
-                m_util.transformQuatFast(obj_trans, quat, obj_trans);
+                if (!ptrans_dist[j])
+                    ptrans_dist[j] = new Float32Array(ptrans.length);
+
+                if (use_particles_rotation) {
+                    ptrans_dist[j][i + 4] = quat[0] = ptrans[i + 4];
+                    ptrans_dist[j][i + 5] = quat[1] = ptrans[i + 5];
+                    ptrans_dist[j][i + 6] = quat[2] = ptrans[i + 6];
+                    ptrans_dist[j][i + 7] = quat[3] = ptrans[i + 7];
+                    m_util.quat_bpy_b4w(quat, quat);
+                    m_util.transformQuatFast(obj_trans, quat, obj_trans);
+                }
+
+                m_vec3.add(res_trans, obj_trans, res_trans);
+
+                ptrans_dist[j][i] = res_trans[0];
+                ptrans_dist[j][i + 1] = res_trans[1];
+                ptrans_dist[j][i + 2] = res_trans[2];
+                ptrans_dist[j][i + 3] = ptrans[i + 3];
+
             }
-
-            m_vec3.add(res_trans, obj_trans, res_trans);
-
-            ptrans_dist[j][i] = res_trans[0];
-            ptrans_dist[j][i + 1] = res_trans[1];
-            ptrans_dist[j][i + 2] = res_trans[2];
-            ptrans_dist[j][i + 3] = ptrans[i + 3];
-
         }
+        return ptrans_dist;
     }
-    return ptrans_dist;
-}
+})();
 
 function distribute_ptrans_by_dupli_weights(ptrans, dupli_objects,
         dupli_weights, seed, use_particles_rotation, data_len) {

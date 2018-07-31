@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 7);
+/******/ 	return __webpack_require__(__webpack_require__.s = 10);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -677,7 +677,7 @@ function str(a) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__b4w_js__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__b4w_js__ = __webpack_require__(3);
 
 
 var _factories = {};
@@ -719,925 +719,42 @@ var _factories = {};
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/**
- * Object in 3D space.
- * You should always use the engine's API in order to manipulate your 3D object.
- * Never access it directly by it's properties.
- * @typedef {Object} Object3D
- */
-
-/**
- * Sensor object.
- * @typedef {Object} Sensor
- * @see {@link module:controls}
- */
-
-/**
- * Typed two-dimensional vector.
- * @typedef {Float32Array} Vec2
- */
-
-/**
- * Typed three-dimensional vector. Can be created with {@link module:vec3.create}.
- * @typedef {Float32Array} Vec3
- */
-
-/**
- * Constant value matching character state (flying, walking etc).
- * @typedef {number} CharacterState
- */
-
-/**
- * Line set in parametric form
- * @typedef {Float32Array(6)} ParametricLine
- */
-
-/**
- * Typed four-dimensional vector. Can be created with {@link module:vec4.create}.
- * @typedef {Float32Array} Vec4
- */
-
-/**
- * Quaternion vector representing rotation.
- * Quaternion is a four-dimensional vector which has the following format:
- * [X, Y, Z, W]. Can be created with {@link module:quat.create}.
- * @typedef {Float32Array} Quat
- */
-
-/**
- * Euler vector representing rotation (in radians).
- * <!--
- * <p>The euler angles specified in intrinsic form (rotating space) and have the following meaning:
- * <ul>
- * TODO: check it!!!
- * <li>euler[0]: heading, around Y
- * <li>euler[1]: attitude, around new Z
- * <li>euler[2]: bank, around new X
- * </ul>
- * -->
- * <p>Using euler angles is discouraged, use quaternions instead.
- * @typedef {Float32Array} Euler
- */
-
-/**
- * TSR vector representing 3D object's transformations (Translation, Scale, Rotation).
- * TSR is an eight-dimensional vector which has the following format:
- * [X, Y, Z, SCALE, QUAT_X, QUAT_Y, QUAT_Z, QUAT_W].
- * Can be created with {@link module:tsr.create}.
- * @typedef {Float32Array} TSR
- */
-
-/**
- * 3x3 matrix.
- * The elements of matrix are placed in typed array in column-major order.
- * Can be created with {@link module:mat3.create}.
- * @typedef {Float32Array} Mat3
- */
-
-/**
- * 4x4 matrix.
- * The elements of matrix are placed in typed array in column-major order.
- * Can be created with {@link module:mat4.create}.
- * @typedef {Float32Array} Mat4
- */
-
-/**
- * Typed three-dimensional vector representing color.
- * Each component must be in range 0-1.
- * Can be created with {@link module:rgb.create}.
- * @typedef {Float32Array} RGB
- */
-
-/**
- * Typed four-dimensional vector representing color and alpha.
- * Each component must be in range 0-1.
- * Can be created with {@link module:rgba.create}.
- * @typedef {Float32Array} RGBA
- */
-
-/**
- * The JavaScript Date object.
- * @typedef {Object} Date
- */
-
-/**
- * Camera movement style enum. One of MS_*.
- * @typedef {number} CameraMoveStyle
- * @see {@link module:camera}
- */
-
-/**
- * Generic callback function with no parameters.
- * @callback GenericCallback
- */
-
-/**
- * Blend4Web global object.
- * @namespace
- * @suppress {duplicate}
- */
-
-// HACK: get b4w from global object
-var b4w;
-var is_worker = false;
-try {
-    b4w = window.b4w;
-} catch (e) {
-    b4w = self.b4w;
-    is_worker = true
-}
-
-if (!b4w) {
-
-    var b4w = {};
-    // TODO elaborate b4w access from the console
-    var DEBUG = true;
-    if (DEBUG) {
-        if (is_worker) {
-            self.b4w = b4w;
-        } else {
-            window.b4w = b4w;
-        }
-    }
-
-    var _module = {};
-    var _n_module = {};
-
-    b4w.module = _module;
-    b4w._n_module = _n_module;
-
-    // require functions per namespace
-    var _ns_requires = {};
-
-    b4w.cleanup = function (module_id, ns) {
-        ns = ns || "__b4w_default";
-        var mod = _module[module_id];
-        if (mod)
-            mod._compiled = null;
-        _ns_requires[ns] = null;
-    }
-    /**
-     * Local (module internal) require function.
-     * This function is passed to the module implementation function and can be used
-     * to import additional modules from the same namespace. If you need to import
-     * a module from the different namespace use {@link b4w.require}.
-     * @typedef {Function} b4w~RequireFunction
-     * @param {string} module_id Module ID
-     */
-
-    /**
-     * Module implementation function.
-     * @callback b4w~ModuleFunction
-     * @param {Object} exports Object with exported symbols
-     * @param {b4w~RequireFunction} require Local (module internal) require function
-     */
-
-    /**
-     * Register the module.
-     * @method b4w.register
-     * @param {string} module_id Module ID
-     * @param {b4w~ModuleFunction} fun Function implementing the module
-     */
-    b4w.register = function (module_id, fun) {
-        if (_module[module_id])
-            return;
-        //throw new Error("Module \"" + module_id + "\" already registered");
-
-        _module[module_id] = fun;
-    }
-
-    /**
-     * Prepare and return the registered module.
-     * @method b4w.require
-     * @param {string} module_id Module ID
-     * @param {string} [ns="__b4w_default"] Namespace for processed modules
-     * @returns {Object3D} Module object
-     */
-    b4w.require = function (module_id, ns) {
-        if (!_module[module_id] && !_n_module[module_id])
-            throw new Error("Module \"" + module_id + "\" not found");
-
-        ns = ns || "__b4w_default";
-        if (_n_module[module_id] !== undefined) {
-            return _n_module[module_id](ns);
-        } else if (!_ns_requires[ns]) {
-            _ns_requires[ns] = (function (ns) {
-                return function (module_id) {
-                    if (!_module[module_id] && !_n_module[module_id]) {
-                        throw new Error("Module \"" + module_id + "\" not found");
-                    }
-
-                    if (_n_module[module_id] !== undefined) {
-                        return _n_module[module_id](ns);
-                    }
-
-                    var mod = _module[module_id];
-
-                    if (!mod._compiled)
-                        mod._compiled = {};
-
-                    if (!mod._compiled[ns]) {
-                        mod._compiled[ns] = {};
-                        mod(mod._compiled[ns], _ns_requires[ns]);
-                    }
-                    return mod._compiled[ns];
-                }
-            })(ns);
-        }
-
-        return _ns_requires[ns](module_id);
-    }
-
-    /**
-     * Check if the module was registered.
-     * @method b4w.module_check
-     * @param {string} module_id Module ID
-     * @returns {boolean} Check result
-     */
-    b4w.module_check = function (module_id) {
-        return _module[module_id] !== undefined ||
-            _n_module[module_id] !== undefined;
-    }
-
-    /**
-     * Get a namespace of the current module by it's require function.
-     * @method b4w.get_namespace
-     * @param {b4w~RequireFunction} mod_ns_require Local require function
-     * @returns {string} Namespace.
-     */
-    b4w.get_namespace = function (mod_ns_require) {
-        // TODO: fix for ES6 modules
-        for (var ns in _ns_requires)
-            if (_ns_requires[ns] == mod_ns_require)
-                return ns;
-        return "";
-    }
-
-    /**
-     * Global vars for proper worker fallback operations.
-     * @ignore
-     */
-    b4w.worker_listeners = [];
-    b4w.worker_namespaces = [];
-}
-
-/* harmony default export */ __webpack_exports__["a"] = (b4w);
-
-/***/ }),
-/* 3 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (immutable) */ __webpack_exports__["b"] = create;
-/* harmony export (immutable) */ __webpack_exports__["c"] = fromMat4;
+/* harmony export (immutable) */ __webpack_exports__["c"] = create;
 /* unused harmony export clone */
-/* harmony export (immutable) */ __webpack_exports__["a"] = copy;
-/* harmony export (immutable) */ __webpack_exports__["e"] = identity;
-/* harmony export (immutable) */ __webpack_exports__["g"] = transpose;
-/* unused harmony export invert */
-/* unused harmony export adjoint */
-/* unused harmony export determinant */
-/* harmony export (immutable) */ __webpack_exports__["f"] = multiply;
-/* unused harmony export mul */
-/* unused harmony export translate */
-/* unused harmony export rotate */
-/* unused harmony export scale */
-/* unused harmony export fromTranslation */
-/* unused harmony export fromRotation */
-/* unused harmony export fromScaling */
-/* unused harmony export fromMat2d */
-/* harmony export (immutable) */ __webpack_exports__["d"] = fromQuat;
-/* unused harmony export normalFromMat4 */
-/* unused harmony export str */
-/* unused harmony export frob */
-/**
- * @module 3x3 Matrix
- * @name mat3
- */
-
-var GLMAT_EPSILON = 0.0000001;
-var GLMAT_ARRAY_TYPE = (typeof Float32Array !== 'undefined') ? Float32Array : Array;
-var GLMAT_RANDOM = Math.random;
-
-/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE. */
-
-/**
- * Creates a new identity mat3
- *
- * @returns {Mat3} a new 3x3 matrix
- * @method module:mat3.create
- */
-function create() {
-    var out = new GLMAT_ARRAY_TYPE(9);
-    out[0] = 1;
-    out[1] = 0;
-    out[2] = 0;
-    out[3] = 0;
-    out[4] = 1;
-    out[5] = 0;
-    out[6] = 0;
-    out[7] = 0;
-    out[8] = 1;
-    return out;
-};
-
-/**
- * Copies the upper-left 3x3 values into the given mat3.
- *
- * @param {Mat4} a   the source 4x4 matrix
- * @returns {Mat3} out
- * @param {Mat3} out the receiving 3x3 matrix
- * @method module:mat3.fromMat4
- */
-function fromMat4(a, out) {
-    out[0] = a[0];
-    out[1] = a[1];
-    out[2] = a[2];
-    out[3] = a[4];
-    out[4] = a[5];
-    out[5] = a[6];
-    out[6] = a[8];
-    out[7] = a[9];
-    out[8] = a[10];
-    return out;
-};
-
-/**
- * Creates a new mat3 initialized with values from an existing matrix
- *
- * @param {Mat3} a matrix to clone
- * @returns {Mat3} a new 3x3 matrix
- * @method module:mat3.clone
- */
-function clone(a) {
-    var out = new GLMAT_ARRAY_TYPE(9);
-    out[0] = a[0];
-    out[1] = a[1];
-    out[2] = a[2];
-    out[3] = a[3];
-    out[4] = a[4];
-    out[5] = a[5];
-    out[6] = a[6];
-    out[7] = a[7];
-    out[8] = a[8];
-    return out;
-};
-
-/**
- * Copy the values from one mat3 to another
- *
- * @param {Mat3} a the source matrix
- * @returns {Mat3} out
- * @param {Mat3} out the receiving matrix
- * @method module:mat3.copy
- */
-function copy(a, out) {
-    out[0] = a[0];
-    out[1] = a[1];
-    out[2] = a[2];
-    out[3] = a[3];
-    out[4] = a[4];
-    out[5] = a[5];
-    out[6] = a[6];
-    out[7] = a[7];
-    out[8] = a[8];
-    return out;
-};
-
-/**
- * Set a mat3 to the identity matrix
- *
- * @returns {Mat3} out
- * @param {Mat3} out the receiving matrix
- * @method module:mat3.identity
- */
-function identity(out) {
-    out[0] = 1;
-    out[1] = 0;
-    out[2] = 0;
-    out[3] = 0;
-    out[4] = 1;
-    out[5] = 0;
-    out[6] = 0;
-    out[7] = 0;
-    out[8] = 1;
-    return out;
-};
-
-/**
- * Transpose the values of a mat3
- *
- * @param {Mat3} a the source matrix
- * @returns {Mat3} out
- * @param {Mat3} out the receiving matrix
- * @method module:mat3.transpose
- */
-function transpose(a, out) {
-    // If we are transposing ourselves we can skip a few steps but have to cache some values
-    if (out === a) {
-        var a01 = a[1], a02 = a[2], a12 = a[5];
-        out[1] = a[3];
-        out[2] = a[6];
-        out[3] = a01;
-        out[5] = a[7];
-        out[6] = a02;
-        out[7] = a12;
-    } else {
-        out[0] = a[0];
-        out[1] = a[3];
-        out[2] = a[6];
-        out[3] = a[1];
-        out[4] = a[4];
-        out[5] = a[7];
-        out[6] = a[2];
-        out[7] = a[5];
-        out[8] = a[8];
-    }
-    
-    return out;
-};
-
-/**
- * Inverts a mat3
- *
- * @param {Mat3} a the source matrix
- * @returns {Mat3} out
- * @param {Mat3} out the receiving matrix
- * @method module:mat3.invert
- */
-function invert(a, out) {
-    var a00 = a[0], a01 = a[1], a02 = a[2],
-        a10 = a[3], a11 = a[4], a12 = a[5],
-        a20 = a[6], a21 = a[7], a22 = a[8],
-
-        b01 = a22 * a11 - a12 * a21,
-        b11 = -a22 * a10 + a12 * a20,
-        b21 = a21 * a10 - a11 * a20,
-
-        // Calculate the determinant
-        det = a00 * b01 + a01 * b11 + a02 * b21;
-
-    if (!det) { 
-        return null; 
-    }
-    det = 1.0 / det;
-
-    out[0] = b01 * det;
-    out[1] = (-a22 * a01 + a02 * a21) * det;
-    out[2] = (a12 * a01 - a02 * a11) * det;
-    out[3] = b11 * det;
-    out[4] = (a22 * a00 - a02 * a20) * det;
-    out[5] = (-a12 * a00 + a02 * a10) * det;
-    out[6] = b21 * det;
-    out[7] = (-a21 * a00 + a01 * a20) * det;
-    out[8] = (a11 * a00 - a01 * a10) * det;
-    return out;
-};
-
-/**
- * Calculates the adjugate of a mat3
- *
- * @param {Mat3} a the source matrix
- * @returns {Mat3} out
- * @param {Mat3} out the receiving matrix
- * @method module:mat3.adjoint
- */
-function adjoint(a, out) {
-    var a00 = a[0], a01 = a[1], a02 = a[2],
-        a10 = a[3], a11 = a[4], a12 = a[5],
-        a20 = a[6], a21 = a[7], a22 = a[8];
-
-    out[0] = (a11 * a22 - a12 * a21);
-    out[1] = (a02 * a21 - a01 * a22);
-    out[2] = (a01 * a12 - a02 * a11);
-    out[3] = (a12 * a20 - a10 * a22);
-    out[4] = (a00 * a22 - a02 * a20);
-    out[5] = (a02 * a10 - a00 * a12);
-    out[6] = (a10 * a21 - a11 * a20);
-    out[7] = (a01 * a20 - a00 * a21);
-    out[8] = (a00 * a11 - a01 * a10);
-    return out;
-};
-
-/**
- * Calculates the determinant of a mat3
- *
- * @param {Mat3} a the source matrix
- * @returns {number} determinant of a
- * @method module:mat3.determinant
- */
-function determinant(a) {
-    var a00 = a[0], a01 = a[1], a02 = a[2],
-        a10 = a[3], a11 = a[4], a12 = a[5],
-        a20 = a[6], a21 = a[7], a22 = a[8];
-
-    return a00 * (a22 * a11 - a12 * a21) + a01 * (-a22 * a10 + a12 * a20) + a02 * (a21 * a10 - a11 * a20);
-};
-
-/**
- * Multiplies two mat3's
- *
- * @param {Mat3} a the first operand
- * @param {Mat3} b the second operand
- * @returns {Mat3} out
- * @param {Mat3} out the receiving matrix
- * @method module:mat3.multiply
- */
-function multiply(a, b, out) {
-    var a00 = a[0], a01 = a[1], a02 = a[2],
-        a10 = a[3], a11 = a[4], a12 = a[5],
-        a20 = a[6], a21 = a[7], a22 = a[8],
-
-        b00 = b[0], b01 = b[1], b02 = b[2],
-        b10 = b[3], b11 = b[4], b12 = b[5],
-        b20 = b[6], b21 = b[7], b22 = b[8];
-
-    out[0] = b00 * a00 + b01 * a10 + b02 * a20;
-    out[1] = b00 * a01 + b01 * a11 + b02 * a21;
-    out[2] = b00 * a02 + b01 * a12 + b02 * a22;
-
-    out[3] = b10 * a00 + b11 * a10 + b12 * a20;
-    out[4] = b10 * a01 + b11 * a11 + b12 * a21;
-    out[5] = b10 * a02 + b11 * a12 + b12 * a22;
-
-    out[6] = b20 * a00 + b21 * a10 + b22 * a20;
-    out[7] = b20 * a01 + b21 * a11 + b22 * a21;
-    out[8] = b20 * a02 + b21 * a12 + b22 * a22;
-    return out;
-};
-
-/**
- * Alias for {@link mat3.multiply}
- * @function
- * @method module:mat3.mul
- */
-
-
-/**
- * Translate a mat3 by the given vector
- *
- * @param {Mat3} a the matrix to translate
- * @param {vec2} v vector to translate by
- * @returns {Mat3} out
- * @param {Mat3} out the receiving matrix
- * @method module:mat3.translate
- */
-function translate(a, v, out) {
-    var a00 = a[0], a01 = a[1], a02 = a[2],
-        a10 = a[3], a11 = a[4], a12 = a[5],
-        a20 = a[6], a21 = a[7], a22 = a[8],
-        x = v[0], y = v[1];
-
-    out[0] = a00;
-    out[1] = a01;
-    out[2] = a02;
-
-    out[3] = a10;
-    out[4] = a11;
-    out[5] = a12;
-
-    out[6] = x * a00 + y * a10 + a20;
-    out[7] = x * a01 + y * a11 + a21;
-    out[8] = x * a02 + y * a12 + a22;
-    return out;
-};
-
-/**
- * Rotates a mat3 by the given angle
- *
- * @param {Mat3} a the matrix to rotate
- * @param {number} rad the angle to rotate the matrix by
- * @returns {Mat3} out
- * @param {Mat3} out the receiving matrix
- * @method module:mat3.rotate
- */
-function rotate(a, rad, out) {
-    var a00 = a[0], a01 = a[1], a02 = a[2],
-        a10 = a[3], a11 = a[4], a12 = a[5],
-        a20 = a[6], a21 = a[7], a22 = a[8],
-
-        s = Math.sin(rad),
-        c = Math.cos(rad);
-
-    out[0] = c * a00 + s * a10;
-    out[1] = c * a01 + s * a11;
-    out[2] = c * a02 + s * a12;
-
-    out[3] = c * a10 - s * a00;
-    out[4] = c * a11 - s * a01;
-    out[5] = c * a12 - s * a02;
-
-    out[6] = a20;
-    out[7] = a21;
-    out[8] = a22;
-    return out;
-};
-
-/**
- * Scales the mat3 by the dimensions in the given vec2
- *
- * @param {Mat3} a the matrix to rotate
- * @param {vec2} v the vec2 to scale the matrix by
- * @returns {Mat3} out
- * @param {Mat3} out the receiving matrix
- * @method module:mat3.scale
- */
-function scale(a, v, out) {
-    var x = v[0], y = v[1];
-
-    out[0] = x * a[0];
-    out[1] = x * a[1];
-    out[2] = x * a[2];
-
-    out[3] = y * a[3];
-    out[4] = y * a[4];
-    out[5] = y * a[5];
-
-    out[6] = a[6];
-    out[7] = a[7];
-    out[8] = a[8];
-    return out;
-};
-
-/**
- * Creates a matrix from a vector translation
- * This is equivalent to (but much faster than):
- *
- *     mat3.identity(dest);
- *     mat3.translate(dest, dest, vec);
- *
- * @param {vec2} v Translation vector
- * @returns {Mat3} out
- * @param {Mat3} out mat3 receiving operation result
- * @method module:mat3.fromTranslation
- */
-function fromTranslation(v, out) {
-    out[0] = 1;
-    out[1] = 0;
-    out[2] = 0;
-    out[3] = 0;
-    out[4] = 1;
-    out[5] = 0;
-    out[6] = v[0];
-    out[7] = v[1];
-    out[8] = 1;
-    return out;
-}
-
-/**
- * Creates a matrix from a given angle
- * This is equivalent to (but much faster than):
- *
- *     mat3.identity(dest);
- *     mat3.rotate(dest, dest, rad);
- *
- * @param {number} rad the angle to rotate the matrix by
- * @returns {Mat3} out
- * @param {Mat3} out mat3 receiving operation result
- * @method module:mat3.fromRotation
- */
-function fromRotation(rad, out) {
-    var s = Math.sin(rad), c = Math.cos(rad);
-
-    out[0] = c;
-    out[1] = s;
-    out[2] = 0;
-
-    out[3] = -s;
-    out[4] = c;
-    out[5] = 0;
-
-    out[6] = 0;
-    out[7] = 0;
-    out[8] = 1;
-    return out;
-}
-
-/**
- * Creates a matrix from a vector scaling
- * This is equivalent to (but much faster than):
- *
- *     mat3.identity(dest);
- *     mat3.scale(dest, dest, vec);
- *
- * @param {vec2} v Scaling vector
- * @returns {Mat3} out
- * @param {Mat3} out mat3 receiving operation result
- * @method module:mat3.fromScaling
- */
-function fromScaling(v, out) {
-    out[0] = v[0];
-    out[1] = 0;
-    out[2] = 0;
-
-    out[3] = 0;
-    out[4] = v[1];
-    out[5] = 0;
-
-    out[6] = 0;
-    out[7] = 0;
-    out[8] = 1;
-    return out;
-}
-
-/**
- * Copies the values from a mat2d into a mat3
- *
- * @param {mat2d} a the matrix to copy
- * @returns {Mat3} out
- * @param {Mat3} out the receiving matrix
- * @method module:mat3.fromMat2d
- */
-function fromMat2d(a, out) {
-    out[0] = a[0];
-    out[1] = a[1];
-    out[2] = 0;
-
-    out[3] = a[2];
-    out[4] = a[3];
-    out[5] = 0;
-
-    out[6] = a[4];
-    out[7] = a[5];
-    out[8] = 1;
-    return out;
-};
-
-/**
-* Calculates a 3x3 matrix from the given quaternion
-*
-* @param {Quat} q Quaternion to create matrix from
-*
-* @returns {Mat3} out
-* @param {Mat3} out mat3 receiving operation result
-  * @method module:mat3.fromQuat
-  */
-function fromQuat(q, out) {
-    var x = q[0], y = q[1], z = q[2], w = q[3],
-        x2 = x + x,
-        y2 = y + y,
-        z2 = z + z,
-
-        xx = x * x2,
-        yx = y * x2,
-        yy = y * y2,
-        zx = z * x2,
-        zy = z * y2,
-        zz = z * z2,
-        wx = w * x2,
-        wy = w * y2,
-        wz = w * z2;
-
-    out[0] = 1 - yy - zz;
-    out[3] = yx - wz;
-    out[6] = zx + wy;
-
-    out[1] = yx + wz;
-    out[4] = 1 - xx - zz;
-    out[7] = zy - wx;
-
-    out[2] = zx - wy;
-    out[5] = zy + wx;
-    out[8] = 1 - xx - yy;
-
-    return out;
-};
-
-/**
-* Calculates a 3x3 normal matrix (transpose inverse) from the 4x4 matrix
-*
-* @param {Mat4} a Mat4 to derive the normal matrix from
-*
-* @returns {Mat3} out
-* @param {Mat3} out mat3 receiving operation result
-  * @method module:mat3.normalFromMat4
-  */
-function normalFromMat4(a, out) {
-    var a00 = a[0], a01 = a[1], a02 = a[2], a03 = a[3],
-        a10 = a[4], a11 = a[5], a12 = a[6], a13 = a[7],
-        a20 = a[8], a21 = a[9], a22 = a[10], a23 = a[11],
-        a30 = a[12], a31 = a[13], a32 = a[14], a33 = a[15],
-
-        b00 = a00 * a11 - a01 * a10,
-        b01 = a00 * a12 - a02 * a10,
-        b02 = a00 * a13 - a03 * a10,
-        b03 = a01 * a12 - a02 * a11,
-        b04 = a01 * a13 - a03 * a11,
-        b05 = a02 * a13 - a03 * a12,
-        b06 = a20 * a31 - a21 * a30,
-        b07 = a20 * a32 - a22 * a30,
-        b08 = a20 * a33 - a23 * a30,
-        b09 = a21 * a32 - a22 * a31,
-        b10 = a21 * a33 - a23 * a31,
-        b11 = a22 * a33 - a23 * a32,
-
-        // Calculate the determinant
-        det = b00 * b11 - b01 * b10 + b02 * b09 + b03 * b08 - b04 * b07 + b05 * b06;
-
-    if (!det) { 
-        return null; 
-    }
-    det = 1.0 / det;
-
-    out[0] = (a11 * b11 - a12 * b10 + a13 * b09) * det;
-    out[1] = (a12 * b08 - a10 * b11 - a13 * b07) * det;
-    out[2] = (a10 * b10 - a11 * b08 + a13 * b06) * det;
-
-    out[3] = (a02 * b10 - a01 * b11 - a03 * b09) * det;
-    out[4] = (a00 * b11 - a02 * b08 + a03 * b07) * det;
-    out[5] = (a01 * b08 - a00 * b10 - a03 * b06) * det;
-
-    out[6] = (a31 * b05 - a32 * b04 + a33 * b03) * det;
-    out[7] = (a32 * b02 - a30 * b05 - a33 * b01) * det;
-    out[8] = (a30 * b04 - a31 * b02 + a33 * b00) * det;
-
-    return out;
-};
-
-/**
- * Returns a string representation of a mat3
- *
- * @param {Mat3} a matrix to represent as a string
- * @returns {string} string representation of the matrix
- * @method module:mat3.str
- */
-function str(a) {
-    return 'mat3(' + a[0] + ', ' + a[1] + ', ' + a[2] + ', ' + 
-                    a[3] + ', ' + a[4] + ', ' + a[5] + ', ' + 
-                    a[6] + ', ' + a[7] + ', ' + a[8] + ')';
-};
-
-/**
- * Returns Frobenius norm of a mat3
- *
- * @param {Mat3} a the matrix to calculate Frobenius norm of
- * @returns {number} Frobenius norm
- * @method module:mat3.frob
- */
-function frob(a) {
-    return(Math.sqrt(Math.pow(a[0], 2) + Math.pow(a[1], 2) + Math.pow(a[2], 2) + Math.pow(a[3], 2) + Math.pow(a[4], 2) + Math.pow(a[5], 2) + Math.pow(a[6], 2) + Math.pow(a[7], 2) + Math.pow(a[8], 2)))
-};
-
-
-/***/ }),
-/* 4 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (immutable) */ __webpack_exports__["b"] = create;
-/* unused harmony export clone */
-/* harmony export (immutable) */ __webpack_exports__["e"] = fromValues;
-/* harmony export (immutable) */ __webpack_exports__["a"] = copy;
-/* harmony export (immutable) */ __webpack_exports__["i"] = set;
-/* unused harmony export add */
-/* harmony export (immutable) */ __webpack_exports__["j"] = subtract;
+/* harmony export (immutable) */ __webpack_exports__["f"] = fromValues;
+/* harmony export (immutable) */ __webpack_exports__["b"] = copy;
+/* harmony export (immutable) */ __webpack_exports__["n"] = set;
+/* harmony export (immutable) */ __webpack_exports__["a"] = add;
+/* harmony export (immutable) */ __webpack_exports__["o"] = subtract;
 /* unused harmony export sub */
-/* unused harmony export multiply */
+/* harmony export (immutable) */ __webpack_exports__["j"] = multiply;
 /* unused harmony export mul */
 /* unused harmony export divide */
 /* unused harmony export div */
 /* unused harmony export min */
 /* unused harmony export max */
-/* harmony export (immutable) */ __webpack_exports__["h"] = scale;
+/* harmony export (immutable) */ __webpack_exports__["m"] = scale;
 /* unused harmony export scaleAndAdd */
 /* unused harmony export distance */
 /* unused harmony export dist */
 /* unused harmony export squaredDistance */
 /* unused harmony export sqrDist */
-/* harmony export (immutable) */ __webpack_exports__["f"] = length;
+/* harmony export (immutable) */ __webpack_exports__["h"] = length;
 /* unused harmony export len */
 /* unused harmony export squaredLength */
 /* unused harmony export sqrLen */
-/* unused harmony export negate */
-/* unused harmony export inverse */
-/* harmony export (immutable) */ __webpack_exports__["g"] = normalize;
-/* harmony export (immutable) */ __webpack_exports__["d"] = dot;
-/* harmony export (immutable) */ __webpack_exports__["c"] = cross;
-/* unused harmony export lerp */
+/* harmony export (immutable) */ __webpack_exports__["k"] = negate;
+/* harmony export (immutable) */ __webpack_exports__["g"] = inverse;
+/* harmony export (immutable) */ __webpack_exports__["l"] = normalize;
+/* harmony export (immutable) */ __webpack_exports__["e"] = dot;
+/* harmony export (immutable) */ __webpack_exports__["d"] = cross;
+/* harmony export (immutable) */ __webpack_exports__["i"] = lerp;
 /* unused harmony export hermite */
 /* unused harmony export bezier */
 /* unused harmony export random */
-/* harmony export (immutable) */ __webpack_exports__["l"] = transformMat4;
-/* harmony export (immutable) */ __webpack_exports__["k"] = transformMat3;
-/* harmony export (immutable) */ __webpack_exports__["m"] = transformQuat;
+/* harmony export (immutable) */ __webpack_exports__["q"] = transformMat4;
+/* harmony export (immutable) */ __webpack_exports__["p"] = transformMat3;
+/* harmony export (immutable) */ __webpack_exports__["r"] = transformQuat;
 /* unused harmony export rotateX */
 /* unused harmony export rotateY */
 /* unused harmony export rotateZ */
@@ -2401,13 +1518,896 @@ function str(a) {
 
 
 /***/ }),
+/* 3 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/**
+ * Object in 3D space.
+ * You should always use the engine's API in order to manipulate your 3D object.
+ * Never access it directly by it's properties.
+ * @typedef {Object} Object3D
+ */
+
+/**
+ * Sensor object.
+ * @typedef {Object} Sensor
+ * @see {@link module:controls}
+ */
+
+/**
+ * Typed two-dimensional vector.
+ * @typedef {Float32Array} Vec2
+ */
+
+/**
+ * Typed three-dimensional vector. Can be created with {@link module:vec3.create}.
+ * @typedef {Float32Array} Vec3
+ */
+
+/**
+ * Constant value matching character state (flying, walking etc).
+ * @typedef {number} CharacterState
+ */
+
+/**
+ * Line set in parametric form
+ * @typedef {Float32Array(6)} ParametricLine
+ */
+
+/**
+ * Typed four-dimensional vector. Can be created with {@link module:vec4.create}.
+ * @typedef {Float32Array} Vec4
+ */
+
+/**
+ * Quaternion vector representing rotation.
+ * Quaternion is a four-dimensional vector which has the following format:
+ * [X, Y, Z, W]. Can be created with {@link module:quat.create}.
+ * @typedef {Float32Array} Quat
+ */
+
+/**
+ * Euler vector representing rotation (in radians).
+ * <!--
+ * <p>The euler angles specified in intrinsic form (rotating space) and have the following meaning:
+ * <ul>
+ * TODO: check it!!!
+ * <li>euler[0]: heading, around Y
+ * <li>euler[1]: attitude, around new Z
+ * <li>euler[2]: bank, around new X
+ * </ul>
+ * -->
+ * <p>Using euler angles is discouraged, use quaternions instead.
+ * @typedef {Float32Array} Euler
+ */
+
+/**
+ * TSR vector representing 3D object's transformations (Translation, Scale, Rotation).
+ * TSR is an eight-dimensional vector which has the following format:
+ * [X, Y, Z, SCALE, QUAT_X, QUAT_Y, QUAT_Z, QUAT_W].
+ * Can be created with {@link module:tsr.create}.
+ * @typedef {Float32Array} TSR
+ */
+
+/**
+ * 3x3 matrix.
+ * The elements of matrix are placed in typed array in column-major order.
+ * Can be created with {@link module:mat3.create}.
+ * @typedef {Float32Array} Mat3
+ */
+
+/**
+ * 4x4 matrix.
+ * The elements of matrix are placed in typed array in column-major order.
+ * Can be created with {@link module:mat4.create}.
+ * @typedef {Float32Array} Mat4
+ */
+
+/**
+ * Typed three-dimensional vector representing color.
+ * Each component must be in range 0-1.
+ * Can be created with {@link module:rgb.create}.
+ * @typedef {Float32Array} RGB
+ */
+
+/**
+ * Typed four-dimensional vector representing color and alpha.
+ * Each component must be in range 0-1.
+ * Can be created with {@link module:rgba.create}.
+ * @typedef {Float32Array} RGBA
+ */
+
+/**
+ * The JavaScript Date object.
+ * @typedef {Object} Date
+ */
+
+/**
+ * Camera movement style enum. One of MS_*.
+ * @typedef {number} CameraMoveStyle
+ * @see {@link module:camera}
+ */
+
+/**
+ * Generic callback function with no parameters.
+ * @callback GenericCallback
+ */
+
+/**
+ * Blend4Web global object.
+ * @namespace
+ * @suppress {duplicate}
+ */
+
+// HACK: get b4w from global object
+var b4w;
+var is_worker = false;
+try {
+    b4w = window.b4w;
+} catch (e) {
+    b4w = self.b4w;
+    is_worker = true
+}
+
+if (!b4w) {
+
+    var b4w = {};
+    // TODO elaborate b4w access from the console
+    var DEBUG = true;
+    if (DEBUG) {
+        if (is_worker) {
+            self.b4w = b4w;
+        } else {
+            window.b4w = b4w;
+        }
+    }
+
+    var _module = {};
+    var _n_module = {};
+
+    b4w.module = _module;
+    b4w._n_module = _n_module;
+
+    // require functions per namespace
+    var _ns_requires = {};
+
+    b4w.cleanup = function (module_id, ns) {
+        ns = ns || "__b4w_default";
+        var mod = _module[module_id];
+        if (mod)
+            mod._compiled = null;
+        _ns_requires[ns] = null;
+    }
+    /**
+     * Local (module internal) require function.
+     * This function is passed to the module implementation function and can be used
+     * to import additional modules from the same namespace. If you need to import
+     * a module from the different namespace use {@link b4w.require}.
+     * @typedef {Function} b4w~RequireFunction
+     * @param {string} module_id Module ID
+     */
+
+    /**
+     * Module implementation function.
+     * @callback b4w~ModuleFunction
+     * @param {Object} exports Object with exported symbols
+     * @param {b4w~RequireFunction} require Local (module internal) require function
+     */
+
+    /**
+     * Register the module.
+     * @method b4w.register
+     * @param {string} module_id Module ID
+     * @param {b4w~ModuleFunction} fun Function implementing the module
+     */
+    b4w.register = function (module_id, fun) {
+        if (_module[module_id])
+            return;
+        //throw new Error("Module \"" + module_id + "\" already registered");
+
+        _module[module_id] = fun;
+    }
+
+    /**
+     * Prepare and return the registered module.
+     * @method b4w.require
+     * @param {string} module_id Module ID
+     * @param {string} [ns="__b4w_default"] Namespace for processed modules
+     * @returns {Object3D} Module object
+     */
+    b4w.require = function (module_id, ns) {
+        if (!_module[module_id] && !_n_module[module_id])
+            throw new Error("Module \"" + module_id + "\" not found");
+
+        ns = ns || "__b4w_default";
+        if (_n_module[module_id] !== undefined) {
+            return _n_module[module_id](ns);
+        } else if (!_ns_requires[ns]) {
+            _ns_requires[ns] = (function (ns) {
+                return function (module_id) {
+                    if (!_module[module_id] && !_n_module[module_id]) {
+                        throw new Error("Module \"" + module_id + "\" not found");
+                    }
+
+                    if (_n_module[module_id] !== undefined) {
+                        return _n_module[module_id](ns);
+                    }
+
+                    var mod = _module[module_id];
+
+                    if (!mod._compiled)
+                        mod._compiled = {};
+
+                    if (!mod._compiled[ns]) {
+                        mod._compiled[ns] = {};
+                        mod(mod._compiled[ns], _ns_requires[ns]);
+                    }
+                    return mod._compiled[ns];
+                }
+            })(ns);
+        }
+
+        return _ns_requires[ns](module_id);
+    }
+
+    /**
+     * Check if the module was registered.
+     * @method b4w.module_check
+     * @param {string} module_id Module ID
+     * @returns {boolean} Check result
+     */
+    b4w.module_check = function (module_id) {
+        return _module[module_id] !== undefined ||
+            _n_module[module_id] !== undefined;
+    }
+
+    /**
+     * Get a namespace of the current module by it's require function.
+     * @method b4w.get_namespace
+     * @param {b4w~RequireFunction} mod_ns_require Local require function
+     * @returns {string} Namespace.
+     */
+    b4w.get_namespace = function (mod_ns_require) {
+        // TODO: fix for ES6 modules
+        for (var ns in _ns_requires)
+            if (_ns_requires[ns] == mod_ns_require)
+                return ns;
+        return "";
+    }
+
+    /**
+     * Global vars for proper worker fallback operations.
+     * @ignore
+     */
+    b4w.worker_listeners = [];
+    b4w.worker_namespaces = [];
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (b4w);
+
+/***/ }),
+/* 4 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["b"] = create;
+/* harmony export (immutable) */ __webpack_exports__["c"] = fromMat4;
+/* unused harmony export clone */
+/* harmony export (immutable) */ __webpack_exports__["a"] = copy;
+/* harmony export (immutable) */ __webpack_exports__["e"] = identity;
+/* harmony export (immutable) */ __webpack_exports__["g"] = transpose;
+/* unused harmony export invert */
+/* unused harmony export adjoint */
+/* unused harmony export determinant */
+/* harmony export (immutable) */ __webpack_exports__["f"] = multiply;
+/* unused harmony export mul */
+/* unused harmony export translate */
+/* unused harmony export rotate */
+/* unused harmony export scale */
+/* unused harmony export fromTranslation */
+/* unused harmony export fromRotation */
+/* unused harmony export fromScaling */
+/* unused harmony export fromMat2d */
+/* harmony export (immutable) */ __webpack_exports__["d"] = fromQuat;
+/* unused harmony export normalFromMat4 */
+/* unused harmony export str */
+/* unused harmony export frob */
+/**
+ * @module 3x3 Matrix
+ * @name mat3
+ */
+
+var GLMAT_EPSILON = 0.0000001;
+var GLMAT_ARRAY_TYPE = (typeof Float32Array !== 'undefined') ? Float32Array : Array;
+var GLMAT_RANDOM = Math.random;
+
+/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE. */
+
+/**
+ * Creates a new identity mat3
+ *
+ * @returns {Mat3} a new 3x3 matrix
+ * @method module:mat3.create
+ */
+function create() {
+    var out = new GLMAT_ARRAY_TYPE(9);
+    out[0] = 1;
+    out[1] = 0;
+    out[2] = 0;
+    out[3] = 0;
+    out[4] = 1;
+    out[5] = 0;
+    out[6] = 0;
+    out[7] = 0;
+    out[8] = 1;
+    return out;
+};
+
+/**
+ * Copies the upper-left 3x3 values into the given mat3.
+ *
+ * @param {Mat4} a   the source 4x4 matrix
+ * @returns {Mat3} out
+ * @param {Mat3} out the receiving 3x3 matrix
+ * @method module:mat3.fromMat4
+ */
+function fromMat4(a, out) {
+    out[0] = a[0];
+    out[1] = a[1];
+    out[2] = a[2];
+    out[3] = a[4];
+    out[4] = a[5];
+    out[5] = a[6];
+    out[6] = a[8];
+    out[7] = a[9];
+    out[8] = a[10];
+    return out;
+};
+
+/**
+ * Creates a new mat3 initialized with values from an existing matrix
+ *
+ * @param {Mat3} a matrix to clone
+ * @returns {Mat3} a new 3x3 matrix
+ * @method module:mat3.clone
+ */
+function clone(a) {
+    var out = new GLMAT_ARRAY_TYPE(9);
+    out[0] = a[0];
+    out[1] = a[1];
+    out[2] = a[2];
+    out[3] = a[3];
+    out[4] = a[4];
+    out[5] = a[5];
+    out[6] = a[6];
+    out[7] = a[7];
+    out[8] = a[8];
+    return out;
+};
+
+/**
+ * Copy the values from one mat3 to another
+ *
+ * @param {Mat3} a the source matrix
+ * @returns {Mat3} out
+ * @param {Mat3} out the receiving matrix
+ * @method module:mat3.copy
+ */
+function copy(a, out) {
+    out[0] = a[0];
+    out[1] = a[1];
+    out[2] = a[2];
+    out[3] = a[3];
+    out[4] = a[4];
+    out[5] = a[5];
+    out[6] = a[6];
+    out[7] = a[7];
+    out[8] = a[8];
+    return out;
+};
+
+/**
+ * Set a mat3 to the identity matrix
+ *
+ * @returns {Mat3} out
+ * @param {Mat3} out the receiving matrix
+ * @method module:mat3.identity
+ */
+function identity(out) {
+    out[0] = 1;
+    out[1] = 0;
+    out[2] = 0;
+    out[3] = 0;
+    out[4] = 1;
+    out[5] = 0;
+    out[6] = 0;
+    out[7] = 0;
+    out[8] = 1;
+    return out;
+};
+
+/**
+ * Transpose the values of a mat3
+ *
+ * @param {Mat3} a the source matrix
+ * @returns {Mat3} out
+ * @param {Mat3} out the receiving matrix
+ * @method module:mat3.transpose
+ */
+function transpose(a, out) {
+    // If we are transposing ourselves we can skip a few steps but have to cache some values
+    if (out === a) {
+        var a01 = a[1], a02 = a[2], a12 = a[5];
+        out[1] = a[3];
+        out[2] = a[6];
+        out[3] = a01;
+        out[5] = a[7];
+        out[6] = a02;
+        out[7] = a12;
+    } else {
+        out[0] = a[0];
+        out[1] = a[3];
+        out[2] = a[6];
+        out[3] = a[1];
+        out[4] = a[4];
+        out[5] = a[7];
+        out[6] = a[2];
+        out[7] = a[5];
+        out[8] = a[8];
+    }
+    
+    return out;
+};
+
+/**
+ * Inverts a mat3
+ *
+ * @param {Mat3} a the source matrix
+ * @returns {Mat3} out
+ * @param {Mat3} out the receiving matrix
+ * @method module:mat3.invert
+ */
+function invert(a, out) {
+    var a00 = a[0], a01 = a[1], a02 = a[2],
+        a10 = a[3], a11 = a[4], a12 = a[5],
+        a20 = a[6], a21 = a[7], a22 = a[8],
+
+        b01 = a22 * a11 - a12 * a21,
+        b11 = -a22 * a10 + a12 * a20,
+        b21 = a21 * a10 - a11 * a20,
+
+        // Calculate the determinant
+        det = a00 * b01 + a01 * b11 + a02 * b21;
+
+    if (!det) { 
+        return null; 
+    }
+    det = 1.0 / det;
+
+    out[0] = b01 * det;
+    out[1] = (-a22 * a01 + a02 * a21) * det;
+    out[2] = (a12 * a01 - a02 * a11) * det;
+    out[3] = b11 * det;
+    out[4] = (a22 * a00 - a02 * a20) * det;
+    out[5] = (-a12 * a00 + a02 * a10) * det;
+    out[6] = b21 * det;
+    out[7] = (-a21 * a00 + a01 * a20) * det;
+    out[8] = (a11 * a00 - a01 * a10) * det;
+    return out;
+};
+
+/**
+ * Calculates the adjugate of a mat3
+ *
+ * @param {Mat3} a the source matrix
+ * @returns {Mat3} out
+ * @param {Mat3} out the receiving matrix
+ * @method module:mat3.adjoint
+ */
+function adjoint(a, out) {
+    var a00 = a[0], a01 = a[1], a02 = a[2],
+        a10 = a[3], a11 = a[4], a12 = a[5],
+        a20 = a[6], a21 = a[7], a22 = a[8];
+
+    out[0] = (a11 * a22 - a12 * a21);
+    out[1] = (a02 * a21 - a01 * a22);
+    out[2] = (a01 * a12 - a02 * a11);
+    out[3] = (a12 * a20 - a10 * a22);
+    out[4] = (a00 * a22 - a02 * a20);
+    out[5] = (a02 * a10 - a00 * a12);
+    out[6] = (a10 * a21 - a11 * a20);
+    out[7] = (a01 * a20 - a00 * a21);
+    out[8] = (a00 * a11 - a01 * a10);
+    return out;
+};
+
+/**
+ * Calculates the determinant of a mat3
+ *
+ * @param {Mat3} a the source matrix
+ * @returns {number} determinant of a
+ * @method module:mat3.determinant
+ */
+function determinant(a) {
+    var a00 = a[0], a01 = a[1], a02 = a[2],
+        a10 = a[3], a11 = a[4], a12 = a[5],
+        a20 = a[6], a21 = a[7], a22 = a[8];
+
+    return a00 * (a22 * a11 - a12 * a21) + a01 * (-a22 * a10 + a12 * a20) + a02 * (a21 * a10 - a11 * a20);
+};
+
+/**
+ * Multiplies two mat3's
+ *
+ * @param {Mat3} a the first operand
+ * @param {Mat3} b the second operand
+ * @returns {Mat3} out
+ * @param {Mat3} out the receiving matrix
+ * @method module:mat3.multiply
+ */
+function multiply(a, b, out) {
+    var a00 = a[0], a01 = a[1], a02 = a[2],
+        a10 = a[3], a11 = a[4], a12 = a[5],
+        a20 = a[6], a21 = a[7], a22 = a[8],
+
+        b00 = b[0], b01 = b[1], b02 = b[2],
+        b10 = b[3], b11 = b[4], b12 = b[5],
+        b20 = b[6], b21 = b[7], b22 = b[8];
+
+    out[0] = b00 * a00 + b01 * a10 + b02 * a20;
+    out[1] = b00 * a01 + b01 * a11 + b02 * a21;
+    out[2] = b00 * a02 + b01 * a12 + b02 * a22;
+
+    out[3] = b10 * a00 + b11 * a10 + b12 * a20;
+    out[4] = b10 * a01 + b11 * a11 + b12 * a21;
+    out[5] = b10 * a02 + b11 * a12 + b12 * a22;
+
+    out[6] = b20 * a00 + b21 * a10 + b22 * a20;
+    out[7] = b20 * a01 + b21 * a11 + b22 * a21;
+    out[8] = b20 * a02 + b21 * a12 + b22 * a22;
+    return out;
+};
+
+/**
+ * Alias for {@link mat3.multiply}
+ * @function
+ * @method module:mat3.mul
+ */
+
+
+/**
+ * Translate a mat3 by the given vector
+ *
+ * @param {Mat3} a the matrix to translate
+ * @param {vec2} v vector to translate by
+ * @returns {Mat3} out
+ * @param {Mat3} out the receiving matrix
+ * @method module:mat3.translate
+ */
+function translate(a, v, out) {
+    var a00 = a[0], a01 = a[1], a02 = a[2],
+        a10 = a[3], a11 = a[4], a12 = a[5],
+        a20 = a[6], a21 = a[7], a22 = a[8],
+        x = v[0], y = v[1];
+
+    out[0] = a00;
+    out[1] = a01;
+    out[2] = a02;
+
+    out[3] = a10;
+    out[4] = a11;
+    out[5] = a12;
+
+    out[6] = x * a00 + y * a10 + a20;
+    out[7] = x * a01 + y * a11 + a21;
+    out[8] = x * a02 + y * a12 + a22;
+    return out;
+};
+
+/**
+ * Rotates a mat3 by the given angle
+ *
+ * @param {Mat3} a the matrix to rotate
+ * @param {number} rad the angle to rotate the matrix by
+ * @returns {Mat3} out
+ * @param {Mat3} out the receiving matrix
+ * @method module:mat3.rotate
+ */
+function rotate(a, rad, out) {
+    var a00 = a[0], a01 = a[1], a02 = a[2],
+        a10 = a[3], a11 = a[4], a12 = a[5],
+        a20 = a[6], a21 = a[7], a22 = a[8],
+
+        s = Math.sin(rad),
+        c = Math.cos(rad);
+
+    out[0] = c * a00 + s * a10;
+    out[1] = c * a01 + s * a11;
+    out[2] = c * a02 + s * a12;
+
+    out[3] = c * a10 - s * a00;
+    out[4] = c * a11 - s * a01;
+    out[5] = c * a12 - s * a02;
+
+    out[6] = a20;
+    out[7] = a21;
+    out[8] = a22;
+    return out;
+};
+
+/**
+ * Scales the mat3 by the dimensions in the given vec2
+ *
+ * @param {Mat3} a the matrix to rotate
+ * @param {vec2} v the vec2 to scale the matrix by
+ * @returns {Mat3} out
+ * @param {Mat3} out the receiving matrix
+ * @method module:mat3.scale
+ */
+function scale(a, v, out) {
+    var x = v[0], y = v[1];
+
+    out[0] = x * a[0];
+    out[1] = x * a[1];
+    out[2] = x * a[2];
+
+    out[3] = y * a[3];
+    out[4] = y * a[4];
+    out[5] = y * a[5];
+
+    out[6] = a[6];
+    out[7] = a[7];
+    out[8] = a[8];
+    return out;
+};
+
+/**
+ * Creates a matrix from a vector translation
+ * This is equivalent to (but much faster than):
+ *
+ *     mat3.identity(dest);
+ *     mat3.translate(dest, dest, vec);
+ *
+ * @param {vec2} v Translation vector
+ * @returns {Mat3} out
+ * @param {Mat3} out mat3 receiving operation result
+ * @method module:mat3.fromTranslation
+ */
+function fromTranslation(v, out) {
+    out[0] = 1;
+    out[1] = 0;
+    out[2] = 0;
+    out[3] = 0;
+    out[4] = 1;
+    out[5] = 0;
+    out[6] = v[0];
+    out[7] = v[1];
+    out[8] = 1;
+    return out;
+}
+
+/**
+ * Creates a matrix from a given angle
+ * This is equivalent to (but much faster than):
+ *
+ *     mat3.identity(dest);
+ *     mat3.rotate(dest, dest, rad);
+ *
+ * @param {number} rad the angle to rotate the matrix by
+ * @returns {Mat3} out
+ * @param {Mat3} out mat3 receiving operation result
+ * @method module:mat3.fromRotation
+ */
+function fromRotation(rad, out) {
+    var s = Math.sin(rad), c = Math.cos(rad);
+
+    out[0] = c;
+    out[1] = s;
+    out[2] = 0;
+
+    out[3] = -s;
+    out[4] = c;
+    out[5] = 0;
+
+    out[6] = 0;
+    out[7] = 0;
+    out[8] = 1;
+    return out;
+}
+
+/**
+ * Creates a matrix from a vector scaling
+ * This is equivalent to (but much faster than):
+ *
+ *     mat3.identity(dest);
+ *     mat3.scale(dest, dest, vec);
+ *
+ * @param {vec2} v Scaling vector
+ * @returns {Mat3} out
+ * @param {Mat3} out mat3 receiving operation result
+ * @method module:mat3.fromScaling
+ */
+function fromScaling(v, out) {
+    out[0] = v[0];
+    out[1] = 0;
+    out[2] = 0;
+
+    out[3] = 0;
+    out[4] = v[1];
+    out[5] = 0;
+
+    out[6] = 0;
+    out[7] = 0;
+    out[8] = 1;
+    return out;
+}
+
+/**
+ * Copies the values from a mat2d into a mat3
+ *
+ * @param {mat2d} a the matrix to copy
+ * @returns {Mat3} out
+ * @param {Mat3} out the receiving matrix
+ * @method module:mat3.fromMat2d
+ */
+function fromMat2d(a, out) {
+    out[0] = a[0];
+    out[1] = a[1];
+    out[2] = 0;
+
+    out[3] = a[2];
+    out[4] = a[3];
+    out[5] = 0;
+
+    out[6] = a[4];
+    out[7] = a[5];
+    out[8] = 1;
+    return out;
+};
+
+/**
+* Calculates a 3x3 matrix from the given quaternion
+*
+* @param {Quat} q Quaternion to create matrix from
+*
+* @returns {Mat3} out
+* @param {Mat3} out mat3 receiving operation result
+  * @method module:mat3.fromQuat
+  */
+function fromQuat(q, out) {
+    var x = q[0], y = q[1], z = q[2], w = q[3],
+        x2 = x + x,
+        y2 = y + y,
+        z2 = z + z,
+
+        xx = x * x2,
+        yx = y * x2,
+        yy = y * y2,
+        zx = z * x2,
+        zy = z * y2,
+        zz = z * z2,
+        wx = w * x2,
+        wy = w * y2,
+        wz = w * z2;
+
+    out[0] = 1 - yy - zz;
+    out[3] = yx - wz;
+    out[6] = zx + wy;
+
+    out[1] = yx + wz;
+    out[4] = 1 - xx - zz;
+    out[7] = zy - wx;
+
+    out[2] = zx - wy;
+    out[5] = zy + wx;
+    out[8] = 1 - xx - yy;
+
+    return out;
+};
+
+/**
+* Calculates a 3x3 normal matrix (transpose inverse) from the 4x4 matrix
+*
+* @param {Mat4} a Mat4 to derive the normal matrix from
+*
+* @returns {Mat3} out
+* @param {Mat3} out mat3 receiving operation result
+  * @method module:mat3.normalFromMat4
+  */
+function normalFromMat4(a, out) {
+    var a00 = a[0], a01 = a[1], a02 = a[2], a03 = a[3],
+        a10 = a[4], a11 = a[5], a12 = a[6], a13 = a[7],
+        a20 = a[8], a21 = a[9], a22 = a[10], a23 = a[11],
+        a30 = a[12], a31 = a[13], a32 = a[14], a33 = a[15],
+
+        b00 = a00 * a11 - a01 * a10,
+        b01 = a00 * a12 - a02 * a10,
+        b02 = a00 * a13 - a03 * a10,
+        b03 = a01 * a12 - a02 * a11,
+        b04 = a01 * a13 - a03 * a11,
+        b05 = a02 * a13 - a03 * a12,
+        b06 = a20 * a31 - a21 * a30,
+        b07 = a20 * a32 - a22 * a30,
+        b08 = a20 * a33 - a23 * a30,
+        b09 = a21 * a32 - a22 * a31,
+        b10 = a21 * a33 - a23 * a31,
+        b11 = a22 * a33 - a23 * a32,
+
+        // Calculate the determinant
+        det = b00 * b11 - b01 * b10 + b02 * b09 + b03 * b08 - b04 * b07 + b05 * b06;
+
+    if (!det) { 
+        return null; 
+    }
+    det = 1.0 / det;
+
+    out[0] = (a11 * b11 - a12 * b10 + a13 * b09) * det;
+    out[1] = (a12 * b08 - a10 * b11 - a13 * b07) * det;
+    out[2] = (a10 * b10 - a11 * b08 + a13 * b06) * det;
+
+    out[3] = (a02 * b10 - a01 * b11 - a03 * b09) * det;
+    out[4] = (a00 * b11 - a02 * b08 + a03 * b07) * det;
+    out[5] = (a01 * b08 - a00 * b10 - a03 * b06) * det;
+
+    out[6] = (a31 * b05 - a32 * b04 + a33 * b03) * det;
+    out[7] = (a32 * b02 - a30 * b05 - a33 * b01) * det;
+    out[8] = (a30 * b04 - a31 * b02 + a33 * b00) * det;
+
+    return out;
+};
+
+/**
+ * Returns a string representation of a mat3
+ *
+ * @param {Mat3} a matrix to represent as a string
+ * @returns {string} string representation of the matrix
+ * @method module:mat3.str
+ */
+function str(a) {
+    return 'mat3(' + a[0] + ', ' + a[1] + ', ' + a[2] + ', ' + 
+                    a[3] + ', ' + a[4] + ', ' + a[5] + ', ' + 
+                    a[6] + ', ' + a[7] + ', ' + a[8] + ')';
+};
+
+/**
+ * Returns Frobenius norm of a mat3
+ *
+ * @param {Mat3} a the matrix to calculate Frobenius norm of
+ * @returns {number} Frobenius norm
+ * @method module:mat3.frob
+ */
+function frob(a) {
+    return(Math.sqrt(Math.pow(a[0], 2) + Math.pow(a[1], 2) + Math.pow(a[2], 2) + Math.pow(a[3], 2) + Math.pow(a[4], 2) + Math.pow(a[5], 2) + Math.pow(a[6], 2) + Math.pow(a[7], 2) + Math.pow(a[8], 2)))
+};
+
+
+/***/ }),
 /* 5 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__register_js__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__intern_util_js__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__intern_print_js__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__intern_util_js__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__intern_print_js__ = __webpack_require__(9);
 
 // TODO: add context-dependent m_print
 
@@ -2543,866 +2543,10 @@ var assert_fact = Object(__WEBPACK_IMPORTED_MODULE_0__register_js__["a" /* defau
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_register_js__ = __webpack_require__(1);
-
-
-/**
- * Print API. Overrides some standart js console functions
- * @name print
- * @namespace
- * @exports exports as print
- */
-function Print(ns, exports) {
-
-// no module requires
-
-var _verbose = false;
-var _error_count = 0;
-var _warning_count = 0;
-
-var _deprecated_methods = {};
-/**
- * Set verbose flag for console output.
- */
-exports.set_verbose = function(v) {
-    _verbose = v;
-}
-
-exports.log_raw = function() {
-    console.log.apply(console, arguments);
-}
-
-exports.log = function() {
-    if (_verbose) {
-        var args = compose_args_prefix(arguments, "B4W LOG");
-        console.log.apply(console, args);
-    }
-}
-
-exports.compose_args_prefix = compose_args_prefix;
-function compose_args_prefix(args_in, prefix) {
-    var args_out = [];
-
-    if (args_in[0].indexOf("%c") > -1)
-        args_out.push(args_in[0].replace("%c", "%c" + prefix + ": "));
-    else
-        args_out.push(prefix + ": " + args_in[0]);
-
-    for (var i = 1; i < args_in.length; i++)
-        args_out.push(args_in[i]);
-
-    return args_out;
-}
-
-exports.error = error;
-function error() {
-    // always reporting errors
-    _error_count++;
-
-    var args = compose_args_prefix(arguments, "B4W ERROR");
-    console.error.apply(console, args);
-}
-exports.error_once = error_once;
-function error_once(message) {
-    if (!(message in _deprecated_methods)) {
-        _deprecated_methods[message] = message;
-        error([message]);
-    }
-}
-
-exports.error_deprecated = error_deprecated;
-function error_deprecated(depr_func, new_func) {
-    error_once(depr_func + "() is deprecated, use " + new_func + "() instead.");
-}
-
-exports.error_deprecated_arr = function(depr_func, new_func_arr) {
-    switch (new_func_arr.length > 1) {
-    case true:
-        error_once(depr_func + "() is deprecated, use " 
-                + new_func_arr.slice(0, -1).join("(), ")
-                + "() or " + new_func_arr[new_func_arr.length - 1] + "() instead.");
-        break;
-    case false:
-        error_deprecated(depr_func, new_func_arr[0]);
-        break;
-    }
-}
-
-exports.error_deprecated_cfg = function(depr_cfg, new_cfg) {
-    if (new_cfg === undefined)
-        error_once("Config option \"" + depr_cfg + "\" is deprecated.");
-    else
-        error_once("Config option \"" + depr_cfg + "\" is deprecated, use \"" +
-                new_cfg + "\" instead.");
-}
-
-exports.warn = function() {
-    // always reporting warnings
-    _warning_count++;
-
-    var args = compose_args_prefix(arguments, "B4W WARN");
-    console.warn.apply(console, args);
-}
-
-exports.info = function() {
-    var args = compose_args_prefix(arguments, "B4W INFO");
-    console.info.apply(console, args);
-}
-
-exports.export_error = function() {
-    // always reporting errors
-    _error_count++;
-
-    var args = compose_args_prefix(arguments, "B4W EXPORT ERROR");
-    console.error.apply(console, args);
-}
-
-exports.export_warn = function() {
-    // always reporting warnings
-    _warning_count++;
-
-    var args = compose_args_prefix(arguments, "B4W EXPORT WARNING");
-    console.warn.apply(console, args);
-}
-
-exports.time = function() {
-    if (_verbose)
-        console.time.apply(console, arguments);
-}
-
-exports.timeEnd = function() {
-    if (_verbose)
-        console.timeEnd.apply(console, arguments);
-}
-
-exports.group = function() {
-    console.group.apply(console, arguments);
-}
-
-exports.groupCollapsed = function() {
-    console.groupCollapsed.apply(console, arguments);
-}
-
-exports.groupEnd = function() {
-    console.groupEnd.apply(console, arguments);
-}
-
-exports.clear = function() {
-    if (typeof console.clear == "function")
-        console.clear.apply(console, arguments);
-}
-
-exports.get_warning_count = function() {
-    return _warning_count;
-}
-
-exports.get_error_count = function() {
-    return _error_count;
-}
-
-exports.clear_errors_warnings = function() {
-    _warning_count = 0;
-    _error_count = 0;
-}
-
-}
-
-var print_factory = Object(__WEBPACK_IMPORTED_MODULE_0__util_register_js__["a" /* default */])("print", Print);
-Object(__WEBPACK_IMPORTED_MODULE_0__util_register_js__["a" /* default */])("__print", Print);
-
-/* harmony default export */ __webpack_exports__["a"] = (print_factory);
-
-
-/***/ }),
-/* 7 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_util_b4w_js__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_intern_ipc_js__ = __webpack_require__(8);
-
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = (__WEBPACK_IMPORTED_MODULE_0__src_util_b4w_js__["a" /* default */]);
-
-/***/ }),
-/* 8 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_register_js__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_b4w_js__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_assert_js__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__util_generator_js__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__util_path_js__ = __webpack_require__(14);
-
-
-
-
-
-
-
-/**
- * Physics worker Inter Process Communication API.
- * @name ipc
- * @namespace
- * @exports exports as ipc
- */
-function Int_IPC(ns, exports) {
-
-var m_assert = Object(__WEBPACK_IMPORTED_MODULE_2__util_assert_js__["a" /* default */])(ns);
-var m_generator = Object(__WEBPACK_IMPORTED_MODULE_3__util_generator_js__["a" /* default */])(ns);
-
-/*
- * Use Visual Incrementing script to simplify assignment of such numbers in VIM
- * http://www.drchip.org/astronaut/vim/index.html#VISINCR
- */
-var _wait_for_loading = true;
-// MAIN <- PHYSICS
-exports.IN_LOADED                = 0 ;
-exports.IN_COLLISION             = 1 ;
-exports.IN_COLLISION_POS_NORM    = 2 ;
-exports.IN_COLLISION_IMPULSE     = 3 ;
-exports.IN_ERROR                 = 4 ;
-exports.IN_FBMSG                 = 5 ;
-exports.IN_FLOATER_BOB_TRANSFORM = 6 ;
-exports.IN_LOG                   = 7 ;
-exports.IN_PROP_OFFSET           = 8 ;
-exports.IN_RAY_HIT               = 9 ;
-exports.IN_RAY_HIT_POS_NORM      = 10;
-exports.IN_REMOVE_RAY_TEST       = 11;
-exports.IN_TRANSFORM             = 12;
-exports.IN_VEHICLE_SPEED         = 13;
-exports.IN_PING                  = 14;
-exports.IN_FPS                   = 15;
-exports.IN_DEBUG_STATS           = 16;
-
-var IN_COLLISION          = exports.IN_COLLISION;
-var IN_COLLISION_POS_NORM = exports.IN_COLLISION_POS_NORM;
-var IN_PROP_OFFSET        = exports.IN_PROP_OFFSET;
-var IN_RAY_HIT            = exports.IN_RAY_HIT;
-var IN_RAY_HIT_POS_NORM   = exports.IN_RAY_HIT_POS_NORM;
-var IN_TRANSFORM          = exports.IN_TRANSFORM;
-
-// MAIN -> PHYSICS
-exports.OUT_INIT                              = 100;
-exports.OUT_ACTIVATE                          = 101;
-exports.OUT_ADD_BOAT_BOB                      = 102;
-exports.OUT_ADD_CAR_WHEEL                     = 103;
-exports.OUT_ADD_FLOATER_BOB                   = 104;
-exports.OUT_APPEND_BOUNDING_BODY              = 105;
-exports.OUT_APPEND_BOAT                       = 106;
-exports.OUT_APPEND_CAR                        = 107;
-exports.OUT_APPEND_CHARACTER                  = 108;
-exports.OUT_APPEND_COLLISION_TEST             = 109;
-exports.OUT_APPEND_CONSTRAINT                 = 110;
-exports.OUT_APPEND_FLOATER                    = 111;
-exports.OUT_APPEND_GHOST_MESH_BODY            = 112;
-exports.OUT_APPEND_STATIC_MESH_BODY           = 113;
-exports.OUT_APPEND_WATER                      = 114;
-exports.OUT_REMOVE_BODY                       = 115;
-exports.OUT_APPLY_CENTRAL_FORCE               = 116;
-exports.OUT_APPLY_COLLISION_IMPULSE_TEST      = 117;
-exports.OUT_APPLY_TORQUE                      = 118;
-exports.OUT_CHARACTER_JUMP                    = 119;
-exports.OUT_CHARACTER_ROTATION_INCREMENT      = 120;
-exports.OUT_CLEAR_COLLISION_IMPULSE_TEST      = 121;
-exports.OUT_DISABLE_SIMULATION                = 122;
-exports.OUT_ENABLE_SIMULATION                 = 123;
-exports.OUT_PAUSE                             = 124;
-exports.OUT_APPEND_RAY_TEST                   = 125;
-exports.OUT_REMOVE_RAY_TEST                   = 126;
-exports.OUT_CHANGE_RAY_TEST_FROM_TO           = 127;
-exports.OUT_REMOVE_COLLISION_TEST             = 128;
-exports.OUT_REMOVE_CONSTRAINT                 = 129;
-exports.OUT_RESUME                            = 130;
-exports.OUT_SET_CHARACTER_FLY_VELOCITY        = 131;
-exports.OUT_SET_CHARACTER_HOR_ROTATION        = 132;
-exports.OUT_SET_CHARACTER_MOVE_DIR            = 133;
-exports.OUT_SET_CHARACTER_MOVE_TYPE           = 134;
-exports.OUT_SET_CHARACTER_ROTATION            = 135;
-exports.OUT_SET_CHARACTER_RUN_VELOCITY        = 136;
-exports.OUT_SET_CHARACTER_VERT_ROTATION       = 137;
-exports.OUT_SET_CHARACTER_WALK_VELOCITY       = 138;
-exports.OUT_SET_GRAVITY                       = 139;
-exports.OUT_SET_LINEAR_VELOCITY               = 140;
-exports.OUT_SET_TRANSFORM                     = 141;
-exports.OUT_SET_WATER_TIME                    = 142;
-exports.OUT_ADD_WATER_WRAPPER                 = 143;
-exports.OUT_UPDATE_BOAT_CONTROLS              = 144;
-exports.OUT_UPDATE_CAR_CONTROLS               = 145;
-exports.OUT_PING                              = 146;
-exports.OUT_DEBUG                             = 147;
-exports.OUT_UPDATE_WORLD                      = 148;
-exports.OUT_SET_ANGULAR_VELOCITY              = 149;
-exports.OUT_SET_CHARACTER_VERT_MOVE_DIR_ANGLE = 150;
-exports.OUT_UPDATE_BOUNDING_BODY              = 151;
-exports.OUT_UPDATE_STATIC_MESH_BODY           = 152;
-
-var OUT_SET_TRANSFORM = exports.OUT_SET_TRANSFORM;
-
-var _worker_listeners = __WEBPACK_IMPORTED_MODULE_1__util_b4w_js__["a" /* default */].worker_listeners;
-var _worker_namespaces = __WEBPACK_IMPORTED_MODULE_1__util_b4w_js__["a" /* default */].worker_namespaces;
-
-var _msg_cache_IN_TRANSFORM = {
-    msg_id:   IN_TRANSFORM,
-
-    body_id:  0,
-    time:     0,
-    trans:    new Float32Array(3),
-    quat:     new Float32Array(4),
-    linvel:   new Float32Array(3),
-    angvel:   new Float32Array(3),
-
-    len:      0
-};
-
-var _msg_cache_IN_PROP_OFFSET = {
-    msg_id:               IN_PROP_OFFSET,
-
-    chassis_hull_body_id: 0,
-    prop_ind:             0,
-    trans:                new Float32Array(3),
-    quat:                 new Float32Array(4),
-
-    len:                  0
-};
-
-var _msg_cache_IN_RAY_HIT = {
-    msg_id:      IN_RAY_HIT,
-
-    id:          0,
-    body_id_hit: 0,
-    hit_fract:   0,
-    hit_time:    0,
-
-    len:         0
-};
-
-var _msg_cache_IN_RAY_HIT_POS_NORM = {
-    msg_id:      IN_RAY_HIT_POS_NORM,
-
-    id:          0,
-    body_id_hit: 0,
-    hit_fract:   0,
-    hit_time:    0,
-    hit_pos:     new Float32Array(3),
-    hit_norm:    new Float32Array(3),
-
-    len:         0
-};
-
-var _msg_cache_IN_COLLISION = {
-    msg_id:     IN_COLLISION,
-
-    body_id_a:  0,
-    body_id_b:  0,
-    result:     0,
-
-    len:        0
-};
-
-var _msg_cache_IN_COLLISION_POS_NORM = {
-    msg_id:     IN_COLLISION_POS_NORM,
-
-    body_id_a:  0,
-    body_id_b:  0,
-    result:     0,
-    coll_point: new Float32Array(3),
-    coll_norm:  new Float32Array(3),
-    coll_dist:  0,
-
-    len:        0
-};
-
-var _msg_cache_OUT_SET_TRANSFORM = {
-    msg_id:  OUT_SET_TRANSFORM,
-
-    body_id: 0,
-    trans:   new Float32Array(3),
-    quat:    new Float32Array(4),
-
-    len:     0
-};
-
-var _msg_cache_list = [
-    _msg_cache_IN_TRANSFORM,
-    _msg_cache_IN_PROP_OFFSET,
-    _msg_cache_IN_RAY_HIT,
-    _msg_cache_IN_RAY_HIT_POS_NORM,
-    _msg_cache_IN_COLLISION,
-    _msg_cache_IN_COLLISION_POS_NORM,
-    _msg_cache_OUT_SET_TRANSFORM
-];
-
-function find_script(src) {
-    var scripts = document.getElementsByTagName("script");
-    var norm_src = Object(__WEBPACK_IMPORTED_MODULE_4__util_path_js__["a" /* normpath_preserve_protocol */])(src);
-
-    for (var i = 0; i < scripts.length; i++) {
-        if (scripts[i].src == norm_src)
-            return scripts[i];
-    }
-
-    return null;
-}
-
-exports.create_worker = function(path, fallback) {
-    var worker = {
-        is_main: path ? true : false,
-        web_worker: null,
-        buf_arr: [],
-        fb_worker_ns: ""
-    }
-
-    if (fallback) {
-        var web_worker_fallback = {
-            addEventListener: function(type, listener, useCapture) {
-                if (type != "message")
-                    m_assert.panic("Wrong web worker event");
-
-                set_fallback_listener(worker.fb_worker_ns, worker.is_main,
-                        listener);
-            },
-
-            removeEventListener: function(type, listener, useCapture) {
-                if (type != "message")
-                    m_assert.panic("Wrong web worker event");
-
-                set_fallback_listener(worker.fb_worker_ns, worker.is_main, null);
-            },
-
-            postMessage: function(msg, msg2) {
-                var listener = find_fallback_listener(worker.fb_worker_ns,
-                        !worker.is_main);
-                listener({"data": msg});
-            },
-
-            terminate: function() {
-                for (var i = 0; i < _worker_namespaces.length; i+=2)
-                    if (_worker_namespaces[i+1] == worker.fb_worker_ns) {
-                        _worker_listeners.splice(i, 2);
-                        _worker_namespaces.splice(i, 2);
-                        return;
-                    }
-            }
-        }
-
-        worker.web_worker = web_worker_fallback;
-
-        if (worker.is_main) {
-            var main_ns = ns;
-            var worker_ns = m_generator.unique_name(main_ns + "_worker");
-
-            _worker_namespaces.push(main_ns);
-            _worker_namespaces.push(worker_ns);
-
-            _worker_listeners.push(null);
-            _worker_listeners.push(null);
-
-            worker.fb_worker_ns = worker_ns;
-
-            var uranium_js = find_script(path);
-            if (uranium_js) {
-                // just register in the new namespace
-                if (_wait_for_loading)
-                    uranium_js.addEventListener("load", function() {
-                        __WEBPACK_IMPORTED_MODULE_1__util_b4w_js__["a" /* default */].require("__bindings", worker.fb_worker_ns);
-                    }, false);
-                else {
-                    __WEBPACK_IMPORTED_MODULE_1__util_b4w_js__["a" /* default */].cleanup("__bindings", worker.fb_worker_ns);
-                    __WEBPACK_IMPORTED_MODULE_1__util_b4w_js__["a" /* default */].cleanup("__ipc", worker.fb_worker_ns);
-                    __WEBPACK_IMPORTED_MODULE_1__util_b4w_js__["a" /* default */].require("__bindings", worker.fb_worker_ns);
-                }
-            } else {
-                // load and register
-                uranium_js = document.createElement("script");
-
-                uranium_js.src = path;
-                uranium_js.defer = "defer";
-                uranium_js.async = "async";
-                uranium_js.addEventListener("load", function() {
-                    _wait_for_loading = false;
-                    __WEBPACK_IMPORTED_MODULE_1__util_b4w_js__["a" /* default */].require("__bindings", worker.fb_worker_ns);
-                }, false);
-
-                document.head.appendChild(uranium_js);
-            }
-        } else {
-            // !!!WARNING: es6 module!!!
-            // worker.fb_worker_ns = b4w.get_namespace(b4w.require);
-            worker.fb_worker_ns = ns;
-        }
-    } else {
-        if (path)
-            worker.web_worker = new Worker(path);
-        else
-            worker.web_worker = self;
-    }
-
-    return worker;
-}
-
-function set_fallback_listener(worker_ns, is_main, listener) {
-    for (var i = 0; i < _worker_namespaces.length; i+=2)
-        if (_worker_namespaces[i+1] == worker_ns)
-            _worker_listeners[i + Number(!is_main)] = listener;
-}
-
-function find_fallback_listener(worker_ns, is_main) {
-    for (var i = 0; i < _worker_namespaces.length; i+=2)
-        if (_worker_namespaces[i+1] == worker_ns)
-            return _worker_listeners[i + Number(!is_main)];
-
-    return null;
-}
-
-exports.attach_handler = function(worker, process_message_cb) {
-
-    assign_msg_cache_length(_msg_cache_list);
-
-    var preprocess_message_cb = function(event_data) {
-
-        if (event_data.constructor == ArrayBuffer) {
-            event_data = new Float32Array(event_data);
-        } else if (event_data[0].constructor == ArrayBuffer) {
-            for (var i = 0; i < event_data.length; i++)
-                preprocess_message_cb(event_data[i]);
-            return;
-        }
-
-        var msg_id = event_data[0] | 0;
-
-        switch (msg_id) {
-        case IN_TRANSFORM:
-            var data = _msg_cache_IN_TRANSFORM;
-
-            data.body_id   = event_data[1 ] | 0;
-            data.time      = event_data[2 ];
-            data.trans[0]  = event_data[3 ];
-            data.trans[1]  = event_data[4 ];
-            data.trans[2]  = event_data[5 ];
-            data.quat[0]   = event_data[6 ];
-            data.quat[1]   = event_data[7 ];
-            data.quat[2]   = event_data[8 ];
-            data.quat[3]   = event_data[9 ];
-            data.linvel[0] = event_data[10];
-            data.linvel[1] = event_data[11];
-            data.linvel[2] = event_data[12];
-            data.angvel[0] = event_data[13];
-            data.angvel[1] = event_data[14];
-            data.angvel[2] = event_data[15];
-            break;
-        case IN_PROP_OFFSET:
-            var data = _msg_cache_IN_PROP_OFFSET;
-
-            data.chassis_hull_body_id = event_data[1] | 0;
-            data.prop_ind             = event_data[2] | 0;
-            data.trans[0]             = event_data[3];
-            data.trans[1]             = event_data[4];
-            data.trans[2]             = event_data[5];
-            data.quat[0]              = event_data[6];
-            data.quat[1]              = event_data[7];
-            data.quat[2]              = event_data[8];
-            data.quat[3]              = event_data[9];
-            break;
-        case IN_RAY_HIT:
-            var data = _msg_cache_IN_RAY_HIT;
-
-            data.id          = event_data[1] | 0;
-            data.body_id_hit = event_data[2] | 0;
-            data.hit_fract   = event_data[3];
-            data.hit_time    = event_data[4];
-
-            break;
-        case IN_RAY_HIT_POS_NORM:
-            var data = _msg_cache_IN_RAY_HIT_POS_NORM;
-
-            data.id          = event_data[ 1] | 0;
-            data.body_id_hit = event_data[ 2] | 0;
-            data.hit_fract   = event_data[ 3];
-            data.hit_time    = event_data[ 4];
-            data.hit_pos[0]  = event_data[ 5];
-            data.hit_pos[1]  = event_data[ 6];
-            data.hit_pos[2]  = event_data[ 7];
-            data.hit_norm[0] = event_data[ 8];
-            data.hit_norm[1] = event_data[ 9];
-            data.hit_norm[2] = event_data[10];
-
-            break;
-        case IN_COLLISION:
-            var data = _msg_cache_IN_COLLISION;
-
-            data.body_id_a     =   event_data[1] | 0;
-            data.body_id_b     =   event_data[2] | 0;
-            data.result        = !!event_data[3];
-            break;
-        case IN_COLLISION_POS_NORM:
-            var data = _msg_cache_IN_COLLISION_POS_NORM;
-
-            data.body_id_a     =   event_data[ 1] | 0;
-            data.body_id_b     =   event_data[ 2] | 0;
-            data.result        = !!event_data[ 3];
-            data.coll_point[0] =   event_data[ 4];
-            data.coll_point[1] =   event_data[ 5];
-            data.coll_point[2] =   event_data[ 6];
-            data.coll_norm[0]  =   event_data[ 7];
-            data.coll_norm[1]  =   event_data[ 8];
-            data.coll_norm[2]  =   event_data[ 9];
-            data.coll_dist     =   event_data[10];
-            break;
-        case OUT_SET_TRANSFORM:
-            var data = _msg_cache_OUT_SET_TRANSFORM;
-
-            data.body_id  = event_data[1] | 0;
-            data.trans[0] = event_data[2];
-            data.trans[1] = event_data[3];
-            data.trans[2] = event_data[4];
-            data.quat[0]  = event_data[5];
-            data.quat[1]  = event_data[6];
-            data.quat[2]  = event_data[7];
-            data.quat[3]  = event_data[8];
-            break;
-        default:
-            var data = event_data;
-            break;
-        }
-
-        process_message_cb(worker, msg_id, data);
-    }
-
-    worker.web_worker.addEventListener("message", function(event) {
-        preprocess_message_cb(event.data);
-    }, false);
-}
-
-function assign_msg_cache_length(msg_cache_list) {
-
-    for (var i = 0; i < msg_cache_list.length; i++) {
-        var cache = msg_cache_list[i];
-        var len = 0;
-
-        for (var j in cache) {
-            var prop = cache[j];
-
-            switch (prop.constructor) {
-            case Float32Array:
-                len += prop.length;
-                break;
-            case Number:
-                len += 1;
-                break;
-            default:
-                break;
-            }
-        }
-
-        // exclude "len" itself
-        len -= 1;
-
-        cache.len = len;
-    }
-}
-
-exports.cleanup = function() {
-}
-
-/**
- * Cached message post.
- * messages with same id must have same length
- * @methodOf physics
- */
-exports.post_msg = function(worker, msg_id) {
-
-    // not initialized for worker warm-up
-    if (!worker)
-        return;
-
-    switch (msg_id) {
-    case IN_TRANSFORM:
-        var data = _msg_cache_IN_TRANSFORM;
-        var msg = new Float32Array(data.len);
-
-        msg[0 ] = data.msg_id;
-        msg[1 ] = data.body_id;
-        msg[2 ] = data.time;
-        msg[3 ] = data.trans[0];
-        msg[4 ] = data.trans[1];
-        msg[5 ] = data.trans[2];
-        msg[6 ] = data.quat[0];
-        msg[7 ] = data.quat[1];
-        msg[8 ] = data.quat[2];
-        msg[9 ] = data.quat[3];
-        msg[10] = data.linvel[0];
-        msg[11] = data.linvel[1];
-        msg[12] = data.linvel[2];
-        msg[13] = data.angvel[0];
-        msg[14] = data.angvel[1];
-        msg[15] = data.angvel[2];
-
-        worker.buf_arr.push(msg.buffer);
-        break;
-    case IN_PROP_OFFSET:
-        var data = _msg_cache_IN_PROP_OFFSET;
-        var msg = new Float32Array(data.len);
-
-        msg[0] = data.msg_id;
-        msg[1] = data.chassis_hull_body_id;
-        msg[2] = data.prop_ind;
-        msg[3] = data.trans[0];
-        msg[4] = data.trans[1];
-        msg[5] = data.trans[2];
-        msg[6] = data.quat[0];
-        msg[7] = data.quat[1];
-        msg[8] = data.quat[2];
-        msg[9] = data.quat[3];
-
-        worker.buf_arr.push(msg.buffer);
-        break;
-    case IN_RAY_HIT:
-        var data = _msg_cache_IN_RAY_HIT;
-        var msg = new Float32Array(data.len);
-
-        msg[0] = data.msg_id;
-        msg[1] = data.id;
-        msg[2] = data.body_id_hit;
-        msg[3] = data.hit_fract;
-        msg[4] = data.hit_time;
-
-        worker.buf_arr.push(msg.buffer);
-        break;
-    case IN_RAY_HIT_POS_NORM:
-        var data = _msg_cache_IN_RAY_HIT_POS_NORM;
-        var msg = new Float32Array(data.len);
-
-        msg[ 0] = data.msg_id;
-        msg[ 1] = data.id;
-        msg[ 2] = data.body_id_hit;
-        msg[ 3] = data.hit_fract;
-        msg[ 4] = data.hit_time;
-        msg[ 5] = data.hit_pos[0];
-        msg[ 6] = data.hit_pos[1];
-        msg[ 7] = data.hit_pos[2];
-        msg[ 8] = data.hit_norm[0];
-        msg[ 9] = data.hit_norm[1];
-        msg[10] = data.hit_norm[2];
-
-        worker.buf_arr.push(msg.buffer);
-        break;
-    case IN_COLLISION:
-        var data = _msg_cache_IN_COLLISION;
-        var msg = new Float32Array(data.len);
-
-        msg[0] = data.msg_id;
-        msg[1] = data.body_id_a;
-        msg[2] = data.body_id_b;
-        msg[3] = data.result;
-
-        worker.buf_arr.push(msg.buffer);
-        break;
-    case IN_COLLISION_POS_NORM:
-        var data = _msg_cache_IN_COLLISION_POS_NORM;
-        var msg = new Float32Array(data.len);
-
-        msg[ 0] = data.msg_id;
-        msg[ 1] = data.body_id_a;
-        msg[ 2] = data.body_id_b;
-        msg[ 3] = data.result;
-        msg[ 4] = data.coll_point[0];
-        msg[ 5] = data.coll_point[1];
-        msg[ 6] = data.coll_point[2];
-        msg[ 7] = data.coll_norm[0];
-        msg[ 8] = data.coll_norm[1];
-        msg[ 9] = data.coll_norm[2];
-        msg[10] = data.coll_dist;
-
-        worker.buf_arr.push(msg.buffer);
-        break;
-    case OUT_SET_TRANSFORM:
-        var data = _msg_cache_OUT_SET_TRANSFORM;
-        var msg = new Float32Array(data.len);
-
-        msg[0] = data.msg_id;
-        msg[1] = data.body_id;
-        msg[2] = data.trans[0];
-        msg[3] = data.trans[1];
-        msg[4] = data.trans[2];
-        msg[5] = data.quat[0];
-        msg[6] = data.quat[1];
-        msg[7] = data.quat[2];
-        msg[8] = data.quat[3];
-
-        worker.buf_arr.push(msg.buffer);
-        break;
-    default:
-        var msg = [];
-        for (var i = 1; i < arguments.length; i++)
-            msg.push(arguments[i]);
-        worker.web_worker.postMessage(msg);
-        break;
-    }
-}
-
-exports.post_msg_arr = function(worker) {
-    if (!worker || !worker.buf_arr.length)
-        return;
-
-    worker.web_worker.postMessage(worker.buf_arr);
-
-    worker.buf_arr.length = 0;
-}
-
-exports.get_msg_cache = function(msg_id) {
-    switch (msg_id) {
-    case IN_TRANSFORM:
-        return _msg_cache_IN_TRANSFORM;
-    case IN_PROP_OFFSET:
-        return _msg_cache_IN_PROP_OFFSET;
-    case IN_RAY_HIT:
-        return _msg_cache_IN_RAY_HIT;
-    case IN_RAY_HIT_POS_NORM:
-        return _msg_cache_IN_RAY_HIT_POS_NORM;
-    case IN_COLLISION:
-        return _msg_cache_IN_COLLISION;
-    case IN_COLLISION_POS_NORM:
-        return _msg_cache_IN_COLLISION_POS_NORM;
-    case OUT_SET_TRANSFORM:
-        return _msg_cache_OUT_SET_TRANSFORM;
-    default:
-        return null;
-    }
-}
-
-exports.terminate = function(worker) {
-    worker.web_worker.terminate();
-    worker.web_worker = null;
-}
-
-exports.is_active = function(worker) {
-    return !!worker.web_worker;
-}
-
-exports.is_fallback = function(worker) {
-    return !!worker.fb_worker_ns;
-}
-
-}
-
-var int_ipc_factory = Object(__WEBPACK_IMPORTED_MODULE_0__util_register_js__["a" /* default */])("__ipc", Int_IPC);
-
-/* unused harmony default export */ var _unused_webpack_default_export = (int_ipc_factory);
-
-
-/***/ }),
-/* 9 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
 /* unused harmony export VEC3_IDENT */
 /* unused harmony export QUAT4_IDENT */
 /* unused harmony export TSR8_IDENT */
+/* unused harmony export TSR_IDENT */
 /* unused harmony export VEC3_UNIT */
 /* unused harmony export AXIS_X */
 /* unused harmony export AXIS_Y */
@@ -3422,6 +2566,7 @@ var int_ipc_factory = Object(__WEBPACK_IMPORTED_MODULE_0__util_register_js__["a"
 /* unused harmony export XZY */
 /* unused harmony export YXZ */
 /* unused harmony export ZYX */
+/* harmony export (immutable) */ __webpack_exports__["c"] = is_array;
 /* unused harmony export INV_CUBE_VIEW_MATRS */
 /* unused harmony export BYTE_SIZE */
 /* unused harmony export SHORT_SIZE */
@@ -3455,15 +2600,15 @@ var int_ipc_factory = Object(__WEBPACK_IMPORTED_MODULE_0__util_register_js__["a"
 /* unused harmony export blend_arrays */
 /* unused harmony export clone_object_r */
 /* harmony export (immutable) */ __webpack_exports__["a"] = clone_object_nr;
-/* unused harmony export matrix_to_quat */
-/* unused harmony export matrix_to_trans */
-/* unused harmony export matrix_to_scale */
+/* harmony export (immutable) */ __webpack_exports__["d"] = matrix_to_quat;
+/* harmony export (immutable) */ __webpack_exports__["f"] = matrix_to_trans;
+/* harmony export (immutable) */ __webpack_exports__["e"] = matrix_to_scale;
 /* unused harmony export extract_frustum_planes */
 /* unused harmony export sphere_is_out_of_frustum */
 /* unused harmony export ellipsoid_is_out_of_frustum */
 /* unused harmony export positions_multiply_matrix */
 /* unused harmony export vectors_multiply_matrix */
-/* unused harmony export quats_multiply_quat */
+/* harmony export (immutable) */ __webpack_exports__["g"] = quats_multiply_quat;
 /* unused harmony export vecdir_multiply_matrix */
 /* unused harmony export flatten */
 /* unused harmony export vectorize */
@@ -3539,12 +2684,14 @@ var int_ipc_factory = Object(__WEBPACK_IMPORTED_MODULE_0__util_register_js__["a"
 /* unused harmony export compatible_euler */
 /* unused harmony export rotate_eul */
 /* unused harmony export quat_to_eul_opt */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__libs_gl_matrix_mat3_js__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_mat4_js__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__math_js__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_quat_js__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec4_js__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__libs_gl_matrix_mat3_js__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_mat4_js__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__math_js__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_quat_js__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__tsr_js__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__libs_gl_matrix_vec4_js__ = __webpack_require__(0);
+
 
 
 
@@ -3580,7 +2727,9 @@ var _quat_tmp2 = __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_quat_js__["b" /* cr
 
 var  VEC3_IDENT = new Float32Array([0,0,0]);
 var QUAT4_IDENT = new Float32Array([0,0,0,1]);
-var TSR8_IDENT = new Float32Array([0,0,0,1,0,0,0,1]);
+// TSR8_IDENT deprecated. It is better to use TSR_IDENT
+var TSR8_IDENT = __WEBPACK_IMPORTED_MODULE_4__tsr_js__["a" /* create */]();
+var TSR_IDENT = __WEBPACK_IMPORTED_MODULE_4__tsr_js__["a" /* create */]();
 var VEC3_UNIT = new Float32Array([1,1,1]);
 
 var AXIS_X = new Float32Array([1, 0, 0]);
@@ -3602,6 +2751,11 @@ var ZXY = 8;
 var XZY = 9;
 var YXZ = 10;
 var ZYX = 11;
+
+var ARRAY_EXPR = new RegExp("object .*Array");
+function is_array(arg) {
+    return ARRAY_EXPR.test(Object.prototype.toString.call(arg));
+}
 
 var PROPER_EULER_ANGLES_LIST = [XYX, YZY, ZXZ, YXY, ZYZ];
 
@@ -3797,7 +2951,7 @@ function trans_matrix(x, y, z, dest) {
     if (!dest)
         dest = new Float32Array(16);
 
-    __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_mat4_js__["b" /* identity */](dest);
+    __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_mat4_js__["c" /* identity */](dest);
 
     dest[12] = x;
     dest[13] = y;
@@ -4115,7 +3269,7 @@ function quat_to_dir(quat, ident, dest) {
     if (!dest)
         dest = new Float32Array(3);
 
-    __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["m" /* transformQuat */](ident, quat, dest);
+    __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["r" /* transformQuat */](ident, quat, dest);
     return dest;
 }
 /**
@@ -4126,10 +3280,10 @@ function dir_to_quat(dir, ident, dest) {
     if (!dest)
         dest = new Float32Array(4);
 
-    dir = __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["g" /* normalize */](dir, _vec3_tmp);
+    dir = __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["l" /* normalize */](dir, _vec3_tmp);
 
-    var dot = __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["d" /* dot */](ident, dir);
-    var A = __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["c" /* cross */](ident, dir, _vec3_tmp2);
+    var dot = __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["e" /* dot */](ident, dir);
+    var A = __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["d" /* cross */](ident, dir, _vec3_tmp2);
 
     var teta = Math.acos(dot);
 
@@ -4145,8 +3299,8 @@ function trans_quat_to_plane(trans, quat, ident, dest) {
     if (!dest)
         dest = new Float32Array(4);
 
-    __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["m" /* transformQuat */](ident, quat, dest);
-    dest[3] = -__WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["d" /* dot */](trans, dest);
+    __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["r" /* transformQuat */](ident, quat, dest);
+    dest[3] = -__WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["e" /* dot */](trans, dest);
 
     return dest;
 }
@@ -4296,7 +3450,7 @@ function matrix_to_quat(matrix, dest) {
     _mat3_tmp[8] /= l2;
 
     __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_quat_js__["c" /* fromMat3 */](_mat3_tmp, dest);
-    __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_quat_js__["f" /* normalize */](dest, dest)
+    __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_quat_js__["g" /* normalize */](dest, dest)
 
     return dest;
 }
@@ -4318,15 +3472,19 @@ function matrix_to_trans(matrix, dest) {
 /**
  * Return mat4 average scale factor.
  */
-function matrix_to_scale(matrix) {
-
+function matrix_to_scale(matrix, dest) {
     _vec4_tmp[0] = 0.577350269189626;
     _vec4_tmp[1] = 0.577350269189626;
     _vec4_tmp[2] = 0.577350269189626;
     _vec4_tmp[3] = 0;
 
-    __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec4_js__["f" /* transformMat4 */](_vec4_tmp, matrix, _vec4_tmp);
-    return __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec4_js__["c" /* length */](_vec4_tmp);
+    __WEBPACK_IMPORTED_MODULE_6__libs_gl_matrix_vec4_js__["f" /* transformMat4 */](_vec4_tmp, matrix, _vec4_tmp);
+    // FIXME: nonuniform scale
+    var scale = __WEBPACK_IMPORTED_MODULE_6__libs_gl_matrix_vec4_js__["c" /* length */](_vec4_tmp);
+    if (dest)
+        return __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["n" /* set */](scale, scale, scale, dest);
+    else
+        return scale;
 }
 
 /**
@@ -4418,9 +3576,9 @@ function ellipsoid_is_out_of_frustum(pt, planes,
                                                axis_x, axis_y, axis_z) {
 
     // effective radius - far/near plane
-    var dot_nx = __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["d" /* dot */](axis_x, planes.far);
-    var dot_ny = __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["d" /* dot */](axis_y, planes.far);
-    var dot_nz = __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["d" /* dot */](axis_z, planes.far);
+    var dot_nx = __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["e" /* dot */](axis_x, planes.far);
+    var dot_ny = __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["e" /* dot */](axis_y, planes.far);
+    var dot_nz = __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["e" /* dot */](axis_z, planes.far);
     var r_far = Math.sqrt(dot_nx * dot_nx + dot_ny * dot_ny + dot_nz * dot_nz);
 
     // near and far effective radiuses coincide (far is parallel to near)
@@ -4430,36 +3588,36 @@ function ellipsoid_is_out_of_frustum(pt, planes,
     }
 
     // effective radius - left plane
-    dot_nx = __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["d" /* dot */](axis_x, planes.left);
-    dot_ny = __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["d" /* dot */](axis_y, planes.left);
-    dot_nz = __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["d" /* dot */](axis_z, planes.left);
+    dot_nx = __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["e" /* dot */](axis_x, planes.left);
+    dot_ny = __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["e" /* dot */](axis_y, planes.left);
+    dot_nz = __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["e" /* dot */](axis_z, planes.left);
     var r_left = Math.sqrt(dot_nx * dot_nx + dot_ny * dot_ny + dot_nz * dot_nz);
     if (r_left  < -__WEBPACK_IMPORTED_MODULE_2__math_js__["a" /* point_plane_dist */](pt, planes.left)) {
         return true;
     }
 
     // effective radius - right plane
-    dot_nx = __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["d" /* dot */](axis_x, planes.right);
-    dot_ny = __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["d" /* dot */](axis_y, planes.right);
-    dot_nz = __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["d" /* dot */](axis_z, planes.right);
+    dot_nx = __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["e" /* dot */](axis_x, planes.right);
+    dot_ny = __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["e" /* dot */](axis_y, planes.right);
+    dot_nz = __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["e" /* dot */](axis_z, planes.right);
     var r_right = Math.sqrt(dot_nx * dot_nx + dot_ny * dot_ny + dot_nz * dot_nz);
     if (r_right < -__WEBPACK_IMPORTED_MODULE_2__math_js__["a" /* point_plane_dist */](pt, planes.right)) {
         return true;
     }
 
     // effective radius - top plane
-    dot_nx = __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["d" /* dot */](axis_x, planes.top);
-    dot_ny = __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["d" /* dot */](axis_y, planes.top);
-    dot_nz = __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["d" /* dot */](axis_z, planes.top);
+    dot_nx = __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["e" /* dot */](axis_x, planes.top);
+    dot_ny = __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["e" /* dot */](axis_y, planes.top);
+    dot_nz = __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["e" /* dot */](axis_z, planes.top);
     var r_top = Math.sqrt(dot_nx * dot_nx + dot_ny * dot_ny + dot_nz * dot_nz);
     if (r_top < -__WEBPACK_IMPORTED_MODULE_2__math_js__["a" /* point_plane_dist */](pt, planes.top)) {
         return true;
     }
 
     // effective radius - bottom plane
-    dot_nx = __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["d" /* dot */](axis_x, planes.bottom);
-    dot_ny = __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["d" /* dot */](axis_y, planes.bottom);
-    dot_nz = __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["d" /* dot */](axis_z, planes.bottom);
+    dot_nx = __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["e" /* dot */](axis_x, planes.bottom);
+    dot_ny = __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["e" /* dot */](axis_y, planes.bottom);
+    dot_nz = __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["e" /* dot */](axis_z, planes.bottom);
     var r_bott = Math.sqrt(dot_nx * dot_nx + dot_ny * dot_ny + dot_nz * dot_nz);
     if (r_bott < -__WEBPACK_IMPORTED_MODULE_2__math_js__["a" /* point_plane_dist */](pt, planes.bottom)) {
         return true;
@@ -4539,9 +3697,9 @@ function quats_multiply_quat(vectors, quat, new_vectors,
         new_quat[3] = vectors[i+3];
 
         var is_righthand = new_quat[3] > 0;
-        __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_quat_js__["e" /* multiply */](quat, new_quat, new_quat);
+        __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_quat_js__["f" /* multiply */](quat, new_quat, new_quat);
         if (is_righthand && new_quat[3] < 0 || !is_righthand && new_quat[3] > 0)
-            __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec4_js__["e" /* scale */](new_quat, -1, new_quat);
+            __WEBPACK_IMPORTED_MODULE_6__libs_gl_matrix_vec4_js__["e" /* scale */](new_quat, -1, new_quat);
 
         new_vectors[dest_offset + i] = new_quat[0];
         new_vectors[dest_offset + i + 1] = new_quat[1];
@@ -4566,7 +3724,7 @@ function vecdir_multiply_matrix(vec, matrix, dest) {
     v4[2] = vec[2];
     v4[3] = 0;
 
-    __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec4_js__["f" /* transformMat4 */](v4, matrix, v4);
+    __WEBPACK_IMPORTED_MODULE_6__libs_gl_matrix_vec4_js__["f" /* transformMat4 */](v4, matrix, v4);
     dest[0] = v4[0];
     dest[1] = v4[1];
     dest[2] = v4[2];
@@ -4678,9 +3836,9 @@ function scale_mat4(matrix, scale, dest) {
 function transform_mat4(matrix, scale, quat, trans, dest) {
     if (!dest)
         dest = new Float32Array(16);
-    var m = __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_mat4_js__["a" /* fromRotationTranslation */](quat, trans, _mat4_tmp);
+    var m = __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_mat4_js__["b" /* fromRotationTranslation */](quat, trans, _mat4_tmp);
 
-    __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_mat4_js__["e" /* multiply */](m, matrix, dest);
+    __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_mat4_js__["f" /* multiply */](m, matrix, dest);
 
     return dest;
 }
@@ -4691,15 +3849,15 @@ function transform_vec3(vec, scale, quat, trans, dest) {
     if (!dest)
         dest = new Float32Array(3);
 
-    var m1 = __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_mat4_js__["a" /* fromRotationTranslation */](quat, trans, _mat4_tmp);
+    var m1 = __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_mat4_js__["b" /* fromRotationTranslation */](quat, trans, _mat4_tmp);
     if (scale !== 1) {
-        var m2 = __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_mat4_js__["b" /* identity */](_mat4_tmp2);
-        var s = __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["i" /* set */](scale, scale, scale, _vec3_tmp);
-        __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_mat4_js__["f" /* scale */](m2, s, m2);
-        __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_mat4_js__["e" /* multiply */](m1, m2, m1);
+        var m2 = __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_mat4_js__["c" /* identity */](_mat4_tmp2);
+        var s = __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["n" /* set */](scale, scale, scale, _vec3_tmp);
+        __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_mat4_js__["g" /* scale */](m2, s, m2);
+        __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_mat4_js__["f" /* multiply */](m1, m2, m1);
     }
 
-    __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["l" /* transformMat4 */](vec, m1, dest);
+    __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["q" /* transformMat4 */](vec, m1, dest);
 
     return dest;
 }
@@ -4709,9 +3867,9 @@ function transform_vec3(vec, scale, quat, trans, dest) {
 function transform_vec4(vec, scale, quat, trans, dest) {
     if (!dest)
         dest = new Float32Array(4);
-    var m = __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_mat4_js__["a" /* fromRotationTranslation */](quat, trans, _mat4_tmp);
+    var m = __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_mat4_js__["b" /* fromRotationTranslation */](quat, trans, _mat4_tmp);
 
-    __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec4_js__["f" /* transformMat4 */](vec, m, dest);
+    __WEBPACK_IMPORTED_MODULE_6__libs_gl_matrix_vec4_js__["f" /* transformMat4 */](vec, m, dest);
 
     return dest;
 }
@@ -4722,9 +3880,9 @@ function transform_vec4(vec, scale, quat, trans, dest) {
 function inverse_transform_vec3(vec, scale, quat, trans, dest) {
     if (!dest)
         dest = new Float32Array(3);
-    var m = __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_mat4_js__["a" /* fromRotationTranslation */](quat, trans, _mat4_tmp);
-    __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_mat4_js__["c" /* invert */](m, m);
-    __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["l" /* transformMat4 */](vec, m, dest);
+    var m = __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_mat4_js__["b" /* fromRotationTranslation */](quat, trans, _mat4_tmp);
+    __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_mat4_js__["d" /* invert */](m, m);
+    __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["q" /* transformMat4 */](vec, m, dest);
 
     return dest;
 }
@@ -4733,7 +3891,7 @@ function transcale_quat_to_matrix(trans, quat, dest) {
     if (!dest)
         dest = new Float32Array(16);
 
-    __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_mat4_js__["a" /* fromRotationTranslation */](quat, trans, dest);
+    __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_mat4_js__["b" /* fromRotationTranslation */](quat, trans, dest);
 
     var scale = trans[3];
     for (var i = 0; i < 12; i++)
@@ -4743,6 +3901,7 @@ function transcale_quat_to_matrix(trans, quat, dest) {
 }
 
 function matrix_to_transcale_quat(matrix, dest_transcale, dest_quat) {
+    console.error("B4W ERROR: tsr.matrix_to_transcale_quat is dangerous function. Don't use it anymore!!!");
     matrix_to_trans(matrix, dest_transcale);
     dest_transcale[3] = matrix_to_scale(matrix);
     matrix_to_quat(matrix, dest_quat);
@@ -4766,10 +3925,10 @@ function rotate_point_pivot(point, pivot, quat, dest) {
 
     var point_rel = _vec3_tmp;
 
-    __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["j" /* subtract */](pivot, point, point_rel);
-    __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["m" /* transformQuat */](point_rel, quat, point_rel);
+    __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["o" /* subtract */](pivot, point, point_rel);
+    __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["r" /* transformQuat */](point_rel, quat, point_rel);
 
-    __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["j" /* subtract */](pivot, point_rel, dest);
+    __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["o" /* subtract */](pivot, point_rel, dest);
 }
 
 /**
@@ -4786,17 +3945,17 @@ function generate_cubemap_matrices() {
     var z_pos   = new Float32Array(16);
     var z_neg   = new Float32Array(16);
 
-    __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_mat4_js__["d" /* lookAt */](eye_pos, [-1, 0, 0], [0, -1, 0], x_pos);
-    __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_mat4_js__["f" /* scale */](x_pos, [-1, 1, 1], x_pos);
-    __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_mat4_js__["f" /* scale */](x_pos, [-1, 1,-1], x_neg);
+    __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_mat4_js__["e" /* lookAt */](eye_pos, [-1, 0, 0], [0, -1, 0], x_pos);
+    __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_mat4_js__["g" /* scale */](x_pos, [-1, 1, 1], x_pos);
+    __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_mat4_js__["g" /* scale */](x_pos, [-1, 1,-1], x_neg);
 
-    __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_mat4_js__["d" /* lookAt */](eye_pos, [0, -1, 0], [0, 0, -1], y_pos);
-    __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_mat4_js__["f" /* scale */](y_pos, [1, 1,-1], y_pos);
-    __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_mat4_js__["f" /* scale */](y_pos, [1,-1,-1], y_neg);
+    __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_mat4_js__["e" /* lookAt */](eye_pos, [0, -1, 0], [0, 0, -1], y_pos);
+    __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_mat4_js__["g" /* scale */](y_pos, [1, 1,-1], y_pos);
+    __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_mat4_js__["g" /* scale */](y_pos, [1,-1,-1], y_neg);
 
-    __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_mat4_js__["d" /* lookAt */](eye_pos, [0, 0, -1], [0, -1, 0], z_pos);
-    __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_mat4_js__["f" /* scale */](z_pos, [-1, 1, 1], z_pos);
-    __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_mat4_js__["f" /* scale */](z_pos, [-1, 1,-1], z_neg);
+    __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_mat4_js__["e" /* lookAt */](eye_pos, [0, 0, -1], [0, -1, 0], z_pos);
+    __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_mat4_js__["g" /* scale */](z_pos, [-1, 1, 1], z_pos);
+    __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_mat4_js__["g" /* scale */](z_pos, [-1, 1,-1], z_neg);
 
     return [x_pos, x_neg, y_pos, y_neg, z_pos, z_neg];
 }
@@ -4815,14 +3974,14 @@ function generate_inv_cubemap_matrices() {
     var z_pos   = new Float32Array(16);
     var z_neg   = new Float32Array(16);
 
-    __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_mat4_js__["d" /* lookAt */](eye_pos, [1, 0, 0], [0, -1, 0], x_pos);
-    __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_mat4_js__["f" /* scale */](x_pos, [-1, 1,-1], x_neg);
+    __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_mat4_js__["e" /* lookAt */](eye_pos, [1, 0, 0], [0, -1, 0], x_pos);
+    __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_mat4_js__["g" /* scale */](x_pos, [-1, 1,-1], x_neg);
 
-    __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_mat4_js__["d" /* lookAt */](eye_pos, [0, 1, 0], [0, 0, 1], y_pos);
-    __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_mat4_js__["f" /* scale */](y_pos, [1,-1, -1], y_neg);
+    __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_mat4_js__["e" /* lookAt */](eye_pos, [0, 1, 0], [0, 0, 1], y_pos);
+    __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_mat4_js__["g" /* scale */](y_pos, [1,-1, -1], y_neg);
 
-    __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_mat4_js__["d" /* lookAt */](eye_pos, [0, 0, 1], [0, -1, 0], z_pos);
-    __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_mat4_js__["f" /* scale */](z_pos, [-1, 1,-1], z_neg);
+    __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_mat4_js__["e" /* lookAt */](eye_pos, [0, 0, 1], [0, -1, 0], z_pos);
+    __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_mat4_js__["g" /* scale */](z_pos, [-1, 1,-1], z_neg);
 
     return [x_pos, x_neg, y_pos, y_neg, z_pos, z_neg];
 }
@@ -5072,7 +4231,7 @@ function quat_project(quat, quat_ident_dir,
     if (!dest)
         dest = new Float32Array(4);
 
-    var to = __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["m" /* transformQuat */](quat_ident_dir, quat, _vec3_tmp);
+    var to = __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["r" /* transformQuat */](quat_ident_dir, quat, _vec3_tmp);
 
     var a = plane[0];
     var b = plane[1];
@@ -5091,9 +4250,9 @@ function quat_project(quat, quat_ident_dir,
     proj[7] =-b*c;
     proj[8] = a*a + b*b;
 
-    __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["k" /* transformMat3 */](to, proj, to);
-    __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["g" /* normalize */](to, to);
-    __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_quat_js__["g" /* rotationTo */](plane_ident_dir, to, dest);
+    __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["p" /* transformMat3 */](to, proj, to);
+    __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["l" /* normalize */](to, to);
+    __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_quat_js__["h" /* rotationTo */](plane_ident_dir, to, dest);
 
     return dest;
 }
@@ -5105,11 +4264,11 @@ function cam_quat_to_mesh_quat(cam_quat, dest) {
 
     var quat_offset = _vec4_tmp;
     var quat_offset_x = _vec4_tmp2;
-    quat_offset = __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_quat_js__["h" /* setAxisAngle */]([0,0,1], Math.PI, __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_quat_js__["b" /* create */]());
-    quat_offset_x = __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_quat_js__["h" /* setAxisAngle */]([1,0,0], Math.PI/2, __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_quat_js__["b" /* create */]());
+    quat_offset = __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_quat_js__["i" /* setAxisAngle */]([0,0,1], Math.PI, __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_quat_js__["b" /* create */]());
+    quat_offset_x = __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_quat_js__["i" /* setAxisAngle */]([1,0,0], Math.PI/2, __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_quat_js__["b" /* create */]());
 
-    __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_quat_js__["e" /* multiply */](quat_offset, quat_offset_x, quat_offset);
-    __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_quat_js__["e" /* multiply */](cam_quat, quat_offset, dest);
+    __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_quat_js__["f" /* multiply */](quat_offset, quat_offset_x, quat_offset);
+    __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_quat_js__["f" /* multiply */](cam_quat, quat_offset, dest);
 
     return dest;
 }
@@ -5145,7 +4304,7 @@ function smooth_v(curr, last, delta, period, dest) {
         for (var i = 0; i < dest.length; i++)
             dest[i] = (1 - e) * curr[i] + e * last[i];
     } else
-        __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["a" /* copy */](curr, dest);
+        __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["b" /* copy */](curr, dest);
 
     return dest;
 }
@@ -5159,7 +4318,7 @@ function smooth_q(curr, last, delta, period, dest) {
 
     if (period) {
         var e = Math.exp(-delta/period);
-        __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_quat_js__["i" /* slerp */](curr, last, e, dest);
+        __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_quat_js__["j" /* slerp */](curr, last, e, dest);
     } else 
         __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_quat_js__["a" /* copy */](curr, dest);
 
@@ -5201,8 +4360,8 @@ function correct_cam_quat_up(quat, up_only) {
     z_cam_world[1] = rmat[7];
     z_cam_world[2] = rmat[8];
 
-    var x_cam_world_new = __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["c" /* cross */](AXIS_Z, z_cam_world, z_cam_world);
-    __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["g" /* normalize */](x_cam_world_new, x_cam_world_new);
+    var x_cam_world_new = __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["d" /* cross */](AXIS_Z, z_cam_world, z_cam_world);
+    __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["l" /* normalize */](x_cam_world_new, x_cam_world_new);
 
     // Z coord of local camera MY axis in world space
     var my_cam_world_z = rmat[4];
@@ -5216,11 +4375,11 @@ function correct_cam_quat_up(quat, up_only) {
     x_cam_world[0] = rmat[0];
     x_cam_world[1] = rmat[1];
     x_cam_world[2] = rmat[2];
-    __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["g" /* normalize */](x_cam_world, x_cam_world);
+    __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["l" /* normalize */](x_cam_world, x_cam_world);
 
     var correct_quat = _vec4_tmp2;
-    __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_quat_js__["g" /* rotationTo */](x_cam_world, x_cam_world_new, correct_quat);
-    __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_quat_js__["e" /* multiply */](correct_quat, quat, quat);
+    __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_quat_js__["h" /* rotationTo */](x_cam_world, x_cam_world_new, correct_quat);
+    __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_quat_js__["f" /* multiply */](correct_quat, quat, quat);
 }
 
 function get_array_smooth_value(array, row_width, x, y) {
@@ -5327,7 +4486,7 @@ function horizontal_direction(a, b, dest) {
     dest[0] = a[0] - b[0];
     dest[1] = a[1] - b[1];
     dest[2] = 0;
-    __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["g" /* normalize */](dest, dest);
+    __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["l" /* normalize */](dest, dest);
 }
 
 /**
@@ -5525,7 +4684,7 @@ function line_plane_intersect(pn, p_dist, pline, dest) {
     line_dir.set(_vec3_tmp);
     line_dir[3] = 0;
 
-    var denominator = __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec4_js__["b" /* dot */](plane, line_dir);
+    var denominator = __WEBPACK_IMPORTED_MODULE_6__libs_gl_matrix_vec4_js__["b" /* dot */](plane, line_dir);
 
     // parallel case
     if (denominator == 0.0)
@@ -5533,11 +4692,11 @@ function line_plane_intersect(pn, p_dist, pline, dest) {
 
     // four-dimensional representation of line point
     var line_point = _vec4_tmp2;
-    __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["a" /* copy */](pline, _vec3_tmp);
+    __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["b" /* copy */](pline, _vec3_tmp);
     line_point.set(_vec3_tmp);
     line_point[3] = 1;
 
-    var numerator = __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec4_js__["b" /* dot */](plane, line_point);
+    var numerator = __WEBPACK_IMPORTED_MODULE_6__libs_gl_matrix_vec4_js__["b" /* dot */](plane, line_point);
 
     var t = - numerator / denominator;
 
@@ -5596,19 +4755,19 @@ function copy_array(a, out) {
  */
 function rotation_to_stable(a, b, out) {
     var tmp = _vec3_tmp;
-    var dot = __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["d" /* dot */](a, b);
+    var dot = __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["e" /* dot */](a, b);
 
     if (dot < -0.9999999) {
-        __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["c" /* cross */](AXIS_X, a, tmp);
-        if (__WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["f" /* length */](tmp) < 0.000001)
-            __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["c" /* cross */](AXIS_Y, a, tmp);
-        __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["g" /* normalize */](tmp, tmp);
-        __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_quat_js__["h" /* setAxisAngle */](tmp, Math.PI, out);
+        __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["d" /* cross */](AXIS_X, a, tmp);
+        if (__WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["h" /* length */](tmp) < 0.000001)
+            __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["d" /* cross */](AXIS_Y, a, tmp);
+        __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["l" /* normalize */](tmp, tmp);
+        __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_quat_js__["i" /* setAxisAngle */](tmp, Math.PI, out);
     } else {
-        __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["c" /* cross */](a, b, tmp);
+        __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["d" /* cross */](a, b, tmp);
         out.set(tmp);
         out[3] = 1 + dot;
-        __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_quat_js__["f" /* normalize */](out, out);
+        __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_quat_js__["g" /* normalize */](out, out);
     }
 
     return out;
@@ -5780,37 +4939,37 @@ function ubyte_to_ufloat(ubyte_val) {
 }
 
 function dist_to_triange(point, ver1, ver2, ver3) {
-    var dir_21 = __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["j" /* subtract */](ver2, ver1, _vec3_tmp);
-    var dir_32 = __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["j" /* subtract */](ver3, ver2, _vec3_tmp2);
-    var dir_13 = __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["j" /* subtract */](ver1, ver3, _vec3_tmp3);
-    var dir_p1 = __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["j" /* subtract */](point, ver1, _vec3_tmp4);
-    var dir_p2 = __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["j" /* subtract */](point, ver2, _vec3_tmp5);
-    var dir_p3 = __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["j" /* subtract */](point, ver3, _vec3_tmp6);
+    var dir_21 = __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["o" /* subtract */](ver2, ver1, _vec3_tmp);
+    var dir_32 = __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["o" /* subtract */](ver3, ver2, _vec3_tmp2);
+    var dir_13 = __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["o" /* subtract */](ver1, ver3, _vec3_tmp3);
+    var dir_p1 = __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["o" /* subtract */](point, ver1, _vec3_tmp4);
+    var dir_p2 = __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["o" /* subtract */](point, ver2, _vec3_tmp5);
+    var dir_p3 = __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["o" /* subtract */](point, ver3, _vec3_tmp6);
 
-    var normal = __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["c" /* cross */](dir_21, dir_32, _vec3_tmp7);
+    var normal = __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["d" /* cross */](dir_21, dir_32, _vec3_tmp7);
 
-    if (__WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["d" /* dot */](__WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["c" /* cross */](normal, dir_21, _vec3_tmp8), dir_p1) >= 0 &&
-            __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["d" /* dot */](__WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["c" /* cross */](normal, dir_32, _vec3_tmp8), dir_p2) >= 0 &&
-            __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["d" /* dot */](__WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["c" /* cross */](normal, dir_13, _vec3_tmp8), dir_p3) >= 0) {
+    if (__WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["e" /* dot */](__WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["d" /* cross */](normal, dir_21, _vec3_tmp8), dir_p1) >= 0 &&
+            __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["e" /* dot */](__WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["d" /* cross */](normal, dir_32, _vec3_tmp8), dir_p2) >= 0 &&
+            __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["e" /* dot */](__WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["d" /* cross */](normal, dir_13, _vec3_tmp8), dir_p3) >= 0) {
         // inside of the triange prism
         // find distance to plane of the triange
-        var normal_length = __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["f" /* length */](normal);
-        var ndist = __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["d" /* dot */](normal, dir_p1);
+        var normal_length = __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["h" /* length */](normal);
+        var ndist = __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["e" /* dot */](normal, dir_p1);
         return Math.abs(ndist / normal_length);
     } else {
         // outside of the triange prism
         // find min distance of distances to the 3 edges of the triange
-        var proj_p1_on_21 = __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["h" /* scale */](dir_21,
-                clamp(__WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["d" /* dot */](dir_21, dir_p1) / __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["f" /* length */](dir_21), 0, 1), _vec3_tmp8);
-        var dist_to_21 = __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["f" /* length */](__WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["j" /* subtract */](dir_p1, proj_p1_on_21, _vec3_tmp8));
+        var proj_p1_on_21 = __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["m" /* scale */](dir_21,
+                clamp(__WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["e" /* dot */](dir_21, dir_p1) / __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["h" /* length */](dir_21), 0, 1), _vec3_tmp8);
+        var dist_to_21 = __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["h" /* length */](__WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["o" /* subtract */](dir_p1, proj_p1_on_21, _vec3_tmp8));
 
-        var proj_p2_on_32 = __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["h" /* scale */](dir_32,
-                clamp(__WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["d" /* dot */](dir_32, dir_p2) / __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["f" /* length */](dir_32), 0, 1), _vec3_tmp8);
-        var dist_to_32 = __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["f" /* length */](__WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["j" /* subtract */](dir_p2, proj_p2_on_32, _vec3_tmp8));
+        var proj_p2_on_32 = __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["m" /* scale */](dir_32,
+                clamp(__WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["e" /* dot */](dir_32, dir_p2) / __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["h" /* length */](dir_32), 0, 1), _vec3_tmp8);
+        var dist_to_32 = __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["h" /* length */](__WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["o" /* subtract */](dir_p2, proj_p2_on_32, _vec3_tmp8));
 
-        var proj_p3_on_13 = __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["h" /* scale */](dir_13,
-                clamp(__WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["d" /* dot */](dir_13, dir_p3) / __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["f" /* length */](dir_13), 0, 1), _vec3_tmp8);
-        var dist_to_13 = __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["f" /* length */](__WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["j" /* subtract */](dir_p3, proj_p3_on_13, _vec3_tmp8));
+        var proj_p3_on_13 = __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["m" /* scale */](dir_13,
+                clamp(__WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["e" /* dot */](dir_13, dir_p3) / __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["h" /* length */](dir_13), 0, 1), _vec3_tmp8);
+        var dist_to_13 = __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["h" /* length */](__WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["o" /* subtract */](dir_p3, proj_p3_on_13, _vec3_tmp8));
 
         return Math.min(Math.min(dist_to_21, dist_to_32), dist_to_13);
     }
@@ -5821,56 +4980,57 @@ function rotate_quat(quat, vertical_axis, d_phi, d_theta, dest) {
         var rot_quat = __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_quat_js__["d" /* identity */](_quat_tmp);
 
         if (d_phi) {
-            var quat_phi = __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_quat_js__["h" /* setAxisAngle */](vertical_axis, d_phi, _quat_tmp2);
-            __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_quat_js__["e" /* multiply */](rot_quat, quat_phi, rot_quat);
+            var quat_phi = __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_quat_js__["i" /* setAxisAngle */](vertical_axis, d_phi, _quat_tmp2);
+            __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_quat_js__["f" /* multiply */](rot_quat, quat_phi, rot_quat);
         }
 
         var obj_quat = __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_quat_js__["a" /* copy */](quat, dest);
         if (d_theta) {
             var x_world_cam = quat_to_dir(obj_quat, AXIS_X, _vec3_tmp);
-            var quat_theta = __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_quat_js__["h" /* setAxisAngle */](x_world_cam, d_theta, _quat_tmp2);
+            var quat_theta = __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_quat_js__["i" /* setAxisAngle */](x_world_cam, d_theta, _quat_tmp2);
             // NOTE: obj_quat->x_world_cam->quat_theta->obj_quat leads to
             // error accumulation if quat_theta is not normalized
-            __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_quat_js__["f" /* normalize */](quat_theta, quat_theta);
-            __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_quat_js__["e" /* multiply */](rot_quat, quat_theta, rot_quat);
+            __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_quat_js__["g" /* normalize */](quat_theta, quat_theta);
+            __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_quat_js__["f" /* multiply */](rot_quat, quat_theta, rot_quat);
         }
-        __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_quat_js__["e" /* multiply */](rot_quat, obj_quat, obj_quat);
+        __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_quat_js__["f" /* multiply */](rot_quat, obj_quat, obj_quat);
         // NOTE: It fixes the issue, when objects dance, when camera change
         // vertical angle sign (+-)
-        __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_quat_js__["f" /* normalize */](obj_quat, obj_quat);
+        __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_quat_js__["g" /* normalize */](obj_quat, obj_quat);
     }
 }
 
 /**
  * Apply rotation to quat
  */
+// TODO: fix signature of the function
 function quat_rotate_to_target(trans, quat, target, dir_axis) {
     var dir_from = _vec3_tmp2;
     // NOTE: dir_axis is in local space, it will be directed to the target
     quat_to_dir(quat, dir_axis, dir_from);
-    __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["g" /* normalize */](dir_from, dir_from);
+    __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["l" /* normalize */](dir_from, dir_from);
     var dir_to = _vec3_tmp3;
-    __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["j" /* subtract */](target, trans, dir_to);
-    __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["g" /* normalize */](dir_to, dir_to);
+    __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["o" /* subtract */](target, trans, dir_to);
+    __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["l" /* normalize */](dir_to, dir_to);
     // NOTE: we don't check Math.abs(m_vec3.dot(dir_from, dir_to)) < 0.999999
     var rotation = rotation_to_stable(dir_from, dir_to, _vec4_tmp);
-    __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_quat_js__["e" /* multiply */](rotation, quat, quat);
-    __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_quat_js__["f" /* normalize */](quat, quat);
+    __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_quat_js__["f" /* multiply */](rotation, quat, quat);
+    __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_quat_js__["g" /* normalize */](quat, quat);
 }
 
 function quat_set_vertical_axis(quat, axis, target_axis, dir) {
     // NOTE: axis is obj's vertical axis in local space (from Blender),
     // target_axis - target's Z one in the world space
-    var curr_axis_w = __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["m" /* transformQuat */](axis, quat, _vec3_tmp2);
-    var proj = __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["d" /* dot */](dir, target_axis);
-    var delta = __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["h" /* scale */](dir, proj, _vec3_tmp3);
-    var complanar_targer = __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["j" /* subtract */](target_axis, delta, _vec3_tmp3);
+    var curr_axis_w = __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["r" /* transformQuat */](axis, quat, _vec3_tmp2);
+    var proj = __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["e" /* dot */](dir, target_axis);
+    var delta = __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["m" /* scale */](dir, proj, _vec3_tmp3);
+    var complanar_targer = __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["o" /* subtract */](target_axis, delta, _vec3_tmp3);
     var rot_quat = __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_quat_js__["d" /* identity */](_quat_tmp);
-    __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["g" /* normalize */](complanar_targer, complanar_targer);
-    if (Math.abs(__WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["d" /* dot */](curr_axis_w, complanar_targer)) < 0.999999)
+    __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["l" /* normalize */](complanar_targer, complanar_targer);
+    if (Math.abs(__WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["e" /* dot */](curr_axis_w, complanar_targer)) < 0.999999)
         rotation_to_stable(curr_axis_w, complanar_targer, rot_quat);
-    __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_quat_js__["f" /* normalize */](rot_quat, rot_quat);
-    __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_quat_js__["e" /* multiply */](rot_quat, quat, quat);
+    __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_quat_js__["g" /* normalize */](rot_quat, rot_quat);
+    __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_quat_js__["f" /* multiply */](rot_quat, quat, quat);
 }
 
 /**
@@ -5937,7 +5097,7 @@ function mat3_to_eul_opt(mat, eul1, eul2) {
         eul1[1] = Math.atan2(-mat[0 * 3 + 2], cy);
         eul1[2] = 0;
 
-        __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["a" /* copy */](eul1, eul2);
+        __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["b" /* copy */](eul1, eul2);
     }
 }
 
@@ -5950,7 +5110,7 @@ function quat_to_eul_opt(quat, oldrot, dest) {
     var d2 = Math.abs(eul2[0] - oldrot[0]) + Math.abs(eul2[1] - oldrot[1]) + Math.abs(eul2[2] - oldrot[2]);
 
     var euler = d1 > d2 ? eul2 : eul1;
-    __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["a" /* copy */](euler, dest);
+    __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["b" /* copy */](euler, dest);
 
     return dest;
 }
@@ -5964,29 +5124,29 @@ function mat3_to_euler(mat, dest) {
     var d2 = Math.abs(eul2[0]) + Math.abs(eul2[1]) + Math.abs(eul2[2]);
 
     var euler = d1 > d2 ? eul2 : eul1;
-    __WEBPACK_IMPORTED_MODULE_4__libs_gl_matrix_vec3_js__["a" /* copy */](euler, dest);
+    __WEBPACK_IMPORTED_MODULE_5__libs_gl_matrix_vec3_js__["b" /* copy */](euler, dest);
 
     return dest;
 }
 
 
 /***/ }),
-/* 10 */
+/* 7 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* unused harmony export create */
+/* harmony export (immutable) */ __webpack_exports__["a"] = create;
 /* unused harmony export clone */
 /* unused harmony export copy */
-/* harmony export (immutable) */ __webpack_exports__["b"] = identity;
+/* harmony export (immutable) */ __webpack_exports__["c"] = identity;
 /* unused harmony export transpose */
-/* harmony export (immutable) */ __webpack_exports__["c"] = invert;
+/* harmony export (immutable) */ __webpack_exports__["d"] = invert;
 /* unused harmony export adjoint */
 /* unused harmony export determinant */
-/* harmony export (immutable) */ __webpack_exports__["e"] = multiply;
+/* harmony export (immutable) */ __webpack_exports__["f"] = multiply;
 /* unused harmony export mul */
 /* unused harmony export translate */
-/* harmony export (immutable) */ __webpack_exports__["f"] = scale;
+/* harmony export (immutable) */ __webpack_exports__["g"] = scale;
 /* unused harmony export rotate */
 /* unused harmony export rotateX */
 /* unused harmony export rotateY */
@@ -5997,7 +5157,7 @@ function mat3_to_euler(mat, dest) {
 /* unused harmony export fromXRotation */
 /* unused harmony export fromYRotation */
 /* unused harmony export fromZRotation */
-/* harmony export (immutable) */ __webpack_exports__["a"] = fromRotationTranslation;
+/* harmony export (immutable) */ __webpack_exports__["b"] = fromRotationTranslation;
 /* unused harmony export fromRotationTranslationScale */
 /* unused harmony export fromRotationTranslationScaleOrigin */
 /* unused harmony export fromQuat */
@@ -6005,7 +5165,7 @@ function mat3_to_euler(mat, dest) {
 /* unused harmony export perspective */
 /* unused harmony export perspectiveFromFieldOfView */
 /* unused harmony export ortho */
-/* harmony export (immutable) */ __webpack_exports__["d"] = lookAt;
+/* harmony export (immutable) */ __webpack_exports__["e"] = lookAt;
 /* unused harmony export str */
 /* unused harmony export frob */
 /**
@@ -7324,517 +6484,30 @@ function frob(a) {
 
 
 /***/ }),
-/* 11 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* unused harmony export get_pline_directional_vec */
-/* unused harmony export get_pline_initial_point */
-/* unused harmony export set_pline_initial_point */
-/* unused harmony export set_pline_directional_vec */
-/* unused harmony export calc_pline_point */
-/* unused harmony export calk_average_position */
-/* unused harmony export calc_covariance_matrix */
-/* unused harmony export find_eigenvectors */
-/* harmony export (immutable) */ __webpack_exports__["a"] = point_plane_dist;
-/* unused harmony export binary_heap_new */
-/* unused harmony export binary_heap_push */
-/* unused harmony export binary_heap_pop */
-/* unused harmony export binary_heap_remove */
-/* unused harmony export binary_heap_rescore_element */
-/* unused harmony export linear_tween */
-/* unused harmony export ease_in_quad */
-/* unused harmony export ease_out_quad */
-/* unused harmony export ease_in_out_quad */
-/* unused harmony export ease_in_cubic */
-/* unused harmony export ease_out_cubic */
-/* unused harmony export ease_in_out_cubic */
-/* unused harmony export ease_in_quart */
-/* unused harmony export ease_out_quart */
-/* unused harmony export ease_in_out_quart */
-/* unused harmony export ease_in_quint */
-/* unused harmony export ease_out_quint */
-/* unused harmony export ease_in_out_quint */
-/* unused harmony export ease_in_sine */
-/* unused harmony export ease_out_sine */
-/* unused harmony export ease_in_out_sine */
-/* unused harmony export ease_in_expo */
-/* unused harmony export ease_out_expo */
-/* unused harmony export ease_in_out_expo */
-/* unused harmony export ease_in_circ */
-/* unused harmony export ease_out_circ */
-/* unused harmony export ease_in_out_circ */
-/* unused harmony export ease_in_elastic */
-/* unused harmony export ease_out_elastic */
-/* unused harmony export ease_in_out_elastic */
-/* unused harmony export ease_in_back */
-/* unused harmony export ease_out_back */
-/* unused harmony export ease_in_out_back */
-/* unused harmony export ease_in_bounce */
-/* unused harmony export ease_out_bounce */
-/* unused harmony export ease_in_out_bounce */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__libs_gl_matrix_mat3_js__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_vec3_js__ = __webpack_require__(4);
-
-
-
-/* ============================================================
- * jQuery Easing v1.3 - http://gsgd.co.uk/sandbox/jquery/easing/
- *
- * Open source under the BSD License.
- *
- * Copyright © 2008 George McGinley Smith
- * All rights reserved.
- * https://raw.github.com/danro/jquery-easing/master/LICENSE
- * ======================================================== */
-
-/**
- * Math internal functions.
- * @name math
- * @namespace
- * @exports exports as math
- */
-
-var _vec3_tmp = new Float32Array(3);
-var _mat3_tmp = new Float32Array(9);
-var _mat3_tmp2 = new Float32Array(9);
-var _mat3_tmp3 = new Float32Array(9);
-var _mat3_tmp4 = new Float32Array(9);
-
-var MAX_ITER_NUM = 100;
-
-function get_pline_directional_vec(pline, dest) {
-    dest = dest || new Float32Array(3);
-    dest[0] = pline[3];
-    dest[1] = pline[4];
-    dest[2] = pline[5];
-    return dest;
-}
-
-function get_pline_initial_point(pline, dest) {
-    dest = dest || new Float32Array(3);
-    return __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_vec3_js__["a" /* copy */](pline, dest);
-}
-
-function set_pline_initial_point(pline, point) {
-    __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_vec3_js__["a" /* copy */](point, pline);
-}
-
-function set_pline_directional_vec(pline, vec) {
-    __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_vec3_js__["g" /* normalize */](vec, _vec3_tmp);
-    pline[3] = _vec3_tmp[0];
-    pline[4] = _vec3_tmp[1];
-    pline[5] = _vec3_tmp[2];
-}
-
-function calc_pline_point(pline, t, dest) {
-    dest = dest || new Float32Array(3);
-    dest[0] = pline[0] + pline[3] * t;
-    dest[1] = pline[1] + pline[4] * t;
-    dest[2] = pline[2] + pline[5] * t;
-    return dest;
-}
-
-function calk_average_position(points, dest) {
-    dest[0] = 0; dest[1] = 0; dest[2] = 0;
-    for (var i = 0; i < points.length; i = i + 3) {
-        dest[0] += points[i];
-        dest[1] += points[i + 1];
-        dest[2] += points[i + 2];
-    }
-    return __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_vec3_js__["h" /* scale */](dest, 3 / points.length, dest);
-}
-
-function calc_covariance_matrix(points, average_pos, dest) {
-
-    for (var i = 0; i < dest.length; i++)
-        dest[i] = 0;
-
-    for (var i = 0; i < points.length; i = i + 3) {
-        var xm = points[i] - average_pos[0];
-        var ym = points[i + 1] - average_pos[1];
-        var zm = points[i + 2] - average_pos[2];
-        dest[0] += xm * xm;
-        dest[1] += xm * ym;
-        dest[2] += xm * zm;
-        dest[4] += ym * ym;
-        dest[5] += ym * zm;
-        dest[8] += zm * zm;
-    }
-    dest[3] = dest[1];
-    dest[6] = dest[2];
-    dest[7] = dest[5];
-    for (var i = 0; i < dest.length; i++)
-        dest[i] *= 3 / points.length;
-    return dest;
-}
-
-function find_eigenvectors(m, err, dest) {
-
-    var matrix = __WEBPACK_IMPORTED_MODULE_0__libs_gl_matrix_mat3_js__["a" /* copy */](m, _mat3_tmp);
-
-    if (calc_canonical_mat_error(matrix) < err) {
-        return __WEBPACK_IMPORTED_MODULE_0__libs_gl_matrix_mat3_js__["e" /* identity */](dest);
-    }
-
-    var rot_matrix = find_elem_rotation_matrix(matrix, _mat3_tmp2);
-    var rot_matrix_t = __WEBPACK_IMPORTED_MODULE_0__libs_gl_matrix_mat3_js__["g" /* transpose */](rot_matrix, _mat3_tmp3);
-    __WEBPACK_IMPORTED_MODULE_0__libs_gl_matrix_mat3_js__["f" /* multiply */](matrix, rot_matrix_t, _mat3_tmp4);
-    __WEBPACK_IMPORTED_MODULE_0__libs_gl_matrix_mat3_js__["f" /* multiply */](rot_matrix, _mat3_tmp4, matrix);
-    var eigenvectors = __WEBPACK_IMPORTED_MODULE_0__libs_gl_matrix_mat3_js__["a" /* copy */](rot_matrix, dest);
-
-    var count = 1;
-    while (err <= calc_canonical_mat_error(matrix) && count < MAX_ITER_NUM) {
-        rot_matrix = find_elem_rotation_matrix(matrix, _mat3_tmp2);
-        rot_matrix_t = __WEBPACK_IMPORTED_MODULE_0__libs_gl_matrix_mat3_js__["g" /* transpose */](rot_matrix, _mat3_tmp3);
-        __WEBPACK_IMPORTED_MODULE_0__libs_gl_matrix_mat3_js__["f" /* multiply */](matrix, rot_matrix_t, _mat3_tmp4);
-        __WEBPACK_IMPORTED_MODULE_0__libs_gl_matrix_mat3_js__["f" /* multiply */](rot_matrix, _mat3_tmp4, matrix);
-        __WEBPACK_IMPORTED_MODULE_0__libs_gl_matrix_mat3_js__["f" /* multiply */](rot_matrix, eigenvectors, eigenvectors);
-        count++;
-    }
-    return eigenvectors;
-}
-
-function find_elem_rotation_matrix(m, dest) {
-
-    var max = m[1];
-    var ind = 1;
-    for (var i = 2; i < m.length; i++)
-        if (i != 4 && i!= 8 && Math.abs(m[i]) > Math.abs(max)) {
-            max = m[i];
-            ind = i;
-        }
-    var ii = Math.floor(ind / 3);
-    var jj = ind % 3;
-    var fi = 0.5 * Math.atan(2 * max / (m[ii * 3 + ii] - m[jj * 3 + jj]));
-
-    for (var i = 0; i < dest.length; i++)
-        if (i == 0 || i == 4 || i == 8)
-            dest[i] = 1;
-        else
-            dest[i] = 0;
-    dest[jj + ii * 3] = - Math.sin(fi);
-    dest[ii + jj * 3] = Math.sin(fi);
-    dest[ii + ii * 3] = Math.cos(fi);
-    dest[jj + jj * 3] = Math.cos(fi);
-
-    return dest;
-}
-
-function calc_canonical_mat_error(m) {
-    return Math.sqrt(m[1] * m[1] + m[2] * m[2] + m[5] * m[5]);
-}
-/**
- * Calculate distance from point to plane.
- */
-function point_plane_dist(pt, plane) {
-    return plane[0] * pt[0] + plane[1] * pt[1] + plane[2] * pt[2] + plane[3];
-}
-
-/**
- *  Binary heap http://eloquentjavascript.net/1st_edition/appendix2.html
- */
-function binary_heap_new(score_function) {
-    return {
-        content: [],
-        score_function: score_function
-    }
-}
-
-function binary_heap_push(heap, element) {
-    heap.content.push(element);
-    binary_heap_sink_down(heap, heap.content.length - 1);
-}
-
-function binary_heap_sink_down(heap, n) {
-    // Fetch the element that has to be sunk.
-    var element = heap.content[n];
-
-    // When at 0, an element can not sink any further.
-    while (n > 0) {
-        // Compute the parent element's index, and fetch it.
-        var parent_n = ((n + 1) >> 1) - 1,
-            parent = heap.content[parent_n];
-        // Swap the elements if the parent is greater.
-        if (heap.score_function(element) < heap.score_function(parent)) {
-            heap.content[parent_n] = element;
-            heap.content[n] = parent;
-            // Update 'n' to continue at the new position.
-            n = parent_n;
-        }
-        // Found a parent that is less, no need to sink any further.
-        else {
-            break;
-        }
-    }
-}
-
-function binary_heap_pop(heap) {
-    // Store the first element so we can return it later.
-    var result = heap.content[0];
-    // Get the element at the end of the array.
-    var end = heap.content.pop();
-    // If there are any elements left, put the end element at the
-    // start, and let it bubble up.
-    if (heap.content.length > 0) {
-        heap.content[0] = end;
-        binary_heap_bubble_up(heap, 0);
-    }
-    return result;
-}
-
-function binary_heap_remove(heap, node) {
-    var i = heap.content.indexOf(node);
-
-    // When it is found, the process seen in 'pop' is repeated
-    // to fill up the hole.
-    var end = heap.content.pop();
-
-    if (i !== heap.content.length - 1) {
-        heap.content[i] = end;
-
-        if (heap.score_function(end) < heap.score_function(node)) {
-            binary_heap_sink_down(i);
-        } else {
-            binary_heap_bubble_up(i);
-        }
-    }
-}
-
-function binary_heap_rescore_element(heap, node) {
-    binary_heap_sink_down(heap, heap.content.indexOf(node));
-}
-
-function binary_heap_bubble_up(heap, n) {
-    // Look up the target element and its score.
-    var length = heap.content.length,
-        element = heap.content[n],
-        elem_score = heap.score_function(element);
-    while (true) {
-        // Compute the indices of the child elements.
-        var child2_n = (n + 1) << 1,
-            child1_n = child2_n - 1;
-        // This is used to store the new position of the element,
-        // if any.
-        var swap = null;
-        // If the first child exists (is inside the array)...
-        if (child1_n < length) {
-            // Look it up and compute its score.
-            var child1 = heap.content[child1_n],
-                child1_score = heap.score_function(child1);
-
-            // If the score is less than our element's, we need to swap.
-            if (child1_score < elem_score)
-                swap = child1_n;
-        }
-        // Do the same checks for the other child.
-        if (child2_n < length) {
-            var child2 = heap.content[child2_n],
-                child2_score = heap.score_function(child2);
-            if (child2_score < (swap === null ? elem_score : child1_score)) {
-                swap = child2_n;
-            }
-        }
-        // If the element needs to be moved, swap it, and continue.
-        if (swap !== null) {
-            heap.content[n] = heap.content[swap];
-            heap.content[swap] = element;
-            n = swap;
-        }
-        // Otherwise, we are done.
-        else {
-            break;
-        }
-    }
-}
-
-
-// t: current time, b: begInnIng value, c: change In value, d: duration
-
-function linear_tween(t, b, c, d) {
-    return c*t/d + b;
-};
-
-function ease_in_quad(t, b, c, d) {
-    return c*(t/=d)*t + b;
-}
-
-function ease_out_quad(t, b, c, d) {
-    return -c *(t/=d)*(t-2) + b;
-}
-
-function ease_in_out_quad(t, b, c, d) {
-    if ((t/=d/2) < 1) return c/2*t*t + b;
-    return -c/2 * ((--t)*(t-2) - 1) + b;
-}
-
-function ease_in_cubic(t, b, c, d) {
-    return c*(t/=d)*t*t + b;
-}
-
-function ease_out_cubic(t, b, c, d) {
-    return c*((t=t/d-1)*t*t + 1) + b;
-}
-
-function ease_in_out_cubic(t, b, c, d) {
-    if ((t/=d/2) < 1) return c/2*t*t*t + b;
-    return c/2*((t-=2)*t*t + 2) + b;
-}
-
-function ease_in_quart(t, b, c, d) {
-    return c*(t/=d)*t*t*t + b;
-}
-
-function ease_out_quart(t, b, c, d) {
-    return -c * ((t=t/d-1)*t*t*t - 1) + b;
-}
-
-function ease_in_out_quart(t, b, c, d) {
-    if ((t/=d/2) < 1) return c/2*t*t*t*t + b;
-    return -c/2 * ((t-=2)*t*t*t - 2) + b;
-}
-
-function ease_in_quint(t, b, c, d) {
-    return c*(t/=d)*t*t*t*t + b;
-}
-
-function ease_out_quint(t, b, c, d) {
-    return c*((t=t/d-1)*t*t*t*t + 1) + b;
-}
-
-function ease_in_out_quint(t, b, c, d) {
-    if ((t/=d/2) < 1) return c/2*t*t*t*t*t + b;
-    return c/2*((t-=2)*t*t*t*t + 2) + b;
-}
-
-function ease_in_sine(t, b, c, d) {
-    return -c * Math.cos(t/d * (Math.PI/2)) + c + b;
-}
-
-function ease_out_sine(t, b, c, d) {
-    return c * Math.sin(t/d * (Math.PI/2)) + b;
-}
-
-function ease_in_out_sine(t, b, c, d) {
-    return -c/2 * (Math.cos(Math.PI*t/d) - 1) + b;
-}
-
-function ease_in_expo(t, b, c, d) {
-    return (t==0) ? b : c * Math.pow(2, 10 * (t/d - 1)) + b;
-}
-
-function ease_out_expo(t, b, c, d) {
-    return (t==d) ? b+c : c * (-Math.pow(2, -10 * t/d) + 1) + b;
-}
-
-function ease_in_out_expo(t, b, c, d) {
-    if (t==0) return b;
-    if (t==d) return b+c;
-    if ((t/=d/2) < 1) return c/2 * Math.pow(2, 10 * (t - 1)) + b;
-    return c/2 * (-Math.pow(2, -10 * --t) + 2) + b;
-}
-
-function ease_in_circ(t, b, c, d) {
-    return -c * (Math.sqrt(1 - (t/=d)*t) - 1) + b;
-}
-
-function ease_out_circ(t, b, c, d) {
-    return c * Math.sqrt(1 - (t=t/d-1)*t) + b;
-}
-
-function ease_in_out_circ(t, b, c, d) {
-    if ((t/=d/2) < 1) return -c/2 * (Math.sqrt(1 - t*t) - 1) + b;
-    return c/2 * (Math.sqrt(1 - (t-=2)*t) + 1) + b;
-}
-
-function ease_in_elastic(t, b, c, d) {
-    var s=1.70158;var p=0;var a=c;
-    if (t==0) return b;  if ((t/=d)==1) return b+c;  if (!p) p=d*.3;
-    if (a < Math.abs(c)) { a=c; s=p/4; }
-    else s = p/(2*Math.PI) * Math.asin (c/a);
-    return -(a*Math.pow(2,10*(t-=1)) * Math.sin( (t*d-s)*(2*Math.PI)/p )) + b;
-}
-
-function ease_out_elastic(t, b, c, d) {
-    var s=1.70158;var p=0;var a=c;
-    if (t==0) return b;  if ((t/=d)==1) return b+c;  if (!p) p=d*.3;
-    if (a < Math.abs(c)) { a=c; s=p/4; }
-    else s = p/(2*Math.PI) * Math.asin (c/a);
-    return a*Math.pow(2,-10*t) * Math.sin( (t*d-s)*(2*Math.PI)/p ) + c + b;
-}
-
-function ease_in_out_elastic(t, b, c, d) {
-    var s=1.70158;var p=0;var a=c;
-    if (t==0) return b;  if ((t/=d/2)==2) return b+c;  if (!p) p=d*(.3*1.5);
-    if (a < Math.abs(c)) { a=c; s=p/4; }
-    else s = p/(2*Math.PI) * Math.asin (c/a);
-    if (t < 1) return -.5*(a*Math.pow(2,10*(t-=1)) * Math.sin( (t*d-s)*(2*Math.PI)/p )) + b;
-    return a*Math.pow(2,-10*(t-=1)) * Math.sin( (t*d-s)*(2*Math.PI)/p )*.5 + c + b;
-}
-
-function ease_in_back(t, b, c, d, s) {
-    if (s == undefined) s = 1.70158;
-    return c*(t/=d)*t*((s+1)*t - s) + b;
-}
-
-function ease_out_back(t, b, c, d, s) {
-    if (s == undefined) s = 1.70158;
-    return c*((t=t/d-1)*t*((s+1)*t + s) + 1) + b;
-}
-
-function ease_in_out_back(t, b, c, d, s) {
-    if (s == undefined) s = 1.70158; 
-    if ((t/=d/2) < 1) return c/2*(t*t*(((s*=(1.525))+1)*t - s)) + b;
-    return c/2*((t-=2)*t*(((s*=(1.525))+1)*t + s) + 2) + b;
-}
-
-function ease_in_bounce(t, b, c, d) {
-    return c - ease_out_bounce (d-t, 0, c, d) + b;
-}
-
-function ease_out_bounce(t, b, c, d) {
-    if ((t/=d) < (1/2.75)) {
-        return c*(7.5625*t*t) + b;
-    } else if (t < (2/2.75)) {
-        return c*(7.5625*(t-=(1.5/2.75))*t + .75) + b;
-    } else if (t < (2.5/2.75)) {
-        return c*(7.5625*(t-=(2.25/2.75))*t + .9375) + b;
-    } else {
-        return c*(7.5625*(t-=(2.625/2.75))*t + .984375) + b;
-    }
-}
-
-function ease_in_out_bounce(t, b, c, d) {
-    if (t < d/2) return ease_in_bounce (t*2, 0, c, d) * .5 + b;
-    return ease_out_bounce (t*2-d, 0, c, d) * .5 + c*.5 + b;
-}
-
-
-/***/ }),
-/* 12 */
+/* 8 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["b"] = create;
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return rotationTo; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return rotationTo; });
 /* unused harmony export setAxes */
 /* harmony export (immutable) */ __webpack_exports__["d"] = identity;
-/* harmony export (immutable) */ __webpack_exports__["h"] = setAxisAngle;
-/* harmony export (immutable) */ __webpack_exports__["e"] = multiply;
+/* harmony export (immutable) */ __webpack_exports__["i"] = setAxisAngle;
+/* harmony export (immutable) */ __webpack_exports__["f"] = multiply;
 /* unused harmony export mul */
 /* unused harmony export rotateX */
 /* unused harmony export rotateY */
 /* unused harmony export rotateZ */
 /* unused harmony export calculateW */
-/* harmony export (immutable) */ __webpack_exports__["i"] = slerp;
+/* harmony export (immutable) */ __webpack_exports__["j"] = slerp;
 /* unused harmony export sqlerp */
-/* unused harmony export invert */
+/* harmony export (immutable) */ __webpack_exports__["e"] = invert;
 /* unused harmony export conjugate */
 /* harmony export (immutable) */ __webpack_exports__["c"] = fromMat3;
 /* unused harmony export str */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vec3_js__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vec3_js__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vec4_js__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mat3_js__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mat3_js__ = __webpack_require__(4);
 /* unused harmony reexport clone */
 /* unused harmony reexport fromValues */
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_1__vec4_js__["a"]; });
@@ -7847,7 +6520,7 @@ function ease_in_out_bounce(t, b, c, d) {
 /* unused harmony reexport len */
 /* unused harmony reexport squaredLength */
 /* unused harmony reexport sqrLen */
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return __WEBPACK_IMPORTED_MODULE_1__vec4_js__["d"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return __WEBPACK_IMPORTED_MODULE_1__vec4_js__["d"]; });
 
 
 
@@ -7909,17 +6582,17 @@ function create() {
  * @method module:quat.rotationTo
  */
 var rotationTo = (function() {
-    var tmpvec3 = __WEBPACK_IMPORTED_MODULE_0__vec3_js__["b" /* create */]();
-    var xUnitVec3 = __WEBPACK_IMPORTED_MODULE_0__vec3_js__["e" /* fromValues */](1,0,0);
-    var yUnitVec3 = __WEBPACK_IMPORTED_MODULE_0__vec3_js__["e" /* fromValues */](0,1,0);
+    var tmpvec3 = __WEBPACK_IMPORTED_MODULE_0__vec3_js__["c" /* create */]();
+    var xUnitVec3 = __WEBPACK_IMPORTED_MODULE_0__vec3_js__["f" /* fromValues */](1,0,0);
+    var yUnitVec3 = __WEBPACK_IMPORTED_MODULE_0__vec3_js__["f" /* fromValues */](0,1,0);
 
     return function(a, b, out) {
-        var dot = __WEBPACK_IMPORTED_MODULE_0__vec3_js__["d" /* dot */](a, b);
+        var dot = __WEBPACK_IMPORTED_MODULE_0__vec3_js__["e" /* dot */](a, b);
         if (dot < -0.9999999) {
-            __WEBPACK_IMPORTED_MODULE_0__vec3_js__["c" /* cross */](xUnitVec3, a, tmpvec3); /* NOTE: CUSTOM REORDER: (tmpvec3, xUnitVec3, a)->(xUnitVec3, a ,tmpvec3) */
-            if (__WEBPACK_IMPORTED_MODULE_0__vec3_js__["f" /* length */](tmpvec3) < 0.000001)
-                __WEBPACK_IMPORTED_MODULE_0__vec3_js__["c" /* cross */](yUnitVec3, a, tmpvec3); /* NOTE: CUSTOM REORDER: (tmpvec3, yUnitVec3, a)->(yUnitVec3, a ,tmpvec3) */
-            __WEBPACK_IMPORTED_MODULE_0__vec3_js__["g" /* normalize */](tmpvec3, tmpvec3);
+            __WEBPACK_IMPORTED_MODULE_0__vec3_js__["d" /* cross */](xUnitVec3, a, tmpvec3); /* NOTE: CUSTOM REORDER: (tmpvec3, xUnitVec3, a)->(xUnitVec3, a ,tmpvec3) */
+            if (__WEBPACK_IMPORTED_MODULE_0__vec3_js__["h" /* length */](tmpvec3) < 0.000001)
+                __WEBPACK_IMPORTED_MODULE_0__vec3_js__["d" /* cross */](yUnitVec3, a, tmpvec3); /* NOTE: CUSTOM REORDER: (tmpvec3, yUnitVec3, a)->(yUnitVec3, a ,tmpvec3) */
+            __WEBPACK_IMPORTED_MODULE_0__vec3_js__["l" /* normalize */](tmpvec3, tmpvec3);
             setAxisAngle(tmpvec3, Math.PI, out); /* NOTE: CUSTOM REORDER: (out, tmpvec3, Math.PI)->(tmpvec3, Math.PI ,out)*/
             return out;
         } else if (dot > 0.9999999) {
@@ -7929,7 +6602,7 @@ var rotationTo = (function() {
             out[3] = 1;
             return out;
         } else {
-            __WEBPACK_IMPORTED_MODULE_0__vec3_js__["c" /* cross */](a, b, tmpvec3); /* NOTE: CUSTOM REORDER: (tmpvec3, a, b)->(a, b ,tmpvec3) */
+            __WEBPACK_IMPORTED_MODULE_0__vec3_js__["d" /* cross */](a, b, tmpvec3); /* NOTE: CUSTOM REORDER: (tmpvec3, a, b)->(a, b ,tmpvec3) */
             out[0] = tmpvec3[0];
             out[1] = tmpvec3[1];
             out[2] = tmpvec3[2];
@@ -8434,13 +7107,2197 @@ function str(a) {
 
 
 /***/ }),
+/* 9 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_register_js__ = __webpack_require__(1);
+
+
+/**
+ * Print API. Overrides some standart js console functions
+ * @name print
+ * @namespace
+ * @exports exports as print
+ */
+function Print(ns, exports) {
+
+// no module requires
+
+var _verbose = false;
+var _error_count = 0;
+var _warning_count = 0;
+
+var _deprecated_methods = {};
+/**
+ * Set verbose flag for console output.
+ */
+exports.set_verbose = function(v) {
+    _verbose = v;
+}
+
+exports.log_raw = function() {
+    console.log.apply(console, arguments);
+}
+
+exports.log = function() {
+    if (_verbose) {
+        var args = compose_args_prefix(arguments, "B4W LOG");
+        console.log.apply(console, args);
+    }
+}
+
+exports.compose_args_prefix = compose_args_prefix;
+function compose_args_prefix(args_in, prefix) {
+    var args_out = [];
+
+    if (args_in[0].indexOf("%c") > -1)
+        args_out.push(args_in[0].replace("%c", "%c" + prefix + ": "));
+    else
+        args_out.push(prefix + ": " + args_in[0]);
+
+    for (var i = 1; i < args_in.length; i++)
+        args_out.push(args_in[i]);
+
+    return args_out;
+}
+
+exports.error = error;
+function error() {
+    // always reporting errors
+    _error_count++;
+
+    var args = compose_args_prefix(arguments, "B4W ERROR");
+    console.error.apply(console, args);
+}
+exports.error_once = error_once;
+function error_once(message) {
+    if (!(message in _deprecated_methods)) {
+        _deprecated_methods[message] = message;
+        error([message]);
+    }
+}
+
+exports.error_deprecated = error_deprecated;
+function error_deprecated(depr_func, new_func) {
+    error_once(depr_func + "() is deprecated, use " + new_func + "() instead.");
+}
+
+exports.error_deprecated_arr = function(depr_func, new_func_arr) {
+    switch (new_func_arr.length > 1) {
+    case true:
+        error_once(depr_func + "() is deprecated, use " 
+                + new_func_arr.slice(0, -1).join("(), ")
+                + "() or " + new_func_arr[new_func_arr.length - 1] + "() instead.");
+        break;
+    case false:
+        error_deprecated(depr_func, new_func_arr[0]);
+        break;
+    }
+}
+
+exports.error_deprecated_cfg = function(depr_cfg, new_cfg) {
+    if (new_cfg === undefined)
+        error_once("Config option \"" + depr_cfg + "\" is deprecated.");
+    else
+        error_once("Config option \"" + depr_cfg + "\" is deprecated, use \"" +
+                new_cfg + "\" instead.");
+}
+
+exports.warn = function() {
+    // always reporting warnings
+    _warning_count++;
+
+    var args = compose_args_prefix(arguments, "B4W WARN");
+    console.warn.apply(console, args);
+}
+
+exports.info = function() {
+    var args = compose_args_prefix(arguments, "B4W INFO");
+    console.info.apply(console, args);
+}
+
+exports.export_error = function() {
+    // always reporting errors
+    _error_count++;
+
+    var args = compose_args_prefix(arguments, "B4W EXPORT ERROR");
+    console.error.apply(console, args);
+}
+
+exports.export_warn = function() {
+    // always reporting warnings
+    _warning_count++;
+
+    var args = compose_args_prefix(arguments, "B4W EXPORT WARNING");
+    console.warn.apply(console, args);
+}
+
+exports.time = function() {
+    if (_verbose)
+        console.time.apply(console, arguments);
+}
+
+exports.timeEnd = function() {
+    if (_verbose)
+        console.timeEnd.apply(console, arguments);
+}
+
+exports.group = function() {
+    console.group.apply(console, arguments);
+}
+
+exports.groupCollapsed = function() {
+    console.groupCollapsed.apply(console, arguments);
+}
+
+exports.groupEnd = function() {
+    console.groupEnd.apply(console, arguments);
+}
+
+exports.clear = function() {
+    if (typeof console.clear == "function")
+        console.clear.apply(console, arguments);
+}
+
+exports.get_warning_count = function() {
+    return _warning_count;
+}
+
+exports.get_error_count = function() {
+    return _error_count;
+}
+
+exports.clear_errors_warnings = function() {
+    _warning_count = 0;
+    _error_count = 0;
+}
+
+}
+
+var print_factory = Object(__WEBPACK_IMPORTED_MODULE_0__util_register_js__["a" /* default */])("print", Print);
+Object(__WEBPACK_IMPORTED_MODULE_0__util_register_js__["a" /* default */])("__print", Print);
+
+/* harmony default export */ __webpack_exports__["a"] = (print_factory);
+
+
+/***/ }),
+/* 10 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_util_b4w_js__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_intern_ipc_js__ = __webpack_require__(11);
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = (__WEBPACK_IMPORTED_MODULE_0__src_util_b4w_js__["a" /* default */]);
+
+/***/ }),
+/* 11 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_register_js__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_b4w_js__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_assert_js__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__util_generator_js__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__util_path_js__ = __webpack_require__(15);
+
+
+
+
+
+
+
+/**
+ * Physics worker Inter Process Communication API.
+ * @name ipc
+ * @namespace
+ * @exports exports as ipc
+ */
+function Int_IPC(ns, exports) {
+
+var m_assert = Object(__WEBPACK_IMPORTED_MODULE_2__util_assert_js__["a" /* default */])(ns);
+var m_generator = Object(__WEBPACK_IMPORTED_MODULE_3__util_generator_js__["a" /* default */])(ns);
+
+/*
+ * Use Visual Incrementing script to simplify assignment of such numbers in VIM
+ * http://www.drchip.org/astronaut/vim/index.html#VISINCR
+ */
+var _wait_for_loading = true;
+// MAIN <- PHYSICS
+exports.IN_LOADED                = 0 ;
+exports.IN_COLLISION             = 1 ;
+exports.IN_COLLISION_POS_NORM    = 2 ;
+exports.IN_COLLISION_IMPULSE     = 3 ;
+exports.IN_ERROR                 = 4 ;
+exports.IN_FBMSG                 = 5 ;
+exports.IN_FLOATER_BOB_TRANSFORM = 6 ;
+exports.IN_LOG                   = 7 ;
+exports.IN_PROP_OFFSET           = 8 ;
+exports.IN_RAY_HIT               = 9 ;
+exports.IN_RAY_HIT_POS_NORM      = 10;
+exports.IN_REMOVE_RAY_TEST       = 11;
+exports.IN_TRANSFORM             = 12;
+exports.IN_VEHICLE_SPEED         = 13;
+exports.IN_PING                  = 14;
+exports.IN_FPS                   = 15;
+exports.IN_DEBUG_STATS           = 16;
+
+var IN_COLLISION          = exports.IN_COLLISION;
+var IN_COLLISION_POS_NORM = exports.IN_COLLISION_POS_NORM;
+var IN_PROP_OFFSET        = exports.IN_PROP_OFFSET;
+var IN_RAY_HIT            = exports.IN_RAY_HIT;
+var IN_RAY_HIT_POS_NORM   = exports.IN_RAY_HIT_POS_NORM;
+var IN_TRANSFORM          = exports.IN_TRANSFORM;
+
+// MAIN -> PHYSICS
+exports.OUT_INIT                              = 100;
+exports.OUT_ACTIVATE                          = 101;
+exports.OUT_ADD_BOAT_BOB                      = 102;
+exports.OUT_ADD_CAR_WHEEL                     = 103;
+exports.OUT_ADD_FLOATER_BOB                   = 104;
+exports.OUT_APPEND_BOUNDING_BODY              = 105;
+exports.OUT_APPEND_BOAT                       = 106;
+exports.OUT_APPEND_CAR                        = 107;
+exports.OUT_APPEND_CHARACTER                  = 108;
+exports.OUT_APPEND_COLLISION_TEST             = 109;
+exports.OUT_APPEND_CONSTRAINT                 = 110;
+exports.OUT_APPEND_FLOATER                    = 111;
+exports.OUT_APPEND_GHOST_MESH_BODY            = 112;
+exports.OUT_APPEND_STATIC_MESH_BODY           = 113;
+exports.OUT_APPEND_WATER                      = 114;
+exports.OUT_REMOVE_BODY                       = 115;
+exports.OUT_APPLY_CENTRAL_FORCE               = 116;
+exports.OUT_APPLY_COLLISION_IMPULSE_TEST      = 117;
+exports.OUT_APPLY_TORQUE                      = 118;
+exports.OUT_CHARACTER_JUMP                    = 119;
+exports.OUT_CHARACTER_ROTATION_INCREMENT      = 120;
+exports.OUT_CLEAR_COLLISION_IMPULSE_TEST      = 121;
+exports.OUT_DISABLE_SIMULATION                = 122;
+exports.OUT_ENABLE_SIMULATION                 = 123;
+exports.OUT_PAUSE                             = 124;
+exports.OUT_APPEND_RAY_TEST                   = 125;
+exports.OUT_REMOVE_RAY_TEST                   = 126;
+exports.OUT_CHANGE_RAY_TEST_FROM_TO           = 127;
+exports.OUT_REMOVE_COLLISION_TEST             = 128;
+exports.OUT_REMOVE_CONSTRAINT                 = 129;
+exports.OUT_RESUME                            = 130;
+exports.OUT_SET_CHARACTER_FLY_VELOCITY        = 131;
+exports.OUT_SET_CHARACTER_HOR_ROTATION        = 132;
+exports.OUT_SET_CHARACTER_MOVE_DIR            = 133;
+exports.OUT_SET_CHARACTER_MOVE_TYPE           = 134;
+exports.OUT_SET_CHARACTER_ROTATION            = 135;
+exports.OUT_SET_CHARACTER_RUN_VELOCITY        = 136;
+exports.OUT_SET_CHARACTER_VERT_ROTATION       = 137;
+exports.OUT_SET_CHARACTER_WALK_VELOCITY       = 138;
+exports.OUT_SET_GRAVITY                       = 139;
+exports.OUT_SET_LINEAR_VELOCITY               = 140;
+exports.OUT_SET_TRANSFORM                     = 141;
+exports.OUT_SET_WATER_TIME                    = 142;
+exports.OUT_ADD_WATER_WRAPPER                 = 143;
+exports.OUT_UPDATE_BOAT_CONTROLS              = 144;
+exports.OUT_UPDATE_CAR_CONTROLS               = 145;
+exports.OUT_PING                              = 146;
+exports.OUT_DEBUG                             = 147;
+exports.OUT_UPDATE_WORLD                      = 148;
+exports.OUT_SET_ANGULAR_VELOCITY              = 149;
+exports.OUT_SET_CHARACTER_VERT_MOVE_DIR_ANGLE = 150;
+exports.OUT_UPDATE_BOUNDING_BODY              = 151;
+exports.OUT_UPDATE_STATIC_MESH_BODY           = 152;
+
+var OUT_SET_TRANSFORM = exports.OUT_SET_TRANSFORM;
+
+var _worker_listeners = __WEBPACK_IMPORTED_MODULE_1__util_b4w_js__["a" /* default */].worker_listeners;
+var _worker_namespaces = __WEBPACK_IMPORTED_MODULE_1__util_b4w_js__["a" /* default */].worker_namespaces;
+
+var _msg_cache_IN_TRANSFORM = {
+    msg_id:   IN_TRANSFORM,
+
+    body_id:  0,
+    time:     0,
+    trans:    new Float32Array(3),
+    quat:     new Float32Array(4),
+    linvel:   new Float32Array(3),
+    angvel:   new Float32Array(3),
+
+    len:      0
+};
+
+var _msg_cache_IN_PROP_OFFSET = {
+    msg_id:               IN_PROP_OFFSET,
+
+    chassis_hull_body_id: 0,
+    prop_ind:             0,
+    trans:                new Float32Array(3),
+    quat:                 new Float32Array(4),
+
+    len:                  0
+};
+
+var _msg_cache_IN_RAY_HIT = {
+    msg_id:      IN_RAY_HIT,
+
+    id:          0,
+    body_id_hit: 0,
+    hit_fract:   0,
+    hit_time:    0,
+
+    len:         0
+};
+
+var _msg_cache_IN_RAY_HIT_POS_NORM = {
+    msg_id:      IN_RAY_HIT_POS_NORM,
+
+    id:          0,
+    body_id_hit: 0,
+    hit_fract:   0,
+    hit_time:    0,
+    hit_pos:     new Float32Array(3),
+    hit_norm:    new Float32Array(3),
+
+    len:         0
+};
+
+var _msg_cache_IN_COLLISION = {
+    msg_id:     IN_COLLISION,
+
+    body_id_a:  0,
+    body_id_b:  0,
+    result:     0,
+
+    len:        0
+};
+
+var _msg_cache_IN_COLLISION_POS_NORM = {
+    msg_id:     IN_COLLISION_POS_NORM,
+
+    body_id_a:  0,
+    body_id_b:  0,
+    result:     0,
+    coll_point: new Float32Array(3),
+    coll_norm:  new Float32Array(3),
+    coll_dist:  0,
+
+    len:        0
+};
+
+var _msg_cache_OUT_SET_TRANSFORM = {
+    msg_id:  OUT_SET_TRANSFORM,
+
+    body_id: 0,
+    trans:   new Float32Array(3),
+    quat:    new Float32Array(4),
+
+    len:     0
+};
+
+var _msg_cache_list = [
+    _msg_cache_IN_TRANSFORM,
+    _msg_cache_IN_PROP_OFFSET,
+    _msg_cache_IN_RAY_HIT,
+    _msg_cache_IN_RAY_HIT_POS_NORM,
+    _msg_cache_IN_COLLISION,
+    _msg_cache_IN_COLLISION_POS_NORM,
+    _msg_cache_OUT_SET_TRANSFORM
+];
+
+function find_script(src) {
+    var scripts = document.getElementsByTagName("script");
+    var norm_src = Object(__WEBPACK_IMPORTED_MODULE_4__util_path_js__["a" /* normpath_preserve_protocol */])(src);
+
+    for (var i = 0; i < scripts.length; i++) {
+        if (scripts[i].src == norm_src)
+            return scripts[i];
+    }
+
+    return null;
+}
+
+exports.create_worker = function(path, fallback) {
+    var worker = {
+        is_main: path ? true : false,
+        web_worker: null,
+        buf_arr: [],
+        fb_worker_ns: ""
+    }
+
+    if (fallback) {
+        var web_worker_fallback = {
+            addEventListener: function(type, listener, useCapture) {
+                if (type != "message")
+                    m_assert.panic("Wrong web worker event");
+
+                set_fallback_listener(worker.fb_worker_ns, worker.is_main,
+                        listener);
+            },
+
+            removeEventListener: function(type, listener, useCapture) {
+                if (type != "message")
+                    m_assert.panic("Wrong web worker event");
+
+                set_fallback_listener(worker.fb_worker_ns, worker.is_main, null);
+            },
+
+            postMessage: function(msg, msg2) {
+                var listener = find_fallback_listener(worker.fb_worker_ns,
+                        !worker.is_main);
+                listener({"data": msg});
+            },
+
+            terminate: function() {
+                for (var i = 0; i < _worker_namespaces.length; i+=2)
+                    if (_worker_namespaces[i+1] == worker.fb_worker_ns) {
+                        _worker_listeners.splice(i, 2);
+                        _worker_namespaces.splice(i, 2);
+                        return;
+                    }
+            }
+        }
+
+        worker.web_worker = web_worker_fallback;
+
+        if (worker.is_main) {
+            var main_ns = ns;
+            var worker_ns = m_generator.unique_name(main_ns + "_worker");
+
+            _worker_namespaces.push(main_ns);
+            _worker_namespaces.push(worker_ns);
+
+            _worker_listeners.push(null);
+            _worker_listeners.push(null);
+
+            worker.fb_worker_ns = worker_ns;
+
+            var uranium_js = find_script(path);
+            if (uranium_js) {
+                // just register in the new namespace
+                if (_wait_for_loading)
+                    uranium_js.addEventListener("load", function() {
+                        __WEBPACK_IMPORTED_MODULE_1__util_b4w_js__["a" /* default */].require("__bindings", worker.fb_worker_ns);
+                    }, false);
+                else {
+                    __WEBPACK_IMPORTED_MODULE_1__util_b4w_js__["a" /* default */].cleanup("__bindings", worker.fb_worker_ns);
+                    __WEBPACK_IMPORTED_MODULE_1__util_b4w_js__["a" /* default */].cleanup("__ipc", worker.fb_worker_ns);
+                    __WEBPACK_IMPORTED_MODULE_1__util_b4w_js__["a" /* default */].require("__bindings", worker.fb_worker_ns);
+                }
+            } else {
+                // load and register
+                uranium_js = document.createElement("script");
+
+                uranium_js.src = path;
+                uranium_js.defer = "defer";
+                uranium_js.async = "async";
+                uranium_js.addEventListener("load", function() {
+                    _wait_for_loading = false;
+                    __WEBPACK_IMPORTED_MODULE_1__util_b4w_js__["a" /* default */].require("__bindings", worker.fb_worker_ns);
+                }, false);
+
+                document.head.appendChild(uranium_js);
+            }
+        } else {
+            // !!!WARNING: es6 module!!!
+            // worker.fb_worker_ns = b4w.get_namespace(b4w.require);
+            worker.fb_worker_ns = ns;
+        }
+    } else {
+        if (path)
+            worker.web_worker = new Worker(path);
+        else
+            worker.web_worker = self;
+    }
+
+    return worker;
+}
+
+function set_fallback_listener(worker_ns, is_main, listener) {
+    for (var i = 0; i < _worker_namespaces.length; i+=2)
+        if (_worker_namespaces[i+1] == worker_ns)
+            _worker_listeners[i + Number(!is_main)] = listener;
+}
+
+function find_fallback_listener(worker_ns, is_main) {
+    for (var i = 0; i < _worker_namespaces.length; i+=2)
+        if (_worker_namespaces[i+1] == worker_ns)
+            return _worker_listeners[i + Number(!is_main)];
+
+    return null;
+}
+
+exports.attach_handler = function(worker, process_message_cb) {
+
+    assign_msg_cache_length(_msg_cache_list);
+
+    var preprocess_message_cb = function(event_data) {
+
+        if (event_data.constructor == ArrayBuffer) {
+            event_data = new Float32Array(event_data);
+        } else if (event_data[0].constructor == ArrayBuffer) {
+            for (var i = 0; i < event_data.length; i++)
+                preprocess_message_cb(event_data[i]);
+            return;
+        }
+
+        var msg_id = event_data[0] | 0;
+
+        switch (msg_id) {
+        case IN_TRANSFORM:
+            var data = _msg_cache_IN_TRANSFORM;
+
+            data.body_id   = event_data[1 ] | 0;
+            data.time      = event_data[2 ];
+            data.trans[0]  = event_data[3 ];
+            data.trans[1]  = event_data[4 ];
+            data.trans[2]  = event_data[5 ];
+            data.quat[0]   = event_data[6 ];
+            data.quat[1]   = event_data[7 ];
+            data.quat[2]   = event_data[8 ];
+            data.quat[3]   = event_data[9 ];
+            data.linvel[0] = event_data[10];
+            data.linvel[1] = event_data[11];
+            data.linvel[2] = event_data[12];
+            data.angvel[0] = event_data[13];
+            data.angvel[1] = event_data[14];
+            data.angvel[2] = event_data[15];
+            break;
+        case IN_PROP_OFFSET:
+            var data = _msg_cache_IN_PROP_OFFSET;
+
+            data.chassis_hull_body_id = event_data[1] | 0;
+            data.prop_ind             = event_data[2] | 0;
+            data.trans[0]             = event_data[3];
+            data.trans[1]             = event_data[4];
+            data.trans[2]             = event_data[5];
+            data.quat[0]              = event_data[6];
+            data.quat[1]              = event_data[7];
+            data.quat[2]              = event_data[8];
+            data.quat[3]              = event_data[9];
+            break;
+        case IN_RAY_HIT:
+            var data = _msg_cache_IN_RAY_HIT;
+
+            data.id          = event_data[1] | 0;
+            data.body_id_hit = event_data[2] | 0;
+            data.hit_fract   = event_data[3];
+            data.hit_time    = event_data[4];
+
+            break;
+        case IN_RAY_HIT_POS_NORM:
+            var data = _msg_cache_IN_RAY_HIT_POS_NORM;
+
+            data.id          = event_data[ 1] | 0;
+            data.body_id_hit = event_data[ 2] | 0;
+            data.hit_fract   = event_data[ 3];
+            data.hit_time    = event_data[ 4];
+            data.hit_pos[0]  = event_data[ 5];
+            data.hit_pos[1]  = event_data[ 6];
+            data.hit_pos[2]  = event_data[ 7];
+            data.hit_norm[0] = event_data[ 8];
+            data.hit_norm[1] = event_data[ 9];
+            data.hit_norm[2] = event_data[10];
+
+            break;
+        case IN_COLLISION:
+            var data = _msg_cache_IN_COLLISION;
+
+            data.body_id_a     =   event_data[1] | 0;
+            data.body_id_b     =   event_data[2] | 0;
+            data.result        = !!event_data[3];
+            break;
+        case IN_COLLISION_POS_NORM:
+            var data = _msg_cache_IN_COLLISION_POS_NORM;
+
+            data.body_id_a     =   event_data[ 1] | 0;
+            data.body_id_b     =   event_data[ 2] | 0;
+            data.result        = !!event_data[ 3];
+            data.coll_point[0] =   event_data[ 4];
+            data.coll_point[1] =   event_data[ 5];
+            data.coll_point[2] =   event_data[ 6];
+            data.coll_norm[0]  =   event_data[ 7];
+            data.coll_norm[1]  =   event_data[ 8];
+            data.coll_norm[2]  =   event_data[ 9];
+            data.coll_dist     =   event_data[10];
+            break;
+        case OUT_SET_TRANSFORM:
+            var data = _msg_cache_OUT_SET_TRANSFORM;
+
+            data.body_id  = event_data[1] | 0;
+            data.trans[0] = event_data[2];
+            data.trans[1] = event_data[3];
+            data.trans[2] = event_data[4];
+            data.quat[0]  = event_data[5];
+            data.quat[1]  = event_data[6];
+            data.quat[2]  = event_data[7];
+            data.quat[3]  = event_data[8];
+            break;
+        default:
+            var data = event_data;
+            break;
+        }
+
+        process_message_cb(worker, msg_id, data);
+    }
+
+    worker.web_worker.addEventListener("message", function(event) {
+        preprocess_message_cb(event.data);
+    }, false);
+}
+
+function assign_msg_cache_length(msg_cache_list) {
+
+    for (var i = 0; i < msg_cache_list.length; i++) {
+        var cache = msg_cache_list[i];
+        var len = 0;
+
+        for (var j in cache) {
+            var prop = cache[j];
+
+            switch (prop.constructor) {
+            case Float32Array:
+                len += prop.length;
+                break;
+            case Number:
+                len += 1;
+                break;
+            default:
+                break;
+            }
+        }
+
+        // exclude "len" itself
+        len -= 1;
+
+        cache.len = len;
+    }
+}
+
+exports.cleanup = function() {
+}
+
+/**
+ * Cached message post.
+ * messages with same id must have same length
+ * @methodOf physics
+ */
+exports.post_msg = function(worker, msg_id) {
+
+    // not initialized for worker warm-up
+    if (!worker)
+        return;
+
+    switch (msg_id) {
+    case IN_TRANSFORM:
+        var data = _msg_cache_IN_TRANSFORM;
+        var msg = new Float32Array(data.len);
+
+        msg[0 ] = data.msg_id;
+        msg[1 ] = data.body_id;
+        msg[2 ] = data.time;
+        msg[3 ] = data.trans[0];
+        msg[4 ] = data.trans[1];
+        msg[5 ] = data.trans[2];
+        msg[6 ] = data.quat[0];
+        msg[7 ] = data.quat[1];
+        msg[8 ] = data.quat[2];
+        msg[9 ] = data.quat[3];
+        msg[10] = data.linvel[0];
+        msg[11] = data.linvel[1];
+        msg[12] = data.linvel[2];
+        msg[13] = data.angvel[0];
+        msg[14] = data.angvel[1];
+        msg[15] = data.angvel[2];
+
+        worker.buf_arr.push(msg.buffer);
+        break;
+    case IN_PROP_OFFSET:
+        var data = _msg_cache_IN_PROP_OFFSET;
+        var msg = new Float32Array(data.len);
+
+        msg[0] = data.msg_id;
+        msg[1] = data.chassis_hull_body_id;
+        msg[2] = data.prop_ind;
+        msg[3] = data.trans[0];
+        msg[4] = data.trans[1];
+        msg[5] = data.trans[2];
+        msg[6] = data.quat[0];
+        msg[7] = data.quat[1];
+        msg[8] = data.quat[2];
+        msg[9] = data.quat[3];
+
+        worker.buf_arr.push(msg.buffer);
+        break;
+    case IN_RAY_HIT:
+        var data = _msg_cache_IN_RAY_HIT;
+        var msg = new Float32Array(data.len);
+
+        msg[0] = data.msg_id;
+        msg[1] = data.id;
+        msg[2] = data.body_id_hit;
+        msg[3] = data.hit_fract;
+        msg[4] = data.hit_time;
+
+        worker.buf_arr.push(msg.buffer);
+        break;
+    case IN_RAY_HIT_POS_NORM:
+        var data = _msg_cache_IN_RAY_HIT_POS_NORM;
+        var msg = new Float32Array(data.len);
+
+        msg[ 0] = data.msg_id;
+        msg[ 1] = data.id;
+        msg[ 2] = data.body_id_hit;
+        msg[ 3] = data.hit_fract;
+        msg[ 4] = data.hit_time;
+        msg[ 5] = data.hit_pos[0];
+        msg[ 6] = data.hit_pos[1];
+        msg[ 7] = data.hit_pos[2];
+        msg[ 8] = data.hit_norm[0];
+        msg[ 9] = data.hit_norm[1];
+        msg[10] = data.hit_norm[2];
+
+        worker.buf_arr.push(msg.buffer);
+        break;
+    case IN_COLLISION:
+        var data = _msg_cache_IN_COLLISION;
+        var msg = new Float32Array(data.len);
+
+        msg[0] = data.msg_id;
+        msg[1] = data.body_id_a;
+        msg[2] = data.body_id_b;
+        msg[3] = data.result;
+
+        worker.buf_arr.push(msg.buffer);
+        break;
+    case IN_COLLISION_POS_NORM:
+        var data = _msg_cache_IN_COLLISION_POS_NORM;
+        var msg = new Float32Array(data.len);
+
+        msg[ 0] = data.msg_id;
+        msg[ 1] = data.body_id_a;
+        msg[ 2] = data.body_id_b;
+        msg[ 3] = data.result;
+        msg[ 4] = data.coll_point[0];
+        msg[ 5] = data.coll_point[1];
+        msg[ 6] = data.coll_point[2];
+        msg[ 7] = data.coll_norm[0];
+        msg[ 8] = data.coll_norm[1];
+        msg[ 9] = data.coll_norm[2];
+        msg[10] = data.coll_dist;
+
+        worker.buf_arr.push(msg.buffer);
+        break;
+    case OUT_SET_TRANSFORM:
+        var data = _msg_cache_OUT_SET_TRANSFORM;
+        var msg = new Float32Array(data.len);
+
+        msg[0] = data.msg_id;
+        msg[1] = data.body_id;
+        msg[2] = data.trans[0];
+        msg[3] = data.trans[1];
+        msg[4] = data.trans[2];
+        msg[5] = data.quat[0];
+        msg[6] = data.quat[1];
+        msg[7] = data.quat[2];
+        msg[8] = data.quat[3];
+
+        worker.buf_arr.push(msg.buffer);
+        break;
+    default:
+        var msg = [];
+        for (var i = 1; i < arguments.length; i++)
+            msg.push(arguments[i]);
+        worker.web_worker.postMessage(msg);
+        break;
+    }
+}
+
+exports.post_msg_arr = function(worker) {
+    if (!worker || !worker.buf_arr.length)
+        return;
+
+    worker.web_worker.postMessage(worker.buf_arr);
+
+    worker.buf_arr.length = 0;
+}
+
+exports.get_msg_cache = function(msg_id) {
+    switch (msg_id) {
+    case IN_TRANSFORM:
+        return _msg_cache_IN_TRANSFORM;
+    case IN_PROP_OFFSET:
+        return _msg_cache_IN_PROP_OFFSET;
+    case IN_RAY_HIT:
+        return _msg_cache_IN_RAY_HIT;
+    case IN_RAY_HIT_POS_NORM:
+        return _msg_cache_IN_RAY_HIT_POS_NORM;
+    case IN_COLLISION:
+        return _msg_cache_IN_COLLISION;
+    case IN_COLLISION_POS_NORM:
+        return _msg_cache_IN_COLLISION_POS_NORM;
+    case OUT_SET_TRANSFORM:
+        return _msg_cache_OUT_SET_TRANSFORM;
+    default:
+        return null;
+    }
+}
+
+exports.terminate = function(worker) {
+    worker.web_worker.terminate();
+    worker.web_worker = null;
+}
+
+exports.is_active = function(worker) {
+    return !!worker.web_worker;
+}
+
+exports.is_fallback = function(worker) {
+    return !!worker.fb_worker_ns;
+}
+
+}
+
+var int_ipc_factory = Object(__WEBPACK_IMPORTED_MODULE_0__util_register_js__["a" /* default */])("__ipc", Int_IPC);
+
+/* unused harmony default export */ var _unused_webpack_default_export = (int_ipc_factory);
+
+
+/***/ }),
+/* 12 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export get_pline_directional_vec */
+/* unused harmony export get_pline_initial_point */
+/* unused harmony export set_pline_initial_point */
+/* unused harmony export set_pline_directional_vec */
+/* unused harmony export calc_pline_point */
+/* unused harmony export calk_average_position */
+/* unused harmony export calc_covariance_matrix */
+/* unused harmony export find_eigenvectors */
+/* harmony export (immutable) */ __webpack_exports__["a"] = point_plane_dist;
+/* unused harmony export binary_heap_new */
+/* unused harmony export binary_heap_push */
+/* unused harmony export binary_heap_pop */
+/* unused harmony export binary_heap_remove */
+/* unused harmony export binary_heap_rescore_element */
+/* unused harmony export linear_tween */
+/* unused harmony export ease_in_quad */
+/* unused harmony export ease_out_quad */
+/* unused harmony export ease_in_out_quad */
+/* unused harmony export ease_in_cubic */
+/* unused harmony export ease_out_cubic */
+/* unused harmony export ease_in_out_cubic */
+/* unused harmony export ease_in_quart */
+/* unused harmony export ease_out_quart */
+/* unused harmony export ease_in_out_quart */
+/* unused harmony export ease_in_quint */
+/* unused harmony export ease_out_quint */
+/* unused harmony export ease_in_out_quint */
+/* unused harmony export ease_in_sine */
+/* unused harmony export ease_out_sine */
+/* unused harmony export ease_in_out_sine */
+/* unused harmony export ease_in_expo */
+/* unused harmony export ease_out_expo */
+/* unused harmony export ease_in_out_expo */
+/* unused harmony export ease_in_circ */
+/* unused harmony export ease_out_circ */
+/* unused harmony export ease_in_out_circ */
+/* unused harmony export ease_in_elastic */
+/* unused harmony export ease_out_elastic */
+/* unused harmony export ease_in_out_elastic */
+/* unused harmony export ease_in_back */
+/* unused harmony export ease_out_back */
+/* unused harmony export ease_in_out_back */
+/* unused harmony export ease_in_bounce */
+/* unused harmony export ease_out_bounce */
+/* unused harmony export ease_in_out_bounce */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__libs_gl_matrix_mat3_js__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_vec3_js__ = __webpack_require__(2);
+
+
+
+/* ============================================================
+ * jQuery Easing v1.3 - http://gsgd.co.uk/sandbox/jquery/easing/
+ *
+ * Open source under the BSD License.
+ *
+ * Copyright © 2008 George McGinley Smith
+ * All rights reserved.
+ * https://raw.github.com/danro/jquery-easing/master/LICENSE
+ * ======================================================== */
+
+/**
+ * Math internal functions.
+ * @name math
+ * @namespace
+ * @exports exports as math
+ */
+
+var _vec3_tmp = new Float32Array(3);
+var _mat3_tmp = new Float32Array(9);
+var _mat3_tmp2 = new Float32Array(9);
+var _mat3_tmp3 = new Float32Array(9);
+var _mat3_tmp4 = new Float32Array(9);
+
+var MAX_ITER_NUM = 100;
+
+function get_pline_directional_vec(pline, dest) {
+    dest = dest || new Float32Array(3);
+    dest[0] = pline[3];
+    dest[1] = pline[4];
+    dest[2] = pline[5];
+    return dest;
+}
+
+function get_pline_initial_point(pline, dest) {
+    dest = dest || new Float32Array(3);
+    return __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_vec3_js__["b" /* copy */](pline, dest);
+}
+
+function set_pline_initial_point(pline, point) {
+    __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_vec3_js__["b" /* copy */](point, pline);
+}
+
+function set_pline_directional_vec(pline, vec) {
+    __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_vec3_js__["l" /* normalize */](vec, _vec3_tmp);
+    pline[3] = _vec3_tmp[0];
+    pline[4] = _vec3_tmp[1];
+    pline[5] = _vec3_tmp[2];
+}
+
+function calc_pline_point(pline, t, dest) {
+    dest = dest || new Float32Array(3);
+    dest[0] = pline[0] + pline[3] * t;
+    dest[1] = pline[1] + pline[4] * t;
+    dest[2] = pline[2] + pline[5] * t;
+    return dest;
+}
+
+function calk_average_position(points, dest) {
+    dest[0] = 0; dest[1] = 0; dest[2] = 0;
+    for (var i = 0; i < points.length; i = i + 3) {
+        dest[0] += points[i];
+        dest[1] += points[i + 1];
+        dest[2] += points[i + 2];
+    }
+    return __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_vec3_js__["m" /* scale */](dest, 3 / points.length, dest);
+}
+
+function calc_covariance_matrix(points, average_pos, dest) {
+
+    for (var i = 0; i < dest.length; i++)
+        dest[i] = 0;
+
+    for (var i = 0; i < points.length; i = i + 3) {
+        var xm = points[i] - average_pos[0];
+        var ym = points[i + 1] - average_pos[1];
+        var zm = points[i + 2] - average_pos[2];
+        dest[0] += xm * xm;
+        dest[1] += xm * ym;
+        dest[2] += xm * zm;
+        dest[4] += ym * ym;
+        dest[5] += ym * zm;
+        dest[8] += zm * zm;
+    }
+    dest[3] = dest[1];
+    dest[6] = dest[2];
+    dest[7] = dest[5];
+    for (var i = 0; i < dest.length; i++)
+        dest[i] *= 3 / points.length;
+    return dest;
+}
+
+function find_eigenvectors(m, err, dest) {
+
+    var matrix = __WEBPACK_IMPORTED_MODULE_0__libs_gl_matrix_mat3_js__["a" /* copy */](m, _mat3_tmp);
+
+    if (calc_canonical_mat_error(matrix) < err) {
+        return __WEBPACK_IMPORTED_MODULE_0__libs_gl_matrix_mat3_js__["e" /* identity */](dest);
+    }
+
+    var rot_matrix = find_elem_rotation_matrix(matrix, _mat3_tmp2);
+    var rot_matrix_t = __WEBPACK_IMPORTED_MODULE_0__libs_gl_matrix_mat3_js__["g" /* transpose */](rot_matrix, _mat3_tmp3);
+    __WEBPACK_IMPORTED_MODULE_0__libs_gl_matrix_mat3_js__["f" /* multiply */](matrix, rot_matrix_t, _mat3_tmp4);
+    __WEBPACK_IMPORTED_MODULE_0__libs_gl_matrix_mat3_js__["f" /* multiply */](rot_matrix, _mat3_tmp4, matrix);
+    var eigenvectors = __WEBPACK_IMPORTED_MODULE_0__libs_gl_matrix_mat3_js__["a" /* copy */](rot_matrix, dest);
+
+    var count = 1;
+    while (err <= calc_canonical_mat_error(matrix) && count < MAX_ITER_NUM) {
+        rot_matrix = find_elem_rotation_matrix(matrix, _mat3_tmp2);
+        rot_matrix_t = __WEBPACK_IMPORTED_MODULE_0__libs_gl_matrix_mat3_js__["g" /* transpose */](rot_matrix, _mat3_tmp3);
+        __WEBPACK_IMPORTED_MODULE_0__libs_gl_matrix_mat3_js__["f" /* multiply */](matrix, rot_matrix_t, _mat3_tmp4);
+        __WEBPACK_IMPORTED_MODULE_0__libs_gl_matrix_mat3_js__["f" /* multiply */](rot_matrix, _mat3_tmp4, matrix);
+        __WEBPACK_IMPORTED_MODULE_0__libs_gl_matrix_mat3_js__["f" /* multiply */](rot_matrix, eigenvectors, eigenvectors);
+        count++;
+    }
+    return eigenvectors;
+}
+
+function find_elem_rotation_matrix(m, dest) {
+
+    var max = m[1];
+    var ind = 1;
+    for (var i = 2; i < m.length; i++)
+        if (i != 4 && i!= 8 && Math.abs(m[i]) > Math.abs(max)) {
+            max = m[i];
+            ind = i;
+        }
+    var ii = Math.floor(ind / 3);
+    var jj = ind % 3;
+    var fi = 0.5 * Math.atan(2 * max / (m[ii * 3 + ii] - m[jj * 3 + jj]));
+
+    for (var i = 0; i < dest.length; i++)
+        if (i == 0 || i == 4 || i == 8)
+            dest[i] = 1;
+        else
+            dest[i] = 0;
+    dest[jj + ii * 3] = - Math.sin(fi);
+    dest[ii + jj * 3] = Math.sin(fi);
+    dest[ii + ii * 3] = Math.cos(fi);
+    dest[jj + jj * 3] = Math.cos(fi);
+
+    return dest;
+}
+
+function calc_canonical_mat_error(m) {
+    return Math.sqrt(m[1] * m[1] + m[2] * m[2] + m[5] * m[5]);
+}
+/**
+ * Calculate distance from point to plane.
+ */
+function point_plane_dist(pt, plane) {
+    return plane[0] * pt[0] + plane[1] * pt[1] + plane[2] * pt[2] + plane[3];
+}
+
+/**
+ *  Binary heap http://eloquentjavascript.net/1st_edition/appendix2.html
+ */
+function binary_heap_new(score_function) {
+    return {
+        content: [],
+        score_function: score_function
+    }
+}
+
+function binary_heap_push(heap, element) {
+    heap.content.push(element);
+    binary_heap_sink_down(heap, heap.content.length - 1);
+}
+
+function binary_heap_sink_down(heap, n) {
+    // Fetch the element that has to be sunk.
+    var element = heap.content[n];
+
+    // When at 0, an element can not sink any further.
+    while (n > 0) {
+        // Compute the parent element's index, and fetch it.
+        var parent_n = ((n + 1) >> 1) - 1,
+            parent = heap.content[parent_n];
+        // Swap the elements if the parent is greater.
+        if (heap.score_function(element) < heap.score_function(parent)) {
+            heap.content[parent_n] = element;
+            heap.content[n] = parent;
+            // Update 'n' to continue at the new position.
+            n = parent_n;
+        }
+        // Found a parent that is less, no need to sink any further.
+        else {
+            break;
+        }
+    }
+}
+
+function binary_heap_pop(heap) {
+    // Store the first element so we can return it later.
+    var result = heap.content[0];
+    // Get the element at the end of the array.
+    var end = heap.content.pop();
+    // If there are any elements left, put the end element at the
+    // start, and let it bubble up.
+    if (heap.content.length > 0) {
+        heap.content[0] = end;
+        binary_heap_bubble_up(heap, 0);
+    }
+    return result;
+}
+
+function binary_heap_remove(heap, node) {
+    var i = heap.content.indexOf(node);
+
+    // When it is found, the process seen in 'pop' is repeated
+    // to fill up the hole.
+    var end = heap.content.pop();
+
+    if (i !== heap.content.length - 1) {
+        heap.content[i] = end;
+
+        if (heap.score_function(end) < heap.score_function(node)) {
+            binary_heap_sink_down(i);
+        } else {
+            binary_heap_bubble_up(i);
+        }
+    }
+}
+
+function binary_heap_rescore_element(heap, node) {
+    binary_heap_sink_down(heap, heap.content.indexOf(node));
+}
+
+function binary_heap_bubble_up(heap, n) {
+    // Look up the target element and its score.
+    var length = heap.content.length,
+        element = heap.content[n],
+        elem_score = heap.score_function(element);
+    while (true) {
+        // Compute the indices of the child elements.
+        var child2_n = (n + 1) << 1,
+            child1_n = child2_n - 1;
+        // This is used to store the new position of the element,
+        // if any.
+        var swap = null;
+        // If the first child exists (is inside the array)...
+        if (child1_n < length) {
+            // Look it up and compute its score.
+            var child1 = heap.content[child1_n],
+                child1_score = heap.score_function(child1);
+
+            // If the score is less than our element's, we need to swap.
+            if (child1_score < elem_score)
+                swap = child1_n;
+        }
+        // Do the same checks for the other child.
+        if (child2_n < length) {
+            var child2 = heap.content[child2_n],
+                child2_score = heap.score_function(child2);
+            if (child2_score < (swap === null ? elem_score : child1_score)) {
+                swap = child2_n;
+            }
+        }
+        // If the element needs to be moved, swap it, and continue.
+        if (swap !== null) {
+            heap.content[n] = heap.content[swap];
+            heap.content[swap] = element;
+            n = swap;
+        }
+        // Otherwise, we are done.
+        else {
+            break;
+        }
+    }
+}
+
+
+// t: current time, b: begInnIng value, c: change In value, d: duration
+
+function linear_tween(t, b, c, d) {
+    return c*t/d + b;
+};
+
+function ease_in_quad(t, b, c, d) {
+    return c*(t/=d)*t + b;
+}
+
+function ease_out_quad(t, b, c, d) {
+    return -c *(t/=d)*(t-2) + b;
+}
+
+function ease_in_out_quad(t, b, c, d) {
+    if ((t/=d/2) < 1) return c/2*t*t + b;
+    return -c/2 * ((--t)*(t-2) - 1) + b;
+}
+
+function ease_in_cubic(t, b, c, d) {
+    return c*(t/=d)*t*t + b;
+}
+
+function ease_out_cubic(t, b, c, d) {
+    return c*((t=t/d-1)*t*t + 1) + b;
+}
+
+function ease_in_out_cubic(t, b, c, d) {
+    if ((t/=d/2) < 1) return c/2*t*t*t + b;
+    return c/2*((t-=2)*t*t + 2) + b;
+}
+
+function ease_in_quart(t, b, c, d) {
+    return c*(t/=d)*t*t*t + b;
+}
+
+function ease_out_quart(t, b, c, d) {
+    return -c * ((t=t/d-1)*t*t*t - 1) + b;
+}
+
+function ease_in_out_quart(t, b, c, d) {
+    if ((t/=d/2) < 1) return c/2*t*t*t*t + b;
+    return -c/2 * ((t-=2)*t*t*t - 2) + b;
+}
+
+function ease_in_quint(t, b, c, d) {
+    return c*(t/=d)*t*t*t*t + b;
+}
+
+function ease_out_quint(t, b, c, d) {
+    return c*((t=t/d-1)*t*t*t*t + 1) + b;
+}
+
+function ease_in_out_quint(t, b, c, d) {
+    if ((t/=d/2) < 1) return c/2*t*t*t*t*t + b;
+    return c/2*((t-=2)*t*t*t*t + 2) + b;
+}
+
+function ease_in_sine(t, b, c, d) {
+    return -c * Math.cos(t/d * (Math.PI/2)) + c + b;
+}
+
+function ease_out_sine(t, b, c, d) {
+    return c * Math.sin(t/d * (Math.PI/2)) + b;
+}
+
+function ease_in_out_sine(t, b, c, d) {
+    return -c/2 * (Math.cos(Math.PI*t/d) - 1) + b;
+}
+
+function ease_in_expo(t, b, c, d) {
+    return (t==0) ? b : c * Math.pow(2, 10 * (t/d - 1)) + b;
+}
+
+function ease_out_expo(t, b, c, d) {
+    return (t==d) ? b+c : c * (-Math.pow(2, -10 * t/d) + 1) + b;
+}
+
+function ease_in_out_expo(t, b, c, d) {
+    if (t==0) return b;
+    if (t==d) return b+c;
+    if ((t/=d/2) < 1) return c/2 * Math.pow(2, 10 * (t - 1)) + b;
+    return c/2 * (-Math.pow(2, -10 * --t) + 2) + b;
+}
+
+function ease_in_circ(t, b, c, d) {
+    return -c * (Math.sqrt(1 - (t/=d)*t) - 1) + b;
+}
+
+function ease_out_circ(t, b, c, d) {
+    return c * Math.sqrt(1 - (t=t/d-1)*t) + b;
+}
+
+function ease_in_out_circ(t, b, c, d) {
+    if ((t/=d/2) < 1) return -c/2 * (Math.sqrt(1 - t*t) - 1) + b;
+    return c/2 * (Math.sqrt(1 - (t-=2)*t) + 1) + b;
+}
+
+function ease_in_elastic(t, b, c, d) {
+    var s=1.70158;var p=0;var a=c;
+    if (t==0) return b;  if ((t/=d)==1) return b+c;  if (!p) p=d*.3;
+    if (a < Math.abs(c)) { a=c; s=p/4; }
+    else s = p/(2*Math.PI) * Math.asin (c/a);
+    return -(a*Math.pow(2,10*(t-=1)) * Math.sin( (t*d-s)*(2*Math.PI)/p )) + b;
+}
+
+function ease_out_elastic(t, b, c, d) {
+    var s=1.70158;var p=0;var a=c;
+    if (t==0) return b;  if ((t/=d)==1) return b+c;  if (!p) p=d*.3;
+    if (a < Math.abs(c)) { a=c; s=p/4; }
+    else s = p/(2*Math.PI) * Math.asin (c/a);
+    return a*Math.pow(2,-10*t) * Math.sin( (t*d-s)*(2*Math.PI)/p ) + c + b;
+}
+
+function ease_in_out_elastic(t, b, c, d) {
+    var s=1.70158;var p=0;var a=c;
+    if (t==0) return b;  if ((t/=d/2)==2) return b+c;  if (!p) p=d*(.3*1.5);
+    if (a < Math.abs(c)) { a=c; s=p/4; }
+    else s = p/(2*Math.PI) * Math.asin (c/a);
+    if (t < 1) return -.5*(a*Math.pow(2,10*(t-=1)) * Math.sin( (t*d-s)*(2*Math.PI)/p )) + b;
+    return a*Math.pow(2,-10*(t-=1)) * Math.sin( (t*d-s)*(2*Math.PI)/p )*.5 + c + b;
+}
+
+function ease_in_back(t, b, c, d, s) {
+    if (s == undefined) s = 1.70158;
+    return c*(t/=d)*t*((s+1)*t - s) + b;
+}
+
+function ease_out_back(t, b, c, d, s) {
+    if (s == undefined) s = 1.70158;
+    return c*((t=t/d-1)*t*((s+1)*t + s) + 1) + b;
+}
+
+function ease_in_out_back(t, b, c, d, s) {
+    if (s == undefined) s = 1.70158; 
+    if ((t/=d/2) < 1) return c/2*(t*t*(((s*=(1.525))+1)*t - s)) + b;
+    return c/2*((t-=2)*t*(((s*=(1.525))+1)*t + s) + 2) + b;
+}
+
+function ease_in_bounce(t, b, c, d) {
+    return c - ease_out_bounce (d-t, 0, c, d) + b;
+}
+
+function ease_out_bounce(t, b, c, d) {
+    if ((t/=d) < (1/2.75)) {
+        return c*(7.5625*t*t) + b;
+    } else if (t < (2/2.75)) {
+        return c*(7.5625*(t-=(1.5/2.75))*t + .75) + b;
+    } else if (t < (2.5/2.75)) {
+        return c*(7.5625*(t-=(2.25/2.75))*t + .9375) + b;
+    } else {
+        return c*(7.5625*(t-=(2.625/2.75))*t + .984375) + b;
+    }
+}
+
+function ease_in_out_bounce(t, b, c, d) {
+    if (t < d/2) return ease_in_bounce (t*2, 0, c, d) * .5 + b;
+    return ease_out_bounce (t*2-d, 0, c, d) * .5 + c*.5 + b;
+}
+
+
+/***/ }),
 /* 13 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = create;
+/* unused harmony export clone */
+/* unused harmony export from_values */
+/* unused harmony export create_ext */
+/* unused harmony export clone_ext */
+/* unused harmony export from_values_ext */
+/* unused harmony export copy */
+/* unused harmony export identity */
+/* unused harmony export set_sep */
+/* unused harmony export set_trans */
+/* unused harmony export set_scale */
+/* unused harmony export set_transcale */
+/* unused harmony export set_quat */
+/* unused harmony export get_trans_view */
+/* unused harmony export get_trans */
+/* unused harmony export get_scale */
+/* unused harmony export get_transcale */
+/* unused harmony export get_quat_view */
+/* unused harmony export get_quat */
+/* unused harmony export invert */
+/* unused harmony export to_mat4 */
+/* unused harmony export from_mat4 */
+/* unused harmony export multiply */
+/* unused harmony export transform_mat4 */
+/* unused harmony export transform_vec3 */
+/* unused harmony export transform_vec3_inv */
+/* unused harmony export transform_vectors */
+/* unused harmony export transform_dir_vectors */
+/* unused harmony export transform_dir_vec3 */
+/* unused harmony export transform_tangents */
+/* unused harmony export transform_quat */
+/* unused harmony export transform_quats */
+/* unused harmony export translate */
+/* unused harmony export interpolate */
+/* unused harmony export extrapolate */
+/* unused harmony export integrate */
+/* unused harmony export to_zup_view */
+/* unused harmony export to_zup_model */
+/* unused harmony export get_from_flat_array */
+/* unused harmony export set_to_flat_array */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__libs_gl_matrix_mat4_js__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_quat_js__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_js__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_vec3_js__ = __webpack_require__(2);
+
+
+
+
+
+/**
+ * TSR-8 utility functions
+ * @name tsr
+ * @namespace
+ * @exports exports as tsr
+ */
+
+var ZUP_SIN = Math.sin(-Math.PI / 4);
+var ZUP_COS = -ZUP_SIN;
+
+var _vec3_tmp = new Float32Array(3);
+var _quat_tmp = new Float32Array(4);
+var _mat4_tmp = new Float32Array(16);
+
+function create() {
+    var tsr = new Float32Array(9);
+    tsr[3] = 1;
+    tsr[4] = 1;
+    tsr[5] = 1;
+    return tsr;
+}
+
+function clone(tsr) {
+    var out = create();
+    copy(tsr, out);
+    return out;
+}
+
+function from_values(x, y, z, s, qx, qy, qz, qw) {
+    var tsr = create();
+    tsr[0] = x;
+    tsr[1] = y;
+    tsr[2] = z;
+    tsr[3] = s;
+    tsr[4] = s;
+    tsr[5] = s;
+
+    var sign = qw < 0 ? -1: 1;
+    tsr[6] = sign * qx;
+    tsr[7] = sign * qy;
+    tsr[8] = sign * qz;
+
+    return tsr;
+}
+
+function create_ext() {
+    var tsr = new Float32Array(9);
+    tsr[3] = 1;
+    tsr[4] = 1;
+    tsr[5] = 1;
+    return tsr;
+}
+
+function clone_ext(tsr) {
+    var out = create_ext();
+    copy(tsr, out);
+    return out;
+}
+
+function from_values_ext(x, y, z, s, qx, qy, qz, qw) {
+    var tsr = create_ext();
+    tsr[0] = x;
+    tsr[1] = y;
+    tsr[2] = z;
+    tsr[3] = s;
+    tsr[4] = s;
+    tsr[5] = s;
+
+    var sign = qw < 0 ? -1 : 1;
+    tsr[6] = sign * qx;
+    tsr[7] = sign * qy;
+    tsr[8] = sign * qz;
+
+    return tsr;
+}
+
+function copy(tsr, dest) {
+    // faster than .set()
+    if (tsr[8] != tsr[8])
+        throw new Error(tsr);
+    dest[0] = tsr[0];
+    dest[1] = tsr[1];
+    dest[2] = tsr[2];
+    dest[3] = tsr[3];
+    dest[4] = tsr[4];
+    dest[5] = tsr[5];
+    dest[6] = tsr[6];
+    dest[7] = tsr[7];
+    dest[8] = tsr[8];
+    return dest;
+}
+
+function identity(tsr) {
+    tsr[0] = 0;
+    tsr[1] = 0;
+    tsr[2] = 0;
+    tsr[3] = 1;
+    tsr[4] = 1;
+    tsr[5] = 1;
+    tsr[6] = 0;
+    tsr[7] = 0;
+    tsr[8] = 0;
+
+    return tsr;
+}
+
+/**
+ * Set from separate trans, scale and quat.
+ */
+function set_sep(trans, scale, quat, dest) {
+    dest[0] = trans[0];
+    dest[1] = trans[1];
+    dest[2] = trans[2];
+    if (__WEBPACK_IMPORTED_MODULE_2__util_js__["c" /* is_array */](scale)) {
+        dest[3] = scale[0];
+        dest[4] = scale[1];
+        dest[5] = scale[2];
+    } else {
+        dest[3] = scale;
+        dest[4] = scale;
+        dest[5] = scale;
+    }
+    var sign = quat[3] < 0 ? -1 : 1;
+    dest[6] = sign * quat[0];
+    dest[7] = sign * quat[1];
+    dest[8] = sign * quat[2];
+
+    return dest;
+}
+
+function set_trans(trans, dest) {
+
+    if (trans[0] != trans[0])
+        throw new Error(trans);
+
+    dest[0] = trans[0];
+    dest[1] = trans[1];
+    dest[2] = trans[2];
+
+    return dest;
+}
+function set_scale(scale, dest) {
+    if (__WEBPACK_IMPORTED_MODULE_2__util_js__["c" /* is_array */](scale)) {
+        dest[3] = scale[0];
+        dest[4] = scale[1];
+        dest[5] = scale[2];
+    } else {
+        dest[3] = scale;
+        dest[4] = scale;
+        dest[5] = scale;
+    }
+
+    return dest;
+}
+function set_transcale(transcale, dest) {
+    // NOTE: it is better don't use this function
+    // console.error("B4W ERROR: tsr.set_transcale is dangerous function. Don't use it anymore!!!");
+    dest[0] = transcale[0];
+    dest[1] = transcale[1];
+    dest[2] = transcale[2];
+    dest[3] = transcale[3];
+
+    return dest;
+}
+
+function set_quat(quat, dest) {
+    if (quat[0] != quat[0])
+        throw new Error(quat);
+
+    var sign = quat[3] < 0 ? -1 : 1;
+    dest[6] = sign * quat[0];
+    dest[7] = sign * quat[1];
+    dest[8] = sign * quat[2];
+
+    return dest;
+}
+
+/**
+ * NOTE: bad for CPU and GC
+ * The get_trans_view method is dangerous to use.
+ * Don't do this. It will be romoved later.
+ */
+function get_trans_view(tsr) {
+    // console.error("B4W ERROR: tsr.get_trans_view is dangerous function. Don't use it anymore!!!");
+    return get_trans(tsr, __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_quat_js__["b" /* create */]());
+}
+function get_trans(tsr, dest) {
+    dest[0] = tsr[0];
+    dest[1] = tsr[1];
+    dest[2] = tsr[2];
+
+    return dest;
+}
+function get_scale(tsr, dest) {
+    if (dest) {
+        dest[0] = tsr[3];
+        dest[1] = tsr[4];
+        dest[2] = tsr[5];
+        return dest;
+    }
+    return tsr[3];
+}
+function get_transcale(tsr, dest) {
+    // NOTE: it is better don't use this function
+    // console.error("B4W ERROR: tsr.get_transcale is dangerous function. Don't use it anymore!!!");
+    dest[0] = tsr[0];
+    dest[1] = tsr[1];
+    dest[2] = tsr[2];
+    dest[3] = tsr[3];
+
+    return dest;
+}
+/**
+ * NOTE: bad for CPU and GC
+ * The get_quat_view method is dangerous to use.
+ * Don't do this. It will be romoved later.
+ */
+function get_quat_view(tsr) {
+    // console.error("B4W ERROR: tsr.get_quat_view is dangerous function. Don't use it anymore!!!");
+    return get_quat(tsr, __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_quat_js__["b" /* create */]());
+}
+
+function get_quat(tsr, dest) {
+    dest[0] = tsr[6];
+    dest[1] = tsr[7];
+    dest[2] = tsr[8];
+    dest[3] = Math.sqrt(Math.abs(1 - tsr[6] * tsr[6] - tsr[7] * tsr[7] - tsr[8] * tsr[8]));
+
+    return dest;
+}
+
+var invert = (function () {
+    var _vec3_tmp = __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_vec3_js__["c" /* create */]();
+    var _vec3_tmp2 = __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_vec3_js__["c" /* create */]();
+    var _quat_tmp = __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_quat_js__["b" /* create */]();
+
+    return function invert(tsr, dest) {
+        var s = get_scale(tsr, _vec3_tmp);
+        __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_vec3_js__["g" /* inverse */](s, s);
+
+        // CHECK: is it necessary?
+        if (!s[0])
+            return null;
+
+        var t = get_trans(tsr, _vec3_tmp2);
+        var q = get_quat(tsr, _quat_tmp);
+
+        __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_quat_js__["e" /* invert */](q, q);
+
+        // scale
+        __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_vec3_js__["j" /* multiply */](t, s, t);
+        // rotate
+        __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_vec3_js__["r" /* transformQuat */](t, q, t);
+        // negate
+        __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_vec3_js__["k" /* negate */](t, t);
+
+        set_trans(t, dest);
+        set_scale(s, dest);
+        set_quat(q, dest);
+
+        return dest;
+    };
+})();
+
+var to_mat4 = (function () {
+    var _vec3_tmp = __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_vec3_js__["c" /* create */]();
+    var _vec3_tmp2 = __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_vec3_js__["c" /* create */]();
+    var _quat_tmp = __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_quat_js__["b" /* create */]();
+
+    return function to_mat4(tsr, dest) {
+        var trans = get_trans(tsr, _vec3_tmp);
+        var scale = get_scale(tsr, _vec3_tmp2);
+        var quat = get_quat(tsr, _quat_tmp);
+
+        __WEBPACK_IMPORTED_MODULE_0__libs_gl_matrix_mat4_js__["b" /* fromRotationTranslation */](quat, trans, dest);
+
+        __WEBPACK_IMPORTED_MODULE_0__libs_gl_matrix_mat4_js__["g" /* scale */](dest, scale, dest);
+
+        return dest;
+    };
+})();
+
+/**
+ * NOTE: not optimized
+ */
+var from_mat4 = (function() {
+    var _vec3_tmp = __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_vec3_js__["c" /* create */]();
+    var _vec3_tmp2 = __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_vec3_js__["c" /* create */]();
+    var _quat_tmp = __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_quat_js__["b" /* create */]();
+
+    return function from_mat4(mat, dest) {
+        var trans = __WEBPACK_IMPORTED_MODULE_2__util_js__["f" /* matrix_to_trans */](mat, _vec3_tmp);
+        var scale = __WEBPACK_IMPORTED_MODULE_2__util_js__["e" /* matrix_to_scale */](mat, _vec3_tmp2);
+        var quat = __WEBPACK_IMPORTED_MODULE_2__util_js__["d" /* matrix_to_quat */](mat, _quat_tmp);
+        set_trans(trans, dest);
+        set_scale(scale, dest);
+        set_quat(quat, dest);
+        return dest;
+    };
+})();
+
+/**
+ * Multiply two TSRs.
+ */
+var multiply = (function () {
+    var _vec3_tmp = __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_vec3_js__["c" /* create */]();
+    var _vec3_tmp2 = __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_vec3_js__["c" /* create */]();
+    var _quat_tmp = __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_quat_js__["b" /* create */]();
+    var _quat_tmp2 = __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_quat_js__["b" /* create */]();
+
+    return function multiply(tsr, tsr2, dest) {
+        // trans
+        var t = get_trans(tsr2, _vec3_tmp);
+        transform_vec3(t, tsr, t);
+        set_trans(t, dest);
+
+        // scale
+        var s = get_scale(tsr, _vec3_tmp);
+        var s2 = get_scale(tsr2, _vec3_tmp2);
+        var res_s = __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_vec3_js__["j" /* multiply */](s, s2, _vec3_tmp);
+        set_scale(res_s, dest);
+
+        // quat
+        var q = get_quat(tsr, _quat_tmp);
+        var q2 = get_quat(tsr2, _quat_tmp2);
+        var res_q = __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_quat_js__["f" /* multiply */](q, q2, _quat_tmp);
+        set_quat(res_q, dest);
+
+        return dest;
+    };
+})();
+
+/**
+ * NOTE: unused, non-optimized
+ */
+var transform_mat4 = (function () {
+    var _mat4_tmp = __WEBPACK_IMPORTED_MODULE_0__libs_gl_matrix_mat4_js__["a" /* create */]();
+
+    // CHECK: parameters order!
+    return function transform_mat4(matrix, tsr, dest) {
+        var m = to_mat4(tsr, _mat4_tmp);
+
+        __WEBPACK_IMPORTED_MODULE_0__libs_gl_matrix_mat4_js__["f" /* multiply */](m, matrix, dest);
+
+        return dest;
+    };
+})();
+
+/**
+ * Transform vec3 by TSR
+ */
+var transform_vec3 = (function () {
+    var _vec3_tmp = __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_vec3_js__["c" /* create */]();
+    var _vec3_tmp2 = __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_vec3_js__["c" /* create */]();
+    var _quat_tmp = __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_quat_js__["b" /* create */]();
+
+    return function transform_vec3(vec, tsr, dest) {
+
+        var trans = get_trans(tsr, _vec3_tmp);
+        var scale = get_scale(tsr, _vec3_tmp2);
+        var quat = get_quat(tsr, _quat_tmp);
+
+        // scale
+        __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_vec3_js__["j" /* multiply */](vec, scale, dest);
+
+        // rotate
+        __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_vec3_js__["r" /* transformQuat */](dest, quat, dest);
+
+        // translate
+        __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_vec3_js__["a" /* add */](dest, trans, dest);
+
+        return dest;
+    };
+})();
+
+/**
+ * Transform vec3 by inverse TSR
+ */
+var transform_vec3_inv = (function () {
+    var _vec3_tmp = __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_vec3_js__["c" /* create */]();
+    var _vec3_tmp2 = __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_vec3_js__["c" /* create */]();
+    var _quat_tmp = __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_quat_js__["b" /* create */]();
+
+    return function transform_vec3_inv(vec, tsr, dest) {
+        var trans = get_trans(tsr, _vec3_tmp);
+        var scale = get_scale(tsr, _vec3_tmp2);
+        var quat = get_quat(tsr, _quat_tmp);
+
+        __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_vec3_js__["o" /* subtract */](vec, trans, dest);
+
+        __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_quat_js__["e" /* invert */](quat, quat);
+        __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_vec3_js__["r" /* transformQuat */](dest, quat, dest);
+
+        __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_vec3_js__["g" /* inverse */](scale, scale);
+        __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_vec3_js__["j" /* multiply */](dest, scale, dest);
+
+        return dest;
+    };
+})();
+
+/**
+ * Tranform vec3 vectors by TSR
+ * optional destination offset in values (not vectors, not bytes)
+ */
+var transform_vectors = (function () {
+    var _vec3_tmp = __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_vec3_js__["c" /* create */]();
+    var _vec3_tmp2 = __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_vec3_js__["c" /* create */]();
+    var _vec3_tmp3 = __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_vec3_js__["c" /* create */]();
+    var _quat_tmp = __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_quat_js__["b" /* create */]();
+
+    return function transform_vectors(vectors, tsr, new_vectors, dest_offset) {
+        dest_offset |= 0;
+
+        var len = vectors.length;
+
+        var trans = get_trans(tsr, _vec3_tmp);
+        var scale = get_scale(tsr, _vec3_tmp2);
+        var quat = get_quat(tsr, _quat_tmp);
+
+        var vec = _vec3_tmp3;
+
+        for (var i = 0; i < len; i += 3) {
+            vec[0] = vectors[i];
+            vec[1] = vectors[i + 1];
+            vec[2] = vectors[i + 2];
+
+            // CHECK: may be it is better to replace next lines by transform_vec3
+            __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_vec3_js__["j" /* multiply */](vec, scale, vec);
+            __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_vec3_js__["r" /* transformQuat */](vec, quat, vec);
+            __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_vec3_js__["a" /* add */](vec, trans, vec);
+
+            new_vectors[dest_offset + i] = vec[0];
+            new_vectors[dest_offset + i + 1] = vec[1];
+            new_vectors[dest_offset + i + 2] = vec[2];
+        }
+
+        return new_vectors;
+    };
+})();
+
+/**
+ * Transform directional vec3 vectors by TSR.
+ * optional destination offset in values (not vectors, not bytes)
+ */
+var transform_dir_vectors = (function () {
+    var _vec3_tmp = __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_vec3_js__["c" /* create */]();
+    var _vec3_tmp2 = __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_vec3_js__["c" /* create */]();
+    var _quat_tmp = __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_quat_js__["b" /* create */]();
+
+    return function transform_dir_vectors(vectors, tsr, new_vectors,
+        dest_offset) {
+
+        dest_offset |= 0;
+
+        var len = vectors.length;
+
+        var scale = get_scale(tsr, _vec3_tmp);
+        var quat = get_quat(tsr, _quat_tmp);
+
+        var vec = _vec3_tmp2;
+
+        for (var i = 0; i < len; i += 3) {
+            vec[0] = vectors[i];
+            vec[1] = vectors[i + 1];
+            vec[2] = vectors[i + 2];
+
+            // CHECK: may be it is better to replace next lines by transform_dir_vec3
+            __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_vec3_js__["j" /* multiply */](vec, scale, vec);
+            __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_vec3_js__["r" /* transformQuat */](vec, quat, vec);
+
+            new_vectors[dest_offset + i] = vec[0];
+            new_vectors[dest_offset + i + 1] = vec[1];
+            new_vectors[dest_offset + i + 2] = vec[2];
+        }
+
+        return new_vectors;
+    };
+})();
+
+/**
+ * Transform directional vec3 by TSR.
+ */
+var transform_dir_vec3 = (function () {
+    var _vec3_tmp = __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_vec3_js__["c" /* create */]();
+    var _quat_tmp = __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_quat_js__["b" /* create */]();
+    return function transform_dir_vec3(vec, tsr, new_vec) {
+
+        var scale = get_scale(tsr, _vec3_tmp);
+        var quat = get_quat(tsr, _quat_tmp);
+
+        __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_vec3_js__["j" /* multiply */](vec, scale, new_vec);
+        __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_vec3_js__["r" /* transformQuat */](new_vec, quat, new_vec);
+
+        return new_vec;
+    };
+})();
+
+/**
+ * Tranform 4 comp tangent vectors by matrix.
+ * optional destination offset in values (not vectors, not bytes)
+ */
+var transform_tangents = (function () {
+    var _vec3_tmp = __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_vec3_js__["c" /* create */]();
+    var _vec3_tmp2 = __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_vec3_js__["c" /* create */]();
+    var _quat_tmp = __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_quat_js__["b" /* create */]();
+
+    return function transform_tangents(vectors, tsr, new_vectors, dest_offset) {
+        dest_offset |= 0;
+
+        var len = vectors.length;
+
+        var scale = get_scale(tsr, _vec3_tmp);
+        var quat = get_quat(tsr, _quat_tmp);
+
+        var vec = _vec3_tmp2;
+
+        for (var i = 0; i < len; i += 4) {
+            vec = vectors[i];
+            vec = vectors[i + 1];
+            vec = vectors[i + 2];
+
+            __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_vec3_js__["m" /* scale */](vec, scale, vec);
+            __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_vec3_js__["r" /* transformQuat */](vec, quat, vec);
+
+            new_vectors[dest_offset + i] = vec[0];
+            new_vectors[dest_offset + i + 1] = vec[1];
+            new_vectors[dest_offset + i + 2] = vec[2];
+            // just save exact sign
+            new_vectors[dest_offset + i + 3] = vectors[i + 3];
+        }
+
+        return new_vectors;
+    };
+})();
+
+function transform_quat(quat, tsr, new_quat) {
+    get_quat(tsr, new_quat);
+
+    return __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_quat_js__["f" /* multiply */](new_quat, quat, new_quat);
+}
+
+/**
+ * Tranform quaternions vectors by tsr.
+ * optional destination offset in values (not vectors, not bytes)
+ */
+var transform_quats = (function () {
+    var _quat_tmp = __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_quat_js__["b" /* create */]();
+
+    return function transform_quats(vectors, tsr, new_vectors, dest_offset) {
+
+        dest_offset |= 0;
+
+        var rot_quat = get_quat(tsr, _quat_tmp);
+
+        __WEBPACK_IMPORTED_MODULE_2__util_js__["g" /* quats_multiply_quat */](vectors, rot_quat, new_vectors, dest_offset);
+
+        return new_vectors;
+    };
+})();
+
+/**
+ * Perform TSR translation by given vec3
+ */
+var translate = (function () {
+    var _vec3_tmp = __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_vec3_js__["c" /* create */]();
+    var _vec3_tmp2 = __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_vec3_js__["c" /* create */]();
+    var _quat_tmp = __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_quat_js__["b" /* create */]();
+
+    return function translate(tsr, vec, dest) {
+        var trans = get_trans(tsr, _vec3_tmp);
+        var scale = get_scale(tsr, _vec3_tmp2);
+        var quat = get_quat(tsr, _quat_tmp);
+
+        var offset = __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_vec3_js__["j" /* multiply */](vec, scale, _vec3_tmp2);
+        __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_vec3_js__["r" /* transformQuat */](offset, quat, offset);
+
+        __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_vec3_js__["a" /* add */](trans, offset, trans);
+
+        copy(tsr, dest);
+
+        set_trans(trans, dest);
+
+        return dest;
+    };
+})();
+
+var interpolate = (function () {
+    var _vec3_tmp = __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_vec3_js__["c" /* create */]();
+    var _vec3_tmp2 = __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_vec3_js__["c" /* create */]();
+    var _quat_tmp = __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_quat_js__["b" /* create */]();
+    var _quat_tmp2 = __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_quat_js__["b" /* create */]();
+
+    return function interpolate(tsr, tsr2, factor, dest) {
+        // linear
+        var trans = get_trans(tsr, _vec3_tmp);
+        var trans2 = get_trans(tsr2, _vec3_tmp2);
+        var trans_dst = __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_vec3_js__["i" /* lerp */](trans, trans2, factor, _vec3_tmp);
+        set_trans(trans_dst, dest);
+
+        // linear
+        var scale = get_scale(tsr, _vec3_tmp);
+        var scale2 = get_scale(tsr2, _vec3_tmp2);
+        var scale_dst = __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_vec3_js__["i" /* lerp */](trans, trans2, factor, _vec3_tmp);
+        set_scale(scale_dst, dest);
+
+        // spherical
+        var quat = get_quat(tsr, _quat_tmp);
+        var quat2 = get_quat(tsr2, _quat_tmp2);
+        var quat_dst = __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_quat_js__["j" /* slerp */](quat, quat2, factor, _quat_tmp);
+        set_quat(quat_dst, dest);
+
+        return dest;
+    };
+})();
+
+/**
+ * Lineary extrapolate two TSR vectors by given factor.
+ * Yextr = Y1 + (Y1 - Y0) * factor = Y1 * (factor + 1) - Y0 * factor
+ * NOTE: unused, untested, incomplete
+ */
+var extrapolate = (function () {
+    var _vec3_tmp = __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_vec3_js__["c" /* create */]();
+    var _vec3_tmp2 = __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_vec3_js__["c" /* create */]();
+    var _quat_tmp = __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_quat_js__["b" /* create */]();
+    var _quat_tmp2 = __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_quat_js__["b" /* create */]();
+
+    return function extrapolate(tsr, tsr2, factor, dest) {
+        // linear
+        var trans = get_trans(tsr, _vec3_tmp);
+        var trans2 = get_trans(tsr2, _vec3_tmp2);
+        var trans_dst = _vec3_tmp;
+        trans_dst[0] = trans2[0] * (factor + 1) - trans[0] * factor;
+        trans_dst[1] = trans2[1] * (factor + 1) - trans[1] * factor;
+        trans_dst[2] = trans2[2] * (factor + 1) - trans[2] * factor;
+        set_trans(trans_dst, dest);
+
+        // linear
+        var scale = get_scale(tsr, _vec3_tmp);
+        var scale2 = get_scale(tsr2, _vec3_tmp2);
+        var scale_dst = _vec3_tmp;
+        scale_dst[0] = scale2[0] * (factor + 1) - scale[0] * factor;
+        scale_dst[1] = scale2[1] * (factor + 1) - scale[1] * factor;
+        scale_dst[2] = scale2[2] * (factor + 1) - scale[2] * factor;
+        set_scale(scale_dst, dest);
+
+        // NOTE: currently use linear interpolation and normalization
+        var quat = get_quat(tsr, _quat_tmp);
+        var quat2 = get_quat(tsr2, _quat_tmp2);
+        var quat_dst = _quat_tmp;
+
+        // NOTE: expect issues with opposed quats
+        quat_dst[0] = quat2[0] * (factor + 1) - quat[0] * factor;
+        quat_dst[1] = quat2[1] * (factor + 1) - quat[1] * factor;
+        quat_dst[2] = quat2[2] * (factor + 1) - quat[2] * factor;
+        quat_dst[3] = quat2[3] * (factor + 1) - quat[3] * factor;
+        __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_quat_js__["g" /* normalize */](quat_dst, quat_dst);
+        set_quat(quat_dst, dest);
+
+        return dest;
+    };
+})();
+
+var integrate = (function () {
+    var _vec3_tmp = __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_vec3_js__["c" /* create */]();
+    var _vec3_tmp2 = __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_vec3_js__["c" /* create */]();
+    var _quat_tmp = __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_quat_js__["b" /* create */]();
+    var _quat_tmp2 = __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_quat_js__["b" /* create */]();
+
+    return function integrate(tsr, time, linvel, angvel, dest) {
+        var trans = get_trans(tsr, _vec3_tmp);
+        trans[0] = trans[0] + time * linvel[0];
+        trans[1] = trans[1] + time * linvel[1];
+        trans[2] = trans[2] + time * linvel[2];
+        set_trans(trans, dest);
+
+        // CHECK: why don't we change scale?
+        var scale = get_scale(tsr, _vec3_tmp);
+        set_scale(scale, dest);
+
+        var quat = get_quat(tsr, _quat_tmp);
+        // Calculate quaternion derivation dQ/dt = 0.5*W*Q
+        var wx = angvel[0];
+        var wy = angvel[1];
+        var wz = angvel[2];
+        // basic multiplication, than scale
+        var quat2 = _quat_tmp2;
+        quat2[0] = 0.5 * (wx * quat[3] + wy * quat[2] - wz * quat[1]);
+        quat2[1] = 0.5 * (wy * quat[3] + wz * quat[0] - wx * quat[2]);
+        quat2[2] = 0.5 * (wz * quat[3] + wx * quat[1] - wy * quat[0]);
+        quat2[3] = 0.5 * (-wx * quat[0] - wy * quat[1] - wz * quat[2]);
+
+        quat[0] = quat[0] + quat2[0] * time;
+        quat[1] = quat[1] + quat2[1] * time;
+        quat[2] = quat[2] + quat2[2] * time;
+        quat[3] = quat[3] + quat2[3] * time;
+        __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_quat_js__["g" /* normalize */](quat, quat);
+        set_quat(quat, dest);
+
+        return dest;
+    };
+})();
+
+var to_zup_view = (function () {
+    var _vec3_tmp = __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_vec3_js__["c" /* create */]();
+    var _vec3_tmp2 = __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_vec3_js__["c" /* create */]();
+    var _quat_tmp = __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_quat_js__["b" /* create */]();
+    var _quat_tmp2 = __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_quat_js__["b" /* create */]();
+
+    return function to_zup_view(tsr, dest) {
+        var trans = get_trans(tsr, _vec3_tmp);
+        set_trans(trans, dest);
+        var scale = get_scale(tsr, _vec3_tmp2);
+        set_scale(scale, dest);
+
+        // rotation around global X-axis
+        // sin/cos -PI/4 for -PI/2 rotation
+        var quat = get_quat(tsr, _quat_tmp);
+        var bx = ZUP_SIN, bw = ZUP_COS;
+
+        var new_quat = _quat_tmp2;
+        new_quat[0] = quat[0] * bw + quat[3] * bx;
+        new_quat[1] = quat[1] * bw + quat[2] * bx;
+        new_quat[2] = quat[2] * bw - quat[1] * bx;
+        new_quat[3] = quat[3] * bw - quat[0] * bx;
+        set_quat(new_quat, dest);
+
+        return dest;
+    };
+})();
+
+var to_zup_model = (function () {
+    var _vec3_tmp = __WEBPACK_IMPORTED_MODULE_3__libs_gl_matrix_vec3_js__["c" /* create */]();
+    var _quat_tmp = __WEBPACK_IMPORTED_MODULE_1__libs_gl_matrix_quat_js__["b" /* create */]();
+
+    return function to_zup_model(tsr, dest) {
+        //location
+        var trans = get_trans(tsr, _vec3_tmp);
+        trans[0] = trans[0];
+        trans[1] = -trans[2];
+        trans[2] = trans[1];
+        set_trans(trans, dest);
+
+        //scale
+        var scale = get_scale(tsr, _vec3_tmp);
+        set_scale(scale, dest);
+
+        //rot quaternion
+        var quat = get_quat(tsr, _quat_tmp);
+        quat[0] = quat[0];
+        quat[1] = -quat[1];
+        quat[2] = quat[2];
+        quat[3] = quat[3];
+        set_quat(quat, dest);
+
+        return dest;
+    };
+})();
+
+function get_from_flat_array(flat_tsr_array, index, dest) {
+    dest[0] = flat_tsr_array[9 * index];
+    dest[1] = flat_tsr_array[9 * index + 1];
+    dest[2] = flat_tsr_array[9 * index + 2];
+    dest[3] = flat_tsr_array[9 * index + 3];
+    dest[4] = flat_tsr_array[9 * index + 4];
+    dest[5] = flat_tsr_array[9 * index + 5];
+    dest[6] = flat_tsr_array[9 * index + 6];
+    dest[7] = flat_tsr_array[9 * index + 7];
+    dest[8] = flat_tsr_array[9 * index + 8];
+
+    return dest;
+}
+
+function set_to_flat_array(tsr, flat_tsr_array, index) {
+    flat_tsr_array[9 * index] = tsr[0];
+    flat_tsr_array[9 * index + 1] = tsr[1];
+    flat_tsr_array[9 * index + 2] = tsr[2];
+    flat_tsr_array[9 * index + 3] = tsr[3];
+    flat_tsr_array[9 * index + 4] = tsr[4];
+    flat_tsr_array[9 * index + 5] = tsr[5];
+    flat_tsr_array[9 * index + 6] = tsr[6];
+    flat_tsr_array[9 * index + 7] = tsr[7];
+    flat_tsr_array[9 * index + 8] = tsr[8];
+
+    return flat_tsr_array;
+}
+
+/***/ }),
+/* 14 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__register_js__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__assert_js__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__intern_print_js__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__intern_print_js__ = __webpack_require__(9);
 
 
 
@@ -8614,7 +9471,7 @@ var generator_fact = Object(__WEBPACK_IMPORTED_MODULE_0__register_js__["a" /* de
 /* harmony default export */ __webpack_exports__["a"] = (generator_fact);
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

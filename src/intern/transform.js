@@ -20,6 +20,7 @@ import * as m_bounds from "./boundings.js";
 import m_cam_fact from "./camera.js";
 import m_cons_fact from "./constraints.js";
 import * as m_lights from "./lights.js";
+import * as m_quat from "../libs/gl_matrix/quat.js";
 import m_obj_fact from "./objects.js";
 import m_obj_util_fact from "./obj_util.js";
 import m_scs_fact from "./scenes.js";
@@ -161,9 +162,11 @@ exports.set_scale = function(obj, scale) {
     var render = obj.render;
 
     if (m_cons.has_child_of(obj)) {
+        m_tsr.set_scale(scale, render.world_tsr);
+        var tsr_par = m_cons.get_child_of_parent_tsr(obj);
+        var tsr_inv = m_tsr.invert(tsr_par, _tsr_tmp);
         var offset = m_cons.get_child_of_offset(obj);
-        var scale_par = m_tsr.get_scale(m_cons.get_child_of_parent_tsr(obj));
-        m_tsr.set_scale(scale/scale_par, offset);
+        m_tsr.multiply(tsr_inv, render.world_tsr, offset);
     } else
         m_tsr.set_scale(scale, render.world_tsr);
 }
@@ -178,16 +181,16 @@ exports.set_scale_rel = function(obj, scale) {
         m_tsr.set_scale(scale, render.world_tsr);
 }
 
-exports.get_scale = function(obj) {
-    return m_tsr.get_scale(obj.render.world_tsr);
+exports.get_scale = function(obj, dest) {
+    return m_tsr.get_scale(obj.render.world_tsr, dest);
 }
 
-exports.get_scale_rel = function(obj) {
+exports.get_scale_rel = function (obj, dest) {
     if (m_cons.has_child_of(obj)) {
         var offset = m_cons.get_child_of_offset(obj);
-        return m_tsr.get_scale(offset);
+        return m_tsr.get_scale(offset, dest);
     } else
-        return m_tsr.get_scale(obj.render.world_tsr);
+        return m_tsr.get_scale(obj.render.world_tsr, dest);
 }
 
 exports.set_tsr = function(obj, tsr) {
@@ -225,19 +228,23 @@ function get_tsr_rel(obj, dest) {
     return dest;
 }
 
-exports.get_object_size = function(obj) {
+exports.get_object_size = (function() {
+    var _vec3_tmp = m_vec3.create();
+
+    return function get_object_size(obj) {
 
     var render = obj.render;
     var bb = render.bb_original;
 
-    var scale  = m_tsr.get_scale(render.world_tsr);
-    var x_size = scale * (bb.max_x - bb.min_x);
-    var y_size = scale * (bb.max_y - bb.min_y);
-    var z_size = scale * (bb.max_z - bb.min_z);
+        var scale = m_tsr.get_scale(render.world_tsr, _vec3_tmp);
+        var x_size = scale[0] * (bb.max_x - bb.min_x);
+        var y_size = scale[1] * (bb.max_y - bb.min_y);
+        var z_size = scale[2] * (bb.max_z - bb.min_z);
 
     var size = 0.5 * Math.sqrt(x_size * x_size + y_size * y_size + z_size * z_size);
     return size;
-}
+    };
+})();
 
 exports.get_object_center = function(obj, calc_bs_center, dest) {
     if (calc_bs_center) {
@@ -322,10 +329,15 @@ function update_transform(obj) {
         var armobj = obj.armobj;
         if (armobj) {
             var armobj_tsr = armobj.render.world_tsr;
-            m_tsr.invert(armobj_tsr, _tsr_tmp);
-            m_tsr.multiply(_tsr_tmp, render.world_tsr, _tsr_tmp);
-            m_tsr.get_transcale(_tsr_tmp, render.arm_rel_trans);
-            m_tsr.get_quat(_tsr_tmp, render.arm_rel_quat);
+            // can calculate inverted tsr only for non-zero scale
+            if (armobj_tsr[3] != 0 && armobj_tsr[4] != 0 && armobj_tsr[5] != 0) {
+                m_tsr.invert(armobj_tsr, _tsr_tmp);
+                m_tsr.multiply(_tsr_tmp, render.world_tsr, _tsr_tmp);
+                m_tsr.get_transcale(_tsr_tmp, render.arm_rel_trans);
+                m_tsr.get_quat(_tsr_tmp, render.arm_rel_quat);
+            } else {
+                m_tsr.get_transcale(armobj_tsr, render.arm_rel_trans);
+            }
         }
 
         render.force_zsort = true;

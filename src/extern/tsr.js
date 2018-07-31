@@ -19,12 +19,15 @@ import register from "../util/register.js";
 import * as m_mat4 from "../libs/gl_matrix/mat4.js";
 import * as m_tsr from "../intern/tsr.js";
 
+import m_print_fact from "../intern/print.js";
+
 /** 
  * {@link TSR} (translation, scale, rotation} utility routines.
  * @module tsr
  * @see https://www.blend4web.com/doc/en/objects.html#moving-via-tsr-vectors
  */
 function TSR(ns, exports) {
+var m_print  = m_print_fact(ns);
 
 /**
  * Create a new identity TSR vector.
@@ -67,7 +70,7 @@ exports.identity = m_tsr.identity;
  * Set TSR from separate trans, scale and quat.
  * @method module:tsr.set_sep
  * @param {Vec3} trans Translation vector
- * @param {number} scale Scale
+ * @param {number|Vec3} scale Scale
  * @param {Quat} quat Rotation quaternion
  * @param {TSR} [dest] Destination TSR vector
  * @returns {TSR} dest Destination TSR vector
@@ -92,7 +95,7 @@ exports.set_trans = m_tsr.set_trans;
 /**
  * Set TSR scale.
  * @method module:tsr.set_scale
- * @param {number} scale Scale
+ * @param {number|Vec3} scale Scale
  * @param {TSR} dest Destination TSR vector
  */
 exports.set_scale = m_tsr.set_scale;
@@ -101,8 +104,13 @@ exports.set_scale = m_tsr.set_scale;
  * @method module:tsr.set_transcale
  * @param {Vec4} transcale Translation+Scale vector
  * @param {TSR} dest Destination TSR vector
+ * @deprecated Use {@link module:tsr.set_trans} and {@link module:tsr.set_scale} instead
  */
-exports.set_transcale = m_tsr.set_transcale ;
+exports.set_transcale = function(transcale, dest) {
+    m_print.error_once("set_transcale is deprecated, use the tsr.set_trans and tsr.set_scale functions instead.");
+
+    return m_tsr.set_transcale(transcale, dest);
+}
 /**
  * Set TSR quaternion.
  * @method module:tsr.set_quat
@@ -116,20 +124,54 @@ exports.set_quat = m_tsr.set_quat;
  * @method module:tsr.get_trans_view
  * @param {TSR} tsr TSR vector
  * @returns {Vec3} Translation part of TSR
+ * @deprecated Use {@link module:tsr.get_trans} instead
  */
-exports.get_trans_view = m_tsr.get_trans_view;
+exports.get_trans_view = function(tsr) {
+    m_print.error_once("get_trans_view is deprecated, use the tsr.get_trans functions.");
+
+    return m_tsr.get_trans_view(tsr);
+}
+
 /**
- * Get TSR scale.
+ * Get translation part of TSR.
+ * @method module:tsr.get_trans
+ * @param {TSR} tsr TSR vector
+ * @param {Vec3} dest Destination translation vector
+ * @returns {Vec3} Translation part of TSR
+ */
+exports.get_trans = m_tsr.get_trans;
+
+/**
+ * Get TSR scale. If the dest parameter is presented,
+ * then a non-uniform scale of the TSR is returned,
+ * else the first component of scale is returned.
  * @method module:tsr.get_scale
- * @returns {number} Scale
+ * @param {TSR} tsr TSR vector
+ * @param {Vec3} [dest] Destination scale vector
+ * @returns {Vec3|number} Scale
  */
 exports.get_scale = m_tsr.get_scale;
 /**
  * Get ArrayBufferView from quaternion part of TSR.
  * @method module:tsr.get_quat_view
+ * @param {TSR} tsr TSR vector
+ * @returns {Quat} Quaternion part of TSR
+ * @deprecated Use {@link module:tsr.get_quat} instead
+ */
+exports.get_quat_view = function(tsr) {
+    m_print.error_once("get_quat_view is deprecated, use the tsr.get_quat functions.");
+
+    return m_tsr.get_quat_view(tsr);
+}
+
+/**
+ * Get quaternion part of TSR.
+ * @method module:tsr.get_quat
+ * @param {TSR} tsr TSR vector
+ * @param {Vec3} dest Destination quaternion vector
  * @returns {Quat} Quaternion part of TSR
  */
-exports.get_quat_view = m_tsr.get_quat_view;
+exports.get_quat = m_tsr.get_quat;
 
 /**
  * Calculates the inverse of TSR.

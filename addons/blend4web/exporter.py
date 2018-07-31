@@ -543,7 +543,7 @@ def obj_auto_apply_scale(obj):
         return obj_has_nonuniform_scale(obj)
 
 def obj_has_nonuniform_scale(obj):
-    return not (obj.scale[0] == obj.scale[1] and obj.scale[1] == obj.scale[2])
+    return False
 
 def obj_auto_apply_modifiers(obj):
     if ('b4w_apply_modifiers' in obj.keys()
@@ -855,7 +855,6 @@ def process_action(action):
             fc_indices[path] = []
             has_quat_rotation |= path.find("rotation_quaternion") > -1
             has_euler_rotation |= path.find("rotation_euler") > -1
-
         fc_indices[path].append(i)
 
     # prefer quaternion rotation
@@ -877,7 +876,7 @@ def process_action(action):
 
         num_channels = 1
         if is_scale or is_location or is_rotation_quat or is_rotation_euler:
-            num_channels = 8
+            num_channels = 9
         elif is_light_color or is_environment_color or is_fog_color:
             num_channels = 3
         elif is_node:
@@ -894,16 +893,11 @@ def process_action(action):
         for index in fc_indices[data_path]:
             if data_path not in act_data["fcurves"]:
                 act_data["fcurves"][data_path] = OrderedDict()
-            elif is_scale:
-                # expect uniform scales so process only first available channel
-                continue
 
             fcurve = action.fcurves[index]
 
             array_index = fcurve.array_index
-            if is_scale:
-                array_index = 0
-            elif is_node and array_index == num_channels:
+            if is_node and array_index == num_channels:
                 # Do not export alpha channel for RGB nodes
                 break
 
@@ -1962,7 +1956,7 @@ def process_object(obj, is_curve=False, is_hair=False):
     sca = obj.scale
     # applied scale
     if obj.b4w_apply_scale or obj_auto_apply_scale(obj):
-        if (obj_data["type"] == "MESH" 
+        if (obj_data["type"] == "MESH"
                 or obj.type == "CURVE" and obj_data["type"] == "EMPTY"):
             sca = [1.0, 1.0, 1.0]
     if obj.type == "META" and obj_data["type"] == "EMPTY":
@@ -1974,8 +1968,10 @@ def process_object(obj, is_curve=False, is_hair=False):
     if obj.parent:
         sca_parent = obj.parent.scale
         mat_inv_parent = obj.matrix_parent_inverse
-        pinv_scale = mat_inv_parent.to_scale()
-        pinv_rotation_quat = mat_inv_parent.to_quaternion()
+        mat_inv_parent_inv = mat_inv_parent.inverted()
+        pinv_scale = list(map(operator.truediv, [1.0, 1.0, 1.0], mat_inv_parent_inv.to_scale()))
+        pinv_rotation_quat = mat_inv_parent_inv.to_quaternion().inverted()
+        # CHECK: if we can use mat_inv_parent instead of mat_inv_parent_inv
         pinv_translation = mat_inv_parent.to_translation()
         loc = mat_inv_parent * loc
         if obj.parent.b4w_apply_scale or obj_auto_apply_scale(obj.parent):
@@ -1983,11 +1979,11 @@ def process_object(obj, is_curve=False, is_hair=False):
             loc = list(map(operator.mul, sca_parent, loc))
 
         sca = list(map(operator.mul, sca, pinv_scale))
-        rot.rotate(mat_inv_parent)
+        rot.rotate(pinv_rotation_quat)
         obj_data["pinverse_tsr"] = round_iterable( 
             [pinv_translation[0], pinv_translation[1], pinv_translation[2], 
-            pinv_scale[0],
-            pinv_rotation_quat.x, pinv_rotation_quat.y, pinv_rotation_quat.z, pinv_rotation_quat.w], 5)
+            pinv_scale[0], pinv_scale[1], pinv_scale[2],
+            pinv_rotation_quat.x, pinv_rotation_quat.y, pinv_rotation_quat.z], 5)
 
     obj_data["location"] = round_iterable([loc[0], loc[1], loc[2]], 5)
 

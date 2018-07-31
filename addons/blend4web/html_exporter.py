@@ -34,7 +34,7 @@ _b4w_export_errors = []
 
 _packed_data = None
 
-PATH_TO_WEBPLAYER = "deploy/apps/webplayer/"
+PATH_TO_WEBPLAYER = "projects/webplayer/build"
 
 class B4W_HTMLExportProcessor(bpy.types.Operator):
 
@@ -83,7 +83,7 @@ class B4W_HTMLExportProcessor(bpy.types.Operator):
             if not os.path.isfile(tpl_path):
                 tpl_path = os.path.join(path, "webplayer_template.html")
 
-            js_path = os.path.join(path, "webplayer.min.js")
+            js_path = os.path.join(path, "webplayer.js")
             if os.path.isfile(tpl_path) and os.path.isfile(js_path):
                 return True
         return False
@@ -149,9 +149,8 @@ class B4W_HTMLExportProcessor(bpy.types.Operator):
         # for standalone addon template located in the same dir
         if not os.path.isfile(html_tpl_path):
             html_tpl_path = os.path.join(b4w_webplayer_path, "webplayer_template.html")
-        b4w_minjs_path = os.path.join(b4w_webplayer_path, "webplayer.min.js")
-        b4w_css_path = os.path.join(b4w_webplayer_path, "webplayer.min.css")
-
+        b4w_minjs_path = os.path.join(b4w_webplayer_path, "webplayer.js")
+        b4w_css_path = os.path.join(b4w_webplayer_path, "webplayer.css")
         
         if "CANCELLED" in bpy.ops.export_scene.b4w_json("EXEC_DEFAULT", \
                 filepath=json_path, do_autosave=False, save_export_path=False, \
@@ -192,7 +191,7 @@ class B4W_HTMLExportProcessor(bpy.types.Operator):
         else:
             bpy.ops.b4w.export_messages_dialog('INVOKE_DEFAULT')
         if self.do_autosave:
-            autosave()
+            autosave(self)
 
         return "exported"
 
@@ -347,11 +346,15 @@ def get_filepath_blend(export_filepath):
 def guard_slashes(path):
     return path.replace('\\', '/')
 
-def autosave():
+def autosave(operator):
     filepath = bpy.data.filepath
+    operator.report({'INFO'}, filepath)
     if filepath:
-        bpy.ops.wm.save_mainfile(filepath=filepath)
-        print("File autosaved to " + filepath)
+        try:
+            bpy.ops.wm.save_mainfile(filepath=filepath)
+            print("File autosaved to " + filepath)
+        except Exception as e:
+            operator.report({'WARNING'}, "Error in packing files: %s" % repr(e))
     else:
         print("Could not autosave: no file")
 

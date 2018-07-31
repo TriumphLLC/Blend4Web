@@ -20,7 +20,7 @@
 
 #if BILLBOARD_SPHERICAL || !BILLBOARD && (BILLBOARD_ALIGN == BILLBOARD_ALIGN_VIEW)
 mat3 billboard_spherical(vec3 center_pos, mat3 view_tsr) {
-    vec4 bb_q = vec4(view_tsr[1][1], view_tsr[1][2], view_tsr[2][0],view_tsr[2][1]);
+    vec4 bb_q = tsr_get_quat(view_tsr);
     // NOTE: camera is rotated downward by default,
     // inversed vertex order during reflection pass
 #if REFLECTION_PASS == REFL_PASS_PLANE
@@ -32,7 +32,7 @@ mat3 billboard_spherical(vec3 center_pos, mat3 view_tsr) {
     bb_q = qinv(bb_q);
 
     mat3 bb_tsr = tsr_identity();
-    bb_tsr[0] = center_pos;
+    bb_tsr = tsr_set_trans(center_pos, bb_tsr);
     bb_tsr = tsr_set_quat(bb_q, bb_tsr);
 
     return bb_tsr;
@@ -45,7 +45,7 @@ mat3 billboard_cylindrical(vec3 camera_eye, vec3 center_pos) {
 
     vec4 bb_q = qfrom_dir(center_to_cam, TOWARD_VECTOR);
     mat3 bb_tsr = tsr_identity();
-    bb_tsr[0] = center_pos;
+    bb_tsr = tsr_set_trans(center_pos, bb_tsr);
     bb_tsr = tsr_set_quat(bb_q, bb_tsr);
 
     return bb_tsr;
@@ -71,7 +71,7 @@ mat3 bend_jitter_rotate_tsr(in vec3 wind_world, float wind_param, float jitter_a
     vec4 bj_quat = qsetAxisAngle(TOWARD_VECTOR, bj_angle);
 
     // rotate tsr from the right
-    vec4 model_quat = vec4(model_tsr[1][1], model_tsr[1][2], model_tsr[2][0], model_tsr[2][1]);
+    vec4 model_quat = tsr_get_quat(model_tsr);
     model_quat = qmult(model_quat, bj_quat);
     model_tsr = tsr_set_quat(model_quat, model_tsr);
 
@@ -88,7 +88,7 @@ mat3 billboard_tsr(in vec3 camera_eye, in vec3 wcen, in mat3 view_tsr,
     float seed = fract((wcen.x * 1.43 - wcen.z * 0.123 + wcen.y * 6.1));
     float alpha_rand = 2.0 * M_PI * seed;
 
-    vec4 view_quat = vec4(view_tsr[1][1], view_tsr[1][2], view_tsr[2][0], view_tsr[2][1]);
+    vec4 view_quat = tsr_get_quat(view_tsr);
     float alpha_cam = asin(2.0 * (view_quat.x * view_quat.y - view_quat.z * view_quat.w));
 
     float alpha_diff = alpha_cam - alpha_rand;
@@ -111,7 +111,7 @@ mat3 billboard_tsr(in vec3 camera_eye, in vec3 wcen, in mat3 view_tsr,
 
     vec4 bill_quat = qsetAxisAngle(UP_VECTOR, res_angle);
     mat3 bill_tsr = tsr_identity();
-    bill_tsr[0] = wcen;
+    bill_tsr = tsr_set_trans(wcen, bill_tsr);
     bill_tsr = tsr_set_quat(bill_quat, bill_tsr);
 #else
     mat3 bill_tsr = billboard_cylindrical(camera_eye, wcen);
@@ -119,12 +119,14 @@ mat3 billboard_tsr(in vec3 camera_eye, in vec3 wcen, in mat3 view_tsr,
 
 #if BILLBOARD_PRES_GLOB_ORIENTATION && !STATIC_BATCH
     // NOTE: translation is already in bill_tsr
-    model_tsr[0] = vec3(0.0, 0.0, 0.0);
+    model_tsr = tsr_set_trans(vec3(0.0), model_tsr);
     // apply scale and rotation
     bill_tsr = tsr_multiply(bill_tsr, model_tsr);
 #else
     // apply scale only
-    bill_tsr[1][0] *= model_tsr[1][0];
+    vec3 bill_scale = tsr_get_scale(bill_tsr);
+    vec3 model_scale = tsr_get_scale(model_tsr);
+    bill_tsr = tsr_set_scale(bill_scale * model_scale, bill_tsr);
 #endif
 
     return bill_tsr;
@@ -138,7 +140,7 @@ vertex to_world(in vec3 pos, in vec3 cen, in vec3 tng, in vec3 shd_tng, in vec3 
     tng = tsr9_transform_dir(model_tsr, tng);
     shd_tng = tsr9_transform_dir(model_tsr, shd_tng);
     bnr = tsr9_transform_dir(model_tsr, bnr);
-    nrm = tsr9_transform_dir(model_tsr, nrm);
+    nrm = tsr9_transform_normal(model_tsr, nrm);
 
     return tbn_norm(vertex(pos, cen, tng, shd_tng, bnr, nrm, vec3(0.0)));
 }

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Blend4Web Player</title>
+    <meta property="og:title" content="Blend4Web Player">
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <meta name="description" content="Check out these awesome 3D graphics made with Blend4Web!">
+    <meta name="og:description" content="Check out these awesome 3D graphics made with Blend4Web!">
+    <meta property="og:image" content="data:image/png;base64,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">
+    <link rel="shortcut icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QAAACOAMyAOgNuAAAACXBIWXMAAA3XAAAN1wFCKJt4AAAAB3RJTUUH3wYZCzUe2Yb52wAAAihJREFUOMt9009onFUUBfDf/WYaRaoFsVFsFAqKi0oWZlJHEMSN4KboJoi66UpF6OhMN3VVhWIRMphQF124qGBEELVWNy6EQK2FTqSCUcRqqhYsCgpG+8+Z73aRj2SaVs/m8e475/DOu/eFa2Hv4ohN556W8QxKGQctXz9n77ZL66lxxW72+E0GtWeJlnT7Ou6vmHVx5KA9439eadDtPY6XsRUb/T/+lrlfZ3LfikG39yB+kerCGB7Aq/+tjx3aE0dML9wn8lKBe/G9cIrcIx3RboR2I0SMihzHByDdJctPdXvzImfwQ5ju3abIO2SM4n3U0Mcf5AZiyV8TTZsWQhrFj/hQ0X9BFr/XRT4q401pTrrH7sbpa968u3AL+bOMnWqD75T1L3B3QXyFEJ6yu3Fa98RDur3NVzuUH8s8qijPKIuj2KreLwv8hnNVNzoybsRJ3WM3r2rfWNxI3K8z+bCMAxjBsl3NLHAWixX1FUV+Rp5kwyerBhfPH8KM1xduxbaq+g0U2o2+iC+r4g0ynlerP0Y0TZ/YUb3+29IBZb41NILfrhis5Pt8KOxrynILMSrisJnjY+q1eeElPLLKyjy8ZrBlaQ6zQ4fzcnAB/2o1zygH72Hn8NAbW/pozWBqaqDdaMl4Audxp872ZZRVhO2V8B+RT2o3WqamyqEIFToT7+K5lSEC11XrBfyklk0vTr4zLCmuane7caj6WGtIx9T741qTX6+nXwbCtMDUVtksMQAAAABJRU5ErkJggg==">
+    <link rel="image_src" href="data:image/png;base64,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">$b4w_meta
+    <style type="text/css">$styles</style>
+    <script type="text/javascript" id="built_in_scripts">$scripts; b4w.module["built_in_data"] = function(exports, require) {exports["data"] = $built_in_data}</script>
+  </head>
+  <body>
+    <div id="main_canvas_cont"></div>
+    <div class="active" id="preloader_cont">
+      <div id="bg"></div>
+      <div id="logo_cont">
+        <svg>
+          <circle id="svg_preloader_circle" shape-rendering="geometricPrecision" r="54" cx="60" fill="transparent" cy="60" transform="rotate(-90 60 60)" stroke-width="4px"></circle>
+        </svg>
+      </div>
+    </div>
+    <div id="ctrl_wrap">
+      <div id="ctrl_scroll">
+        <div id="timeline_cont">
+          <div id="timeline">
+            <div id="line"></div>
+          </div>
+          <div id="pointer"></div>
+        </div>
+        <div id="ctrl_cont">
+          <div id="soc_cont">
+            <div class="ctrl_btn" id="soc_btn"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"><path fill-rule="evenodd" d="M32 11.5a3.5 3.5 0 0 1-5.77 2.664l-7.478 4.277A5 5 0 0 1 19 20c0 .544-.087 1.069-.248 1.56l7.478 4.276a3.5 3.5 0 1 1-1.09 1.68l-7.38-4.22a5 5 0 1 1 0-6.592l7.38-4.22A3.5 3.5 0 1 1 32 11.5zM16.121 22.121a2.994 2.994 0 0 0 .818-2.726A3.003 3.003 0 0 0 14 17a3 3 0 1 0 2.121 5.121z" clip-rule="evenodd"/></svg></div>
+          </div>
+          <div id="play_cont">
+            <div class="ctrl_btn on" id="play_btn">
+              <div class="im2"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"><path fill-rule="evenodd" d="M12 30l18-10-18-10v20z" clip-rule="evenodd"/></svg></div>
+              <div class="im1"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"><path d="M12 10h6v20h-6V10zM22 10h6v20h-6V10z"/></svg></div>
+            </div>
+            <div id="time_cont"></div>
+          </div>
+          <div id="btns_cont">
+            <div class="ctrl_btn" id="stereo_btn">
+              <div class="none"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="_svg_none_btn" width="40" height="40"><g transform="translate(9 9)"><use xlink:href="#path_default_0_fill"/><use xlink:href="#path_default_1_fill"/><use xlink:href="#path_default_2_fill"/></g><defs><path id="path_default_0_fill" d="M9 5v6l5-3-5-3z"/><path id="path_default_1_fill" fill-rule="evenodd" d="M0 0v16h22V0H0zm20 2H2v12h18V2z"/><path id="path_default_2_fill" d="M12 18h-2v2H5v2h12v-2h-5v-2z"/></defs></svg></div>
+              <div class="anaglyph"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="_svg_anaglyph_btn" width="40" height="40"><g transform="translate(6 15)"><use xlink:href="#path_anaglyph_0_fill"/><use xlink:href="#path_anaglyph_1_fill"/></g><defs><path id="path_anaglyph_0_fill" d="M23 4h-3v2h3V4z"/><path id="path_anaglyph_1_fill" fill-rule="evenodd" d="M0 3a3 3 0 0 1 3-3h22a3 3 0 0 1 3 3v4a3 3 0 0 1-3 3h-8l-1.553-3.105a1.618 1.618 0 0 0-2.894 0L11 10H3a3 3 0 0 1-3-3V3zm3 1a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4zm17-2a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h3a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2h-3z"/></defs></svg></div>
+              <div class="sidebyside"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="_svg_sidebyside_btn" width="40" height="40"><g transform="translate(7 12)"><use xlink:href="#path_sidebyside_0_fill"/><use xlink:href="#path_sidebyside_1_fill"/></g><defs><path id="path_sidebyside_0_fill" d="M5 5l5 3-5 3V5z"/><path id="path_sidebyside_1_fill" fill-rule="evenodd" d="M3 0a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h20a3 3 0 0 0 3-3V3a3 3 0 0 0-3-3H3zm9 2H3a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h9V2zm5 3l5 3-5 3V5z"/></defs></svg></div>
+              <div class="hmd"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="_svg_vr_btn" width="40" height="40"><use transform="translate(7 12)" xlink:href="#path_vr_0_fill"/><defs><path id="path_vr_0_fill" fill-rule="evenodd" d="M3 0a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h7l1.553-3.105a1.618 1.618 0 0 1 2.894 0L16 16h7a3 3 0 0 0 3-3V3a3 3 0 0 0-3-3H3zm7 7.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0zm8.5 2.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></defs></svg></div>
+            </div>
+            <div class="ctrl_btn on" id="sound_btn">
+              <div class="im1"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"><path d="M14.016 14.987v10.027L20 30V10l-5.984 4.986zM8 16h4v8H8v-8zM24.168 24.445c1.776-2.664 1.776-6.226 0-8.89l1.664-1.11c2.224 3.336 2.224 7.774 0 11.11l-1.664-1.11zM28.68 12.574c3.273 4.675 3.236 10.69.03 14.812l1.58 1.228c3.794-4.879 3.757-11.863.03-17.187l-1.64 1.147z"/></svg></div>
+              <div class="im2"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"><path d="M14.014 14.988v10.024L20 30V10l-5.986 4.988zM8 16h4v8H8v-8zM27.586 20l-3.293-3.293 1.414-1.414L29 18.586l3.293-3.293 1.414 1.414L30.414 20l3.293 3.293-1.414 1.414L29 21.414l-3.293 3.293-1.414-1.414L27.586 20z"/></svg></div>
+            </div>
+            <div class="ctrl_btn" id="auto_rotate_btn">
+              <div class="im2"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="40" height="40"><g transform="translate(4 9)"><use xlink:href="#path_rotation_play_0_fill"/><use xlink:href="#path_rotation_play_1_fill"/><use xlink:href="#path_rotation_play_2_fill"/><use xlink:href="#path_rotation_play_3_fill"/><use xlink:href="#path_rotation_play_4_fill"/></g><defs><path id="path_rotation_play_0_fill" d="M4 10.72c-1.028.408-1.907.897-2.577 1.477C.572 12.935 0 13.877 0 15c0 1.122.572 2.065 1.423 2.803.84.727 2.006 1.31 3.386 1.77 1.185.394 2.597.715 4.191.952v-2.011c-1.348-.214-2.54-.496-3.559-.838-1.245-.415-2.141-.894-2.708-1.385C2.178 15.811 2 15.378 2 15c0-.378.178-.81.733-1.291.318-.275.739-.547 1.267-.806V10.72z"/><path id="path_rotation_play_1_fill" d="M28 12.903V10.72c1.028.408 1.907.897 2.577 1.477C31.428 12.935 32 13.877 32 15c0 1.122-.572 2.065-1.423 2.803-.84.727-2.006 1.31-3.386 1.77-1.185.394-2.596.715-4.191.952v-2.011c1.348-.215 2.54-.496 3.559-.838 1.245-.415 2.141-.894 2.708-1.385.555-.48.733-.913.733-1.291 0-.378-.178-.81-.733-1.291-.318-.275-.739-.547-1.267-.806z"/><path id="path_rotation_play_2_fill" fill-rule="evenodd" d="M14 24l5-4-5-4v8z"/><path id="path_rotation_play_3_fill" d="M16 10a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/><path id="path_rotation_play_4_fill" fill-rule="evenodd" d="M7 2v11h18V2h-5l-2-2h-4l-2 2H7zm9 10a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9zm6-9h2v2h-2V3z"/></defs></svg></div>
+              <div class="im1"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="40" height="40"><g transform="translate(4 9)"><use xlink:href="#path_rotation_pause_0_fill"/><use xlink:href="#path_rotation_pause_1_fill"/><use xlink:href="#path_rotation_pause_2_fill"/><use xlink:href="#path_rotation_pause_3_fill"/><use xlink:href="#path_rotation_pause_4_fill"/><use xlink:href="#path_rotation_pause_5_fill"/></g><defs><path id="path_rotation_pause_0_fill" d="M18.5 7.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/><path id="path_rotation_pause_1_fill" fill-rule="evenodd" d="M7 13V2h5l2-2h4l2 2h5v11H7zm13.502-5.5a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0zM24 3h-2v2h2V3z"/><path id="path_rotation_pause_2_fill" d="M1.423 12.197c.67-.58 1.549-1.07 2.577-1.477v2.184c-.528.258-.95.53-1.267.805C2.178 14.189 2 14.622 2 15c0 .378.178.81.733 1.291.567.491 1.463.97 2.708 1.385 1.02.342 2.21.623 3.557.837v2.012c-1.594-.238-3.005-.559-4.19-.951-1.379-.46-2.545-1.044-3.385-1.772C.572 17.066 0 16.122 0 15s.572-2.065 1.423-2.803z"/><path id="path_rotation_pause_3_fill" d="M28 10.72v2.184c.528.258.95.53 1.267.805.555.48.733.913.733 1.291 0 .378-.178.81-.733 1.291-.567.491-1.463.97-2.708 1.385-1.02.342-2.212.624-3.561.838v2.011c1.595-.237 3.008-.558 4.193-.951 1.38-.46 2.546-1.044 3.386-1.772C31.428 17.066 32 16.122 32 15s-.572-2.065-1.423-2.803c-.67-.58-1.549-1.07-2.577-1.477z"/><path id="path_rotation_pause_4_fill" d="M14.998 17h-2v6h2v-6z"/><path id="path_rotation_pause_5_fill" d="M18.998 23h-2v-6h2v6z"/></defs></svg></div>
+            </div>
+            <div class="ctrl_btn" id="quality_btn">
+              <div class="low"><svg xmlns="http://www.w3.org/2000/svg" id="_svg_q_low_btn" width="40" height="40"><path d="M6.405 8.306H2.051V0H0v9.953h6.405V8.306zM20.111 2.953h5v20h-20l.016-5h5v-5h5l-.016-5h5v-5z" transform="translate(7.889 8.047)"/></svg></div>
+              <div class="high"><svg xmlns="http://www.w3.org/2000/svg" id="_svg_q_high_btn" width="40" height="40"><path d="M6.05 9.953H8.1V0H6.05v4.033h-4V0H0v9.953h2.05V5.688h4v4.265zM25.111 2.953h-4v4h-4v4h-4v4h-4v4h-4v4h20v-20z" transform="translate(7.889 8.047)"/></svg></div>
+              <div class="ultra"><svg xmlns="http://www.w3.org/2000/svg" id="_svg_q_ultra_btn" width="40" height="40"><path d="M7.629 6.556V0H5.57v6.624c-.018 1.212-.603 1.818-1.757 1.818-.551 0-.984-.148-1.298-.444-.31-.3-.465-.777-.465-1.429V0H0v6.63c.014 1.076.362 1.922 1.046 2.537.683.615 1.606.923 2.768.923 1.18 0 2.11-.317 2.79-.95.683-.634 1.025-1.495 1.025-2.584zM5.207 18.953l16-16h4v20h-20v-4z" transform="translate(7.793 8.047)"/></svg></div>
+            </div>
+            <div class="ctrl_btn" id="help_btn"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"><path fill-rule="evenodd" d="M33 20c0 7.18-5.82 13-13 13S7 27.18 7 20 12.82 7 20 7s13 5.82 13 13zm-13.5-5a2.5 2.5 0 0 0-2.5 2.5v.5h-3v-.5a5.5 5.5 0 0 1 5.5-5.5h2.513a4.987 4.987 0 0 1 1.577 9.718l-2.248.75a.5.5 0 0 0-.342.473V24h-3v-1.059a3.5 3.5 0 0 1 2.393-3.32l2.248-.75A1.987 1.987 0 0 0 22.013 15H19.5zM21 29v-3h-3v3h3z" clip-rule="evenodd"/></svg></div>
+            <div class="ctrl_btn" id="fullscreen_btn">
+              <div class="im2"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"><path d="M22 9h9v9l-3.44-3.44-6.5 6.5-2.12-2.121 6.5-6.5L22 9z"/><path d="M18 10h-8v20h20v-8h-2v6H11.986V12H18v-2z"/></svg></div>
+              <div class="im1"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"><path d="M27.56 14.56L31 18h-9V9l3.44 3.44 6.5-6.5 2.12 2.12-6.5 6.5z"/><path d="M18.018 10H10v20h20v-7h-2v5H12V12h6.018v-2z"/></svg></div>
+            </div>
+          </div>
+          <div id="timer"></div>
+          <div id="tooltip_cont">
+            <div class="tooltip" id="fs_on_tooltip"></div>
+            <div class="tooltip" id="fs_off_tooltip"></div>
+            <div class="tooltip" id="autorotate_on_tooltip"></div>
+            <div class="tooltip" id="autorotate_off_tooltip"></div>
+            <div class="tooltip" id="sound_on_tooltip"></div>
+            <div class="tooltip" id="sound_off_tooltip"></div>
+            <div class="tooltip" id="play_tooltip"></div>
+            <div class="tooltip" id="pause_tooltip"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="long" id="social"><a target="_blank" href="//twitter.com/intent/tweet?via=blend4web&amp;text=Check out these awesome 3D graphics made with Blend4Web!&amp;url=">
+        <div class="item" id="tw"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="56" height="56"><use transform="matrix(1.62536 0 0 1.64705 11 14)" xlink:href="#path_tw_fill"/><defs><path id="path_tw_fill" d="M6.579 17c-2.424 0-4.68-.71-6.579-1.928.336.04.677.06 1.024.06 2.01 0 3.86-.686 5.33-1.837a4.296 4.296 0 0 1-4.01-2.98 4.278 4.278 0 0 0 1.939-.074A4.294 4.294 0 0 1 .84 6.033v-.054c.58.32 1.241.514 1.945.536a4.29 4.29 0 0 1-1.91-3.572c0-.786.212-1.524.581-2.157a12.184 12.184 0 0 0 8.846 4.484 4.292 4.292 0 0 1 7.313-3.914A8.591 8.591 0 0 0 20.341.313a4.305 4.305 0 0 1-1.887 2.374 8.582 8.582 0 0 0 2.465-.676 8.721 8.721 0 0 1-2.142 2.222c.011.184.013.37.013.555C18.79 10.46 14.473 17 6.58 17"/></defs></svg></div></a><a target="_blank" href="https://vk.com/share.php?url=">
+        <div class="item" id="vk"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="56" height="56"><use transform="translate(10 10) scale(.52297)" xlink:href="#path_vk_fill"/><defs><path id="path_vk_fill" fill-rule="evenodd" d="M10.607 0C4.749 0 0 4.75 0 10.607V58.23c0 5.859 4.749 10.608 10.607 10.608H58.23c5.858 0 10.607-4.75 10.607-10.607V10.608C68.837 4.749 64.088 0 58.23 0H10.607zM31.63 21.43c.575-.01 1.183 0 1.815 0 1.969.02 2.538.142 3.306.328 2.322.56 1.534 2.725 1.534 7.916 0 1.662-.3 4 .9 4.775.516.333 1.777.05 4.932-5.306 1.494-2.54 2.615-5.524 2.615-5.524s.244-.532.625-.76c.389-.233.916-.162.916-.162l7.082-.043s2.13-.253 2.475.707c.36 1.009-.796 3.362-3.69 7.22-4.752 6.333-5.28 5.742-1.336 9.403 3.77 3.499 4.55 5.201 4.678 5.413 1.56 2.587-1.73 2.79-1.73 2.79l-6.292.088s-1.351.267-3.13-.955c-2.353-1.615-4.574-5.816-6.303-5.267-1.753.556-1.697 4.336-1.697 4.336s.01.806-.387 1.236c-.435.468-1.285.563-1.285.563H33.84s-6.213.373-11.685-5.325C16.188 36.65 10.919 24.32 10.919 24.32s-.304-.808.03-1.199c.37-.44 1.38-.467 1.38-.467l6.733-.045s.634.106 1.088.44c.374.275.584.789.584.789s1.09 2.751 2.53 5.24c2.811 4.86 4.121 5.923 5.075 5.402 1.392-.758.975-6.869.975-6.869s.03-2.217-.701-3.205c-.562-.764-1.622-.99-2.09-1.052-.38-.051.243-.93 1.049-1.325.908-.445 2.338-.575 4.062-.601l-.004.002z"/></defs></svg></div></a><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=">
+        <div class="item" id="fb"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="56" height="56"><use transform="matrix(.1274 0 0 -.1274 11 45)" xlink:href="#path_fb_fill"/><defs><path id="path_fb_fill" d="M252.164 266.895H14.73c-8.136 0-14.73-6.594-14.73-14.73V14.731C0 6.596 6.594 0 14.73 0h127.827v103.356h-34.782v40.28h34.782v29.705c0 34.472 21.054 53.243 51.806 53.243 14.731 0 27.391-1.096 31.08-1.586v-36.026l-21.328-.01c-16.724 0-19.963-7.947-19.963-19.609v-25.717h39.887l-5.193-40.28h-34.694V0h68.012c8.135 0 14.73 6.596 14.73 14.731v237.434c0 8.136-6.595 14.73-14.73 14.73z"/></defs></svg></div></a><a target="_blank" href="https://plus.google.com/share?url=">
+        <div class="item" id="gplus"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="56" height="56"><use transform="translate(10 10)" xlink:href="#path_gplus_fill"/><defs><path id="path_gplus_fill" fill-rule="evenodd" d="M18 36c9.941 0 18-8.059 18-18S27.942 0 18 0 0 8.059 0 18s8.059 18 18 18zm8.431-21.613h2.377c.014.777.014 1.56.014 2.337v.05c.397 0 .796.005 1.195.01l.855.007h.338v2.38l-2.388.014c-.014.778-.014 1.552-.014 2.33v.06h-2.38c-.013-.78-.013-1.556-.013-2.332v-.055a71.476 71.476 0 0 1-1.194-.008 95.195 95.195 0 0 0-1.194-.009v-2.377h.006c.793 0 1.585 0 2.382-.017 0-.397.003-.795.007-1.193.003-.399.006-.797.006-1.194l.003-.003zM13.212 16.46v3.149h4.652c-.22 1.325-1.41 3.562-4.643 3.562-2.794 0-5.074-2.321-5.074-5.166s2.28-5.167 5.074-5.167c1.579 0 2.642.676 3.25 1.25l2.397-2.33c-1.46-1.368-3.368-2.204-5.647-2.204a8.445 8.445 0 0 0-8.442 8.442 8.445 8.445 0 0 0 8.442 8.442c4.87 0 8.104-3.427 8.104-8.248 0-.7-.093-1.198-.211-1.73h-7.902z"/></defs></svg></div></a><a target="_blank" href="http://service.weibo.com/share/share.php?title=看看这些用 Blend4Web 所制作的惊人 3D 图形！&amp;url=">
+        <div class="item" id="weibo"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="56" height="56"><use transform="matrix(.05795 0 0 .05961 8 10)" xlink:href="#path_weibo_fill"/><defs><path id="path_weibo_fill" d="M602.193 129.323c-23.2-25.7-57.4-35.5-88.9-28.7-12.9 2.7-21.1 15.5-18.4 28.4 2.8 12.9 15.5 21.1 28.3 18.3 15.4-3.3 32.2 1.5 43.5 14 11.3 12.6 14.4 29.7 9.5 44.7-4 12.5 2.8 26 15.4 30.1 12.6 4 26-2.8 30.1-15.4 9.9-30.7 3.7-65.7-19.5-91.4zm73.1-66c-47.6-52.8-117.8-72.9-182.6-59.1-15 3.2-24.5 18-21.3 32.9 3.2 15 17.9 24.5 32.9 21.3 46.1-9.8 96 4.5 129.8 42 33.8 37.5 43 88.6 28.5 133.4-4.7 14.6 3.3 30.2 17.9 34.9 14.6 4.7 30.2-3.3 34.9-17.8v-.1c20.4-62.9 7.5-134.8-40.1-187.5zM304.587 82.87c-51.108-.937-128.123 39.569-196.597 108.044C39.69 259.213 0 331.714 0 394.414c0 119.8 153.704 192.716 304.005 192.716 197.1 0 328.179-114.514 328.179-205.414.142-55-46.204-86.189-87.804-99.089-10.199-3.1-17.195-5.092-11.894-18.492 11.6-29.1 12.794-54.224.193-72.224-23.5-33.6-87.892-31.787-161.691-.887 0 0-23.19 10.094-17.189-8.206 11.299-36.5 9.587-67-8.014-84.7-9.999-10.025-24.162-14.936-41.198-15.249zm-5.905 168.041c135.5 0 245.42 68.42 245.42 152.82 0 84.4-109.92 152.792-245.42 152.792S53.289 488.13 53.289 403.73s109.893-152.82 245.393-152.82zm-14.89 64.654c-47.302.501-93.659 27.002-113.809 67.871-25.3 51.3-.792 108.297 56.807 126.897 59.8 19.3 130.207-10.297 154.705-65.597 24.201-54.2-5.998-109.906-65.098-125.206-10.706-2.794-21.689-4.08-32.605-3.965zm15.943 66.984c1.898-.035 3.77.27 5.545.97 7.199 2.6 9.823 10.694 5.822 17.994-4.2 7.2-13.51 10.624-20.71 7.624-7.2-2.9-9.396-11.021-5.296-18.021 3.149-5.25 8.944-8.464 14.639-8.567zM244.7 399.432c5.047.066 10.045 1.045 14.695 2.995 18.8 8.1 24.791 29.402 13.39 48.102-11.598 18.5-36.5 26.605-55.199 18.105-18.4-8.4-23.882-29.92-12.283-48.02 8.625-13.5 24.262-21.379 39.397-21.182z"/></defs></svg></div></a><a target="_blank" href="http://tumblr.com/widgets/share/tool?canonicalUrl=">
+        <div class="item" id="tumblr"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="56" height="56"><use transform="matrix(1.27208 0 0 1.24626 15 10)" xlink:href="#path_tumblr_fill"/><defs><path id="path_tumblr_fill" d="M6.41 0c-.572 0-1.23.425-1.326 1.21-.4 3.251-1.89 5.2-4.692 6.136L.08 7.45a.115.115 0 0 0-.08.112v5.546c0 .065.05.118.117.118h5.939c.06 0 .104.046.104.103v1.735H2.978v4.994c0 5.453 3.776 8.025 10.76 8.025 2.81 0 5.595-1 6.516-2.213l.185-.242-1.742-5.162c-.02-.048-.06-.08-.111-.08h-3.893c-.05 0-.1-.035-.113-.086a2.749 2.749 0 0 1-.08-.643v-6.314c0-.065.05-.117.117-.117h4.578a.12.12 0 0 0 .117-.118V6.65a.116.116 0 0 0-.117-.118h-4.559a.12.12 0 0 1-.117-.117V.117A.116.116 0 0 0 14.402 0H6.406h.004zm3.184 1.15h3.662a.12.12 0 0 1 .117.118v6.296c0 .065.05.118.117.118h4.559c.06 0 .119.052.119.117v4.16c0 .065-.05.117-.12.117h-4.577a.12.12 0 0 0-.118.117v7.475c.03 1.683.843 2.535 2.422 2.535.637 0 1.364-.148 2.03-.402.06-.024.13.01.152.072l1.166 3.451c.02.044 0 .093-.03.125-.876.843-2.679 1.469-4.404 1.498h-.191c-5.674 0-7.19-4.331-7.19-6.89V12.19a.116.116 0 0 0-.117-.117H4.447a.118.118 0 0 1-.115-.117V8.375a.12.12 0 0 1 .068-.11c2.932-1.141 4.57-3.41 5-6.918a.203.203 0 0 1 .19-.199l.004.002z"/></defs></svg></div></a><a target="_blank" href="http://www.reddit.com/submit?url=">
+        <div class="item" id="reddit"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="56" height="56"><use transform="translate(7.86 10)" xlink:href="#path_reddit_fill"/><defs><path id="path_reddit_fill" d="M33.864 0c-1.453 0-2.703.906-3.235 2.191L23.26.421a.683.683 0 0 0-.132-.019.684.684 0 0 0-.422.13.706.706 0 0 0-.26.365l-2.81 9.05a.598.598 0 0 0-.01.018c-4.635.076-8.835 1.33-11.955 3.369a4.456 4.456 0 0 0-3.154-1.32C2.029 12.014 0 14.084 0 16.617c0 1.74.968 3.24 2.371 4.022a8.246 8.246 0 0 0-.115 1.338c0 3.39 2.065 6.42 5.297 8.568C10.783 32.693 15.199 34 20.066 34c4.871 0 9.288-1.307 12.518-3.455 3.231-2.148 5.295-5.177 5.295-8.568a8.33 8.33 0 0 0-.096-1.258 4.602 4.602 0 0 0 2.515-4.102c0-2.534-2.03-4.603-4.517-4.603a4.45 4.45 0 0 0-3.213 1.383c-3.002-1.993-7.032-3.247-11.492-3.415l2.492-8.035 6.79 1.63c0 1.967 1.575 3.575 3.509 3.575 1.93 0 3.506-1.607 3.506-3.576 0-1.97-1.577-3.576-3.506-3.576h-.003zM4.516 13.428c.763 0 1.452.284 1.994.742-1.798 1.423-3.117 3.152-3.775 5.066a3.187 3.187 0 0 1-1.346-2.619c0-1.77 1.39-3.19 3.127-3.19zm31.266 0c1.737 0 3.13 1.419 3.13 3.19 0 1.15-.592 2.14-1.48 2.7-.638-1.917-1.937-3.653-3.717-5.084a3.067 3.067 0 0 1 2.066-.806zm-21.725 3.685c1.42 0 2.574 1.183 2.574 2.616 0 1.43-1.155 2.61-2.574 2.61-1.421 0-2.574-1.18-2.574-2.61 0-1.432 1.153-2.616 2.574-2.616zm12.2 0c1.42 0 2.571 1.184 2.571 2.616 0 1.43-1.152 2.61-2.572 2.61-1.42 0-2.574-1.18-2.574-2.61 0-1.433 1.155-2.616 2.574-2.616zm-12.153 9.418h.01a.682.682 0 0 1 .546.246c1.276 1.3 3.52 1.625 5.471 1.625h.04c1.951 0 4.19-.328 5.468-1.629a.687.687 0 0 1 .982.004.715.715 0 0 1-.003 1c-1.742 1.773-4.363 2.037-6.448 2.037h-.047c-2.083 0-4.709-.267-6.449-2.04a.72.72 0 0 1 .043-1.106.685.685 0 0 1 .387-.137z"/></defs></svg></div></a></div>
+    <div id="stereo">
+      <div class="item" id="none">
+        <svg width="40" height="40" viewBox="0 0 40 40">
+          <use xlink:href="#_svg_none_btn"></use>
+        </svg>
+        <div>Default</div>
+      </div>
+      <div class="item" id="hmd">
+        <svg width="40" height="40" viewBox="0 0 40 40">
+          <use xlink:href="#_svg_vr_btn"></use>
+        </svg>
+        <div>VR</div>
+      </div>
+      <div class="item" id="anaglyph">
+        <svg width="40" height="40" viewBox="0 0 40 40">
+          <use xlink:href="#_svg_anaglyph_btn"></use>
+        </svg>
+        <div>Anaglyph</div>
+      </div>
+      <div class="item" id="sidebyside">
+        <svg width="40" height="40" viewBox="0 0 40 40">
+          <use xlink:href="#_svg_sidebyside_btn"></use>
+        </svg>
+        <div>Side-by-Side</div>
+      </div>
+    </div>
+    <div id="quality">
+      <div class="item" id="low">
+        <svg width="40" height="40" viewBox="0 0 40 40">
+          <use xlink:href="#_svg_q_low_btn"></use>
+        </svg>
+        <div>Low</div>
+      </div>
+      <div class="item" id="high">
+        <svg width="40" height="40" viewBox="0 0 40 40">
+          <use xlink:href="#_svg_q_high_btn"></use>
+        </svg>
+        <div>High</div>
+      </div>
+      <div class="item" id="ultra">
+        <svg width="40" height="40" viewBox="0 0 40 40">
+          <use xlink:href="#_svg_q_ultra_btn"></use>
+        </svg>
+        <div>Ultra</div>
+      </div>
+    </div>
+    <div id="help_cont">
+      <div id="close_help"></div>
+      <div id="logo_lang">
+        <div class="lang" id="ru">Rus
+          <div class="border"></div>
+        </div>
+        <div class="lang active" id="en">Eng
+          <div class="border"></div>
+        </div>
+      </div>
+      <div id="logo_help"></div>
+      <div id="rel_version"></div>
+      <div class="content">
+        <div class="head">
+          <div class="cam_type"></div>
+        </div>
+        <div class="body" id="help_body"> </div>
+      </div>
+    </div>
+    <div id="error_cont">
+      <div id="error_name"></div>
+      <div id="error_info"></div>
+    </div>
+    <div id="fps_cont">
+      <div id="prev_fps_circle"></div>
+      <div id="fps_cont"></div>
+    </div>
+  </body>
+</html>

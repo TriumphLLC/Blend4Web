@@ -36,13 +36,13 @@ var random_colors = [[255, 255, 0],
                      [94, 255, 255]];
 
 
-var _cam_tsr           = new Float32Array(8);
-var _camera_point_tsr  = new Float32Array(8);
-var _firework_1_tsr    = new Float32Array(8);
-var _firework_2_1_tsr  = new Float32Array(8);
-var _light_point_tsr   = new Float32Array(8);
-var _tsr_tmp           = new Float32Array(8);
-var _tsr_tmp2          = new Float32Array(8);
+var _cam_tsr           = m_tsr.create();
+var _camera_point_tsr  = m_tsr.create();
+var _firework_1_tsr    = m_tsr.create();
+var _firework_2_1_tsr  = m_tsr.create();
+var _light_point_tsr   = m_tsr.create();
+var _tsr_tmp           = m_tsr.create();
+var _tsr_tmp2          = m_tsr.create();
 
 var _firework_offset   = new Float32Array(3);
 var _rocket_offset     = new Float32Array(3);
@@ -421,9 +421,13 @@ function fire(rocket_num) {
         m_trans.get_tsr(rocket_start_smoke_copy, cur_tsr);
 
         m_time.animate(0, ROCKET_SMOKE_DISCENT, ROCKET_SMOKE_DISCENT_TIME,
-                       function(e) {
-                           cur_tsr[2] = start_tsr[2] - e;
-                           m_trans.set_tsr(rocket_start_smoke_copy, cur_tsr)}
+            function(e) {
+                var cur_trans = m_tsr.get_trans(cur_tsr, _vec3_tmp);
+                var star_trans = m_tsr.get_trans(start_tsr, _vec3_tmp2);
+                cur_trans[2] = star_trans[2] - e;
+                m_tsr.set_trans(cur_trans, cur_tsr);
+                m_trans.set_tsr(rocket_start_smoke_copy, cur_tsr);
+            }
         );
 
         m_time.set_timeout(function() {
@@ -510,8 +514,9 @@ function fire(rocket_num) {
                                             m_tsr.identity(m_tsr.create()));
 
             m_trans.set_tsr(rocket, cur_tsr);
-            m_trans.set_translation(_light_point, cur_tsr[0],  cur_tsr[1],
-                    cur_tsr[2] + LIGHT_Z_OFFSET);
+            var cur_trans = m_tsr.get_trans(cur_tsr, _vec3_tmp);
+            cur_trans[2] += LIGHT_Z_OFFSET;
+            m_trans.set_translation_v(_light_point, cur_trans);
 
             if (e == 1) {
                 remove_cons(rocket_flash_copy);
@@ -752,7 +757,7 @@ function init_vectors() {
     get_tsr(_cam, _cam_tsr);
     get_tsr(_firework_1, _firework_1_tsr);
     get_tsr(_firework_2_1, _firework_2_1_tsr);
-    _firework_2_1_tsr[3] = 1;
+    m_tsr.set_scale(1, _firework_2_1_tsr);
 
     m_vec3.subtract(_firework_2_1_tsr, _firework_1_tsr, _firework_offset);
     get_tsr(_camera_point, _camera_point_tsr);
@@ -772,8 +777,9 @@ function init_constraints() {
                                                m_trans.get_tsr(cbox),
                                                m_tsr.create());
 
-    var distance = Math.abs(tsr_cbox_in_cam_space[2]);
-    var rotation = m_tsr.get_quat_view(tsr_cbox_in_cam_space);
+    var trans_cbox_in_cam_space = m_tsr.get_trans(tsr_cbox_in_cam_space, _vec3_tmp);
+    var distance = Math.abs(trans_cbox_in_cam_space[2]);
+    var rotation = m_tsr.get_quat(tsr_cbox_in_cam_space, _quat_tmp);
 
     m_cons.append_stiff_viewport(cbox, _cam, {
         right: 0.0,

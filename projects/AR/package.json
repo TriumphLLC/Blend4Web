@@ -1,0 +1,22 @@
+{
+  "name": "AR",
+  "version": "1.0.0",
+  "description": "",
+  "main": "AR.js",
+  "scripts": {
+    "webpack": "webpack",
+    "start": "webpack-dev-server"
+  },
+  "author": {
+    "name": "Triumph LLC",
+    "email": "info@blend4web.com"
+  },
+  "license": "SEE LICENSE IN README.md",
+  "dependencies": {
+    "blend4web": "^17.12.0"
+  },
+  "devDependencies": {
+    "webpack": "^3.10.0",
+    "webpack-dev-server": "^2.9.7"
+  }
+}

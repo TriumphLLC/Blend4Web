@@ -1,0 +1,491 @@
+#help_cont {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.85);
+    transform: translateY(-100%);
+    transition: transform 0.4s 0.2s $easeInCubic;
+    z-index: 2;
+    overflow: hidden;
+    h3 {
+        color: white;
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: bold;
+        line-height: 44px;
+        font-size: 18px;
+        position: relative;
+        text-align: center;
+        margin: 16px;
+    }
+    &.active {
+        transform: translateY(0);
+        transition: transform 0.6s 0.2s $easeOutCubic;
+    }
+    .content {
+        padding-left: 16px;
+        padding-right: 16px;
+        margin: 0 auto;
+        margin-top: 80px;
+
+        @media (min-width: 370px) {
+            padding-left: 0;
+            padding-right: 0;
+            margin-top: 40px;
+            width: 360px;
+        }
+        @media (min-width: 720px) {
+            padding-left: 0;
+            padding-right: 0;
+            width: 710px;
+        }
+        @media (min-width: 1200px) {
+            width: 1156px;
+        }
+
+        .head {
+            height: 48px;
+            text-align: center;
+            border-bottom: 2px solid #fff;
+
+            @media (min-width: 720px) {
+                height: 38px;
+            }
+
+            .cam_type {
+                font-family: Roboto;
+                font-style: normal;
+                font-weight: bold;
+                line-height: 44px;
+                font-size: 18px;
+                position: relative;
+                display: inline-block;
+                padding-left: 40px;
+                color: #fff;
+
+                @media (max-width: 720px) {
+                    font-size: 14px;
+                }
+
+                &:before {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 32px;
+                    height: 32px;
+                    background-image: url('src/img/camera.svg');
+                }
+            }
+        }
+        .body {
+            overflow: auto;
+            position: absolute;
+            top: 128px;
+            left: 0;
+            width: 100%;
+            bottom: 0;
+
+            @media (max-width: 720px) {
+                top: 80px;
+            }
+
+            @media (max-width: 480px) {
+                top: 128px;
+            }
+
+            // auto layout for help_entry
+            div {
+                ul {
+                    margin: 0;
+                    padding: 0;
+                    width: 100%;
+                    li {
+                        display: inline-block;
+                        width: fit-content;
+                        vertical-align: top;
+                        padding-bottom: 4px;
+                        padding-left: 16px;
+                        /* For IE 7 */
+                        zoom: 1;
+                        *display: inline;
+                    }
+                }
+            }
+            div.mobile {
+                ul {
+                    width: 278px;
+                }
+            }
+            .wrap {
+                padding-top: 32px;
+                margin: 0 auto;
+                display: none;
+                justify-content: center;
+                @media (min-width: 1200px) {
+                    width: 1156px;
+                }
+                &.active {
+                    display: flex;
+                }
+                .help_entry {
+                    @media (min-width: 1200px) {
+                        &:first-child, &:last-child {
+                            display: block;
+                        }
+                    }
+
+                    div:nth-child(2) {
+                        float: left;
+                        margin-right: 16px;
+                    }
+    
+                    p {
+                        color: #FFFFFF;
+                        font-family: Roboto;
+                        font-style: normal;
+                        font-weight: 300;
+                        line-height: 16px;
+                        font-size: 14px;
+                        position: relative; //height: 84px;
+                        margin: 0px;
+                        // margin-bottom: 4px;
+                        justify-content: center;
+                        flex-direction: column;
+                        text-align: left;
+                        max-width: 278px;
+                        display: flex;
+                        /*&:before {
+                            content: '';
+                            position: absolute;
+                            left: 0;
+                            top: 0;
+                            width: 80px;
+                            height: 84px;
+                        }*/
+                    }
+                }
+
+                &.desk {
+                    .help_entry {
+                        div:nth-child(2) {
+                            margin-right: 32px;
+                        }
+                    }
+                    &.hover {
+                        #help_hover_lean.help_entry {
+                            div:nth-child(2) {
+                                width: 136px;
+                                height: 76px;
+                                background: url('src/img/help/hover_lean.svg') no-repeat;
+                            }
+                            width: 440px;
+                        }
+                        #help_hover_rotate.help_entry {
+                            div:nth-child(2) {
+                                width: 58px;
+                                height: 56px;
+                                background: url('src/img/help/hover_rotate.svg') no-repeat;
+                            }
+                            width: 384px;
+                        }
+                        #help_hover_move.help_entry {
+                            div:nth-child(2) {
+                                width: 138px;
+                                height: 160px;
+                                background: url('src/img/help/hover_move.svg') no-repeat;
+                            }
+                            width: 504px;
+                        }
+                        #help_hover_interact.help_entry {
+                            div:nth-child(2) {
+                                width: 34px;
+                                height: 56px;
+                                background: url('src/img/help/interact.svg') no-repeat;
+                            }
+                            width: 264px;
+                        }
+                    }
+                    &.static {
+                        .help_entry {
+                            div:nth-child(2) {
+                                width: 272px;
+                                height: 84px;
+                                background-image: url('src/img/help/no_action.svg');
+                            }
+                            width: 272px;
+                        }
+                    }
+                    &.eye {
+                        #help_eye_rotation.help_entry {
+                            div:nth-child(2) {
+                                width: 138px;
+                                height: 160px;
+                                background: url('src/img/help/eye_rotate.svg') no-repeat;
+                            }
+                            width: 475px;
+                        }
+                        #help_eye_move.help_entry {
+                            div:nth-child(2) {
+                                width: 24px;
+                                height: 64px;
+                                background: url('src/img/help/eye_move.svg') no-repeat;
+                            }
+                            width: 296px;
+                        }
+                        #help_eye_move_cam_space.help_entry {
+                            div:nth-child(2) {
+                                width: 88px;
+                                height: 88px;
+                                background: url('src/img/help/eye_move_cam_space.svg') no-repeat;
+                            }
+                            width: 453px;
+                        }
+                    }
+                    &.target {
+                        #help_target_rotate.help_entry {
+                            div:nth-child(2) {
+                                width: 138px;
+                                height: 160px;
+                                background: url('src/img/help/target_rotate.svg') no-repeat;
+                            }
+                            width: 515px;
+                        }
+                        #help_target_zoom.help_entry {
+                            div:nth-child(2) {
+                                width: 136px;
+                                height: 76px;
+                                background: url('src/img/help/target_zoom.svg') no-repeat;
+                            }
+                            width: 440px;
+                        }
+                        #help_target_interact.help_entry {
+                            div:nth-child(2) {
+                                width: 34px;
+                                height: 56px;
+                                background: url('src/img/help/interact.svg') no-repeat;
+                            }
+                            width: 363px;
+                        }
+                    }
+                }
+                &.mobile {
+                    h3 {
+                        margin: 0px;
+                    }
+                    &.target {
+                        #help_target_zoom.help_entry {
+                            div:nth-child(2) {
+                                width: 80px;
+                                height: 54px;
+                                background: url('src/img/help/touch_gesture_zoom_in_out.svg') no-repeat;
+                                background-size: contain;
+                            }
+                            width: 278px;
+                        }
+                        #help_target_rotate.help_entry {
+                            div:nth-child(2) {
+                                width: 80px;
+                                height: 54px;
+                                background: url('src/img/help/touch_gesture_drag.svg') no-repeat;
+                                background-size: contain;
+                            }
+                            width: 278px;
+                        }
+                        #help_target_interact.help_entry {
+                            div:nth-child(2) {
+                                width: 80px;
+                                height: 54px;
+                                background: url('src/img/help/touch_gesture_tap.svg') center center no-repeat;
+                                background-size: contain;
+                            }
+                            width: 278px;
+                        }
+                    }
+                    &.hover {
+                        #help_hover_zoom.help_entry {
+                            div:nth-child(2) {
+                                width: 80px;
+                                height: 84px;
+                                background: url('src/img/help/touch_gesture_zoom_in_out.svg') no-repeat;
+                            }
+                            width: 278px;
+                        }
+                        #help_hover_rotate.help_entry {
+                            div:nth-child(2) {
+                                width: 80px;
+                                height: 84px;
+                                background: url('src/img/help/touch_gesture_rotate.svg') no-repeat;
+                            }
+                            width: 278px;
+                        }
+                        #help_hover_move.help_entry {
+                            div:nth-child(2) {
+                                width: 80px;
+                                height: 84px;
+                                background: url('src/img/help/touch_gesture_drag.svg') no-repeat;
+                            }
+                            width: 278px;
+                        }
+                        #help_hover_interact.help_entry {
+                            div:nth-child(2) {
+                                width: 80px;
+                                height: 84px;
+                                background: url('src/img/help/touch_gesture_tap.svg') no-repeat;
+                            }
+                            width: 278px;
+                        }
+                    }
+                    &.eye {
+                        #help_eye_rotation.help_entry {
+                            div:nth-child(2) {
+                                width: 80px;
+                                height: 84px;
+                                background: url('src/img/help/touch_gesture_drag.svg') no-repeat;
+                            }
+                            width: 278px;
+                        }
+                        #help_eye_interact.help_entry {
+                            div:nth-child(2) {
+                                width: 80px;
+                                height: 84px;
+                                background: url('src/img/help/touch_gesture_tap.svg') no-repeat;
+                            }
+                            width: 278px;
+                        }
+                    }
+                    &.static {
+                        #help_static.help_entry {
+                            div:nth-child(2) {
+                                width: 80px;
+                                height: 84px;
+                                background: url('src/img/help/touch_gesture_no_acton.svg') no-repeat;
+                            }
+                            width: 278px;
+                        }
+                    }
+                }
+                
+            } 
+        }
+    }
+    &.touch {
+        .content {
+            .head {
+                border-bottom: 0;
+                .cam_type {
+                    border-bottom: 2px solid #fff;
+                }
+            }
+        }
+    }
+}
+
+#close_help {
+    width: 100%;
+    height: 50px;
+    position: absolute;
+    bottom: 0;
+    background: url('src/img/help/close_button.svg') no-repeat;
+    background-position: bottom;
+    z-index: 4;
+    cursor: pointer;
+    transition: background-color 0.2s $easeInCubic;
+    @media (min-width: 1200px) {
+        right: 8px;
+    }
+}
+
+#logo_help {
+    width: 28px;
+    height: 30px;
+    position: absolute;
+    left: 16px;
+    top: 8px;
+    background-image: url('src/img/logo_help.svg');
+    background-color: transparent;
+    @media (min-width: 1200px) {
+        left: 24px;
+    }
+}
+
+#close_help.hover {
+    transition: background-color 0.2s $easeOutCubic;
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+#rel_version {
+    position: absolute;
+    left: 61px;
+    top: 0;
+    height: 48px;
+    font-family: Arial;
+    font-size: 16px;
+    color: #fff;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 48px;
+}
+
+#logo_lang {
+    position: absolute;
+    right: 4px;
+    top: 0;
+    @media (min-width: 1200px) {
+        width: 128px;
+    }
+    .lang {
+        float: left;
+        text-align: center;
+        line-height: 38px;
+        width: 64px;
+        font-family: Roboto;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        color: rgba(255, 255, 255, 0.5);
+        border-width: 0;
+        position: relative;
+        transition: color 0.2s 0.2s $easeOutCubic;
+        .border {
+            transition: width 0.2s 0.2s $easeOutCubic;
+            position: absolute;
+            bottom: 0;
+            height: 2px;
+            width: 0;
+            background-color: #fff;
+        }
+        &#ru {
+            .border {
+                right: 0;
+            }
+        }
+        &#en {
+            .border {
+                left: 0;
+            }
+        }
+        &.active {
+            &#ru {
+                .border {
+                    transition: width 0.2s $easeOutCubic;
+                    width: 100%;
+                    right: 0;
+                }
+            }
+            &#en {
+                .border {
+                    transition: width 0.2s $easeOutCubic;
+                    width: 100%;
+                    left: 0;
+                }
+            }
+            color: rgba(255,
+            255,
+            255,
+            1);
+        }
+    }
+}

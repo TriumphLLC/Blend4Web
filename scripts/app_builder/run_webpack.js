@@ -196,7 +196,7 @@ function extend_config_for_es5(config, html_desc, b4w_proj, output_path, stage_d
         enable: true,
         patterns: [
             {
-                match: /<script\b[\s]*type[\s]*=[\s]*["']text\/javascript["'][\s]* src=["']([^>]*\/dist\/b4w.js)["'][^>]*>[\s\S]*?<\/script>/gm,
+                match: /<script\b[\s]*type[\s]*=[\s]*["']text\/javascript["'][\s]* src=["']([^>]*[\/\\]dist[\/\\]b4w.js)["'][^>]*>[\s\S]*?<\/script>/gm,
                 replacement: function (match) {
                     return "<script type=\"text\/javascript\" src=\"" + bundle_path(build_name, output_path) + "\" b4w-offset=\"" + path.join(path.relative(output_path, _root)).replace(/\\/g,"/")+"\"> </script>";
                 },

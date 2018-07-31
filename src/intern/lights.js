@@ -14,6 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+import * as m_quat from "../libs/gl_matrix/quat.js";
 import * as m_tsr from "./tsr.js";
 import * as m_util from "./util.js";
 import * as m_vec3 from "../libs/gl_matrix/vec3.js";
@@ -80,47 +81,51 @@ function init_light(type) {
 /**
  * Convert blender lamp object to light
  */
-export function lamp_to_light(bpy_obj, obj) {
+export var lamp_to_light = (function() {
+    var _quat_tmp = m_quat.create();
+    var _vec3_tmp = m_vec3.create();
 
-    var data = bpy_obj["data"];
+    return function lamp_to_light(bpy_obj, obj) {
 
-    var light = obj.light = init_light(data["type"]);
+        var data = bpy_obj["data"];
 
-    light.name = obj.name;
-    light.use_diffuse = data["use_diffuse"];
-    light.use_specular = data["use_specular"];
-    var quat = m_tsr.get_quat_view(obj.render.world_tsr);
-    var dir = m_util.quat_to_dir(quat, m_util.AXIS_Z, _vec3_tmp);
-    // though dir seems to be normalized, do it explicitely
-    m_vec3.normalize(dir, dir);
-    light.direction.set(dir);
+        var light = obj.light = init_light(data["type"]);
 
-    light.color[0] = data["color"][0];
-    light.color[1] = data["color"][1];
-    light.color[2] = data["color"][2];
+        light.name = obj.name;
+        light.use_diffuse = data["use_diffuse"];
+        light.use_specular = data["use_specular"];
+        var quat = m_tsr.get_quat(obj.render.world_tsr, _quat_tmp);
+        var dir = m_util.quat_to_dir(quat, m_util.AXIS_Z, _vec3_tmp);
+        // though dir seems to be normalized, do it explicitely
+        m_vec3.normalize(dir, dir);
+        light.direction.set(dir);
 
-    light.energy = light.default_energy = data["energy"];
-    update_color_intensity(light);
+        light.color[0] = data["color"][0];
+        light.color[1] = data["color"][1];
+        light.color[2] = data["color"][2];
 
-    light.distance = data["distance"];
-    light.use_sphere = data["use_sphere"];
+        light.energy = light.default_energy = data["energy"];
+        update_color_intensity(light);
 
-    light.clip_start = data["clip_start"];
-    light.clip_end = data["clip_end"];
-
-    if (light.type === "POINT" || light.type === "SPOT")
         light.distance = data["distance"];
+        light.use_sphere = data["use_sphere"];
 
-    if (light.type === "SPOT") {
-        light.spot_blend = data["spot_blend"];
-        light.spot_size = data["spot_size"];
-    } else if (light.type === "POINT")
-        light.spot_size = Math.PI / 2;
+        light.clip_start = data["clip_start"];
+        light.clip_end = data["clip_end"];
 
-    light.generate_shadows = data["b4w_generate_shadows"];
-    light.dynamic_intensity = data["b4w_dynamic_intensity"];
-}
+        if (light.type === "POINT" || light.type === "SPOT")
+            light.distance = data["distance"];
 
+        if (light.type === "SPOT") {
+            light.spot_blend = data["spot_blend"];
+            light.spot_size = data["spot_size"];
+        } else if (light.type === "POINT")
+            light.spot_size = Math.PI / 2;
+
+        light.generate_shadows = data["b4w_generate_shadows"];
+        light.dynamic_intensity = data["b4w_dynamic_intensity"];
+    };
+})();
 
 /**
  * Set light color
@@ -173,27 +178,31 @@ function update_color_intensity(light) {
 /**
  * @methodOf lights 
  */
-export function update_light_transform(obj) {
+export var update_light_transform = (function() {
+    var _quat_tmp = m_quat.create();
 
-    var light = obj.light;
-    if (!light)
-        return;
+    return function update_light_transform(obj) {
 
-    var quat = m_tsr.get_quat_view(obj.render.world_tsr);
-    m_util.quat_to_dir(quat, m_util.AXIS_Z, light.direction);
-    m_vec3.normalize(light.direction, light.direction);
+        var light = obj.light;
+        if (!light)
+            return;
 
-    if (light.type == "SUN") {
-        var prev_angle = Math.acos(m_vec3.dot(light.prev_direction, m_util.VEC3_UNIT));
-        var new_angle  = Math.acos(m_vec3.dot(light.direction, m_util.VEC3_UNIT));
-        var floor_prev = Math.floor(prev_angle / 0.025);
-        var floor_new  = Math.floor(new_angle / 0.025);
+        var quat = m_tsr.get_quat(obj.render.world_tsr, _quat_tmp);
+        m_util.quat_to_dir(quat, m_util.AXIS_Z, light.direction);
+        m_vec3.normalize(light.direction, light.direction);
 
-        if (floor_prev != floor_new)
-            light.need_sun_fog_update = true;
-        else
-            light.need_sun_fog_update = false;
-    }
+        if (light.type == "SUN") {
+            var prev_angle = Math.acos(m_vec3.dot(light.prev_direction, m_util.VEC3_UNIT));
+            var new_angle = Math.acos(m_vec3.dot(light.direction, m_util.VEC3_UNIT));
+            var floor_prev = Math.floor(prev_angle / 0.025);
+            var floor_new = Math.floor(new_angle / 0.025);
 
-    m_vec3.copy(light.direction, light.prev_direction);
-}
+            if (floor_prev != floor_new)
+                light.need_sun_fog_update = true;
+            else
+                light.need_sun_fog_update = false;
+        }
+
+        m_vec3.copy(light.direction, light.prev_direction);
+    };
+})();

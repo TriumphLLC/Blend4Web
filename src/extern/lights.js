@@ -20,6 +20,7 @@ import * as m_lights from "../intern/lights.js";
 import m_obj_fact from "../intern/objects.js";
 import m_obj_util_fact from "../intern/obj_util.js";
 import m_print_fact from "../intern/print.js";
+import * as m_quat from "../libs/gl_matrix/quat.js";
 import m_scenes_fact from "../intern/scenes.js";
 import m_trans_fact from "../intern/transform.js";
 import * as m_tsr from "../intern/tsr.js";
@@ -45,6 +46,9 @@ var m_trans    = m_trans_fact(ns);
 var _sun_pos        = new Float32Array(3);
 var _date           = {};
 var _max_sun_angle  = 60;
+
+var _vec3_tmp       = m_vec3.create();
+var _quat_tmp       = m_quat.create();
 
 /**
  * @typedef {Object} LightParams
@@ -164,10 +168,10 @@ function set_sun_params(sun_params) {
         // rotate sun
         m_trans.set_rotation_euler(sun, [angle_vert, 0, angle_hor]);
         var dir = new Float32Array(3);
-        var sun_quat = m_tsr.get_quat_view(sun_render.world_tsr);
+        var sun_quat = m_tsr.get_quat(sun_render.world_tsr, _quat_tmp);
         m_util.quat_to_dir(sun_quat, m_util.AXIS_Z, dir);
 
-        var trans = m_tsr.get_trans_view(sun_render.world_tsr);
+        var trans = m_tsr.get_trans(sun_render.world_tsr, _vec3_tmp);
         var dist_to_center = m_vec3.length(trans);
 
         m_vec3.copy(dir, _sun_pos);

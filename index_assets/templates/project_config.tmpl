@@ -105,6 +105,14 @@
                   <label for="proj_none" class="radio">None</label>
                 </div>
               </div>
+              <div class="custom_type row">
+                <h3>Custom Build Command</h3>
+                <div class="input_group">
+                    <input type="radio" id="proj_custom" name="project_engine_type" value="custom" disabled>
+                    <label for="proj_custom" class="radio">Command</label>
+                    <input type="text" id="build_cmd" style="visibility: 'hidden'" value="${build_cmd}">
+                </div>
+              </div>
               <div class="webplayer_type row">
                 <h3>WebPlayer Type</h3>
                 <div class="input_group">
@@ -199,6 +207,15 @@
           <td><input type="text" name="url_params" id="url_params" value="$url_params"></td>
         </tr>
       </tbody>
+      <thead>
+        <tr><td colspan="2" class="centered"><h2>Editor</h2></td></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><h3>Editor Ignore List</h3></td>
+          <td><input type="text" name="editor_ignore" id="editor_ignore" value="$editor_ignore"></td>
+        </tr>
+      </tbody>
     </table>
     <div class="btns_cont">
       <div class="btn_wrapper">
@@ -225,6 +242,7 @@
   <input type="hidden" name="conf_ignore" id="conf_ignore" value="${deploy_ignore}">
   <input type="hidden" name="conf_title" id="conf_title" value="${title}">
   <input type="hidden" name="conf_url_params" id="conf_url_params" value="${url_params}">
+  <input type="hidden" name="conf_editor_ignore" id="conf_editor_ignore" value="${editor_ignore}">
 
   <script src="/index_assets/js/project_config.js" type="text/javascript" charset="utf-8" async defer></script>
 </body>

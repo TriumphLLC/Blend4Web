@@ -22,6 +22,7 @@ import m_batch_fact from "../intern/batch.js";
 import m_obj_util_fact from "../intern/obj_util.js";
 import m_print_fact from "../intern/print.js";
 import m_scenes_fact from "../intern/scenes.js";
+import * as m_tsr from "../intern/tsr.js";
 import * as m_util from "../intern/util.js";
 
 /**
@@ -72,6 +73,13 @@ var m_scenes   = m_scenes_fact(ns);
  * @param {Object3D} obj Object 3D
  * @returns {ObjectMetaTags} Object meta tags
  * @cc_externs title description category
+ * @example var m_scenes    = require("scenes");
+ * var m_objects   = require("objects");
+ *
+ * ....
+ *
+ * var my_object = m_scenes.get_object_by_name("MyObject");
+ * var my_object_meta_tags = m_objects.get_meta_tags(my_object);
  */
 exports.get_meta_tags = function(obj) {
     if (obj)
@@ -83,6 +91,11 @@ exports.get_meta_tags = function(obj) {
  * @method module:objects.get_custom_prop
  * @param {Object3D} obj Object 3D
  * @returns {*} Object custom property field
+ * @example var m_scenes    = require("scenes");
+ * var m_objects   = require("objects");
+ *
+ * var my_object = m_scenes.get_object_by_name("MyObject");
+ * var my_custom_prop = m_objects.get_custom_prop(my_object);
  */
 exports.get_custom_prop = function(obj) {
     if (obj)
@@ -95,10 +108,15 @@ exports.get_custom_prop = function(obj) {
  * @param {string} name New unique object name
  * @param {boolean} [deep_copy=false] Copy WebGL buffers
  * @returns {Object3D} New object.
+ * @example var m_scenes    = require("scenes");
+ * var m_objects   = require("objects");
+ *
+ * var my_object = m_scenes.get_object_by_name("MyObject");
+ * var new_object = m_objects.copy(my_object, "NewObject");
  */
 exports.copy = function(obj, name, deep_copy) {
 
-    if (!m_obj_util.is_mesh(obj)) {
+    if (!(m_obj_util.is_mesh(obj) || m_obj_util.is_empty(obj))) {
         m_print.error("object \"" + obj.name + "\" is not of type \"MESH\".");
         return false;
     }
@@ -115,9 +133,12 @@ exports.copy = function(obj, name, deep_copy) {
     // HACK: a temporary (provisional) solution
     var objs = m_obj.get_scene_objs(m_scenes.get_active(), "MESH", m_obj.DATA_ID_ALL);
     if (objs.indexOf(obj) == - 1) {
-        m_print.error("object \"" + obj.name + "\" does not belong to the " 
-                + "active scene.");
-        return false;
+        objs = m_obj.get_scene_objs(m_scenes.get_active(), "EMPTY", m_obj.DATA_ID_ALL);
+        if (objs.indexOf(obj) == - 1) {
+            m_print.error("object \"" + obj.name + "\" does not belong to the "
+                    + "active scene.");
+            return false;
+        }
     }
     name = name || "";
     return m_obj.copy(obj, name, deep_copy);
@@ -127,6 +148,11 @@ exports.copy = function(obj, name, deep_copy) {
  * Update object's boundings (box, cone, cylinder, ellipsoid, sphere, capsule).
  * @method module:objects.update_boundings
  * @param {Object3D} obj Object 3D
+ * @example var m_scenes = require("scenes");
+ * var m_objects = require("objects");
+ *
+ * var my_object = m_scenes.get_object_by_name("MyObject");
+ * m_objects.update_boundings(my_object);
  */
 exports.update_boundings = function(obj) {
 
@@ -149,6 +175,11 @@ exports.update_boundings = function(obj) {
  * @method module:objects.get_parent
  * @param {Object3D} obj Child object
  * @returns {?Object3D} Parent object
+ * @example var m_scenes = require("scenes");
+ * var m_objects = require("objects");
+ *
+ * var my_object = m_scenes.get_object_by_name("MyObject");
+ * var parent_object = m_objects.get_parent(my_object);
  */
 exports.get_parent = m_obj_util.get_parent;
 
@@ -157,6 +188,11 @@ exports.get_parent = m_obj_util.get_parent;
  * @method module:objects.get_dg_parent
  * @param {Object3D} obj Child object
  * @returns {?Object3D} Parent object
+ * @example var m_scenes = require("scenes");
+ * var m_objects = require("objects");
+ *
+ * var my_object = m_scenes.get_object_by_name("MyObject");
+ * var dg_parent = m_objects.get_dg_parent(my_object);
  */
 exports.get_dg_parent = m_obj_util.get_dg_parent;
 
@@ -165,6 +201,14 @@ exports.get_dg_parent = m_obj_util.get_dg_parent;
  * @method module:objects.is_mesh
  * @param {Object3D} obj Object 3D
  * @returns {boolean} Checking result.
+ * @example var m_scenes = require("scenes");
+ * var m_objects = require("objects");
+ *
+ * var my_object = m_scenes.get_object_by_name("MyObject");
+ * if (m_objects.is_mesh(my_object) == true)
+ * {
+ *    console.log("This is a mesh object.");
+ * }
  */
 exports.is_mesh = m_obj_util.is_mesh;
 
@@ -173,6 +217,18 @@ exports.is_mesh = m_obj_util.is_mesh;
  * @method module:objects.is_armature
  * @param {Object3D} obj Object 3D
  * @returns {boolean} Checking result.
+ * @example var m_scenes = require("scenes");
+ * var m_objects = require("objects");
+ *
+ * var my_object = m_scenes.get_object_by_name("MyObject");
+ * if (m_objects.is_armature(my_object))
+ * {
+ *     console.log("This is an armature");
+ * }
+ *     else
+ * {
+ *    console.log("This is not an armature");
+ * }
  */
 exports.is_armature = m_obj_util.is_armature;
 
@@ -181,6 +237,18 @@ exports.is_armature = m_obj_util.is_armature;
  * @method module:objects.is_speaker
  * @param {Object3D} obj Object 3D
  * @returns {boolean} Checking result.
+ * @example var m_scenes = require("scenes");
+ * var m_objects = require("objects");
+ *
+ * var my_object = m_scenes.get_object_by_name("MyObject");
+ * if (m_objects.is_speaker(my_object))
+ * {
+ *     console.log("This is a speaker");
+ * }
+ *     else
+ * {
+ *     console.log("This is not a speaker");
+ * }
  */
 exports.is_speaker = m_obj_util.is_speaker;
 
@@ -189,6 +257,18 @@ exports.is_speaker = m_obj_util.is_speaker;
  * @method module:objects.is_camera
  * @param {Object3D} obj Object 3D
  * @returns {boolean} Checking result.
+ * @example var m_scenes = require("scenes");
+ * var m_objects = require("objects");
+ *
+ * var my_object = m_scenes.get_object_by_name("MyObject");
+ * if (m_objects.is_camera(my_object)) 
+ * {
+ *     console.log("This is a camera");
+ * }
+ *     else
+ * {
+ *     console.log("This is not a camera");
+ * }
  */
 exports.is_camera = m_obj_util.is_camera;
 
@@ -197,6 +277,18 @@ exports.is_camera = m_obj_util.is_camera;
  * @method module:objects.is_lamp
  * @param {Object3D} obj Object 3D
  * @returns {boolean} Checking result.
+ * @example var m_scenes = require("scenes");
+ * var m_objects = require("objects");
+ *
+ * var my_object = m_scenes.get_object_by_name("MyObject");
+ * if (m_objects.is_lamp(my_object))
+ * {
+ *     console.log("This is a lamp");
+ * } 
+ *     else
+ * {
+ *     console.log("This is not a lamp");
+ * }
  */
 exports.is_lamp = m_obj_util.is_lamp;
 
@@ -205,6 +297,18 @@ exports.is_lamp = m_obj_util.is_lamp;
  * @method module:objects.is_empty
  * @param {Object3D} obj Object 3D
  * @returns {boolean} Checking result.
+ * @example var m_scenes = require("scenes");
+ * var m_objects = require("objects");
+ *
+ * var my_object = m_scenes.get_object_by_name("MyObject");
+ * if (m_objects.is_empty(my_object))
+ * {
+ *     console.log("This is an empty object");
+ * } 
+ *     else
+ * {
+ *     console.log("This is not an empty object");
+ * }
  */
 exports.is_empty = m_obj_util.is_empty;
 
@@ -213,6 +317,18 @@ exports.is_empty = m_obj_util.is_empty;
  * @method module:objects.is_line
  * @param {Object3D} obj Object 3D
  * @returns {boolean} Checking result.
+ * @example var m_scenes = require("scenes");
+ * var m_objects = require("objects");
+ *
+ * var my_object = m_scenes.get_object_by_name("MyObject");
+ * if (m_objects.is_line(my_object))
+ * {
+ *     console.log("This is a line");
+ * }
+ *     else
+ * {
+ *     console.log("This is not a line");
+ * }
  */
 exports.is_line = m_obj_util.is_line;
 
@@ -221,6 +337,18 @@ exports.is_line = m_obj_util.is_line;
  * @method module:objects.is_world
  * @param {Object3D} obj Object 3D
  * @returns {boolean} Checking result.
+ * @example var m_scenes = require("scenes");
+ * var m_objects = require("objects");
+ *
+ * var my_object = m_scenes.get_object_by_name("MyObject");
+ * if (m_objects.is_world(my_object))
+ * {
+ *     console.log("This is a world object");
+ * }
+ *     else
+ * {
+ *     console.log("This is not a world object");
+ * }
  */
 exports.is_world = m_obj_util.is_world;
 
@@ -228,6 +356,10 @@ exports.is_world = m_obj_util.is_world;
  * Get all scene selectable objects.
  * @method module:objects.get_selectable_objects
  * @returns {Object3D[]} Array with selectable objects.
+ * @example var m_scenes = require("scenes");
+ * var m_objects = require("objects");
+ *
+ * var selectable_objects_list = m_objects.get_selectable_objects();
  */
 exports.get_selectable_objects = function() {
 
@@ -237,6 +369,10 @@ exports.get_selectable_objects = function() {
  * Get all scene outlining objects.
  * @method module:objects.get_outlining_objects
  * @returns {Object3D[]} Array with outlining objects.
+ * @example var m_scenes = require("scenes");
+ * var m_objects = require("objects");
+ *
+ * var outlining_objects_list = m_objects.get_outlining_objects();
  */
 exports.get_outlining_objects = function() {
 
@@ -247,6 +383,18 @@ exports.get_outlining_objects = function() {
  * @method module:objects.is_dynamic
  * @param {Object3D} obj Object 3D
  * @returns {boolean} Checking result.
+ * @example var m_scenes = require("scenes");
+ * var m_objects = require("objects");
+ *
+ * var my_object = m_scenes.get_object_by_name("MyObject");
+ * if (m_objects.is_dynamic(my_object))
+ * {
+ *     console.log("This is a dynamic object");
+ * } 
+ *     else
+ * {
+ *     console.log("This is not a dynamic object");
+ * }
  */
 exports.is_dynamic = m_obj_util.is_dynamic;
 
@@ -283,7 +431,7 @@ exports.set_wind_bending_params = function(obj, wb_params) {
 
     if (typeof wb_params.angle == "number") {
         var amp = m_batch.wb_angle_to_amp(m_util.deg_to_rad(wb_params.angle), 
-                render.bb_original, render.world_tsr[3]);
+            render.bb_original, m_tsr.get_scale(render.world_tsr));
         render.wind_bending_amp = amp;
     }
 
@@ -306,6 +454,11 @@ exports.set_wind_bending_params = function(obj, wb_params) {
  * Get object's wind bending parameters. Object must be dynamic.
  * @param {Object3D} obj Object 3D
  * @returns {WindBendingParams} Wind Bending parameters
+ * @example var m_scenes = require("scenes");
+ * var m_objects = require("objects");
+ *
+ * var my_object = m_scenes.get_object_by_name("MyObject");
+ * var wind_params = m_objects.get_wind_bending_params(my_object);
  */
 exports.get_wind_bending_params = function(obj) {
 
@@ -317,7 +470,7 @@ exports.get_wind_bending_params = function(obj) {
     var wb_params = {};
 
     var angle = m_util.rad_to_deg(m_batch.wb_amp_to_angle(render.wind_bending_amp,
-            render.bb_original, render.world_tsr[3]));
+            render.bb_original, m_tsr.get_scale(render.world_tsr)));
 
     wb_params.angle = angle;
     wb_params.main_frequency = render.wind_bending_freq;
@@ -331,9 +484,21 @@ exports.get_wind_bending_params = function(obj) {
 /**
  * Create line object
  * @param {string} name Line object name
+ * @example var m_scenes = require("scenes");
+ * var m_objects = require("objects");
+ *
+ * var my_line = m_objects.create_line("MyLine");
  */
 exports.create_line = function(name) {
     return m_obj.create_line(name);
+}
+
+/*
+ * Create empty object
+ * @param { string } name Name of the empty object
+ */
+exports.create_empty = function (name) {
+    return m_obj.create_empty(name);
 }
 
 /**

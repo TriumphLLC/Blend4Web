@@ -72,6 +72,8 @@ var m_obj_util  = m_obj_util_fact(ns);
 var _vec4_tmp  = new Float32Array(4);
 var _vec3_tmp  = new Float32Array(3);
 var _vec3_tmp1 = new Float32Array(3);
+var _vec3_tmp2 = m_vec3.create();
+var _vec3_tmp3 = m_vec3.create();
 var _vec2_tmp  = new Float32Array(2);
 var _mat3_tmp  = new Float32Array(9);
 var _mat4_tmp  = new Float32Array(16);
@@ -419,9 +421,11 @@ exports.run_ep = function(scene_name, ep_name) {
             for (var j = 0; j < logic.logic_threads.length; j++) {
                 var ep = logic.logic_threads[j].nodes[0];
                 if (ep.name == ep_name) {
-                    if(ep.bools["js"])
+                    // run entry point if it is not started yet or already completed
+                    if (ep.bools["js"] && [0, -1].indexOf(logic.logic_threads[j].thread_state.curr_node) >= 0) {
                         ep.mute  = false;
                         logic.logic_threads[j].thread_state.curr_node = 0;
+                    }
                     break;
                 }
             }
@@ -506,10 +510,12 @@ function entrypoint_handler(node, logic, thread_state, timeline, elapsed, start_
     switch (logic.state) {
     case RUNNING:
         // init callstack
-        thread_state.callstack.push({
-            caller_node: null,
-            variables: thread_state.variables,
-            logic_func: null});
+        if (thread_state.callstack.length == 0) {
+            thread_state.callstack.push({
+                caller_node: null,
+                variables: thread_state.variables,
+                logic_func: null});
+        }
         thread_state.curr_node = node.slot_idx_order;
         break;
     }
@@ -570,7 +576,7 @@ function show_object_handler(node, logic, thread_state, timeline, elapsed, start
 function pageparam_handler(node, logic, thread_state, timeline, elapsed, start_time) {
     switch (logic.state) {
     case RUNNING:
-        set_var(node.vars["vd"], logic.variables, thread_state.variables,
+        set_var(node.vars["id0"], logic.variables, thread_state.variables,
             get_url_param(node.param_name, node.floats["ptp"], node.bools["hsh"]));
         thread_state.curr_node = node.slot_idx_order;
         break;
@@ -1108,9 +1114,9 @@ function move_camera_handler(node, logic, thread_state, timeline, elapsed, start
             target_start: new Float32Array(3),
             target_end: new Float32Array(3),
             interp_target: new Float32Array(3),
-            tsr_start: new Float32Array(8),
-            tsr_end: new Float32Array(8),
-            interp_tsr: new Float32Array(8)
+            tsr_start: m_tsr.create(),
+            tsr_end: m_tsr.create(),
+            interp_tsr: m_tsr.create()
         };
 
     }
@@ -1125,8 +1131,8 @@ function move_camera_handler(node, logic, thread_state, timeline, elapsed, start
 
         var ta = ta_is_var ? get_var(node.vars["id2"], logic.variables, thread_state.variables) : inst.objects["ta"];
 
-        var trans = m_tsr.get_trans_view(tr.render.world_tsr);
-        var target = m_tsr.get_trans_view(ta.render.world_tsr);
+        var trans = m_tsr.get_trans(tr.render.world_tsr, _vec3_tmp);
+        var target = m_tsr.get_trans(ta.render.world_tsr, _vec3_tmp2);
 
         switch (inst.state) {
         case NPS_NOT_STARTED:
@@ -1139,7 +1145,7 @@ function move_camera_handler(node, logic, thread_state, timeline, elapsed, start
                 return;
             }
             // start interpolation
-            var cam_trans = m_tsr.get_trans_view(cam.render.world_tsr);
+            var cam_trans = m_tsr.get_trans(cam.render.world_tsr, _vec3_tmp3);
             m_vec3.copy(cam_trans, inst.camera_state.trans_start);
             var move_style = m_cam.get_move_style(cam);
             if (move_style == m_cam.MS_HOVER_CONTROLS) {
@@ -1233,18 +1239,18 @@ function set_camera_move_style_handler(node, logic, thread_state, timeline, elap
             case NCMS_EYE:
                 cam_render.move_style = m_cam.MS_EYE_CONTROLS;
 
-                var pos = m_tsr.get_trans_view(cam_render.world_tsr);
+                var pos = m_tsr.get_trans(cam_render.world_tsr, _vec3_tmp);
 
                 m_cam.setup_eye_model(cam, pos, null, cam_state.horizontal_limits, cam_state.vertical_limits);
                 break;
             case NCMS_HOVER:
                 cam_render.move_style = m_cam.MS_HOVER_CONTROLS;
 
-                var pos = m_tsr.get_trans_view(cam_render.world_tsr);
-                var pivot = _vec3_tmp;
+                var pos = m_tsr.get_trans(cam_render.world_tsr, _vec3_tmp);
+                var pivot = _vec3_tmp2;
                 if (node.bools["pvo"]) {
                     var pvo = bools["id1"] ? get_var(node.vars['id1'], logic.variables, thread_state.variables) : inst.objects["id1"];
-                    pivot = m_tsr.get_trans_view(pvo.render.world_tsr);
+                    pivot = m_tsr.get_trans(pvo.render.world_tsr, _vec3_tmp2);
                 }
                 else {
                     pivot[0] = node.bools["pvx"] ?
@@ -1261,11 +1267,11 @@ function set_camera_move_style_handler(node, logic, thread_state, timeline, elap
             case NCMS_TARGET:
                 cam_render.move_style = m_cam.MS_TARGET_CONTROLS;
 
-                var pos = m_tsr.get_trans_view(cam_render.world_tsr);
-                var pivot = _vec3_tmp;
+                var pos = m_tsr.get_trans(cam_render.world_tsr, _vec3_tmp);
+                var pivot = _vec3_tmp2;
                 if (node.bools["pvo"]) {
                     var pvo = bools["id1"] ? get_var(node.vars['id1'], logic.variables, thread_state.variables) : inst.objects["id1"];
-                    pivot = m_tsr.get_trans_view(pvo.render.world_tsr);
+                    pivot = m_tsr.get_trans(pvo.render.world_tsr, _vec3_tmp2);
                 } else {
                     pivot[0] = node.bools["pvx"] ?
                         convert_variable(get_var(node.vars["pvx"], logic.variables, thread_state.variables), NT_NUMBER) : node.floats["pvx"];
@@ -1503,9 +1509,9 @@ function move_to_handler(node, logic, thread_state, timeline, elapsed, start_tim
         inst.state = NPS_NOT_STARTED;
 
         inst.obj_state = {
-            dest_tsr_start: new Float32Array(8),
-            dest_tsr_end: new Float32Array(8),
-            interp_tsr_dest: new Float32Array(8)
+            dest_tsr_start: m_tsr.create(),
+            dest_tsr_end: m_tsr.create(),
+            interp_tsr_dest: m_tsr.create()
         };
     }
     switch (logic.state) {
@@ -1584,16 +1590,16 @@ function transform_object_handler(node, logic, thread_state, timeline, elapsed, 
 
         inst.obj_state = {
             space: NST_WORLD,
-            tsr_start: new Float32Array(8),
-            tsr_end: new Float32Array(8),
-            interp_tsr: new Float32Array(8)
+            tsr_start: m_tsr.create(),
+            tsr_end: m_tsr.create(),
+            interp_tsr: m_tsr.create()
         };
     }
-    var inst = get_node_instance(node, thread_state, init);
     switch (logic.state) {
     case INITIALIZATION:
         break;
     case RUNNING:
+        var inst = get_node_instance(node, thread_state, init);
         var obj = is_var ? get_var(node.vars["id0"], logic.variables, thread_state.variables) : inst.obj;
 
         switch (inst.state) {

@@ -44,11 +44,17 @@ vec4 get_shadow_coords_shifted(mat4 light_proj_matrix, vec4 pos_light_space, mat
 }
 
 void get_shadow_coords(vec3 pos, vec3 nor) {
-
+    // FIXME: don't use mat3 to create tsr manually!!!
 # if MAC_OS_SHADOW_HACK
     mat4 v_light_matrix = tsr_to_mat4(u_v_light_tsr[0]);
 # else
-    mat4 v_light_matrix = tsr_to_mat4(mat3(u_v_light_ts[0], u_v_light_r[0], 0.0));
+    mat4 v_light_matrix = tsr_to_mat4(
+        mat3(
+            u_v_light_ts[0].xyz,
+            vec3(u_v_light_ts[0].w),
+            u_v_light_r[0].xyz * (2. * float(u_v_light_r[0].w >= 0.) - 1.)
+        )
+    );
 # endif
 
     // apply normal offset to prevent shadow acne
@@ -62,7 +68,13 @@ void get_shadow_coords(vec3 pos, vec3 nor) {
 #  if MAC_OS_SHADOW_HACK
     v_light_matrix = tsr_to_mat4(u_v_light_tsr[1]);
 #  else
-    v_light_matrix = tsr_to_mat4(mat3(u_v_light_ts[1], u_v_light_r[1], 0.0));
+    v_light_matrix = tsr_to_mat4(
+        mat3(
+            u_v_light_ts[1].xyz,
+            vec3(u_v_light_ts[1].w),
+            u_v_light_r[1].xyz * (2. * float(u_v_light_r[1].w >= 0.) - 1.)
+        )
+    );
 #  endif
     pos_light = v_light_matrix * vec4(pos + u_normal_offset * nor, 1.0);
     v_shadow_coord1 = get_shadow_coords_shifted(u_p_light_matrix1, pos_light, v_light_matrix);
@@ -72,7 +84,13 @@ void get_shadow_coords(vec3 pos, vec3 nor) {
 #  if MAC_OS_SHADOW_HACK
     v_light_matrix = tsr_to_mat4(u_v_light_tsr[2]);
 #  else
-    v_light_matrix = tsr_to_mat4(mat3(u_v_light_ts[2], u_v_light_r[2], 0.0));
+    v_light_matrix = tsr_to_mat4(
+        mat3(
+            u_v_light_ts[2].xyz,
+            vec3(u_v_light_ts[2].w),
+            u_v_light_r[2].xyz * (2. * float(u_v_light_r[2].w >= 0.) - 1.)
+        )
+    );
 #  endif
     pos_light = v_light_matrix * vec4(pos + u_normal_offset * nor, 1.0);
     v_shadow_coord2 = get_shadow_coords_shifted(u_p_light_matrix2, pos_light, v_light_matrix);
@@ -82,7 +100,13 @@ void get_shadow_coords(vec3 pos, vec3 nor) {
 #  if MAC_OS_SHADOW_HACK
     v_light_matrix = tsr_to_mat4(u_v_light_tsr[3]);
 #  else
-    v_light_matrix = tsr_to_mat4(mat3(u_v_light_ts[3], u_v_light_r[3], 0.0));
+    v_light_matrix = tsr_to_mat4(
+        mat3(
+            u_v_light_ts[3].xyz,
+            vec3(u_v_light_ts[3].w),
+            u_v_light_r[3].xyz * (2. * float(u_v_light_r[3].w >= 0.) - 1.)
+        )
+    );
 #  endif
     pos_light = v_light_matrix * vec4(pos + u_normal_offset * nor, 1.0);
     v_shadow_coord3 = get_shadow_coords_shifted(u_p_light_matrix3, pos_light, v_light_matrix);

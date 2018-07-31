@@ -846,7 +846,7 @@ vec2 vec_to_uv(vec3 vec)
     normal_out = 2.0 * color.xyz - _1_0;
     // mimic blender behavior
     normal_out.yz *= -_1_0;
-    normal_out = tsr9_transform_dir(u_model_tsr, normal_out);
+    normal_out = tsr9_transform_normal(u_model_tsr, normal_out);
 
 # node_elif SPACE == NM_WORLD || SPACE == NM_BLENDER_WORLD
     normal_out = 2.0 * color.xyz - _1_0;

@@ -268,7 +268,31 @@ exports.replace_image = function(obj, text_name, image, callback) {
     }
 
     var image_path = image.src;
-    m_textures.change_image(obj, tex, text_name, image, image_path);
+
+    // There is no chance to check that the image is not found
+    // but in this case the image is complete, so allow to handle
+    // this situation in m_textures.change_image, moreover, the
+    // corresponding "Not Found" is already rised. For the better
+    // handling use onload/onerror for image immediately after creation.
+    if (image.complete) {
+        m_textures.change_image(obj, tex, text_name, image, image_path);
+        callback(true);
+    }
+    else {
+        var onload = image.onload;
+        var onerror = image.onerror;
+        image.onload = function() {
+            if (onload)
+                onload.call(image);
+            m_textures.change_image(obj, tex, text_name, image, image_path);
+            callback(true);
+        }
+        image.onerror = function() {
+            if (onerror)
+                onerror.call(image)
+            callback(false);
+        }
+    }
 }
 /**
  * Get texture names.

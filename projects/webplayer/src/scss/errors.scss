@@ -1,0 +1,25 @@
+#error_cont {
+  z-index: 10;
+  width: 100%;
+  height: auto;
+  position: absolute;
+  top: 50%;
+  margin-top: -110px;
+  text-align: center;
+  display: none;
+  font-family: Arial;
+}
+
+#error_name {
+  color: #aa0000;
+  font-size: 16px;
+  margin-bottom: 5px;
+  font-family: Arial;
+}
+
+#error_info,
+#error_info > a {
+  color: #aa0000;
+  font-size: 12px;
+  font-family: Arial;
+}

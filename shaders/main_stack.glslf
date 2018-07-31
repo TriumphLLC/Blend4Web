@@ -360,7 +360,7 @@ void main(void) {
 #endif
 
 #if NORMAL_TEXCOORD
-    vec2 texcoord_norm = normalize(tsr9_transform_dir(view_tsr, v_normal)).st;
+    vec2 texcoord_norm = normalize(tsr9_transform_normal(view_tsr, v_normal)).st;
     texcoord_norm = texcoord_norm * vec2(0.495) + vec2(0.5);
 #endif
 
@@ -447,7 +447,7 @@ void main(void) {
 
 // recalculate normal texcoords with parallax and normalmapping applied
 #if NORMAL_TEXCOORD
-    texcoord_norm = normalize(tsr9_transform_dir(view_tsr, normal)).st;
+    texcoord_norm = normalize(tsr9_transform_normal(view_tsr, normal)).st;
     texcoord_norm = texcoord_norm * vec2(0.495) + vec2(0.5);
 #endif
 
@@ -590,7 +590,7 @@ void main(void) {
 #endif  // ALPHA
 
 #if REFRACTIVE
-    vec2 normal_view = -(tsr9_transform_dir(view_tsr, normal)).xy;
+    vec2 normal_view = -(tsr9_transform_normal(view_tsr, normal)).xy;
     color = mix(material_refraction(v_tex_pos_clip, normal_view * u_refr_bump),
                 color, alpha);
     alpha = 1.0;

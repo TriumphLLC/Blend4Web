@@ -104,7 +104,7 @@ part_params calc_part_params(void) {
         vec3 norm = norm_tbn;
 #else
         vec3 pos = tsr9_transform(u_model_tsr, a_position);
-        vec3 norm = tsr9_transform_dir(u_model_tsr, norm_tbn);
+        vec3 norm = tsr9_transform_normal(u_model_tsr, norm_tbn);
 #endif
 
         /* cinematics */

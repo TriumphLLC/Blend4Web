@@ -129,38 +129,43 @@ exports.append_stiff_bone = function(obj, armobj, bone_name, offset,
 /**
  * Apply semi-stiff-to-object constraint.
  */
-exports.append_semi_stiff_obj = function(obj, obj_parent, offset, rotation_offset,
-                                        clamp_left, clamp_right, clamp_up, clamp_down) {
+exports.append_semi_stiff_obj = (function() {
+    var _quat_tmp = m_quat.create();
+    var _quat_tmp2 = m_quat.create();
 
-    var cons = init_cons(CONS_TYPE_SEMI_STIFF_OBJ);
-    var quat = m_tsr.get_quat_view(obj.render.world_tsr);
-    var p_quat = m_tsr.get_quat_view(obj_parent.render.world_tsr);
+    return function (obj, obj_parent, offset, rotation_offset,
+        clamp_left, clamp_right, clamp_up, clamp_down) {
 
-    // override initial rotation for object
-    if (rotation_offset) {
-        m_quat.copy(rotation_offset, quat);
-        m_quat.multiply(p_quat, quat, quat);
-    } else
-        rotation_offset = m_quat.create();
+        var cons = init_cons(CONS_TYPE_SEMI_STIFF_OBJ);
+        var p_quat = m_tsr.get_quat(obj_parent.render.world_tsr, _quat_tmp2);
 
-    // link to parent object
-    cons.obj_parent = obj_parent;
-    cons.tsr_offset = m_tsr.create();
+        // override initial rotation for object
+        if (rotation_offset) {
+            var quat = m_quat.copy(rotation_offset, _quat_tmp);
+            m_quat.multiply(p_quat, quat, quat);
+            m_tsr.set_quat(quat, obj.render.world_tsr);
+        } else
+            rotation_offset = m_quat.create();
 
-    m_tsr.set_trans(offset, cons.tsr_offset);
-    m_tsr.set_quat(rotation_offset, cons.tsr_offset);
-    cons.parent_prev_rotation = new Float32Array(p_quat);
+        // link to parent object
+        cons.obj_parent = obj_parent;
+        cons.tsr_offset = m_tsr.create();
 
-    cons.clamp_left = m_util.angle_wrap_0_2pi(clamp_left);
-    cons.clamp_right = m_util.angle_wrap_0_2pi(clamp_right);
-    cons.clamp_up = m_util.angle_wrap_periodic(clamp_up, -Math.PI, Math.PI);
-    cons.clamp_down = m_util.angle_wrap_periodic(clamp_down, -Math.PI, Math.PI);
+        m_tsr.set_trans(offset, cons.tsr_offset);
+        m_tsr.set_quat(rotation_offset, cons.tsr_offset);
+        cons.parent_prev_rotation = new Float32Array(p_quat);
 
-    cons.tsr_restore = new Float32Array(obj.render.world_tsr);
+        cons.clamp_left = m_util.angle_wrap_0_2pi(clamp_left);
+        cons.clamp_right = m_util.angle_wrap_0_2pi(clamp_right);
+        cons.clamp_up = m_util.angle_wrap_periodic(clamp_up, -Math.PI, Math.PI);
+        cons.clamp_down = m_util.angle_wrap_periodic(clamp_down, -Math.PI, Math.PI);
 
-    apply_cons(obj, cons);
-    update_cons(obj, cons, 0);
-}
+        cons.tsr_restore = new Float32Array(obj.render.world_tsr);
+
+        apply_cons(obj, cons);
+        update_cons(obj, cons, 0);
+    };
+})();
 
 exports.append_semi_soft_obj = function(obj, obj_parent, offset, softness) {
 
@@ -330,22 +335,26 @@ function append_copy_loc_obj(obj, obj_parent, offset, axes, use_offset, influenc
     update_cons(obj, cons, 0);
 }
 
+var append_copy_rot_obj = (function() {
+    var _quat_tmp = m_quat.create();
+
+    return function append_copy_rot_obj(obj, obj_parent, axes, use_offset, influence) {
+        var cons = init_cons(CONS_TYPE_COPY_ROT_OBJ);
+        cons.obj_parent = obj_parent;
+
+        var obj_quat = m_tsr.get_quat(obj.render.world_tsr, _quat_tmp);
+        // this is a disputable point: maybe we should use m_util.quat_to_eul_opt
+        cons.euler_offset = m_util.quat_to_euler(obj_quat, new Float32Array(3));
+
+        cons.axes = new Float32Array(axes);
+        cons.influence = influence;
+        cons.use_offset = use_offset;
+        cons.tsr_restore = new Float32Array(obj.render.world_tsr);
+        apply_cons(obj, cons);
+        update_cons(obj, cons, 0);
+    };
+})();
 exports.append_copy_rot_obj = append_copy_rot_obj;
-function append_copy_rot_obj(obj, obj_parent, axes, use_offset, influence) {
-    var cons = init_cons(CONS_TYPE_COPY_ROT_OBJ);
-    cons.obj_parent = obj_parent;
-
-    var obj_quat = m_tsr.get_quat(obj.render.world_tsr, _quat4_tmp2);
-    // this is a disputable point: maybe we should use m_util.quat_to_eul_opt
-    cons.euler_offset = m_util.quat_to_euler(obj_quat, new Float32Array(3));
-
-    cons.axes = new Float32Array(axes);
-    cons.influence = influence;
-    cons.use_offset = use_offset;
-    cons.tsr_restore = new Float32Array(obj.render.world_tsr);
-    apply_cons(obj, cons);
-    update_cons(obj, cons, 0);
-}
 
 exports.append_copy_trans_obj = append_copy_trans_obj;
 function append_copy_trans_obj(obj, obj_parent, influence) {
@@ -459,306 +468,333 @@ exports.update_constraint = function(obj, elapsed) {
 /**
  * Only trans/quat affected by constraint here
  */
-function update_cons(obj, cons, elapsed) {
-    switch (cons.type) {
-    case CONS_TYPE_STIFF_OBJ:
-        m_tsr.multiply(cons.obj_parent.render.world_tsr, cons.tsr_offset, obj.render.world_tsr);
-        break;
-    case CONS_TYPE_SEMI_STIFF_OBJ:
+var update_cons = (function() {
+    var _quat_tmp = m_quat.create();
+    var _quat_tmp2 = m_quat.create();
+    var _quat_tmp3 = m_quat.create();
+    var _tsr_tmp = m_tsr.create();
+    var _vec3_tmp = m_vec3.create();
+    var _vec3_tmp2 = m_vec3.create();
+    var _vec3_tmp3 = m_vec3.create();
 
-        var trans = m_tsr.get_trans_view(obj.render.world_tsr);
-        var quat = m_tsr.get_quat_view(obj.render.world_tsr);
+    return function update_cons(obj, cons, elapsed) {
+        switch (cons.type) {
+            case CONS_TYPE_STIFF_OBJ:
+                m_tsr.multiply(cons.obj_parent.render.world_tsr, cons.tsr_offset, obj.render.world_tsr);
+                break;
+            case CONS_TYPE_SEMI_STIFF_OBJ:
 
-        var offset = m_tsr.get_trans(cons.tsr_offset, _vec3_tmp);
+                var trans = m_tsr.get_trans(obj.render.world_tsr, _vec3_tmp);
+                var quat = m_tsr.get_quat(obj.render.world_tsr, _quat_tmp);
 
-        var p_world_tsr = cons.obj_parent.render.world_tsr;
-        var p_quat = m_tsr.get_quat_view(cons.obj_parent.render.world_tsr);
+                var offset = m_tsr.get_trans(cons.tsr_offset, _vec3_tmp2);
 
-        // Qp * Qp_prev_inv * Q
-        m_quat.multiply(
-                m_quat.invert(cons.parent_prev_rotation, cons.parent_prev_rotation),
-                quat, quat);
-        m_quat.multiply(p_quat, quat, quat);
+                var p_world_tsr = cons.obj_parent.render.world_tsr;
+                var p_quat = m_tsr.get_quat(cons.obj_parent.render.world_tsr, _quat_tmp2);
 
-        m_tsr.transform_vec3(offset, p_world_tsr, trans);
-        m_quat.copy(p_quat, cons.parent_prev_rotation);
-        clamp_orientation(obj, cons);
-        break;
-    case CONS_TYPE_SEMI_SOFT_OBJ:
+                // Qp * Qp_prev_inv * Q
+                m_quat.multiply(
+                    m_quat.invert(cons.parent_prev_rotation, cons.parent_prev_rotation),
+                    quat, quat);
+                m_quat.multiply(p_quat, quat, quat);
+                m_tsr.set_quat(quat, obj.render.world_tsr);
 
-        var trans          = m_tsr.get_trans_view(obj.render.world_tsr);
-        var quat           = m_tsr.get_quat_view(obj.render.world_tsr);
-        var p_world_tsr    = cons.obj_parent.render.world_tsr;
-        var p_trans        = m_tsr.get_trans_view(p_world_tsr);
-        var softness       = cons.softness;
-        var trans_pivot    = _vec3_tmp;
-        var quat_pivot     = m_quat.copy(quat, _quat4_tmp);
-        var softness_ratio = 0.16;
-        var offset         = m_tsr.get_trans(cons.tsr_offset, _vec3_tmp_2);
+                m_tsr.transform_vec3(offset, p_world_tsr, trans);
+                m_tsr.set_trans(trans, obj.render.world_tsr);
+                m_quat.copy(p_quat, cons.parent_prev_rotation);
+                clamp_orientation(obj, cons);
+                break;
+            case CONS_TYPE_SEMI_SOFT_OBJ:
 
-        m_tsr.transform_vec3(offset, p_world_tsr, trans_pivot);
-        m_util.smooth_v(trans_pivot, trans, elapsed, softness, trans);
+                var trans = m_tsr.get_trans(obj.render.world_tsr, _vec3_tmp);
+                var quat = m_tsr.get_quat(obj.render.world_tsr, _quat_tmp);
+                var p_world_tsr = cons.obj_parent.render.world_tsr;
+                var p_trans = m_tsr.get_trans(p_world_tsr, _vec3_tmp2);
+                var softness = cons.softness;
+                var quat_pivot = m_quat.copy(quat, _quat_tmp2);
+                var softness_ratio = 0.16;
+                var offset = m_tsr.get_trans(cons.tsr_offset, _vec3_tmp3);
 
-        m_util.quat_rotate_to_target(trans, quat_pivot, p_trans, m_util.AXIS_MZ);
-        m_util.smooth_q(quat_pivot, quat, elapsed, softness * softness_ratio, quat);
+                var trans_pivot = m_tsr.transform_vec3(offset, p_world_tsr, _vec3_tmp3);
+                m_util.smooth_v(trans_pivot, trans, elapsed, softness, trans);
+                m_tsr.set_trans(trans, obj.render.world_tsr);
 
-        break;
-    case CONS_TYPE_STIFF_BONE:
-        var quat = m_tsr.get_quat_view(obj.render.world_tsr);
-        var p_tsr = _tsr_tmp;
+                m_util.quat_rotate_to_target(trans, quat_pivot, p_trans, m_util.AXIS_MZ);
+                m_tsr.set_trans(p_trans, p_world_tsr);
+                m_util.smooth_q(quat_pivot, quat, elapsed, softness * softness_ratio, quat);
+                m_tsr.set_quat(quat, obj.render.world_tsr);
 
-        var offset = m_tsr.get_trans(cons.tsr_offset, _vec3_tmp_2);
-        var scale_offset = m_tsr.get_scale(cons.tsr_offset);
-        var rotation_offset = m_tsr.get_quat(cons.tsr_offset, _quat4_tmp);
+                break;
+            case CONS_TYPE_STIFF_BONE:
+                var offset = m_tsr.get_trans(cons.tsr_offset, _vec3_tmp2);
+                var scale_offset = m_tsr.get_scale(cons.tsr_offset);
+                var rotation_offset = m_tsr.get_quat(cons.tsr_offset, _quat_tmp2);
 
-        m_armat.get_bone_tsr(cons.obj_parent, cons.bone_name, true, false,
-                             p_tsr);
-        // from armature to world space
-        m_tsr.multiply(cons.obj_parent.render.world_tsr, p_tsr, p_tsr);
+                var p_tsr = m_armat.get_bone_tsr(cons.obj_parent,
+                        cons.bone_name, true, false, _tsr_tmp);
+                // from armature to world space
+                m_tsr.multiply(cons.obj_parent.render.world_tsr, p_tsr, p_tsr);
 
-        quat[0] = p_tsr[4];
-        quat[1] = p_tsr[5];
-        quat[2] = p_tsr[6];
-        quat[3] = p_tsr[7];
+                var quat = m_tsr.get_quat(p_tsr, _quat_tmp);
 
-        m_quat.multiply(quat, rotation_offset, quat);
-        m_tsr.set_scale(scale_offset * p_tsr[3], obj.render.world_tsr);
+                m_quat.multiply(quat, rotation_offset, quat);
+                m_tsr.set_quat(quat, obj.render.world_tsr);
 
-        var trans = m_tsr.get_trans_view(obj.render.world_tsr);
-        m_tsr.transform_vec3(offset, p_tsr, trans);
+                m_tsr.set_scale(scale_offset * m_tsr.get_scale(p_tsr),
+                        obj.render.world_tsr);
 
-        break;
-    case CONS_TYPE_TRACK_OBJ:
-        var trans = m_tsr.get_trans_view(obj.render.world_tsr);
-        var quat = m_tsr.get_quat_view(obj.render.world_tsr);
-        var t_trans = m_tsr.get_trans_view(cons.obj_parent.render.world_tsr);
-        var f = cons.influence;
+                var trans = m_tsr.get_trans(obj.render.world_tsr, _vec3_tmp);
+                m_tsr.transform_vec3(offset, p_tsr, trans);
+                m_tsr.set_trans(trans, obj.render.world_tsr);
 
-        if (cons.use_target_z) {
-            var t_quat = m_tsr.get_quat(cons.obj_parent.render.world_tsr, _quat4_tmp);
-            var target_axis = m_vec3.transformQuat(m_util.AXIS_Z, t_quat, _vec3_tmp);
-        } else
-            var target_axis = m_util.AXIS_Z;
-        m_util.quat_rotate_to_target(trans, quat, t_trans, cons.track_axis);
-        var dir = m_vec3.subtract(t_trans, trans, _vec3_tmp_2);
-        m_vec3.normalize(dir, dir);
-        m_util.quat_set_vertical_axis(quat, cons.vertical_axis, target_axis, dir);
-        var o_quat = m_tsr.get_quat(cons.tsr_restore, _quat4_tmp);
-        m_quat.slerp(o_quat, quat, f, quat);
+                break;
+            case CONS_TYPE_TRACK_OBJ:
+                var trans = m_tsr.get_trans(obj.render.world_tsr, _vec3_tmp);
+                var quat = m_tsr.get_quat(obj.render.world_tsr, _quat_tmp);
+                var t_trans = m_tsr.get_trans(cons.obj_parent.render.world_tsr, _vec3_tmp2);
+                var f = cons.influence;
 
-        m_tsr.set_trans(trans, cons.tsr_restore);
-        break;
+                if (cons.use_target_z) {
+                    var t_quat = m_tsr.get_quat(cons.obj_parent.render.world_tsr, _quat_tmp2);
+                    var target_axis = m_vec3.transformQuat(m_util.AXIS_Z, t_quat, _vec3_tmp3);
+                } else
+                    var target_axis = m_util.AXIS_Z;
+                m_util.quat_rotate_to_target(trans, quat, t_trans, cons.track_axis);
+                var dir = m_vec3.subtract(t_trans, trans, _vec3_tmp2);
+                m_vec3.normalize(dir, dir);
+                m_util.quat_set_vertical_axis(quat, cons.vertical_axis, target_axis, dir);
+                var o_quat = m_tsr.get_quat(cons.tsr_restore, _quat_tmp2);
+                m_quat.slerp(o_quat, quat, f, quat);
+                m_tsr.set_quat(quat, obj.render.world_tsr);
 
-    case CONS_TYPE_FOLLOW_OBJ:
-        var trans = m_tsr.get_trans_view(obj.render.world_tsr);
-        var quat = m_tsr.get_quat_view(obj.render.world_tsr);
-        var t_trans = m_tsr.get_trans_view(cons.obj_parent.render.world_tsr);
+                m_tsr.set_trans(trans, cons.tsr_restore);
+                break;
 
-        m_util.quat_rotate_to_target(trans, quat, t_trans, m_util.AXIS_MZ);
+            case CONS_TYPE_FOLLOW_OBJ:
+                var trans = m_tsr.get_trans(obj.render.world_tsr, _vec3_tmp);
+                var quat = m_tsr.get_quat(obj.render.world_tsr, _quat_tmp);
+                var t_trans = m_tsr.get_trans(cons.obj_parent.render.world_tsr, _vec3_tmp2);
 
-        // shrink distance
-        var dist = m_vec3.dist(trans, t_trans);
+                m_util.quat_rotate_to_target(trans, quat, t_trans, m_util.AXIS_MZ);
+                m_tsr.set_trans(t_trans, cons.obj_parent.render.world_tsr);
 
-        // passing target location
-        if (dist > cons.dist_max)
-            var delta = dist - cons.dist_max;
-        else if (dist < cons.dist_min)
-            var delta = dist - cons.dist_min;
-        else
-            var delta = 0.0;
+                // shrink distance
+                var dist = m_vec3.dist(trans, t_trans);
 
-        if (delta) {
-            // NOTE: from trans to t_trans
-            m_vec3.sub(t_trans, trans, _vec3_tmp);
-            m_vec3.normalize(_vec3_tmp, _vec3_tmp);
-            m_vec3.scale(_vec3_tmp, delta, _vec3_tmp);
-            m_vec3.add(trans, _vec3_tmp, trans);
+                // passing target location
+                if (dist > cons.dist_max)
+                    var delta = dist - cons.dist_max;
+                else if (dist < cons.dist_min)
+                    var delta = dist - cons.dist_min;
+                else
+                    var delta = 0.0;
+
+                if (delta) {
+                    // NOTE: from trans to t_trans
+                    m_vec3.sub(t_trans, trans, _vec3_tmp3);
+                    m_vec3.normalize(_vec3_tmp3, _vec3_tmp3);
+                    m_vec3.scale(_vec3_tmp, delta, _vec3_tmp3);
+                    m_vec3.add(trans, _vec3_tmp3, trans);
+                    m_tsr.set_trans(trans, obj.render.world_tsr);
+                }
+
+                break;
+            case CONS_TYPE_STIFF_TRANS_OBJ:
+                var p_world_tsr = cons.obj_parent.render.world_tsr;
+                var trans = m_tsr.get_trans(obj.render.world_tsr, _vec3_tmp);
+                var offset = m_tsr.get_trans(cons.tsr_offset, _vec3_tmp2);
+                m_tsr.transform_vec3(offset, p_world_tsr, trans);
+
+                m_tsr.set_trans(trans, obj.render.world_tsr);
+                m_tsr.set_quat(m_tsr.get_quat(obj.render.world_tsr, _quat_tmp), cons.tsr_restore);
+                break;
+            case CONS_TYPE_COPY_LOC_OBJ:
+                var p_trans = m_tsr.get_trans(cons.obj_parent.render.world_tsr, _vec3_tmp);
+                var axes = cons.axes;
+
+                var def_offset = m_tsr.get_trans(cons.tsr_offset, _vec3_tmp2);
+                var offset = m_vec3.set(0, 0, 0, _vec3_tmp3);
+                if (cons.use_offset)
+                    m_vec3.add(offset, def_offset, offset);
+                var f = cons.influence;
+
+                // NOTE: trans and p_trans use same _vec3_tmp
+                var trans = _vec3_tmp;
+                if (axes[0])
+                    trans[0] = (1 - f) * def_offset[0] + f * (m_util.sign(axes[0]) * p_trans[0] + offset[0]);
+                if (axes[1])
+                    trans[1] = (1 - f) * def_offset[1] + f * (m_util.sign(axes[1]) * p_trans[1] + offset[1]);
+                if (axes[2])
+                    trans[2] = (1 - f) * def_offset[2] + f * (m_util.sign(axes[2]) * p_trans[2] + offset[2]);
+
+                m_tsr.set_trans(trans, obj.render.world_tsr);
+                m_tsr.set_quat(m_tsr.get_quat(obj.render.world_tsr, _quat_tmp), cons.tsr_restore);
+                break;
+            case CONS_TYPE_COPY_ROT_OBJ:
+                var axes = cons.axes;
+                var p_quat = m_tsr.get_quat(cons.obj_parent.render.world_tsr, _quat_tmp);
+
+                var euler = m_util.quat_to_eul_opt(p_quat, cons.euler_offset, _vec3_tmp2);
+                m_util.compatible_euler(euler, cons.euler_offset);
+
+                if (axes[0]) {
+                    if (cons.use_offset) {
+                        var beul = m_vec3.set(cons.euler_offset[0], 0, 0, _vec3_tmp);
+                        m_util.rotate_eul(euler, beul, euler);
+                    }
+                    euler[0] = m_util.sign(axes[0]) * euler[0];
+                } else
+                    euler[0] = cons.euler_offset[0];
+
+
+                if (axes[1]) {
+                    if (cons.use_offset) {
+                        var beul = m_vec3.set(0, cons.euler_offset[1], 0, _vec3_tmp);
+                        m_util.rotate_eul(euler, beul, euler);
+                    }
+                    euler[1] = m_util.sign(axes[1]) * euler[1];
+                } else
+                    euler[1] = cons.euler_offset[1];
+
+                if (axes[2]) {
+                    if (cons.use_offset) {
+                        var beul = m_vec3.set(0, 0, cons.euler_offset[2], _vec3_tmp);
+                        m_util.rotate_eul(euler, beul, euler);
+                    }
+                    euler[2] = m_util.sign(axes[2]) * euler[2];
+                } else
+                    euler[2] = cons.euler_offset[2];
+
+                m_util.compatible_euler(euler, cons.euler_offset);
+                var f = cons.influence;
+                var target_quat = m_util.euler_to_quat(euler, _quat_tmp);
+                var obj_quat = m_tsr.get_quat(cons.tsr_restore, _quat_tmp2);
+                var quat = m_quat.slerp(obj_quat, target_quat, f, _quat_tmp);
+
+                m_tsr.set_quat(quat, obj.render.world_tsr);
+
+                m_tsr.set_trans(m_tsr.get_trans(obj.render.world_tsr, _vec3_tmp), cons.tsr_restore);
+                break;
+            case CONS_TYPE_COPY_TRANS_OBJ:
+                var f = cons.influence;
+                var p_trans = m_tsr.get_trans(cons.obj_parent.render.world_tsr, _vec3_tmp);
+                var p_quat = m_tsr.get_quat(cons.obj_parent.render.world_tsr, _quat_tmp);
+                var o_trans = m_tsr.get_trans(cons.tsr_offset, _vec3_tmp2);
+                var o_quat = m_tsr.get_quat(cons.tsr_offset, _quat_tmp2);
+                var trans = m_util.blend_arrays(o_trans, p_trans, f, _vec3_tmp);
+                m_tsr.set_trans(trans, obj.render.world_tsr);
+                var quat = m_quat.slerp(o_quat, p_quat, f, _quat_tmp);
+                m_tsr.set_quat(quat, obj.render.world_tsr);
+
+                m_tsr.set_trans(m_tsr.get_trans(obj.render.world_tsr, _vec3_tmp), cons.tsr_restore);
+                break;
+            case CONS_TYPE_STIFF_TRANS_ROT_OBJ:
+
+                var quat = m_tsr.get_quat(obj.render.world_tsr, _quat_tmp);
+
+                var p_world_tsr = cons.obj_parent.render.world_tsr;
+                var p_quat = m_tsr.get_quat(cons.obj_parent.render.world_tsr, _quat_tmp2);
+
+                var offset = m_tsr.get_trans(cons.tsr_offset, _vec3_tmp2);
+                // var scale_offset = m_tsr.get_scale(cons.tsr_offset);
+                var rotation_offset = m_tsr.get_quat(cons.tsr_offset, _quat_tmp3);
+
+                m_quat.multiply(p_quat, rotation_offset, quat);
+                m_tsr.set_quat(quat, obj.render.world_tsr);
+
+                var trans = m_tsr.transform_vec3(offset, p_world_tsr, _vec3_tmp);
+                m_tsr.set_trans(trans, obj.render.world_tsr);
+                break;
+            case CONS_TYPE_CHILD_OF:
+                var prender = cons.obj_parent.render;
+                var render = obj.render;
+
+                m_tsr.multiply(prender.world_tsr, cons.tsr_offset, render.world_tsr);
+                break;
+            case CONS_TYPE_CHILD_OF_BONE:
+
+                var tsr_offset = cons.tsr_offset;
+                var p_tsr = _tsr_tmp;
+
+                m_armat.get_bone_tsr(cons.obj_parent, cons.bone_name, true, false,
+                    p_tsr);
+                // from armature to world space
+                m_tsr.multiply(cons.obj_parent.render.world_tsr, p_tsr, p_tsr);
+
+                m_tsr.multiply(p_tsr, tsr_offset, obj.render.world_tsr);
+
+                break;
+            case CONS_TYPE_STIFF_VIEWPORT:
+                var camobj = cons.obj_parent;
+                var cam = m_cam.get_first_cam(camobj);
+
+                var trans = _vec3_tmp;
+
+                var left = m_cam.get_edge(cam, "LEFT");
+                var right = m_cam.get_edge(cam, "RIGHT");
+                var top = m_cam.get_edge(cam, "TOP");
+                var bottom = m_cam.get_edge(cam, "BOTTOM");
+
+                if (cons.hor_units == "heights")
+                    var hor_stride = top - bottom;
+                else
+                    var hor_stride = right - left;
+
+                if (cons.left_edge)
+                    trans[0] = left + hor_stride * cons.left_right_dist;
+                else
+                    trans[0] = right - hor_stride * cons.left_right_dist;
+
+                if (cons.vert_units == "heights")
+                    var vert_stride = top - bottom;
+                else
+                    var vert_stride = right - left;
+
+                // in the camera's view space
+                if (cons.top_edge)
+                    trans[1] = top - vert_stride * cons.top_bottom_dist;
+                else
+                    trans[1] = bottom + vert_stride * cons.top_bottom_dist;
+
+                // NOTE: ortho cameras have scaling problems
+                if (m_cam.is_ortho(cam)) {
+                    trans[2] = -cons.distance;
+                } else {
+                    trans[2] = -1;
+                    m_vec3.normalize(trans, trans);
+                    var scale = cons.distance / Math.abs(trans[2]);
+                    m_vec3.scale(trans, scale, trans);
+                }
+
+                m_tsr.transform_dir_vec3(trans, camobj.render.world_tsr, trans);
+                var cam_trans = m_tsr.get_trans(camobj.render.world_tsr, _vec3_tmp2);
+                m_vec3.add(cam_trans, trans, trans);
+                m_tsr.set_trans(trans, obj.render.world_tsr);
+
+                var obj_quat = m_tsr.get_quat(obj.render.world_tsr, _quat_tmp);
+                var cam_quat = m_tsr.get_quat(camobj.render.world_tsr, _quat_tmp2);
+
+                var rotation_offset = m_tsr.get_quat(cons.tsr_offset, _quat_tmp3);
+                m_quat.multiply(cam_quat, rotation_offset, obj_quat);
+
+                m_tsr.set_quat(obj_quat, obj.render.world_tsr);
+
+                break;
+            default:
+                break;
         }
 
-        break;
-    case CONS_TYPE_STIFF_TRANS_OBJ:
-        var p_world_tsr = cons.obj_parent.render.world_tsr;
-        var trans = m_tsr.get_trans_view(obj.render.world_tsr);
-        var offset = m_tsr.get_trans(cons.tsr_offset, _vec3_tmp);
-        m_tsr.transform_vec3(offset, p_world_tsr, trans);
-
-        m_tsr.set_quat(m_tsr.get_quat_view(obj.render.world_tsr), cons.tsr_restore);
-        break;
-    case CONS_TYPE_COPY_LOC_OBJ:
-        var p_trans = m_tsr.get_trans_view(cons.obj_parent.render.world_tsr);
-        var trans = m_tsr.get_trans_view(obj.render.world_tsr);
-        var axes = cons.axes;
-
-        var def_offset = m_tsr.get_trans(cons.tsr_offset, _vec3_tmp);
-        var offset = m_vec3.set(0, 0, 0, _vec3_tmp_2);
-        if (cons.use_offset)
-            m_vec3.add(offset, def_offset, offset);
-        var f = cons.influence;
-        if (axes[0])
-            trans[0] = (1 - f) * def_offset[0] + f * (m_util.sign(axes[0]) * p_trans[0] + offset[0]);
-        if (axes[1])
-            trans[1] = (1 - f) * def_offset[1] + f * (m_util.sign(axes[1]) * p_trans[1] + offset[1]);
-        if (axes[2])
-            trans[2] = (1 - f) * def_offset[2] + f * (m_util.sign(axes[2]) * p_trans[2] + offset[2]);
-
-        m_tsr.set_quat(m_tsr.get_quat_view(obj.render.world_tsr), cons.tsr_restore);
-        break;
-    case CONS_TYPE_COPY_ROT_OBJ:
-        var axes = cons.axes;
-        var p_quat = m_tsr.get_quat(cons.obj_parent.render.world_tsr, _quat4_tmp);
-
-        var euler = m_util.quat_to_eul_opt(p_quat, cons.euler_offset, _vec3_tmp_2);
-        m_util.compatible_euler(euler, cons.euler_offset);
-
-        if (axes[0]) {
-            if (cons.use_offset) {
-                var beul = m_vec3.set(cons.euler_offset[0], 0, 0, _vec3_tmp);
-                m_util.rotate_eul(euler, beul, euler);
+        if (obj.render.type == "CAMERA" && obj.render.move_style != m_cam.MS_STATIC) {
+            var corr_axis = obj.render.vertical_axis;
+            if (cons.type == CONS_TYPE_SEMI_STIFF_OBJ) {
+                var p_quat = m_tsr.get_quat(cons.obj_parent.render.world_tsr, _quat_tmp);
+                corr_axis = m_vec3.transformQuat(corr_axis, p_quat, _parent_y_axis);
             }
-            euler[0] = m_util.sign(axes[0]) * euler[0];
-        } else
-            euler[0] = cons.euler_offset[0];
 
-
-        if (axes[1]) {
-            if (cons.use_offset) {
-                var beul = m_vec3.set(0, cons.euler_offset[1], 0, _vec3_tmp);
-                m_util.rotate_eul(euler, beul, euler);
-            }
-            euler[1] = m_util.sign(axes[1]) * euler[1];
-        } else
-            euler[1] = cons.euler_offset[1];
-
-        if (axes[2]) {
-            if (cons.use_offset) {
-                var beul = m_vec3.set(0, 0, cons.euler_offset[2], _vec3_tmp);
-                m_util.rotate_eul(euler, beul, euler);
-            }
-            euler[2] = m_util.sign(axes[2]) * euler[2];
-        } else
-            euler[2] = cons.euler_offset[2];
-
-        m_util.compatible_euler(euler, cons.euler_offset);
-        var f = cons.influence;
-        var target_quat = m_util.euler_to_quat(euler, _quat4_tmp);
-        var obj_quat = m_tsr.get_quat(cons.tsr_restore, _quat4_tmp2);
-        m_quat.slerp(obj_quat, target_quat, f, m_tsr.get_quat_view(obj.render.world_tsr));
-
-        m_tsr.set_trans(m_tsr.get_trans_view(obj.render.world_tsr), cons.tsr_restore);
-        break;
-    case CONS_TYPE_COPY_TRANS_OBJ:
-        var f = cons.influence;
-        var p_trans = m_tsr.get_trans(cons.obj_parent.render.world_tsr, _vec3_tmp);
-        var p_quat = m_tsr.get_quat(cons.obj_parent.render.world_tsr, _quat4_tmp);
-        var o_trans = m_tsr.get_trans(cons.tsr_offset, _vec3_tmp_2);
-        var o_quat = m_tsr.get_quat(cons.tsr_offset, _quat4_tmp2);
-        m_util.blend_arrays(o_trans, p_trans, f, m_tsr.get_trans_view(obj.render.world_tsr));
-        m_quat.slerp(o_quat, p_quat, f, m_tsr.get_quat_view(obj.render.world_tsr));
-
-        m_tsr.set_trans(m_tsr.get_trans_view(obj.render.world_tsr), cons.tsr_restore);
-        break;
-    case CONS_TYPE_STIFF_TRANS_ROT_OBJ:
-
-        var quat = m_tsr.get_quat_view(obj.render.world_tsr);
-
-        var p_world_tsr = cons.obj_parent.render.world_tsr;
-        var p_quat = m_tsr.get_quat_view(cons.obj_parent.render.world_tsr);
-
-        var offset = m_tsr.get_trans(cons.tsr_offset, _vec3_tmp_2);
-        // var scale_offset = m_tsr.get_scale(cons.tsr_offset);
-        var rotation_offset = m_tsr.get_quat(cons.tsr_offset, _quat4_tmp);
-
-        m_quat.multiply(p_quat, rotation_offset, quat);
-
-        var trans = m_tsr.get_trans_view(obj.render.world_tsr);
-        m_tsr.transform_vec3(offset, p_world_tsr, trans);
-        break;
-    case CONS_TYPE_CHILD_OF:
-        var prender = cons.obj_parent.render;
-        var render = obj.render;
-
-        m_tsr.multiply(prender.world_tsr, cons.tsr_offset, render.world_tsr);
-        break;
-    case CONS_TYPE_CHILD_OF_BONE:
-
-        var tsr_offset = cons.tsr_offset;
-        var p_tsr = _tsr_tmp;
-
-        m_armat.get_bone_tsr(cons.obj_parent, cons.bone_name, true, false,
-                             p_tsr);
-        // from armature to world space
-        m_tsr.multiply(cons.obj_parent.render.world_tsr, p_tsr, p_tsr);
-
-        m_tsr.multiply(p_tsr, tsr_offset, obj.render.world_tsr);
-
-        break;
-    case CONS_TYPE_STIFF_VIEWPORT:
-        var camobj = cons.obj_parent;
-        var cam = m_cam.get_first_cam(camobj);
-
-        var trans = m_tsr.get_trans_view(obj.render.world_tsr);
-
-        var left = m_cam.get_edge(cam, "LEFT");
-        var right = m_cam.get_edge(cam, "RIGHT");
-        var top = m_cam.get_edge(cam, "TOP");
-        var bottom = m_cam.get_edge(cam, "BOTTOM");
-
-        if (cons.hor_units == "heights")
-            var hor_stride = top - bottom;
-        else
-            var hor_stride = right - left;
-
-        if (cons.left_edge)
-            trans[0] = left + hor_stride * cons.left_right_dist;
-        else
-            trans[0] = right - hor_stride * cons.left_right_dist;
-
-        if (cons.vert_units == "heights")
-            var vert_stride = top - bottom;
-        else
-            var vert_stride = right - left;
-
-        // in the camera's view space
-        if (cons.top_edge)
-            trans[1] = top - vert_stride * cons.top_bottom_dist;
-        else
-            trans[1] = bottom + vert_stride * cons.top_bottom_dist;
-
-        // NOTE: ortho cameras have scaling problems
-        if (m_cam.is_ortho(cam)) {
-            trans[2] = -cons.distance;
-        } else {
-            trans[2] = -1;
-            m_vec3.normalize(trans, trans);
-            var scale = cons.distance/Math.abs(trans[2]);
-            m_vec3.scale(trans, scale, trans);
+            m_cam.correct_up(obj, corr_axis);
         }
-
-        m_tsr.transform_dir_vec3(trans, camobj.render.world_tsr, trans);
-        var cam_trans = m_tsr.get_trans_view(camobj.render.world_tsr);
-        m_vec3.add(cam_trans, trans, trans);
-
-        var obj_quat = m_tsr.get_quat_view(obj.render.world_tsr);
-        var cam_quat = m_tsr.get_quat_view(camobj.render.world_tsr);
-
-        var rotation_offset = m_tsr.get_quat(cons.tsr_offset, _quat4_tmp2);
-        m_quat.multiply(cam_quat, rotation_offset, obj_quat);
-
-        break;
-    default:
-        break;
-    }
-
-    if (obj.render.type == "CAMERA" && obj.render.move_style != m_cam.MS_STATIC) {
-        var corr_axis = obj.render.vertical_axis;
-        if (cons.type == CONS_TYPE_SEMI_STIFF_OBJ) {
-            var p_quat = m_tsr.get_quat_view(cons.obj_parent.render.world_tsr);
-            corr_axis = m_vec3.transformQuat(corr_axis, p_quat, _parent_y_axis);
-        }
-
-        m_cam.correct_up(obj, corr_axis);
-    }
-}
+    };
+})();
 
 /**
  * Apply stiff-bone-to-object constraint.
@@ -825,25 +861,33 @@ function update_bone_cons(armobj, cons) {
     armobj.need_update_transform = true;
 }
 
-/**
- * uses _vec2_tmp, _vec2_tmp_2, _quat4_tmp
- */
-function clamp_orientation(obj, cons) {
+var clamp_orientation = (function() {
+    var _quat_tmp = m_quat.create();
+    var _quat_tmp2 = m_quat.create();
+    var _quat_tmp3 = m_quat.create();
+    var _quat_tmp4 = m_quat.create();
 
-    var quat = m_tsr.get_quat_view(obj.render.world_tsr);
-    var p_quat = m_tsr.get_quat_view(cons.obj_parent.render.world_tsr);
-    var rotation_offset = m_tsr.get_quat(cons.tsr_offset, _quat4_tmp2);
+    var _vec2_tmp = new Float32Array(2);
+    var _vec2_tmp2 = new Float32Array(2);
 
-    var quat_base = m_quat.multiply(p_quat, rotation_offset, _quat4_tmp);
-    var base_angles = m_cam.get_camera_angles_from_quat(quat_base, obj.render.vertical_axis, _vec2_tmp);
-    var curr_angles = m_cam.get_camera_angles_from_quat(quat, obj.render.vertical_axis, _vec2_tmp_2);
+    return function clamp_orientation(obj, cons) {
 
-    var d_phi = m_util.calc_returning_angle(curr_angles[0], 
+        var quat = m_tsr.get_quat(obj.render.world_tsr, _quat_tmp);
+        var p_quat = m_tsr.get_quat(cons.obj_parent.render.world_tsr, _quat_tmp2);
+        var rotation_offset = m_tsr.get_quat(cons.tsr_offset, _quat_tmp3);
+
+        var quat_base = m_quat.multiply(p_quat, rotation_offset, _quat_tmp4);
+        var base_angles = m_cam.get_camera_angles_from_quat(quat_base, obj.render.vertical_axis, _vec2_tmp);
+        var curr_angles = m_cam.get_camera_angles_from_quat(quat, obj.render.vertical_axis, _vec2_tmp2);
+
+        var d_phi = m_util.calc_returning_angle(curr_angles[0],
             base_angles[0] + cons.clamp_right, base_angles[0] + cons.clamp_left);
-    var d_theta = m_util.calc_returning_angle(curr_angles[1], 
+        var d_theta = m_util.calc_returning_angle(curr_angles[1],
             base_angles[1] + cons.clamp_down, base_angles[1] + cons.clamp_up);
-    m_util.rotate_quat(quat, obj.render.vertical_axis, d_phi, d_theta, quat);
-}
+        m_util.rotate_quat(quat, obj.render.vertical_axis, d_phi, d_theta, quat);
+        m_tsr.set_quat(quat, obj.render.world_tsr);
+    }
+})();
 
 exports.check_constraint = function(obj) {
     if (obj.constraint)
@@ -924,7 +968,7 @@ exports.prepare_object_relations = function(bpy_obj, obj) {
             continue;
         var target_obj = bpy_constraint["target"]._object;
         if (const_type == "COPY_LOCATION") {
-            var obj_pos_w = new Float32Array(m_tsr.get_trans_view(obj.render.world_tsr));
+            var obj_pos_w = new Float32Array(m_tsr.get_trans(obj.render.world_tsr, _vec3_tmp));
             var axes = new Float32Array(bpy_constraint["axes"]);
             append_copy_loc_obj(obj, target_obj, obj_pos_w, axes,
                     bpy_constraint["use_offset"], bpy_constraint["influence"]);
@@ -993,7 +1037,7 @@ exports.prepare_object_relations = function(bpy_obj, obj) {
             if (obj.viewport_alignment && obj.parent.type == "CAMERA") {
                 var positioning = {
                     distance: obj.viewport_alignment.distance,
-                    rotation: m_tsr.get_quat_view(offset)
+                    rotation: m_tsr.get_quat(offset, _quat4_tmp)
                 }
 
                 switch (obj.viewport_alignment.alignment) {

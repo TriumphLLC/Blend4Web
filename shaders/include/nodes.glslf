@@ -43,6 +43,7 @@
 #var CAMERA_TYPE CAM_TYPE_PERSP
 #var IS_WORLD 0
 
+#var USE_BSDF_PRINCIPLED_REFRACT 0
 #var USE_BSDF_TRANSPARENT_REFRACT 0
 #var USE_BSDF_TRANSPARENT_ALPHA 0
 
@@ -452,6 +453,8 @@ float fresnel_dielectric(vec3 inc, vec3 norm, float eta)
     #node_in float s_roughness
     #node_in float metalness
     #node_in vec3 normal_in
+    #node_in float ior
+    #node_in float transmission
     #node_in vec3 e_color
     #node_in float emission
     #node_in vec3 a_color
@@ -462,6 +465,7 @@ float fresnel_dielectric(vec3 inc, vec3 norm, float eta)
     #node_out vec3 S
     #node_out vec3 normal
     #node_out vec4 bsdf_params
+    #node_out vec4 refract_params
     #node_out vec4 shadow_factor
     #node_out vec3 d_color_out
     #node_out vec3 s_color_out
@@ -495,6 +499,9 @@ float fresnel_dielectric(vec3 inc, vec3 norm, float eta)
     bsdf_params[0] = d_roughness;
     bsdf_params[1] = s_roughness;
     bsdf_params[2] = metalness;
+
+    refract_params[0] = ior;
+    refract_params[1] = transmission;
 #endnode
 
 #node BSDF_END
@@ -502,6 +509,7 @@ float fresnel_dielectric(vec3 inc, vec3 norm, float eta)
     #node_in vec3 specular_in
     #node_in vec3 normal
     #node_in vec4 bsdf_params
+    #node_in vec4 refract_params
     #node_in vec3 d_color
     #node_in vec3 s_color
     #node_in vec3 e_color
@@ -530,7 +538,6 @@ float fresnel_dielectric(vec3 inc, vec3 norm, float eta)
     color_out = mix(color_out, e_color, emission);
 
 # node_if USE_NODE_BSDF_TRANSPARENT
-
 #  node_if USE_BSDF_TRANSPARENT_REFRACT
     vec3 back_color = GLSL_TEXTURE(u_refractmap, v_tex_pos_clip.xy/v_tex_pos_clip.z).rgb;
     srgb_to_lin(back_color);
@@ -543,8 +550,30 @@ float fresnel_dielectric(vec3 inc, vec3 norm, float eta)
     color_out = mix(a_color, color_out, alpha_in);
     alpha_out = alpha_in;
 #  node_endif
-
 # node_endif
+
+# node_if USE_BSDF_PRINCIPLED_REFRACT
+    float ior = refract_params[0];
+    float transmission = refract_params[1];
+    float d_roughness = clamp(bsdf_params[0], _0_0, _1_0);
+
+    vec3 V = nin_eye_dir;
+    vec3 H = normalize(normal);
+
+    vec3 refractionVector = refract(-V, H, _1_0/ior);
+    refractionVector *= length(u_camera_eye_frag - v_pos_world);
+
+    vec3 vRefractionUVW = clip_to_tex(u_proj_matrix_frag * vec4(tsr9_transform(u_view_tsr_frag, nin_pos_world + refractionVector), _1_0));
+    vec2 refractionCoords = vRefractionUVW.xy / vRefractionUVW.z;
+
+    const float MAX_REFLECTION_LOD = 10.0; // depends on screen resolution (TODO pass with uniform?)
+    vec3 refract_color = GLSL_TEXTURE_LOD(u_refractmap, refractionCoords.xy, d_roughness * MAX_REFLECTION_LOD).rgb;
+    srgb_to_lin(refract_color);
+    float refract_factor = (_1_0 - metalness) * transmission;
+
+    color_out = mix(color_out, refract_color, refract_factor);
+# node_endif
+
     // NOTE: using unused variable to pass shader verification
     normal;
 #endnode
@@ -573,13 +602,19 @@ float fresnel_dielectric(vec3 inc, vec3 norm, float eta)
     float metalness = bsdf_params[2];
 
     vec3 halfway = normalize(nin_eye_dir + ldir);
-    float dot_nl = (_1_0 - norm_fac) * dot(norm, ldir) + norm_fac;
-    float dot_lh = (_1_0 - norm_fac) * max(dot(ldir, halfway), _0_0) + norm_fac;
-    float dot_nh = (_1_0 - norm_fac) * max(dot(normal, halfway), _0_0) + norm_fac;
+    vec3 dots = (_1_0 - norm_fac) * vec3(dot(norm, ldir),
+                                      max(dot(ldir, halfway), _0_0),
+                                      max(dot(normal, halfway), _0_0))
+                                    + norm_fac;
+    float dot_nl = dots.x;
+    float dot_lh = dots.y;
+    float dot_nh = dots.z;
 
     // diffuse OREN_NAYAR
     lfactor = _0_0;
     if (lfac.r != _0_0) {
+
+        lfactor = dot_nl;
         if (d_roughness > _0_0) {
             float nv = max(dot(norm, nin_eye_dir), _0_0);
             float sigma_sq = d_roughness * d_roughness;
@@ -610,8 +645,8 @@ float fresnel_dielectric(vec3 inc, vec3 norm, float eta)
                 float B = 0.45 * (sigma_sq / (sigma_sq +  0.09));
                 lfactor = dot_nl * (A + (B * t * sin(a) * tan(b)));
             }
-        } else
-            lfactor = dot_nl;
+        }
+
         // energy conservation is broken
         // but it looks closer to Blender
         lfactor = max(lfactor, _0_0) / M_PI;
@@ -628,7 +663,11 @@ float fresnel_dielectric(vec3 inc, vec3 norm, float eta)
     // F
     float F_a;
     float F_b;
-    float dot_lh5 = pow(_1_0-dot_lh, 5.0);
+
+    float min_dot_lh = _1_0 - dot_lh;
+    float dot_lh5 = min_dot_lh * min_dot_lh;
+    dot_lh5 = dot_lh5 * min_dot_lh * dot_lh5;
+
     F_a = _1_0;
     F_b = dot_lh5;
 
@@ -651,6 +690,8 @@ float fresnel_dielectric(vec3 inc, vec3 norm, float eta)
     #node_in vec4  base_color_in
     #node_in float metalness_in
     #node_in float roughness_in
+    #node_in float ior_in
+    #node_in float transm_in
     #node_in vec3  normal_in
     #node_out vec3 surface
     #node_out vec3 d_color
@@ -659,6 +700,8 @@ float fresnel_dielectric(vec3 inc, vec3 norm, float eta)
     #node_out float s_roughness
     #node_out float metalness
     #node_out vec3 normal
+    #node_out float ior
+    #node_out float transm
     #node_out vec3 e_color
     #node_out float emission
     #node_out vec3 a_color
@@ -669,6 +712,8 @@ float fresnel_dielectric(vec3 inc, vec3 norm, float eta)
     d_color = base_color_in.rgb;
     d_roughness = roughness_in;
     metalness = metalness_in;
+    ior = ior_in;
+    transm = transm_in;
     emission = _0_0;
     alpha = _1_0;
 # node_if USE_NORMAL_IN
@@ -714,6 +759,8 @@ float fresnel_dielectric(vec3 inc, vec3 norm, float eta)
     #node_out float s_roughness
     #node_out float metalness
     #node_out vec3 normal
+    #node_out float ior
+    #node_out float transm
     #node_out vec3 e_color
     #node_out float emission
     #node_out vec3 a_color
@@ -723,6 +770,8 @@ float fresnel_dielectric(vec3 inc, vec3 norm, float eta)
     d_roughness = roughness_in;
     s_roughness = _1_0;
     metalness = _0_0;
+    ior = 1.45;
+    transm = _0_0;
     emission = _0_0;
     alpha = _1_0;
 # node_if USE_NORMAL_IN
@@ -764,6 +813,8 @@ float fresnel_dielectric(vec3 inc, vec3 norm, float eta)
     #node_out float s_roughness
     #node_out float metalness
     #node_out vec3 normal
+    #node_out float ior
+    #node_out float transm
     #node_out vec3 e_color
     #node_out float emission
     #node_out vec3 a_color
@@ -772,6 +823,8 @@ float fresnel_dielectric(vec3 inc, vec3 norm, float eta)
     s_color = color_in;
     s_roughness = roughness_in;
     metalness = _1_0;
+    ior = 1.45;
+    transm = _0_0;
     emission = _0_0;
     alpha = _1_0;
 # node_if USE_NORMAL_IN
@@ -811,6 +864,8 @@ float fresnel_dielectric(vec3 inc, vec3 norm, float eta)
     #node_out float s_roughness
     #node_out float metalness
     #node_out vec3 normal
+    #node_out float ior
+    #node_out float transm
     #node_out vec3 e_color
     #node_out float emission
     #node_out vec3 a_color
@@ -911,6 +966,8 @@ float fresnel_dielectric(vec3 inc, vec3 norm, float eta)
     #node_out float s_roughness
     #node_out float metalness
     #node_out vec3 normal
+    #node_out float ior
+    #node_out float transm
     #node_out vec3 e_color
     #node_out float emission
     #node_out vec3 a_color
@@ -921,6 +978,8 @@ float fresnel_dielectric(vec3 inc, vec3 norm, float eta)
     emission = _1_0;
     alpha = _1_0;
     normal = nin_normal;
+    ior = 1.45;
+    transm = _0_0;
     // NOTE: using unused variable to pass shader verification
     // + explicit zeroing to prevent glitches in some browsers
     surface;
@@ -1061,7 +1120,7 @@ float fresnel_dielectric(vec3 inc, vec3 norm, float eta)
     normal_out = 2.0 * color.xyz - _1_0;
     // mimic blender behavior
     normal_out.yz *= -_1_0;
-    normal_out = tsr9_transform_dir(u_model_tsr, normal_out);
+    normal_out = tsr9_transform_normal(u_model_tsr, normal_out);
 
 # node_elif SPACE == NM_WORLD || SPACE == NM_BLENDER_WORLD
     normal_out = 2.0 * color.xyz - _1_0;
@@ -1339,6 +1398,8 @@ float fresnel_dielectric(vec3 inc, vec3 norm, float eta)
     #node_in float s_roughness1
     #node_in float metalness1
     #node_in vec3  normal1
+    #node_in float ior1
+    #node_in float transm1
     #node_in vec3  e_color1
     #node_in float emission1
     #node_in vec3  a_color1
@@ -1349,6 +1410,8 @@ float fresnel_dielectric(vec3 inc, vec3 norm, float eta)
     #node_in float s_roughness2
     #node_in float metalness2
     #node_in vec3  normal2
+    #node_in float ior2
+    #node_in float transm2
     #node_in vec3  e_color2
     #node_in float emission2
     #node_in vec3  a_color2
@@ -1360,6 +1423,8 @@ float fresnel_dielectric(vec3 inc, vec3 norm, float eta)
     #node_out float s_roughness_out
     #node_out float metalness_out
     #node_out vec3  normal_out
+    #node_out float ior_out
+    #node_out float transm_out
     #node_out vec3  e_color_out
     #node_out float emission_out
     #node_out vec3  a_color_out
@@ -1510,7 +1575,7 @@ float fresnel_dielectric(vec3 inc, vec3 norm, float eta)
     #node_out float material_index
     #node_out float random
 #node_if USE_LOCATION_OUT
-    location = u_model_tsr[0].xyz;
+    location = tsr_get_trans(u_model_tsr);
 #node_endif
 #node_if USE_OBJ_IND_OUT
     object_index = u_obj_info.r;

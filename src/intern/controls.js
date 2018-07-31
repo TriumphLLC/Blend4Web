@@ -1050,63 +1050,73 @@ exports.create_touch_click_sensor = function(element) {
     return sensor;
 }
 
-exports.create_motion_sensor = function(obj, threshold, rotation_threshold) {
+exports.create_motion_sensor = (function() {
+    var _quat_tmp = m_quat.create();
+    var _vec3_tmp = m_vec3.create();
 
-    if (!obj) {
-        m_print.error("Wrong collision object");
-        return null;
-    }
+    return function (obj, threshold, rotation_threshold) {
 
-    var sensor = init_sensor(ST_MOTION);
+        if (!obj) {
+            m_print.error("Wrong collision object");
+            return null;
+        }
 
-    sensor.source_object = obj;
+        var sensor = init_sensor(ST_MOTION);
 
-    var trans = m_tsr.get_trans_view(obj.render.world_tsr);
-    var quat = m_tsr.get_quat_view(obj.render.world_tsr);
+        sensor.source_object = obj;
 
-    sensor.quat_temp = new Float32Array(4);
-    sensor.trans_last = new Float32Array(trans);
-    sensor.quat_last = new Float32Array(quat);
+        var trans = m_tsr.get_trans(obj.render.world_tsr, _vec3_tmp);
+        var quat = m_tsr.get_quat(obj.render.world_tsr, _quat_tmp);
 
-    sensor.avg_linear_vel = 0;
-    sensor.avg_angular_vel = 0;
+        sensor.quat_temp = new Float32Array(4);
+        sensor.trans_last = new Float32Array(trans);
+        sensor.quat_last = new Float32Array(quat);
 
-    sensor.threshold = threshold || 0.1;
-    sensor.rotation_threshold = rotation_threshold || 0.1;
+        sensor.avg_linear_vel = 0;
+        sensor.avg_angular_vel = 0;
 
-    sensor.time_last = 0.0;
+        sensor.threshold = threshold || 0.1;
+        sensor.rotation_threshold = rotation_threshold || 0.1;
 
-    sensor.payload = new Float32Array([0, 0]);
+        sensor.time_last = 0.0;
 
-    return sensor;
-}
+        sensor.payload = new Float32Array([0, 0]);
 
-exports.create_vertical_velocity_sensor = function(obj, threshold) {
+        return sensor;
+    };
+})();
 
-    if (!obj) {
-        m_print.error("Wrong collision object");
-        return null;
-    }
+exports.create_vertical_velocity_sensor = (function() {
+    var _quat_tmp = m_quat.create();
+    var _vec3_tmp = m_vec3.create();
 
-    var sensor = init_sensor(ST_V_VELOCITY);
+    return function (obj, threshold) {
 
-    sensor.source_object = obj;
+        if (!obj) {
+            m_print.error("Wrong collision object");
+            return null;
+        }
 
-    var trans = m_tsr.get_trans_view(obj.render.world_tsr);
-    var quat = m_tsr.get_quat_view(obj.render.world_tsr);
+        var sensor = init_sensor(ST_V_VELOCITY);
 
-    sensor.trans_last = new Float32Array(trans);
-    sensor.quat_last = new Float32Array(quat);
+        sensor.source_object = obj;
 
-    sensor.avg_vertical_vel = 0;
+        var trans = m_tsr.get_trans(obj.render.world_tsr, _vec3_tmp);
+        var quat = m_tsr.get_quat(obj.render.world_tsr, _quat_tmp);
 
-    sensor.threshold = threshold || 1.0;
-    sensor.time_last = 0.0;
+        sensor.trans_last = new Float32Array(trans);
+        sensor.quat_last = new Float32Array(quat);
 
-    sensor.payload = 0;
+        sensor.avg_vertical_vel = 0;
 
-    return sensor;
-}
+        sensor.threshold = threshold || 1.0;
+        sensor.time_last = 0.0;
+
+        sensor.payload = 0;
+
+        return sensor;
+    };
+})();
 
 exports.create_timer_sensor = function(period, do_repeat) {
     var sensor = init_sensor(ST_TIMER);

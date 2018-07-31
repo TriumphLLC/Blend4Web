@@ -346,7 +346,9 @@ function init_subs(type) {
         sky_blend_type: "",
         use_sky_blend: false,
         use_sky_paper: false,
-        use_sky_real: false
+        use_sky_real: false,
+
+        refl_obj: null
     }
 
     // setting default values
@@ -1481,6 +1483,17 @@ exports.init_bundle = function(batch, render, world_bounds) {
     }
 
     return bundle;
+}
+
+exports.find_bundle = function(subs, batch, render) {
+    for (var  i = 0; i < subs.draw_data.length; i++) {
+        for (var j = 0; j < subs.draw_data[i].bundles.length; j++) {
+            if (subs.draw_data[i].bundles[j].batch == batch &&
+                subs.draw_data[i].bundles[j].render == render)
+                return true;
+        }
+    }
+    return false;
 }
 
 function get_draw_data(draw_data, shader, alpha_antialiasing, offset_z, is_sky) {

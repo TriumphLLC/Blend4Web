@@ -1408,6 +1408,38 @@ function process_scenes(bpy_data, thread, stage, cb_param, cb_finish,
                 m_batch.append_cube_sky_batch_to_world(scene_dst, bpy_world._object);
         }
 
+        if (!thread.is_primary) {
+            // Make scenegraph updates
+            var scene_objs = m_obj.get_scene_objs(_primary_scene, "ALL", thread.id);
+            m_scenes.update_scene_graph(bpy_data["scenes"][i], scene_dst, scene_objs, lamps, bpy_mesh_objs, bpy_empty_objs);
+
+            // Add new objects to the existing subscenes
+            scene_objs = m_obj.get_scene_objs(_primary_scene, "ALL", m_obj.DATA_ID_ALL);
+            var subs_arr = m_scenes.subs_array(scene_dst, [m_subs.MAIN_PLANE_REFLECT, m_subs.MAIN_PLANE_REFLECT_BLEND,
+                                                            m_subs.MAIN_CUBE_REFLECT, m_subs.MAIN_CUBE_REFLECT_BLEND]);
+            for (var j = 0; j < scene_objs.length; j++) {
+                var obj = scene_objs[j];
+                if (obj.render.data_id == thread.id)
+                    continue;
+                var type = obj.type;
+                switch (type) {
+                    case "MESH":
+                    case "LINE":
+                    case "WORLD":
+                        for (var i = 0; i < subs_arr.length; i++) {
+                            m_scenes.add_object_subs_reflect(subs_arr[i], obj, scene_graph, 
+                                subs_arr[i].type == m_subs.MAIN_PLANE_REFLECT_BLEND ||
+                                subs_arr[i].type == m_subs.MAIN_CUBE_REFLECT_BLEND, scene_dst, true);
+                        }
+                        break;
+                    case "LAMP":
+                        m_scenes.update_lamp_scene(obj, scene_dst);
+                        break;
+                }
+            }
+
+        }
+
         //create forked batches
         for (var j = 0; j < bpy_mesh_objs.length; j++)
             m_batch.create_forked_batches(bpy_mesh_objs[j]._object, scene_graph, scene_dst);
@@ -2958,7 +2990,7 @@ function prepare_vehicles(objects) {
                     var w_index = m_phy.wheel_index(obj_j.vehicle_settings.part);
                     obj_i.vehicle.props[w_index] = obj_j;
 
-                    obj_i.vehicle.prop_offsets[w_index] = new Float32Array(8);
+                    obj_i.vehicle.prop_offsets[w_index] = m_tsr.create();
 
                 } else if (m_phy.is_vehicle_steering_wheel(obj_j) && vh_set_i.name == vh_set_j.name) {
                     obj_i.vehicle.steering_wheel = obj_j;
@@ -3051,7 +3083,7 @@ function prepare_vehicles(objects) {
 
                 if (m_phy.is_boat_bob(obj_j) && vh_set_i.name == vh_set_j.name) {
                     obj_i.vehicle.props.push(obj_j);
-                    obj_i.vehicle.prop_offsets.push(new Float32Array(8));
+                    obj_i.vehicle.prop_offsets.push(m_tsr.create());
 
                 } else if (m_phy.is_vehicle_steering_wheel(obj_j) && vh_set_i.name == vh_set_j.name) {
                     obj_i.vehicle.steering_wheel = obj_j;
@@ -3477,47 +3509,52 @@ function prepare_objects_adding(bpy_data, thread, stage, cb_param, cb_finish,
     }
 }
 
-function add_objects(bpy_data, thread, stage, cb_param, cb_finish,
-        cb_set_rate) {
+var add_objects = (function() {
+    var _quat_tmp = m_quat.create();
+    var _vec3_tmp = m_vec3.create();
 
-    var obj_data = cb_param.added_objects;
-    var obj_counter = cb_param.obj_counter;
+    return function add_objects(bpy_data, thread, stage, cb_param, cb_finish,
+            cb_set_rate) {
 
-    if (obj_data.length) {
-        var obj = obj_data[obj_counter].obj;
-        var scene = obj_data[obj_counter].scene;
-        var sc_data = m_obj_util.get_scene_data(obj, scene);
+        var obj_data = cb_param.added_objects;
+        var obj_counter = cb_param.obj_counter;
 
-        m_scenes.append_object(scene, obj);
-        if (obj.anchor && !scene._render.anaglyph_use && !scene._render.sidebyside_use)
-            m_anchors.append(obj);
-        var rate = ++cb_param.obj_counter / obj_data.length;
+        if (obj_data.length) {
+            var obj = obj_data[obj_counter].obj;
+            var scene = obj_data[obj_counter].scene;
+            var sc_data = m_obj_util.get_scene_data(obj, scene);
 
-        if (obj.render.hide_children)
-            m_scenes.change_visibility_rec(obj, true);
+            m_scenes.append_object(scene, obj);
+            if (obj.anchor && !scene._render.anaglyph_use && !scene._render.sidebyside_use)
+                m_anchors.append(obj);
+            var rate = ++cb_param.obj_counter / obj_data.length;
 
-        var cube_refl_subs = sc_data.cube_refl_subs;
-        if (obj.render.cube_reflection_id != -1 && cube_refl_subs){
-            var center = m_vec3.copy(obj.render.bs_world.center, _vec3_tmp);
-            m_scenes.update_cube_reflect_subs(cube_refl_subs, center);
-        }
+            if (obj.render.hide_children)
+                m_scenes.change_visibility_rec(obj, true);
 
-        var refl_objs = obj.reflective_objs;
-        if (refl_objs.length && scene._render.reflection_params) {
-            var rp_trans = m_tsr.get_trans_view(obj.render.world_tsr);
-            var rp_quat = m_tsr.get_quat_view(obj.render.world_tsr);
-            var refl_subs = sc_data.plane_refl_subs;
-            for (var i = 0; i < refl_subs.length; i++) {
-                m_scenes.update_plane_reflect_subs(refl_subs[i], rp_trans, rp_quat);
-                m_obj_util.update_refl_objects(refl_objs,
-                                               refl_subs[i].camera.reflection_plane);
-           }
-        }
-    } else
-        var rate = 1;
+            var cube_refl_subs = sc_data.cube_refl_subs;
+            if (obj.render.cube_reflection_id != -1 && cube_refl_subs) {
+                var center = m_vec3.copy(obj.render.bs_world.center, _vec3_tmp);
+                m_scenes.update_cube_reflect_subs(cube_refl_subs, center);
+            }
 
-    cb_set_rate(thread, stage, rate);
-}
+            var refl_objs = obj.reflective_objs;
+            if (refl_objs.length && scene._render.reflection_params) {
+                var rp_trans = m_tsr.get_trans(obj.render.world_tsr, _vec3_tmp);
+                var rp_quat = m_tsr.get_quat(obj.render.world_tsr, _quat_tmp);
+                var refl_subs = sc_data.plane_refl_subs;
+                for (var i = 0; i < refl_subs.length; i++) {
+                    m_scenes.update_plane_reflect_subs(refl_subs[i], rp_trans, rp_quat);
+                    m_obj_util.update_refl_objects(refl_objs,
+                        refl_subs[i].camera.reflection_plane);
+                }
+            }
+        } else
+            var rate = 1;
+
+        cb_set_rate(thread, stage, rate);
+    };
+})();
 
 function end_objects_adding(bpy_data, thread, stage, cb_param, cb_finish,
         cb_set_rate) {
@@ -4053,6 +4090,10 @@ function prepare_object_unloading(obj) {
     // physics cleanup
     if (m_phy.obj_has_physics(obj))
         m_phy.remove_object(obj);
+
+    // remove corresponding subscenes
+    m_obj.unload_plane_reflections(obj);
+    m_obj.unload_cube_reflections(obj);
 
     // unload objects
     m_scenes.remove_object_bundles(obj);

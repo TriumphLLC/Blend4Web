@@ -82,69 +82,45 @@ vec4 qfrom_dir(in vec3 dir, in vec3 ident) {
     return normalize(dest);
 }
 
-vec3 tsr_transform(vec4 trans, vec4 quat, vec3 vec)
+vec3 tsr_transform(vec3 trans, vec3 scale, vec4 quat, vec3 vec)
 {
     // scale
-    vec3 dest = vec * trans.w;
+    vec3 dest = vec * scale;
     // quat * vec
     dest = qrot(quat, dest);
     // translate
-    dest += trans.xyz;
+    dest += trans;
 
     return dest;
 }
 
-vec3 tsr9_transform(mat3 tsr, vec3 vec)
+vec3 tsr_transform_dir(vec3 trans, vec3 scale, vec4 quat, vec3 dir)
 {
     // scale
-    vec3 dest = vec * tsr[1][0];
-    // quat * vec
-    vec4 quat = vec4(tsr[1][1], tsr[1][2], tsr[2][0], tsr[2][1]);
-    dest = qrot(quat, dest);
-    // translate
-    dest += tsr[0];
-
-    return dest;
-}
-
-vec3 tsr_transform_dir(vec4 trans, vec4 quat, vec3 dir)
-{
-    // scale
-    vec3 dest = dir * trans.w;
+    vec3 dest = dir * scale;
     // quat * dir
-    dest = qrot(quat, dest);
-
-    return dest;
-}
-
-vec3 tsr9_transform_dir(mat3 tsr, vec3 dir)
-{
-    // scale
-    vec3 dest = dir * tsr[1][0];
-    // quat * dir
-    vec4 quat = vec4(tsr[1][1], tsr[1][2], tsr[2][0], tsr[2][1]);
     dest = qrot(quat, dest);
 
     return dest;
 }
 
 // translate vector with tsr in inverse direction
-vec3 tsr_transform_inv(vec4 trans, vec4 quat, vec3 vec)
+vec3 tsr_transform_inv(vec3 trans, vec3 scale, vec4 quat, vec3 vec)
 {
     // translate
-    vec3 dest = vec - trans.xyz;
+    vec3 dest = vec - trans;
     // inverse quat * vec
     dest = qrot(qinv(quat), dest);
     // scale
-    dest /= trans.w;
+    dest /= scale;
 
     return dest;
 }
 
 // translate directional vector with tsr in inverse direction
-vec3 tsr_transform_inv_dir(vec4 trans, vec4 quat, vec3 dir)
+vec3 tsr_transform_inv_dir(vec3 trans, vec3 scale, vec4 quat, vec3 dir)
 {
-    return qrot(qinv(quat), dir) / trans.w;
+    return qrot(qinv(quat), dir) / scale;
 }
 
 /*
@@ -233,25 +209,27 @@ vec3 clip_to_tex(vec4 pos_clip) {
 
 mat3 tsr_identity() {
     return mat3(_0_0, _0_0, _0_0,
-                _1_0, _0_0, _0_0,
-                _0_0, _1_0, _0_0);
+                _1_0, _1_0, _1_0,
+                _0_0, _0_0, _0_0);
 }
 
 mat4 tsr_to_mat4(mat3 t) {
     mat4 matrix;
 
+    float qw = sqrt(abs(1. - t[2][0] * t[2][0] - t[2][1] * t[2][1] - t[2][2] * t[2][2]));
+
     // NOTE: for IPad compatibility
-    matrix[0][0] = (_1_0 - (t[1][2] * (t[1][2] + t[1][2]) + t[2][0] * (t[2][0] + t[2][0]))) * t[1][0];
-    matrix[0][1] = (t[1][1] * (t[1][2] + t[1][2]) + t[2][1] * (t[2][0] + t[2][0])) * t[1][0];
-    matrix[0][2] = (t[1][1] * (t[2][0] + t[2][0]) - t[2][1] * (t[1][2] + t[1][2])) * t[1][0];
+    matrix[0][0] = (_1_0 - (t[2][1] * (t[2][1] + t[2][1]) + t[2][2] * (t[2][2] + t[2][2]))) * t[1][0];
+    matrix[0][1] = (t[2][0] * (t[2][1] + t[2][1]) + qw * (t[2][2] + t[2][2])) * t[1][0];
+    matrix[0][2] = (t[2][0] * (t[2][2] + t[2][2]) - qw * (t[2][1] + t[2][1])) * t[1][0];
     matrix[0][3] = _0_0;
-    matrix[1][0] = (t[1][1] * (t[1][2] + t[1][2]) - t[2][1] * (t[2][0] + t[2][0])) * t[1][0];
-    matrix[1][1] = (_1_0 - (t[1][1] * (t[1][1] + t[1][1]) + t[2][0] * (t[2][0] + t[2][0]))) * t[1][0];
-    matrix[1][2] = (t[1][2] * (t[2][0] + t[2][0]) + t[2][1] * (t[1][1] + t[1][1])) * t[1][0];
+    matrix[1][0] = (t[2][0] * (t[2][1] + t[2][1]) - qw * (t[2][2] + t[2][2])) * t[1][0];
+    matrix[1][1] = (_1_0 - (t[2][0] * (t[2][0] + t[2][0]) + t[2][2] * (t[2][2] + t[2][2]))) * t[1][0];
+    matrix[1][2] = (t[2][1] * (t[2][2] + t[2][2]) + qw * (t[2][0] + t[2][0])) * t[1][0];
     matrix[1][3] = _0_0;
-    matrix[2][0] = (t[1][1] * (t[2][0] + t[2][0]) + t[2][1] * (t[1][2] + t[1][2])) * t[1][0];
-    matrix[2][1] = (t[1][2] * (t[2][0] + t[2][0]) - t[2][1] * (t[1][1] + t[1][1])) * t[1][0];
-    matrix[2][2] = (_1_0 - (t[1][1] * (t[1][1] + t[1][1]) + t[1][2] * (t[1][2] + t[1][2]))) * t[1][0];
+    matrix[2][0] = (t[2][0] * (t[2][2] + t[2][2]) + qw * (t[2][1] + t[2][1])) * t[1][0];
+    matrix[2][1] = (t[2][1] * (t[2][2] + t[2][2]) - qw * (t[2][0] + t[2][0])) * t[1][0];
+    matrix[2][2] = (_1_0 - (t[2][0] * (t[2][0] + t[2][0]) + t[2][1] * (t[2][1] + t[2][1]))) * t[1][0];
     matrix[2][3] = _0_0;
     matrix[3][0] = t[0][0];
     matrix[3][1] = t[0][1];
@@ -262,34 +240,98 @@ mat4 tsr_to_mat4(mat3 t) {
     return matrix;
 }
 
-mat3 tsr_multiply(in mat3 tsr, in mat3 tsr2) {
-    mat3 dest;
-    // translate
-    vec3 vec = tsr2[0];
-    vec4 trans = vec4(tsr[0], tsr[1][0]);
-    vec4 quat = vec4(tsr[1][1], tsr[1][2], tsr[2][0], tsr[2][1]);
-    dest[0] = tsr_transform(trans, quat, vec);
+mat3 tsr_set_quat(in vec4 quat, in mat3 tsr) {
+    if (quat.w < 0.)
+        quat.xyz *= -1.;
+    tsr[2] = quat.xyz;
+    return tsr;
+}
+
+vec4 tsr_get_quat(in mat3 tsr) {
+    return vec4(tsr[2], sqrt(abs(1. - tsr[2][0] * tsr[2][0] - tsr[2][1] * tsr[2][1] - tsr[2][2] * tsr[2][2])));
+}
+
+vec3 tsr9_transform(mat3 tsr, vec3 vec)
+{
     // scale
-    dest[1][0] = tsr[1][0] * tsr2[1][0];
-    // quat
-    dest[1][1] = tsr[1][1] * tsr2[2][1] + tsr[2][1] * tsr2[1][1] + tsr[1][2] * tsr2[2][0] - tsr[2][0] * tsr2[1][2];
-    dest[1][2] = tsr[1][2] * tsr2[2][1] + tsr[2][1] * tsr2[1][2] + tsr[2][0] * tsr2[1][1] - tsr[1][1] * tsr2[2][0];
-    dest[2][0] = tsr[2][0] * tsr2[2][1] + tsr[2][1] * tsr2[2][0] + tsr[1][1] * tsr2[1][2] - tsr[1][2] * tsr2[1][1];
-    dest[2][1] = tsr[2][1] * tsr2[2][1] - tsr[1][1] * tsr2[1][1] - tsr[1][2] * tsr2[1][2] - tsr[2][0] * tsr2[2][0];
+    vec3 dest = vec * tsr[1];
+    // quat * vec
+    vec4 quat = tsr_get_quat(tsr);
+    dest = qrot(quat, dest);
+    // translate
+    dest += tsr[0];
+
     return dest;
 }
 
-mat3 tsr_set_quat(in vec4 quat, in mat3 tsr) {
-    mat3 dest;
-    // translation
-    dest[0] = tsr[0];
+vec3 tsr9_transform_dir(mat3 tsr, vec3 dir)
+{
     // scale
-    dest[1][0] = tsr[1][0];
+    vec3 dest = dir * tsr[1];
+    // quat * dir
+    vec4 quat = tsr_get_quat(tsr);
+    dest = qrot(quat, dest);
+
+    return dest;
+}
+
+vec3 tsr9_transform_normal(mat3 tsr, vec3 norm)
+{
+    // scale
+    vec3 dest = norm / tsr[1];
+    // quat * dir
+    vec4 quat = tsr_get_quat(tsr);
+    dest = qrot(quat, dest);
+
+    return dest;
+}
+
+mat3 tsr_set_trans(in vec3 trans, in mat3 tsr)
+{
+    tsr[0] = trans;
+    return tsr;
+}
+
+vec3 tsr_get_trans(in mat3 tsr) {
+    return tsr[0];
+}
+
+mat3 tsr_set_scale(in vec3 scale, in mat3 tsr)
+{
+    tsr[1] = scale;
+    return tsr;
+}
+
+vec3 tsr_get_scale(in mat3 tsr) {
+    return tsr[1];
+}
+
+mat3 tsr_multiply(in mat3 tsr, in mat3 tsr2) {
+    mat3 dest_tsr;
+
+    vec3 trans = tsr_get_trans(tsr);
+    vec3 trans2 = tsr_get_trans(tsr2);
+
+    vec3 scale = tsr_get_scale(tsr);
+    vec3 scale2 = tsr_get_scale(tsr2);
+
+    vec4 quat = tsr_get_quat(tsr);
+    vec4 quat2 = tsr_get_quat(tsr2);
+
+    // translate
+    vec3 dest_trans = tsr_transform(trans, scale, quat, trans2);
+    dest_tsr = tsr_set_trans(dest_trans, dest_tsr);
+    // scale
+    vec3 dest_scale = scale * scale2;
+    dest_tsr = tsr_set_scale(dest_scale, dest_tsr);
     // quat
-    dest[1][1] = quat[0];
-    dest[1][2] = quat[1];
-    dest[2][0] = quat[2];
-    dest[2][1] = quat[3];
+    vec4 dest_quat = qmult(quat, quat2);
+    dest_tsr = tsr_set_quat(dest_quat, dest_tsr);
+    return dest_tsr;
+}
+
+mat3 tsr_multiply(in mat3 tsr, in mat3 tsr2, out mat3 dest){
+    dest = tsr_multiply(tsr, tsr2);
     return dest;
 }
 

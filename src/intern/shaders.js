@@ -20,12 +20,16 @@ import b4w from "../util/b4w.js";
 import m_assert_fact from "../util/assert.js";
 import m_assets_fact from "./assets.js";
 import m_cfg_fact from "./config.js";
+import * as m_ver from "./version.js";
 
 // FIXME: GCC does not like gpp_parser. Fix it!!!
-import * as m_shader_texts from "../libs/shader_texts.js";
-var m_gpp_parser = {parser:{parse: function(){}}}
 
-// import * as m_gpp_parser from "../libs/gpp_parser.js";
+import * as m_shader_texts from "../libs/shader_texts.js";
+import * as _m_gpp_parser from "../libs/gpp_parser.js";
+var m_gpp_parser = {parser:{parse: function(){}}};
+if (m_ver.type() == "DEBUG") {
+    m_gpp_parser = _m_gpp_parser;
+}
 
 import m_print_fact from "./print.js";
 import * as m_util from "./util.js";
@@ -68,6 +72,7 @@ var SHADERS = ["anchors.glslf",
     "grass_map.glslv",
     "halo.glslf",
     "halo.glslv",
+    "irradiance_skybox.glslf",
     "line.glslf",
     "line.glslv",
     "main.glslf",
@@ -77,6 +82,7 @@ var SHADERS = ["anchors.glslf",
     "particle_system_stack.glslf",
     "particle_system.glslv",
     "proc_skybox.glslf",
+    "r_convolution_skybox.glslf",
     "skybox.glslv",
     "lens_flares.glslf",
     "lens_flares.glslv",
@@ -88,8 +94,6 @@ var SHADERS = ["anchors.glslf",
     "debug_view.glslf",
     "debug_view.glslv",
     "node_skybox.glslf",
-    "irradiance_skybox.glslf",
-    "r_convolution_skybox.glslf",
 
     "postprocessing/antialiasing.glslf",
     "postprocessing/bloom_combine.glslf",
@@ -841,7 +845,7 @@ exports.load_shaders = function() {
 
     _shaders_loaded = false;
 
-    if (!b4w.module_check("shader_texts")) {
+    if (m_gpp_parser == _m_gpp_parser) { // DEBUG configuration
 
         var shader_assets = [];
         var asset_type = m_assets.AT_TEXT;

@@ -18,6 +18,7 @@ import * as m_mat3 from "../libs/gl_matrix/mat3.js";
 import * as m_mat4 from "../libs/gl_matrix/mat4.js";
 import * as m_math from "./math.js";
 import * as m_quat from "../libs/gl_matrix/quat.js";
+import * as m_tsr from "./tsr.js";
 import * as m_vec3 from "../libs/gl_matrix/vec3.js";
 import * as m_vec4 from "../libs/gl_matrix/vec4.js";
 
@@ -49,7 +50,9 @@ var _quat_tmp2 = m_quat.create();
 
 export var  VEC3_IDENT = new Float32Array([0,0,0]);
 export var QUAT4_IDENT = new Float32Array([0,0,0,1]);
-export var TSR8_IDENT = new Float32Array([0,0,0,1,0,0,0,1]);
+// TSR8_IDENT deprecated. It is better to use TSR_IDENT
+export var TSR8_IDENT = m_tsr.create();
+export var TSR_IDENT = m_tsr.create();
 export var VEC3_UNIT = new Float32Array([1,1,1]);
 
 export var AXIS_X = new Float32Array([1, 0, 0]);
@@ -71,6 +74,11 @@ export var ZXY = 8;
 export var XZY = 9;
 export var YXZ = 10;
 export var ZYX = 11;
+
+var ARRAY_EXPR = new RegExp("object .*Array");
+export function is_array(arg) {
+    return ARRAY_EXPR.test(Object.prototype.toString.call(arg));
+}
 
 var PROPER_EULER_ANGLES_LIST = [XYX, YZY, ZXZ, YXY, ZYZ];
 
@@ -787,15 +795,19 @@ export function matrix_to_trans(matrix, dest) {
 /**
  * Return mat4 average scale factor.
  */
-export function matrix_to_scale(matrix) {
-
+export function matrix_to_scale(matrix, dest) {
     _vec4_tmp[0] = 0.577350269189626;
     _vec4_tmp[1] = 0.577350269189626;
     _vec4_tmp[2] = 0.577350269189626;
     _vec4_tmp[3] = 0;
 
     m_vec4.transformMat4(_vec4_tmp, matrix, _vec4_tmp);
-    return m_vec4.length(_vec4_tmp);
+    // FIXME: nonuniform scale
+    var scale = m_vec4.length(_vec4_tmp);
+    if (dest)
+        return m_vec3.set(scale, scale, scale, dest);
+    else
+        return scale;
 }
 
 /**
@@ -1212,6 +1224,7 @@ export function transcale_quat_to_matrix(trans, quat, dest) {
 }
 
 export function matrix_to_transcale_quat(matrix, dest_transcale, dest_quat) {
+    console.error("B4W ERROR: tsr.matrix_to_transcale_quat is dangerous function. Don't use it anymore!!!");
     matrix_to_trans(matrix, dest_transcale);
     dest_transcale[3] = matrix_to_scale(matrix);
     matrix_to_quat(matrix, dest_quat);
@@ -2313,6 +2326,7 @@ export function rotate_quat(quat, vertical_axis, d_phi, d_theta, dest) {
 /**
  * Apply rotation to quat
  */
+// TODO: fix signature of the function
 export function quat_rotate_to_target(trans, quat, target, dir_axis) {
     var dir_from = _vec3_tmp2;
     // NOTE: dir_axis is in local space, it will be directed to the target

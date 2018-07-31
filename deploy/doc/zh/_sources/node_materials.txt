@@ -454,8 +454,10 @@ Cycles 节点
 
 * "Principled BSDF"
 
-     * "Roughness", "Metallic", "Specular" and "Normal" inputs are
-       supported;
+     [图片]
+
+     * "Roughness", "Metallic", "Specular", "Normal", "Transmission"
+       and "IOR" inputs are supported;
 
 * "Texture Coordinates" ("From Dupli" 参数不支持);
 

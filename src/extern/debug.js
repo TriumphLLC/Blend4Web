@@ -99,6 +99,7 @@ var _tsr_tmp = m_tsr.create();
 var _vec2_tmp = new Float32Array(2);
 var _vec3_tmp = m_vec3.create();
 var _vec3_tmp2 = m_vec3.create();
+var _vec3_tmp3 = m_vec3.create();
 
 var _normal_line = null;
 
@@ -706,8 +707,8 @@ exports.controls_info = m_ctl.debug;
  * @deprecated use {@link module:transform.distance|transform.distance} instead.
  */
 exports.object_distance = function(obj, obj2) {
-    var trans = m_tsr.get_trans_view(obj.render.world_tsr);
-    var trans2 = m_tsr.get_trans_view(obj2.render.world_tsr);
+    var trans = m_tsr.get_trans(obj.render.world_tsr, _vec3_tmp);
+    var trans2 = m_tsr.get_trans(obj2.render.world_tsr, _vec3_tmp2);
     var dist = m_vec3.dist(trans, trans2);
     return dist;
 }
@@ -1505,6 +1506,9 @@ exports.show_normals = function(obj, mat_name, length, width) {
     var norms = m_geom.extract_array_float(bufs_data, "a_normal");
 
     var obj_tsr = m_trans.get_tsr(obj, _tsr_tmp);
+    var obj_scale = m_tsr.get_scale(obj_tsr, _vec3_tmp3);
+    var obj_scale_inv = m_vec3.inverse(obj_scale, _vec3_tmp3);
+    var obj_scale_sqr_inv = m_vec3.multiply(obj_scale_inv, obj_scale_inv, _vec3_tmp3);
 
     _normal_line = m_obj.create_line("normal_line");
 
@@ -1519,7 +1523,10 @@ exports.show_normals = function(obj, mat_name, length, width) {
         normals[2 * i + 1] = begin_norm[1];
         normals[2 * i + 2] = begin_norm[2];
 
-        var dir = m_vec3.scale(norms.subarray(i, i + 3), length, _vec3_tmp2);
+        var dir = norms.subarray(i, i + 3);
+        var correct_dir = m_vec3.multiply(dir, obj_scale_sqr_inv, _vec3_tmp2);
+        correct_dir = m_vec3.normalize(correct_dir, correct_dir);
+        dir = m_vec3.scale(correct_dir, length, _vec3_tmp2);
         var end_norm_l = m_vec3.add(ver_pos, dir, _vec3_tmp2);
         var end_norm = m_tsr.transform_vec3(end_norm_l, obj_tsr, _vec3_tmp2);
         normals[2 * i + 3] = end_norm[0];
@@ -1528,7 +1535,6 @@ exports.show_normals = function(obj, mat_name, length, width) {
     }
 
     var normal_line_batch = m_batch.get_first_batch(_normal_line);
-
     m_geom.draw_line(normal_line_batch, normals, true);
     m_render.assign_attribute_setters(normal_line_batch);
     normal_line_batch.diffuse_color.set([1.0, 1.0, 1.0, 1.0]);

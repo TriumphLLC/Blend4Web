@@ -130,6 +130,7 @@ function start_camera_animation(camobj, pos_view, pos_target) {
     // start animation
     _delta_target = ANIM_TIME;
     _cam_anim.timeline = m_time.get_timeline();
+    console.log(_cam_anim)
 }
 
 function init_camera_animation(camobj) {
@@ -166,6 +167,7 @@ function init_camera_animation(camobj) {
 
             m_cam.target_set_trans_pivot(camobj, _cam_anim.current_eye, _cam_anim.current_target);
 
+            console.log(_cam_anim.current_eye, _cam_anim.current_target)
         } else {
             m_app.enable_camera_controls(false, false, false, null, true);
             if (!_anim_stop)

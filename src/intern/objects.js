@@ -47,6 +47,8 @@ import * as m_vec3 from "../libs/gl_matrix/vec3.js";
 import * as m_armat from "./armature.js";
 import m_anchors_fact from "./anchors.js";
 import m_render_fact from "./renderer.js";
+import m_graph_fact from "./graph.js";
+import m_scgraph_fact from "./scenegraph.js";
 
 /**
  * Objects common functionality
@@ -79,6 +81,8 @@ var m_time       = m_time_fact(ns);
 var m_trans      = m_trans_fact(ns);
 var m_anchors    = m_anchors_fact(ns);
 var m_render     = m_render_fact(ns);
+var m_graph      = m_graph_fact(ns);
+var m_scgraph    = m_scgraph_fact(ns);
 
 var cfg_def = m_cfg.defaults;
 var cfg_out = m_cfg.outlining;
@@ -90,6 +94,7 @@ var _all_objects = {"ALL": []};
 var _color_id_counter = 0;
 var _cube_refl_counter = 0;
 var _refl_plane_objs = [];
+var _refl_cube_objs = [];
 var _outline_anim_objs = [];
 
 var _vec3_tmp = new Float32Array(3);
@@ -220,7 +225,7 @@ function update_object(bpy_obj, obj) {
     prepare_parenting_props(bpy_obj, obj);
 
     var pos = bpy_obj["location"];
-    var scale = bpy_obj["scale"][0];
+    var scale = bpy_obj["scale"];
     var rot = _quat_tmp;
     m_util.quat_bpy_b4w(bpy_obj["rotation_quaternion"], rot);
 
@@ -529,8 +534,10 @@ function update_force(obj) {
 function attach_reflection_data(bpy_obj, obj) {
     var render = obj.render;
 
-    if (render.reflection_type == "CUBE")
+    if (render.reflection_type == "CUBE") {
         render.cube_reflection_id = _cube_refl_counter++;
+        _refl_cube_objs.push(obj);
+    }
     else if (render.reflection_type == "PLANE") {
 
         var refl_plane_obj = get_reflection_plane_obj(bpy_obj, obj);
@@ -559,11 +566,80 @@ function attach_reflection_data(bpy_obj, obj) {
     }
 }
 
+exports.unload_plane_reflections =  function(obj) {
+    if (obj.render.plane_reflection_id >= 0) {
+        for (var j = 0; j < obj.scenes_data.length; j++) {
+            var graph = obj.scenes_data[j].scene._render.graph;
+            for (var i = 0; i < _refl_plane_objs.length; i++) {
+                var refl = _refl_plane_objs[i];
+                if (refl.render.plane_reflection_id == obj.render.plane_reflection_id) {
+                    var index = refl.reflective_objs.indexOf(obj);
+                    if (index > -1) {
+                        refl.reflective_objs.splice(index, 1);
+                    }
+                    // find corresponding subscenes and remove them
+                    var subscenes = [];
+                    m_graph.traverse(graph, function(nid, subs) {
+                        if ((subs.type == m_subs.MAIN_PLANE_REFLECT ||
+                            subs.type == m_subs.MAIN_PLANE_REFLECT_BLEND) &&
+                            subs.refl_obj == refl) {
+                                subscenes.push(subs);
+                            }
+                    });
+
+                    for (var k = 0; k < subscenes.length; k++) {
+                        var subs = subscenes[k];
+                        var node_id = m_graph.get_node_id(graph, subs);
+                        m_graph.remove_node(graph, node_id);
+                        m_scenes.clear_subscene(subs);
+                    }
+                    m_graph.cleanup_loose_edges(graph);
+                }
+            }
+            // restore render queue
+            obj.scenes_data[j].scene._render.queue = m_scgraph.create_rendering_queue(graph);
+        }
+    }
+}
+
+exports.unload_cube_reflections =  function(obj) {
+    if (obj.render.cube_reflection_id >= 0) {
+        for (var j = 0; j < obj.scenes_data.length; j++) {
+            var graph = obj.scenes_data[j].scene._render.graph;
+            for (var i = 0; i < _refl_cube_objs.length; i++) {
+                var refl = _refl_cube_objs[i];
+                if (refl.render.cube_reflection_id == obj.render.cube_reflection_id) {
+                    // find corresponding subscenes and remove them
+                    var subscenes = [];
+                    m_graph.traverse(graph, function(nid, subs) {
+                        if ((subs.type == m_subs.MAIN_CUBE_REFLECT ||
+                            subs.type == m_subs.MAIN_CUBE_REFLECT_BLEND) &&
+                            subs.refl_obj == refl) {
+                                subscenes.push(subs);
+                            }
+                    });
+
+                    for (var k = 0; k < subscenes.length; k++) {
+                        var subs = subscenes[k];
+                        var node_id = m_graph.get_node_id(graph, subs);
+                        m_graph.remove_node(graph, node_id);
+                        m_scenes.clear_subscene(subs);
+                    }
+                    m_graph.cleanup_loose_edges(graph);
+                }
+            }
+            // restore render queue
+            obj.scenes_data[j].scene._render.queue = m_scgraph.create_rendering_queue(graph);
+        }
+    }
+}
+
 function create_default_refl_plane(obj) {
     var unique_name = m_generator.unique_name("%reflection%");
     var reflection_plane = m_obj_util.create_object(unique_name, "EMPTY");
 
     var render = m_obj_util.create_render("EMPTY");
+    render.data_id = obj.render.data_id;
     reflection_plane.render = render;
     copy_scene_data(obj, reflection_plane);
     m_cons.append_stiff_obj(reflection_plane, obj, [0, 0, 0], null, 1);
@@ -881,6 +957,7 @@ exports.cleanup = function() {
     _color_id_counter = 0;
     _cube_refl_counter = 0;
     _refl_plane_objs.length = 0;
+    _refl_cube_objs.length = 0;
     _outline_anim_objs.length = 0;
     _all_objects = {"ALL":[]};
 }
@@ -1208,12 +1285,33 @@ function prepare_parenting_props(bpy_obj, obj) {
         obj.parent = bpy_obj["parent"]._object;
 
         if (bpy_obj["parent_type"] == "BONE" &&
-                   bpy_obj["parent"]["type"] == "ARMATURE")
+            bpy_obj["parent"]["type"] == "ARMATURE")
             obj.parent_bone = bpy_obj["parent_bone"];
 
         if (bpy_obj["pinverse_tsr"]) {
-            obj.pinverse_tsr = m_tsr.create();
-            m_tsr.copy(bpy_obj["pinverse_tsr"], obj.pinverse_tsr);
+            if (bpy_obj["pinverse_tsr"].length === 9) {
+                obj.pinverse_tsr = m_tsr.copy(bpy_obj["pinverse_tsr"], m_tsr.create());
+            } else {
+                // NOTE: it breaks data hiding!
+                // It is kept for backward compatibility (uniform scale)
+                obj.pinverse_tsr = m_tsr.create();
+                var trans = m_vec3.set(
+                    bpy_obj["pinverse_tsr"][0],
+                    bpy_obj["pinverse_tsr"][1],
+                    bpy_obj["pinverse_tsr"][2],
+                    _vec3_tmp
+                )
+                var scale = bpy_obj["pinverse_tsr"][3];
+                var quat = m_quat.set(
+                    bpy_obj["pinverse_tsr"][4],
+                    bpy_obj["pinverse_tsr"][5],
+                    bpy_obj["pinverse_tsr"][6],
+                    bpy_obj["pinverse_tsr"][7],
+                    _quat_tmp
+                );
+                // use set_sep bcz later it helps to find this code later;-)
+                m_tsr.set_sep(trans, scale, quat, obj.pinverse_tsr);
+            }
         }
     } else if (bpy_obj["dg_parent"]) {
         obj.parent = bpy_obj["dg_parent"]._object;
@@ -2094,6 +2192,24 @@ exports.create_line = function(name) {
     objects_storage_add(line);
 
     return line;
+}
+
+exports.create_empty = function (name) {
+    name = name || "";
+
+    name += get_name_suff_unique(name);
+
+    var empty = m_obj_util.create_object(name, "EMPTY");
+
+    empty.render = m_obj_util.create_render("EMPTY");
+
+    empty.is_dynamic = true;
+
+    m_obj_util.append_scene_data(empty, m_scenes.get_main());
+
+    objects_storage_add(empty);
+
+    return empty;
 }
 
 exports.generate_mesh_render_boundings = function(bpy_obj, obj) {

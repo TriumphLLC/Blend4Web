@@ -175,17 +175,17 @@ void main(void) {
         // NOTE: scattering only in horizontal space 
         rotation_angle = vec_vec_angle(vec2(EPSILON, 1.0), vec2(normal.x,
                 -normal.y)) + pp.angle;
-        bb_tsr[0] = c_pos;
+        bb_tsr = tsr_set_trans(c_pos, bb_tsr);
         vec4 quat_right = qsetAxisAngle(RIGHT_VECTOR, -M_PI/2.0);
         bb_tsr = tsr_set_quat(quat_right, bb_tsr);
     } else if (BILLBOARD_ALIGN == BILLBOARD_ALIGN_YZ) {
         rotation_angle = pp.angle;
-        bb_tsr[0] = c_pos;
+        bb_tsr = tsr_set_trans(c_pos, bb_tsr);
         vec4 quat_up = qsetAxisAngle(UP_VECTOR, M_PI/2.0);
         bb_tsr = tsr_set_quat(quat_up, bb_tsr);
     } else if (BILLBOARD_ALIGN == BILLBOARD_ALIGN_ZX) {
         rotation_angle = pp.angle;
-        bb_tsr[0] = c_pos;
+        bb_tsr = tsr_set_trans(c_pos, bb_tsr);
     }
 
     vec3 pos_local = vec3((a_p_bb_vertex[0] * 2.0 - 1.0) * pp.size * u_p_size, 0.0,

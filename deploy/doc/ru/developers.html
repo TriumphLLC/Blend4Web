@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Разработчикам приложений &mdash; Руководство пользователя Blend4Web 17.12.0</title>
+  <title>Разработчикам приложений &mdash; Руководство пользователя Blend4Web 18.05.0</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Алфавитный указатель"
               href="genindex.html"/>
         <link rel="search" title="Поиск" href="search.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 17.12.0" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 18.05.0" href="index.html"/>
         <link rel="next" title="Разработчикам движка" href="developers_advanced.html"/>
         <link rel="prev" title="Физика" href="physics.html"/> 
 
@@ -64,7 +64,7 @@
           
           
             <div class="version">
-              v17.12.0
+              v18.05.0
             </div>
           
         
@@ -147,7 +147,22 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#sdk-file-structure">Файловая структура SDK</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#loading-local-resources">Загрузка локальных ресурсов</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#quality-profiles">Профили качества изображения</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#quality-profiles">Профили качества изображения</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#additional-quality-settings">Дополнительные настройки качества</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#shadow-settings">Настройки теней</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#reflection-settings">Настройки отражений</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#outlining-settings">Настройки контура объектов</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#glow-settings">Настройки свечения материала</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#anti-aliasing-settings">Настройки сглаживания</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#bloom-settings">Настройки эффекта засветки (Bloom)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#moton-blur-settings">Настройки эффекта размытия при движении (motion blur)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ssao-settings">Настройки эффекта взаимного затенения (SSAO)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#god-rays-settings">Настройки сумеречных лучей</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#color-correction-settings">Настройки цветокоррекции</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#non-standard-canvas-position-and-orientation">Нестандартное расположение и ориентация элемента Canvas</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#mobile-web-apps">Мобильные веб-приложения</a></li>
 </ul>
@@ -225,9 +240,12 @@
 </li>
 <li><a class="reference internal" href="#sdk-file-structure" id="id17">Файловая структура SDK</a></li>
 <li><a class="reference internal" href="#loading-local-resources" id="id18">Загрузка локальных ресурсов</a></li>
-<li><a class="reference internal" href="#quality-profiles" id="id19">Профили качества изображения</a></li>
-<li><a class="reference internal" href="#non-standard-canvas-position-and-orientation" id="id20">Нестандартное расположение и ориентация элемента Canvas</a></li>
-<li><a class="reference internal" href="#mobile-web-apps" id="id21">Мобильные веб-приложения</a></li>
+<li><a class="reference internal" href="#quality-profiles" id="id19">Профили качества изображения</a><ul>
+<li><a class="reference internal" href="#additional-quality-settings" id="id20">Дополнительные настройки качества</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#non-standard-canvas-position-and-orientation" id="id21">Нестандартное расположение и ориентация элемента Canvas</a></li>
+<li><a class="reference internal" href="#mobile-web-apps" id="id22">Мобильные веб-приложения</a></li>
 </ul>
 </li>
 </ul>
@@ -237,8 +255,9 @@
 <p>Для упрощения разработки рекомендуется пользоваться <a class="reference internal" href="project_manager.html#project-management"><span class="std std-ref">менеджером проектов</span></a>, с помощью которого можно быстро <a class="reference internal" href="project_manager.html#create-new-project"><span class="std std-ref">создать</span></a> базовый каркас приложения и получить шаблонный код, достаточный для загрузки простой сцены с базовым управлением камерой.</p>
 <div class="section" id="application-code-structure">
 <span id="app-init-loading"></span><h3><a class="toc-backref" href="#id4">Структура кода приложения</a><a class="headerlink" href="#application-code-structure" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Starting with version 17.12, Blend4Web engine supports a new coding standard that uses ES6 modules. The old standard that uses modified CommonJS modules is still supported as well. The following chapter describes the structure of the program code in a generic Blend4Web aplication and the differences between these two programming approaches.</p>
 <p>Процесс инициализации и загрузки приложения состоит из нескольких последовательных стадий, что отражено в структуре кода приложения. При использовании менеджера проектов каждый вновь созданный проект типов <code class="docutils literal"><span class="pre">Copy</span></code> и <code class="docutils literal"><span class="pre">Compile</span></code> будет содержать главный JS-файл, который находится внутри SDK по следующему пути: <code class="docutils literal"><span class="pre">./projects/ИМЯ_ПРОЕКТА/ИМЯ_ПРОЕКТА.js</span></code>.</p>
-<p>Этот файл содержит шаблонный код, оформленный в виде модуля. Он регистрируется специальной конструкцией:</p>
+<p>This file contains generic code shaped as a module. Using the old CommonJS notation, this module can be registered using the certain structure:</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">b4w</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">exports</span><span class="p">,</span> <span class="nx">require</span><span class="p">)</span> <span class="p">{</span>
 
     <span class="c1">// module code</span>
@@ -246,6 +265,10 @@
 
 <span class="p">});</span>
 </pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Примечание</p>
+<p class="last">If you are using ES6 notation, you don’t have to register your modules and can use them without any preparations.</p>
 </div>
 <p>Таким образом, код модуля является содержимым функции, принимающей параметры <code class="docutils literal"><span class="pre">exports</span></code> и <code class="docutils literal"><span class="pre">require</span></code>.</p>
 <ol class="arabic">
@@ -260,7 +283,8 @@
 </li>
 <li><p class="first"><code class="docutils literal"><span class="pre">exports</span></code> - объект, служащий для доступа к функциям модуля извне, например, из других модулей. В данном случае внешней сделана только одна функция <code class="docutils literal"><span class="pre">init</span></code>:</p>
 <blockquote>
-<div><div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">b4w</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">exports</span><span class="p">,</span> <span class="nx">require</span><span class="p">)</span> <span class="p">{</span>
+<div><p><strong>Old notation:</strong></p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">b4w</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">exports</span><span class="p">,</span> <span class="nx">require</span><span class="p">)</span> <span class="p">{</span>
 
     <span class="p">...</span>
 
@@ -278,10 +302,23 @@
 <span class="p">});</span>
 </pre></div>
 </div>
+<p><strong>ES6 module:</strong></p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kr">export</span> <span class="kd">function</span> <span class="nx">init</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">m_app</span><span class="p">.</span><span class="nx">init</span><span class="p">({</span>
+        <span class="nx">canvas_container_id</span><span class="o">:</span> <span class="s2">&quot;main_canvas_container&quot;</span><span class="p">,</span>
+        <span class="nx">callback</span><span class="o">:</span> <span class="nx">init_cb</span><span class="p">,</span>
+        <span class="nx">show_fps</span><span class="o">:</span> <span class="nx">DEBUG</span><span class="p">,</span>
+        <span class="nx">console_verbose</span><span class="o">:</span> <span class="nx">DEBUG</span><span class="p">,</span>
+        <span class="nx">autoresize</span><span class="o">:</span> <span class="kc">true</span>
+    <span class="p">});</span>
+<span class="p">}</span>
+</pre></div>
+</div>
 </div></blockquote>
 </li>
 </ol>
 <p>С неё начинается инициализации приложения, и её вызов происходит как раз вне модуля:</p>
+<p><strong>Old notation:</strong></p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">b4w</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">exports</span><span class="p">,</span> <span class="nx">require</span><span class="p">)</span> <span class="p">{</span>
 
     <span class="p">...</span>
@@ -303,12 +340,33 @@
 <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">).</span><span class="nx">init</span><span class="p">();</span>
 </pre></div>
 </div>
+<p><strong>ES6 notation:</strong></p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kr">import</span> <span class="nx">b4w</span> <span class="nx">from</span> <span class="s2">&quot;blend4web&quot;</span><span class="p">;</span>
+
+<span class="p">...</span>
+
+<span class="kr">export</span> <span class="kd">function</span> <span class="nx">init</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">m_app</span><span class="p">.</span><span class="nx">init</span><span class="p">({</span>
+        <span class="nx">canvas_container_id</span><span class="o">:</span> <span class="s2">&quot;main_canvas_container&quot;</span><span class="p">,</span>
+        <span class="nx">callback</span><span class="o">:</span> <span class="nx">init_cb</span><span class="p">,</span>
+        <span class="nx">show_fps</span><span class="o">:</span> <span class="nx">DEBUG</span><span class="p">,</span>
+        <span class="nx">console_verbose</span><span class="o">:</span> <span class="nx">DEBUG</span><span class="p">,</span>
+        <span class="nx">autoresize</span><span class="o">:</span> <span class="kc">true</span>
+    <span class="p">});</span>
+<span class="p">}</span>
+
+<span class="p">...</span>
+
+<span class="nx">init</span><span class="p">();</span>
+</pre></div>
+</div>
 <p>Далее срабатывает метод <a class="reference external" href="https://www.blend4web.com/api_doc/module-app.html#.init">app.init</a> - библиотечный метод, который создаст HTML-элемент Canvas и выполнит все необходимые действия для инициализации WebGL. Он может принимать множество настроек, из которых наиболее важны следующие:</p>
 <ul class="simple">
 <li><code class="docutils literal"><span class="pre">canvas_container_id</span></code> - id HTML-элемента - контейнера, внутри которого будет создан Canvas; по умолчанию используется элемент с id <code class="docutils literal"><span class="pre">main_canvas_container</span></code>, который присутствует в главном HTML-файле приложения.</li>
 <li><code class="docutils literal"><span class="pre">callback</span></code> - функция, вызываемая по завершении инициализации.</li>
 </ul>
 <p>Когда инициализация приложения будет закончена, вызовется функция <a class="reference external" href="https://www.blend4web.com/api_doc/module-app.html#~AppInitCallback">init_cb</a>, указанная в параметре <code class="docutils literal"><span class="pre">callback</span></code>:</p>
+<p><strong>Old notation:</strong></p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">function</span> <span class="nx">init_cb</span><span class="p">(</span><span class="nx">canvas_elem</span><span class="p">,</span> <span class="nx">success</span><span class="p">)</span> <span class="p">{</span>
 
     <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">success</span><span class="p">)</span> <span class="p">{</span>
@@ -329,10 +387,31 @@
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>В неё передаются следующие параметры:</p>
+<p><strong>New notation:</strong></p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">function</span> <span class="nx">init_cb</span><span class="p">(</span><span class="nx">canvas_elem</span><span class="p">,</span> <span class="nx">success</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">success</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;b4w init failure&quot;</span><span class="p">);</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="nx">m_preloader</span><span class="p">.</span><span class="nx">create_preloader</span><span class="p">();</span>
+
+    <span class="c1">// ignore right-click on the canvas element</span>
+    <span class="nx">canvas_elem</span><span class="p">.</span><span class="nx">oncontextmenu</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">e</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+        <span class="nx">e</span><span class="p">.</span><span class="nx">stopPropagation</span><span class="p">();</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="p">};</span>
+
+    <span class="nx">load</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The function has following parameters:</p>
 <ul class="simple">
-<li>canvas_elem - созданный HTML-элемент Canvas, на котором будет осуществляться рендеринг 3D-контента</li>
-<li>success - флаг успешности инициализации; значение <code class="docutils literal"><span class="pre">false</span></code> означает невозможность работы приложения вследствие ошибок инициализации (например, если устройством не поддерживается WebGL).</li>
+<li><em>canvas_elem</em> is the created Canvas HTML element that will be used for rendering 3D content</li>
+<li><em>success</em> it the flag that indicates the success of the initialization. The <code class="docutils literal"><span class="pre">false</span></code> value meant that the application is unable to work due to initialization errors (for example, WebGL is not supported by the device).</li>
 </ul>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
@@ -369,6 +448,7 @@
 </pre></div>
 </div>
 <p>Её вызов означает переход от загрузки к началу работы приложения и, соответственно, началу рендеринга сцены. Так как этот момент - самый ранний, когда будут доступны данные 3D-сцены, то это подходящее место для инициализации и подготовки всего, что связано со сценой, объектами, анимацией и т.д. Например, здесь включается стандартная модель управления камерой при помощи метода <a class="reference external" href="https://www.blend4web.com/api_doc/module-app.html#.enable_camera_controls">enable_camera_controls</a>.</p>
+<p>This.</p>
 <div class="section" id="writing-application-logic">
 <h4>Написание логики приложения<a class="headerlink" href="#writing-application-logic" title="Ссылка на этот заголовок">¶</a></h4>
 <p>После инициализации и загрузки 3D-сцены приложение будет работать, реализуя заданную программистом логику: взаимодействие через устройства ввода, манипуляции с объектами сцены, управление поведением камеры и т.д.</p>
@@ -376,7 +456,8 @@
 <ol class="arabic">
 <li><p class="first">Метод <a class="reference external" href="https://www.blend4web.com/api_doc/module-app.html#.init">app.init</a>, стартующий инициализацию, принимает параметры конфигурации движка. Поэтому можно заняться конфигурированием прямо перед его вызовом, например, на основе параметров из URL-строки:</p>
 <blockquote>
-<div><div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">b4w</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">exports</span><span class="p">,</span> <span class="nx">require</span><span class="p">)</span> <span class="p">{</span>
+<div><p><strong>Old notation:</strong></p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">b4w</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">exports</span><span class="p">,</span> <span class="nx">require</span><span class="p">)</span> <span class="p">{</span>
 
 <span class="p">...</span>
 
@@ -398,6 +479,28 @@
     <span class="p">...</span>
 <span class="p">});</span>
 <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">).</span><span class="nx">init</span><span class="p">();</span>
+</pre></div>
+</div>
+<p><strong>New notation:</strong></p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kr">export</span> <span class="kd">function</span> <span class="nx">init</span><span class="p">()</span> <span class="p">{</span>
+
+    <span class="kd">var</span> <span class="nx">url_params</span> <span class="o">=</span> <span class="nx">m_app</span><span class="p">.</span><span class="nx">get_url_params</span><span class="p">();</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">url_params</span> <span class="o">&amp;&amp;</span> <span class="s2">&quot;show_fps&quot;</span> <span class="k">in</span> <span class="nx">url_params</span><span class="p">)</span>
+        <span class="kd">var</span> <span class="nx">show_fps</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+    <span class="k">else</span>
+        <span class="kd">var</span> <span class="nx">show_fps</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+
+    <span class="nx">m_app</span><span class="p">.</span><span class="nx">init</span><span class="p">({</span>
+        <span class="nx">canvas_container_id</span><span class="o">:</span> <span class="s2">&quot;main_canvas_container&quot;</span><span class="p">,</span>
+        <span class="nx">callback</span><span class="o">:</span> <span class="nx">init_cb</span><span class="p">,</span>
+        <span class="nx">console_verbose</span><span class="o">:</span> <span class="nx">DEBUG</span><span class="p">,</span>
+        <span class="nx">autoresize</span><span class="o">:</span> <span class="kc">true</span>
+    <span class="p">});</span>
+<span class="p">}</span>
+
+<span class="p">...</span>
+
+<span class="nx">init</span><span class="p">();</span>
 </pre></div>
 </div>
 </div></blockquote>
@@ -436,6 +539,7 @@
 <span class="p">...</span>
 </pre></div>
 </div>
+<p>This only applies to the old CommonJS notation. If you are using ES6, modules can be simply plugged into your main application file using <strong>import</strong> method.</p>
 <p>Для регистрации используется метод <a class="reference external" href="https://www.blend4web.com/api_doc/b4w.html#.register">register</a>. Регистрация собственных модулей допустима только если их имена не пересекаются с именами имеющихся модулей API. При необходимости проверка наличия модуля с некоторым именем может быть осуществлена с помощью метода <a class="reference external" href="https://www.blend4web.com/api_doc/b4w.html#.module_check">module_check</a>:</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="p">(</span><span class="nx">b4w</span><span class="p">.</span><span class="nx">module_check</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">))</span>
     <span class="k">throw</span> <span class="s2">&quot;Failed to register module: my_module&quot;</span><span class="p">;</span>
@@ -448,10 +552,12 @@
 <span class="p">});</span>
 </pre></div>
 </div>
+<p>As mentioned above, modules don’t have to be registered in <strong>ES6 notation</strong>. However, any custom module plugged ito your application should still have a name distinct from the names of the regular API modules.</p>
 <ol class="arabic simple" start="2">
 <li>Подгрузка модулей.</li>
 </ol>
 <p>Подгружать собственные модули можно также как и библиотечные через метод <code class="docutils literal"><span class="pre">require</span></code>:</p>
+<p><strong>Old notation:</strong></p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">b4w</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s2">&quot;my_module1&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">exports</span><span class="p">,</span> <span class="nx">require</span><span class="p">)</span> <span class="p">{</span>
 
     <span class="kd">var</span> <span class="nx">mod2</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;my_module2&quot;</span><span class="p">)</span>
@@ -460,11 +566,21 @@
 <span class="p">});</span>
 </pre></div>
 </div>
+<p><strong>New notation:</strong></p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kr">import</span> <span class="p">{</span><span class="nx">one</span><span class="p">,</span> <span class="nx">two</span><span class="p">}</span> <span class="nx">as</span> <span class="nx">my_mod</span> <span class="nx">from</span> <span class="s2">&quot;./my_module.js&quot;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Here, <strong>one</strong> and <strong>two</strong> are the variables that are marked with the word <strong>export</strong> in the <code class="docutils literal"><span class="pre">my_module.js</span></code> file.</p>
 <ol class="arabic simple" start="3">
 <li>Инициализация приложения.</li>
 </ol>
 <p>Инициализация приложения на Blend4Web обычно происходит с помощью подобного вызова:</p>
+<p><strong>Old notation:</strong></p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">).</span><span class="nx">init</span><span class="p">();</span>
+</pre></div>
+</div>
+<p><strong>New notation:</strong></p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">my_module</span><span class="p">.</span><span class="nx">init</span><span class="p">();</span>
 </pre></div>
 </div>
 <p>Здесь подгружаемый модуль <code class="docutils literal"><span class="pre">my_module</span></code> и его внешняя функция <code class="docutils literal"><span class="pre">init</span></code> являются своего рода точкой входа в приложение.</p>
@@ -1108,6 +1224,8 @@
 <span class="nx">m_main</span><span class="p">.</span><span class="nx">init</span><span class="p">(...);</span>
 </pre></div>
 </div>
+<div class="section" id="additional-quality-settings">
+<h3><a class="toc-backref" href="#id20">Дополнительные настройки качества</a><a class="headerlink" href="#additional-quality-settings" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Разработчики приложений могут также установить параметр <strong>quality</strong> при инициализации движка с использованием дополнения <code class="docutils literal"><span class="pre">app.js</span></code>:</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_app</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;app&quot;</span><span class="p">);</span>
@@ -1118,9 +1236,268 @@
 <span class="p">});</span>
 </pre></div>
 </div>
+<p>Ниже перечислены все параметры рендеринга, зависящие от выбранного профиля качества изображения:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="42%" />
+<col width="19%" />
+<col width="19%" />
+<col width="19%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><em>Параметр</em></td>
+<td><strong>Ultra</strong></td>
+<td><strong>High</strong></td>
+<td><strong>Low</strong></td>
+</tr>
+<tr class="row-even"><td>cfg_def.shadows</td>
+<td>true</td>
+<td>true</td>
+<td>false</td>
+</tr>
+<tr class="row-odd"><td>cfg_def.shore_smoothing</td>
+<td>true</td>
+<td>true</td>
+<td>false</td>
+</tr>
+<tr class="row-even"><td>cfg_def.ssao</td>
+<td>true</td>
+<td>true</td>
+<td>false</td>
+</tr>
+<tr class="row-odd"><td>cfg_def.dof</td>
+<td>true</td>
+<td>true</td>
+<td>false</td>
+</tr>
+<tr class="row-even"><td>cfg_def.god_rays</td>
+<td>true</td>
+<td>true</td>
+<td>false</td>
+</tr>
+<tr class="row-odd"><td>cfg_def.bloom</td>
+<td>true</td>
+<td>true</td>
+<td>false</td>
+</tr>
+<tr class="row-even"><td>cfg_def.reflections</td>
+<td>true</td>
+<td>true</td>
+<td>false</td>
+</tr>
+<tr class="row-odd"><td>cfg_def.refractions</td>
+<td>true</td>
+<td>true</td>
+<td>false</td>
+</tr>
+<tr class="row-even"><td>cfg_def.foam</td>
+<td>true</td>
+<td>true</td>
+<td>false</td>
+</tr>
+<tr class="row-odd"><td>cfg_def.parallax</td>
+<td>true</td>
+<td>true</td>
+<td>false</td>
+</tr>
+<tr class="row-even"><td>cfg_def.dynamic_grass</td>
+<td>true</td>
+<td>true</td>
+<td>false</td>
+</tr>
+<tr class="row-odd"><td>cfg_scs.grass_tex_size</td>
+<td>4.0*512</td>
+<td>2*512</td>
+<td>1*512</td>
+</tr>
+<tr class="row-even"><td>cfg_scs.cubemap_tex_size</td>
+<td>512</td>
+<td>256</td>
+<td>256</td>
+</tr>
+<tr class="row-odd"><td>cfg_def.texture_min_filter</td>
+<td>3</td>
+<td>3</td>
+<td>2</td>
+</tr>
+<tr class="row-even"><td>cfg_def.anisotropic_filtering</td>
+<td>true</td>
+<td>true</td>
+<td>false</td>
+</tr>
+<tr class="row-odd"><td>cfg_def.use_min50</td>
+<td>false</td>
+<td>false</td>
+<td>true</td>
+</tr>
+<tr class="row-even"><td>cfg_def.water_dynamic</td>
+<td>true</td>
+<td>true</td>
+<td>false</td>
+</tr>
+<tr class="row-odd"><td>cfg_def.shore_distance</td>
+<td>true</td>
+<td>true</td>
+<td>false</td>
+</tr>
+<tr class="row-even"><td>cfg_def.antialiasing</td>
+<td>true</td>
+<td>true</td>
+<td>false</td>
+</tr>
+<tr class="row-odd"><td>cfg_def.smaa</td>
+<td>false</td>
+<td>false</td>
+<td>false</td>
+</tr>
+<tr class="row-even"><td>cfg_def.compositing</td>
+<td>true</td>
+<td>true</td>
+<td>false</td>
+</tr>
+<tr class="row-odd"><td>cfg_def.motion_blur</td>
+<td>true</td>
+<td>true</td>
+<td>false</td>
+</tr>
+<tr class="row-even"><td>cfg_def.allow_hidpi</td>
+<td>true</td>
+<td>false</td>
+<td>false</td>
+</tr>
+<tr class="row-odd"><td>cfg_def.enable_outlining</td>
+<td>true</td>
+<td>true</td>
+<td>false</td>
+</tr>
+<tr class="row-even"><td>cfg_def.glow_materials</td>
+<td>true</td>
+<td>true</td>
+<td>false</td>
+</tr>
+<tr class="row-odd"><td>cfg_def.msaa_samples</td>
+<td>16</td>
+<td>4</td>
+<td>1</td>
+</tr>
+<tr class="row-even"><td>cfg_def.srgb_type</td>
+<td>«SRGB_PROPER»</td>
+<td>«SRGB_SIMPLE»</td>
+<td>«SRGB_SIMPLE»</td>
+</tr>
+<tr class="row-odd"><td>cfg_phy.max_fps</td>
+<td>120</td>
+<td>60</td>
+<td>60</td>
+</tr>
+<tr class="row-even"><td>cfg_def.lod_smooth_transitions</td>
+<td>true</td>
+<td>true</td>
+<td>false</td>
+</tr>
+</tbody>
+</table>
+<p>Другие параметры рендеринга не зависят от профиля качества, но доступны с помощью методов API и - во многих случаях - через интерфейс аддона Blend4Web в Blender. Эти параметры перечислены ниже:</p>
+<div class="section" id="shadow-settings">
+<h4>Настройки теней<a class="headerlink" href="#shadow-settings" title="Ссылка на этот заголовок">¶</a></h4>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">b4w.shadow_settings.soft_shadows</span></code> <cite>- включает и выключает размытие теней</cite></li>
+<li><code class="docutils literal"><span class="pre">b4w.shadow_settings.blur_samples</span></code> <cite>- устанавливает количество сэмплов, используемых для размытия теней</cite></li>
+<li><code class="docutils literal"><span class="pre">b4w.shadow_settings.csm_resolution</span></code> <cite>- устанавливает разрешение каскадов теней</cite></li>
+<li><code class="docutils literal"><span class="pre">b4w.shadow_settings.self_shadow_polygon_offset</span></code> <cite>- устанавливает коэффициент смещения полигона в зависимости от направления на источник света</cite></li>
+<li><code class="docutils literal"><span class="pre">b4w.shadow_settings.self_shadow_polygon_offset</span></code> <cite>- устанавливает коэффициент смещения полигона по нормали</cite></li>
+<li><code class="docutils literal"><span class="pre">b4w.shadow_settings.enable_csm</span></code> <cite>- включает и выключает каскады теней</cite></li>
+<li><code class="docutils literal"><span class="pre">b4w.shadow_settings.first_cascade_blur_radius</span></code> <cite>- задаёт радиус размытия между каскадами теней</cite></li>
+</ul>
+<p>Все эти параметры также доступны в интерфейсе аддона Blend4Web; о них подробно рассказано в <a class="reference internal" href="lighting.html#shadows"><span class="std std-ref">соответствующей главе</span></a>.</p>
+</div>
+<div class="section" id="reflection-settings">
+<h4>Настройки отражений<a class="headerlink" href="#reflection-settings" title="Ссылка на этот заголовок">¶</a></h4>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">b4w.reflection_quality</span></code> <cite>- отвечает за общее качество рендеринга отражений</cite></li>
+</ul>
+<p>Этот параметр, как и прочие настройки отражений, доступен также в интерфейсе аддона Blend4Web; о них подробно рассказано в <a class="reference internal" href="scene_settings.html#render-reflections"><span class="std std-ref">соответствующей главе</span></a>.</p>
+</div>
+<div class="section" id="outlining-settings">
+<h4>Настройки контура объектов<a class="headerlink" href="#outlining-settings" title="Ссылка на этот заголовок">¶</a></h4>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">b4w.outline_color</span></code> <cite>- устанавливает цвет контура</cite></li>
+<li><code class="docutils literal"><span class="pre">b4w.outline_factor</span></code> <cite>- устанавливает толщину и яркость контура</cite></li>
+</ul>
+<p>Все эти параметры также доступны в интерфейсе аддона Blend4Web; о них подробно рассказано в <a class="reference internal" href="scene_settings.html#render-object-outlining"><span class="std std-ref">соответствующей главе</span></a>.</p>
+</div>
+<div class="section" id="glow-settings">
+<h4>Настройки свечения материала<a class="headerlink" href="#glow-settings" title="Ссылка на этот заголовок">¶</a></h4>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">b4w.glow_settings.small_glow_mask_coeff</span></code> <cite>- устанавливает интенсивность свечения по малой маске</cite></li>
+<li><code class="docutils literal"><span class="pre">b4w.glow_settings.small_glow_mask_width</span></code> <cite>- отвечает за ширину свечения по малой маске</cite></li>
+<li><code class="docutils literal"><span class="pre">b4w.glow_settings.large_glow_mask_coeff</span></code> <cite>- управляет интенсивностью свечения по большой маске</cite></li>
+<li><code class="docutils literal"><span class="pre">b4w.glow_settings.large_glow_mask_width</span></code> <cite>- здесь устанавливается ширина свечения по большой маске</cite></li>
+<li><code class="docutils literal"><span class="pre">b4w.glow_settings.render_glow_over_blend</span></code> <cite>- включает и выключает отрисовывание эффекта поверх прозрачных объектов</cite></li>
+</ul>
+<p>Все эти параметры также доступны в интерфейсе аддона Blend4Web; о них подробно рассказано в <a class="reference internal" href="scene_settings.html#render-glow-materials"><span class="std std-ref">соответствующей главе</span></a>.</p>
+</div>
+<div class="section" id="anti-aliasing-settings">
+<h4>Настройки сглаживания<a class="headerlink" href="#anti-aliasing-settings" title="Ссылка на этот заголовок">¶</a></h4>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">b4w.antialiasing_quality</span></code> <cite>- этот параметр управляет общим качеством сглаживания</cite></li>
+</ul>
+<p>Все эти параметры также доступны в интерфейсе аддона Blend4Web; о них подробно рассказано в <a class="reference internal" href="scene_settings.html#render-anti-aliasing"><span class="std std-ref">соответствующей главе</span></a>.</p>
+</div>
+<div class="section" id="bloom-settings">
+<h4>Настройки эффекта засветки (Bloom)<a class="headerlink" href="#bloom-settings" title="Ссылка на этот заголовок">¶</a></h4>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">b4w.bloom_settings.adaptive</span></code> <cite>- включает и выключает рассчёт адаптивной средней яркости</cite></li>
+<li><code class="docutils literal"><span class="pre">b4w.god_rays_settings.intensity</span></code> <cite>- задаёт интенсивность эффекта засветки</cite></li>
+<li><code class="docutils literal"><span class="pre">b4w.bloom_settings.blur</span></code> <cite>- задаёт степень размытия засветки</cite></li>
+<li><code class="docutils literal"><span class="pre">b4w.bloom_settings.edge_lum</span></code> <cite>- устанавливает граничное значение относительной яркости элемента, выше которого начинает проявляться эффект засветки</cite></li>
+</ul>
+<p>Все эти параметры также доступны в интерфейсе аддона Blend4Web; о них подробно рассказано в <a class="reference internal" href="scene_settings.html#render-bloom"><span class="std std-ref">соответствующей главе</span></a>.</p>
+</div>
+<div class="section" id="moton-blur-settings">
+<h4>Настройки эффекта размытия при движении (motion blur)<a class="headerlink" href="#moton-blur-settings" title="Ссылка на этот заголовок">¶</a></h4>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">b4w.motion_blur_settings.motion_blur_factor</span></code> <cite>- управляет силой эффекта размытия при движении</cite></li>
+<li><code class="docutils literal"><span class="pre">b4w.motion_blur_settings.motion_blur_decay_threshold</span></code> <cite>- устанавливает степень плавности размытия</cite></li>
+</ul>
+<p>Все эти параметры также доступны в интерфейсе аддона Blend4Web; о них подробно рассказано в <a class="reference internal" href="scene_settings.html#render-motion-blur"><span class="std std-ref">соответствующей главе</span></a>.</p>
+</div>
+<div class="section" id="ssao-settings">
+<h4>Настройки эффекта взаимного затенения (SSAO)<a class="headerlink" href="#ssao-settings" title="Ссылка на этот заголовок">¶</a></h4>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">b4w.ssao_settings.radius_increase</span></code> <cite>- устанавливает фактор умножения радиуса сферического сэмплинга при переходе от внутреннего кольца к внешнему</cite></li>
+<li><code class="docutils literal"><span class="pre">b4w.ssao_settings.hemisphere</span></code> <cite>- включает и выключает использование полусферического сэмплинга для затенения</cite></li>
+<li><code class="docutils literal"><span class="pre">b4w.ssao_settings.blur_depth</span></code> <cite>- включает и выключает размытие SSAO на основе буфера глубины</cite></li>
+<li><code class="docutils literal"><span class="pre">b4w.ssao_settings.blur_discard_value</span></code> <cite>- устанавливает степень влияния разницы глубины сэмплов на их «вес»при размытии</cite></li>
+<li><code class="docutils literal"><span class="pre">b4w.ssao_settings.influence</span></code> <cite>- устанавливает степень проявленности эффекта взаимного затенения</cite></li>
+<li><code class="docutils literal"><span class="pre">b4w.ssao_settings.dist_factor</span></code> <cite>- устанавливает фактор уменьшения проявленности эффекта с расстоянием</cite></li>
+<li><code class="docutils literal"><span class="pre">b4w.ssao_settings.samples</span></code> <cite>- задаёт количество сэмплов, используемых при рассчёте эффекта</cite></li>
+</ul>
+<p>Все эти параметры также доступны в интерфейсе аддона Blend4Web; о них подробно рассказано в <a class="reference internal" href="scene_settings.html#render-ssao"><span class="std std-ref">соответствующей главе</span></a>.</p>
+</div>
+<div class="section" id="god-rays-settings">
+<h4>Настройки сумеречных лучей<a class="headerlink" href="#god-rays-settings" title="Ссылка на этот заголовок">¶</a></h4>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">b4w.god_rays_settings.intensity</span></code> <cite>- задаёт интенсивность эффекта сумеречных лучей</cite></li>
+<li><code class="docutils literal"><span class="pre">b4w.god_rays_settings.max_ray_length</span></code> <cite>- задаёт максимальную длинну лучей</cite></li>
+<li><code class="docutils literal"><span class="pre">b4w.god_rays_settings.steps_per_pass</span></code> <cite>- заадёт количество сэмплов, используемых при рассчёте эффекта</cite></li>
+</ul>
+<p>Все эти параметры также доступны в интерфейсе аддона Blend4Web; о них подробно рассказано в <a class="reference internal" href="scene_settings.html#render-god-rays"><span class="std std-ref">соответствующей главе</span></a>.</p>
+</div>
+<div class="section" id="color-correction-settings">
+<h4>Настройки цветокоррекции<a class="headerlink" href="#color-correction-settings" title="Ссылка на этот заголовок">¶</a></h4>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">b4w.color_correction_settings.brightness</span></code> <cite>- устанавливает яркость изображения</cite></li>
+<li><code class="docutils literal"><span class="pre">b4w.color_correction_settings.contrast</span></code> <cite>- устанвливает контрастность изображения</cite></li>
+<li><code class="docutils literal"><span class="pre">b4w.color_correction_settings.exposure</span></code> <cite>- отвечает за парметр выдержки (exposure) изображения</cite></li>
+<li><code class="docutils literal"><span class="pre">b4w.color_correction_settings.saturation</span></code> <cite>- контролирует насыщенность изображения</cite></li>
+</ul>
+<p>Все эти параметры также доступны в интерфейсе аддона Blend4Web; о них подробно рассказано в <a class="reference internal" href="scene_settings.html#render-color-correction"><span class="std std-ref">соответствующей главе</span></a>.</p>
+</div>
+</div>
 </div>
 <div class="section" id="non-standard-canvas-position-and-orientation">
-<span id="non-standard-canvas-pos"></span><h2><a class="toc-backref" href="#id20">Нестандартное расположение и ориентация элемента Canvas</a><a class="headerlink" href="#non-standard-canvas-position-and-orientation" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="non-standard-canvas-pos"></span><h2><a class="toc-backref" href="#id21">Нестандартное расположение и ориентация элемента Canvas</a><a class="headerlink" href="#non-standard-canvas-position-and-orientation" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Элемент Canvas, на котором осуществляется рендеринг, может изменять своё местоположение относительно окна браузера. Это может происходить в результате манипуляций, проводимых над DOM-деревом, либо в результате скроллинга страницы, что особенно актуально для неполноэкранных приложений.</p>
 <p>В большинстве случаев это не будет никак сказываться на работе приложения. Однако для событий, связанных с положением курсора мыши или позицией касания на touch-устройстве, возможно получение некорректных результатов. Это происходит, потому что координаты, получаемые из соответствующих событий, принадлежат системе отсчета относительно окна браузера, а движок работает с координатами в системе отсчета именно Canvas элемента (верхний левый угол элемента).</p>
 <ol class="arabic simple">
@@ -1166,7 +1543,7 @@
 </div>
 </div>
 <div class="section" id="mobile-web-apps">
-<span id="id1"></span><h2><a class="toc-backref" href="#id21">Мобильные веб-приложения</a><a class="headerlink" href="#mobile-web-apps" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="id1"></span><h2><a class="toc-backref" href="#id22">Мобильные веб-приложения</a><a class="headerlink" href="#mobile-web-apps" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Возможность масштабирования всей веб-страницы на мобильных устройствах также может приводить к смещению элемента Canvas. Описанные выше решения годятся и для этого случая, однако, в качестве альтернативы можно запретить масштабирование вовсе и избежать подобных проблем. Для этого достаточно в заголовке страницы добавить следующий мета-тег:</p>
 <div class="highlight-html"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">meta</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;viewport&quot;</span> <span class="na">content</span><span class="o">=</span><span class="s">&quot;width=device-width, initial-scale=1.0, user-scalable=no&quot;</span><span class="p">&gt;</span>
 </pre></div>
@@ -1242,7 +1619,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Триумф.
-      Обновлено: 2017-12-29.
+      Обновлено: 2018-06-06.
 
     </p>
   </div>
@@ -1298,7 +1675,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.12.0',
+            VERSION:'v18.05.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

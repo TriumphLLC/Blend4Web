@@ -36,7 +36,7 @@ void main(void) {
     // locate flare center
 
     vec3 dir = normalize(u_light_directions[LIGHT_INDEX]);
-    vec4 pos_clip = u_proj_matrix * vec4(tsr9_transform_dir(u_view_tsr, dir), 0.0);
+    vec4 pos_clip = u_proj_matrix * vec4(tsr9_transform_normal(u_view_tsr, dir), 0.0);
 
     pos_clip.x /= pos_clip.w; 
     pos_clip.y /= pos_clip.w;

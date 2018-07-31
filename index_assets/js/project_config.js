@@ -9,6 +9,7 @@ var _conf_use_physics = null;
 var _conf_js_ignore = null;
 var _conf_css_ignore = null;
 var _conf_build_ignore = null;
+var _conf_build_cmd = null;
 
 var _conf_title = null;
 var _conf_author = null;
@@ -20,7 +21,9 @@ var _conf_ignore = null;
 var _conf_dev_proj_path = null;
 var _conf_blender_exec = null;
 
-var _conf_url_params = null
+var _conf_url_params = null;
+
+var _conf_editor_ignore = null;
 
 var _blender_exec = null;
 
@@ -28,18 +31,21 @@ var _save_config = null;
 
 var _apps = null;
 var _build_ignore = null;
+var _build_cmd = null;
 var _css_ignore = null;
 var _js_ignore = null;
 var _use_physics = null;
 
+var _editor_ignore = null;
+
 var _author = null;
 var _title = null;
 
-var _assets_path_dest = null
-var _assets_path_prefix = null
-var _ignore = null
+var _assets_path_dest = null;
+var _assets_path_prefix = null;
+var _ignore = null;
 
-var _url_params = null
+var _url_params = null;
 
 var CONF_PARAMS = {};
 var WARNINGS = {};
@@ -71,9 +77,9 @@ function is_changed() {
            document.querySelector("[name=project_opt_level]:checked").value != CONF_PARAMS["opt_level"] ||
            _css_ignore.value != CONF_PARAMS["css_ignore"] ||
            _js_ignore.value != CONF_PARAMS["js_ignore"] ||
-           _js_ignore.value != CONF_PARAMS["js_ignore"] ||
-           _js_ignore.value != CONF_PARAMS["js_ignore"] ||
-           _build_ignore.value != CONF_PARAMS["build_ignore"];
+           _build_ignore.value != CONF_PARAMS["build_ignore"] ||
+           _build_cmd.value != CONF_PARAMS["build_cmd"] ||
+           _editor_ignore.value != CONF_PARAMS["editor_ignore"];
 }
 
 function check_conf_params() {
@@ -121,6 +127,12 @@ function cache_conf_params() {
 
     if (_conf_url_params)
         CONF_PARAMS["url_params"] = _conf_url_params.value;
+
+    if (_conf_build_cmd)
+        CONF_PARAMS["build_cmd"] = _conf_build_cmd.value;
+
+    if (_conf_editor_ignore)
+        CONF_PARAMS["editor_ignore"] = _conf_editor_ignore.value;
 }
 
 function define_checkbox() {
@@ -135,6 +147,7 @@ function add_listeners() {
     _build_ignore.addEventListener("input", build_ignore_oninput);
     _css_ignore.addEventListener("input", css_ignore_oninput);
     _js_ignore.addEventListener("input", js_ignore_oninput);
+    _editor_ignore.addEventListener("input", editor_ignore_oninput);
 
     sim_lev.addEventListener("change", opt_level_oninput);
     adv_lev.addEventListener("change", opt_level_oninput);
@@ -148,6 +161,8 @@ function add_listeners() {
     _assets_path_dest.addEventListener("input", assets_path_dest_oninput);
     _assets_path_prefix.addEventListener("input", assets_path_prefix_oninput);
     _ignore.addEventListener("input", ignore_oninput);
+
+    _build_cmd.addEventListener("input", build_cmd_oninput);
 
     _url_params.addEventListener("input", url_params_oninput);
 }
@@ -176,6 +191,14 @@ function ignore_oninput() {
     else
         _ignore.style.outlineColor = "";
 
+    check_save_btn();
+}
+
+function build_cmd_oninput() {
+    if (_build_cmd.value != CONF_PARAMS["url_params"])
+        _build_cmd.style.outlineColor = "#cac729";
+    else
+        _build_cmd.style.outlineColor = "";
     check_save_btn();
 }
 
@@ -262,6 +285,15 @@ function js_ignore_oninput() {
     check_save_btn();
 }
 
+function editor_ignore_oninput() {
+    if (_editor_ignore.value != CONF_PARAMS["editor_ignore"])
+        _editor_ignore.style.outlineColor = "#cac729";
+    else
+        _editor_ignore.style.outlineColor = "";
+
+    check_save_btn();
+}
+
 function build_ignore_oninput() {
     if (_build_ignore.value != CONF_PARAMS["build_ignore"])
         _build_ignore.style.outlineColor = "#cac729";
@@ -301,13 +333,15 @@ function onsaveconfig() {
              "&css_ignore=" + encodeURIComponent(_css_ignore.value || "") +
              "&js_ignore=" + encodeURIComponent(_js_ignore.value || "") +
              "&build_ignore=" + encodeURIComponent(_build_ignore.value || "") +
+             "&build_cmd=" + encodeURIComponent(_build_cmd.value || "") +
              "&url_params=" + encodeURIComponent(_url_params.value || "") +
              "&title=" + encodeURIComponent(_title.value || "") +
              "&proj_path=" + encodeURIComponent(_conf_dev_proj_path.value) +
              "&blender_exec=" + encodeURIComponent(_blender_exec.value) +
              "&assets_path_dest=" + encodeURIComponent(_assets_path_dest.value) +
              "&assets_path_prefix=" + encodeURIComponent(_assets_path_prefix.value) +
-             "&ignore=" + encodeURIComponent(_ignore.value));
+             "&ignore=" + encodeURIComponent(_ignore.value) +
+             "&editor_ignore=" + encodeURIComponent(_editor_ignore.value || ""));
 
     xhr.onreadystatechange = function() {
         if (this.readyState != 4)
@@ -345,6 +379,18 @@ function define_engine_type() {
         sim_lev.setAttribute("disabled", "");
         adv_lev.setAttribute("disabled", "");
         white_lev.setAttribute("disabled", "");
+
+        break;
+    case "custom":
+        proj_custom.setAttribute("checked", "");
+        sim_lev.setAttribute("disabled", "");
+        adv_lev.setAttribute("disabled", "");
+        white_lev.setAttribute("disabled", "");
+        _use_physics.setAttribute("disabled", "");
+        _apps.setAttribute("disabled", "");
+        _js_ignore.setAttribute("disabled", "");
+        _css_ignore.setAttribute("disabled", "");
+        _build_ignore.setAttribute("disabled", "");
 
         break;
     case "webplayer_html":
@@ -416,6 +462,9 @@ function cache_dom() {
 
     _conf_title = document.querySelector("#conf_title");
     _conf_author = document.querySelector("#conf_author");
+    _conf_build_cmd = document.querySelector("#conf_build_cmd");
+
+    _conf_editor_ignore = document.querySelector("#conf_editor_ignore");
 
     _apps = document.querySelector("#apps");
     _title = document.querySelector("#title");
@@ -424,6 +473,8 @@ function cache_dom() {
     _css_ignore = document.querySelector("#css_ignore");
     _js_ignore = document.querySelector("#js_ignore");
     _use_physics = document.querySelector("#use_physics");
+    _build_cmd = document.querySelector("#build_cmd");
+    _editor_ignore = document.querySelector("#editor_ignore");
 
     _assets_path_dest = document.querySelector("#assets_path_dest");
     _assets_path_prefix = document.querySelector("#assets_path_prefix");

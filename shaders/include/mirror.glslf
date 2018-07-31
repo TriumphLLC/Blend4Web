@@ -52,7 +52,8 @@ void apply_mirror(inout vec3 base_color, vec3 eye_dir, vec3 normal,
 #  if REFLECTION_PASS == REFL_PASS_NONE
     vec3 norm_proj_refl = u_refl_plane.xyz * dot(normal, u_refl_plane.xyz);
     vec3 normal_offset = normal - norm_proj_refl;
-    vec2 normal_offset_view = tsr9_transform_dir(view_tsr, normal_offset).xy;
+    // CHECK: if we have to use tsr9_transform_normal !!!
+    vec2 normal_offset_view = tsr9_transform_normal(view_tsr, normal_offset).xy;
 
     vec2 refl_coord = v_tex_pos_clip.xy/ v_tex_pos_clip.z;
     refl_coord += normal_offset_view * REFL_BUMP;
@@ -73,7 +74,11 @@ void apply_mirror(inout vec3 base_color, vec3 eye_dir, vec3 normal,
 
 vec3 fresnelSchlickRoughness(float cosTheta, vec3 F0, float roughness)
 {
-    return F0 + (max(vec3(1.0 - roughness), F0) - F0) * pow(1.0 - cosTheta, 5.0);
+    float min_cos_theta = 1.0 - cosTheta;
+    float min_cos_theta5 = min_cos_theta * min_cos_theta;
+    min_cos_theta5 = min_cos_theta5 * min_cos_theta * min_cos_theta5;
+
+    return F0 + (max(vec3(1.0 - roughness), F0) - F0) * min_cos_theta5;
 }
 
 vec3 apply_mirror_bsdf(vec3 base_color, vec3 s_color, vec3 eye_dir, vec3 normal,
@@ -109,7 +114,11 @@ vec3 apply_mirror_bsdf(vec3 base_color, vec3 s_color, vec3 eye_dir, vec3 normal,
 
 vec3 fresnelSchlickRoughness(float cosTheta, vec3 F0, float roughness)
 {
-    return F0 + (max(vec3(1.0 - roughness), F0) - F0) * pow(1.0 - cosTheta, 5.0);
+    float min_cos_theta = 1.0 - cosTheta;
+    float min_cos_theta5 = min_cos_theta * min_cos_theta;
+    min_cos_theta5 = min_cos_theta5 * min_cos_theta * min_cos_theta5;
+
+    return F0 + (max(vec3(1.0 - roughness), F0) - F0) * min_cos_theta5;
 }
 
 // REFERENCES:
@@ -120,7 +129,9 @@ vec3 apply_mirror_bsdf(vec3 base_color, vec3 s_color, vec3 eye_dir, vec3 normal,
 {
 # if USE_BSDF_SKY_DIM
 
-    float cos_theta = max(dot(normalize(normal), eye_dir), _0_0);
+    vec3 N = normalize(normal);
+
+    float cos_theta = max(dot(N, eye_dir), _0_0);
     vec3 eye_reflected = reflect(-eye_dir, normal);
     // Blinn-Phong exponent
     float gexp = max(2.0/(s_r*s_r) - 2.0, _0_0);;
@@ -134,7 +145,7 @@ vec3 apply_mirror_bsdf(vec3 base_color, vec3 s_color, vec3 eye_dir, vec3 normal,
     vec3 kD = vec3(_1_0) - kS;
     kD *= 1.0 - metalness;
 
-    vec3 diffuse = GLSL_TEXTURE_CUBE_LOD(u_sky_reflection, normalize(normal), 100.0).xyz;
+    vec3 diffuse = GLSL_TEXTURE_CUBE_LOD(u_sky_reflection, N, 100.0).xyz;
     srgb_to_lin(diffuse);
     diffuse *= base_color;
 
@@ -144,7 +155,7 @@ vec3 apply_mirror_bsdf(vec3 base_color, vec3 s_color, vec3 eye_dir, vec3 normal,
     float sky_tex_dim = float(textureSize(u_sky_reflection, 0).x);
 #  endif
 
-    float mip_level = log2(sky_tex_dim * sqrt(3.0)) - _0_5 * log2(gexp + _1_0);
+    float mip_level = log2((sky_tex_dim * sqrt(3.0)) / sqrt(gexp + _1_0));
 
     vec3 specular = GLSL_TEXTURE_CUBE_LOD(u_sky_reflection, eye_reflected, mip_level).xyz;
     srgb_to_lin(specular);

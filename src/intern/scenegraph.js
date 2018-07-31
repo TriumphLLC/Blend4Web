@@ -539,6 +539,266 @@ function assign_render_targets(graph) {
     });
 }
 
+function update_rendering_graph_plane_reflections(refl_params, refl_params_out, sc_render, graph, grass, plane_refl, cam_scene_data, rtt) {
+    var main_cam = cam_scene_data.cameras[0];
+    var num_lights            = sc_render.lamps_number;
+    var water_params          = sc_render.water_params;
+    var wfs_params            = sc_render.world_fog_set;
+    var wls_params            = sc_render.world_light_set;
+    var reflect_links_opaque  = plane_refl.reflect_links_opaque;
+    var reflect_subscenes     = plane_refl.reflect_subscenes;
+    var subs_grass_map        = grass.subs_grass_map;
+    var slink_grass_map_d     = grass.slink_grass_map_d;
+    var slink_grass_map_c     = grass.slink_grass_map_c;
+
+    if (refl_params && refl_params.refl_plane_objs.length > 0 && !rtt) {
+        for (var j = 0; j < refl_params.refl_plane_objs.length; j++) {
+            var cam = m_cam.clone_camera(main_cam, true);
+            cam.reflection_plane = new Float32Array(4);
+            cam_scene_data.cameras.push(cam);
+            var subs_refl = m_subs.create_subs_main(m_subs.MAIN_PLANE_REFLECT, cam, false, water_params, num_lights, wfs_params, wls_params, null, sc_render.sun_exist);
+            subs_refl.refl_obj = refl_params.refl_plane_objs[j];
+            m_graph.append_node_attr(graph, subs_refl);
+
+            var slink_refl_c = create_slink("COLOR", "u_plane_reflection", 1, sc_render.plane_refl_size, sc_render.plane_refl_size, true, true);
+            slink_refl_c.min_filter = m_tex.TF_LINEAR;
+            slink_refl_c.mag_filter = m_tex.TF_LINEAR;
+            reflect_links_opaque.push(slink_refl_c);
+            if (refl_params != refl_params_out) {
+                var slink_refl_c1 = create_slink("COLOR", "u_plane_reflection", 1, sc_render.plane_refl_size, sc_render.plane_refl_size, true, true);
+                slink_refl_c1.min_filter = m_tex.TF_LINEAR;
+                slink_refl_c1.mag_filter = m_tex.TF_LINEAR;
+                plane_refl.reflect_links_blend.push(slink_refl_c1);
+            }
+            if (subs_grass_map) {
+                m_graph.append_edge_attr(graph, subs_grass_map, subs_refl, slink_grass_map_d);
+                m_graph.append_edge_attr(graph, subs_grass_map, subs_refl, slink_grass_map_c);
+            }
+            if (refl_params.has_blend_reflexible || refl_params_out.has_blend_reflexible) {
+                var subs_refl_blend = m_subs.create_subs_main(m_subs.MAIN_PLANE_REFLECT_BLEND, cam, false, water_params, num_lights, wfs_params, wls_params, null, sc_render.sun_exist);
+                subs_refl_blend.refl_obj = refl_params.refl_plane_objs[j];
+                m_graph.append_node_attr(graph, subs_refl_blend);
+                var slink_depth_refl = create_slink("DEPTH", "DEPTH", 1, sc_render.plane_refl_size, sc_render.plane_refl_size, true, true);
+                var slink_color_refl = create_slink("COLOR", "COLOR", 1, sc_render.plane_refl_size, sc_render.plane_refl_size, true, true);
+                slink_color_refl.min_filter = m_tex.TF_NEAREST;
+                slink_color_refl.mag_filter = m_tex.TF_NEAREST;
+                m_graph.append_edge_attr(graph, subs_refl, subs_refl_blend, slink_depth_refl);
+                m_graph.append_edge_attr(graph, subs_refl, subs_refl_blend, slink_color_refl);
+                refl_params_out.plane_refl_subs_blend.push([subs_refl_blend]);
+                reflect_subscenes.push(subs_refl_blend);
+                if (subs_grass_map) {
+                    m_graph.append_edge_attr(graph, subs_grass_map, subs_refl_blend, slink_grass_map_d);
+                    m_graph.append_edge_attr(graph, subs_grass_map, subs_refl_blend, slink_grass_map_c);
+                }
+            }
+            else {
+                var slink_refl_d = create_slink("DEPTH", "DEPTH", 1, sc_render.plane_refl_size, sc_render.plane_refl_size, true, true);
+                subs_refl.slinks_internal.push(slink_refl_d);
+                reflect_subscenes.push(subs_refl);
+            }
+            refl_params_out.plane_refl_subs.push([subs_refl]);
+        }
+    }
+}
+
+function update_rendering_graph_cube_reflections(refl_params, refl_params_out, sc_render, graph, grass, cube_refl, rtt) {
+    var num_lights               = sc_render.lamps_number;
+    var water_params             = sc_render.water_params;
+    var wfs_params               = sc_render.world_fog_set;
+    var wls_params               = sc_render.world_light_set;
+    var subs_grass_map           = grass.subs_grass_map;
+    var slink_grass_map_d        = grass.slink_grass_map_d;
+    var slink_grass_map_c        = grass.slink_grass_map_c;
+    var cube_reflect_links       = cube_refl.cube_reflect_links;
+    var cube_refl_subscenes      = cube_refl.cube_refl_subscenes;
+
+    if (refl_params && refl_params.refl_cube_objs.length && !rtt) {
+        for (var i = 0; i < refl_params.refl_cube_objs.length; i++) {
+            var cam = m_cam.create_camera(m_cam.TYPE_PERSP);
+
+            cam.width = sc_render.cubemap_refl_size;
+            cam.height = sc_render.cubemap_refl_size;
+
+            m_cam.set_frustum(cam, Math.PI / 2, 0.1, 100);
+            m_cam.set_projection(cam, false);
+
+            var subs_refl = m_subs.create_subs_main(m_subs.MAIN_CUBE_REFLECT, cam, false,
+                water_params, num_lights, wfs_params, wls_params, null, sc_render.sun_exist);
+            subs_refl.refl_obj = refl_params.refl_cube_objs[i];
+                subs_refl.cube_view_matrices = m_util.generate_inv_cubemap_matrices();
+            
+            for (var j = 0; j < 6; j++)
+                subs_refl.cube_cam_frustums.push(m_cam.create_frustum_planes());
+            
+            m_graph.append_node_attr(graph, subs_refl);
+            
+            var slink_refl_c = create_slink("CUBEMAP", "u_cube_reflection",
+                                            sc_render.cubemap_refl_size, 1, 1,
+                                            false, false);
+            slink_refl_c.min_filter = m_tex.TF_LINEAR;
+            slink_refl_c.mag_filter = m_tex.TF_LINEAR;
+            
+            cube_reflect_links.push(slink_refl_c);
+
+            if (refl_params != refl_params_out) {
+                var slink_refl_c1 = create_slink("CUBEMAP", "u_cube_reflection", sc_render.cubemap_refl_size, 1, 1, false, false);
+                slink_refl_c1.min_filter = m_tex.TF_LINEAR;
+                slink_refl_c1.mag_filter = m_tex.TF_LINEAR;
+                cube_refl.cube_reflect_links_blend.push(slink_refl_c1);
+            }
+            if (refl_params == refl_params_out) {
+                if (!refl_params.has_reflexible) {
+                    var slink_refl_s = create_slink("CUBEMAP", "u_sky_reflection", 1, 1, 1, false);
+                    slink_refl_s.use_mipmap = true;
+                    slink_refl_s.min_filter = m_tex.TF_LINEAR_MIPMAP_LINEAR;
+                    slink_refl_s.mag_filter = m_tex.TF_LINEAR;
+                    sky_reflect_links.push(slink_refl_s);
+                }
+            }
+            if (subs_grass_map) {
+                m_graph.append_edge_attr(graph, subs_grass_map, subs_refl, slink_grass_map_d);
+                m_graph.append_edge_attr(graph, subs_grass_map, subs_refl, slink_grass_map_c);
+            }
+            if (refl_params.has_blend_reflexible || refl_params_out.has_blend_reflexible) {
+                var subs_refl_blend = m_subs.create_subs_main(m_subs.MAIN_CUBE_REFLECT_BLEND, cam, false, water_params, num_lights, wfs_params, wls_params, null, sc_render.sun_exist);
+                subs_refl_blend.refl_obj = refl_params.refl_cube_objs[i];
+                subs_refl_blend.cube_view_matrices = subs_refl.cube_view_matrices;
+                subs_refl_blend.cube_cam_frustums = subs_refl.cube_cam_frustums;
+                m_graph.append_node_attr(graph, subs_refl_blend);
+                var slink_depth_refl = create_slink("DEPTH", "DEPTH", sc_render.cubemap_refl_size, 1, 1, false, false);
+                var slink_color_refl = create_slink("COLOR", "COLOR", sc_render.cubemap_refl_size, 1, 1, false, false);
+                m_graph.append_edge_attr(graph, subs_refl, subs_refl_blend, slink_depth_refl);
+                m_graph.append_edge_attr(graph, subs_refl, subs_refl_blend, slink_color_refl);
+                cube_refl_subscenes.push(subs_refl_blend);
+                refl_params_out.cube_refl_subs_blend.push(subs_refl_blend);
+                if (subs_grass_map) {
+                    m_graph.append_edge_attr(graph, subs_grass_map, subs_refl_blend, slink_grass_map_d);
+                    m_graph.append_edge_attr(graph, subs_grass_map, subs_refl_blend, slink_grass_map_c);
+                }
+            }
+            else {
+                var slink_refl_d = create_slink("DEPTH", "DEPTH", sc_render.cubemap_refl_size, 1, 1, false, false);
+                subs_refl.slinks_internal.push(slink_refl_d);
+                cube_refl_subscenes.push(subs_refl);
+            }
+            refl_params_out.cube_refl_subs.push(subs_refl);
+        }
+    }
+}
+
+/**
+ * Update rendering graph for given scene render.
+ * @param {Object3D} sc_render Scene render object
+ * @param {Object3D} cam_scene_data Camera scene data
+ * @param {Object3D} cam_render Camera render object
+ * @param {boolean} render_to_textures Textures for offscreen rendering
+ * @param {boolean} updates Updates to make
+ */
+exports.update_rendering_graph = function(sc_render, cam_scene_data,
+    cam_render, render_to_textures, updates) {
+
+    var graph = sc_render.graph;
+    var refl_params = updates.reflection_params;
+    var refl_params_out = sc_render.reflection_params;
+    var main_cam = cam_scene_data.cameras[0];
+    var num_lights      = sc_render.lamps_number;
+    var water_params    = sc_render.water_params;
+    var wfs_params      = sc_render.world_fog_set;
+    var wls_params      = sc_render.world_light_set;
+
+    var reflect_links_opaque = [];
+    var reflect_links_blend = [];
+    var cube_reflect_links = [];
+    var cube_reflect_links_blend = [];
+    var reflect_subscenes = [];
+    var cube_refl_subscenes = [];
+    // var sky_reflect_links = [];
+
+    // dynamic grass
+    if (sc_render.dynamic_grass) {
+        var subs_grass_map = m_subs.create_subs_grass_map();
+
+        m_graph.append_node_attr(graph, subs_grass_map);
+
+        var tex_size = cfg_scs.grass_tex_size;
+
+        // NOTE: deprecated
+        subs_grass_map.camera.width = tex_size;
+        subs_grass_map.camera.height = tex_size;
+
+        var slink_grass_map_d = create_slink("DEPTH", "u_grass_map_depth",
+                tex_size, 1, 1, false, false);
+        if (!cfg_def.webgl2) {
+            slink_grass_map_d.min_filter = m_tex.TF_LINEAR;
+            slink_grass_map_d.mag_filter = m_tex.TF_LINEAR;
+        }
+
+        // NOTE: need to be optional?
+        var slink_grass_map_c = create_slink("COLOR", "u_grass_map_color",
+                tex_size, 1, 1, false, false);
+        slink_grass_map_c.min_filter = m_tex.TF_LINEAR;
+        slink_grass_map_c.mag_filter = m_tex.TF_LINEAR;
+    } else {
+        var subs_grass_map = null;
+        var slink_grass_map_d = null;
+        var slink_grass_map_c = null;
+    }
+
+    // cube reflections
+    var grass = {
+        subs_grass_map: subs_grass_map,
+        slink_grass_map_d: slink_grass_map_d,
+        slink_grass_map_c: slink_grass_map_c
+    }
+    var cube_refl = {
+        cube_reflect_links: cube_reflect_links,
+        cube_refl_subscenes: cube_refl_subscenes,
+        cube_reflect_links_blend: cube_reflect_links_blend
+    }
+    update_rendering_graph_cube_reflections(refl_params, refl_params_out, sc_render, graph, grass, cube_refl);
+
+    // plane reflections
+    var plane_refl = {
+        reflect_links_opaque: reflect_links_opaque,
+        reflect_subscenes: reflect_subscenes,
+        reflect_links_blend: reflect_links_blend
+    }
+    update_rendering_graph_plane_reflections(refl_params, refl_params_out, sc_render, graph, grass, plane_refl, cam_scene_data);
+
+    var link_to_subs = function(subscenes, to_subs, links)
+    {
+        if (subscenes.length) {
+            for (var j = 0; j < subscenes.length; j++) {
+                m_graph.append_edge_attr(graph, subscenes[j], to_subs, links[j]);
+            }
+        }
+    }
+
+    link_to_subs(cube_refl_subscenes, _subs_main_opaque, cube_reflect_links);
+    link_to_subs(cube_refl_subscenes, _subs_main_blend, cube_reflect_links_blend);
+    link_to_subs(reflect_subscenes, _subs_main_opaque, reflect_links_opaque);
+    link_to_subs(reflect_subscenes, _subs_main_blend, reflect_links_blend);
+
+    sc_render.queue = [];
+    var depth_tex       = sc_render.depth_tex;
+    enforce_slink_uniqueness(graph, depth_tex);
+    enforce_graph_consistency(graph, depth_tex);
+
+    if (cfg_dbg.enabled) {
+        // TODO First remove existing debug subscenes
+        var subs_from = find_debug_subs(graph);
+        if (subs_from)
+            assign_debug_subscene(graph, subs_from);
+    }
+
+    process_subscene_links(graph);
+    assign_render_targets(graph);
+}
+
+// Using this global vars in update_rendering_graph
+var _subs_main_opaque = null;
+var _subs_main_blend = null;
+
 /**
  * Prepare full-featured rendering graph for given scene render.
  * @param {Object3D} sc_render Scene render object
@@ -698,152 +958,23 @@ exports.create_rendering_graph = function(sc_render, cam_scene_data,
     }
 
     // cube reflections
-    if (refl_params && refl_params.num_cube_refl && !rtt) {
-        for (var i = 0; i < refl_params.num_cube_refl; i++) {
-            var cam = m_cam.create_camera(m_cam.TYPE_PERSP);
-
-            cam.width = sc_render.cubemap_refl_size;
-            cam.height = sc_render.cubemap_refl_size;
-
-            m_cam.set_frustum(cam, Math.PI/2, 0.1, 100);
-            m_cam.set_projection(cam, false);
-
-            var subs_refl = m_subs.create_subs_main(m_subs.MAIN_CUBE_REFLECT, cam, false,
-                    water_params, num_lights, wfs_params, wls_params, null, sc_render.sun_exist);
-            subs_refl.cube_view_matrices = m_util.generate_inv_cubemap_matrices();
-
-            for (var j = 0; j < 6; j++)
-                subs_refl.cube_cam_frustums.push(m_cam.create_frustum_planes());
-
-            m_graph.append_node_attr(graph, subs_refl);
-
-            var slink_refl_c = create_slink("CUBEMAP", "u_cube_reflection",
-                                            sc_render.cubemap_refl_size, 1, 1,
-                                            false, false);
-            slink_refl_c.min_filter = m_tex.TF_LINEAR;
-            slink_refl_c.mag_filter = m_tex.TF_LINEAR;
-
-            cube_reflect_links.push(slink_refl_c);
-
-            if (!refl_params.has_reflexible) {
-                var slink_refl_s = create_slink("CUBEMAP", "u_sky_reflection", 1, 1, 1, false);
-                slink_refl_s.use_mipmap = true;
-                slink_refl_s.min_filter = m_tex.TF_LINEAR_MIPMAP_LINEAR;
-                slink_refl_s.mag_filter = m_tex.TF_LINEAR;
-
-                sky_reflect_links.push(slink_refl_s);
-            }
-
-            if (subs_grass_map) {
-                m_graph.append_edge_attr(graph, subs_grass_map, subs_refl,
-                        slink_grass_map_d);
-                m_graph.append_edge_attr(graph, subs_grass_map, subs_refl,
-                        slink_grass_map_c);
-            }
-
-            if (refl_params.has_blend_reflexible) {
-                var subs_refl_blend = m_subs.create_subs_main(m_subs.MAIN_CUBE_REFLECT_BLEND, cam, false,
-                        water_params, num_lights, wfs_params, wls_params, null, sc_render.sun_exist);
-                subs_refl_blend.cube_view_matrices = subs_refl.cube_view_matrices;
-                subs_refl_blend.cube_cam_frustums = subs_refl.cube_cam_frustums;
-
-                m_graph.append_node_attr(graph, subs_refl_blend);
-                var slink_depth_refl = create_slink("DEPTH", "DEPTH",
-                                        sc_render.cubemap_refl_size, 1, 1,
-                                        false, false);
-                var slink_color_refl = create_slink("COLOR", "COLOR",
-                                        sc_render.cubemap_refl_size, 1, 1,
-                                        false, false);
-                m_graph.append_edge_attr(graph, subs_refl, subs_refl_blend, slink_depth_refl);
-                m_graph.append_edge_attr(graph, subs_refl, subs_refl_blend, slink_color_refl);
-
-                cube_refl_subscenes.push(subs_refl_blend);
-                refl_params.cube_refl_subs_blend.push(subs_refl_blend);
-
-                if (subs_grass_map) {
-                    m_graph.append_edge_attr(graph, subs_grass_map, subs_refl_blend,
-                            slink_grass_map_d);
-                    m_graph.append_edge_attr(graph, subs_grass_map, subs_refl_blend,
-                            slink_grass_map_c);
-                }
-            } else {
-                var slink_refl_d = create_slink("DEPTH", "DEPTH",
-                                                sc_render.cubemap_refl_size, 1,
-                                                1, false, false);
-                subs_refl.slinks_internal.push(slink_refl_d);
-                cube_refl_subscenes.push(subs_refl);
-            }
-            refl_params.cube_refl_subs.push(subs_refl);
-        }
+    var grass = {
+        subs_grass_map: subs_grass_map,
+        slink_grass_map_d: slink_grass_map_d,
+        slink_grass_map_c: slink_grass_map_c
     }
-
+    var cube_refl = {
+        cube_reflect_links: cube_reflect_links,
+        cube_refl_subscenes: cube_refl_subscenes,
+    }
+    update_rendering_graph_cube_reflections(refl_params, refl_params, sc_render, graph, grass, cube_refl, rtt);
+    
     // plane reflections
-    if (refl_params && refl_params.refl_plane_objs.length > 0 && !rtt) {
-        for (var j = 0; j < refl_params.refl_plane_objs.length; j++) {
-            var cam = m_cam.clone_camera(main_cam, true);
-
-            cam.reflection_plane = new Float32Array(4);
-            cam_scene_data.cameras.push(cam);
-
-            var subs_refl = m_subs.create_subs_main(m_subs.MAIN_PLANE_REFLECT, cam, false,
-                               water_params, num_lights, wfs_params, wls_params,
-                               null, sc_render.sun_exist);
-
-            m_graph.append_node_attr(graph, subs_refl);
-
-            var slink_refl_c = create_slink("COLOR", "u_plane_reflection", 1,
-                                            sc_render.plane_refl_size,
-                                            sc_render.plane_refl_size, true, true);
-            slink_refl_c.min_filter = m_tex.TF_LINEAR;
-            slink_refl_c.mag_filter = m_tex.TF_LINEAR;
-
-            reflect_links.push(slink_refl_c);
-
-            if (subs_grass_map) {
-                m_graph.append_edge_attr(graph, subs_grass_map, subs_refl,
-                        slink_grass_map_d);
-                m_graph.append_edge_attr(graph, subs_grass_map, subs_refl,
-                        slink_grass_map_c);
-            }
-
-            if (refl_params.has_blend_reflexible) {
-                var subs_refl_blend = m_subs.create_subs_main(m_subs.MAIN_PLANE_REFLECT_BLEND,
-                               cam, false, water_params, num_lights, wfs_params,
-                               wls_params, null, sc_render.sun_exist);
-
-                m_graph.append_node_attr(graph, subs_refl_blend);
-                var slink_depth_refl = create_slink("DEPTH", "DEPTH", 1,
-                                        sc_render.plane_refl_size,
-                                        sc_render.plane_refl_size, true, true);
-                var slink_color_refl = create_slink("COLOR", "COLOR", 1,
-                                        sc_render.plane_refl_size,
-                                        sc_render.plane_refl_size, true, true);
-                slink_color_refl.min_filter = m_tex.TF_NEAREST;
-                slink_color_refl.mag_filter = m_tex.TF_NEAREST;
-                m_graph.append_edge_attr(graph, subs_refl, subs_refl_blend, slink_depth_refl);
-                m_graph.append_edge_attr(graph, subs_refl, subs_refl_blend, slink_color_refl);
-
-                refl_params.plane_refl_subs_blend.push([subs_refl_blend]);
-                reflect_subscenes.push(subs_refl_blend);
-
-                if (subs_grass_map) {
-                    m_graph.append_edge_attr(graph, subs_grass_map, subs_refl_blend,
-                            slink_grass_map_d);
-                    m_graph.append_edge_attr(graph, subs_grass_map, subs_refl_blend,
-                            slink_grass_map_c);
-                }
-            } else {
-                var slink_refl_d = create_slink("DEPTH", "DEPTH", 1,
-                                    sc_render.plane_refl_size,
-                                    sc_render.plane_refl_size, true, true);
-
-                subs_refl.slinks_internal.push(slink_refl_d);
-                reflect_subscenes.push(subs_refl);
-            }
-
-            refl_params.plane_refl_subs.push([subs_refl]);
-        }
+    var plane_refl = {
+        reflect_links_opaque: reflect_links,
+        reflect_subscenes: reflect_subscenes
     }
+    update_rendering_graph_plane_reflections(refl_params, refl_params, sc_render, graph, grass, plane_refl, cam_scene_data);
 
     // depth
     if (shadow_params) {
@@ -933,6 +1064,8 @@ exports.create_rendering_graph = function(sc_render, cam_scene_data,
     var subs_main_opaque = m_subs.create_subs_main(m_subs.MAIN_OPAQUE, main_cam,
             !reuse_depth_optimization, water_params, num_lights, wfs_params,
             wls_params, null, sc_render.sun_exist);
+
+    _subs_main_opaque = subs_main_opaque;
 
     m_graph.append_node_attr(graph, subs_main_opaque);
 
@@ -1050,6 +1183,14 @@ exports.create_rendering_graph = function(sc_render, cam_scene_data,
             var subs_refr = subs_res_opaque;
 
         var slink_refr = create_slink("COLOR", "u_refractmap", 1, 1, 1, true, true);
+
+        // disable mipmap (roughness) for webgl 1
+        // need to fix an issue with npot textures
+        if (cfg_def.webgl2) {
+            slink_refr.use_mipmap = true;
+            slink_refr.min_filter = m_tex.TF_LINEAR_MIPMAP_LINEAR;
+            slink_refr.mag_filter = m_tex.TF_LINEAR;
+        }
     } else
         var subs_refr = null;
 
@@ -1138,7 +1279,8 @@ exports.create_rendering_graph = function(sc_render, cam_scene_data,
     }
 
     if (sc_render.glow_over_blend) {
-        var subs_main_blend = create_custom_sub_main(m_subs.MAIN_BLEND)
+        var subs_main_blend = create_custom_sub_main(m_subs.MAIN_BLEND);
+        _subs_main_blend = subs_main_blend;
         curr_level.push(subs_main_blend);
 
         prev_level = curr_level;
@@ -1272,6 +1414,7 @@ exports.create_rendering_graph = function(sc_render, cam_scene_data,
 
     if (!sc_render.glow_over_blend) {
         var subs_main_blend = create_custom_sub_main(m_subs.MAIN_BLEND);
+        _subs_main_blend = subs_main_blend;
         curr_level.push(subs_main_blend);
 
         prev_level = curr_level;

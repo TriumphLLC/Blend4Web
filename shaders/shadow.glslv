@@ -166,13 +166,11 @@ GLSL_OUT vec3 v_shade_tang;
 
 #if STATIC_BATCH
 // NOTE:  mat3(0.0, 0.0, 0.0, --- trans
-//             1.0, --- scale
-//             0.0, 0.0, 0.0, 1.0, --- quat
-//             0.0);
+//             1.0, 1.0, 1.0 --- scale
+//             0.0, 0.0, 0.0 --- quat);
 const mat3 u_model_tsr = mat3(0.0, 0.0, 0.0,
-                              1.0,
-                              0.0, 0.0, 0.0, 1.0,
-                              0.0);
+                              1.0, 1.0, 1.0,
+                              0.0, 0.0, 0.0);
 #else
 uniform PRECISION mat3 u_model_tsr;
 #endif
@@ -333,9 +331,9 @@ void main(void) {
 #endif
 
 #if USE_INSTANCED_PARTCLS
-    mat3 model_tsr = mat3(a_part_ts[0], a_part_ts[1], a_part_ts[2],
-                        a_part_ts[3], a_part_r[0], a_part_r[1],
-                        a_part_r[2], a_part_r[3], 1.0);
+    mat3 model_tsr = tsr_set_trans(a_part_ts.xyz, tsr_identity());
+    model_tsr = tsr_set_scale(vec3(a_part_ts.w), model_tsr);
+    model_tsr = tsr_set_quat(a_part_r, model_tsr);
 # if !STATIC_BATCH
     model_tsr = tsr_multiply(u_model_tsr, model_tsr);
 # endif
@@ -460,8 +458,8 @@ void main(void) {
 #if SHADOW_USAGE == SHADOW_CASTING
     // NOTE: shift coords to remove shadow map panning
 
-    // NOTE: view_tsr[0] is world space origin translated into light space
-    vec2 shift = (u_proj_matrix * vec4(view_tsr[0], 1.0)).xy;
+    // NOTE: tsr_get_trans(view_tsr) is world space origin translated into light space
+    vec2 shift = (u_proj_matrix * vec4(tsr_get_trans(view_tsr), 1.0)).xy;
     float half_tex_res = SHADOW_TEX_RES / 2.0;
     shift = floor(shift * half_tex_res + 0.5) / half_tex_res - shift;
     pos_clip.xy += shift;

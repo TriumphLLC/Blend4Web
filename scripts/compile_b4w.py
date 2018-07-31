@@ -22,7 +22,7 @@ ENDCOL = "\033[0m"
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 COMMON_DIR = normpath(join(BASE_DIR, "..", "dist"))
 WIN_JAVA_DIR = normpath(join(BASE_DIR, "..", "tools", "java", "win",
-                        "openjdk-1.7.0", "bin", "java.exe"))
+                        "openjdk-1.8.0.161-1.b14", "bin", "java.exe"))
 
 DEFAULT_OPT = "SIMPLE_OPTIMIZATIONS"
 
@@ -34,11 +34,13 @@ CURRENT_DATE = "new Date({d.year}, {d.month}-1, {d.day}, {d.hour}, {d.minute},{d
 
 ADDONS = []
 
-EXTERNS = ["tools/closure-compiler/extern_fullscreen.js",
-           "tools/closure-compiler/extern_gl-matrix.js",
-           "tools/closure-compiler/extern_modules.js",
-           "tools/closure-compiler/extern_pointerlock.js",
-           "tools/closure-compiler/extern_webassembly.js"]
+externs_path = join("tools", "closure-compiler")
+
+EXTERNS = [join(externs_path, "extern_fullscreen.js"),
+           join(externs_path, "extern_gl-matrix.js"),
+           join(externs_path, "extern_modules.js"),
+           join(externs_path, "extern_pointerlock.js"),
+           join(externs_path, "extern_webassembly.js")]
 
 MERGED_SRC = [join(COMMON_DIR, "b4w.js")]
 
@@ -115,8 +117,8 @@ def run():
                        '-jar',
                        join(BASE_DIR,
                             "..",
-                            "tools",
-                            "closure-compiler", "compiler.jar"),
+                            "node_modules",
+                            "google-closure-compiler", "compiler.jar"),
                        '--language_in=ECMASCRIPT5',
                        '--jscomp_off=checkTypes',
                        '--jscomp_off=nonStandardJsDocs',
@@ -240,8 +242,7 @@ def run():
         source_map_file = open(dest_engine_path + ".map", encoding="utf-8")
         source_map_text = source_map_file.read()
         source_map_file.close()
-
-        source_map_text = re.sub(normpath(join(BASE_DIR, "..")), "",
+        source_map_text = re.sub(re.escape(normpath(join(BASE_DIR, ".."))), "",
                                      source_map_text)
 
         source_map_file = open(dest_engine_path + ".map", "w", encoding="utf-8")
@@ -302,14 +303,14 @@ def update_modules_lists():
 
     global ADDONS, SRC_FILES, SRC_EXT_FILES, SRC_LIBS_FILES
 
-    EXCLUSION_MODULES.append('src/addons/ns_compat.js')
-    ADDONS = list(filter(lambda x: x.startswith("src/addons") and
+    EXCLUSION_MODULES.append(join("src", "addons", "ns_compat.js"))
+    ADDONS = list(filter(lambda x: x.startswith(join("src", "addons")) and
                   x not in EXCLUSION_MODULES, src_modules))
-    SRC_LIBS_FILES = list(filter(lambda x: x.startswith("src/libs/") and
+    SRC_LIBS_FILES = list(filter(lambda x: x.startswith(join("src", "libs")) and
                           x not in EXCLUSION_MODULES, src_modules))
     # CHECK: shader_texts is in ignore list. WHY?
-    SRC_LIBS_FILES.append('src/libs/shader_texts.js')
-    SRC_EXT_FILES = list(filter(lambda x: x.startswith("src/extern/") and
+    SRC_LIBS_FILES.append(join("src", "libs", "shader_texts.js"))
+    SRC_EXT_FILES = list(filter(lambda x: x.startswith(join("src", "extern")) and
                          x not in EXCLUSION_MODULES, src_modules))
     SRC_FILES = list(set(src_modules) -
                      set(SRC_EXT_FILES) -

@@ -210,7 +210,7 @@ LOPTS3="-s EXPORTED_FUNCTIONS=[${LOPTS3:1}]"
 
 echo "Generating uranium.js ($LOPTS)"
 
-EMCC_CLOSURE_ARGS="--externs $EXT_MODS" EMCC_DEBUG=1 $EMCC $LOPTS $LOPTS_ASM $LOPTS2 $LOPTS2_ASM $LOPTS3 bindings.bc duCharacter.bc duBoat.bc duFloatingBody.bc duWater.bc duWorld.bc src/BulletDynamics/libBulletDynamics.a src/BulletCollision/libBulletCollision.a src/LinearMath/libLinearMath.a -o $PROJECT_ASM.js
+EMCC_CLOSURE_ARGS="--externs $EXT_MODS --jscomp_off checkTypes --jscomp_off reportUnknownTypes --jscomp_off nonStandardJsDocs --jscomp_off checkVars" EMCC_DEBUG=1 $EMCC $LOPTS $LOPTS_ASM $LOPTS2 $LOPTS2_ASM $LOPTS3 bindings.bc duCharacter.bc duBoat.bc duFloatingBody.bc duWater.bc duWorld.bc src/BulletDynamics/libBulletDynamics.a src/BulletCollision/libBulletCollision.a src/LinearMath/libLinearMath.a -o $PROJECT_ASM.js
 
 echo "Generating uranium_wasm.js ($LOPTS)"
 EMCC_CLOSURE_ARGS="--externs $EXT_MODS" EMCC_DEBUG=1 $EMCC $LOPTS $LOPTS_WASM $LOPTS2 $LOPTS2_WASM $LOPTS3 bindings.bc duCharacter.bc duBoat.bc duFloatingBody.bc duWater.bc duWorld.bc src/BulletDynamics/libBulletDynamics.a src/BulletCollision/libBulletCollision.a src/LinearMath/libLinearMath.a -o $PROJECT_WASM.js

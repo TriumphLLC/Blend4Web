@@ -297,7 +297,7 @@ exports.static_setup = function(camobj, params) {
     camobj.render.move_style = m_cam.MS_STATIC;
 
     if (params) {
-        var pos = params.pos || m_tsr.get_trans_view(camobj.render.world_tsr);
+        var pos = params.pos || m_tsr.get_trans(camobj.render.world_tsr, _vec3_tmp);
         if (params.look_at)
             m_cam.set_look_at(camobj, pos, params.look_at);
         else
@@ -326,7 +326,7 @@ exports.static_set_look_at = function(camobj, pos, look_at) {
         return;
     }
 
-    pos = pos || m_tsr.get_trans_view(camobj.render.world_tsr);
+    pos = pos || m_tsr.get_trans(camobj.render.world_tsr, _vec3_tmp);
     if (look_at)
         m_cam.set_look_at(camobj, pos, look_at);
     else
@@ -400,7 +400,7 @@ exports.eye_setup = function(camobj, params) {
     camobj.render.move_style = m_cam.MS_EYE_CONTROLS;
 
     if (params) {
-        var pos = params.pos || m_tsr.get_trans_view(camobj.render.world_tsr);
+        var pos = params.pos || m_tsr.get_trans(camobj.render.world_tsr, _vec3_tmp);
         m_cam.setup_eye_model(camobj, pos, params.look_at, params.horiz_rot_lim, 
                 params.vert_rot_lim);
     }
@@ -427,7 +427,7 @@ exports.eye_set_look_at = function(camobj, pos, look_at) {
         return;
     }
 
-    pos = pos || m_tsr.get_trans_view(camobj.render.world_tsr);
+    pos = pos || m_tsr.get_trans(camobj.render.world_tsr, _vec3_tmp);
     if (look_at)
         m_cam.set_look_at_corrected(camobj, pos, look_at);
     else
@@ -622,10 +622,10 @@ exports.target_setup = function(camobj, params) {
     m_cam.wipe_move_style(camobj);
     camobj.render.move_style = m_cam.MS_TARGET_CONTROLS;
 
-    var pos = params.pos || m_tsr.get_trans_view(camobj.render.world_tsr);
+    var pos = params.pos || m_tsr.get_trans(camobj.render.world_tsr, _vec3_tmp);
     var pivot = params.pivot;
     if (!pivot) {
-        var view_vec = get_view_vector(camobj, _vec3_tmp);
+        var view_vec = get_view_vector(camobj, _vec3_tmp2);
         pivot = m_vec3.add(pos, view_vec, view_vec);
     }
     m_cam.setup_target_model(camobj, pos, pivot, params.horiz_rot_lim, 
@@ -681,7 +681,7 @@ exports.target_set_trans_pivot = function(camobj, trans, pivot) {
         return;
     }
 
-    trans = trans || m_tsr.get_trans_view(camobj.render.world_tsr);
+    trans = trans || m_tsr.get_trans(camobj.render.world_tsr, _vec3_tmp);
     pivot = pivot || camobj.render.pivot;
     m_cam.set_trans_pivot(camobj, trans, pivot);
 
@@ -768,7 +768,9 @@ exports.target_zoom_object = function(camobj, obj) {
     var dist_need = radius / Math.sin(ang_radius);
     var dist_current = m_trans.obj_point_distance(camobj, center);
 
-    m_cam.set_trans_pivot(camobj, m_tsr.get_trans_view(camobj.render.world_tsr), center);
+    m_cam.set_trans_pivot(camobj,
+            m_tsr.get_trans(camobj.render.world_tsr, _vec3_tmp2),
+            center);
     // TODO: excess update
     m_trans.update_transform(camobj);
 
@@ -1037,8 +1039,9 @@ exports.target_pan_pivot = function(camobj, trans_h_delta, trans_v_delta) {
 
         m_vec3.add(render.pivot, trans_vector, render.pivot);
 
-        var cam_trans = m_tsr.get_trans_view(render.world_tsr);
+        var cam_trans = m_tsr.get_trans(render.world_tsr, _vec3_tmp2);
         m_vec3.add(cam_trans, trans_vector, cam_trans);
+        m_tsr.set_trans(cam_trans, render.world_tsr);
 
         m_trans.update_transform(camobj);
         m_phy.sync_transform(camobj);
@@ -1152,7 +1155,7 @@ exports.hover_setup = function(camobj, params) {
     m_cam.wipe_move_style(camobj);
     camobj.render.move_style = m_cam.MS_HOVER_CONTROLS;
 
-    var pos = params.pos || m_tsr.get_trans_view(camobj.render.world_tsr);
+    var pos = params.pos || m_tsr.get_trans(camobj.render.world_tsr, _vec3_tmp);
     m_cam.setup_hover_model(camobj, pos, params.pivot, params.dist_lim, 
             params.hover_angle_lim, params.horiz_trans_lim, 
             params.vert_trans_lim, params.enable_horiz_rot || false);
@@ -1532,11 +1535,11 @@ exports.set_translation = function(camobj, trans) {
     var render = camobj.render;
 
     if (m_cam.is_target_camera(camobj)) {
-        var cam_trans = m_tsr.get_trans_view(render.world_tsr);
+        var cam_trans = m_tsr.get_trans(render.world_tsr, _vec3_tmp);
         var trans_delta = m_vec3.subtract(trans, cam_trans, _vec3_tmp);
         m_vec3.add(trans_delta, render.pivot, render.pivot);
     } else if (m_cam.is_hover_camera(camobj)) {
-        var cam_trans = m_tsr.get_trans_view(render.world_tsr);
+        var cam_trans = m_tsr.get_trans(render.world_tsr, _vec3_tmp);
         var trans_delta = m_vec3.subtract(trans, cam_trans, _vec3_tmp);
         m_vec3.add(trans_delta, render.hover_pivot, render.hover_pivot);
     }
@@ -1647,7 +1650,7 @@ exports.is_look_up = function(camobj) {
         return false;
     }
 
-    var quat = m_tsr.get_quat_view(camobj.render.world_tsr);
+    var quat = m_tsr.get_quat(camobj.render.world_tsr, _quat_tmp);
     var dir = m_util.quat_to_dir(quat, m_util.AXIS_MZ, _vec3_tmp);
 
     return dir[1] >= 0;
@@ -1912,7 +1915,7 @@ function get_view_vector(camobj, dest) {
     }
 
     dest = dest || new Float32Array(3);
-    var quat = m_tsr.get_quat_view(camobj.render.world_tsr);
+    var quat = m_tsr.get_quat(camobj.render.world_tsr, _quat_tmp);
     m_util.quat_to_dir(quat, m_util.AXIS_MZ, dest);
 
     return dest;
@@ -2010,11 +2013,11 @@ exports.set_ortho_scale = function(camobj, ortho_scale) {
     var render = camobj.render;
 
     if (m_cam.is_target_camera(camobj)) {
-        var trans = m_tsr.get_trans_view(render.world_tsr);
+        var trans = m_tsr.get_trans(render.world_tsr, _vec3_tmp);
         var dir_dist = m_vec3.dist(trans, render.pivot);
         render.init_fov = ortho_scale / 2 * render.init_dist / dir_dist;
     } else if (m_cam.is_hover_camera(camobj)) {
-        var trans = m_tsr.get_trans_view(render.world_tsr);
+        var trans = m_tsr.get_trans(render.world_tsr, _vec3_tmp);
         var dir_dist = m_vec3.distance(trans, render.hover_pivot);
         render.init_fov = ortho_scale / 2 * render.init_dist / dir_dist;
     } else {
@@ -2127,7 +2130,7 @@ exports.calc_ray = function(camobj, canvas_x, canvas_y, dest) {
         m_tsr.transform_vec3(dir, camobj.render.world_tsr, dir);
         m_vec3.copy(dir, dest);
 
-        var quat = m_tsr.get_quat_view(camobj.render.world_tsr, _vec4_tmp);
+        var quat = m_tsr.get_quat(camobj.render.world_tsr, _quat_tmp);
         m_vec3.transformQuat(m_util.AXIS_MZ, quat, dir);
 
         m_math.set_pline_directional_vec(dest, dir);

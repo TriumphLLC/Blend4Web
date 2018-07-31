@@ -762,14 +762,18 @@ function split_surface_output_nodes(graph, shader_type, lights) {
                 append_edges_in.push([in_id, bsdf_begin_id, [5, 5]]);
                 // normal
                 append_edges_in.push([in_id, bsdf_begin_id, [6, 6]]);
-                // e_color
+                // ior
                 append_edges_in.push([in_id, bsdf_begin_id, [7, 7]]);
-                // emission
+                // transmission
                 append_edges_in.push([in_id, bsdf_begin_id, [8, 8]]);
-                // a_color
+                // e_color
                 append_edges_in.push([in_id, bsdf_begin_id, [9, 9]]);
-                // alpha
+                // emission
                 append_edges_in.push([in_id, bsdf_begin_id, [10, 10]]);
+                // a_color
+                append_edges_in.push([in_id, bsdf_begin_id, [11, 11]]);
+                // alpha
+                append_edges_in.push([in_id, bsdf_begin_id, [12, 12]]);
 
                 // additional links between all bsdf and shader mixing nodes
                 for (var j = 0; j < mix_shader_nodes.length; ++j) {
@@ -786,7 +790,7 @@ function split_surface_output_nodes(graph, shader_type, lights) {
                                     mix_in_node.type == "EMISSION" || mix_in_node.type == "BSDF_TRANSPARENT" || mix_in_node.type == "BSDF_PRINCIPLED") {
 
                                 // inputs 0-2 standard (Factor, Shader, Shader)
-                                var edge_attr_offset = mix_in_edge_attr[1] == 1 ? 3 : 13;
+                                var edge_attr_offset = mix_in_edge_attr[1] == 1 ? 3 : 15;
 
                                 // d_color
                                 append_edges_in.push([mix_in_id, mix_node_id, [1, edge_attr_offset]]);
@@ -800,14 +804,18 @@ function split_surface_output_nodes(graph, shader_type, lights) {
                                 append_edges_in.push([mix_in_id, mix_node_id, [5, edge_attr_offset+4]]);
                                 // normal
                                 append_edges_in.push([mix_in_id, mix_node_id, [6, edge_attr_offset+5]]);
-                                // e_color
+                                // ior
                                 append_edges_in.push([mix_in_id, mix_node_id, [7, edge_attr_offset+6]]);
-                                // emission
+                                // transmission
                                 append_edges_in.push([mix_in_id, mix_node_id, [8, edge_attr_offset+7]]);
-                                // a_color
+                                // e_color
                                 append_edges_in.push([mix_in_id, mix_node_id, [9, edge_attr_offset+8]]);
-                                // alpha
+                                // emission
                                 append_edges_in.push([mix_in_id, mix_node_id, [10, edge_attr_offset+9]]);
+                                // a_color
+                                append_edges_in.push([mix_in_id, mix_node_id, [11, edge_attr_offset+10]]);
+                                // alpha
+                                append_edges_in.push([mix_in_id, mix_node_id, [12, edge_attr_offset+11]]);
                             }
                         }
                     }
@@ -890,6 +898,7 @@ function add_bsdf_subgraph(graph, data, begin_node_id, end_node_id, translucency
     }
 
     link_edge_by_ident(graph, begin_node_id, end_node_id, "bsdf_params");
+    link_edge_by_ident(graph, begin_node_id, end_node_id, "refract_params");
     link_edge_by_ident(graph, begin_node_id, end_node_id, "d_color");
     link_edge_by_ident(graph, begin_node_id, end_node_id, "s_color");
     link_edge_by_ident(graph, begin_node_id, end_node_id, "e_color");
@@ -2311,6 +2320,8 @@ function append_nmat_node(graph, bpy_node, output_num, shader_type,
         inputs.push(default_node_inout("s_roughness1", "s_roughness1", 0, shader_input_is_linked));
         inputs.push(default_node_inout("metalness1", "metalness1", 0, shader_input_is_linked));
         inputs.push(default_node_inout("normal1", "normal1", [0, 0, 0], shader_input_is_linked));
+        inputs.push(default_node_inout("ior1", "ior1", 0, shader_input_is_linked));
+        inputs.push(default_node_inout("transmission1", "transmission1", 0, shader_input_is_linked));
         inputs.push(default_node_inout("e_color1", "e_color1", [0, 0, 0], shader_input_is_linked));
         inputs.push(default_node_inout("emission1", "emission1", 0, shader_input_is_linked));
         inputs.push(default_node_inout("a_color1", "a_color1", [0, 0, 0], shader_input_is_linked));
@@ -2322,6 +2333,8 @@ function append_nmat_node(graph, bpy_node, output_num, shader_type,
         inputs.push(default_node_inout("s_roughness2", "s_roughness2", 0, shader1_input_is_linked));
         inputs.push(default_node_inout("metalness2", "metalness2", 0, shader1_input_is_linked));
         inputs.push(default_node_inout("normal2", "normal2", [0, 0, 0], shader1_input_is_linked));
+        inputs.push(default_node_inout("ior2", "ior2", 0, shader1_input_is_linked));
+        inputs.push(default_node_inout("transmission2", "transmission2", 0, shader1_input_is_linked));
         inputs.push(default_node_inout("e_color2", "e_color2", [0, 0, 0], shader1_input_is_linked));
         inputs.push(default_node_inout("emission2", "emission2", 0, shader1_input_is_linked));
         inputs.push(default_node_inout("a_color2", "a_color2", [0, 0, 0], shader1_input_is_linked));
@@ -2336,6 +2349,8 @@ function append_nmat_node(graph, bpy_node, output_num, shader_type,
                    default_node_inout("s_roughness", "s_roughness", 0, shader_output_is_linked),
                    default_node_inout("metalness", "metalness", 0, shader_output_is_linked),
                    default_node_inout("normal", "normal", [0, 0, 0], shader_output_is_linked),
+                   default_node_inout("ior", "ior", 0, shader_output_is_linked),
+                   default_node_inout("transmission", "transmission", 0, shader_output_is_linked),
                    default_node_inout("e_color", "e_color", [0, 0, 0], shader_output_is_linked),
                    default_node_inout("emission", "emission", 0, shader_output_is_linked),
                    default_node_inout("a_color", "a_color", [0, 0, 0], shader_output_is_linked),
@@ -3242,11 +3257,16 @@ function append_nmat_node(graph, bpy_node, output_num, shader_type,
         var base_color_input = node_input_by_ident(bpy_node, "Base Color");
         var metallic_input = node_input_by_ident(bpy_node, "Metallic");
         var roughness_input = node_input_by_ident(bpy_node, "Roughness");
+        var ior_input = node_input_by_ident(bpy_node, "IOR");
+        var transmission_input = node_input_by_ident(bpy_node, "Transmission");
         var normal_input = node_input_by_ident(bpy_node, "Normal");
         inputs = [base_color_input,
                   metallic_input,
                   roughness_input,
+                  ior_input,
+                  transmission_input,
                   normal_input];
+
         dirs.push(["USE_NORMAL_IN", normal_input.is_linked | 0]);
         var bsdf_output = node_output_by_ident(bpy_node, "BSDF");
         var bsdf_output_is_linked = bsdf_output.is_linked;
@@ -3257,10 +3277,19 @@ function append_nmat_node(graph, bpy_node, output_num, shader_type,
                    default_node_inout("s_roughness", "s_roughness", 0, bsdf_output_is_linked),
                    default_node_inout("metalness", "metalness", 1, bsdf_output_is_linked),
                    default_node_inout("normal", "normal", [0, 0, 0], bsdf_output_is_linked),
+                   default_node_inout("ior", "ior", 0, bsdf_output_is_linked),
+                   default_node_inout("transmission", "transmission", 0, bsdf_output_is_linked),
                    default_node_inout("e_color", "e_color", [0, 0, 0], bsdf_output_is_linked),
                    default_node_inout("emisson", "emisson", 0, bsdf_output_is_linked),
                    default_node_inout("a_color", "a_color", [0, 0, 0], bsdf_output_is_linked),
                    default_node_inout("alpha", "alpha", 1, bsdf_output_is_linked)];
+
+        var use_refract = transmission_input.is_linked || transmission_input.default_value; 
+        data = {
+            value: {
+                use_refract: use_refract
+            }
+        }
         break;
     case "BSDF_DIFFUSE":
         inputs = node_inputs_bpy_to_b4w(bpy_node);
@@ -3274,6 +3303,8 @@ function append_nmat_node(graph, bpy_node, output_num, shader_type,
                    default_node_inout("s_roughness", "s_roughness", 0, bsdf_output_is_linked),
                    default_node_inout("metalness", "metalness", 0, bsdf_output_is_linked),
                    default_node_inout("normal", "normal", [0, 0, 0], bsdf_output_is_linked),
+                   default_node_inout("ior", "ior", 0, bsdf_output_is_linked),
+                   default_node_inout("transmission", "transmission", 0, bsdf_output_is_linked),
                    default_node_inout("e_color", "e_color", [0, 0, 0], bsdf_output_is_linked),
                    default_node_inout("emisson", "emisson", 0, bsdf_output_is_linked),
                    default_node_inout("a_color", "a_color", [0, 0, 0], bsdf_output_is_linked),
@@ -3291,6 +3322,8 @@ function append_nmat_node(graph, bpy_node, output_num, shader_type,
                    default_node_inout("s_roughness", "s_roughness", 0, bsdf_output_is_linked),
                    default_node_inout("metalness", "metalness", 1, bsdf_output_is_linked),
                    default_node_inout("normal", "normal", [0, 0, 0], bsdf_output_is_linked),
+                   default_node_inout("ior", "ior", 0, bsdf_output_is_linked),
+                   default_node_inout("transmission", "transmission", 0, bsdf_output_is_linked),
                    default_node_inout("e_color", "e_color", [0, 0, 0], bsdf_output_is_linked),
                    default_node_inout("emisson", "emisson", 0, bsdf_output_is_linked), 
                    default_node_inout("a_color", "a_color", [0, 0, 0], bsdf_output_is_linked),
@@ -3309,6 +3342,8 @@ function append_nmat_node(graph, bpy_node, output_num, shader_type,
                    default_node_inout("s_roughness", "s_roughness", 0, bsdf_output_is_linked),
                    default_node_inout("metalness", "metalness", 0, bsdf_output_is_linked),
                    default_node_inout("normal", "normal", [0, 0, 0], bsdf_output_is_linked),
+                   default_node_inout("ior", "ior", 0, bsdf_output_is_linked),
+                   default_node_inout("transmission", "transmission", 0, bsdf_output_is_linked),
                    default_node_inout("e_color", "e_color", [0, 0, 0], bsdf_output_is_linked),
                    default_node_inout("emisson", "emisson", 0, bsdf_output_is_linked),
                    default_node_inout("a_color", "a_color", [0, 0, 0], bsdf_output_is_linked),
@@ -3332,6 +3367,8 @@ function append_nmat_node(graph, bpy_node, output_num, shader_type,
                    default_node_inout("s_roughness", "s_roughness", 0, emission_output_is_linked),
                    default_node_inout("metalness", "metalness", 1, emission_output_is_linked),
                    default_node_inout("normal", "normal", [0, 0, 0], emission_output_is_linked),
+                   default_node_inout("ior", "ior", 0, bsdf_output_is_linked),
+                   default_node_inout("transmission", "transmission", 0, bsdf_output_is_linked),
                    default_node_inout("e_color", "e_color", [0, 0, 0], emission_output_is_linked),
                    default_node_inout("emisson", "emisson", 1, emission_output_is_linked),
                    default_node_inout("a_color", "a_color", [0, 0, 0], bsdf_output_is_linked),
@@ -3499,6 +3536,8 @@ function append_nmat_node(graph, bpy_node, output_num, shader_type,
                                  default_node_inout("s_roughness", "s_roughness", 0, surface_inp_is_linked),
                                  default_node_inout("metalness", "metalness", 0, surface_inp_is_linked),
                                  default_node_inout("normal", "normal", [0, 0, 0], surface_inp_is_linked),
+                                 default_node_inout("ior", "ior", 0, surface_inp_is_linked),
+                                 default_node_inout("transmission", "transmission", 0, surface_inp_is_linked),
                                  default_node_inout("e_color", "e_color", [0, 0, 0], surface_inp_is_linked),
                                  default_node_inout("emission", "emission", 0, surface_inp_is_linked),
                                  default_node_inout("a_color", "a_color", [0, 0, 0], surface_inp_is_linked),
@@ -3510,6 +3549,7 @@ function append_nmat_node(graph, bpy_node, output_num, shader_type,
                                   default_node_inout("S", "S", [0, 0, 0], true),
                                   default_node_inout("normal", "normal", [0, 0, 0], true),
                                   default_node_inout("bsdf_params", "bsdf_params", [0, 0, 0, 0], true),
+                                  default_node_inout("refract_params", "refract_params", [0, 0, 0, 0], true),
                                   default_node_inout("shadow_factor", "shadow_factor", 0, true),
                                   default_node_inout("d_color", "d_color", [0, 0, 0], true),
                                   default_node_inout("s_color", "s_color", [0, 0, 0], true),
@@ -3523,6 +3563,7 @@ function append_nmat_node(graph, bpy_node, output_num, shader_type,
                                default_node_inout("specular", "specular", [0, 0, 0], true),
                                default_node_inout("normal", "normal", [0, 0, 0], true),
                                default_node_inout("bsdf_params", "bsdf_params", [0, 0, 0, 0], true),
+                               default_node_inout("refract_params", "refract_params", [0, 0, 0, 0], true),
                                default_node_inout("d_color", "d_color", [0, 0, 0], true),
                                default_node_inout("s_color", "s_color", [0, 0, 0], true),
                                default_node_inout("e_color", "e_color", [0, 0, 0], true),

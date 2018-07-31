@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2017-08-30 16:09+0300\n"
+"POT-Creation-Date: 2018-05-31 15:32+0300\n"
 "PO-Revision-Date: 2015-08-28 10:55+0300\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Russian <info [at] blend4web.com>\n"
@@ -41,6 +41,14 @@ msgid "Application Code Structure"
 msgstr "Структура кода приложения"
 
 msgid ""
+"Starting with version 17.12, Blend4Web engine supports a new coding "
+"standard that uses ES6 modules. The old standard that uses modified "
+"CommonJS modules is still supported as well. The following chapter "
+"describes the structure of the program code in a generic Blend4Web "
+"aplication and the differences between these two programming approaches."
+msgstr ""
+
+msgid ""
 "The process of initializing and loading an application is separated into "
 "several stages, which is reflected in the code of the application. If you"
 " are using Project Manager, a newly created ``Copy`` or ``Compile`` type "
@@ -55,12 +63,19 @@ msgstr ""
 " внутри SDK по следующему пути: "
 "``./projects/ИМЯ_ПРОЕКТА/ИМЯ_ПРОЕКТА.js``."
 
+#, fuzzy
 msgid ""
-"This file contains generic code shaped as a module. This module can be "
-"registered using the certain structure:"
+"This file contains generic code shaped as a module. Using the old "
+"CommonJS notation, this module can be registered using the certain "
+"structure:"
 msgstr ""
 "Этот файл содержит шаблонный код, оформленный в виде модуля. Он "
 "регистрируется специальной конструкцией:"
+
+msgid ""
+"If you are using ES6 notation, you don't have to register your modules "
+"and can use them without any preparations."
+msgstr ""
 
 msgid ""
 "So, the code of a module is contained within a function that accepts "
@@ -103,12 +118,24 @@ msgstr ""
 "например, из других модулей. В данном случае внешней сделана только одна "
 "функция ``init``:"
 
+#, fuzzy
+msgid "**Old notation:**"
+msgstr "**demos_animation**"
+
+#, fuzzy
+msgid "**ES6 module:**"
+msgstr "**src**"
+
 msgid ""
 "Application initialization begins with this function, and it is called "
 "outside of the module:"
 msgstr ""
 "С неё начинается инициализации приложения, и её вызов происходит как раз "
 "вне модуля:"
+
+#, fuzzy
+msgid "**ES6 notation:**"
+msgstr "**demos_animation**"
 
 msgid ""
 "After this, the :b4wref:`app.init app.init` method is called. It creates "
@@ -146,19 +173,26 @@ msgstr ""
 ":b4wref:`init_cb app.~AppInitCallback`, указанная в параметре "
 "``callback``:"
 
-msgid "It has following parameters:"
+#, fuzzy
+msgid "**New notation:**"
+msgstr "**demos_animation**"
+
+#, fuzzy
+msgid "The function has following parameters:"
 msgstr "В неё передаются следующие параметры:"
 
+#, fuzzy
 msgid ""
-"canvas_elem is the created Canvas HTML element that will be used for "
+"*canvas_elem* is the created Canvas HTML element that will be used for "
 "rendering 3D content"
 msgstr ""
 "canvas_elem - созданный HTML-элемент Canvas, на котором будет "
 "осуществляться рендеринг 3D-контента"
 
+#, fuzzy
 msgid ""
-"success it the flag that indicates the success of the initialization. The"
-" ``false`` value meant that the application is unable to work due to "
+"*success* it the flag that indicates the success of the initialization. "
+"The ``false`` value meant that the application is unable to work due to "
 "initialization errors (for example, WebGL is not supported by the "
 "device)."
 msgstr ""
@@ -223,6 +257,9 @@ msgstr ""
 " инициализации и подготовки всего, что связано со сценой, объектами, "
 "анимацией и т.д. Например, здесь включается стандартная модель управления"
 " камерой при помощи метода :b4wref:`app.enable_camera_controls`."
+
+msgid "This."
+msgstr ""
 
 msgid "Writing Application Logic"
 msgstr "Написание логики приложения"
@@ -355,6 +392,12 @@ msgstr ""
 "конструкцией, с помощью которой он регистрируется:"
 
 msgid ""
+"This only applies to the old CommonJS notation. If you are using ES6, "
+"modules can be simply plugged into your main application file using "
+"**import** method."
+msgstr ""
+
+msgid ""
 "The :b4wref:`b4w.register` method is used for registering modules. You "
 "can only register custom modules if their names do not coincide with the "
 "regular API modules. If necessary, the :b4wref:`b4w.module_check` method "
@@ -366,6 +409,13 @@ msgstr ""
 "с некоторым именем может быть осуществлена с помощью метода "
 ":b4wref:`b4w.module_check`:"
 
+msgid ""
+"As mentioned above, modules don't have to be registered in **ES6 "
+"notation**. However, any custom module plugged ito your application "
+"should still have a name distinct from the names of the regular API "
+"modules."
+msgstr ""
+
 msgid "Loading Modules"
 msgstr "Подгрузка модулей."
 
@@ -375,6 +425,11 @@ msgid ""
 msgstr ""
 "Подгружать собственные модули можно также как и библиотечные через метод "
 "``require``:"
+
+msgid ""
+"Here, **one** and **two** are the variables that are marked with the word"
+" **export** in the ``my_module.js`` file."
+msgstr ""
 
 msgid "Application Initialization"
 msgstr "Инициализация приложения."
@@ -2057,12 +2112,528 @@ msgstr ""
 "Переключение профилей качества осуществляется программно, до "
 "инициализации контекста WebGL. Профиль по умолчанию ``P_HIGH``."
 
+msgid "Additional Quality Settings"
+msgstr "Дополнительные настройки качества"
+
 msgid ""
 "Application developers can also set the **quality** parameter upon engine"
 " initialization using the ``app.js`` add-on:"
 msgstr ""
 "Разработчики приложений могут также установить параметр **quality** при "
 "инициализации движка с использованием дополнения ``app.js``:"
+
+msgid ""
+"All rendering parameters affected by quality settings are listed in the "
+"following sheet:"
+msgstr ""
+"Ниже перечислены все параметры рендеринга, зависящие от выбранного "
+"профиля качества изображения:"
+
+msgid "*Parameter*"
+msgstr "*Параметр*"
+
+msgid "**Ultra**"
+msgstr ""
+
+msgid "**High**"
+msgstr ""
+
+msgid "**Low**"
+msgstr ""
+
+msgid "cfg_def.shadows"
+msgstr ""
+
+msgid "true"
+msgstr ""
+
+msgid "false"
+msgstr ""
+
+msgid "cfg_def.shore_smoothing"
+msgstr ""
+
+msgid "cfg_def.ssao"
+msgstr ""
+
+msgid "cfg_def.dof"
+msgstr ""
+
+msgid "cfg_def.god_rays"
+msgstr ""
+
+msgid "cfg_def.bloom"
+msgstr ""
+
+msgid "cfg_def.reflections"
+msgstr ""
+
+msgid "cfg_def.refractions"
+msgstr ""
+
+msgid "cfg_def.foam"
+msgstr ""
+
+msgid "cfg_def.parallax"
+msgstr ""
+
+msgid "cfg_def.dynamic_grass"
+msgstr ""
+
+msgid "cfg_scs.grass_tex_size"
+msgstr ""
+
+msgid "4.0*512"
+msgstr ""
+
+msgid "2*512"
+msgstr ""
+
+msgid "1*512"
+msgstr ""
+
+msgid "cfg_scs.cubemap_tex_size"
+msgstr ""
+
+msgid "512"
+msgstr ""
+
+msgid "256"
+msgstr ""
+
+msgid "cfg_def.texture_min_filter"
+msgstr ""
+
+msgid "3"
+msgstr ""
+
+msgid "2"
+msgstr ""
+
+msgid "cfg_def.anisotropic_filtering"
+msgstr ""
+
+msgid "cfg_def.use_min50"
+msgstr ""
+
+msgid "cfg_def.water_dynamic"
+msgstr ""
+
+msgid "cfg_def.shore_distance"
+msgstr ""
+
+msgid "cfg_def.antialiasing"
+msgstr ""
+
+msgid "cfg_def.smaa"
+msgstr ""
+
+msgid "cfg_def.compositing"
+msgstr ""
+
+msgid "cfg_def.motion_blur"
+msgstr ""
+
+msgid "cfg_def.allow_hidpi"
+msgstr ""
+
+msgid "cfg_def.enable_outlining"
+msgstr ""
+
+msgid "cfg_def.glow_materials"
+msgstr ""
+
+msgid "cfg_def.msaa_samples"
+msgstr ""
+
+msgid "16"
+msgstr ""
+
+msgid "4"
+msgstr ""
+
+msgid "1"
+msgstr ""
+
+msgid "cfg_def.srgb_type"
+msgstr ""
+
+msgid "\"SRGB_PROPER\""
+msgstr ""
+
+msgid "\"SRGB_SIMPLE\""
+msgstr ""
+
+msgid "cfg_phy.max_fps"
+msgstr ""
+
+msgid "120"
+msgstr ""
+
+msgid "60"
+msgstr ""
+
+msgid "cfg_def.lod_smooth_transitions"
+msgstr ""
+
+msgid ""
+"Other rendering parameters are not affected by setting the quality "
+"profile, but can be accessed via API methods or, in many cases, from "
+"Blend4Web add-on UI in Blender. These parameters are listed below:"
+msgstr ""
+"Другие параметры рендеринга не зависят от профиля качества, но доступны с"
+" помощью методов API и - во многих случаях - через интерфейс аддона "
+"Blend4Web в Blender. Эти параметры перечислены ниже:"
+
+msgid "Shadow settings"
+msgstr "Настройки теней"
+
+msgid ""
+"``b4w.shadow_settings.soft_shadows`` `- enables and disables shadow "
+"blurring`"
+msgstr ""
+"``b4w.shadow_settings.soft_shadows`` `- включает и выключает размытие "
+"теней`"
+
+msgid ""
+"``b4w.shadow_settings.blur_samples`` `- sets the number of samples used "
+"to blur shadows`"
+msgstr ""
+"``b4w.shadow_settings.blur_samples`` `- устанавливает количество сэмплов,"
+" используемых для размытия теней`"
+
+msgid "``b4w.shadow_settings.csm_resolution`` `- sets shadow cascade resolution`"
+msgstr ""
+"``b4w.shadow_settings.csm_resolution`` `- устанавливает разрешение "
+"каскадов теней`"
+
+msgid ""
+"``b4w.shadow_settings.self_shadow_polygon_offset`` `- sets self-shadow "
+"polygon offset`"
+msgstr ""
+"``b4w.shadow_settings.self_shadow_polygon_offset`` `- устанавливает "
+"коэффициент смещения полигона в зависимости от направления на источник "
+"света`"
+
+msgid ""
+"``b4w.shadow_settings.self_shadow_normal_offset`` `- sets shadow normal "
+"offset`"
+msgstr ""
+"``b4w.shadow_settings.self_shadow_polygon_offset`` `- устанавливает "
+"коэффициент смещения полигона по нормали`"
+
+msgid ""
+"``b4w.shadow_settings.enable_csm`` `- enables and disables shadow "
+"cascades`"
+msgstr "``b4w.shadow_settings.enable_csm`` `- включает и выключает каскады теней`"
+
+msgid ""
+"``b4w.shadow_settings.first_cascade_blur_radius`` `- sets the radius of "
+"blurring between shadow cascades`"
+msgstr ""
+"``b4w.shadow_settings.first_cascade_blur_radius`` `- задаёт радиус "
+"размытия между каскадами теней`"
+
+msgid ""
+"These settings are also available in Blend4Web Add-on interface and are "
+"described in greater detail in a :ref:`dedicated chapter <shadows>`."
+msgstr ""
+"Все эти параметры также доступны в интерфейсе аддона Blend4Web; о них "
+"подробно рассказано в :ref:`соответствующей главе <shadows>`."
+
+msgid "Reflection settings"
+msgstr "Настройки отражений"
+
+msgid ""
+"``b4w.reflection_quality`` `- controls the overall quality of the "
+"rendered reflections`"
+msgstr ""
+"``b4w.reflection_quality`` `- отвечает за общее качество рендеринга "
+"отражений`"
+
+msgid ""
+"This parameter, along with other reflection settings, is also available "
+"in Blend4Web Add-on interface and are described in greater detail in a "
+":ref:`dedicated chapter <render_reflections>`."
+msgstr ""
+"Этот параметр, как и прочие настройки отражений, доступен также в "
+"интерфейсе аддона Blend4Web; о них подробно рассказано в "
+":ref:`соответствующей главе <render_reflections>`."
+
+msgid "Outlining settings"
+msgstr "Настройки контура объектов"
+
+msgid "``b4w.outline_color`` `- sets the color of the object outline`"
+msgstr "``b4w.outline_color`` `- устанавливает цвет контура`"
+
+msgid ""
+"``b4w.outline_factor`` `- sets the thickness and the brightness of the "
+"object outline`"
+msgstr "``b4w.outline_factor`` `- устанавливает толщину и яркость контура`"
+
+msgid ""
+"These parameters are also available in Blend4Web Add-on interface and are"
+" described in greater detail in a :ref:`dedicated chapter "
+"<render_object_outlining>`."
+msgstr ""
+"Все эти параметры также доступны в интерфейсе аддона Blend4Web; о них "
+"подробно рассказано в :ref:`соответствующей главе "
+"<render_object_outlining>`."
+
+msgid "Glow settings"
+msgstr "Настройки свечения материала"
+
+msgid ""
+"``b4w.glow_settings.small_glow_mask_coeff`` `- sets the intensity of glow"
+" obtained through the smaller mask`"
+msgstr ""
+"``b4w.glow_settings.small_glow_mask_coeff`` `- устанавливает "
+"интенсивность свечения по малой маске`"
+
+msgid ""
+"``b4w.glow_settings.small_glow_mask_width`` `- sets the width of glow "
+"obtained through the smaller mask`"
+msgstr ""
+"``b4w.glow_settings.small_glow_mask_width`` `- отвечает за ширину "
+"свечения по малой маске`"
+
+msgid ""
+"``b4w.glow_settings.large_glow_mask_coeff`` `- sets the intensity of glow"
+" obtained through the larger mask`"
+msgstr ""
+"``b4w.glow_settings.large_glow_mask_coeff`` `- управляет интенсивностью "
+"свечения по большой маске`"
+
+msgid ""
+"``b4w.glow_settings.large_glow_mask_width`` `- sets the width of glow "
+"obtained through the larger mask`"
+msgstr ""
+"``b4w.glow_settings.large_glow_mask_width`` `- здесь устанавливается "
+"ширина свечения по большой маске`"
+
+msgid ""
+"``b4w.glow_settings.render_glow_over_blend`` `- enables and disables "
+"rendering the glow effect over transparent objects`"
+msgstr ""
+"``b4w.glow_settings.render_glow_over_blend`` `- включает и выключает "
+"отрисовывание эффекта поверх прозрачных объектов`"
+
+msgid ""
+"These settings are also available in Blend4Web Add-on interface and are "
+"described in greater detail in a :ref:`dedicated chapter "
+"<render_glow_materials>`."
+msgstr ""
+"Все эти параметры также доступны в интерфейсе аддона Blend4Web; о них "
+"подробно рассказано в :ref:`соответствующей главе "
+"<render_glow_materials>`."
+
+msgid "Anti-Aliasing settings"
+msgstr "Настройки сглаживания"
+
+msgid ""
+"``b4w.antialiasing_quality`` `- this parameter controls the overall "
+"quality of the anti-aliasing effect`"
+msgstr ""
+"``b4w.antialiasing_quality`` `- этот параметр управляет общим качеством "
+"сглаживания`"
+
+msgid ""
+"These settings are also available in Blend4Web Add-on interface and are "
+"described in greater detail in a :ref:`dedicated chapter "
+"<render_anti_aliasing>`."
+msgstr ""
+"Все эти параметры также доступны в интерфейсе аддона Blend4Web; о них "
+"подробно рассказано в :ref:`соответствующей главе "
+"<render_anti_aliasing>`."
+
+msgid "Bloom settings"
+msgstr "Настройки эффекта засветки (Bloom)"
+
+msgid ""
+"``b4w.bloom_settings.adaptive`` `- enables and disables using adaptive "
+"average luminance`"
+msgstr ""
+"``b4w.bloom_settings.adaptive`` `- включает и выключает рассчёт "
+"адаптивной средней яркости`"
+
+msgid "``b4w.bloom_settings.key`` `- controls the intesity of the Bloom effect`"
+msgstr ""
+"``b4w.god_rays_settings.intensity`` `- задаёт интенсивность эффекта "
+"засветки`"
+
+msgid "``b4w.bloom_settings.blur`` `- sets the blur factor of the effect`"
+msgstr "``b4w.bloom_settings.blur`` `- задаёт степень размытия засветки`"
+
+msgid ""
+"``b4w.bloom_settings.edge_lum`` `- sets the boundary value of an "
+"element’s relative brightness above which the bloom effect appears`"
+msgstr ""
+"``b4w.bloom_settings.edge_lum`` `- устанавливает граничное значение "
+"относительной яркости элемента, выше которого начинает проявляться эффект"
+" засветки`"
+
+msgid ""
+"These settings are also available in Blend4Web Add-on interface and are "
+"described in greater detail in a :ref:`dedicated chapter <render_bloom>`."
+msgstr ""
+"Все эти параметры также доступны в интерфейсе аддона Blend4Web; о них "
+"подробно рассказано в :ref:`соответствующей главе <render_bloom>`."
+
+msgid "Moton Blur settings"
+msgstr "Настройки эффекта размытия при движении (motion blur)"
+
+msgid ""
+"``b4w.motion_blur_settings.motion_blur_factor`` `- controls the strength "
+"of the motion blur effect`"
+msgstr ""
+"``b4w.motion_blur_settings.motion_blur_factor`` `- управляет силой "
+"эффекта размытия при движении`"
+
+msgid ""
+"``b4w.motion_blur_settings.motion_blur_decay_threshold`` `- sets the "
+"fade-out ratio of the motion blur effect`"
+msgstr ""
+"``b4w.motion_blur_settings.motion_blur_decay_threshold`` `- устанавливает"
+" степень плавности размытия`"
+
+msgid ""
+"These settings are also available in Blend4Web Add-on interface and are "
+"described in greater detail in a :ref:`dedicated chapter "
+"<render_motion_blur>`."
+msgstr ""
+"Все эти параметры также доступны в интерфейсе аддона Blend4Web; о них "
+"подробно рассказано в :ref:`соответствующей главе <render_motion_blur>`."
+
+msgid "SSAO settings"
+msgstr "Настройки эффекта взаимного затенения (SSAO)"
+
+msgid ""
+"``b4w.ssao_settings.radius_increase`` `- sets the spherical sampling "
+"radius multiply factor when transferring from the internal sampling ring "
+"to the external one`"
+msgstr ""
+"``b4w.ssao_settings.radius_increase`` `- устанавливает фактор умножения "
+"радиуса сферического сэмплинга при переходе от внутреннего кольца к "
+"внешнему`"
+
+msgid ""
+"``b4w.ssao_settings.hemisphere`` `- enables and disables using "
+"hemispherical sampling for shading`"
+msgstr ""
+"``b4w.ssao_settings.hemisphere`` `- включает и выключает использование "
+"полусферического сэмплинга для затенения`"
+
+msgid "``b4w.ssao_settings.blur_depth`` `- enables and disables blur depth test`"
+msgstr ""
+"``b4w.ssao_settings.blur_depth`` `- включает и выключает размытие SSAO на"
+" основе буфера глубины`"
+
+msgid ""
+"``b4w.ssao_settings.blur_discard_value`` `- sets the discard value for "
+"the blur depth test`"
+msgstr ""
+"``b4w.ssao_settings.blur_discard_value`` `- устанавливает степень влияния"
+" разницы глубины сэмплов на их \"\\вес\"\\ при размытии`"
+
+msgid ""
+"``b4w.ssao_settings.influence`` `- sets the appearance factor for the "
+"SSAO effect`"
+msgstr ""
+"``b4w.ssao_settings.influence`` `- устанавливает степень проявленности "
+"эффекта взаимного затенения`"
+
+msgid ""
+"``b4w.ssao_settings.dist_factor`` `- sets the distant factor for the SSAO"
+" effect`"
+msgstr ""
+"``b4w.ssao_settings.dist_factor`` `- устанавливает фактор уменьшения "
+"проявленности эффекта с расстоянием`"
+
+msgid ""
+"``b4w.ssao_settings.samples`` `- sets the number of samples used to "
+"compute the SSAO effect`"
+msgstr ""
+"``b4w.ssao_settings.samples`` `- задаёт количество сэмплов, используемых "
+"при рассчёте эффекта`"
+
+msgid ""
+"These settings are also available in Blend4Web Add-on interface and are "
+"described in greater detail in a :ref:`dedicated chapter <render_ssao>`."
+msgstr ""
+"Все эти параметры также доступны в интерфейсе аддона Blend4Web; о них "
+"подробно рассказано в :ref:`соответствующей главе <render_ssao>`."
+
+msgid "God Rays settings"
+msgstr "Настройки сумеречных лучей"
+
+msgid ""
+"``b4w.god_rays_settings.intensity`` `- sets the intesity of the god rays "
+"effect`"
+msgstr ""
+"``b4w.god_rays_settings.intensity`` `- задаёт интенсивность эффекта "
+"сумеречных лучей`"
+
+msgid ""
+"``b4w.god_rays_settings.max_ray_length`` `- sets the maximum length of "
+"the rays`"
+msgstr ""
+"``b4w.god_rays_settings.max_ray_length`` `- задаёт максимальную длинну "
+"лучей`"
+
+msgid ""
+"``b4w.god_rays_settings.steps_per_pass`` `- sets the number of steps used"
+" to calculate the god rays effect`"
+msgstr ""
+"``b4w.god_rays_settings.steps_per_pass`` `- заадёт количество сэмплов, "
+"используемых при рассчёте эффекта`"
+
+msgid ""
+"These settings are also available in Blend4Web Add-on interface and are "
+"described in greater detail in a :ref:`dedicated chapter "
+"<render_god_rays>`."
+msgstr ""
+"Все эти параметры также доступны в интерфейсе аддона Blend4Web; о них "
+"подробно рассказано в :ref:`соответствующей главе <render_god_rays>`."
+
+msgid "Color Correction settings"
+msgstr "Настройки цветокоррекции"
+
+msgid ""
+"``b4w.color_correction_settings.brightness`` `- sets the brightness of "
+"the image`"
+msgstr ""
+"``b4w.color_correction_settings.brightness`` `- устанавливает яркость "
+"изображения`"
+
+msgid ""
+"``b4w.color_correction_settings.contrast`` `- sets the contrast of the "
+"image`"
+msgstr ""
+"``b4w.color_correction_settings.contrast`` `- устанвливает контрастность "
+"изображения`"
+
+msgid ""
+"``b4w.color_correction_settings.exposure`` `- sets the exposure of the "
+"image`"
+msgstr ""
+"``b4w.color_correction_settings.exposure`` `- отвечает за парметр "
+"выдержки (exposure) изображения`"
+
+msgid ""
+"``b4w.color_correction_settings.saturation`` `- sets the satuartion of "
+"the image`"
+msgstr ""
+"``b4w.color_correction_settings.saturation`` `- контролирует насыщенность"
+" изображения`"
+
+msgid ""
+"These settings are also available in Blend4Web Add-on interface and are "
+"described in greater detail in a :ref:`dedicated chapter "
+"<render_color_correction>`."
+msgstr ""
+"Все эти параметры также доступны в интерфейсе аддона Blend4Web; о них "
+"подробно рассказано в :ref:`соответствующей главе "
+"<render_color_correction>`."
 
 msgid "Non-Standard Canvas Position and Orientation"
 msgstr "Нестандартное расположение и ориентация элемента Canvas"
@@ -2495,4 +3066,148 @@ msgstr "множество"
 
 #~ msgid "Creating Apps Quickly"
 #~ msgstr "Быстрое создание приложений"
+
+#~ msgid "**ES5 code:**"
+#~ msgstr "**src**"
+
+#~ msgid "Shadow settings:"
+#~ msgstr ""
+
+#~ msgid "b4w.shadow_settings.soft_shadows"
+#~ msgstr ""
+
+#~ msgid "b4w.shadow_settings.blur_samples"
+#~ msgstr ""
+
+#~ msgid "b4w.shadow_settings.csm_resolution"
+#~ msgstr ""
+
+#~ msgid "b4w.shadow_settings.self_shadow_polygon_offset"
+#~ msgstr ""
+
+#~ msgid "b4w.shadow_settings.self_shadow_normal_offset"
+#~ msgstr ""
+
+#~ msgid "b4w.shadow_settings.enable_csm"
+#~ msgstr ""
+
+#~ msgid "b4w.shadow_settings.first_cascade_blur_radius"
+#~ msgstr ""
+
+#~ msgid "Reflection settings:"
+#~ msgstr ""
+
+#~ msgid "b4w.reflection_quality"
+#~ msgstr ""
+
+#~ msgid "Outlining settings:"
+#~ msgstr ""
+
+#~ msgid "b4w.outline_color"
+#~ msgstr ""
+
+#~ msgid "b4w.outline_factor"
+#~ msgstr ""
+
+#~ msgid "Glow settings:"
+#~ msgstr ""
+
+#~ msgid "b4w.glow_settings.small_glow_mask_coeff"
+#~ msgstr ""
+
+#~ msgid "b4w.glow_settings.small_glow_mask_width"
+#~ msgstr ""
+
+#~ msgid "b4w.glow_settings.large_glow_mask_coeff"
+#~ msgstr ""
+
+#~ msgid "b4w.glow_settings.large_glow_mask_width"
+#~ msgstr ""
+
+#~ msgid "b4w.glow_settings.render_glow_over_blend"
+#~ msgstr ""
+
+#~ msgid "Anti-Aliasing settings:"
+#~ msgstr ""
+
+#~ msgid "b4w.antialiasing_quality"
+#~ msgstr ""
+
+#~ msgid "Bloom settings:"
+#~ msgstr ""
+
+#~ msgid "b4w.bloom_settings.adaptive"
+#~ msgstr ""
+
+#~ msgid "b4w.bloom_settings.key"
+#~ msgstr ""
+
+#~ msgid "b4w.bloom_settings.blur"
+#~ msgstr ""
+
+#~ msgid "b4w.bloom_settings.edge_lum"
+#~ msgstr ""
+
+#~ msgid "Moton Blur settings:"
+#~ msgstr ""
+
+#~ msgid "b4w.motion_blur_settings.motion_blur_factor"
+#~ msgstr ""
+
+#~ msgid "b4w.motion_blur_settings.motion_blur_decay_threshold"
+#~ msgstr ""
+
+#~ msgid "SSAO settings:"
+#~ msgstr ""
+
+#~ msgid "b4w.ssao_settings.radius_increase"
+#~ msgstr ""
+
+#~ msgid "b4w.ssao_settings.hemisphere"
+#~ msgstr ""
+
+#~ msgid "b4w.ssao_settings.blur_depth"
+#~ msgstr ""
+
+#~ msgid "b4w.ssao_settings.blur_discard_value"
+#~ msgstr ""
+
+#~ msgid "b4w.ssao_settings.influence"
+#~ msgstr ""
+
+#~ msgid "b4w.ssao_settings.dist_factor"
+#~ msgstr ""
+
+#~ msgid "b4w.ssao_settings.samples"
+#~ msgstr ""
+
+#~ msgid "God Rays settings:"
+#~ msgstr ""
+
+#~ msgid "b4w.god_rays_settings.intensity"
+#~ msgstr ""
+
+#~ msgid "b4w.god_rays_settings.max_ray_length"
+#~ msgstr ""
+
+#~ msgid "b4w.god_rays_settings.steps_per_pass"
+#~ msgstr ""
+
+#~ msgid "Color Correction settings:"
+#~ msgstr ""
+
+#~ msgid "b4w.color_correction_settings.brightness"
+#~ msgstr ""
+
+#~ msgid "b4w.color_correction_settings.contrast"
+#~ msgstr ""
+
+#~ msgid "b4w.color_correction_settings.exposure"
+#~ msgstr ""
+
+#~ msgid "b4w.color_correction_settings.saturation"
+#~ msgstr ""
+
+#~ msgid "``b4w.bloom_settings.key`` - ?"
+#~ msgstr ""
 

@@ -1,0 +1,92 @@
+@mixin toggle_image() {
+    opacity: 1;
+    transition: opacity 0.4s $easeInOutCubic;
+    div {
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        &.im1 { opacity: 0; }
+        &.im2 { opacity: 1; }
+    }
+    &.hover {
+        fill: #28AFFF;
+    }
+    &.on {
+        div {
+            &.im1 { opacity: 1; }
+            &.im2 { opacity: 0; }
+        }
+    }
+}
+
+
+@mixin btn_menu_common() {
+    opacity: 1;
+    transition: opacity 0.4s $easeInOutCubic;
+    div {
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        opacity: 0;
+    }
+    &.hover {
+        fill: #28AFFF;
+    }
+}
+
+@mixin opacity1($cl) {
+    &.#{$cl} {
+        div {
+            &.#{$cl} { opacity: 1; }
+        }
+    }
+}
+
+@mixin render_mode_btn() {
+    @include btn_menu_common();
+    @include opacity1("none");
+    @include opacity1("anaglyph");
+    @include opacity1("sidebyside");
+    @include opacity1("hmd");
+}
+@mixin quality_btn() {
+    @include btn_menu_common();
+    @include opacity1("low");
+    @include opacity1("high");
+    @include opacity1("ultra");
+}
+
+.ctrl_btn {
+    width: 40px;
+    height: 40px;
+    float: left;
+    background-size: 100% 100%;
+    z-index: 1;
+    position: relative;
+    cursor: pointer;
+    fill: white;
+    background-color: transparent;
+    transition: opacity 0.4s $easeInOutCubic;
+    transition: background-color 0.2s $easeInCubic;
+    &.hover {
+        transition: background-color 0.2s $easeOutCubic;
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+    &.active {
+        opacity: 0.5;
+    }
+
+    @include toggle_image(); // e.g. for sound, play, rotate
+}
+
+#help_btn {
+
+}
+
+#stereo_btn {
+    @include render_mode_btn();
+}
+
+#quality_btn {
+    @include quality_btn();
+}

@@ -26,7 +26,7 @@ import * as m_vec3 from "../libs/gl_matrix/vec3.js";
  * @exports exports as tsr
  */
 
-var ZUP_SIN = Math.sin(-Math.PI/4);
+var ZUP_SIN = Math.sin(-Math.PI / 4);
 var ZUP_COS = -ZUP_SIN;
 
 var _vec3_tmp = new Float32Array(3);
@@ -34,9 +34,10 @@ var _quat_tmp = new Float32Array(4);
 var _mat4_tmp = new Float32Array(16);
 
 export function create() {
-    var tsr = new Float32Array(8);
+    var tsr = new Float32Array(9);
     tsr[3] = 1;
-    tsr[7] = 1;
+    tsr[4] = 1;
+    tsr[5] = 1;
     return tsr;
 }
 
@@ -52,17 +53,22 @@ export function from_values(x, y, z, s, qx, qy, qz, qw) {
     tsr[1] = y;
     tsr[2] = z;
     tsr[3] = s;
-    tsr[4] = qx;
-    tsr[5] = qy;
-    tsr[6] = qz;
-    tsr[7] = qw;
+    tsr[4] = s;
+    tsr[5] = s;
+
+    var sign = qw < 0 ? -1: 1;
+    tsr[6] = sign * qx;
+    tsr[7] = sign * qy;
+    tsr[8] = sign * qz;
+
     return tsr;
 }
 
 export function create_ext() {
     var tsr = new Float32Array(9);
     tsr[3] = 1;
-    tsr[7] = 1;
+    tsr[4] = 1;
+    tsr[5] = 1;
     return tsr;
 }
 
@@ -78,16 +84,21 @@ export function from_values_ext(x, y, z, s, qx, qy, qz, qw) {
     tsr[1] = y;
     tsr[2] = z;
     tsr[3] = s;
-    tsr[4] = qx;
-    tsr[5] = qy;
-    tsr[6] = qz;
-    tsr[7] = qw;
+    tsr[4] = s;
+    tsr[5] = s;
+
+    var sign = qw < 0 ? -1 : 1;
+    tsr[6] = sign * qx;
+    tsr[7] = sign * qy;
+    tsr[8] = sign * qz;
+
     return tsr;
 }
 
 export function copy(tsr, dest) {
     // faster than .set()
-
+    if (tsr[8] != tsr[8])
+        throw new Error(tsr);
     dest[0] = tsr[0];
     dest[1] = tsr[1];
     dest[2] = tsr[2];
@@ -96,6 +107,7 @@ export function copy(tsr, dest) {
     dest[5] = tsr[5];
     dest[6] = tsr[6];
     dest[7] = tsr[7];
+    dest[8] = tsr[8];
     return dest;
 }
 
@@ -104,10 +116,11 @@ export function identity(tsr) {
     tsr[1] = 0;
     tsr[2] = 0;
     tsr[3] = 1;
-    tsr[4] = 0;
-    tsr[5] = 0;
+    tsr[4] = 1;
+    tsr[5] = 1;
     tsr[6] = 0;
-    tsr[7] = 1;
+    tsr[7] = 0;
+    tsr[8] = 0;
 
     return tsr;
 }
@@ -119,16 +132,28 @@ export function set_sep(trans, scale, quat, dest) {
     dest[0] = trans[0];
     dest[1] = trans[1];
     dest[2] = trans[2];
-    dest[3] = scale;
-    dest[4] = quat[0];
-    dest[5] = quat[1];
-    dest[6] = quat[2];
-    dest[7] = quat[3];
+    if (m_util.is_array(scale)) {
+        dest[3] = scale[0];
+        dest[4] = scale[1];
+        dest[5] = scale[2];
+    } else {
+        dest[3] = scale;
+        dest[4] = scale;
+        dest[5] = scale;
+    }
+    var sign = quat[3] < 0 ? -1 : 1;
+    dest[6] = sign * quat[0];
+    dest[7] = sign * quat[1];
+    dest[8] = sign * quat[2];
 
     return dest;
 }
 
 export function set_trans(trans, dest) {
+
+    if (trans[0] != trans[0])
+        throw new Error(trans);
+
     dest[0] = trans[0];
     dest[1] = trans[1];
     dest[2] = trans[2];
@@ -136,11 +161,21 @@ export function set_trans(trans, dest) {
     return dest;
 }
 export function set_scale(scale, dest) {
-    dest[3] = scale;
+    if (m_util.is_array(scale)) {
+        dest[3] = scale[0];
+        dest[4] = scale[1];
+        dest[5] = scale[2];
+    } else {
+        dest[3] = scale;
+        dest[4] = scale;
+        dest[5] = scale;
+    }
 
     return dest;
 }
 export function set_transcale(transcale, dest) {
+    // NOTE: it is better don't use this function
+    // console.error("B4W ERROR: tsr.set_transcale is dangerous function. Don't use it anymore!!!");
     dest[0] = transcale[0];
     dest[1] = transcale[1];
     dest[2] = transcale[2];
@@ -148,20 +183,27 @@ export function set_transcale(transcale, dest) {
 
     return dest;
 }
-export function set_quat(quat, dest) {
-    dest[4] = quat[0];
-    dest[5] = quat[1];
-    dest[6] = quat[2];
-    dest[7] = quat[3];
+
+export  function set_quat(quat, dest) {
+    if (quat[0] != quat[0])
+        throw new Error(quat);
+
+    var sign = quat[3] < 0 ? -1 : 1;
+    dest[6] = sign * quat[0];
+    dest[7] = sign * quat[1];
+    dest[8] = sign * quat[2];
 
     return dest;
 }
 
 /**
  * NOTE: bad for CPU and GC
+ * The get_trans_view method is dangerous to use.
+ * Don't do this. It will be romoved later.
  */
 export function get_trans_view(tsr) {
-    return tsr.subarray(0, 3);
+    // console.error("B4W ERROR: tsr.get_trans_view is dangerous function. Don't use it anymore!!!");
+    return get_trans(tsr, m_quat.create());
 }
 export function get_trans(tsr, dest) {
     dest[0] = tsr[0];
@@ -170,10 +212,18 @@ export function get_trans(tsr, dest) {
 
     return dest;
 }
-export function get_scale(tsr) {
+export function get_scale(tsr, dest) {
+    if (dest) {
+        dest[0] = tsr[3];
+        dest[1] = tsr[4];
+        dest[2] = tsr[5];
+        return dest;
+    }
     return tsr[3];
 }
 export function get_transcale(tsr, dest) {
+    // NOTE: it is better don't use this function
+    // console.error("B4W ERROR: tsr.get_transcale is dangerous function. Don't use it anymore!!!");
     dest[0] = tsr[0];
     dest[1] = tsr[1];
     dest[2] = tsr[2];
@@ -183,565 +233,574 @@ export function get_transcale(tsr, dest) {
 }
 /**
  * NOTE: bad for CPU and GC
+ * The get_quat_view method is dangerous to use.
+ * Don't do this. It will be romoved later.
  */
 export function get_quat_view(tsr) {
-    return tsr.subarray(4, 8);
+    // console.error("B4W ERROR: tsr.get_quat_view is dangerous function. Don't use it anymore!!!");
+    return get_quat(tsr, m_quat.create());
 }
 
 export function get_quat(tsr, dest) {
-    dest[0] = tsr[4];
-    dest[1] = tsr[5];
-    dest[2] = tsr[6];
-    dest[3] = tsr[7];
+    dest[0] = tsr[6];
+    dest[1] = tsr[7];
+    dest[2] = tsr[8];
+    dest[3] = Math.sqrt(Math.abs(1 - tsr[6] * tsr[6] - tsr[7] * tsr[7] - tsr[8] * tsr[8]));
 
     return dest;
 }
 
-export function invert(tsr, dest) {
-    var sc_inv = 1/tsr[3];
-    if (!sc_inv)
-        return null;
+export var invert = (function () {
+    var _vec3_tmp = m_vec3.create();
+    var _vec3_tmp2 = m_vec3.create();
+    var _quat_tmp = m_quat.create();
 
-    var tx = tsr[0];
-    var ty = tsr[1];
-    var tz = tsr[2];
+    return function invert(tsr, dest) {
+        var s = get_scale(tsr, _vec3_tmp);
+        m_vec3.inverse(s, s);
 
-    _quat_tmp[0] = tsr[4];
-    _quat_tmp[1] = tsr[5];
-    _quat_tmp[2] = tsr[6];
-    _quat_tmp[3] = tsr[7];
+        // CHECK: is it necessary?
+        if (!s[0])
+            return null;
 
-    m_quat.invert(_quat_tmp, _quat_tmp);
+        var t = get_trans(tsr, _vec3_tmp2);
+        var q = get_quat(tsr, _quat_tmp);
 
-    var qx_inv = _quat_tmp[0];
-    var qy_inv = _quat_tmp[1];
-    var qz_inv = _quat_tmp[2];
-    var qw_inv = _quat_tmp[3];
+        m_quat.invert(q, q);
 
-    // scale and rotate
-    var x = tx * sc_inv;
-    var y = ty * sc_inv;
-    var z = tz * sc_inv;
+        // scale
+        m_vec3.multiply(t, s, t);
+        // rotate
+        m_vec3.transformQuat(t, q, t);
+        // negate
+        m_vec3.negate(t, t);
 
-    // quat * vec
-    var ix = qw_inv * x + qy_inv * z - qz_inv * y;
-    var iy = qw_inv * y + qz_inv * x - qx_inv * z;
-    var iz = qw_inv * z + qx_inv * y - qy_inv * x;
-    var iw = -qx_inv * x - qy_inv * y - qz_inv * z;
+        set_trans(t, dest);
+        set_scale(s, dest);
+        set_quat(q, dest);
 
-    // result * inverse quat
-    dest[0] = -(ix * qw_inv + iw * -qx_inv + iy * -qz_inv - iz * -qy_inv);
-    dest[1] = -(iy * qw_inv + iw * -qy_inv + iz * -qx_inv - ix * -qz_inv);
-    dest[2] = -(iz * qw_inv + iw * -qz_inv + ix * -qy_inv - iy * -qx_inv);
+        return dest;
+    };
+})();
 
-    dest[3] = sc_inv;
-    dest[4] = qx_inv;
-    dest[5] = qy_inv;
-    dest[6] = qz_inv;
-    dest[7] = qw_inv;
+export var to_mat4 = (function () {
+    var _vec3_tmp = m_vec3.create();
+    var _vec3_tmp2 = m_vec3.create();
+    var _quat_tmp = m_quat.create();
 
-    return dest;
-}
+    return function to_mat4(tsr, dest) {
+        var trans = get_trans(tsr, _vec3_tmp);
+        var scale = get_scale(tsr, _vec3_tmp2);
+        var quat = get_quat(tsr, _quat_tmp);
 
-export function to_mat4(tsr, dest) {
-    var trans = tsr.subarray(0, 3);
-    var scale = tsr[3];
-    var quat = tsr.subarray(4, 8);
+        m_mat4.fromRotationTranslation(quat, trans, dest);
 
-    m_mat4.fromRotationTranslation(quat, trans, dest);
+        m_mat4.scale(dest, scale, dest);
 
-    for (var i = 0; i < 12; i++)
-        dest[i] *= scale;
-
-    return dest;
-}
+        return dest;
+    };
+})();
 
 /**
  * NOTE: not optimized
  */
-export function from_mat4(mat, dest) {
-    var trans = m_util.matrix_to_trans(mat, _vec3_tmp);
-    var scale = m_util.matrix_to_scale(mat);
-    var quat = m_util.matrix_to_quat(mat, _quat_tmp);
-    set_sep(trans, scale, quat, dest);
-    return dest;
-}
+export var from_mat4 = (function() {
+    var _vec3_tmp = m_vec3.create();
+    var _vec3_tmp2 = m_vec3.create();
+    var _quat_tmp = m_quat.create();
+
+    return function from_mat4(mat, dest) {
+        var trans = m_util.matrix_to_trans(mat, _vec3_tmp);
+        var scale = m_util.matrix_to_scale(mat, _vec3_tmp2);
+        var quat = m_util.matrix_to_quat(mat, _quat_tmp);
+        set_trans(trans, dest);
+        set_scale(scale, dest);
+        set_quat(quat, dest);
+        return dest;
+    };
+})();
 
 /**
  * Multiply two TSRs.
  */
-export function multiply(tsr, tsr2, dest) {
+export var multiply = (function () {
+    var _vec3_tmp = m_vec3.create();
+    var _vec3_tmp2 = m_vec3.create();
+    var _quat_tmp = m_quat.create();
+    var _quat_tmp2 = m_quat.create();
 
-    // trans
-    transform_vec3(tsr2, tsr, dest);
+    return function multiply(tsr, tsr2, dest) {
+        // trans
+        var t = get_trans(tsr2, _vec3_tmp);
+        transform_vec3(t, tsr, t);
+        set_trans(t, dest);
 
-    // scale
-    dest[3] = tsr[3] * tsr2[3];
+        // scale
+        var s = get_scale(tsr, _vec3_tmp);
+        var s2 = get_scale(tsr2, _vec3_tmp2);
+        var res_s = m_vec3.multiply(s, s2, _vec3_tmp);
+        set_scale(res_s, dest);
 
-    // quat
-    var ax = tsr[4], ay = tsr[5], az = tsr[6], aw = tsr[7],
-            bx = tsr2[4], by = tsr2[5], bz = tsr2[6], bw = tsr2[7];
+        // quat
+        var q = get_quat(tsr, _quat_tmp);
+        var q2 = get_quat(tsr2, _quat_tmp2);
+        var res_q = m_quat.multiply(q, q2, _quat_tmp);
+        set_quat(res_q, dest);
 
-    dest[4] = ax * bw + aw * bx + ay * bz - az * by;
-    dest[5] = ay * bw + aw * by + az * bx - ax * bz;
-    dest[6] = az * bw + aw * bz + ax * by - ay * bx;
-    dest[7] = aw * bw - ax * bx - ay * by - az * bz;
-
-    return dest;
-}
+        return dest;
+    };
+})();
 
 /**
  * NOTE: unused, non-optimized
  */
-export function transform_mat4(matrix, tsr, dest) {
-    var trans = tsr.subarray(0, 3);
-    var scale = tsr[3];
-    var quat = tsr.subarray(4, 8);
+export var transform_mat4 = (function () {
+    var _mat4_tmp = m_mat4.create();
 
-    var m = m_mat4.fromRotationTranslation(quat, trans, _mat4_tmp);
+    // CHECK: parameters order!
+    return function transform_mat4(matrix, tsr, dest) {
+        var m = to_mat4(tsr, _mat4_tmp);
 
-    for (var i = 0; i < 12; i++)
-        m[i] *= scale;
+        m_mat4.multiply(m, matrix, dest);
 
-    m_mat4.multiply(m, matrix, dest);
-
-    return dest;
-}
+        return dest;
+    };
+})();
 
 /**
  * Transform vec3 by TSR
  */
-export function transform_vec3(vec, tsr, dest) {
+export var transform_vec3 = (function () {
+    var _vec3_tmp = m_vec3.create();
+    var _vec3_tmp2 = m_vec3.create();
+    var _quat_tmp = m_quat.create();
 
-    var tx = tsr[0];
-    var ty = tsr[1];
-    var tz = tsr[2];
-    var scale = tsr[3];
-    var qx = tsr[4];
-    var qy = tsr[5];
-    var qz = tsr[6];
-    var qw = tsr[7];
+    return function transform_vec3(vec, tsr, dest) {
 
-    // scale and rotate
-    var x = vec[0] * scale;
-    var y = vec[1] * scale;
-    var z = vec[2] * scale;
+        var trans = get_trans(tsr, _vec3_tmp);
+        var scale = get_scale(tsr, _vec3_tmp2);
+        var quat = get_quat(tsr, _quat_tmp);
 
-    // quat * vec
-    var ix = qw * x + qy * z - qz * y;
-    var iy = qw * y + qz * x - qx * z;
-    var iz = qw * z + qx * y - qy * x;
-    var iw = -qx * x - qy * y - qz * z;
+        // scale
+        m_vec3.multiply(vec, scale, dest);
 
-    // result * inverse quat
-    dest[0] = ix * qw + iw * -qx + iy * -qz - iz * -qy;
-    dest[1] = iy * qw + iw * -qy + iz * -qx - ix * -qz;
-    dest[2] = iz * qw + iw * -qz + ix * -qy - iy * -qx;
+        // rotate
+        m_vec3.transformQuat(dest, quat, dest);
 
-    // translate
-    dest[0] += tx;
-    dest[1] += ty;
-    dest[2] += tz;
+        // translate
+        m_vec3.add(dest, trans, dest);
 
-    return dest;
-}
+        return dest;
+    };
+})();
 
 /**
  * Transform vec3 by inverse TSR
  */
-export function transform_vec3_inv(vec, tsr, dest) {
-    var tx = tsr[0];
-    var ty = tsr[1];
-    var tz = tsr[2];
-    var scale = tsr[3];
+export var transform_vec3_inv = (function () {
+    var _vec3_tmp = m_vec3.create();
+    var _vec3_tmp2 = m_vec3.create();
+    var _quat_tmp = m_quat.create();
 
-    // inverse translate
-    var x = vec[0] - tx;
-    var y = vec[1] - ty;
-    var z = vec[2] - tz;
+    return function transform_vec3_inv(vec, tsr, dest) {
+        var trans = get_trans(tsr, _vec3_tmp);
+        var scale = get_scale(tsr, _vec3_tmp2);
+        var quat = get_quat(tsr, _quat_tmp);
 
-    var qx = tsr[4];
-    var qy = tsr[5];
-    var qz = tsr[6];
-    var qw = tsr[7];
+        m_vec3.subtract(vec, trans, dest);
 
-    var dot = qx*qx + qy*qy + qz*qz + qw*qw;
-    var inv_dot = dot ? 1.0/dot : 0;
+        m_quat.invert(quat, quat);
+        m_vec3.transformQuat(dest, quat, dest);
 
-    qx =-qx * inv_dot;
-    qy =-qy * inv_dot;
-    qz =-qz * inv_dot;
-    qw = qw * inv_dot;
+        m_vec3.inverse(scale, scale);
+        m_vec3.multiply(dest, scale, dest);
 
-    // quat * vec
-    var ix = qw * x + qy * z - qz * y;
-    var iy = qw * y + qz * x - qx * z;
-    var iz = qw * z + qx * y - qy * x;
-    var iw =-qx * x - qy * y - qz * z;
-
-    // result * inverse quat
-    dest[0] = ix * qw + iw * -qx + iy * -qz - iz * -qy;
-    dest[1] = iy * qw + iw * -qy + iz * -qx - ix * -qz;
-    dest[2] = iz * qw + iw * -qz + ix * -qy - iy * -qx;
-
-    dest[0] /= scale;
-    dest[1] /= scale;
-    dest[2] /= scale;
-
-    return dest;
-}
+        return dest;
+    };
+})();
 
 /**
  * Tranform vec3 vectors by TSR
  * optional destination offset in values (not vectors, not bytes)
  */
-export function transform_vectors(vectors, tsr, new_vectors,
-        dest_offset) {
+export var transform_vectors = (function () {
+    var _vec3_tmp = m_vec3.create();
+    var _vec3_tmp2 = m_vec3.create();
+    var _vec3_tmp3 = m_vec3.create();
+    var _quat_tmp = m_quat.create();
 
-    if (!dest_offset)
-        dest_offset = 0;
+    return function transform_vectors(vectors, tsr, new_vectors, dest_offset) {
+        dest_offset |= 0;
 
-    var len = vectors.length;
+        var len = vectors.length;
 
-    var tx = tsr[0];
-    var ty = tsr[1];
-    var tz = tsr[2];
-    var scale = tsr[3];
-    var qx = tsr[4];
-    var qy = tsr[5];
-    var qz = tsr[6];
-    var qw = tsr[7];
+        var trans = get_trans(tsr, _vec3_tmp);
+        var scale = get_scale(tsr, _vec3_tmp2);
+        var quat = get_quat(tsr, _quat_tmp);
 
-    for (var i = 0; i < len; i+=3) {
-        // scale and rotate
-        var x = vectors[i] * scale;
-        var y = vectors[i+1] * scale;
-        var z = vectors[i+2] * scale;
+        var vec = _vec3_tmp3;
 
-        // quat * vec
-        var ix = qw * x + qy * z - qz * y;
-        var iy = qw * y + qz * x - qx * z;
-        var iz = qw * z + qx * y - qy * x;
-        var iw = -qx * x - qy * y - qz * z;
+        for (var i = 0; i < len; i += 3) {
+            vec[0] = vectors[i];
+            vec[1] = vectors[i + 1];
+            vec[2] = vectors[i + 2];
 
-        // result * inverse quat
-        new_vectors[dest_offset + i] = ix * qw + iw * -qx + iy * -qz - iz * -qy;
-        new_vectors[dest_offset + i + 1] = iy * qw + iw * -qy + iz * -qx - ix * -qz;
-        new_vectors[dest_offset + i + 2] = iz * qw + iw * -qz + ix * -qy - iy * -qx;
+            // CHECK: may be it is better to replace next lines by transform_vec3
+            m_vec3.multiply(vec, scale, vec);
+            m_vec3.transformQuat(vec, quat, vec);
+            m_vec3.add(vec, trans, vec);
 
-        // translate
-        new_vectors[dest_offset + i] += tx;
-        new_vectors[dest_offset + i + 1] += ty;
-        new_vectors[dest_offset + i + 2] += tz;
-    }
+            new_vectors[dest_offset + i] = vec[0];
+            new_vectors[dest_offset + i + 1] = vec[1];
+            new_vectors[dest_offset + i + 2] = vec[2];
+        }
 
-    return new_vectors;
-}
+        return new_vectors;
+    };
+})();
 
 /**
  * Transform directional vec3 vectors by TSR.
  * optional destination offset in values (not vectors, not bytes)
  */
-export function transform_dir_vectors(vectors, tsr, new_vectors,
+export var transform_dir_vectors = (function () {
+    var _vec3_tmp = m_vec3.create();
+    var _vec3_tmp2 = m_vec3.create();
+    var _quat_tmp = m_quat.create();
+
+    return function transform_dir_vectors(vectors, tsr, new_vectors,
         dest_offset) {
 
-    if (!dest_offset)
-        dest_offset = 0;
+        dest_offset |= 0;
 
-    var len = vectors.length;
+        var len = vectors.length;
 
-    var scale = tsr[3];
-    var qx = tsr[4];
-    var qy = tsr[5];
-    var qz = tsr[6];
-    var qw = tsr[7];
+        var scale = get_scale(tsr, _vec3_tmp);
+        var quat = get_quat(tsr, _quat_tmp);
 
-    for (var i = 0; i < len; i+=3) {
-        // scale and rotate
-        var x = vectors[i] * scale;
-        var y = vectors[i+1] * scale;
-        var z = vectors[i+2] * scale;
+        var vec = _vec3_tmp2;
 
-        // quat * vec
-        var ix = qw * x + qy * z - qz * y;
-        var iy = qw * y + qz * x - qx * z;
-        var iz = qw * z + qx * y - qy * x;
-        var iw = -qx * x - qy * y - qz * z;
+        for (var i = 0; i < len; i += 3) {
+            vec[0] = vectors[i];
+            vec[1] = vectors[i + 1];
+            vec[2] = vectors[i + 2];
 
-        // result * inverse quat
-        new_vectors[dest_offset + i] = ix * qw + iw * -qx + iy * -qz - iz * -qy;
-        new_vectors[dest_offset + i + 1] = iy * qw + iw * -qy + iz * -qx - ix * -qz;
-        new_vectors[dest_offset + i + 2] = iz * qw + iw * -qz + ix * -qy - iy * -qx;
-    }
+            // CHECK: may be it is better to replace next lines by transform_dir_vec3
+            m_vec3.multiply(vec, scale, vec);
+            m_vec3.transformQuat(vec, quat, vec);
 
-    return new_vectors;
-}
+            new_vectors[dest_offset + i] = vec[0];
+            new_vectors[dest_offset + i + 1] = vec[1];
+            new_vectors[dest_offset + i + 2] = vec[2];
+        }
+
+        return new_vectors;
+    };
+})();
 
 /**
  * Transform directional vec3 by TSR.
  */
-export function transform_dir_vec3(vec, tsr, new_vec) {
+export var transform_dir_vec3 = (function () {
+    var _vec3_tmp = m_vec3.create();
+    var _quat_tmp = m_quat.create();
+    return function transform_dir_vec3(vec, tsr, new_vec) {
 
-    var scale = tsr[3];
-    var qx = tsr[4];
-    var qy = tsr[5];
-    var qz = tsr[6];
-    var qw = tsr[7];
+        var scale = get_scale(tsr, _vec3_tmp);
+        var quat = get_quat(tsr, _quat_tmp);
 
-    // scale and rotate
-    var x = vec[0] * scale;
-    var y = vec[1] * scale;
-    var z = vec[2] * scale;
+        m_vec3.multiply(vec, scale, new_vec);
+        m_vec3.transformQuat(new_vec, quat, new_vec);
 
-    // quat * vec
-    var ix = qw * x + qy * z - qz * y;
-    var iy = qw * y + qz * x - qx * z;
-    var iz = qw * z + qx * y - qy * x;
-    var iw = -qx * x - qy * y - qz * z;
-
-    // result * inverse quat
-    new_vec[0] = ix * qw + iw * -qx + iy * -qz - iz * -qy;
-    new_vec[1] = iy * qw + iw * -qy + iz * -qx - ix * -qz;
-    new_vec[2] = iz * qw + iw * -qz + ix * -qy - iy * -qx;
-
-    return new_vec;
-}
+        return new_vec;
+    };
+})();
 
 /**
  * Tranform 4 comp tangent vectors by matrix.
  * optional destination offset in values (not vectors, not bytes)
  */
-export function transform_tangents(vectors, tsr, new_vectors, 
-        dest_offset) {
+export var transform_tangents = (function () {
+    var _vec3_tmp = m_vec3.create();
+    var _vec3_tmp2 = m_vec3.create();
+    var _quat_tmp = m_quat.create();
 
-    if (!dest_offset)
-        dest_offset = 0;
+    return function transform_tangents(vectors, tsr, new_vectors, dest_offset) {
+        dest_offset |= 0;
 
-    var len = vectors.length;
+        var len = vectors.length;
 
-    var scale = tsr[3];
-    var qx = tsr[4];
-    var qy = tsr[5];
-    var qz = tsr[6];
-    var qw = tsr[7];
+        var scale = get_scale(tsr, _vec3_tmp);
+        var quat = get_quat(tsr, _quat_tmp);
 
-    for (var i = 0; i < len; i+=4) {
-        // scale and rotate
-        var x = vectors[i] * scale;
-        var y = vectors[i+1] * scale;
-        var z = vectors[i+2] * scale;
+        var vec = _vec3_tmp2;
 
-        // quat * vec
-        var ix = qw * x + qy * z - qz * y;
-        var iy = qw * y + qz * x - qx * z;
-        var iz = qw * z + qx * y - qy * x;
-        var iw = -qx * x - qy * y - qz * z;
+        for (var i = 0; i < len; i += 4) {
+            vec = vectors[i];
+            vec = vectors[i + 1];
+            vec = vectors[i + 2];
 
-        // result * inverse quat
-        new_vectors[dest_offset + i] = ix * qw + iw * -qx + iy * -qz - iz * -qy;
-        new_vectors[dest_offset + i + 1] = iy * qw + iw * -qy + iz * -qx - ix * -qz;
-        new_vectors[dest_offset + i + 2] = iz * qw + iw * -qz + ix * -qy - iy * -qx;
-        // just save exact sign
-        new_vectors[dest_offset + i + 3] = vectors[i + 3];
-    }
+            m_vec3.scale(vec, scale, vec);
+            m_vec3.transformQuat(vec, quat, vec);
 
-    return new_vectors;
-}
+            new_vectors[dest_offset + i] = vec[0];
+            new_vectors[dest_offset + i + 1] = vec[1];
+            new_vectors[dest_offset + i + 2] = vec[2];
+            // just save exact sign
+            new_vectors[dest_offset + i + 3] = vectors[i + 3];
+        }
+
+        return new_vectors;
+    };
+})();
 
 export function transform_quat(quat, tsr, new_quat) {
-    var rot_quat = get_quat(tsr, _quat_tmp);
+    get_quat(tsr, new_quat);
 
-    m_quat.multiply(rot_quat, quat, new_quat);
-
-    return new_quat;
+    return m_quat.multiply(new_quat, quat, new_quat);
 }
 
 /**
  * Tranform quaternions vectors by tsr.
  * optional destination offset in values (not vectors, not bytes)
  */
-export function transform_quats(vectors, tsr, new_vectors,
-        dest_offset) {
+export var transform_quats = (function () {
+    var _quat_tmp = m_quat.create();
 
-    dest_offset = dest_offset || 0;
+    return function transform_quats(vectors, tsr, new_vectors, dest_offset) {
 
-    var rot_quat = get_quat(tsr, _quat_tmp);
+        dest_offset |= 0;
 
-    m_util.quats_multiply_quat(vectors, rot_quat, new_vectors, dest_offset);
+        var rot_quat = get_quat(tsr, _quat_tmp);
 
-    return new_vectors;
-}
+        m_util.quats_multiply_quat(vectors, rot_quat, new_vectors, dest_offset);
+
+        return new_vectors;
+    };
+})();
 
 /**
  * Perform TSR translation by given vec3
  */
-export function translate(tsr, vec, dest) {
-    var scale = tsr[3];
-    var qx = tsr[4];
-    var qy = tsr[5];
-    var qz = tsr[6];
-    var qw = tsr[7];
+export var translate = (function () {
+    var _vec3_tmp = m_vec3.create();
+    var _vec3_tmp2 = m_vec3.create();
+    var _quat_tmp = m_quat.create();
 
-    // scale and rotate
-    var x = vec[0] * scale;
-    var y = vec[1] * scale;
-    var z = vec[2] * scale;
+    return function translate(tsr, vec, dest) {
+        var trans = get_trans(tsr, _vec3_tmp);
+        var scale = get_scale(tsr, _vec3_tmp2);
+        var quat = get_quat(tsr, _quat_tmp);
 
-    // quat * vec
-    var ix = qw * x + qy * z - qz * y;
-    var iy = qw * y + qz * x - qx * z;
-    var iz = qw * z + qx * y - qy * x;
-    var iw = -qx * x - qy * y - qz * z;
+        var offset = m_vec3.multiply(vec, scale, _vec3_tmp2);
+        m_vec3.transformQuat(offset, quat, offset);
 
-    // tsr + quat * vec * inverse quat
-    dest[0] = tsr[0] + ix * qw + iw * -qx + iy * -qz - iz * -qy;
-    dest[1] = tsr[1] + iy * qw + iw * -qy + iz * -qx - ix * -qz;
-    dest[2] = tsr[2] + iz * qw + iw * -qz + ix * -qy - iy * -qx;
-    dest[3] = tsr[3];
-    dest[4] = tsr[4];
-    dest[5] = tsr[5];
-    dest[6] = tsr[6];
-    dest[7] = tsr[7];
+        m_vec3.add(trans, offset, trans);
 
-    return dest;
-}
+        copy(tsr, dest);
 
-export function interpolate(tsr, tsr2, factor, dest) {
-    // linear
-    var trans = tsr.subarray(0, 3);
-    var trans2 = tsr2.subarray(0, 3);
-    var trans_dst = dest.subarray(0, 3);
-    m_vec3.lerp(trans, trans2, factor, trans_dst);
+        set_trans(trans, dest);
 
-    // linear
-    var scale = tsr[3];
-    var scale2 = tsr2[3];
-    dest[3] = scale + factor * (scale2 - scale);
+        return dest;
+    };
+})();
 
-    // spherical
-    var quat = tsr.subarray(4, 8);
-    var quat2 = tsr2.subarray(4, 8);
-    var quat_dst = dest.subarray(4, 8);
-    m_quat.slerp(quat, quat2, factor, quat_dst);
+export var interpolate = (function () {
+    var _vec3_tmp = m_vec3.create();
+    var _vec3_tmp2 = m_vec3.create();
+    var _quat_tmp = m_quat.create();
+    var _quat_tmp2 = m_quat.create();
 
-    return dest;
-}
+    return function interpolate(tsr, tsr2, factor, dest) {
+        // linear
+        var trans = get_trans(tsr, _vec3_tmp);
+        var trans2 = get_trans(tsr2, _vec3_tmp2);
+        var trans_dst = m_vec3.lerp(trans, trans2, factor, _vec3_tmp);
+        set_trans(trans_dst, dest);
+
+        // linear
+        var scale = get_scale(tsr, _vec3_tmp);
+        var scale2 = get_scale(tsr2, _vec3_tmp2);
+        var scale_dst = m_vec3.lerp(trans, trans2, factor, _vec3_tmp);
+        set_scale(scale_dst, dest);
+
+        // spherical
+        var quat = get_quat(tsr, _quat_tmp);
+        var quat2 = get_quat(tsr2, _quat_tmp2);
+        var quat_dst = m_quat.slerp(quat, quat2, factor, _quat_tmp);
+        set_quat(quat_dst, dest);
+
+        return dest;
+    };
+})();
 
 /**
  * Lineary extrapolate two TSR vectors by given factor.
  * Yextr = Y1 + (Y1 - Y0) * factor = Y1 * (factor + 1) - Y0 * factor
  * NOTE: unused, untested, incomplete
  */
-export function extrapolate(tsr, tsr2, factor, dest) {
-    // linear
-    var trans = tsr.subarray(0, 3);
-    var trans2 = tsr2.subarray(0, 3);
-    var trans_dst = dest.subarray(0, 3);
+export var extrapolate = (function () {
+    var _vec3_tmp = m_vec3.create();
+    var _vec3_tmp2 = m_vec3.create();
+    var _quat_tmp = m_quat.create();
+    var _quat_tmp2 = m_quat.create();
 
-    trans_dst[0] = trans2[0]*(factor + 1) - trans[0] * factor;
-    trans_dst[1] = trans2[1]*(factor + 1) - trans[1] * factor;
-    trans_dst[2] = trans2[2]*(factor + 1) - trans[2] * factor;
+    return function extrapolate(tsr, tsr2, factor, dest) {
+        // linear
+        var trans = get_trans(tsr, _vec3_tmp);
+        var trans2 = get_trans(tsr2, _vec3_tmp2);
+        var trans_dst = _vec3_tmp;
+        trans_dst[0] = trans2[0] * (factor + 1) - trans[0] * factor;
+        trans_dst[1] = trans2[1] * (factor + 1) - trans[1] * factor;
+        trans_dst[2] = trans2[2] * (factor + 1) - trans[2] * factor;
+        set_trans(trans_dst, dest);
 
-    // linear
-    var scale = tsr[3];
-    var scale2 = tsr2[3];
-    dest[3] = scale2*(factor + 1) - scale * factor;
+        // linear
+        var scale = get_scale(tsr, _vec3_tmp);
+        var scale2 = get_scale(tsr2, _vec3_tmp2);
+        var scale_dst = _vec3_tmp;
+        scale_dst[0] = scale2[0] * (factor + 1) - scale[0] * factor;
+        scale_dst[1] = scale2[1] * (factor + 1) - scale[1] * factor;
+        scale_dst[2] = scale2[2] * (factor + 1) - scale[2] * factor;
+        set_scale(scale_dst, dest);
 
-    // NOTE: currently use linear interpolation and normalization
-    var quat = tsr.subarray(4, 8);
-    var quat2 = tsr2.subarray(4, 8);
-    var quat_dst = dest.subarray(4, 8);
+        // NOTE: currently use linear interpolation and normalization
+        var quat = get_quat(tsr, _quat_tmp);
+        var quat2 = get_quat(tsr2, _quat_tmp2);
+        var quat_dst = _quat_tmp;
 
-    // NOTE: expect issues with opposed quats
-    quat_dst[0] = quat2[0]*(factor + 1) - quat[0] * factor;
-    quat_dst[1] = quat2[1]*(factor + 1) - quat[1] * factor;
-    quat_dst[2] = quat2[2]*(factor + 1) - quat[2] * factor;
-    quat_dst[3] = quat2[3]*(factor + 1) - quat[3] * factor;
-    m_quat.normalize(quat_dst, quat_dst);
+        // NOTE: expect issues with opposed quats
+        quat_dst[0] = quat2[0] * (factor + 1) - quat[0] * factor;
+        quat_dst[1] = quat2[1] * (factor + 1) - quat[1] * factor;
+        quat_dst[2] = quat2[2] * (factor + 1) - quat[2] * factor;
+        quat_dst[3] = quat2[3] * (factor + 1) - quat[3] * factor;
+        m_quat.normalize(quat_dst, quat_dst);
+        set_quat(quat_dst, dest);
+
+        return dest;
+    };
+})();
+
+export var integrate = (function () {
+    var _vec3_tmp = m_vec3.create();
+    var _vec3_tmp2 = m_vec3.create();
+    var _quat_tmp = m_quat.create();
+    var _quat_tmp2 = m_quat.create();
+
+    return function integrate(tsr, time, linvel, angvel, dest) {
+        var trans = get_trans(tsr, _vec3_tmp);
+        trans[0] = trans[0] + time * linvel[0];
+        trans[1] = trans[1] + time * linvel[1];
+        trans[2] = trans[2] + time * linvel[2];
+        set_trans(trans, dest);
+
+        // CHECK: why don't we change scale?
+        var scale = get_scale(tsr, _vec3_tmp);
+        set_scale(scale, dest);
+
+        var quat = get_quat(tsr, _quat_tmp);
+        // Calculate quaternion derivation dQ/dt = 0.5*W*Q
+        var wx = angvel[0];
+        var wy = angvel[1];
+        var wz = angvel[2];
+        // basic multiplication, than scale
+        var quat2 = _quat_tmp2;
+        quat2[0] = 0.5 * (wx * quat[3] + wy * quat[2] - wz * quat[1]);
+        quat2[1] = 0.5 * (wy * quat[3] + wz * quat[0] - wx * quat[2]);
+        quat2[2] = 0.5 * (wz * quat[3] + wx * quat[1] - wy * quat[0]);
+        quat2[3] = 0.5 * (-wx * quat[0] - wy * quat[1] - wz * quat[2]);
+
+        quat[0] = quat[0] + quat2[0] * time;
+        quat[1] = quat[1] + quat2[1] * time;
+        quat[2] = quat[2] + quat2[2] * time;
+        quat[3] = quat[3] + quat2[3] * time;
+        m_quat.normalize(quat, quat);
+        set_quat(quat, dest);
+
+        return dest;
+    };
+})();
+
+export var to_zup_view = (function () {
+    var _vec3_tmp = m_vec3.create();
+    var _vec3_tmp2 = m_vec3.create();
+    var _quat_tmp = m_quat.create();
+    var _quat_tmp2 = m_quat.create();
+
+    return function to_zup_view(tsr, dest) {
+        var trans = get_trans(tsr, _vec3_tmp);
+        set_trans(trans, dest);
+        var scale = get_scale(tsr, _vec3_tmp2);
+        set_scale(scale, dest);
+
+        // rotation around global X-axis
+        // sin/cos -PI/4 for -PI/2 rotation
+        var quat = get_quat(tsr, _quat_tmp);
+        var bx = ZUP_SIN, bw = ZUP_COS;
+
+        var new_quat = _quat_tmp2;
+        new_quat[0] = quat[0] * bw + quat[3] * bx;
+        new_quat[1] = quat[1] * bw + quat[2] * bx;
+        new_quat[2] = quat[2] * bw - quat[1] * bx;
+        new_quat[3] = quat[3] * bw - quat[0] * bx;
+        set_quat(new_quat, dest);
+
+        return dest;
+    };
+})();
+
+export var to_zup_model = (function () {
+    var _vec3_tmp = m_vec3.create();
+    var _quat_tmp = m_quat.create();
+
+    return function to_zup_model(tsr, dest) {
+        //location
+        var trans = get_trans(tsr, _vec3_tmp);
+        trans[0] = trans[0];
+        trans[1] = -trans[2];
+        trans[2] = trans[1];
+        set_trans(trans, dest);
+
+        //scale
+        var scale = get_scale(tsr, _vec3_tmp);
+        set_scale(scale, dest);
+
+        //rot quaternion
+        var quat = get_quat(tsr, _quat_tmp);
+        quat[0] = quat[0];
+        quat[1] = -quat[1];
+        quat[2] = quat[2];
+        quat[3] = quat[3];
+        set_quat(quat, dest);
+
+        return dest;
+    };
+})();
+
+export function get_from_flat_array(flat_tsr_array, index, dest) {
+    dest[0] = flat_tsr_array[9 * index];
+    dest[1] = flat_tsr_array[9 * index + 1];
+    dest[2] = flat_tsr_array[9 * index + 2];
+    dest[3] = flat_tsr_array[9 * index + 3];
+    dest[4] = flat_tsr_array[9 * index + 4];
+    dest[5] = flat_tsr_array[9 * index + 5];
+    dest[6] = flat_tsr_array[9 * index + 6];
+    dest[7] = flat_tsr_array[9 * index + 7];
+    dest[8] = flat_tsr_array[9 * index + 8];
 
     return dest;
 }
 
-export function integrate(tsr, time, linvel, angvel, dest) {
-    dest[0] = tsr[0] + time * linvel[0];
-    dest[1] = tsr[1] + time * linvel[1];
-    dest[2] = tsr[2] + time * linvel[2];
+export function set_to_flat_array(tsr, flat_tsr_array, index) {
+    flat_tsr_array[9 * index] = tsr[0];
+    flat_tsr_array[9 * index + 1] = tsr[1];
+    flat_tsr_array[9 * index + 2] = tsr[2];
+    flat_tsr_array[9 * index + 3] = tsr[3];
+    flat_tsr_array[9 * index + 4] = tsr[4];
+    flat_tsr_array[9 * index + 5] = tsr[5];
+    flat_tsr_array[9 * index + 6] = tsr[6];
+    flat_tsr_array[9 * index + 7] = tsr[7];
+    flat_tsr_array[9 * index + 8] = tsr[8];
 
-    dest[3] = tsr[3];
-
-    tsr_quat_deriv_angvel(tsr, angvel, dest);
-
-    dest[4] = tsr[4] + dest[4] * time;
-    dest[5] = tsr[5] + dest[5] * time;
-    dest[6] = tsr[6] + dest[6] * time;
-    dest[7] = tsr[7] + dest[7] * time;
-    tsr_quat_normalize(dest, dest);
-}
-
-/**
- * Calculate quaternion derivation dQ/dt = 0.5*W*Q
- */
-function tsr_quat_deriv_angvel(tsr, angvel, dest) {
-    var wx = angvel[0];
-    var wy = angvel[1];
-    var wz = angvel[2];
-
-    var qx = tsr[4];
-    var qy = tsr[5];
-    var qz = tsr[6];
-    var qw = tsr[7];
-
-    // basic multiplication, than scale
-    dest[4] = 0.5*( wx*qw + wy*qz - wz*qy);
-    dest[5] = 0.5*( wy*qw + wz*qx - wx*qz);
-    dest[6] = 0.5*( wz*qw + wx*qy - wy*qx);
-    dest[7] = 0.5*(-wx*qx - wy*qy - wz*qz);
-}
-
-function tsr_quat_normalize(tsr, dest) {
-    var x = tsr[4];
-    var y = tsr[5];
-    var z = tsr[6];
-    var w = tsr[7];
-
-    var len = x*x + y*y + z*z + w*w;
-    if (len > 0) {
-        len = 1 / Math.sqrt(len);
-        dest[4] = tsr[4] * len;
-        dest[5] = tsr[5] * len;
-        dest[6] = tsr[6] * len;
-        dest[7] = tsr[7] * len;
-    }
-}
-
-export function to_zup_view(tsr, dest) {
-    dest[0] = tsr[0];
-    dest[1] = tsr[1];
-    dest[2] = tsr[2];
-
-    dest[3] = tsr[3];
-
-    // rotation around global X-axis
-    // sin/cos -PI/4 for -PI/2 rotation
-    var ax = tsr[4], ay = tsr[5], az = tsr[6], aw = tsr[7];
-    var bx = ZUP_SIN, bw = ZUP_COS;
-
-    dest[4] = ax * bw + aw * bx;
-    dest[5] = ay * bw + az * bx;
-    dest[6] = az * bw - ay * bx;
-    dest[7] = aw * bw - ax * bx;
-}
-
-export function to_zup_model(tsr, dest) {
-    //location
-    dest[0] = tsr[0];
-    dest[1] = -tsr[2];
-    dest[2] = tsr[1];
-    //scale
-    dest[3] = tsr[3];
-    //rot quaternion
-    dest[4] = tsr[4];
-    dest[5] = -tsr[6];
-    dest[6] = tsr[5];
-    dest[7] = tsr[7];
+    return flat_tsr_array;
 }

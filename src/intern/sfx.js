@@ -579,6 +579,145 @@ function playlist_switch_next(playlist, timeline) {
     playlist.active_start_time = timeline;
 }
 
+/**
+ * Update WA processing chain (routing graph) for given speaker.
+ */
+var update_proc_chain = (function () {
+    var _quat_tmp = m_quat.create();
+    var _vec3_tmp = m_vec3.create();
+
+    return function update_proc_chain(obj, scene_sfx) {
+
+        var sfx = obj.sfx;
+
+        if (sfx.proc_chain_in)
+            return;
+
+        if (cfg_sfx.mix_mode) {
+            var filter_node = _wa.createBiquadFilter();
+            filter_node.type = "peaking";
+        } else
+            var filter_node = null;
+
+        // mandatory fade-in/out gain node
+        var fade_gnode = _wa.createGain();
+
+        switch (sfx.behavior) {
+            // panner->filter->gain->fade->rand
+            case "POSITIONAL":
+                var ap = _wa.createPanner();
+
+                // default HRTF panning gives too much volume gain
+
+                if (typeof ap.panningModel != "string") {
+                    // old spec
+                    ap.panningModel = ap.EQUALPOWER;
+                    ap.distanceModel = ap.INVERSE_DISTANCE;
+                } else {
+                    // new spec
+                    ap.panningModel = "equalpower";
+                    ap.distanceModel = scene_sfx.distance_model;
+                }
+
+                var pos = m_tsr.get_trans(obj.render.world_tsr, _vec3_tmp);
+                var quat = m_tsr.get_quat(obj.render.world_tsr, _quat_tmp);
+                ap.setPosition(pos[0], pos[1], pos[2]);
+                m_vec3.copy(pos, sfx.last_position);
+
+                var orient = _vec3_tmp;
+                m_util.quat_to_dir(quat, m_util.AXIS_MZ, orient);
+                ap.setOrientation(orient[0], orient[1], orient[2]);
+
+                ap.refDistance = sfx.dist_ref;
+                ap.maxDistance = sfx.dist_max;
+                ap.rolloffFactor = sfx.attenuation;
+
+                ap.coneInnerAngle = sfx.cone_angle_inner;
+                ap.coneOuterAngle = sfx.cone_angle_outer;
+                ap.coneOuterGain = sfx.cone_volume_outer;
+
+                var gnode = _wa.createGain();
+                gnode.gain.value = calc_gain(sfx);
+
+                if (filter_node) {
+                    ap.connect(filter_node);
+                    filter_node.connect(gnode);
+                } else {
+                    ap.connect(gnode);
+                }
+
+                gnode.connect(fade_gnode);
+
+                sfx.proc_chain_in = ap;
+
+                // optional volume randomization gain node
+                if (sfx.volume_random) {
+                    var rand_gnode = _wa.createGain();
+                    fade_gnode.connect(rand_gnode);
+                    rand_gnode.connect(scene_sfx.proc_chain_in);
+                } else {
+                    var rand_gnode = null;
+                    fade_gnode.connect(scene_sfx.proc_chain_in);
+                }
+
+                break;
+            // filter->gain->fade->rand
+            case "BACKGROUND_SOUND":
+                var ap = null;
+
+                var gnode = _wa.createGain();
+                gnode.gain.value = calc_gain(sfx);
+
+                if (filter_node) {
+                    sfx.proc_chain_in = filter_node;
+                    filter_node.connect(gnode);
+                } else {
+                    sfx.proc_chain_in = gnode;
+                }
+
+                gnode.connect(fade_gnode);
+
+                // optional volume randomization gain node
+                if (sfx.volume_random) {
+                    var rand_gnode = _wa.createGain();
+                    fade_gnode.connect(rand_gnode);
+                    rand_gnode.connect(scene_sfx.proc_chain_in);
+                } else {
+                    var rand_gnode = null;
+                    fade_gnode.connect(scene_sfx.proc_chain_in);
+                }
+
+                break;
+            // filter->gain->fade
+            case "BACKGROUND_MUSIC":
+                var ap = null;
+                var rand_gnode = null;
+
+                var gnode = _wa.createGain();
+                gnode.gain.value = calc_gain(sfx);
+
+                if (filter_node) {
+                    sfx.proc_chain_in = filter_node;
+                    filter_node.connect(gnode);
+                } else {
+                    sfx.proc_chain_in = gnode;
+                }
+
+                gnode.connect(fade_gnode);
+
+                fade_gnode.connect(scene_sfx.proc_chain_in);
+
+                break;
+        }
+
+        sfx.panner_node = ap;
+        sfx.filter_node = filter_node;
+        sfx.gain_node = gnode;
+        sfx.fade_gain_node = fade_gnode;
+        sfx.rand_gain_node = rand_gnode;
+    }
+})();
+
 exports.play = play;
 function play(obj, when, duration) {
 
@@ -694,143 +833,6 @@ function play(obj, when, duration) {
     }
 
     schedule_fades(sfx, start_time);
-}
-
-/**
- * Update WA processing chain (routing graph) for given speaker.
- * uses _vec3_tmp
- */
-function update_proc_chain(obj, scene_sfx) {
-
-    var sfx = obj.sfx;
-
-    if (sfx.proc_chain_in)
-        return;
-
-    var pos = m_tsr.get_trans_view(obj.render.world_tsr);
-    var quat = m_tsr.get_quat_view(obj.render.world_tsr);
-
-    if (cfg_sfx.mix_mode) {
-        var filter_node = _wa.createBiquadFilter();
-        filter_node.type = "peaking";
-    } else
-        var filter_node = null;
-
-    // mandatory fade-in/out gain node
-    var fade_gnode = _wa.createGain();
-
-    switch (sfx.behavior) {
-    // panner->filter->gain->fade->rand
-    case "POSITIONAL":
-        var ap = _wa.createPanner();
-        
-        // default HRTF panning gives too much volume gain
-        
-        if (typeof ap.panningModel != "string") {
-            // old spec
-            ap.panningModel = ap.EQUALPOWER;
-            ap.distanceModel = ap.INVERSE_DISTANCE;
-        } else {
-            // new spec
-            ap.panningModel = "equalpower";
-            ap.distanceModel = scene_sfx.distance_model;
-        }
-
-
-        ap.setPosition(pos[0], pos[1], pos[2]);
-        m_vec3.copy(pos, sfx.last_position);
-
-        var orient = _vec3_tmp;
-        m_util.quat_to_dir(quat, m_util.AXIS_MZ, orient);
-        ap.setOrientation(orient[0], orient[1], orient[2]);
-
-        ap.refDistance = sfx.dist_ref;
-        ap.maxDistance = sfx.dist_max;
-        ap.rolloffFactor = sfx.attenuation;
-
-        ap.coneInnerAngle = sfx.cone_angle_inner;
-        ap.coneOuterAngle = sfx.cone_angle_outer;
-        ap.coneOuterGain = sfx.cone_volume_outer;
-
-        var gnode = _wa.createGain();
-        gnode.gain.value = calc_gain(sfx);
-
-        if (filter_node) {
-            ap.connect(filter_node);
-            filter_node.connect(gnode);
-        } else {
-            ap.connect(gnode);
-        }
-
-        gnode.connect(fade_gnode);
-
-        sfx.proc_chain_in = ap;
-
-        // optional volume randomization gain node
-        if (sfx.volume_random) {
-            var rand_gnode = _wa.createGain();
-            fade_gnode.connect(rand_gnode);
-            rand_gnode.connect(scene_sfx.proc_chain_in);
-        } else {
-            var rand_gnode = null;
-            fade_gnode.connect(scene_sfx.proc_chain_in);
-        }
-
-        break;
-    // filter->gain->fade->rand
-    case "BACKGROUND_SOUND":
-        var ap = null;
-
-        var gnode = _wa.createGain();
-        gnode.gain.value = calc_gain(sfx);
-
-        if (filter_node) {
-            sfx.proc_chain_in = filter_node;
-            filter_node.connect(gnode);
-        } else {
-            sfx.proc_chain_in = gnode;
-        }
-
-        gnode.connect(fade_gnode);
-
-        // optional volume randomization gain node
-        if (sfx.volume_random) {
-            var rand_gnode = _wa.createGain();
-            fade_gnode.connect(rand_gnode);
-            rand_gnode.connect(scene_sfx.proc_chain_in);
-        } else {
-            var rand_gnode = null;
-            fade_gnode.connect(scene_sfx.proc_chain_in);
-        }
-
-        break;
-    // filter->gain->fade
-    case "BACKGROUND_MUSIC":
-        var ap = null;
-        var rand_gnode = null;
-
-        var gnode = _wa.createGain();
-        gnode.gain.value = calc_gain(sfx);
-
-        if (filter_node) {
-            sfx.proc_chain_in = filter_node;
-            filter_node.connect(gnode);
-        } else {
-            sfx.proc_chain_in = gnode;
-        }
-
-        gnode.connect(fade_gnode);
-
-        fade_gnode.connect(scene_sfx.proc_chain_in);
-
-        break;
-    }
-
-    sfx.panner_node = ap;
-    sfx.filter_node = filter_node;
-    sfx.gain_node = gnode;
-    sfx.fade_gain_node = fade_gnode;
-    sfx.rand_gain_node = rand_gnode;
 }
 
 exports.play_def = play_def;

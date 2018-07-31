@@ -6,6 +6,102 @@ Release Notes
 
 .. index:: release notes
 
+v18.05
+======
+
+New Features
+------------
+
+* New Webplayer version 3.0 is now can be used in your projects.
+
+    New contemporary style design with flat UI and smooth animations.
+
+    Smart UI that adds elements depending on the content: for scenes with NLA animation and without logic nodes the new WebPlayer adds a ``Timeline`` control; for mobile devices, the content of the help page depends on the current camera type.
+
+    Multi-language UI - currently English and Russian versions are available.
+
+* Further support for Cycles materials.
+
+    Basic support for refraction in ``Principled BSDF`` has been added. ``IOR`` and ``Transmission`` sockets can now be used to configure transparent materials. ``Transmission`` controls transparency, while ``IOR`` (index of refraction) sets the intensity of refraction. ``Roughness`` impacts turbidity of the material.
+
+* Axis-aligned non-uniform scale has been supported. ``Apply Scale`` operation is not needed anymore (in most cases)!
+
+    Scaling can now be applied independently along axes.
+
+    For child objects, scale is aligned to their local axes.
+
+* Improvements in Project Manager and build system.
+
+    ``Custom Build Type`` has been added to Application Types. It allows for setting a user-defined build command. This command can contain environment variables (``$NODE`` and ``$NPM`` will be resolved as integrated into SDK ``node`` and ``npm`` utilities).
+
+    Added script for generating externs based on the engine source code using ``google closure compiler``. This script can be used in custom build configurations that utilize ``google closure compiler`` (see build scripts of the new webplayer).
+
+    Added ``Editor Ignore List`` field to exclude unwanted files from the file list in the ``Text Editor``.
+
+* Dynamic loading using ``m_data.load`` method now supports reflections.
+
+    Real-time planar and cube reflections are supported.
+
+    Loading both reflexible and reflective objects is supported.
+
+
+Changes
+-------
+
+* Deep internal refactoring of the engine code for non-uniform scale support.
+
+* The :b4wref:`tsr.get_quat_view` method from the :b4wmod:`tsr` module has been declared deprecated.
+
+* Added :b4wref:`tsr.get_quat` method to the b4wmod:`tsr` module.
+
+* Lighting calculations in ``PBR`` shaders have been optimized.
+
+* ``Empty`` type objects can now be created dynamically.
+
+* ``Empty`` type objects can now be copied dynamically.
+
+* Synchronization with WebVR API 1.1.
+
+* ``AR`` application has been moved to the *projects* folder. *webpack.config.js* is added to the project for debugging https connection required by mobile devices.
+
+* ``google closure compiler`` has been removed from the tools directory. The version from node_modules is used instead.
+
+* ``NodeJS`` and ``Java`` are updated to newer versions.
+
+* NodeJS for different operating systems is now stored in the SDK in its original form (as compressed archive) and can be unpacked on request to the build system.
+
+Fixes
+-----
+
+* Fixed incorrect behavior of the ``rotate_camera`` method in case of using negative angles.
+
+* Fixed crashes in applications that use physics.
+
+* Fixed crash in ``Transform Object`` node.
+
+* Fixed ``change_image`` callback function call and corresponding code snippet.
+
+* Fixed internals: shaders debug and build issues.
+
+* Fixed crash when running ``Entry Point`` node with JavaScript functions multiple times.
+
+* Fixed ``Page Param`` node.
+
+* Fixed the error with ``long names`` when unpacking ``SDK`` on Windows.
+
+* Fixed engine auto build for ES5 b4w-projects.
+
+* Fixed crash that occured when building ``Compile`` type project.
+
+* Fixed using externs during build on windows.
+
+* Fixed on-the-fly compilation: using wss when protocol is https.
+
+Known Issues
+------------
+
+    To build WebPlayer on Windows, you should install Oracle Java (https://java.com/download/). If you have any other issues, open **projects/webplayer** folder and run ``npm install``.
+
 v17.12
 ======
 

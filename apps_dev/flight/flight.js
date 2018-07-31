@@ -26,6 +26,7 @@ var TS_TRACK    = 30;   // track the plane from fixed point
 var TS_CAM_ANIM = 40;   // camera animation
 
 var _vec3_tmp  = new Float32Array(3);
+var _vec3_tmp2 = new Float32Array(3);
 var _tsr = m_tsr.create();
 
 var _cessna_arm = null;
@@ -364,12 +365,12 @@ function move_camera() {
         return;
 
     m_arm.get_bone_tsr(_cessna_arm, "Root", _tsr);
-    var target = m_tsr.get_trans_view(_tsr);
+    var target = m_tsr.get_trans(_tsr, _vec3_tmp);
 
     if (_trigger_state == TS_TRACK)
         var eye = CAM_STAT_POS;
     else if (_trigger_state == TS_FOLLOW) {
-        var eye = _vec3_tmp;
+        var eye = _vec3_tmp2;
 
         m_vec3.add(target, CAM_TRACKING_OFFSET, eye);
     }

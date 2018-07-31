@@ -512,8 +512,7 @@ function register_cockpit(is_hmd) {
                 }
 
                 // bend environment
-                var init_bending_pos = m_tsr.get_trans_view(init_bending_tsr);
-                var new_bending_pos = m_vec3.copy(init_bending_pos, _vec3_tmp);
+                var new_bending_pos = m_tsr.get_trans(init_bending_tsr, _vec3_tmp);
                 new_bending_pos[0] += _dest_x_trans;
                 new_bending_pos[2] += _dest_z_trans;
                 var new_bending_tsr = m_tsr.copy(init_bending_tsr, _tsr_tmp);

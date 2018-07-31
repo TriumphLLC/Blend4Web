@@ -1,5 +1,4 @@
 # Blend4Web CE SDK distribution list
-apps_dev/AR
 apps_dev/code_snippets
 apps_dev/demos_*
 apps_dev/flight
@@ -10,13 +9,13 @@ apps_dev/tutorials
 apps_dev/victory_day_2015
 apps_dev/viewer
 apps_dev/website
-apps_dev/webplayer
 projects/simple_app
+projects/webplayer
+projects/AR
 
 csrc
 doc_src
 
-blender/AR
 blender/animation
 blender/code_snippets
 blender/dev/logo.blend
@@ -60,9 +59,7 @@ deploy/api_doc
 
 deploy/apps/common
 deploy/apps/demos_*
-deploy/apps/webplayer
 
-deploy/assets/AR
 deploy/assets/animation
 deploy/assets/code_snippets
 deploy/assets/dev/4_digit*

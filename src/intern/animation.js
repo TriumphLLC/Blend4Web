@@ -33,6 +33,7 @@ import m_trans_fact from "./transform.js";
 import * as m_tsr from "./tsr.js";
 import * as m_util from "./util.js";
 import * as m_vec3 from "../libs/gl_matrix/vec3.js";
+import * as m_vec4 from "../libs/gl_matrix/vec4.js";
 
 /**
  * Animation internal API.
@@ -130,6 +131,7 @@ var AEM_FOG_COLOR       = 7;
 var _frame_info_tmp = new Array(3);
 var _vec3_tmp = new Float32Array(3);
 var _vec3_tmp2 = new Float32Array(3);
+var _vec3_tmp3 = new Float32Array(3);
 var _vec4_tmp = new Float32Array(4);
 var _vec4_tmp2 = new Float32Array(4);
 var _vec4_tmp3 = new Float32Array(4);
@@ -282,6 +284,7 @@ function init_anim(obj, slot_num) {
         channels_mask: new Int8Array(8),
 
         quats: null,
+        scale: null,
         trans: null,
 
         bone_space_quats: null,
@@ -814,11 +817,11 @@ function init_action_cache(obj, name_list, uuid, name, slot_num) {
         }
         break;
     case OBJ_ANIM_TYPE_OBJECT:
-        var tsr = act_render.params["tsr"];
-        if (tsr) {
+        var flat_tsr_array = act_render.params["tsr"];
+        if (flat_tsr_array) {
             var obj_anim_data = get_cached_anim_data(obj, name_list, action);
             if (!obj_anim_data) {
-                obj_anim_data = calc_obj_anim_data(obj, action, tsr);
+                obj_anim_data = calc_obj_anim_data(obj, action, flat_tsr_array);
                 cache_anim_data(obj, name_list, action, obj_anim_data);
             }
         } else {
@@ -836,7 +839,6 @@ function init_action_cache(obj, name_list, uuid, name, slot_num) {
  * save them to obj.anim_slots
  */
 function apply_action(obj, name_list, action, slot_num) {
-
     var frame_range = action["frame_range"];
 
     if (frame_range[0] > frame_range[1]) {
@@ -914,25 +916,28 @@ function apply_action(obj, name_list, action, slot_num) {
         break;
 
     case OBJ_ANIM_TYPE_OBJECT:
-        var tsr = act_render.params["tsr"];
-        if (tsr) {
+        var flat_tsr_array = act_render.params["tsr"];
+        if (flat_tsr_array) {
 
             anim_slot.type = OBJ_ANIM_TYPE_OBJECT;
 
             var obj_anim_data = get_cached_anim_data(obj, name_list, action);
             if (!obj_anim_data) {
-                obj_anim_data = calc_obj_anim_data(obj, action, tsr);
+                obj_anim_data = calc_obj_anim_data(obj, action, flat_tsr_array);
                 cache_anim_data(obj, name_list, action, obj_anim_data);
             }
 
             anim_slot.trans = obj_anim_data.trans;
+            anim_slot.scale = obj_anim_data.scale;
             anim_slot.quats = obj_anim_data.quats;
 
             // move particles with world coordinate system to objects position
             if (m_particles.obj_has_particles(obj)) {
                 var trans = anim_slot.trans[0];
+                var scale = anim_slot.scale[0];
                 var quats = anim_slot.quats[0];
-                m_particles.update_start_pos(obj, trans, quats);
+                // CHECK: if it is right to use the "x" coordinate.
+                m_particles.update_start_pos(obj, trans, scale, quats);
             }
         } else {
             m_print.warn("Incompatible action \"" + action["name"] + 
@@ -1221,22 +1226,35 @@ function calc_node_act_value(param_name, node_name, act_render, values, inds,
     return found_vals;
 }
 
+var calc_obj_anim_data = (function() {
+    var _tsr_tmp = m_tsr.create();
 
-function calc_obj_anim_data(obj, action, tsr) {
+    return function calc_obj_anim_data(obj, action, flat_tsr_array) {
 
-    var act_render = action._render;
+        var act_render = action._render;
 
-    // TODO: clarify length/frame_range/num_pierced
-    var num_pierced = act_render.num_pierced;
+        // TODO: clarify length/frame_range/num_pierced
+        var num_pierced = act_render.num_pierced;
 
-    var anim_trans = [];
-    var anim_quats = [];
-    for (var i = 0; i < num_pierced; i++) {
-        anim_trans.push(tsr.subarray(i*8, i*8 + 4));
-        anim_quats.push(tsr.subarray(i*8 + 4, i*8 + 8));
+        var anim_trans = [];
+        var anim_scale = [];
+        var anim_quats = [];
+        for (var i = 0; i < num_pierced; i++) {
+            var tsr = m_tsr.get_from_flat_array(flat_tsr_array, i, _tsr_tmp);
+            var trans = m_tsr.get_trans(tsr, m_vec3.create());
+            var scale = m_tsr.get_scale(tsr, m_vec3.create());
+            var quat = m_tsr.get_quat(tsr, m_quat.create());
+            anim_trans.push(trans);
+            anim_scale.push(scale);
+            anim_quats.push(quat);
+        }
+        return {
+            trans: anim_trans,
+            scale: anim_scale,
+            quats: anim_quats
+        };
     }
-    return {trans: anim_trans, quats: anim_quats};
-}
+})();
 
 function animate(obj, elapsed, slot_num, force_update) {
     var anim_slot = obj.anim_slots[slot_num];
@@ -1315,20 +1333,19 @@ function animate(obj, elapsed, slot_num, force_update) {
         var finfo = action_anim_finfo(anim_slot);
 
         var trans = get_anim_translation(anim_slot, 0, finfo, _vec3_tmp);
+        var scale = get_anim_scale(anim_slot, 0, finfo, _vec3_tmp2);
         var quat = get_anim_rotation(anim_slot, 0, finfo, _quat4_tmp);
-        var scale = get_anim_scale(anim_slot, 0, finfo);
         if (obj.parent && obj.pinverse_tsr) {
             var tsr = _tsr_tmp;
             m_tsr.set_sep(trans, scale, quat, tsr);
             m_tsr.multiply(obj.pinverse_tsr, tsr, tsr);
             m_tsr.get_trans(tsr, trans);
+            m_tsr.get_scale(tsr, scale);
             m_tsr.get_quat(tsr, quat);
-            scale = m_tsr.get_scale(tsr);
         }
 
         if (anim_slot.trans_smooth_period) {
-            var trans_old = _vec3_tmp2;
-            m_trans.get_translation(obj, trans_old);
+            var trans_old = m_trans.get_translation(obj, _vec3_tmp3);
             m_util.smooth_v(trans, trans_old, elapsed,
                     anim_slot.trans_smooth_period, trans);
         }
@@ -1942,11 +1959,12 @@ function calc_pose_data_frames(action, bone_pointers) {
 
             // retrieve transform for this pierced point
             var bone_tsr = action._render.bones[bone_name];
-            if (bone_tsr)
-                m_tsr.copy(bone_tsr.subarray(i*8, i*8 + 8), tsr_basis);
-            else
+            if (bone_tsr) {
+                m_tsr.get_from_flat_array(bone_tsr, i, tsr_basis);
+            } else {
                 // provide identity tsr for bones not deformed in this action
                 m_tsr.identity(tsr_basis);
+            }
 
             // reset cache state (for calc_pose_bone)
             bpointer.tsr_channel_cache_valid = false;
@@ -1960,8 +1978,12 @@ function calc_pose_data_frames(action, bone_pointers) {
         bone_space_quats_frames.push(pose_data.bone_space_quats);
     }
 
-    return {trans: trans_frames, quats: quats_frames,
-        bone_space_trans:bone_space_trans_frames, bone_space_quats:bone_space_quats_frames};
+    return {
+        trans: trans_frames,
+        quats: quats_frames,
+        bone_space_trans: bone_space_trans_frames,
+        bone_space_quats: bone_space_quats_frames
+    };
 }
 
 exports.calc_pose_data = calc_pose_data;
@@ -1969,7 +1991,6 @@ exports.calc_pose_data = calc_pose_data;
  * Calculate pose trans/quats for armature object
  */
 function calc_pose_data(bone_pointers) {
-
     var trans = [];
     var quats = [];
     var bone_space_trans = [];
@@ -1978,6 +1999,9 @@ function calc_pose_data(bone_pointers) {
     var t = new Float32Array(4);
     var q = new Float32Array(4);
 
+    var bt = new Float32Array(4);
+    var bq = new Float32Array(4);
+
     for (var bone_name in bone_pointers) {
         var bpointer = bone_pointers[bone_name];
 
@@ -1985,14 +2009,17 @@ function calc_pose_data(bone_pointers) {
         var bone_index = bpointer.bone_index;
 
         m_tsr.multiply(bpointer.tsr_bone_rest, bpointer.tsr_basis, _tsr_tmp);
+        m_tsr.get_transcale(_tsr_tmp, bt);
+        m_tsr.get_quat(_tsr_tmp, bq);
 
+        // FIXME: add nonuniform scale support
         for (var i = 0; i < 4; i++) {
             /* quat, tran vec4 */
             var comp_index = 4 * bone_index + i;
             trans[comp_index] = t[i];
             quats[comp_index] = q[i];
-            bone_space_trans[comp_index] = _tsr_tmp[i];
-            bone_space_quats[comp_index] = _tsr_tmp[i + 4];
+            bone_space_trans[comp_index] = bt[i];
+            bone_space_quats[comp_index] = bq[i];
         }
     }
     return {trans: trans, quats: quats,
@@ -2103,15 +2130,9 @@ function calc_pose_bone(bone_pointer, dest_trans_scale, dest_quat) {
     // split and store calculated TSR
     var tsr = bone_ptr.tsr_channel_cache;
 
-    dest_trans_scale[0] = tsr[0];
-    dest_trans_scale[1] = tsr[1];
-    dest_trans_scale[2] = tsr[2];
-    dest_trans_scale[3] = tsr[3];
-    dest_quat[0] = tsr[4];
-    dest_quat[1] = tsr[5];
-    dest_quat[2] = tsr[6];
-    dest_quat[3] = tsr[7];
-    m_quat.normalize(dest_quat, dest_quat);
+    // FIXME: add nonuniform scale support
+    m_tsr.get_transcale(tsr, dest_trans_scale);
+    m_tsr.get_quat(tsr, dest_quat);
 }
 
 /**
@@ -2119,7 +2140,7 @@ function calc_pose_bone(bone_pointer, dest_trans_scale, dest_quat) {
  */
 exports.append_action = function(action) {
     var BONE_EXP = new RegExp(/pose.bones\[\".+\"\]/g);
-    var TSR8_DEF = m_tsr.create();
+    var TSR_DEF = m_tsr.create();
 
     var init_storage = function(pierced_points, default_value) {
         if (typeof default_value == "object" && default_value.length) {
@@ -2146,12 +2167,13 @@ exports.append_action = function(action) {
         if (data_path.search(BONE_EXP) > -1) {
             var storage_obj = bones;
             var name = data_path.split("\"")[1];
-            var def_val = TSR8_DEF;
+            var def_val = TSR_DEF;
         } else {
             var storage_obj = params;
-            if (num_channels == 8) {
+            // TODO: remove one of [num_channels == 8, num_channels == 9]
+            if (num_channels == 8 || num_channels == 9) {
                 var name = "tsr";
-                var def_val = TSR8_DEF;
+                var def_val = TSR_DEF;
             } else if (num_channels > 1) {
                 var name = data_path;
                 var def_val = new Float32Array(num_channels);
@@ -2173,24 +2195,17 @@ exports.append_action = function(action) {
             var base_offset = 0;
             var channel_offset = array_index;
         } else if (data_path.indexOf("rotation_quaternion") > -1) {
-            var base_offset = 4;
-            // W X Y Z -> X Y Z W
-            var channel_offset = (array_index == 0) ? 3 : array_index - 1;
+            var base_offset = 6;
+            // W X Y Z -> X Y Z NaN
+            var channel_offset = (array_index == 0) ? NaN: array_index - 1;
         } else if (data_path.indexOf("scale") > -1) {
             var base_offset = 3;
-            var channel_offset = 0;
+            var channel_offset = array_index;
         } else {
             var base_offset = 0;
             var channel_offset = array_index;
         }
         return base_offset + channel_offset;
-    }
-
-    var prepare_tsr_arr = function(tsr_arr, num_pierced) {
-        for (var i = 0; i < num_pierced; i++) {
-            var quat = tsr_arr.subarray(i*8 + 4, i*8 + 8);
-            m_quat.normalize(quat, quat);
-        }
     }
 
     var act_render = action._render = create_action_render();
@@ -2204,6 +2219,10 @@ exports.append_action = function(action) {
     for (var data_path in fcurves) {
         var channels = fcurves[data_path];
 
+        var keys = Object.keys(channels);
+        // NOTE: channels is a list of strings of values in [0, 3]
+        // Sort is used for change sign of quaternion component in case of "w" < 0.
+        // TODO: fix it.
         for (var array_index in channels) {
             var fcurve = channels[array_index];
             var pp = fcurve._pierced_points;
@@ -2213,27 +2232,57 @@ exports.append_action = function(action) {
                 num_pierced = pp.length;
 
             var storage = get_storage(params, bones, data_path, num_pierced,
-                                      num_channels);
+                num_channels);
 
             var stride = storage.length / num_pierced;
             // NOTE: converting JSON key "array_index" to Int
             var offset = storage_offset(data_path, array_index | 0);
 
-            for (var i = 0; i < num_pierced; i++)
-                storage[i * stride + offset] = pp[i];
+            // offset != offset is only for the "w" component of quaternion,
+            // we ignore this component untile all components are filled!!!
+            // FIXME: the next code breaks data hiding of tsr structure.
+            if (!(offset != offset)) {
+                // HACK: kept backward compatibility (uniform scale)
+                if (data_path.indexOf("scale") > -1 && num_channels === 8) {
+                    for (var i = 0; i < num_pierced; i++) {
+                        storage[i * stride + offset] = pp[i];
+                        storage[i * stride + offset + 1] = pp[i];
+                        storage[i * stride + offset + 2] = pp[i];
+                    }
+                } else {
+                    for (var i = 0; i < num_pierced; i++) {
+                        storage[i * stride + offset] = pp[i];
+                    }
+                }
+            }
+        }
+
+        // 0-th channel is "w" component of quaternion
+        // NOTE: change sign of components of quaternion in case of
+        // "w" component of quaternion is less 0
+        if (data_path.indexOf("rotation_quaternion") > -1 &&
+                0 in channels) {
+            var fcurve = channels[0];
+            var pp = fcurve._pierced_points;
+            var num_channels = fcurve["num_channels"];
+            var storage = get_storage(params, bones, data_path, num_pierced,
+                num_channels);
+            var stride = storage.length / num_pierced;
+            for (var i = 0; i < num_pierced; i++) {
+                if (pp[i] < 0) {
+                    storage[i * stride + 6] = -storage[i * stride + 6];
+                    storage[i * stride + 7] = -storage[i * stride + 7];
+                    storage[i * stride + 8] = -storage[i * stride + 8];
+                }
+            }
         }
     }
 
     if (m_util.get_dict_length(params)) {
-        for (var p in params)
-            if (p == "tsr")
-                prepare_tsr_arr(params[p], num_pierced);
         act_render.params = params;
     }
 
     if (m_util.get_dict_length(bones)) {
-        for (var b in bones)
-            prepare_tsr_arr(bones[b], num_pierced);
         act_render.bones = bones;
     }
 
@@ -2669,18 +2718,26 @@ function get_anim_rotation(anim_slot, index, frame_info, dest) {
     return dest;
 }
 
-function get_anim_scale(anim_slot, index, frame_info) {
+function get_anim_scale(anim_slot, index, frame_info, dest) {
     var frame = frame_info[0];
     var frame_next = frame_info[1];
     var frame_factor = frame_info[2];
 
-    var trans = anim_slot.trans;
+    var scale = anim_slot.scale;
 
-    var s = trans[frame][4*index+3];
-    var sn = trans[frame_next][4*index+3];
+    var sx = scale[frame][4 * index];
+    var sy = scale[frame][4 * index + 1];
+    var sz = scale[frame][4 * index + 2];
 
-    var scale = (1-frame_factor) * s + frame_factor * sn;
-    return scale;
+    var sxn = scale[frame_next][4 * index];
+    var syn = scale[frame_next][4 * index + 1];
+    var szn = scale[frame_next][4 * index + 2];
+
+    dest[0] = (1 - frame_factor) * sx + frame_factor * sxn;
+    dest[1] = (1 - frame_factor) * sy + frame_factor * syn;
+    dest[2] = (1 - frame_factor) * sz + frame_factor * szn;
+
+    return dest;
 }
 
 function do_before_apply(obj, slot_num) {

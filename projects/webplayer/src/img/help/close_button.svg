@@ -1,0 +1,14 @@
+<svg width="64" height="40" viewBox="0 0 64 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<title>close_button</title>
+<desc>Created using Figma</desc>
+<g id="Canvas" transform="translate(-4624 -3824)">
+<g id="close_button">
+<g id="arrow">
+<use xlink:href="#path0_stroke" transform="translate(4636 3838)" fill="#FFFFFF"/>
+</g>
+</g>
+</g>
+<defs>
+<path id="path0_stroke" d="M 19.5349 0L 20.0407 -0.862639L 19.5229 -1.16625L 19.0115 -0.852076L 19.5349 0ZM 0.523418 12.8521L 20.0583 0.852076L 19.0115 -0.852076L -0.523418 11.1479L 0.523418 12.8521ZM 19.0291 0.862639L 39.4942 12.8626L 40.5058 11.1374L 20.0407 -0.862639L 19.0291 0.862639Z"/>
+</defs>
+</svg>

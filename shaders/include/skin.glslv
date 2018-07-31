@@ -122,7 +122,7 @@ vec3 skin_point(in vec3 position,
                 in vec4 trana,
                 in float frame_factor)
 {
-    vec3 pos_armobj_space = tsr_transform(u_arm_rel_trans, u_arm_rel_quat, position);
+    vec3 pos_armobj_space = tsr_transform(u_arm_rel_trans.xyz, vec3(u_arm_rel_trans.w), u_arm_rel_quat, position);
 #  if SKIN_SLERP
     vec4 quat = quat4_slerp(quatb, quata, frame_factor);
     vec4 tran = mix(tranb, trana, frame_factor);
@@ -139,7 +139,7 @@ vec3 skin_point(in vec3 position,
     vec3 pos_tran_rot = mix(pos_tran_rot_before, pos_tran_rot_after,
                             frame_factor);
 #  endif
-    return tsr_transform_inv(u_arm_rel_trans, u_arm_rel_quat, pos_tran_rot);
+    return tsr_transform_inv(u_arm_rel_trans.xyz, vec3(u_arm_rel_trans.w), u_arm_rel_quat, pos_tran_rot);
 }
 
 vec3 skin_vector(in vec3 vector, 
@@ -147,7 +147,7 @@ vec3 skin_vector(in vec3 vector,
                  in vec4 quata,
                  in float frame_factor)
 {
-    vec3 vec_armobj_space = tsr_transform_dir(u_arm_rel_trans, u_arm_rel_quat, vector);
+    vec3 vec_armobj_space = tsr_transform_dir(u_arm_rel_trans.xyz, vec3(u_arm_rel_trans.w), u_arm_rel_quat, vector);
 #  if SKIN_SLERP
     vec4 quat = quat4_slerp(quatb, quata, frame_factor);
     vec3 vector_rot = qrot(quat, vec_armobj_space);
@@ -156,25 +156,25 @@ vec3 skin_vector(in vec3 vector,
     vec3 vector_rot_after  = qrot(quata, vec_armobj_space);
     vec3 vector_rot = mix(vector_rot_before, vector_rot_after, frame_factor);
 #  endif
-    return tsr_transform_inv_dir(u_arm_rel_trans, u_arm_rel_quat, vector_rot);
+    return tsr_transform_inv_dir(u_arm_rel_trans.xyz, vec3(u_arm_rel_trans.w), u_arm_rel_quat, vector_rot);
 }
 
 # else // FRAMES_BLENDING
 
 vec3 skin_point(in vec3 position, in vec4 quatb, in vec4 tranb)
 {
-    vec3 pos_armobj_space = tsr_transform(u_arm_rel_trans, u_arm_rel_quat, position);
+    vec3 pos_armobj_space = tsr_transform(u_arm_rel_trans.xyz, vec3(u_arm_rel_trans.w), u_arm_rel_quat, position);
     vec3 pos_rot = qrot(quatb, pos_armobj_space);
     // uniform scale in w, translation in xyz
     vec3 pos_tran_rot = pos_rot * tranb.w + tranb.xyz;
-    return tsr_transform_inv(u_arm_rel_trans, u_arm_rel_quat, pos_tran_rot);
+    return tsr_transform_inv(u_arm_rel_trans.xyz, vec3(u_arm_rel_trans.w), u_arm_rel_quat, pos_tran_rot);
 }
 
 vec3 skin_vector(in vec3 vector, in vec4 quatb)
 {
-    vec3 vec_armobj_space = tsr_transform_dir(u_arm_rel_trans, u_arm_rel_quat, vector);
+    vec3 vec_armobj_space = tsr_transform_dir(u_arm_rel_trans.xyz, vec3(u_arm_rel_trans.w), u_arm_rel_quat, vector);
     vec3 vector_rot = qrot(quatb, vec_armobj_space);
-    return tsr_transform_inv_dir(u_arm_rel_trans, u_arm_rel_quat, vector_rot);
+    return tsr_transform_inv_dir(u_arm_rel_trans.xyz, vec3(u_arm_rel_trans.w), u_arm_rel_quat, vector_rot);
 }
 # endif // FRAMES_BLENDING
 

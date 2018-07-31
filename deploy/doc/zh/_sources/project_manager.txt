@@ -218,6 +218,13 @@ New Project]" 按钮执行。
 
            这个选项可以用于修改引擎本身的代码;
 
+      * "Command" - this project type is similar to "Compile", but
+        it also gives you an option to set command for compiling the
+        application. Environment variables are also supported.
+
+           注解: Variables like "NODE", "NPM" or "PYTHON" refer to
+             the corresponding files in the Blend4Web SDK.
+
       * "None" -项目管理器不会将引擎文件复制到应用程序文件夹，也不将
         它 执行任何操作生成应用程序。应用程序开发人员将不得不手动执行
         他们 所需要的一切;

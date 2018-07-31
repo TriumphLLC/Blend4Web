@@ -1,0 +1,12 @@
+# These files don't have to be included in the npm package download
+
+# Test
+test/
+.travis.yml
+
+# Editor
+.editorconfig
+
+# Other
+*.log
+

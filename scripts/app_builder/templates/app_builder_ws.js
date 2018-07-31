@@ -25,7 +25,10 @@ function b4w_app_builder_run() {
             build_engine: b4w_build_engine
         }))
     }
-    var socket = new WebSocket("ws://" + window.location.host + "/app_builder/");
+    var ws_proto = "ws:";
+    if (location.protocol == "https:")
+        ws_proto = "wss:";
+    var socket = new WebSocket(ws_proto + "//" + window.location.host + "/app_builder/");
     socket.onopen = function() {
         setInterval(send_get_state, 2000);
         send_get_state();

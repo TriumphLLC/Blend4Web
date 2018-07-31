@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>对应用程序开发人员 &mdash; Blend4Web 17.12.0 用户手册</title>
+  <title>对应用程序开发人员 &mdash; Blend4Web 18.05.0 用户手册</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="索引"
               href="genindex.html"/>
         <link rel="search" title="搜索" href="search.html"/>
-    <link rel="top" title="Blend4Web 17.12.0 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 18.05.0 用户手册" href="index.html"/>
         <link rel="next" title="对于引擎开发者" href="developers_advanced.html"/>
         <link rel="prev" title="物理" href="physics.html"/> 
 
@@ -64,7 +64,7 @@
           
           
             <div class="version">
-              v17.12.0
+              v18.05.0
             </div>
           
         
@@ -147,7 +147,22 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#sdk-file-structure">SDK文件结构</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#loading-local-resources">加载本地资源</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#quality-profiles">品质配置</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#quality-profiles">品质配置</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#additional-quality-settings">Additional Quality Settings</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#shadow-settings">Shadow settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#reflection-settings">Reflection settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#outlining-settings">Outlining settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#glow-settings">Glow settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#anti-aliasing-settings">Anti-Aliasing settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#bloom-settings">Bloom settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#moton-blur-settings">Moton Blur settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ssao-settings">SSAO settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#god-rays-settings">God Rays settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#color-correction-settings">Color Correction settings</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#non-standard-canvas-position-and-orientation">非标准画布位置和方向</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#mobile-web-apps">移动 Web 应用程序</a></li>
 </ul>
@@ -225,9 +240,12 @@
 </li>
 <li><a class="reference internal" href="#sdk-file-structure" id="id17">SDK文件结构</a></li>
 <li><a class="reference internal" href="#loading-local-resources" id="id18">加载本地资源</a></li>
-<li><a class="reference internal" href="#quality-profiles" id="id19">品质配置</a></li>
-<li><a class="reference internal" href="#non-standard-canvas-position-and-orientation" id="id20">非标准画布位置和方向</a></li>
-<li><a class="reference internal" href="#mobile-web-apps" id="id21">移动 Web 应用程序</a></li>
+<li><a class="reference internal" href="#quality-profiles" id="id19">品质配置</a><ul>
+<li><a class="reference internal" href="#additional-quality-settings" id="id20">Additional Quality Settings</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#non-standard-canvas-position-and-orientation" id="id21">非标准画布位置和方向</a></li>
+<li><a class="reference internal" href="#mobile-web-apps" id="id22">移动 Web 应用程序</a></li>
 </ul>
 </li>
 </ul>
@@ -237,8 +255,9 @@
 <p>为了简化开发过程，我们建议使用 <a class="reference internal" href="project_manager.html#project-management"><span class="std std-ref">项目管理器</span></a>. 它可以用于快速  <a class="reference internal" href="project_manager.html#create-new-project"><span class="std std-ref">创建</span></a>  一个简单的应用程序，其通用代码足以加载简单的场景并启用基本的相机控件。</p>
 <div class="section" id="application-code-structure">
 <span id="app-init-loading"></span><h3><a class="toc-backref" href="#id4">应用程序代码结构</a><a class="headerlink" href="#application-code-structure" title="永久链接至标题">¶</a></h3>
+<p>Starting with version 17.12, Blend4Web engine supports a new coding standard that uses ES6 modules. The old standard that uses modified CommonJS modules is still supported as well. The following chapter describes the structure of the program code in a generic Blend4Web aplication and the differences between these two programming approaches.</p>
 <p>初始化和加载应用程序的过程分为几个阶段，这反映在应用程序的代码中。如果您正在使用项目管理器，新创建的 <code class="docutils literal"><span class="pre">Copy</span></code> 或 <code class="docutils literal"><span class="pre">Compile</span></code> 类型项目将包含一个主要的JS文件，它将放在SDK中。该文件的路径如下所示：<code class="docutils literal"><span class="pre">./projects/PROJECT_NAME/PROJECT_NAME.js</span></code>.</p>
-<p>此文件包含通用代码作为模块。该模块可以使用一定的结构进行注册：</p>
+<p>This file contains generic code shaped as a module. Using the old CommonJS notation, this module can be registered using the certain structure:</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">b4w</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">exports</span><span class="p">,</span> <span class="nx">require</span><span class="p">)</span> <span class="p">{</span>
 
     <span class="c1">// module code</span>
@@ -246,6 +265,10 @@
 
 <span class="p">});</span>
 </pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">注解</p>
+<p class="last">If you are using ES6 notation, you don't have to register your modules and can use them without any preparations.</p>
 </div>
 <p>因此，模块的代码包含在接受 <code class="docutils literal"><span class="pre">exports</span></code> 和 <code class="docutils literal"><span class="pre">require</span></code>  参数的函数中。</p>
 <ol class="arabic">
@@ -260,7 +283,8 @@
 </li>
 <li><p class="first"><code class="docutils literal"><span class="pre">exports</span></code> 是用于从外部访问模块函数的对象（例如，从其他模块）。在这种情况下，只有 <code class="docutils literal"><span class="pre">init</span></code> 函数是外部的：</p>
 <blockquote>
-<div><div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">b4w</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">exports</span><span class="p">,</span> <span class="nx">require</span><span class="p">)</span> <span class="p">{</span>
+<div><p><strong>Old notation:</strong></p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">b4w</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">exports</span><span class="p">,</span> <span class="nx">require</span><span class="p">)</span> <span class="p">{</span>
 
     <span class="p">...</span>
 
@@ -278,10 +302,23 @@
 <span class="p">});</span>
 </pre></div>
 </div>
+<p><strong>ES6 module:</strong></p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kr">export</span> <span class="kd">function</span> <span class="nx">init</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">m_app</span><span class="p">.</span><span class="nx">init</span><span class="p">({</span>
+        <span class="nx">canvas_container_id</span><span class="o">:</span> <span class="s2">&quot;main_canvas_container&quot;</span><span class="p">,</span>
+        <span class="nx">callback</span><span class="o">:</span> <span class="nx">init_cb</span><span class="p">,</span>
+        <span class="nx">show_fps</span><span class="o">:</span> <span class="nx">DEBUG</span><span class="p">,</span>
+        <span class="nx">console_verbose</span><span class="o">:</span> <span class="nx">DEBUG</span><span class="p">,</span>
+        <span class="nx">autoresize</span><span class="o">:</span> <span class="kc">true</span>
+    <span class="p">});</span>
+<span class="p">}</span>
+</pre></div>
+</div>
 </div></blockquote>
 </li>
 </ol>
 <p>应用程序初始化从此函数开始，它在模块外调用：</p>
+<p><strong>Old notation:</strong></p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">b4w</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">exports</span><span class="p">,</span> <span class="nx">require</span><span class="p">)</span> <span class="p">{</span>
 
     <span class="p">...</span>
@@ -303,12 +340,33 @@
 <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">).</span><span class="nx">init</span><span class="p">();</span>
 </pre></div>
 </div>
+<p><strong>ES6 notation:</strong></p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kr">import</span> <span class="nx">b4w</span> <span class="nx">from</span> <span class="s2">&quot;blend4web&quot;</span><span class="p">;</span>
+
+<span class="p">...</span>
+
+<span class="kr">export</span> <span class="kd">function</span> <span class="nx">init</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">m_app</span><span class="p">.</span><span class="nx">init</span><span class="p">({</span>
+        <span class="nx">canvas_container_id</span><span class="o">:</span> <span class="s2">&quot;main_canvas_container&quot;</span><span class="p">,</span>
+        <span class="nx">callback</span><span class="o">:</span> <span class="nx">init_cb</span><span class="p">,</span>
+        <span class="nx">show_fps</span><span class="o">:</span> <span class="nx">DEBUG</span><span class="p">,</span>
+        <span class="nx">console_verbose</span><span class="o">:</span> <span class="nx">DEBUG</span><span class="p">,</span>
+        <span class="nx">autoresize</span><span class="o">:</span> <span class="kc">true</span>
+    <span class="p">});</span>
+<span class="p">}</span>
+
+<span class="p">...</span>
+
+<span class="nx">init</span><span class="p">();</span>
+</pre></div>
+</div>
 <p>之后，调用 <a class="reference external" href="https://www.blend4web.com/api_doc/module-app.html#.init">app.init</a> 方法。它创建画布 HTML元素，并执行用于初始化WebGL的所有必要操作。这种方法有很多不同的属性，其中最重要的是：</p>
 <ul class="simple">
 <li><code class="docutils literal"><span class="pre">canvas_container_id</span></code> 设置作为画布元素容器的HTML元素的id。默认情况下，使用具有 <code class="docutils literal"><span class="pre">main_canvas_container</span></code> ID的元素（该元素位于应用程序的主HTML文件中）。</li>
 <li><code class="docutils literal"><span class="pre">callback</span></code> 是完成初始化后调用的函数。</li>
 </ul>
 <p>当应用程序初始化完成后，调用由 <code class="docutils literal"><span class="pre">callback</span></code> 参数设置的  <a class="reference external" href="https://www.blend4web.com/api_doc/module-app.html#~AppInitCallback">init_cb</a> 函数：</p>
+<p><strong>Old notation:</strong></p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">function</span> <span class="nx">init_cb</span><span class="p">(</span><span class="nx">canvas_elem</span><span class="p">,</span> <span class="nx">success</span><span class="p">)</span> <span class="p">{</span>
 
     <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">success</span><span class="p">)</span> <span class="p">{</span>
@@ -329,10 +387,31 @@
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>它具有以下参数：</p>
+<p><strong>New notation:</strong></p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">function</span> <span class="nx">init_cb</span><span class="p">(</span><span class="nx">canvas_elem</span><span class="p">,</span> <span class="nx">success</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">success</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;b4w init failure&quot;</span><span class="p">);</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="nx">m_preloader</span><span class="p">.</span><span class="nx">create_preloader</span><span class="p">();</span>
+
+    <span class="c1">// ignore right-click on the canvas element</span>
+    <span class="nx">canvas_elem</span><span class="p">.</span><span class="nx">oncontextmenu</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">e</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+        <span class="nx">e</span><span class="p">.</span><span class="nx">stopPropagation</span><span class="p">();</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="p">};</span>
+
+    <span class="nx">load</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The function has following parameters:</p>
 <ul class="simple">
-<li>canvas_elem 是用于渲染3D内容的创建的画布 HTML元素</li>
-<li>成功是表示初始化成功的标志。<code class="docutils literal"><span class="pre">false</span></code> 值意味着应用程序由于初始化错误而无法工作（例如，设备不支持WebGL）。</li>
+<li><em>canvas_elem</em> is the created Canvas HTML element that will be used for rendering 3D content</li>
+<li><em>success</em> it the flag that indicates the success of the initialization. The <code class="docutils literal"><span class="pre">false</span></code> value meant that the application is unable to work due to initialization errors (for example, WebGL is not supported by the device).</li>
 </ul>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
@@ -369,6 +448,7 @@
 </pre></div>
 </div>
 <p>调用此函数意味着应用程序已完成加载，现在开始场景渲染。由于这是3D场景数据可用的最初阶段，它是初始化和准备与场景及它的物体、动画和其他内容相关的所有内容的适当时刻。例如，可以使用以下命令启用标准摄像头控件 <a class="reference external" href="https://www.blend4web.com/api_doc/module-app.html#.enable_camera_controls">enable_camera_controls</a>  方法。</p>
+<p>This.</p>
 <div class="section" id="writing-application-logic">
 <h4>编写应用程序逻辑<a class="headerlink" href="#writing-application-logic" title="永久链接至标题">¶</a></h4>
 <p>在初始化和加载3D场景后，应用程序将根据程序员设置的逻辑进行工作，例如与输入设备交互，操纵场景物体，控制摄像机行为等。</p>
@@ -376,7 +456,8 @@
 <ol class="arabic">
 <li><p class="first">用于启动初始化的 <a class="reference external" href="https://www.blend4web.com/api_doc/module-app.html#.init">app.init</a> 方法接受引擎配置参数。因此，您可以在使用URL属性作为基础调用此方​​法之前配置引擎：</p>
 <blockquote>
-<div><div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">b4w</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">exports</span><span class="p">,</span> <span class="nx">require</span><span class="p">)</span> <span class="p">{</span>
+<div><p><strong>Old notation:</strong></p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">b4w</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">exports</span><span class="p">,</span> <span class="nx">require</span><span class="p">)</span> <span class="p">{</span>
 
 <span class="p">...</span>
 
@@ -398,6 +479,28 @@
     <span class="p">...</span>
 <span class="p">});</span>
 <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">).</span><span class="nx">init</span><span class="p">();</span>
+</pre></div>
+</div>
+<p><strong>New notation:</strong></p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kr">export</span> <span class="kd">function</span> <span class="nx">init</span><span class="p">()</span> <span class="p">{</span>
+
+    <span class="kd">var</span> <span class="nx">url_params</span> <span class="o">=</span> <span class="nx">m_app</span><span class="p">.</span><span class="nx">get_url_params</span><span class="p">();</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">url_params</span> <span class="o">&amp;&amp;</span> <span class="s2">&quot;show_fps&quot;</span> <span class="k">in</span> <span class="nx">url_params</span><span class="p">)</span>
+        <span class="kd">var</span> <span class="nx">show_fps</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+    <span class="k">else</span>
+        <span class="kd">var</span> <span class="nx">show_fps</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+
+    <span class="nx">m_app</span><span class="p">.</span><span class="nx">init</span><span class="p">({</span>
+        <span class="nx">canvas_container_id</span><span class="o">:</span> <span class="s2">&quot;main_canvas_container&quot;</span><span class="p">,</span>
+        <span class="nx">callback</span><span class="o">:</span> <span class="nx">init_cb</span><span class="p">,</span>
+        <span class="nx">console_verbose</span><span class="o">:</span> <span class="nx">DEBUG</span><span class="p">,</span>
+        <span class="nx">autoresize</span><span class="o">:</span> <span class="kc">true</span>
+    <span class="p">});</span>
+<span class="p">}</span>
+
+<span class="p">...</span>
+
+<span class="nx">init</span><span class="p">();</span>
 </pre></div>
 </div>
 </div></blockquote>
@@ -436,6 +539,7 @@
 <span class="p">...</span>
 </pre></div>
 </div>
+<p>This only applies to the old CommonJS notation. If you are using ES6, modules can be simply plugged into your main application file using <strong>import</strong> method.</p>
 <p><a class="reference external" href="https://www.blend4web.com/api_doc/b4w.html#.register">register</a> 方法用于注册模块。如果名称与常规API模块不符，则只能注册自定义模块。如果需要，可以使用 <a class="reference external" href="https://www.blend4web.com/api_doc/b4w.html#.module_check">module_check</a> 方法检查是否存在具有给定名称的模块：</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="p">(</span><span class="nx">b4w</span><span class="p">.</span><span class="nx">module_check</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">))</span>
     <span class="k">throw</span> <span class="s2">&quot;Failed to register module: my_module&quot;</span><span class="p">;</span>
@@ -448,10 +552,12 @@
 <span class="p">});</span>
 </pre></div>
 </div>
+<p>As mentioned above, modules don't have to be registered in <strong>ES6 notation</strong>. However, any custom module plugged ito your application should still have a name distinct from the names of the regular API modules.</p>
 <ol class="arabic simple" start="2">
 <li>加载模块</li>
 </ol>
 <p>自定义模块，就像常规模块一样，可以使用 <code class="docutils literal"><span class="pre">require</span></code> 方法插入：</p>
+<p><strong>Old notation:</strong></p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">b4w</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s2">&quot;my_module1&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">exports</span><span class="p">,</span> <span class="nx">require</span><span class="p">)</span> <span class="p">{</span>
 
     <span class="kd">var</span> <span class="nx">mod2</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;my_module2&quot;</span><span class="p">)</span>
@@ -460,11 +566,21 @@
 <span class="p">});</span>
 </pre></div>
 </div>
+<p><strong>New notation:</strong></p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kr">import</span> <span class="p">{</span><span class="nx">one</span><span class="p">,</span> <span class="nx">two</span><span class="p">}</span> <span class="nx">as</span> <span class="nx">my_mod</span> <span class="nx">from</span> <span class="s2">&quot;./my_module.js&quot;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Here, <strong>one</strong> and <strong>two</strong> are the variables that are marked with the word <strong>export</strong> in the <code class="docutils literal"><span class="pre">my_module.js</span></code> file.</p>
 <ol class="arabic simple" start="3">
 <li>应用程序初始化</li>
 </ol>
 <p>Blend4Web中的应用程序初始化通常使用以下调用：</p>
+<p><strong>Old notation:</strong></p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">).</span><span class="nx">init</span><span class="p">();</span>
+</pre></div>
+</div>
+<p><strong>New notation:</strong></p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">my_module</span><span class="p">.</span><span class="nx">init</span><span class="p">();</span>
 </pre></div>
 </div>
 <p>这里， <code class="docutils literal"><span class="pre">my_module</span></code> 定制模块及其 <code class="docutils literal"><span class="pre">init</span></code>  外部函数在某种意义上作为应用程序的入口点。</p>
@@ -1108,6 +1224,8 @@
 <span class="nx">m_main</span><span class="p">.</span><span class="nx">init</span><span class="p">(...);</span>
 </pre></div>
 </div>
+<div class="section" id="additional-quality-settings">
+<h3><a class="toc-backref" href="#id20">Additional Quality Settings</a><a class="headerlink" href="#additional-quality-settings" title="永久链接至标题">¶</a></h3>
 <p>应用程序开发人员还可以在引擎初始化参数的 <code class="docutils literal"><span class="pre">app.js</span></code> 附加插件时设置 <strong>quality</strong> ：</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_app</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;app&quot;</span><span class="p">);</span>
@@ -1118,9 +1236,268 @@
 <span class="p">});</span>
 </pre></div>
 </div>
+<p>All rendering parameters affected by quality settings are listed in the following sheet:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="42%" />
+<col width="19%" />
+<col width="19%" />
+<col width="19%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><em>Parameter</em></td>
+<td><strong>Ultra</strong></td>
+<td><strong>High</strong></td>
+<td><strong>Low</strong></td>
+</tr>
+<tr class="row-even"><td>cfg_def.shadows</td>
+<td>true</td>
+<td>true</td>
+<td>false</td>
+</tr>
+<tr class="row-odd"><td>cfg_def.shore_smoothing</td>
+<td>true</td>
+<td>true</td>
+<td>false</td>
+</tr>
+<tr class="row-even"><td>cfg_def.ssao</td>
+<td>true</td>
+<td>true</td>
+<td>false</td>
+</tr>
+<tr class="row-odd"><td>cfg_def.dof</td>
+<td>true</td>
+<td>true</td>
+<td>false</td>
+</tr>
+<tr class="row-even"><td>cfg_def.god_rays</td>
+<td>true</td>
+<td>true</td>
+<td>false</td>
+</tr>
+<tr class="row-odd"><td>cfg_def.bloom</td>
+<td>true</td>
+<td>true</td>
+<td>false</td>
+</tr>
+<tr class="row-even"><td>cfg_def.reflections</td>
+<td>true</td>
+<td>true</td>
+<td>false</td>
+</tr>
+<tr class="row-odd"><td>cfg_def.refractions</td>
+<td>true</td>
+<td>true</td>
+<td>false</td>
+</tr>
+<tr class="row-even"><td>cfg_def.foam</td>
+<td>true</td>
+<td>true</td>
+<td>false</td>
+</tr>
+<tr class="row-odd"><td>cfg_def.parallax</td>
+<td>true</td>
+<td>true</td>
+<td>false</td>
+</tr>
+<tr class="row-even"><td>cfg_def.dynamic_grass</td>
+<td>true</td>
+<td>true</td>
+<td>false</td>
+</tr>
+<tr class="row-odd"><td>cfg_scs.grass_tex_size</td>
+<td>4.0*512</td>
+<td>2*512</td>
+<td>1*512</td>
+</tr>
+<tr class="row-even"><td>cfg_scs.cubemap_tex_size</td>
+<td>512</td>
+<td>256</td>
+<td>256</td>
+</tr>
+<tr class="row-odd"><td>cfg_def.texture_min_filter</td>
+<td>3</td>
+<td>3</td>
+<td>2</td>
+</tr>
+<tr class="row-even"><td>cfg_def.anisotropic_filtering</td>
+<td>true</td>
+<td>true</td>
+<td>false</td>
+</tr>
+<tr class="row-odd"><td>cfg_def.use_min50</td>
+<td>false</td>
+<td>false</td>
+<td>true</td>
+</tr>
+<tr class="row-even"><td>cfg_def.water_dynamic</td>
+<td>true</td>
+<td>true</td>
+<td>false</td>
+</tr>
+<tr class="row-odd"><td>cfg_def.shore_distance</td>
+<td>true</td>
+<td>true</td>
+<td>false</td>
+</tr>
+<tr class="row-even"><td>cfg_def.antialiasing</td>
+<td>true</td>
+<td>true</td>
+<td>false</td>
+</tr>
+<tr class="row-odd"><td>cfg_def.smaa</td>
+<td>false</td>
+<td>false</td>
+<td>false</td>
+</tr>
+<tr class="row-even"><td>cfg_def.compositing</td>
+<td>true</td>
+<td>true</td>
+<td>false</td>
+</tr>
+<tr class="row-odd"><td>cfg_def.motion_blur</td>
+<td>true</td>
+<td>true</td>
+<td>false</td>
+</tr>
+<tr class="row-even"><td>cfg_def.allow_hidpi</td>
+<td>true</td>
+<td>false</td>
+<td>false</td>
+</tr>
+<tr class="row-odd"><td>cfg_def.enable_outlining</td>
+<td>true</td>
+<td>true</td>
+<td>false</td>
+</tr>
+<tr class="row-even"><td>cfg_def.glow_materials</td>
+<td>true</td>
+<td>true</td>
+<td>false</td>
+</tr>
+<tr class="row-odd"><td>cfg_def.msaa_samples</td>
+<td>16</td>
+<td>4</td>
+<td>1</td>
+</tr>
+<tr class="row-even"><td>cfg_def.srgb_type</td>
+<td>&quot;SRGB_PROPER&quot;</td>
+<td>&quot;SRGB_SIMPLE&quot;</td>
+<td>&quot;SRGB_SIMPLE&quot;</td>
+</tr>
+<tr class="row-odd"><td>cfg_phy.max_fps</td>
+<td>120</td>
+<td>60</td>
+<td>60</td>
+</tr>
+<tr class="row-even"><td>cfg_def.lod_smooth_transitions</td>
+<td>true</td>
+<td>true</td>
+<td>false</td>
+</tr>
+</tbody>
+</table>
+<p>Other rendering parameters are not affected by setting the quality profile, but can be accessed via API methods or, in many cases, from Blend4Web add-on UI in Blender. These parameters are listed below:</p>
+<div class="section" id="shadow-settings">
+<h4>Shadow settings<a class="headerlink" href="#shadow-settings" title="永久链接至标题">¶</a></h4>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">b4w.shadow_settings.soft_shadows</span></code> <cite>- enables and disables shadow blurring</cite></li>
+<li><code class="docutils literal"><span class="pre">b4w.shadow_settings.blur_samples</span></code> <cite>- sets the number of samples used to blur shadows</cite></li>
+<li><code class="docutils literal"><span class="pre">b4w.shadow_settings.csm_resolution</span></code> <cite>- sets shadow cascade resolution</cite></li>
+<li><code class="docutils literal"><span class="pre">b4w.shadow_settings.self_shadow_polygon_offset</span></code> <cite>- sets self-shadow polygon offset</cite></li>
+<li><code class="docutils literal"><span class="pre">b4w.shadow_settings.self_shadow_normal_offset</span></code> <cite>- sets shadow normal offset</cite></li>
+<li><code class="docutils literal"><span class="pre">b4w.shadow_settings.enable_csm</span></code> <cite>- enables and disables shadow cascades</cite></li>
+<li><code class="docutils literal"><span class="pre">b4w.shadow_settings.first_cascade_blur_radius</span></code> <cite>- sets the radius of blurring between shadow cascades</cite></li>
+</ul>
+<p>These settings are also available in Blend4Web Add-on interface and are described in greater detail in a <a class="reference internal" href="lighting.html#shadows"><span class="std std-ref">dedicated chapter</span></a>.</p>
+</div>
+<div class="section" id="reflection-settings">
+<h4>Reflection settings<a class="headerlink" href="#reflection-settings" title="永久链接至标题">¶</a></h4>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">b4w.reflection_quality</span></code> <cite>- controls the overall quality of the rendered reflections</cite></li>
+</ul>
+<p>This parameter, along with other reflection settings, is also available in Blend4Web Add-on interface and are described in greater detail in a <a class="reference internal" href="scene_settings.html#render-reflections"><span class="std std-ref">dedicated chapter</span></a>.</p>
+</div>
+<div class="section" id="outlining-settings">
+<h4>Outlining settings<a class="headerlink" href="#outlining-settings" title="永久链接至标题">¶</a></h4>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">b4w.outline_color</span></code> <cite>- sets the color of the object outline</cite></li>
+<li><code class="docutils literal"><span class="pre">b4w.outline_factor</span></code> <cite>- sets the thickness and the brightness of the object outline</cite></li>
+</ul>
+<p>These parameters are also available in Blend4Web Add-on interface and are described in greater detail in a <a class="reference internal" href="scene_settings.html#render-object-outlining"><span class="std std-ref">dedicated chapter</span></a>.</p>
+</div>
+<div class="section" id="glow-settings">
+<h4>Glow settings<a class="headerlink" href="#glow-settings" title="永久链接至标题">¶</a></h4>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">b4w.glow_settings.small_glow_mask_coeff</span></code> <cite>- sets the intensity of glow obtained through the smaller mask</cite></li>
+<li><code class="docutils literal"><span class="pre">b4w.glow_settings.small_glow_mask_width</span></code> <cite>- sets the width of glow obtained through the smaller mask</cite></li>
+<li><code class="docutils literal"><span class="pre">b4w.glow_settings.large_glow_mask_coeff</span></code> <cite>- sets the intensity of glow obtained through the larger mask</cite></li>
+<li><code class="docutils literal"><span class="pre">b4w.glow_settings.large_glow_mask_width</span></code> <cite>- sets the width of glow obtained through the larger mask</cite></li>
+<li><code class="docutils literal"><span class="pre">b4w.glow_settings.render_glow_over_blend</span></code> <cite>- enables and disables rendering the glow effect over transparent objects</cite></li>
+</ul>
+<p>These settings are also available in Blend4Web Add-on interface and are described in greater detail in a <a class="reference internal" href="scene_settings.html#render-glow-materials"><span class="std std-ref">dedicated chapter</span></a>.</p>
+</div>
+<div class="section" id="anti-aliasing-settings">
+<h4>Anti-Aliasing settings<a class="headerlink" href="#anti-aliasing-settings" title="永久链接至标题">¶</a></h4>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">b4w.antialiasing_quality</span></code> <cite>- this parameter controls the overall quality of the anti-aliasing effect</cite></li>
+</ul>
+<p>These settings are also available in Blend4Web Add-on interface and are described in greater detail in a <a class="reference internal" href="scene_settings.html#render-anti-aliasing"><span class="std std-ref">dedicated chapter</span></a>.</p>
+</div>
+<div class="section" id="bloom-settings">
+<h4>Bloom settings<a class="headerlink" href="#bloom-settings" title="永久链接至标题">¶</a></h4>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">b4w.bloom_settings.adaptive</span></code> <cite>- enables and disables using adaptive average luminance</cite></li>
+<li><code class="docutils literal"><span class="pre">b4w.bloom_settings.key</span></code> <cite>- controls the intesity of the Bloom effect</cite></li>
+<li><code class="docutils literal"><span class="pre">b4w.bloom_settings.blur</span></code> <cite>- sets the blur factor of the effect</cite></li>
+<li><code class="docutils literal"><span class="pre">b4w.bloom_settings.edge_lum</span></code> <cite>- sets the boundary value of an element’s relative brightness above which the bloom effect appears</cite></li>
+</ul>
+<p>These settings are also available in Blend4Web Add-on interface and are described in greater detail in a <a class="reference internal" href="scene_settings.html#render-bloom"><span class="std std-ref">dedicated chapter</span></a>.</p>
+</div>
+<div class="section" id="moton-blur-settings">
+<h4>Moton Blur settings<a class="headerlink" href="#moton-blur-settings" title="永久链接至标题">¶</a></h4>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">b4w.motion_blur_settings.motion_blur_factor</span></code> <cite>- controls the strength of the motion blur effect</cite></li>
+<li><code class="docutils literal"><span class="pre">b4w.motion_blur_settings.motion_blur_decay_threshold</span></code> <cite>- sets the fade-out ratio of the motion blur effect</cite></li>
+</ul>
+<p>These settings are also available in Blend4Web Add-on interface and are described in greater detail in a <a class="reference internal" href="scene_settings.html#render-motion-blur"><span class="std std-ref">dedicated chapter</span></a>.</p>
+</div>
+<div class="section" id="ssao-settings">
+<h4>SSAO settings<a class="headerlink" href="#ssao-settings" title="永久链接至标题">¶</a></h4>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">b4w.ssao_settings.radius_increase</span></code> <cite>- sets the spherical sampling radius multiply factor when transferring from the internal sampling ring to the external one</cite></li>
+<li><code class="docutils literal"><span class="pre">b4w.ssao_settings.hemisphere</span></code> <cite>- enables and disables using hemispherical sampling for shading</cite></li>
+<li><code class="docutils literal"><span class="pre">b4w.ssao_settings.blur_depth</span></code> <cite>- enables and disables blur depth test</cite></li>
+<li><code class="docutils literal"><span class="pre">b4w.ssao_settings.blur_discard_value</span></code> <cite>- sets the discard value for the blur depth test</cite></li>
+<li><code class="docutils literal"><span class="pre">b4w.ssao_settings.influence</span></code> <cite>- sets the appearance factor for the SSAO effect</cite></li>
+<li><code class="docutils literal"><span class="pre">b4w.ssao_settings.dist_factor</span></code> <cite>- sets the distant factor for the SSAO effect</cite></li>
+<li><code class="docutils literal"><span class="pre">b4w.ssao_settings.samples</span></code> <cite>- sets the number of samples used to compute the SSAO effect</cite></li>
+</ul>
+<p>These settings are also available in Blend4Web Add-on interface and are described in greater detail in a <a class="reference internal" href="scene_settings.html#render-ssao"><span class="std std-ref">dedicated chapter</span></a>.</p>
+</div>
+<div class="section" id="god-rays-settings">
+<h4>God Rays settings<a class="headerlink" href="#god-rays-settings" title="永久链接至标题">¶</a></h4>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">b4w.god_rays_settings.intensity</span></code> <cite>- sets the intesity of the god rays effect</cite></li>
+<li><code class="docutils literal"><span class="pre">b4w.god_rays_settings.max_ray_length</span></code> <cite>- sets the maximum length of the rays</cite></li>
+<li><code class="docutils literal"><span class="pre">b4w.god_rays_settings.steps_per_pass</span></code> <cite>- sets the number of steps used to calculate the god rays effect</cite></li>
+</ul>
+<p>These settings are also available in Blend4Web Add-on interface and are described in greater detail in a <a class="reference internal" href="scene_settings.html#render-god-rays"><span class="std std-ref">dedicated chapter</span></a>.</p>
+</div>
+<div class="section" id="color-correction-settings">
+<h4>Color Correction settings<a class="headerlink" href="#color-correction-settings" title="永久链接至标题">¶</a></h4>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">b4w.color_correction_settings.brightness</span></code> <cite>- sets the brightness of the image</cite></li>
+<li><code class="docutils literal"><span class="pre">b4w.color_correction_settings.contrast</span></code> <cite>- sets the contrast of the image</cite></li>
+<li><code class="docutils literal"><span class="pre">b4w.color_correction_settings.exposure</span></code> <cite>- sets the exposure of the image</cite></li>
+<li><code class="docutils literal"><span class="pre">b4w.color_correction_settings.saturation</span></code> <cite>- sets the satuartion of the image</cite></li>
+</ul>
+<p>These settings are also available in Blend4Web Add-on interface and are described in greater detail in a <a class="reference internal" href="scene_settings.html#render-color-correction"><span class="std std-ref">dedicated chapter</span></a>.</p>
+</div>
+</div>
 </div>
 <div class="section" id="non-standard-canvas-position-and-orientation">
-<span id="non-standard-canvas-pos"></span><h2><a class="toc-backref" href="#id20">非标准画布位置和方向</a><a class="headerlink" href="#non-standard-canvas-position-and-orientation" title="永久链接至标题">¶</a></h2>
+<span id="non-standard-canvas-pos"></span><h2><a class="toc-backref" href="#id21">非标准画布位置和方向</a><a class="headerlink" href="#non-standard-canvas-position-and-orientation" title="永久链接至标题">¶</a></h2>
 <p>画布元件，开始执行渲染时，可改变相对于浏览器窗口的位置。这可能是由于一些操作在DOM树，或者作为页面滚动的结果，特别是用于非全屏web应用。</p>
 <p>在大多数情况下，这将不会影响该应用的任何的性能。然而，涉及到鼠标或触摸位置某些DOM事件可以携带不正确的信息。这是因为从相应的事件中获得的坐标是相对于浏览器窗口的原点测量，同时引擎的工作与Canvas元素本身（它的坐标原点位于左上角）的坐标空间。</p>
 <ol class="arabic simple">
@@ -1166,7 +1543,7 @@
 </div>
 </div>
 <div class="section" id="mobile-web-apps">
-<span id="id1"></span><h2><a class="toc-backref" href="#id21">移动 Web 应用程序</a><a class="headerlink" href="#mobile-web-apps" title="永久链接至标题">¶</a></h2>
+<span id="id1"></span><h2><a class="toc-backref" href="#id22">移动 Web 应用程序</a><a class="headerlink" href="#mobile-web-apps" title="永久链接至标题">¶</a></h2>
 <p>创建一个 web 应用程序的用户界面时，应考虑缩放整个网页和更改移动设备方向的选项。在这里建议，阻止缩放和保持网页的纵横比不变以避免可能出现的问题。通过将以下 meta-tag 添加到页标题得以实现︰</p>
 <div class="highlight-html"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">meta</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;viewport&quot;</span> <span class="na">content</span><span class="o">=</span><span class="s">&quot;width=device-width, initial-scale=1.0, user-scalable=no&quot;</span><span class="p">&gt;</span>
 </pre></div>
@@ -1242,7 +1619,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Triumph.
-      最后更新于 2017-12-29.
+      最后更新于 2018-06-06.
 
     </p>
   </div>
@@ -1298,7 +1675,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.12.0',
+            VERSION:'v18.05.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

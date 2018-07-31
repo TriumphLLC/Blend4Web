@@ -271,7 +271,7 @@ class B4W_Anim_Baker(bpy.types.Operator):
                             and quat.dot(prev_frame_quats[pbone.name]) < 0:
                         quat.negate()
                     scal = mb.to_scale()
-            
+
                     # we've created fcurves in this particular order
                     fcurves[0].keyframe_points.insert(i, tran[0])
                     fcurves[1].keyframe_points.insert(i, tran[1])

@@ -1,0 +1,26 @@
+#fps_cont {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 32px;
+  background: rgba(0, 0, 0, 0.8);
+  border-right: 1px solid rgba(255, 255, 255, 0.4);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 31px;
+  font-size: 14px;
+  color: #fff;
+  text-align: left;
+  padding-left: 30px;
+  padding-right: 8px;
+  display: none;
+
+  &:before {
+    content: 'fps';
+    position: absolute;
+    left: 8px;
+    top: 0;
+  }
+}

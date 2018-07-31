@@ -1,0 +1,420 @@
+@mixin border-style() {
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-sizing: border-box;
+}
+
+@mixin background-style() {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+@mixin add-icon($name) {
+  -webkit-mask-image: url($name);
+  mask-image: url($name);
+  background-color: white;
+  &:hover {
+    background-color: #28AFFF;
+  }
+}
+
+#ctrl_cont {
+  height: 40px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 2;
+  background-color: rgba(51, 51, 51, 0.6);
+}
+
+#ctrl_wrap {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 88px;
+  width: 100%;
+  z-index: 2;
+  transition: transform $easeDelay1 $easeDelay2 $easeOutCubic;
+
+  #ctrl_scroll {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 88px;
+    width: 100%;
+    z-index: 2;
+    transition: opacity $easeDelay1 $easeDelay2 $easeInCubic;
+    opacity: 0;
+  }
+
+  &.active {
+    #ctrl_scroll {
+      opacity: 1;
+    }
+  }
+
+  &.no_timer {
+    height: 40px;
+    overflow: hidden;
+  }
+}
+
+.ctrl_btn {
+    fill: white;
+    overflow: hidden;
+    &.hover {
+        fill: #28AFFF;
+    }
+    &.manual_hover {
+        fill: #28AFFF;
+    }
+}
+
+#btns_cont {
+  position: absolute;
+  right: 0px;
+  height: 40px;
+  top: 0;
+}
+
+#soc_cont {
+  position: absolute;
+  left: 0px;
+  height: 40px;
+  width: 40px;
+}
+
+#play_btn {
+    float: left;
+    left: 50%;
+}
+
+#play_cont {
+  position: absolute;
+  left: 0px;
+  right: 240px;
+}
+
+#timeline_cont {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 40px;
+  height: 44px;
+  cursor: pointer;
+  overflow-x: hidden;
+  opacity: 0;
+  transition: opacity 0.2s $easeInCubic;
+  display: none;
+
+  &.active {
+    transition: opacity 0.2s $easeOutCubic;
+    opacity: 1;
+  }
+}
+
+#pointer {
+
+}
+
+#timer {
+  position: absolute;
+  left: 0;
+  top: -46px;
+  white-space: nowrap;
+  bottom: 16px;
+  height: 28px;
+  background: rgba(0, 0, 0, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-right: 0;
+  padding-left: 16px;
+  padding-right: 7px;
+  box-sizing: border-box;
+  color: #fff;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  line-height: normal;
+  font-size: 14px;
+  line-height: 26px;
+  transform: translateX(calc(-100% - 9px));
+  z-index: 10;
+
+  &.rotated {
+    transform: translateX(9px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-left: 0;
+    padding-right: 16px;
+    padding-left: 7px;
+
+    &:after {
+      display: none;
+    }
+
+    &:before {
+      content: '';
+      position: absolute;
+      left: -8px;
+      top: -1px;
+      width: 9px;
+      background-size: 100% 100%;
+      background-image: url('src/img/time_edge_r.svg');
+      height: 40px;
+    }
+  }
+
+  &:after {
+    content: '';
+    position: absolute;
+    right: -8px;
+    top: -1px;
+    z-index: 10;
+    width: 9px;
+    height: 38px;
+    background-size: 100% 100%;
+    background-image: url('src/img/time_edge.svg');
+    height: 40px;
+  }
+}
+
+#timeline {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background-position: 0 0;
+  background-color: #FFF;
+  box-shadow: 0px 0px 16px #000000;
+
+  #line {
+    background-color: #28AFFF;
+    width: 0;
+    height: 100%;
+    position: relative;
+
+    &:after {
+      content: '';
+      position: absolute;
+      background-image: url('src/img/pointer.svg');
+      width: 18px;
+      height: 12px;
+      // box-shadow: 0px -1px 16px rgba(0, 0, 0, 0.8);
+      right: 0;
+      bottom: 5px;
+      transform: translateX(50%);
+    }
+
+    &.inactive-pointer {
+      &:after {
+        display: none;
+      }
+    }
+  }
+}
+
+#social {
+  position: absolute;
+  z-index: 2;
+  bottom: 60px;
+  left: 16px;
+  max-width: 240px;
+  @include border-style();
+  @include background-style();
+  transition: opacity 0.2s $easeInCubic;
+  padding: 6px;
+  opacity: 0;
+  pointer-events: none;
+  margin-right: 16px;
+
+  &.long {
+    max-width: none;
+  }
+
+  &.active {
+    transition: opacity 0.2s $easeOutCubic;
+    opacity: 1;
+    pointer-events: initial;
+  }
+  .item {
+    width: 56px;
+    height: 56px;
+    float: left;
+    cursor: pointer;
+    background-color: transparent;
+    transition: background-color 0.05s $easeInCubic;
+    transition: fill 0.1s $easeInCubic;
+    fill: white;
+
+    &:active {
+        transition: opacity 0.1s $easeInCubic;
+        opacity: 0.5;
+    }
+
+    &#tw {
+        &:hover {
+            fill: #1DA1F3;
+        }
+    }
+
+    &#vk {
+        &:hover {
+            fill: #4976A4;
+        }
+    }
+
+    &#fb {
+        &:hover {
+            fill: #3B5998;
+        }
+    }
+
+    &#gplus {
+        &:hover {
+            fill: #DC493C;
+        }
+    }
+
+    &#weibo {
+        &:hover {
+            fill: #E6162D;
+        }
+    }
+
+    &#tumblr {
+        &:hover {
+            fill: #465B7A;
+        }
+    }
+
+    &#reddit {
+        &:hover {
+            fill: #FF4018;
+        }
+    }
+  }
+
+  & a:last-child .item {
+    margin-right: 17px;
+  }
+}
+
+.item {
+    height: 44px;
+    color: #FFFFFF;
+    font-size: 12px;
+    line-height: 44px;
+    font-family: 'Roboto';
+    padding-left: 8px;
+    padding-right: 8px;
+    position: relative;
+    cursor: pointer;
+    display: block;
+    transition: background-color 0.05s $easeOutCubic;
+    fill: white;
+    @include background-style();
+
+    div {
+        display: inline-block;
+        position: absolute;
+    }
+
+    svg {
+        display: inline-block;
+        margin-top: 2px;
+    }
+
+    &:hover {
+      color: rgba(40, 176, 255, 1);
+      fill: rgba(40, 176, 255, 1);
+    }
+
+    &:active {
+        background: rgba(255, 255, 255, 0.8);
+    }
+
+    &.activated {
+        background: rgba(128, 128, 128, 0.8);
+    }
+
+    &.disabled {
+      height: 0;
+      width: 0;
+      opacity: 0;
+    }
+
+    &:first-child {
+      border-radius: 6px 6px 0 0;
+    }
+
+    &:last-child {
+      border-radius: 0 0 6px 6px;
+    }
+  }
+
+#quality {
+    position: absolute;
+    z-index: 2;
+    bottom: 60px;
+    right: 36px;
+    width: 100%;
+    @include border-style();
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s $easeInCubic;
+  
+    &.active {
+      transition: opacity 0.2s $easeOutCubic;
+      opacity: 1;
+      pointer-events: initial;
+    }
+}
+
+#stereo {
+  position: absolute;
+  z-index: 2;
+  bottom: 60px;
+  opacity: 0;
+  pointer-events: none;
+  overflow: hidden;
+  width: 100%;
+  @include border-style();
+
+  &.active {
+    transition: opacity 0.4s $easeInOutCubic;
+    opacity: 1;
+    pointer-events: initial;
+  }
+}
+
+#tooltip_cont {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 52px;
+  height:32px;
+  pointer-events: none;
+
+  .tooltip {
+    position: absolute;
+    opacity: 0;
+    font-family: 'Roboto';
+    height: 32px;
+    padding: 0 8px;
+    line-height: 32px;
+    font-size: 14px;
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.8);
+    @include border-style();
+    transition: opacity 0.1s 0.1s $easeInCubic;
+
+    &.active {
+      transition: opacity 0.1s 0.1s $easeOutCubic;
+      opacity: 1;
+    }
+  }
+}
+
+#time_cont {
+  display: none;
+}

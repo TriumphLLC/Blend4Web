@@ -569,12 +569,18 @@ function get_fov(device, eye, dest) {
                             m_mat4.copy(device.frame_data.leftProjectionMatrix, proj_mat);
                         else
                             m_mat4.copy(device.frame_data.rightProjectionMatrix, proj_mat);
-                        // var inv_proj_mat = m_mat4.invert(proj_mat, proj_mat);
-                        // var right_top_near = m_vec3.transformMat4([1, 1, -1], inv_proj_mat, _vec3_tmp);
+                        var inv_proj_mat = m_mat4.invert(proj_mat, proj_mat);
+                        if (!inv_proj_mat){
+                            inv_proj_mat = [1,0,0,0,
+                                            0,1,0,0,
+                                            0,0,1,0,
+                                            0,0,0,1];
+                        }
+                        var right_top_near = m_vec3.transformMat4([1, 1, -1], inv_proj_mat, _vec3_tmp);
 
                         dest[0] = Math.atan(- _vec3_tmp[1] / _vec3_tmp[2]);
                         dest[1] = Math.atan(- _vec3_tmp[0] / _vec3_tmp[2]);
-                        // var left_down_near = m_vec3.transformMat4([-1, -1, -1], inv_proj_mat, _vec3_tmp);
+                        var left_down_near = m_vec3.transformMat4([-1, -1, -1], inv_proj_mat, _vec3_tmp);
                         dest[2] = Math.atan(_vec3_tmp[1] / _vec3_tmp[2]);
                         dest[3] = Math.atan(_vec3_tmp[0] / _vec3_tmp[2]);
                     }
@@ -789,7 +795,7 @@ function update_hmd(device, timeline) {
             // NOTE: we just take offset between eyes
             var l_trans = m_util.matrix_to_trans(device.frame_data.leftViewMatrix, _vec3_tmp);
             device.inter_lens_dist = 2 * m_vec3.length(l_trans);
-        } else
+        } else if (display.getPose)
             var webvr_pose = display.getPose();
 
         if (webvr_pose) {

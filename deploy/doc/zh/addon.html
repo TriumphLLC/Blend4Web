@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>插件 &mdash; Blend4Web 17.12.0 用户手册</title>
+  <title>插件 &mdash; Blend4Web 18.05.0 用户手册</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="索引"
               href="genindex.html"/>
         <link rel="search" title="搜索" href="search.html"/>
-    <link rel="top" title="Blend4Web 17.12.0 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 18.05.0 用户手册" href="index.html"/>
         <link rel="next" title="场景设置" href="scene_settings.html"/>
         <link rel="prev" title="网络播放器" href="web_player.html"/> 
 
@@ -64,7 +64,7 @@
           
           
             <div class="version">
-              v17.12.0
+              v18.05.0
             </div>
           
         
@@ -403,7 +403,7 @@ latest B4W add-on to fix it.</td>
 <td>插件版本与场景的导出版本，是有点老了：VER_OLD。该引擎要求：VER_NEW。场景将被载入像往常一样，但是可能会出现一些错误。我们建议您使用的加载项的最新版本重新导出场景。我们也建议使用发动机的最新版本。</td>
 </tr>
 <tr class="row-even"><td>B4W engine version is too old
-relative to JSON. Can’t load the
+relative to JSON. Can't load the
 scene. Update your engine version
 to fix it.</td>
 <td>相比版本的插件与该场景被导出引擎版本太旧。场景将不会被加载。我们建议您使用引擎和插件的最新版本。</td>
@@ -417,7 +417,7 @@ it.</td>
 </tr>
 <tr class="row-even"><td>BIN version does not match to
 JSON version: VER_BIN, required:
-VER_JSON. Couldn’t load the scene.
+VER_JSON. Couldn't load the scene.
 Reexport scene to fix it.</td>
 <td>.bin文件的版本太旧相对于.json文件：VER_BIN，.json文件版本VER_JSON。场景将不会被加载。我们建议您再导出侑场景。</td>
 </tr>
@@ -472,7 +472,7 @@ disk is forbidden</td>
 <td>从不同的磁盘资源的装载是被禁止的。</td>
 </tr>
 <tr class="row-even"><td>The material has a normal map but
-doesn’t have any material nodes</td>
+doesn't have any material nodes</td>
 <td>节点材质采用 <code class="docutils literal"><span class="pre">Normal</span> <span class="pre">Mapping</span></code>, 但没有 <code class="docutils literal"><span class="pre">Material</span></code> 节点。</td>
 </tr>
 <tr class="row-odd"><td>The mesh has a UV map but has no
@@ -490,12 +490,12 @@ but has no exported material</td>
 <td>没有访问权限到当前目录。</td>
 </tr>
 <tr class="row-odd"><td>Wrong edited normals count; It
-doesn’t match with the mesh
+doesn't match with the mesh
 vertices count</td>
 <td>编辑法线的数目不匹配的网格顶点的数量。执行 <code class="docutils literal"><span class="pre">Clean</span> <span class="pre">Up</span></code> 或 <code class="docutils literal"><span class="pre">Save</span></code> 在 <code class="docutils literal"><span class="pre">B4W</span> <span class="pre">Vertex</span> <span class="pre">Normals</span> <span class="pre">Editor</span></code> 面板.</td>
 </tr>
 <tr class="row-even"><td>Wrong overridden bounding box;
-Check the mesh’s bounding box
+Check the mesh's bounding box
 values</td>
 <td>错尺寸覆盖网格的时指定 <code class="docutils literal"><span class="pre">BoundingBox</span></code>: 最小值为大于尺寸中的至少一个最大值。</td>
 </tr>
@@ -606,7 +606,7 @@ Wrong vertex group weights</td>
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td>Incomplete vehicle. The NAME
-vehicle doesn’t have any chassis
+vehicle doesn't have any chassis
 or hull</td>
 <td>模型的 NAME 车辆是不完整的，因为它应该包含一个 <code class="docutils literal"><span class="pre">Chassis</span></code> 或 <code class="docutils literal"><span class="pre">Hull</span></code> 元素。</td>
 </tr>
@@ -643,7 +643,7 @@ Check sockets compatibility:
 &quot;FROM_NODE&quot; with &quot;TO_NODE&quot;.</td>
 <td>节点材质错误：之间的联系的输入和输出类型 <code class="docutils literal"><span class="pre">FROM_NODE</span></code> 和 <code class="docutils literal"><span class="pre">TO_NODE</span></code> 节点应该匹配。</td>
 </tr>
-<tr class="row-even"><td>Object &quot;NAME&quot; hasn’t renderable
+<tr class="row-even"><td>Object &quot;NAME&quot; hasn't renderable
 data. Converted to EMPTY.</td>
 <td>名为“NAME”的对象是失效的，比如没有多边形。对象的类型已更改为空。</td>
 </tr>
@@ -651,7 +651,7 @@ data. Converted to EMPTY.</td>
 &quot;CONSTRAINT_TYPE&quot;. Check
 constraint settings.</td>
 <td>The object &quot;NAME&quot; has a constraint of
-type &quot;CONSTRAINT_TYPE&quot;, which isn’t
+type &quot;CONSTRAINT_TYPE&quot;, which isn't
 configured properly.</td>
 </tr>
 <tr class="row-even"><td>Object &quot;NAME&quot; has the mesh with
@@ -682,14 +682,14 @@ been exported to
 The &quot;NAME&quot; vertex color specified
 in the <code class="docutils literal"><span class="pre">from</span></code> field is missing in
 the last of the &quot;OBJECT_NAME&quot;
-object’s vertex colors</td>
+object's vertex colors</td>
 <td>该名称顶点颜色是在指定 <code class="docutils literal"><span class="pre">from</span></code> 领域，但它没有出现在OBJECT_NAME发射器。</td>
 </tr>
 <tr class="row-even"><td>Particle system error for &quot;NAME&quot;;
 The &quot;NAME&quot; vertex color specified
 in the <code class="docutils literal"><span class="pre">to</span></code> field is missing in
 the list of the &quot;OBJECT_NAME&quot;
-object’s vertex colors</td>
+object's vertex colors</td>
 <td>这个NAME顶点颜色中指定 <code class="docutils literal"><span class="pre">to</span></code> 场，但它不存在于被选择作为一个粒子的OBJECT_NAME对象。</td>
 </tr>
 <tr class="row-odd"><td>Particle system error for &quot;NAME&quot;;
@@ -719,11 +719,11 @@ removed.</td>
 <td>粒子系统错误。对象NAME上的EMITTER粒子PSYS_NAME的不支持的渲染类型TYPE。粒子系统已经去除。</td>
 </tr>
 <tr class="row-odd"><td>Particle system error for &quot;NAME&quot;.
-Dupli object isn’t specified.</td>
+Dupli object isn't specified.</td>
 <td>粒子系统错误：没有对象被选中作为一个粒子。</td>
 </tr>
 <tr class="row-even"><td>Particle system error for &quot;NAME&quot;.
-Dupli group isn’t specified.</td>
+Dupli group isn't specified.</td>
 <td>粒子系统错误：没有选择组作为粒子。</td>
 </tr>
 <tr class="row-odd"><td>Particle system error for &quot;NAME&quot;.
@@ -834,7 +834,7 @@ values.</td>
 <col width="54%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td>Wind bending: vertex colors weren’t
+<tr class="row-odd"><td>Wind bending: vertex colors weren't
 properly assigned for &quot;NAME&quot;.
 Properties were set to default
 values.</td>
@@ -857,7 +857,7 @@ interpolation. Switch to BEZIER.</td>
 <td>动作插补模式支持以下类型： <code class="docutils literal"><span class="pre">BEZIER</span></code>, <code class="docutils literal"><span class="pre">LINEAR</span></code> 和 <code class="docutils literal"><span class="pre">CONSTANT</span></code>.</td>
 </tr>
 <tr class="row-odd"><td>Wrong vertex animation vertices
-count for mesh NAME. It doesn’t
+count for mesh NAME. It doesn't
 match with the mesh vertices count
 for &quot;ANIM_NAME&quot;.</td>
 <td>顶点动画导出被启用，但顶点在焙烤ANIM_NAME动画帧的数目不匹配网格顶点编号。可能的解决方案是“重新烘焙”的动画。</td>
@@ -886,7 +886,7 @@ for &quot;ANIM_NAME&quot;.</td>
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td>Material tangent shading is
-enabled, but object’s mesh has no
+enabled, but object's mesh has no
 UV map.</td>
 <td>该材质启用了 “切线着色” 选项，它始终需要UV映射。</td>
 </tr>
@@ -900,11 +900,11 @@ object</td>
 </tr>
 <tr class="row-odd"><td>Multiple constraints added on an
 object &quot;Cube&quot;, but it supports only
-one. Others won’t be used.</td>
+one. Others won't be used.</td>
 <td>Multiple constraints added on an object
 NAME, but it supports only one. Others
-won’t be used. The engine currently
-doesn’t support multiple constraints on
+won't be used. The engine currently
+doesn't support multiple constraints on
 an object.</td>
 </tr>
 <tr class="row-even"><td>NAME particle settings has the NAME
@@ -1102,7 +1102,7 @@ mirror instead.</td>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2017, Triumph.
-      最后更新于 2017-12-29.
+      最后更新于 2018-06-06.
 
     </p>
   </div>
@@ -1158,7 +1158,7 @@ mirror instead.</td>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v17.12.0',
+            VERSION:'v18.05.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

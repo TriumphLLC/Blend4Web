@@ -183,8 +183,8 @@ Table of Content
 
 表面反射了他们当前的位置中的选定的物体。引擎支持平面和球面反射。
 
-注解: 如果您使用的是 节点材质, 如果 "Material" 或 "Extended
-  Material" 节点 出现在节点树，动态反射才有效。
+注解: If you are using node materials, dynamic reflection will only
+  work if an "Extended Material" node is present in the node tree.
 
 
 激活

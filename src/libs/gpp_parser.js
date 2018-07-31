@@ -5280,7 +5280,7 @@ gpp_parser = (function() {
       return s0;
     }
 
-    function peg$parseIdentifier() {
+    var peg$parseIdentifier = function () {
       var s0, s1, s2;
 
       peg$silentFails++;
@@ -6143,7 +6143,7 @@ gpp_parser = (function() {
       return s0;
     }
 
-    function peg$parseIdentifier() {
+    peg$parseIdentifier = function () {
       var s0, s1, s2;
 
       peg$silentFails++;

@@ -2314,6 +2314,7 @@ exports.check_bpy_data = function(bpy_data) {
         if (check_negative_scale(bpy_obj))
             report_raw("negative scale for object \"" + bpy_obj["name"] + "\", can lead to some errors");
 
+        // NOTE: add support non-uniform scale
         if (!check_uniform_scale(bpy_obj))
             report_raw("non-uniform scale for object " + bpy_obj["name"]);
     }

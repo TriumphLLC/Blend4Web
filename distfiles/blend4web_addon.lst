@@ -1,7 +1,7 @@
 # Blend4Web Addon distribution list
 2^addons/blend4web
-3^deploy/apps/webplayer/webplayer*
-4^deploy/apps/webplayer/template/webplayer_template.html
+3^projects/webplayer/build/webplayer*
+4^projects/webplayer/build/template/webplayer_template.html
 2^deploy/apps/viewer
 2^deploy/apps/viewer/images
 1^scripts/project_server.py

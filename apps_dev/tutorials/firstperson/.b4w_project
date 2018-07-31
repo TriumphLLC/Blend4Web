@@ -21,9 +21,16 @@ optimization = advanced
 use_physics = True
 use_smaa_textures = False
 version = 
+build_cmd = 
 
 [deploy]
 assets_path_dest = assets
 assets_path_prefix = assets
 ignore = 
 override = 
+
+[url_params]
+
+[editor]
+editor_ignore = 
+

@@ -721,7 +721,7 @@ def get_b4w_to_bpy_wmat(obj):
     bpy_loc = [obj["location"][0], obj["location"][1], obj["location"][2]]
     
     # NOTE: consider uniform scale
-    bpy_scale = [obj["scale"][0], obj["scale"][0], obj["scale"][0]]
+    bpy_scale = [obj["scale"][0], obj["scale"][1], obj["scale"][2]]
     
     bpy_quat = [obj["rotation_quaternion"][0], obj["rotation_quaternion"][1], 
             obj["rotation_quaternion"][2], obj["rotation_quaternion"][3]]
